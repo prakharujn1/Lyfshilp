@@ -42,7 +42,7 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-3 text-sm text-white mb-2">
             <FaEnvelope className="text-yellow-400" />
-            <span>contact@lyfshilpacademy.in</span>
+            <span>service.excellence@lyfshilpacademy.com</span>
           </div>
           <div className="flex items-center gap-3 text-sm text-white">
             <FaPhoneAlt className="text-yellow-400" />
