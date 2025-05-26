@@ -1,4 +1,4 @@
-import React from "react";
+import FAQ from "../FinanceDesign/FAQ";
 
 const subjects = [
   {
@@ -299,6 +299,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <FAQ />
     </div>
   );
 };
