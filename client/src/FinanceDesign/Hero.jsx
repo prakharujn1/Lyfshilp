@@ -1,7 +1,7 @@
 import React from "react";
 import { TrendingUp, BarChart2, PieChart, DollarSign } from "lucide-react";
 
-const Hero = () => {
+const Hero = ({ scrollToCurriculum }) => {
   return (
     <div className="relative text-gray-100 overflow-hidden">
       {/* ...background pattern remains... */}
@@ -17,7 +17,10 @@ const Hero = () => {
               Learn to save, invest, and build wealth with confidence.
             </p>
             <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-              <button className="px-6 py-3 bg-yellow-500 text-gray-900 font-semibold rounded-md hover:bg-yellow-600 transition duration-300 transform hover:-translate-y-1">
+              <button
+                onClick={scrollToCurriculum}
+                className="px-6 py-3 bg-yellow-500 text-gray-900 font-semibold rounded-md hover:bg-yellow-600 transition duration-300 transform hover:-translate-y-1"
+              >
                 Start Learning Now
               </button>
             </div>
