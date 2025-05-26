@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
 import { FaChartLine, FaChartBar, FaCoins } from 'react-icons/fa';
 
+// Utility function to get random percent change within range
+const getRandomRate = (min, max) => {
+  const rate = Math.random() * (max - min) + min;
+  return Math.round(rate * 1000) / 1000; // round to 3 decimals
+};
+
 const newsItems = [
   {
     title: "📉 Tech stocks crash after regulations",
-    explanation: "Regulations cause panic in the tech sector, reducing stock value by 20%.",
-    effect: { stocks: -0.2 },
+    explanation: "Regulations cause panic in the tech sector, reducing stock value.",
+    getEffect: () => ({ stocks: -getRandomRate(0.1, 0.3) }),
     icon: <FaChartLine className="text-red-500 text-3xl" />
   },
   {
     title: "🏆 Gold hits all-time high",
-    explanation: "Investors rush to gold as a safe asset, increasing value by 15%.",
-    effect: { gold: 0.15 },
+    explanation: "Investors rush to gold as a safe asset, increasing value.",
+    getEffect: () => ({ gold: getRandomRate(0.1, 0.2) }),
     icon: <FaCoins className="text-yellow-500 text-3xl" />
   },
   {
     title: "📈 Mutual funds outperform savings accounts",
-    explanation: "Mutual funds show better returns than savings, value increases by 10%.",
-    effect: { mutualFunds: 0.1 },
+    explanation: "Strong corporate earnings boost mutual fund performance.",
+    getEffect: () => ({ mutualFunds: getRandomRate(0.05, 0.15) }),
     icon: <FaChartBar className="text-green-600 text-5xl" />
   }
 ];
@@ -30,21 +36,30 @@ export default function NewsFlash() {
   const [message, setMessage] = useState('');
 
   const applyEffect = (item) => {
-    const effect = item.effect;
+    const effect = item.getEffect();
     const updated = { ...investments };
 
+    // Capture affected key and rate
+    const [affectedKey] = Object.keys(effect);
+    const rate = effect[affectedKey];
+
+    // Apply effect
     for (const key in effect) {
       updated[key] = Math.round(investments[key] * (1 + effect[key]) * 100) / 100;
     }
 
+    // Format rate as +15.3% or -10.2%
+    const rateDisplay = `${rate >= 0 ? '+' : ''}${(rate * 100).toFixed(0)}%`;
+
+    // Update state
     setInvestments(updated);
-    setHighlighted(Object.keys(effect)[0]);
-    setMessage(`News Applied: ${item.title}`);
+    setHighlighted(affectedKey);
+    setMessage(`News Applied: ${item.title} (${affectedKey.toUpperCase()} ${rateDisplay})`);
 
     setTimeout(() => {
       setHighlighted('');
       setMessage('');
-    }, 1500);
+    }, 3000);
   };
 
   const resetInvestments = () => {
@@ -52,6 +67,8 @@ export default function NewsFlash() {
     setMessage("Portfolio reset.");
     setTimeout(() => setMessage(''), 1500);
   };
+
+  const totalValue = Object.values(investments).reduce((acc, val) => acc + val, 0);
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -75,33 +92,39 @@ export default function NewsFlash() {
         ))}
       </div>
 
-      {/* Reset Button */}
-      <div className="flex items-center gap-4 mb-4">
+      {/* Reset Button and Fixed-Height Message */}
+      <div className="flex flex-col gap-2 mb-4">
         <button
           onClick={resetInvestments}
-          className="px-6 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          className="px-2 py-2 bg-gray-200 rounded hover:bg-gray-300 w-max"
         >
           Reset Portfolio
         </button>
-        {message && <span className="text-sm text-green-600">{message}</span>}
+        <div className="min-h-[1.5rem]">
+          <span className="text-sm text-green-600">{message}</span>
+        </div>
       </div>
 
       {/* Investments Display */}
       <div>
         <h3 className="text-lg font-semibold mb-2">💰 Your Investment Portfolio</h3>
-        <ul className="space-y-1">
+        <ul className="space-y-1 mb-2">
           {Object.entries(investments).map(([type, value]) => (
             <li
               key={type}
-              className={`flex justify-between px-4 py-2 border rounded ${
-                highlighted === type ? 'bg-green-100 transition duration-500 ease-out' : 'bg-gray-50'
-              }`}
+              className={`flex justify-between px-4 py-2 border rounded ${highlighted === type
+                  ? 'bg-green-100 transition duration-500 ease-out'
+                  : 'bg-gray-50'
+                }`}
             >
               <span className="capitalize font-medium">{type}</span>
-              <span>₹ {value.toFixed(2)}</span>
+              <span>₹ {value.toFixed(0)}</span>
             </li>
           ))}
         </ul>
+        <div className="text-right font-semibold">
+          Total Portfolio Value: ₹ {totalValue.toFixed(0)}
+        </div>
       </div>
     </div>
   );

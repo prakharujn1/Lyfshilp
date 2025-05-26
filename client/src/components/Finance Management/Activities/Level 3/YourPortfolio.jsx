@@ -4,7 +4,7 @@ const options = [
   "Stocks",
   "Mutual Funds",
   "Cryptocurrency",
-  "Gold",
+  "Gold", 
   "Fixed Deposits",
 ];
 

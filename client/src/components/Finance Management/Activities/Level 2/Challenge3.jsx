@@ -174,16 +174,16 @@ const Challenge3 = () => {
             </p>
           </div>
 
-           <div className="mt-6 text-center font-medium">
+          <div className="mt-6 text-center font-medium">
             <p>
               🧾 <strong>Total Spent:</strong> ₹{getTotalSpent()} / ₹{expenseLimit}
             </p>
             {getTotalSpent() > Number(expenseLimit) ? (
-              <p className="text-red-600 font-semibold mt-1">
+              <p className="text-red-600 font-semibold mt-1 mb-3">
                 ❌ You overspent! Try skipping more non-essentials.
               </p>
             ) : (
-              <p className="text-green-600 font-semibold mt-1">
+              <p className="text-green-600 font-semibold mt-1 mb-3">
                 ✅ Well done! You stayed within your budget!
               </p>
             )}
@@ -191,8 +191,8 @@ const Challenge3 = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {["needNow", "wantLater", "skipIt"].map((cat) => (
-              <div key={cat} className="bg-gray-50 p-4 rounded shadow">
-                <h4 className="font-semibold text-center capitalize mb-2">
+              <div key={cat} className="bg-gray-50 p-4 rounded shadow border">
+                <h4 className="text-center text-blue-600 font-bold uppercase tracking-wide mb-3">
                   {cat.replace(/([A-Z])/g, " $1")}
                 </h4>
                 {sortedItems[cat].length > 0 ? (
@@ -210,18 +210,40 @@ const Challenge3 = () => {
             ))}
           </div>
 
-          <div className="mt-6">
-            <h4 className="text-lg font-semibold mb-2">💬 Feedback Summary</h4>
-            <ul className="list-disc list-inside text-sm space-y-2">
+          <div className="mt-8 bg-white border rounded-xl shadow-sm p-6">
+            <h4 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              💬 <span>Feedback Summary</span>
+            </h4>
+
+            <div className="space-y-5">
               {feedbackLog.map((entry, idx) => (
-                <li key={idx}>
-                  <strong>{entry.name}</strong> (₹{entry.price}) → <em>{entry.category.replace(/([A-Z])/g, " $1")}</em>: {entry.feedback}
-                </li>
+                <div key={idx} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <div className="flex justify-between items-center">
+                    <h5 className="text-lg font-semibold text-gray-900">{entry.name}</h5>
+                    <span className="text-green-600 font-medium text-base">₹{entry.price}</span>
+                  </div>
+
+                  <p className="text-sm text-gray-600 mt-1">
+                    <span className="font-bold text-gray-700">Category:</span>{" "}
+                    <span className="text-indigo-600 uppercase">
+                      {entry.category.replace(/([A-Z])/g, " $1").toUpperCase()}
+                    </span>
+                  </p>
+
+                  <p className="text-sm text-gray-700 mt-2 leading-relaxed">
+                    <span className="font-bold text-gray-800">Feedback:</span>{' '}
+                    <span className="text-gray-900 font-medium tracking-wide">
+                      {entry.feedback}
+                    </span>
+                  </p>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
-         
+
+
+
         </>
       )}
     </div>
