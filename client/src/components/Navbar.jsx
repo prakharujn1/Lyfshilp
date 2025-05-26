@@ -34,10 +34,7 @@ const Navbar = () => {
   // ✅ Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpenDropdown(null);
       }
     };
@@ -60,9 +57,7 @@ const Navbar = () => {
       <div className="w-full py-5 px-2 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center ml-5">
-          <span className="text-white font-bold text-lg">
-            LyfShilp Academy
-          </span>
+          <span className="text-white font-bold text-lg">LyfShilp Academy</span>
         </Link>
 
         {/* Desktop Menu */}
@@ -129,7 +124,10 @@ const Navbar = () => {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-[#152347] px-4 py-2 space-y-3 text-sm font-medium" ref={dropdownRef}>
+        <div
+          className="md:hidden bg-[#152347] px-4 py-2 space-y-3 text-sm font-medium"
+          ref={dropdownRef}
+        >
           {navItems.map((item, index) => (
             <div key={item} className="relative">
               <button
