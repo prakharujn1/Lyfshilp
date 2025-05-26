@@ -11,7 +11,7 @@ import CreditCardSimulator from "./components/Finance Management/Activities/Leve
 import InvestmentSimulator from "./components/Finance Management/Activities/Level 3/InvestmentSimulator.jsx";
 import Adaptive_Learning_Quiz from "./components/assessment_tools/Adaptive_Learning_Quiz.jsx";
 import Finance from "./pages/Finance.jsx";
-import EmiVsLumpSum from "./components/Finance Management/Activities/Level 2/EMIVsLumpSum.jsx";
+import EmiVsLumpSum from "./components/Finance Management/Activities/Level 2/EmiVsLumpSum.jsx";
 import NewsFlash from "./components/Finance Management/Activities/Level 3/NewsFlash.jsx";
 import RiskOMeter from "./components/Finance Management/Activities/Level 3/RiskOMeter.jsx";
 
