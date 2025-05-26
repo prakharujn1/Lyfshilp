@@ -11,9 +11,12 @@ import CreditCardSimulator from "./components/Finance Management/Activities/Leve
 import InvestmentSimulator from "./components/Finance Management/Activities/Level 3/InvestmentSimulator.jsx";
 import Adaptive_Learning_Quiz from "./components/assessment_tools/Adaptive_Learning_Quiz.jsx";
 import Finance from "./pages/Finance.jsx";
-import EmiVsLumpSum from "./components/Finance Management/Activities/Level 2/EMIVsLumpSum.jsx";
+import EmiVsLumpSum from "./components/Finance Management/Activities/Level 2/EmiVsLumpSum.jsx";
 import NewsFlash from "./components/Finance Management/Activities/Level 3/NewsFlash.jsx";
 import RiskOMeter from "./components/Finance Management/Activities/Level 3/RiskOMeter.jsx";
+import Challenge3 from "./components/Finance Management/Activities/Level 2/Challenge3.jsx";
+import My_Purchase_Plan from "./components/Finance Management/Activities/Level 2/My_Purchase_Plan.jsx"
+import YourPortfolio from "./components/Finance Management/Activities/Level 3/YourPortfolio.jsx"
 
 function App() {
   return (
@@ -41,6 +44,9 @@ function App() {
             <Route path="/emi-vs-lumpsum" element={<EmiVsLumpSum />} />
             <Route path="/newsflash" element={<NewsFlash />} />
             <Route path="/riskometer" element={<RiskOMeter />} />
+            <Route path="/challenge3" element={<Challenge3/>} />
+            <Route path="/my_purchase_plan" element={<My_Purchase_Plan/>}/>
+            <Route path="/your_portfolio" element={<YourPortfolio/>}/>
           </Routes>
         </main>
         <Footer />
