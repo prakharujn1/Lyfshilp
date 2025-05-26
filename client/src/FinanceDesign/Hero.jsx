@@ -56,19 +56,6 @@ const Hero = ({ scrollToCurriculum }) => {
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-gray-400 text-sm line-through">
-                        $199
-                      </span>
-                      <span className="ml-2 text-2xl font-bold text-white">
-                        $99
-                      </span>
-                    </div>
-                    <button className="px-4 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-md hover:bg-yellow-600 transition duration-150">
-                      Enroll Now
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>

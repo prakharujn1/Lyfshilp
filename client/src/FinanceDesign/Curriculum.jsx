@@ -1,13 +1,8 @@
 import React, { useState, forwardRef } from "react";
-import {
-  ChevronDown,
-  ChevronUp,
-  PlayCircle,
-  FileText,
-  Download,
-  Clock,
-} from "lucide-react";
+import { ChevronDown, ChevronUp, PlayCircle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Curriculum = forwardRef((props, ref) => {
   const [activeModule, setActiveModule] = useState(null);
@@ -108,8 +103,13 @@ const Curriculum = forwardRef((props, ref) => {
     },
   ];
 
+  const handleLockedClick = () => {
+    toast.info("🔒 Complete previous challenges to unlock this one!");
+  };
+
   return (
     <section ref={ref} className="py-16 bg-gray-50">
+      <ToastContainer position="top-center" autoClose={3000} />
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium mb-3">
@@ -170,32 +170,53 @@ const Curriculum = forwardRef((props, ref) => {
               {activeModule === moduleIndex && (
                 <div className="px-6 pb-4">
                   <div className="pt-2 pb-4">
-                    {module.challenges.map((challenge, challengeIndex) => (
-                      <div key={challengeIndex} className="mt-4 first:mt-0">
-                        <div className="flex items-start">
-                          <div className="flex-shrink-0 mt-1">
-                            <PlayCircle className="h-5 w-5 text-yellow-500" />
-                          </div>
-                          <div className="ml-3">
-                            <Link to={challenge.path}>
-                              <h4 className="text-md font-semibold text-navy-800 hover:underline hover:text-yellow-600 transition">
-                                Challenge {challengeIndex + 1}:{" "}
-                                {challenge.title}
-                              </h4>
-                            </Link>
+                    {module.challenges.map((challenge, challengeIndex) => {
+                      const isUnlocked =
+                        moduleIndex === 0 && challengeIndex === 0;
 
-                            <p className="text-sm text-gray-600 mt-1">
-                              {challenge.description}
-                            </p>
-
-                            <div className="mt-2 flex items-center text-xs text-gray-500">
-                              <Clock className="h-3 w-3 mr-1" />
-                              <span>{challenge.duration}</span>
+                      return (
+                        <div key={challengeIndex} className="mt-4 first:mt-0">
+                          <div className="flex items-start">
+                            <div className="flex-shrink-0 mt-1">
+                              <PlayCircle
+                                className={`h-5 w-5 ${
+                                  isUnlocked
+                                    ? "text-yellow-500"
+                                    : "text-gray-400"
+                                }`}
+                              />
+                            </div>
+                            <div className="ml-3">
+                              {isUnlocked ? (
+                                <Link to={challenge.path}>
+                                  <h4 className="text-md font-semibold text-navy-800 hover:underline hover:text-yellow-600 transition">
+                                    Challenge {challengeIndex + 1}:{" "}
+                                    {challenge.title}
+                                  </h4>
+                                </Link>
+                              ) : (
+                                <button
+                                  onClick={handleLockedClick}
+                                  className="text-left"
+                                >
+                                  <h4 className="text-md font-semibold text-gray-400 cursor-not-allowed">
+                                    🔒 Challenge {challengeIndex + 1}:{" "}
+                                    {challenge.title}
+                                  </h4>
+                                </button>
+                              )}
+                              <p className="text-sm text-gray-600 mt-1">
+                                {challenge.description}
+                              </p>
+                              <div className="mt-2 flex items-center text-xs text-gray-500">
+                                <Clock className="h-3 w-3 mr-1" />
+                                <span>{challenge.duration}</span>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}

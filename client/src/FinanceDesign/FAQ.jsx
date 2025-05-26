@@ -38,7 +38,7 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="mt-30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-3">

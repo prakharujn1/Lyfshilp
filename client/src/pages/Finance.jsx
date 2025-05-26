@@ -1,7 +1,6 @@
 import Hero from "../FinanceDesign/Hero";
 import CourseOverview from "../FinanceDesign/CourseOverview";
 import Curriculum from "../FinanceDesign/Curriculum";
-import FAQ from "../FinanceDesign/FAQ";
 import { useRef } from "react";
 
 const Finance = () => {
@@ -18,7 +17,6 @@ const Finance = () => {
       <div ref={curriculumRef}>
         <Curriculum />
       </div>
-      <FAQ />
     </div>
   );
 };
