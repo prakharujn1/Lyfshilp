@@ -4,8 +4,9 @@ import { Menu, X, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
-  const dropdownRef = useRef(null);
+  const sidebarRef = useRef(null);
 
   const navItems = [
     "Finance",
@@ -31,108 +32,183 @@ const Navbar = () => {
     "Social-Emotional Learning + Physical & Mental Health",
   ];
 
-  // ✅ Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsSidebarOpen(false);
+        setIsOpen(false);
         setOpenDropdown(null);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    if (isSidebarOpen || isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
 
-  const handleDropdownClick = (item) => {
-    setOpenDropdown(openDropdown === item ? null : item);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen, isOpen]);
+
+  const toggleDropdown = (indexOrItem) => {
+    setOpenDropdown(openDropdown === indexOrItem ? null : indexOrItem);
   };
 
   const handleItemClick = () => {
+    setIsSidebarOpen(false);
+    setIsOpen(false);
     setOpenDropdown(null);
-    setIsOpen(false); // Also close mobile menu if needed
   };
 
   return (
     <nav className="bg-[#152347] text-white shadow-md sticky top-0 z-50 w-full">
       <div className="w-full py-5 px-2 flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="flex items-center ml-5">
-          <span className="text-white font-bold text-lg">LyfShilp Academy</span>
-        </Link>
+        <div className="ml-7">
+          <Link to="/" className="flex items-center gap-3 ml-3 md:ml-5">
+            <img
+              src="/new_logo.jpg"
+              alt="EduManiax Logo"
+              className="w-9 h-9 md:w-14 md:h-14 rounded-full object-cover border-2 border-white shadow-md"
+            />
+            <span className="text-white font-bold text-xl md:text-2xl lg:text-3xl">
+              EduManiax
+            </span>
+          </Link>
+        </div>
 
-        {/* Desktop Menu */}
-        <div
-          className="hidden md:flex items-center gap-2 text-sm font-medium flex-wrap flex-nowrap w-full whitespace-nowrap"
-          ref={dropdownRef}
-        >
-          {navItems.map((item, index) => (
-            <div key={item} className="relative group">
-              <button
-                className="px-1 py-1 w-full rounded-md bg-transparent text-white hover:bg-white hover:text-[#152347] transition text-sm flex items-center justify-between gap-1"
-                onClick={() => handleDropdownClick(item)}
-              >
-                <span>{item}</span>
-                <ChevronDown size={14} />
-              </button>
-
-              {openDropdown === item && (
-                <div className="absolute top-12 left-0 bg-white bg-opacity-95 backdrop-blur-md text-black mt-2 p-4 rounded-xl shadow-xl text-wrap w-72 z-10 animate-fadeIn">
-                  <h4 className="font-bold text-md mb-2 text-[#152347]">
-                    {navHeadings[index]}
-                  </h4>
-                  <hr />
-                  <Link
-                    to={`/${item.toLowerCase().replace(/\s+/g, "-")}/notes`}
-                    onClick={handleItemClick}
-                    className="block text-sm font-semibold text-gray-800 hover:bg-gray-200 rounded px-3 py-2 transition"
-                  >
-                    📝 Notes
-                  </Link>
-                  <Link
-                    to={`/${item.toLowerCase().replace(/\s+/g, "-")}/games`}
-                    onClick={handleItemClick}
-                    className="block text-sm font-semibold text-gray-800 hover:bg-gray-200 rounded px-3 py-2 transition"
-                  >
-                    🎮 Gaming Activity
-                  </Link>
-                </div>
-              )}
-            </div>
-          ))}
-
+        <div className="hidden md:flex items-center gap-4 mr-4">
           <Link
             to="/login"
-            className="bg-yellow-400 text-black px-5 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+            className="bg-yellow-400 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
           >
             Login
           </Link>
           <Link
             to="/book-trial"
-            className="bg-yellow-400 text-black px-5 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+            className="bg-yellow-400 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+          >
+            Book a Free Trial
+          </Link>
+          <button
+            onClick={() => {
+              const newState = !isSidebarOpen;
+              setIsSidebarOpen(newState);
+              setIsOpen(false);
+              if (!newState) setOpenDropdown(null);
+            }}
+            className="text-white"
+          >
+            {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        <div className="md:hidden mr-2">
+          <button
+            onClick={() => {
+              const newState = !isSidebarOpen;
+              setIsSidebarOpen(newState);
+              setIsOpen(newState);
+              if (!newState) setOpenDropdown(null);
+            }}
+          >
+            {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop Sidebar */}
+      {isSidebarOpen && (
+        <div
+          ref={sidebarRef}
+          className="hidden md:block fixed top-0 right-0 h-full w-80 text-black bg-white shadow-2xl z-50 animate-slideIn"
+        >
+          <div className="px-6 py-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-[#152347]">
+                Explore Courses
+              </h2>
+              <button onClick={handleItemClick}>
+                <X size={24} className="text-[#152347]" />
+              </button>
+            </div>
+            <hr className="mb-4" />
+            {navItems.map((item, index) => (
+              <div key={item}>
+                <button
+                  className="flex justify-between items-center w-full text-left font-semibold hover:text-yellow-500"
+                  onClick={() => toggleDropdown(index)}
+                >
+                  {navHeadings[index]}
+                  <span>{openDropdown === index ? "+" : "+"}</span>
+                </button>
+                <hr className="mb-2 border-gray-300" />
+
+                {openDropdown === index && (
+                  <div className="mt-2 ml-2 space-y-1 text-sm text-[#152347]">
+                    <Link
+                      to={`/${item.toLowerCase().replace(/\s+/g, "-")}/notes`}
+                      onClick={handleItemClick}
+                      className="block text-sm hover:text-yellow-500 transition"
+                    >
+                      📝 Notes
+                    </Link>
+                    <Link
+                      to={`/${item.toLowerCase().replace(/\s+/g, "-")}/games`}
+                      onClick={handleItemClick}
+                      className="block text-sm hover:text-yellow-500 transition"
+                    >
+                      🎮 Gaming Activity
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <hr className=" mx-3 my-4" />
+          <Link
+            to="/login"
+            onClick={handleItemClick}
+            className="block bg-yellow-400 text-center mx-3 text-black px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mb-2"
+          >
+            Login
+          </Link>
+          <Link
+            to="/book-trial"
+            onClick={handleItemClick}
+            className="block bg-yellow-400 mx-3 text-center text-black px-4 py-2 rounded-md font-semibold hover:bg-yellow-300"
           >
             Book a Free Trial
           </Link>
         </div>
-
-        {/* Mobile Toggle */}
-        <div className="md:hidden mr-2">
-          <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
+      )}
 
       {/* Mobile Dropdown */}
       {isOpen && (
         <div
           className="md:hidden bg-[#152347] px-4 py-2 space-y-3 text-sm font-medium"
-          ref={dropdownRef}
+          ref={sidebarRef}
         >
+          <div>
+            <Link
+              to="/login"
+              onClick={handleItemClick}
+              className="bg-yellow-400 text-black px-5 py-2 rounded-md font-semibold hover:bg-yellow-300 transition shadow-md"
+            >
+              Login
+            </Link>
+            <Link
+              to="/book-trial"
+              onClick={handleItemClick}
+              className="bg-yellow-400 text-black px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 ml-4 mt-5 transition"
+            >
+              Book a Free Trial
+            </Link>
+          </div>
           {navItems.map((item, index) => (
             <div key={item} className="relative">
               <button
                 className="w-full text-left flex items-center gap-1 hover:text-yellow-400"
-                onClick={() => handleDropdownClick(item)}
+                onClick={() => toggleDropdown(item)}
               >
                 {item}
                 <ChevronDown size={16} />
@@ -148,32 +224,19 @@ const Navbar = () => {
                     onClick={handleItemClick}
                     className="block hover:text-yellow-300"
                   >
-                    Notes
+                    📝 Notes
                   </Link>
                   <Link
                     to={`/${item.toLowerCase().replace(/\s+/g, "-")}/games`}
                     onClick={handleItemClick}
                     className="block hover:text-yellow-300"
                   >
-                    Gaming Activity
+                    🎮 Gaming Activity
                   </Link>
                 </div>
               )}
             </div>
           ))}
-
-          <Link
-            to="/login"
-            className="bg-yellow-400 text-black px-5 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
-          >
-            Login
-          </Link>
-          <Link
-            to="/book-trial"
-            className="block bg-yellow-400 text-black px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mt-5 transition"
-          >
-            Book a Free Trial
-          </Link>
         </div>
       )}
     </nav>
