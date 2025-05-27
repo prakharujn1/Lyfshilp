@@ -31,22 +31,50 @@ const APIKEY = import.meta.env.VITE_API_KEY;
 
 const BudgetActivity = () => {
   const [income, setIncome] = useState("");
-  const [expenses, setExpenses] = useState("");
-  const [strategies, setStrategies] = useState("");
+
+  const [selectedExpenses, setSelectedExpenses] = useState([]);
+  const [customExpense, setCustomExpense] = useState("");
+
+  const [selectedStrategies, setSelectedStrategies] = useState([]);
+  const [customStrategy, setCustomStrategy] = useState("");
+
   const [feedback, setFeedback] = useState("");
   const [remark, setRemark] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const expenseOptions = ["Food", "Travel", "Lunch", "Movie", "Books", "Other"];
+  const strategyOptions = [
+    "Use piggy bank",
+    "Avoid impulse buys",
+    "Track spending",
+    "Limit outings",
+    "Other",
+    "Buy second-hand items",
+  ];
+
+  const allExpenses = [
+    ...selectedExpenses.filter((e) => e !== "Other"),
+    customExpense.trim(),
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const allStrategies = [
+    ...selectedStrategies.filter((s) => s !== "Other"),
+    customStrategy.trim(),
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   const prompt = `
 You are a financial advisor.
 A student created this one-month budget:
 
 Income: ₹${income}
-Expected Expenses: ${expenses}
-Saving Strategies: ${strategies}
+Expected Expenses: ${allExpenses}
+Saving Strategies: ${allStrategies}
 
-Please give helpful feedback focusing on whether the student is making smart choices and if the saving strategies are strong. Also comment on whether it shows discipline and planning. If the choices are bad, give criticism and a poor remark. If the choices are good, give helpful suggestions for improvemnt and encouraging remark. 
+Please give helpful feedback focusing on whether the student is making smart choices and if the saving strategies are strong. Also comment on whether it shows discipline and planning. If the choices are bad, give criticism and a poor remark. If the choices are good, give helpful suggestions for improvemnt and encouraging remark. Do not ask for any further details, use the details that you are provided. 
 
 ### FINAL INSTRUCTION ###
 Return ONLY raw JSON (no backticks, no markdown, no explanations).
@@ -124,20 +152,72 @@ Remark can have one of these values : "Excellent", "Very good", "Great", "Smart"
           className="w-full p-3 border-2 border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
           required
         />
-        <textarea
-          placeholder="Expected expenses (e.g., food, travel, etc.)"
-          value={expenses}
-          onChange={(e) => setExpenses(e.target.value)}
-          className="w-full p-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          required
-        />
-        <textarea
-          placeholder="Your 3 saving strategies"
-          value={strategies}
-          onChange={(e) => setStrategies(e.target.value)}
-          className="w-full p-3 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
-          required
-        />
+        <div>
+          <p className="font-semibold mb-1 text-blue-600">Select Expenses:</p>
+          {expenseOptions.map((option) => (
+            <label key={option} className="block mb-1">
+              <input
+                type="checkbox"
+                value={option}
+                checked={selectedExpenses.includes(option)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedExpenses((prev) => [...prev, option]);
+                  } else {
+                    setSelectedExpenses((prev) =>
+                      prev.filter((item) => item !== option)
+                    );
+                  }
+                }}
+                className="mr-2"
+              />
+              {option}
+            </label>
+          ))}
+          {selectedExpenses.includes("Other") && (
+            <textarea
+              placeholder="Enter other expense"
+              value={customExpense}
+              onChange={(e) => setCustomExpense(e.target.value)}
+              className="w-full p-2 mt-2 border-2 border-blue-300 rounded-lg"
+            />
+          )}
+        </div>
+
+        <div>
+          <p className="font-semibold mb-1 text-purple-600">
+            Select Saving Strategies:
+          </p>
+          {strategyOptions.map((option) => (
+            <label key={option} className="block mb-1">
+              <input
+                type="checkbox"
+                value={option}
+                checked={selectedStrategies.some((item) => item === option)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedStrategies((prev) => [...prev, option]);
+                  } else {
+                    setSelectedStrategies((prev) =>
+                      prev.filter((item) => item !== option)
+                    );
+                  }
+                }}
+                className="mr-2"
+              />
+              {option}
+            </label>
+          ))}
+          {selectedStrategies.includes("Other") && (
+            <textarea
+              placeholder="Enter custom strategy"
+              value={customStrategy}
+              onChange={(e) => setCustomStrategy(e.target.value)}
+              className="w-full p-2 mt-2 border-2 border-purple-300 rounded-lg"
+            />
+          )}
+        </div>
+
         <button
           type="submit"
           disabled={loading}

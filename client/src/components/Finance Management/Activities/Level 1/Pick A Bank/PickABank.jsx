@@ -4,6 +4,7 @@ import BankCard from "./BankCard";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
+const upiOptions = ["Google Pay", "PhonePe", "Paytm", "BHIM"];
 const banks = [
   {
     id: "A",
@@ -28,14 +29,166 @@ const banks = [
   },
 ];
 
-const upiOptions = ["Google Pay", "PhonePe", "Paytm", "BHIM"];
-
 const parentAdviceOptions = [
   "Choose digital bank",
   "Avoid fees",
   "Stick to traditional bank",
   "No advice",
 ];
+
+const reasonOptions = [
+  "High interest",
+  "Low fee",
+  "Supports digital payments",
+  "Traditional bank",
+  "As per parents' advice",
+];
+
+const feedbackMap = {
+  // Bank A (Basic digital features, ₹0/month fee, 3% interest)
+  "A|Choose digital bank|High interest":
+    "Bank A offers a solid 3% interest with basic digital features, matching your parent's advice to choose a digital bank. Good choice for earning and convenience.",
+  "A|Choose digital bank|Low fee":
+    "Bank A has no monthly fees and basic digital features, aligning well with your parents’ advice and your fees sensitivity.",
+  "A|Choose digital bank|Supports digital payments":
+    "Bank A has basic digital services, which fits your desire for digital payments and your parents' advice to pick a digital bank. But Bank B would be a better option regarding digital services.",
+  "A|Choose digital bank|Traditional bank":
+    "Bank A leans digital but with basic features; if you want traditional banking, you might reconsider given your parents' advice.",
+  "A|Choose digital bank|As per parents' advice":
+    "Following your parents’ digital bank advice, Bank A is a reasonable choice with decent interest and zero fees. If digital services is your top priroty and not the fee, Bank B would be a far better choice.",
+
+  "A|Avoid fees|High interest":
+    "Bank A offers a good 3% interest and no fees, so this aligns well with your parents's advice as well as with your low-fees goal.",
+  "A|Avoid fees|Low fee":
+    "No fees at Bank A matches perfectly with your parent's advice to avoid fees and your preference. Best choice.",
+  "A|Avoid fees|Supports digital payments":
+    "Bank A offers basic digital features with no fees, a balanced choice for fee-conscious digital users. A very well-balanced choice.",
+  "A|Avoid fees|Traditional bank":
+    "Bank A is more digital than traditional, which may not perfectly match your parents’ advice but keeps fees low. You may consider Bank C as a better option.",
+  "A|Avoid fees|As per parents' advice":
+    "Bank A has zero fee. So, it aligns well with your parents’ advice. Perfect choice.",
+
+  "A|Stick to traditional bank|High interest":
+    "Bank A has good interest but is more digital than traditional, so this may not fully match your parents' advice. Bank C could be another option for you.",
+  "A|Stick to traditional bank|Low fee":
+    "Bank A charges no fees but offers only basic digital services — might be a compromise if you want traditional banking.",
+  "A|Stick to traditional bank|Supports digital payments":
+    "Bank A supports digital payments only in a basic way, which might differ from the traditional focus your parents suggested.",
+  "A|Stick to traditional bank|Traditional bank":
+    "Bank A is not truly traditional but has benefits like no fees and decent interest. Bank C would be the best option for you.",
+  "A|Stick to traditional bank|As per parents' advice":
+    "If your parents advised sticking to traditional banks, Bank A may be a partial fit with some modern features. But you should consider Bank C as a potential alternative.",
+
+  "A|No advice|High interest":
+    "Bank A’s 3% interest is a strong point if you have no parental advice guiding your choice. It is the best choice for you.",
+  "A|No advice|Low fee":
+    "Bank A offers zero fees and decent interest, the best option in your case.",
+  "A|No advice|Supports digital payments":
+    "With basic digital features, Bank A can satisfy digital payment needs without parental input.",
+  "A|No advice|Traditional bank":
+    "Bank A isn’t fully traditional. You must consider Bank C as an alternative.",
+  "A|No advice|As per parents' advice":
+    "No parental advice means this choice is based on your own preference. In such a case, Bank A is the go-to option.",
+
+  // Bank B (Full digital banking, ₹50/month fee, 2.5% interest, free UPI + cashback)
+  "B|Choose digital bank|High interest":
+    "Bank B provides excellent digital features but lower interest. So it is suitable only if you are willing to compromise digital convenience over returns.",
+  "B|Choose digital bank|Low fee":
+    "With a ₹50 monthly fee, Bank B may not fit the low-fees goal but offers full digital benefits and cashback. Choose only if you are willing to compromise for the fee. Otherwise, Bank A could be a better option.",
+  "B|Choose digital bank|Supports digital payments":
+    "Bank B is ideal for digital payments and UPI usage, aligning well with your parents’ digital bank advice and your own choice.",
+  "B|Choose digital bank|Traditional bank":
+    "Bank B is fully digital, so it is well-suited with your parents' advice. However, your choice of a traditional bank is not met. You might wish to reconsider with Bank C as an alternative.",
+  "B|Choose digital bank|As per parents' advice":
+    "Following your parents' advice, Bank B offers top digital banking but at a monthly fee. But it is the perfect choice regarding digital services ",
+
+  "B|Avoid fees|High interest":
+    "Bank B is a bad choice in your case. It charges a high fees and does not give the best interest. Bank A would be a far better opton in this regard.",
+  "B|Avoid fees|Low fee":
+    "Bank B’s fees could be a drawback despite its cashback and features. Please reconsider with Bank A as an option.",
+  "B|Avoid fees|Supports digital payments":
+    "Bank B is great for digital payments, but fees may reduce overall value for fee-avoidant users. Bank A offers a far better tradeoff.",
+  "B|Avoid fees|Traditional bank":
+    "Bank B is a bad choice considering its fees and digital services. Bank C is the best choice with traditional banking and zero fees.",
+  "B|Avoid fees|As per parents' advice":
+    "If avoiding fees is important, Bank B is not the best fit despite digital perks. Bank A or C would be a better option.",
+
+  "B|Stick to traditional bank|High interest":
+    "Bank B is digital-first, so it may conflict with your parents' traditional bank advice.",
+  "B|Stick to traditional bank|Low fee":
+    "Bank B charges fees and is digital-focused, so it might not match traditional or low-fees preferences.",
+  "B|Stick to traditional bank|Supports digital payments":
+    "Bank B excels here but may conflict with traditional banking advice.",
+  "B|Stick to traditional bank|Traditional bank":
+    "Bank B is fully digital and may not be what parents expected for traditional banking.",
+  "B|Stick to traditional bank|As per parents' advice":
+    "Bank B may not fit traditional advice despite its strong digital features.",
+
+  "B|No advice|High interest":
+    "Bank B offers solid digital perks but lower interest and fees, a balanced choice with no external advice.",
+  "B|No advice|Low fee":
+    "The ₹50 fees might be a drawback, but you get cashback and full digital banking.",
+  "B|No advice|Supports digital payments":
+    "Excellent choice for digital payments and perks with no parental advice involved.",
+  "B|No advice|Traditional bank":
+    "Bank B is digital-first, so if you prefer traditional banks, consider this carefully.",
+  "B|No advice|As per parents' advice":
+    "Without advice, Bank B’s features stand on their own merit.",
+
+  // Bank C (Offline services only, ₹0/month fee, 1% interest)
+  "C|Choose digital bank|High interest":
+    "Bank C offers low interest and no digital access, so it may not match your parents' digital bank advice.",
+  "C|Choose digital bank|Low fee":
+    "No fees, but lack of digital access may limit convenience despite parents’ advice to choose digital.",
+  "C|Choose digital bank|Supports digital payments":
+    "Bank C doesn’t support digital payments, which conflicts with both your reason and your parents’ advice.",
+  "C|Choose digital bank|Traditional bank":
+    "Bank C is the most traditional bank, but its low interest might be a drawback.",
+  "C|Choose digital bank|As per parents' advice":
+    "Parents advised digital banking but Bank C lacks digital features; might not be ideal.",
+
+  "C|Avoid fees|High interest":
+    "Bank C has no fees but low interest; this is a trade-off worth considering.",
+  "C|Avoid fees|Low fee":
+    "Perfect for avoiding fees, but note the lack of digital access.",
+  "C|Avoid fees|Supports digital payments":
+    "Bank C doesn’t support digital payments, so it may not meet your digital needs.",
+  "C|Avoid fees|Traditional bank":
+    "Good fit if avoiding fees and preferring traditional banking.",
+  "C|Avoid fees|As per parents' advice":
+    "Avoiding fees fits well here, but lack of digital features might not match parents' advice.",
+
+  "C|Stick to traditional bank|High interest":
+    "Bank C fits your parents’ traditional banking advice but offers lower interest.",
+  "C|Stick to traditional bank|Low fee":
+    "No fees and traditional approach make Bank C a solid choice for your criteria.",
+  "C|Stick to traditional bank|Supports digital payments":
+    "Bank C lacks digital payments, which may not align with your digital payment preference.",
+  "C|Stick to traditional bank|Traditional bank":
+    "Bank C is the best match for traditional banking advice and has no fees.",
+  "C|Stick to traditional bank|As per parents' advice":
+    "Following your parents’ advice, Bank C is traditional and fee-free, though low interest.",
+
+  "C|No advice|High interest":
+    "Bank C has the lowest interest but no fees and traditional service, a cautious no-advice pick.",
+  "C|No advice|Low fee":
+    "No fees make Bank C attractive without parental input, though interest is low.",
+  "C|No advice|Supports digital payments":
+    "Bank C lacks digital payments, so if you want that, reconsider.",
+  "C|No advice|Traditional bank":
+    "Bank C is the clear traditional bank option without parental advice.",
+  "C|No advice|As per parents' advice":
+    "Without advice, Bank C offers safety with traditional services but low interest.",
+};
+
+const getManualFeedback = (bank, advice, reason) => {
+  const key = `${bank}|${advice}|${reason}`;
+
+  return (
+    feedbackMap[key] ||
+    "That's a thoughtful choice! Every bank has its pros and cons — make sure it aligns with your needs."
+  );
+};
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -67,80 +220,39 @@ export default function PickABank() {
   const [upiApp, setUpiApp] = useState("");
   const [parentAdvice, setParentAdvice] = useState("");
   const [reason, setReason] = useState("");
+  const [chosenReason, setChosenReason] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [loadingFeedback, setLoadingFeedback] = useState(false);
 
-  const generateGeminiPrompt = () => {
-    if (!selectedBank || !reason.trim()) return;
-
-    const bank = banks.find((b) => b === selectedBank);
-    return `You are a helpful banking advisor AI. 
-
-The user selected Bank: ${bank?.name} with features:
-- Monthly fee: "${bank?.fee}"
-- Interest: "${bank?.interest}"
-- Digital Access: "${bank?.digital}"
-
-The parents gave the following advice: "${parentAdvice}".
-
-The user chose this bank because: "${reason}"
-
-Please review the choice and provide thoughtful feedback on whether this is a good fit for a student just starting banking, considering digital wallet usage and parental advice. Be friendly and encouraging. For the bank, use only the information given to you. Do not ask for more information.
-
-### FINAL INSTRUCTION ###
-Return ONLY raw JSON (no backticks, no markdown, no explanations), in the below format.
-{
-   feedback : "Your feedback"
-}
-`;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let x = notAllowed();
-    if (!selectedBank || !upiApp || reason.trim() === "") return;
+
     setSubmitted(true);
     setLoadingFeedback(true);
-    setFeedback("");
 
-    try {
-      const prompt = generateGeminiPrompt();
+    const feedbackText = getManualFeedback(
+      selectedBank?.id,
+      parentAdvice,
+      chosenReason
+    );
 
-      const response = await axios.post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-        {
-          contents: [
-            {
-              parts: [{ text: prompt }],
-            },
-          ],
-        }
-      );
+    console.log(feedbackText);
 
-      const aiReply = response.data.candidates[0].content.parts[0].text;
-      console.log(aiReply);
-      const parsed = parsePossiblyStringifiedJSON(aiReply);
-      console.log(parsed);
-      setFeedback(parsed.feedback);
-    } catch (error) {
-      console.error("Error fetching Gemini feedback:", error);
-      setFeedback("Failed to get feedback from AI. Please try again later.");
-    } finally {
+    setFeedback(feedbackText);
+    setTimeout(() => {
       setLoadingFeedback(false);
-    }
+    }, 1000);
   };
 
   const notAllowed = () => {
     // console.log(selectedBank, parentAdvice, reason);
-    if (!selectedBank || !parentAdvice || !reason) {
+    if (!selectedBank || !parentAdvice || !chosenReason) {
       return true;
     }
 
     return false;
   };
-
-  console.log(selectedBank);
 
   return (
     <div className="min-h-screen bg-blue-50 p-6 flex flex-col items-center">
@@ -213,14 +325,24 @@ Return ONLY raw JSON (no backticks, no markdown, no explanations), in the below 
                 <label className="block font-medium text-gray-700 mb-1">
                   Why did you choose this bank?
                 </label>
-                <textarea
-                  className="w-full p-2 border rounded"
-                  placeholder="Give your reason..."
-                  rows={3}
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  required
-                ></textarea>
+                <div className="flex flex-wrap gap-2">
+                  {reasonOptions.map((reason, index) => (
+                    <label key={index} className="flex items-center space-x-1">
+                      <input
+                        type="checkbox"
+                        value={reason}
+                        checked={chosenReason === reason}
+                        onChange={(e) => {
+                          if (e.target.checked) setChosenReason(reason);
+                          else {
+                            setChosenReason("");
+                          }
+                        }}
+                      />
+                      <span>{reason}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <button
@@ -252,7 +374,7 @@ Return ONLY raw JSON (no backticks, no markdown, no explanations), in the below 
             <strong>Parent Advice:</strong> {parentAdvice}
           </p>
           <p>
-            <strong>Your Reason:</strong> {reason}
+            <strong>Your Reason:</strong> {chosenReason}
           </p>
 
           <div className="mt-4">
