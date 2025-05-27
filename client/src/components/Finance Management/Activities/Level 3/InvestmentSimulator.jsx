@@ -59,27 +59,35 @@ const InvestmentSimulator = () => {
     return [
       {
         name: "Fixed Deposits",
-        value:
+        value: (
           amount(allocations.fixedDeposits) *
-          Math.pow(1 + rate.fixedDeposits, years),
+          Math.pow(1 + rate.fixedDeposits, years)
+        ).toFixed(0),
       },
       {
         name: "Gold",
-        value: amount(allocations.gold) * Math.pow(1 + rate.gold, years),
+        value: (
+          amount(allocations.gold) * Math.pow(1 + rate.gold, years)
+        ).toFixed(0),
       },
       {
         name: "Mutual Funds",
-        value:
+        value: (
           amount(allocations.mutualFunds) *
-          Math.pow(1 + rate.mutualFunds, years),
+          Math.pow(1 + rate.mutualFunds, years)
+        ).toFixed(0),
       },
       {
         name: "Stocks",
-        value: amount(allocations.stocks) * Math.pow(1 + rate.stocks, years),
+        value: (
+          amount(allocations.stocks) * Math.pow(1 + rate.stocks, years)
+        ).toFixed(0),
       },
       {
         name: "Savings",
-        value: amount(allocations.savings) * Math.pow(1 + rate.savings, years),
+        value: (
+          amount(allocations.savings) * Math.pow(1 + rate.savings, years)
+        ).toFixed(0),
       },
     ];
   };
