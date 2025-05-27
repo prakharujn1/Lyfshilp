@@ -18,6 +18,7 @@ import Challenge3 from "./components/Finance Management/Activities/Level 2/Chall
 import My_Purchase_Plan from "./components/Finance Management/Activities/Level 2/My_Purchase_Plan.jsx";
 import YourPortfolio from "./components/Finance Management/Activities/Level 3/YourPortfolio.jsx";
 import FinanceNotes from "./pages/FinanceNotes.jsx";
+import FAQ from "./FinanceDesign/FAQ.jsx";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             <Route path="/challenge3" element={<Challenge3 />} />
             <Route path="/my_purchase_plan" element={<My_Purchase_Plan />} />
             <Route path="/your_portfolio" element={<YourPortfolio />} />
+            <Route path="/faq's" element={<FAQ />} />
           </Routes>
         </main>
         <Footer />
