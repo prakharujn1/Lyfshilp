@@ -17,6 +17,7 @@ import RiskOMeter from "./components/Finance Management/Activities/Level 3/RiskO
 import Challenge3 from "./components/Finance Management/Activities/Level 2/Challenge3.jsx";
 import My_Purchase_Plan from "./components/Finance Management/Activities/Level 2/My_Purchase_Plan.jsx";
 import YourPortfolio from "./components/Finance Management/Activities/Level 3/YourPortfolio.jsx";
+import FinanceNotes from "./pages/FinanceNotes.jsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/finance/games" element={<Finance />} />
+            <Route path="/finance/notes" element={<FinanceNotes />} />
             {/* Finance Management Activities */}
             <Route path="/pick-a-bank" element={<PickABank />} />
             <Route path="/budget-activity" element={<BudgetActivity />} />
