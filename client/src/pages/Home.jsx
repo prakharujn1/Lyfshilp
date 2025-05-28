@@ -1,83 +1,125 @@
-const subjects = [
-  {
-    title: "Fundamentals of Finance",
-    subtitle: "Personal finance, markets, money management",
-    icon: "https://cdn-icons-png.flaticon.com/512/2920/2920298.png",
-  },
-  {
-    title: "Computers",
-    subtitle: "AI, Machine Learning, neural networks, full stack development",
-    icon: "https://cdn-icons-png.flaticon.com/512/2721/2721297.png",
-  },
-  {
-    title: "Fundamentals of Law",
-    subtitle: "Criminal & civil law",
-    icon: "https://cdn-icons-png.flaticon.com/512/4324/4324655.png",
-  },
-  {
-    title: "Communication Skills",
-    subtitle: "Public speaking, negotiation, persuasion",
-    icon: "https://cdn-icons-png.flaticon.com/512/4959/4959559.png",
-  },
-  {
-    title: "Entrepreneurship",
-    subtitle: "",
-    icon: "https://cdn-icons-png.flaticon.com/512/3011/3011270.png",
-  },
-  {
-    title: "Digital Marketing",
-    subtitle: "SEO, analytics, campaigns",
-    icon: "https://cdn-icons-png.flaticon.com/512/3062/3062634.png",
-  },
-  {
-    title: "Leadership & Adaptability",
-    subtitle: "",
-    icon: "https://cdn-icons-png.flaticon.com/512/4380/4380955.png",
-  },
-  {
-    title: "Environmental & Sustainability Awareness",
-    subtitle: "",
-    icon: "https://cdn-icons-png.flaticon.com/512/3817/3817045.png",
-  },
-  {
-    title: "Social-Emotional Learning + Physical & Mental Health",
-    subtitle: "",
-    icon: "https://cdn-icons-png.flaticon.com/512/3641/3641364.png",
-  },
-];
+import { motion, useAnimation } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const Home = () => {
+  const [isHovered, setIsHovered] = useState(false);
+  const marqueeRef = useRef(null);
+  const controls = useAnimation();
+
+  const items = [
+    {
+      title: "Fundamentals of Finance",
+      subtitle: "Personal finance, markets, money management",
+      icon: "https://cdn-icons-png.flaticon.com/512/2920/2920298.png",
+    },
+    {
+      title: "Computers",
+      subtitle: "AI, Machine Learning, neural networks, full stack development",
+      icon: "https://cdn-icons-png.flaticon.com/512/2721/2721297.png",
+    },
+    {
+      title: "Fundamentals of Law",
+      subtitle: "Criminal & civil law",
+      icon: "https://cdn-icons-png.flaticon.com/512/4324/4324655.png",
+    },
+    {
+      title: "Communication Skills",
+      subtitle: "Public speaking, negotiation, persuasion",
+      icon: "https://cdn-icons-png.flaticon.com/512/4959/4959559.png",
+    },
+    {
+      title: "Entrepreneurship",
+      subtitle: "",
+      icon: "https://cdn-icons-png.flaticon.com/512/3011/3011270.png",
+    },
+    {
+      title: "Digital Marketing",
+      subtitle: "SEO, analytics, campaigns",
+      icon: "https://cdn-icons-png.flaticon.com/512/3062/3062634.png",
+    },
+    {
+      title: "Leadership & Adaptability",
+      subtitle: "",
+      icon: "https://cdn-icons-png.flaticon.com/512/4380/4380955.png",
+    },
+    {
+      title: "Environmental & Sustainability Awareness",
+      subtitle: "",
+      icon: "https://cdn-icons-png.flaticon.com/512/3817/3817045.png",
+    },
+    {
+      title: "Social-Emotional Learning + Physical & Mental Health",
+      subtitle: "",
+      icon: "https://cdn-icons-png.flaticon.com/512/3641/3641364.png",
+    },
+  ];
+
+  useEffect(() => {
+    if (isHovered) {
+      controls.stop(); // pause animation
+    } else {
+      controls.start({
+        x: ["0%", "-100%"],
+        transition: {
+          duration: 20,
+          ease: "linear",
+          repeat: Infinity,
+        },
+      });
+    }
+  }, [isHovered]);
+
   return (
     <div className="px-4 py-10">
       {/* Subject Overview Section */}
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">
-            Beyond Textbooks: Real Skills. Real Impact.
-          </h2>
-        </div>
+      <style>
+        {`
+          @keyframes marqueeScroll {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-12 items-stretch">
-          {subjects.map((subject, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl p-6 shadow-md flex flex-col items-center w-full min-h-[220px] min-w-[260px] h-[240px]"
-            >
-              <img
-                src={subject.icon}
-                alt={subject.title}
-                className="h-20 w-20 object-contain mb-4"
-              />
-              <div className="flex flex-col w-full items-center text-center">
-                <h4 className="text-lg font-semibold text-gray-800 whitespace-normal break-words">
-                  {subject.title}
-                </h4>
-                <p className="text-base text-gray-600 whitespace-normal break-words mt-1">
-                  {subject.subtitle}
-                </p>
+          .marquee-track {
+            animation: marqueeScroll 20s linear infinite;
+          }
+
+          .marquee-wrapper:hover .marquee-track {
+            animation-play-state: paused;
+          }
+        `}
+      </style>
+
+      <div className="max-w-7xl mx-auto mb-20 overflow-hidden">
+        <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
+          Beyond Textbooks: Real Skills. Real Impact.
+        </h2>
+
+        <div
+          className="marquee-wrapper overflow-hidden w-full"
+          ref={marqueeRef}
+        >
+          <div className="marquee-track flex gap-6 w-max">
+            {[...items, ...items].map((item, index) => (
+              <div
+                key={index}
+                className="bg-gray-300 mt-5 rounded-xl p-6 shadow-md flex flex-col items-center w-[260px] h-[240px] shrink-0"
+              >
+                <img
+                  src={item.icon}
+                  alt={item.title}
+                  className="h-20 w-20 object-contain mb-4"
+                />
+                <div className="flex flex-col w-full items-center text-center">
+                  <h4 className="text-lg font-semibold text-gray-800 break-words">
+                    {item.title}
+                  </h4>
+                  <p className="text-base text-gray-600 break-words mt-1">
+                    {item.subtitle}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
