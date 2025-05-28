@@ -34,7 +34,7 @@ const FinanceNotes = () => {
   return (
     <div>
       {/* Section-1 */}
-      <main>
+      <main className="border-b border-gray-300 mb-4 pb-4">
         <Introduction />
         <BankingBasics />
         <AccountTypes />
@@ -45,9 +45,9 @@ const FinanceNotes = () => {
       </main>
 
       {/* Section-2 */}
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col border-b border-gray-300 mb-4 pb-4">
         <Header />
-        <main className="flex-grow">
+        <main className="flex-grow ">
           <IntroSection />
           <BudgetFormula />
           <ExampleBudget />
