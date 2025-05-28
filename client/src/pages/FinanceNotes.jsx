@@ -29,6 +29,22 @@ import PricesFluctuate from "../FinanceDesignForNotes/Section-4/PricesFluctuate"
 import StockMarketAndGambling from "../FinanceDesignForNotes/Section-4/StockMarketAndGambling";
 import KeyTermsStock from "../FinanceDesignForNotes/Section-4/KeyTermsStock";
 import StocksReflection from "../FinanceDesignForNotes/Section-4/StocksReflection";
+import InvestingIntro from "../FinanceDesignForNotes/Section-5/InvestingIntro";
+import InvestingExample from "../FinanceDesignForNotes/Section-5/InvestingExample";
+import InvestingReflection from "../FinanceDesignForNotes/Section-5/InvestingReflection";
+import InvestingTable from "../FinanceDesignForNotes/Section-5/InvestingTable";
+import InvestingTip from "../FinanceDesignForNotes/Section-5/InvestingTip";
+import InvestingWhyTimeMatters from "../FinanceDesignForNotes/Section-5/InvestingWhyTimeMatters";
+import InvestingCompoundInterest from "../FinanceDesignForNotes/Section-5/InvestingCompoundInterest";
+import SpendingBadHabits from "../FinanceDesignForNotes/Section-6/SpendingBadHabits";
+import SpendingExample from "../FinanceDesignForNotes/Section-6/SpendingExample";
+import SpendingIntro from "../FinanceDesignForNotes/Section-6/SpendingIntro";
+import SpendingQuestions from "../FinanceDesignForNotes/Section-6/SpendingQuestions";
+import SpendingReflection from "../FinanceDesignForNotes/Section-6/SpendingReflection";
+import SpendingTips from "../FinanceDesignForNotes/Section-6/SpendingTips";
+import SpendingWantsVsNeeds from "../FinanceDesignForNotes/Section-6/SpendingWantsVsNeeds";
+
+
 
 const FinanceNotes = () => {
   return (
@@ -80,6 +96,31 @@ const FinanceNotes = () => {
         <KeyTermsStock />
         <StocksReflection />
       </div>
+
+    {/* Section 5 */}
+    <div>
+      
+        <InvestingIntro/>
+        <InvestingExample/>
+        <InvestingCompoundInterest/>
+        <InvestingTable/>
+        <InvestingWhyTimeMatters/>
+        <InvestingTip/>
+        <InvestingReflection/>
+    </div>
+
+    {/* Section 5 */}
+    <div>
+
+      <SpendingIntro/>
+      <SpendingExample/>
+      <SpendingWantsVsNeeds/>
+      <SpendingQuestions/>
+      <SpendingTips/>
+      <SpendingBadHabits/>
+      <SpendingReflection/>
+    </div>
+
     </div>
   );
 };
