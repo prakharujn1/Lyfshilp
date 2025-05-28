@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HelpCircle, CheckCircle, AlertCircle } from "lucide-react";
 
-const Reflection = () => {
+const ReflectionCredit = () => {
   const [showTip, setShowTip] = useState(false);
   const [responses, setResponses] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -188,4 +188,4 @@ const Reflection = () => {
   );
 };
 
-export default Reflection;
+export default ReflectionCredit;
