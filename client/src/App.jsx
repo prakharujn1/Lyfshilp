@@ -22,6 +22,12 @@ import FAQ from "./FinanceDesign/FAQ.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Section1 from "./pages/sections/Section1.jsx";
+import Section2 from "./pages/sections/Section2.jsx";
+import Section3 from "./pages/sections/Section3.jsx";
+import Section4 from "./pages/sections/Section4.jsx";
+import Section5 from "./pages/sections/Section5.jsx";
+import Section6 from "./pages/sections/Section6.jsx";
 
 function App() {
   return (
@@ -34,8 +40,19 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
+
+            {/* Finance Pages */}
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
+
+            {/* Finance Design for Notes Sections */}
+            <Route path="/finance/notes/section-1" element={<Section1 />} />
+            <Route path="/finance/notes/section-2" element={<Section2 />} />
+            <Route path="/finance/notes/section-3" element={<Section3 />} />
+            <Route path="/finance/notes/section-4" element={<Section4 />} />
+            <Route path="/finance/notes/section-5" element={<Section5 />} />
+            <Route path="/finance/notes/section-6" element={<Section6 />} />
+
             {/* Finance Management Activities */}
             <Route path="/pick-a-bank" element={<PickABank />} />
             <Route path="/budget-activity" element={<BudgetActivity />} />
@@ -56,6 +73,8 @@ function App() {
             <Route path="/challenge3" element={<Challenge3 />} />
             <Route path="/my_purchase_plan" element={<My_Purchase_Plan />} />
             <Route path="/your_portfolio" element={<YourPortfolio />} />
+
+            {/* Footer Routes */}
             <Route path="/faq's" element={<FAQ />} />
           </Routes>
         </main>
