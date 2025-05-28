@@ -1,0 +1,22 @@
+export default function HeaderStockMarket() {
+  return (
+    <div className="w-[90%] p-5 mx-auto">
+      <div className="bg-yellow-50  shadow-2xl p-6 rounded-2xl mx-auto space-y-4">
+        <h2 className="text-2xl font-bold mb-3">
+          Understanding the Stock Market
+        </h2>
+
+        <div className="bg-blue-200 p-4 rounded-xl shadow-sm">
+          <p className="font-medium mb-4">In this section, you will learn - </p>
+          <ul className="list-disc pl-3 text-xl space-y-2 ">
+            <li>What Is the Stock Market?</li>
+            <li>Where Do You Buy Shares?</li>
+            <li>Why Do Share Prices Go Up or Down?</li>
+            <li>Is the Stock Market Like Gambling?</li>
+            <li>Key Terms</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
