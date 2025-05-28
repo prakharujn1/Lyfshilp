@@ -21,6 +21,7 @@ import FinanceNotes from "./pages/FinanceNotes.jsx";
 import FAQ from "./FinanceDesign/FAQ.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
