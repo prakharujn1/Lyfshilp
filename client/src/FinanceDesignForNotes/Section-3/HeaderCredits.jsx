@@ -2,7 +2,7 @@ export default function HeaderCredits() {
   return (
     <div className="w-[90%] mx-auto">
       <div className="bg-yellow-50 shadow-2xl p-10 rounded-2xl mx-auto space-y-4">
-        <h2 className="text-2xl font-bold mb-3">
+        <h2 className="text-3xl text-center font-bold mb-3">
           What Is Credit and Why It Matters
         </h2>
 
