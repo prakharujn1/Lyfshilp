@@ -84,6 +84,12 @@ const Navbar = () => {
             Login
           </Link>
           <Link
+            to="/register"
+            className="bg-yellow-400 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+          >
+            Register
+          </Link>
+          <Link
             to="/book-trial"
             className="bg-yellow-400 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
           >

@@ -19,6 +19,8 @@ import My_Purchase_Plan from "./components/Finance Management/Activities/Level 2
 import YourPortfolio from "./components/Finance Management/Activities/Level 3/YourPortfolio.jsx";
 import FinanceNotes from "./pages/FinanceNotes.jsx";
 import FAQ from "./FinanceDesign/FAQ.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
         <main className="flex-grow p-5">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
             {/* Finance Management Activities */}
