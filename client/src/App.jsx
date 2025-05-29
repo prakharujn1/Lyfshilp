@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import PickABank from "./components/Finance Management/Activities/Level 1/Pick A Bank/PickABank";
 import OverspendTrap from "./components/Finance Management/Activities/Level 1/OverspendTrap.jsx";
 import BudgetActivity from "./components/Finance Management/Activities/Level 1/BudgetActivity.jsx";
-import BudgetBuilder from "./components/Finance Management/Activities/Level 1/BudgetBuilder.jsx";
+import BudgetBuilder from "./components/Finance Management/Activities/Level 1/Budeget Builder/BudgetBuilder.jsx";
 import CreditCardSimulator from "./components/Finance Management/Activities/Level 2/CreditCardSimulator.jsx";
 import InvestmentSimulator from "./components/Finance Management/Activities/Level 3/InvestmentSimulator.jsx";
 import Adaptive_Learning_Quiz from "./components/assessment_tools/Adaptive_Learning_Quiz.jsx";

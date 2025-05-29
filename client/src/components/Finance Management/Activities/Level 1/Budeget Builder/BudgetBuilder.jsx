@@ -12,6 +12,9 @@ import {
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Avatar from "./Avatar.jsx";
+import SurpriseAvatar from "./SurpriseAvatar.jsx";
+import { AnimatePresence } from "framer-motion";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -105,11 +108,11 @@ const BudgetBuilder = () => {
   const [wallet, setWallet] = useState(1000);
   const [available, setAvailable] = useState(initialExpenses);
   const [spent, setSpent] = useState([]);
+  const [feedbackAvatarType, setFeedbackAvatarType] = useState("disappointing");
+  const [showSurpriseAvatar, setShowSurpriseAvatar] = useState(false);
   const surpriseCount = useRef(0);
 
-  const addSurpriseExpense = () => {
-    console.log("surprise coutn", surpriseCount.current);
-
+  const addSurpriseExpense = (currentWallet) => {
     if (surpriseCount.current >= 2) {
       return;
     }
@@ -120,7 +123,7 @@ const BudgetBuilder = () => {
     let trial = 0;
 
     while (
-      surpriseExpenses[index].cost > wallet ||
+      surpriseExpenses[index].cost > currentWallet ||
       surpriseExpenses[index].shown
     ) {
       if (trial > 5) {
@@ -149,6 +152,10 @@ const BudgetBuilder = () => {
     );
 
     setSpent((prev) => [...prev, surpriseItem]);
+    setShowSurpriseAvatar(true);
+    setTimeout(() => {
+      setShowSurpriseAvatar(false);
+    }, 3000);
     setWallet((prev) => prev - surpriseItem.cost);
     surpriseCount.current += 1;
   };
@@ -183,10 +190,11 @@ const BudgetBuilder = () => {
 
       setAvailable(newAvailable);
       setSpent(newSpent);
-      setWallet(wallet - movedItem.cost);
+      const newWallet = wallet - movedItem.cost;
+      setWallet(newWallet);
 
       if (Math.random() > 0.3) {
-        addSurpriseExpense();
+        addSurpriseExpense(newWallet);
       }
     }
 
@@ -202,10 +210,11 @@ const BudgetBuilder = () => {
 
       setSpent(newSpent);
       setAvailable(newAvailable);
-      setWallet(wallet + movedItem.cost);
+      const refund = wallet + movedItem.cost;
+      setWallet(refund);
 
       if (Math.random() > 0.3) {
-        addSurpriseExpense();
+        addSurpriseExpense(refund);
       }
     }
   };
@@ -231,6 +240,9 @@ const BudgetBuilder = () => {
       cost,
     }));
 
+    const totalSpent = spent.reduce((acc, item) => acc + item.cost, 0);
+    const percentageSpent = ((totalSpent / 1000) * 100).toFixed(0);
+
     try {
       const response = await axios.post(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${APIKEY}`,
@@ -244,18 +256,34 @@ const BudgetBuilder = () => {
 Initial wallet: ₹1000
 Initial Planned expenses: ${JSON.stringify(cleanExpenses)}
 Final spent: ${JSON.stringify(cleanSpent)}
+Percentage spent : ${percentageSpent}
 
 ### FINAL INSTRUCTION ###
 Return ONLY raw JSON (no backticks, no markdown, no explanations).
 Example format:
 {
-  spendingScore: 7/10, 
+  spendingScore: 7/10, ##Here always give marks in the format "marks/10" 
   tip: "Saving is crucial. Consider a higher savings rate in future.",
-  categoryToCut: "Books"
+  categoryToCut: "Books", ##The categoryToCut, if present, must be one of the spent items only.
+  avatarType : "congratulatory" or "disappointing"
 }
-The three fields should never be empty. If you find exceptionally well-balanced expenses, you may keep the categoryToCut field as "None - you balanced your expenses really well".
-For tip, suggest something actionable. 
 
+The four fields should never be empty. If you find exceptionally well-balanced expenses, you may keep the categoryToCut field as "None - you balanced your expenses really well".
+ 
+Constraints:
+- The 'spendingScore' must match these rules:
+  - If percentageSpent > 90 and <= 100, score must be "1/10" or "2/10"
+  - If percentageSpent > 60 and <= 80, score must be "3/10" or "4/10"
+  - If percentageSpent >= 50 and <= 60, score must be "5/10" to "7/10"
+  - If percentageSpent < 50, score must be "8/10" to "10/10"
+
+- The 'avatarType' must be:
+  - "disappointing" if percentageSpent > 50
+  - "congratulatory" if percentageSpent <= 50
+
+- The 'tip' must always suggest a clear, specific action — not general advice.
+- If percentageSpent > 50, the tip must include some criticism.
+- If percentageSpent <= 50, the tip must include some praise.
 `,
                 },
               ],
@@ -269,6 +297,7 @@ For tip, suggest something actionable.
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       console.log(parsed);
       setResult(parsed);
+      setFeedbackAvatarType(parsed.avatarType);
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
@@ -383,6 +412,17 @@ For tip, suggest something actionable.
           <div className="w-1/2 p-5 mx-auto mt-2 flex items-center justify-center">
             <div className=" bg-white border-2 p-4 border-purple-400 rounded-lg  whitespace-pre-wrap">
               <div className="text-gray-800 space-y-2">
+                <div className="flex items-center space-x-5">
+                  <Avatar
+                    style={{ width: 150, height: 150 }}
+                    type={feedbackAvatarType}
+                  />
+                  <span className="text-xl rounded-lg shadow-lg p-4 bg-yellow-200">
+                    {feedbackAvatarType === "disappointing"
+                      ? "You can do better"
+                      : "Good budgeting skills"}
+                  </span>
+                </div>
                 <p>
                   <strong>Spending Score:</strong> {result?.spendingScore}
                 </p>
@@ -399,6 +439,15 @@ For tip, suggest something actionable.
           </div>
         </div>
       )}
+      <AnimatePresence>
+        {showSurpriseAvatar && (
+          <SurpriseAvatar
+            show={showSurpriseAvatar}
+            onClose={() => setShowSurpriseAvatar(false)}
+          />
+        )}
+      </AnimatePresence>
+
       <ToastContainer />
     </div>
   );
