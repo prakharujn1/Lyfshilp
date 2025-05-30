@@ -165,7 +165,7 @@ const Home = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">
-            Platform <span className="text-blue-700">Key Features</span>
+            Platform <span className="text-[#129990]">Key Features</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             {/* Feature Card */}
@@ -247,7 +247,7 @@ const Home = () => {
         <div className="max-w-5xl w-full mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center">
             Your Pathway to Success{" "}
-            <span className="text-blue-700">with EduManiax!</span>
+            <span className="text-[#129990]">with EduManiax!</span>
           </h2>
 
           <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
