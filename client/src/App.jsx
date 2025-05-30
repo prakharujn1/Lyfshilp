@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import LandingAnimation from "./components/LandingAnimation";
 import PickABank from "./components/Finance Management/Activities/Level 1/Pick A Bank/PickABank";
 import OverspendTrap from "./components/Finance Management/Activities/Level 1/OverspendTrap.jsx";
 import BudgetActivity from "./components/Finance Management/Activities/Level 1/BudgetActivity.jsx";
@@ -34,7 +33,6 @@ import Preloader from "./components/Preloader.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [showLanding, setShowLanding] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -44,7 +42,6 @@ function App() {
   }, []);
 
   if (loading) return <Preloader />;
-  if (showLanding) return <LandingAnimation />;
 
   return (
     <Router>
@@ -68,8 +65,14 @@ function App() {
             <Route path="/budget-activity" element={<BudgetActivity />} />
             <Route path="/budget-builder" element={<BudgetBuilder />} />
             <Route path="/overspend-trap" element={<OverspendTrap />} />
-            <Route path="/credit-card-simulator" element={<CreditCardSimulator />} />
-            <Route path="/investment-simulator" element={<InvestmentSimulator />} />
+            <Route
+              path="/credit-card-simulator"
+              element={<CreditCardSimulator />}
+            />
+            <Route
+              path="/investment-simulator"
+              element={<InvestmentSimulator />}
+            />
             <Route path="/quiz" element={<Adaptive_Learning_Quiz />} />
             <Route path="/emi-vs-lumpsum" element={<EmiVsLumpSum />} />
             <Route path="/newsflash" element={<NewsFlash />} />
