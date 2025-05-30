@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import LandingAnimation from "./components/LandingAnimation";
 import PickABank from "./components/Finance Management/Activities/Level 1/Pick A Bank/PickABank";
 import OverspendTrap from "./components/Finance Management/Activities/Level 1/OverspendTrap.jsx";
 import BudgetActivity from "./components/Finance Management/Activities/Level 1/BudgetActivity.jsx";
@@ -33,13 +34,18 @@ import Preloader from "./components/Preloader.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [showLanding, setShowLanding] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000); // 2 seconds delay
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
   if (loading) return <Preloader />;
+  if (showLanding) return <LandingAnimation />;
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
@@ -50,32 +56,20 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
-
-            {/* Finance Pages */}
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
-
-            {/* Finance Design for Notes Sections */}
             <Route path="/finance/notes/section-1" element={<Section1 />} />
             <Route path="/finance/notes/section-2" element={<Section2 />} />
             <Route path="/finance/notes/section-3" element={<Section3 />} />
             <Route path="/finance/notes/section-4" element={<Section4 />} />
             <Route path="/finance/notes/section-5" element={<Section5 />} />
             <Route path="/finance/notes/section-6" element={<Section6 />} />
-
-            {/* Finance Management Activities */}
             <Route path="/pick-a-bank" element={<PickABank />} />
             <Route path="/budget-activity" element={<BudgetActivity />} />
             <Route path="/budget-builder" element={<BudgetBuilder />} />
             <Route path="/overspend-trap" element={<OverspendTrap />} />
-            <Route
-              path="/credit-card-simulator"
-              element={<CreditCardSimulator />}
-            />
-            <Route
-              path="/investment-simulator"
-              element={<InvestmentSimulator />}
-            />
+            <Route path="/credit-card-simulator" element={<CreditCardSimulator />} />
+            <Route path="/investment-simulator" element={<InvestmentSimulator />} />
             <Route path="/quiz" element={<Adaptive_Learning_Quiz />} />
             <Route path="/emi-vs-lumpsum" element={<EmiVsLumpSum />} />
             <Route path="/newsflash" element={<NewsFlash />} />
@@ -83,8 +77,6 @@ function App() {
             <Route path="/challenge3" element={<Challenge3 />} />
             <Route path="/my_purchase_plan" element={<My_Purchase_Plan />} />
             <Route path="/your_portfolio" element={<YourPortfolio />} />
-
-            {/* Footer Routes */}
             <Route path="/faq's" element={<FAQ />} />
           </Routes>
         </main>
