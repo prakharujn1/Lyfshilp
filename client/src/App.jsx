@@ -28,8 +28,18 @@ import Section3 from "./pages/sections/Section3.jsx";
 import Section4 from "./pages/sections/Section4.jsx";
 import Section5 from "./pages/sections/Section5.jsx";
 import Section6 from "./pages/sections/Section6.jsx";
+import { useEffect, useState } from "react";
+import Preloader from "./components/Preloader.jsx";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2000); // 2 seconds delay
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <Preloader />;
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
