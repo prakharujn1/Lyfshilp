@@ -61,7 +61,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#152347] text-white shadow-md sticky top-0 z-50 w-full">
+    <nav className="bg-[#5A827E] text-white shadow-md sticky top-0 z-50 w-full">
       <div className="w-full py-5 px-2 flex justify-between items-center">
         <div className="ml-7">
           <Link to="/" className="flex items-center gap-3 ml-3 md:ml-5">
@@ -79,19 +79,19 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4 mr-4">
           <Link
             to="/login"
-            className="bg-yellow-400 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+            className="bg-[#2A4759] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#183B4E] transition shadow-md"
           >
             Login
           </Link>
           <Link
             to="/register"
-            className="bg-yellow-400 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+            className="bg-[#2A4759] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#183B4E] transition shadow-md"
           >
             Register
           </Link>
           <Link
             to="/book-trial"
-            className="bg-yellow-400 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+            className="bg-[#2A4759] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#183B4E] transition shadow-md"
           >
             Book a Free Trial
           </Link>
@@ -141,7 +141,7 @@ const Navbar = () => {
             {navItems.map((item, index) => (
               <div key={item}>
                 <button
-                  className="flex justify-between items-center w-full text-left font-semibold hover:text-yellow-500"
+                  className="flex justify-between items-center w-full text-left font-semibold hover:text-[#2A4759]"
                   onClick={() => toggleDropdown(index)}
                 >
                   {navHeadings[index]}
@@ -154,14 +154,14 @@ const Navbar = () => {
                     <Link
                       to={`/${item.toLowerCase().replace(/\s+/g, "-")}/notes`}
                       onClick={handleItemClick}
-                      className="block text-sm hover:text-yellow-500 transition"
+                      className="block text-sm hover:text-[#2A4759] transition"
                     >
                       📝 Notes
                     </Link>
                     <Link
                       to={`/${item.toLowerCase().replace(/\s+/g, "-")}/games`}
                       onClick={handleItemClick}
-                      className="block text-sm hover:text-yellow-500 transition"
+                      className="block text-sm hover:text-[#2A4759] transition"
                     >
                       🎮 Gaming Activity
                     </Link>
@@ -174,14 +174,14 @@ const Navbar = () => {
           <Link
             to="/login"
             onClick={handleItemClick}
-            className="block bg-yellow-400 text-center mx-3 text-black px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mb-2"
+            className="block bg-[#2A4759] text-center mx-3 text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mb-2"
           >
             Login
           </Link>
           <Link
             to="/book-trial"
             onClick={handleItemClick}
-            className="block bg-yellow-400 mx-3 text-center text-black px-4 py-2 rounded-md font-semibold hover:bg-yellow-300"
+            className="block bg-[#2A4759] mx-3 text-center text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-300"
           >
             Book a Free Trial
           </Link>
@@ -198,14 +198,14 @@ const Navbar = () => {
             <Link
               to="/login"
               onClick={handleItemClick}
-              className="bg-yellow-400 text-black px-5 py-2 rounded-md font-semibold hover:bg-yellow-300 transition shadow-md"
+              className="bg-yellow-400 text-black px-5 py-2 rounded-md font-semibold hover:bg-[#2A4759] transition shadow-md"
             >
               Login
             </Link>
             <Link
               to="/book-trial"
               onClick={handleItemClick}
-              className="bg-yellow-400 text-black px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 ml-4 mt-5 transition"
+              className="bg-yellow-400 text-black px-4 py-2 rounded-md font-semibold hover:bg-[#2A4759] ml-4 mt-5 transition"
             >
               Book a Free Trial
             </Link>
