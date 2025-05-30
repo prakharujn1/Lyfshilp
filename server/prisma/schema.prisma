@@ -9,14 +9,17 @@ datasource db {
 
 model User {
   id             Int      @id @default(autoincrement())
+  name           String?
+  age            Int?
+  userClass      String?
   phonenumber    String   @unique
   otp            String?
   otpExpiration  DateTime?
+  createdAt      DateTime @default(now())
 
-  // New fields for onboarding
   gender         String?
   characterName  String?
-  style          Json?        // for storing avatar-style selections
-  traits         String[]     // to store selected 2 traits
-  onboarded      Boolean  @default(false) // indicates if questions answered
+  style          String?     // one of: casual, sporty, formal, fantasy
+  traits         String[]    // 2 traits from 8 options
+  onboarded      Boolean  @default(false)
 }

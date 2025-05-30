@@ -7,62 +7,103 @@ const twilio = require("twilio");
 
 const twilioClient = new twilio(process.env.Account_SID, process.env.Auth_Token);
 
-const sendOtp = async (req, res) => { 
-  const { phonenumber } = req.body;
-  if (!phonenumber) return res.status(400).json({ success: false, message: "Phone number required" });
+// Register
+const sendOtp = async (req, res) => {
+  const { phonenumber, name, age, userClass, gender, characterName, style, traits } = req.body;
+
+  if (!phonenumber || !name || !age || !userClass || !gender || !characterName || !style || !traits) {
+    return res.status(400).json({ success: false, message: "All fields are required" });
+  }
+
+  const existingUser = await prisma.user.findUnique({ where: { phonenumber } });
+  if (existingUser) {
+    return res.status(400).json({ success: false, message: "User already registered" });
+  }
 
   const otp = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
 
-  const user = await prisma.user.upsert({
-    where: { phonenumber },
-    update: { otp, otpExpiration: new Date(Date.now() + 5 * 60 * 1000) }, // 5 min expiry
-    create: { phonenumber, otp, otpExpiration: new Date(Date.now() + 5 * 60 * 1000) },
+  const user = await prisma.user.create({
+    data: {
+      phonenumber,
+      name,
+      age,
+      userClass,
+      gender,
+      characterName,
+      style,
+      traits,
+      otp,
+      otpExpiration: new Date(Date.now() + 5 * 60 * 1000),
+      createdAt: new Date(),
+    }
   });
 
-//   await twilioClient.messages.create({
-//     body: `Your OTP is: ${otp}`,
-//     from: process.env.Twilio_phone_number,
-//     to: phonenumber
-//   });
+  const messageBody = `Welcome to EduManiax! 🎓\nYour registration OTP is: ${otp}\nUse this code to verify your account. It expires in 5 minutes.`;
 
-  res.status(200).json({ success: true, message: "OTP sent", otp }); // ⚠️ Remove otp in production
+  await twilioClient.messages.create({
+    body: messageBody,
+    from: process.env.Twilio_phone_number,
+    to: phonenumber
+  });
+
+  res.status(200).json({ success: true, message: "OTP sent" }); // ⚠️ Avoid returning OTP
 };
 
+// Verify OTP
 const verifyOtp = async (req, res) => {
   const { phonenumber, otp } = req.body;
   const user = await prisma.user.findUnique({ where: { phonenumber } });
 
-  if (!user || user.otp !== otp || new Date() > user.otpExpiration) {
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not registered" });
+  }
+
+  if (user.otp !== otp || new Date() > user.otpExpiration) {
     return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
   }
 
   const token = jwt.sign({ id: user.id }, process.env.Jwt_sec, { expiresIn: "5d" });
+
   res.status(200).json({ success: true, message: "Logged in", token, user });
 };
 
-const completeOnboarding = async (req, res) => {
-  const { token } = req.headers;
-  const { gender, characterName, style, traits } = req.body;
+// Login
+const loginUser = async (req, res) => {
+  const { phonenumber } = req.body;
 
-  try {
-    const decoded = jwt.verify(token, process.env.Jwt_sec);
-    const userId = decoded.id;
-
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: {
-        gender,
-        characterName,
-        style,
-        traits,
-        onboarded: true,
-      },
-    });
-
-    res.status(200).json({ success: true, message: "Onboarding completed", user: updatedUser });
-  } catch (error) {
-    res.status(401).json({ success: false, message: "Invalid or expired token" });
+  if (!phonenumber) {
+    return res.status(400).json({ success: false, message: "Phone number required" });
   }
+
+  const user = await prisma.user.findUnique({ where: { phonenumber } });
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not registered" });
+  }
+
+  const otp = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+
+  await prisma.user.update({
+    where: { phonenumber },
+    data: {
+      otp,
+      otpExpiration: new Date(Date.now() + 5 * 60 * 1000),
+    },
+  });
+
+  const messageBody = `EduManiax Login Alert 🔐\nYour login OTP is: ${otp}\nUse this code to access your account. It is valid for 5 minutes. Do not share it with anyone.`;
+
+  await twilioClient.messages.create({
+    body: messageBody,
+    from: process.env.Twilio_phone_number,
+    to: phonenumber
+  });
+
+  res.status(200).json({ success: true, message: "OTP sent for login" }); // ⚠️ Avoid returning OTP
 };
 
-module.exports = { sendOtp, verifyOtp, completeOnboarding };
+// Test Route
+const test = async (req, res) => {
+  res.status(200).json({ success: true, message: "Welcome to EduManiax!" });
+};
+
+module.exports = { sendOtp, verifyOtp, loginUser, test };
