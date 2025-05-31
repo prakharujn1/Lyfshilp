@@ -33,15 +33,90 @@ import Preloader from "./components/Preloader.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [showAnimation, setShowAnimation] = useState(false); // HTML animation
+  const [animationEnded, setAnimationEnded] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
+      setShowAnimation(true);
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (showAnimation) {
+      const animationTimer = setTimeout(() => {
+        setShowAnimation(false); // Animation ends
+        setAnimationEnded(true);
+      }, 22000); // time for animation
+      return () => clearTimeout(animationTimer);
+    }
+  }, [showAnimation]);
+
+  const handleSkip = () => {
+    setShowAnimation(false); // skip the animation
+  };
+
+  const handleStartJourney = () => {
+    setAnimationEnded(false); // Go to homepage
+  };
+
   if (loading) return <Preloader />;
+
+  if (showAnimation) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: 9999,
+        }}
+      >
+        <iframe
+          src="/animations/edumaniax.html"
+          title="Edumaniax Animation"
+          style={{ width: "100%", height: "100%", border: "none" }}
+        />
+        <button
+          onClick={handleSkip}
+          style={{
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            padding: "10px 20px",
+            backgroundColor: "#38bdf8",
+            color: "#ffffff",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+            zIndex: 10000,
+          }}
+        >
+          Skip
+        </button>
+      </div>
+    );
+  }
+
+  if (animationEnded) {
+    return (
+      <div className="bg-gradient-to-b from-[#AEC8A4] to-white h-screen text-center flex flex-col items-center justify-center">
+        <h1 className="text-6xl font-extrabold mb-6">Ready to Begin?</h1>
+        <button
+          onClick={handleStartJourney}
+          className="mt-8 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition"
+        >
+          Start Your Journey with Edumaniax
+        </button>
+      </div>
+    );
+  }
 
   return (
     <Router>
