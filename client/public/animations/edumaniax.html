@@ -33,7 +33,7 @@
         height: 100%;
         background: linear-gradient(135deg, #4158D0, #C850C0, #FFCC70);
         background-size: 400% 400%;
-        animation: gradient-bg 15s ease infinite;
+        animation: gradient-bg 7.5s ease infinite;
         overflow: hidden;
     }
     
@@ -699,44 +699,11 @@
         </div>
     </div>
     </div>
-    <!-- Homepage (hidden initially) -->
-    <div class="homepage" id="homepage">
-        <div class="header">
-            <div class="logo-container">
-                <svg class="logo" style="width: 50px; height: 50px;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 10C30 10 15 25 15 45C15 65 30 80 50 80C70 80 85 65 85 45C85 25 70 10 50 10Z" fill="#3B82F6"/>
-                    <path d="M40 30C40 27.2386 42.2386 25 45 25C47.7614 25 50 27.2386 50 30C50 32.7614 47.7614 35 45 35C42.2386 35 40 32.7614 40 30Z" fill="white"/>
-                    <path d="M50 30C50 27.2386 52.2386 25 55 25C57.7614 25 60 27.2386 60 30C60 32.7614 57.7614 35 55 35C52.2386 35 50 32.7614 50 30Z" fill="white"/>
-                    <path d="M35 45C35 42.2386 37.2386 40 40 40C42.7614 40 45 42.2386 45 45C45 47.7614 42.7614 50 40 50C37.2386 50 35 47.7614 35 45Z" fill="white"/>
-                    <path d="M55 45C55 42.2386 57.2386 40 60 40C62.7614 40 65 42.2386 65 45C65 47.7614 62.7614 50 60 50C57.2386 50 55 47.7614 55 45Z" fill="white"/>
-                    <path d="M45 60C45 57.2386 47.2386 55 50 55C52.7614 55 55 57.2386 55 60C55 62.7614 52.7614 65 50 65C47.2386 65 45 62.7614 45 60Z" fill="white"/>
-                    <path d="M30 60C30 57.2386 32.2386 55 35 55C37.7614 55 40 57.2386 40 60C40 62.7614 37.7614 65 35 65C32.2386 65 30 62.7614 30 60Z" fill="white"/>
-                    <path d="M60 60C60 57.2386 62.2386 55 65 55C67.7614 55 70 57.2386 70 60C70 62.7614 67.7614 65 65 65C62.2386 65 60 62.7614 60 60Z" fill="white"/>
-                    <path d="M40 30L45 40M55 30L50 40M40 50L45 55M60 50L55 55M35 60L45 60M65 60L55 60" stroke="white" stroke-width="2"/>
-                </svg>
-                <div class="logo-text" style="font-size: 24px;">EduManiax</div>
-            </div>
-            <div class="nav-items">
-                <div class="nav-item">Courses</div>
-                <div class="nav-item">About</div>
-                <div class="nav-item">Contact</div>
-                <div class="nav-item sign-up">Sign Up</div>
-            </div>
-        </div>
-        <div class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Learning Should Be An Adventure</h1>
-                <p class="hero-subtitle">Join Milo and discover a world of knowledge through interactive, engaging courses designed for curious minds.</p>
-                <button class="cta-button">Start Learning Now</button>
-            </div>
-        </div>
-    </div>
     <!-- Flash effect for transitions -->
     <div class="flash" id="flash"></div>
     <!-- Optionally, add your JavaScript for animation and transitions here -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Elements
             const character = document.getElementById('character');
             const floatingBooks = document.getElementById('floatingBooks');
             const mathSymbols = document.getElementById('mathSymbols');
@@ -751,7 +718,7 @@
             const beaker = document.getElementById('beaker');
             const cog = document.getElementById('cog');
             const palette = document.getElementById('palette');
-            
+    
             // Create particles
             const particles = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
@@ -763,284 +730,173 @@
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.opacity = Math.random() * 0.5 + 0.2;
                 particles.appendChild(particle);
-                
+    
                 // Animate particles
                 setInterval(() => {
-                    particle.style.transition = 'top 5s ease-in-out, left 5s ease-in-out';
+                    particle.style.transition = 'top 2.5s ease-in-out, left 2.5s ease-in-out';
                     particle.style.top = Math.random() * 100 + '%';
                     particle.style.left = Math.random() * 100 + '%';
-                }, Math.random() * 5000 + 5000);
+                }, Math.random() * 2500 + 2500);
             }
-            
-            // Animation timeline
+    
+            // Animation timeline (times halved)
             const timeline = [
-                // Initial position
-                {
-                    time: 0,
-                    action: () => {
-                        character.style.left = '-150px';
-                        character.style.bottom = '20%';
-                    }
-                },
-                // Character enters
-                {
-                    time: 500,
-                    action: () => {
-                        character.style.transition = 'left 1.5s ease-out';
-                        character.style.left = '20%';
-                    }
-                },
-                // Character winks
-                {
-                    time: 2000,
-                    action: () => {
-                        const leftEye = document.querySelector('.eye-left');
-                        leftEye.style.height = '1px';
+                { time: 0, action: () => {
+                    character.style.left = '-150px';
+                    character.style.bottom = '20%';
+                }},
+                { time: 250, action: () => {
+                    character.style.transition = 'left 0.75s ease-out';
+                    character.style.left = '20%';
+                }},
+                { time: 1000, action: () => {
+                    const leftEye = document.querySelector('.eye-left');
+                    leftEye.style.height = '1px';
+                    setTimeout(() => {
+                        leftEye.style.height = '8px';
+                    }, 150);
+                }},
+                { time: 1250, action: () => {
+                    floatingBooks.style.opacity = '1';
+                    const books = floatingBooks.querySelectorAll('.book');
+                    books.forEach((book, index) => {
                         setTimeout(() => {
-                            leftEye.style.height = '8px';
-                        }, 300);
-                    }
-                },
-                // Show floating books
-                {
-                    time: 2500,
-                    action: () => {
-                        floatingBooks.style.opacity = '1';
-                        
-                        // Animate books
-                        const books = floatingBooks.querySelectorAll('.book');
-                        books.forEach((book, index) => {
-                            setTimeout(() => {
-                                book.style.transition = 'transform 1s ease-in-out';
-                                book.style.transform = `rotate(${Math.random() * 20 - 10}deg) translateY(-20px)`;
-                                
-                                setInterval(() => {
-                                    book.style.transform = `rotate(${Math.random() * 20 - 10}deg) translateY(${Math.random() * 40 - 20}px)`;
-                                }, 2000);
-                            }, index * 200);
-                        });
-                        
-                        // Show lightbulb icon
-                        lightbulb.style.opacity = '0.7';
-                    }
-                },
-                // Character jumps on books
-                {
-                    time: 3500,
-                    action: () => {
-                        character.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out';
-                        character.style.left = '40%';
-                        character.style.bottom = '40%';
-                    }
-                },
-                // Character jumps off books
-                {
-                    time: 5000,
-                    action: () => {
-                        character.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out';
-                        character.style.left = '60%';
-                        character.style.bottom = '20%';
-                        
-                        // Hide books
-                        floatingBooks.style.transition = 'opacity 0.5s ease-in-out';
-                        floatingBooks.style.opacity = '0';
-                        
-                        // Hide lightbulb icon
-                        lightbulb.style.transition = 'opacity 0.5s ease-in-out';
-                        lightbulb.style.opacity = '0';
-                    }
-                },
-                // Show math symbols
-                {
-                    time: 6000,
-                    action: () => {
-                        mathSymbols.style.opacity = '1';
-                        
-                        // Animate symbols
-                        const symbols = mathSymbols.querySelectorAll('.symbol');
-                        symbols.forEach((symbol, index) => {
-                            setTimeout(() => {
-                                symbol.style.transition = 'transform 1s ease-in-out';
-                                symbol.style.transform = 'scale(1.2)';
-                                
-                                setInterval(() => {
-                                    symbol.style.transform = `scale(${Math.random() * 0.4 + 0.8}) rotate(${Math.random() * 10 - 5}deg)`;
-                                }, 2000);
-                            }, index * 200);
-                        });
-                        
-                        // Show beaker icon
-                        beaker.style.opacity = '0.7';
-                    }
-                },
-                // Character moves through math symbols
-                {
-                    time: 7000,
-                    action: () => {
-                        character.style.transition = 'left 2s ease-in-out, bottom 2s ease-in-out, transform 2s ease-in-out';
-                        character.style.left = '80%';
-                        character.style.bottom = '40%';
-                        character.style.transform = 'rotate(360deg)';
-                    }
-                },
-                // Hide math symbols
-                {
-                    time: 9000,
-                    action: () => {
-                        mathSymbols.style.transition = 'opacity 0.5s ease-in-out';
-                        mathSymbols.style.opacity = '0';
-                        
-                        // Hide beaker icon
-                        beaker.style.transition = 'opacity 0.5s ease-in-out';
-                        beaker.style.opacity = '0';
-                    }
-                },
-                // Character returns to normal position
-                {
-                    time: 9500,
-                    action: () => {
-                        character.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out, transform 1s ease-in-out';
-                        character.style.left = '20%';
-                        character.style.bottom = '20%';
-                        character.style.transform = 'rotate(0deg)';
-                    }
-                },
-                // Show puzzle
-                {
-                    time: 10500,
-                    action: () => {
-                        puzzle.style.opacity = '1';
-                        
-                        // Show cog and palette icons
-                        cog.style.opacity = '0.7';
-                        palette.style.opacity = '0.7';
-                    }
-                },
-                // Character approaches puzzle
-                {
-                    time: 11500,
-                    action: () => {
-                        character.style.transition = 'left 1.5s ease-in-out, bottom 1.5s ease-in-out';
-                        character.style.left = '70%';
-                        character.style.bottom = '30%';
-                    }
-                },
-                // Floating piece appears
-                {
-                    time: 13000,
-                    action: () => {
-                        floatingPiece.style.transition = 'right 1s ease-in-out';
-                        floatingPiece.style.right = '50px';
-                    }
-                },
-                // Character taps floating piece
-                {
-                    time: 14000,
-                    action: () => {
-                        // Move arm
-                        const rightArm = document.querySelector('.arm-right');
-                        rightArm.style.transition = 'transform 0.5s ease-in-out';
-                        rightArm.style.transform = 'rotate(60deg)';
-                        
+                            book.style.transition = 'transform 0.5s ease-in-out';
+                            book.style.transform = `rotate(${Math.random() * 20 - 10}deg) translateY(-20px)`;
+                            setInterval(() => {
+                                book.style.transform = `rotate(${Math.random() * 20 - 10}deg) translateY(${Math.random() * 40 - 20}px)`;
+                            }, 1000);
+                        }, index * 100);
+                    });
+                    lightbulb.style.opacity = '0.7';
+                }},
+                { time: 1750, action: () => {
+                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out';
+                    character.style.left = '40%';
+                    character.style.bottom = '40%';
+                }},
+                { time: 2500, action: () => {
+                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out';
+                    character.style.left = '60%';
+                    character.style.bottom = '20%';
+                    floatingBooks.style.transition = 'opacity 0.25s ease-in-out';
+                    floatingBooks.style.opacity = '0';
+                    lightbulb.style.transition = 'opacity 0.25s ease-in-out';
+                    lightbulb.style.opacity = '0';
+                }},
+                { time: 3000, action: () => {
+                    mathSymbols.style.opacity = '1';
+                    const symbols = mathSymbols.querySelectorAll('.symbol');
+                    symbols.forEach((symbol, index) => {
                         setTimeout(() => {
-                            rightArm.style.transform = 'rotate(20deg)';
-                        }, 500);
-                    }
-                },
-                // Piece moves to center
-                {
-                    time: 14500,
-                    action: () => {
-                        floatingPiece.style.transition = 'all 1s ease-in-out';
-                        floatingPiece.style.top = '160px';
-                        floatingPiece.style.right = '160px';
-                    }
-                },
-                // Flash effect when puzzle completes
-                {
-                    time: 15500,
-                    action: () => {
-                        flash.style.transition = 'opacity 0.2s ease-in-out';
-                        flash.style.opacity = '1';
-                        
-                        setTimeout(() => {
-                            flash.style.opacity = '0';
-                        }, 200);
-                    }
-                },
-                // Hide puzzle and icons
-                {
-                    time: 16000,
-                    action: () => {
-                        puzzle.style.transition = 'opacity 0.5s ease-in-out';
-                        puzzle.style.opacity = '0';
-                        
-                        cog.style.transition = 'opacity 0.5s ease-in-out';
-                        cog.style.opacity = '0';
-                        
-                        palette.style.transition = 'opacity 0.5s ease-in-out';
-                        palette.style.opacity = '0';
-                    }
-                },
-                // Character moves to center
-                {
-                    time: 16500,
-                    action: () => {
-                        character.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out';
-                        character.style.left = '50%';
-                        character.style.bottom = '30%';
-                        character.style.transform = 'translateX(-50%)';
-                    }
-                },
-                // Character gives thumbs up
-                {
-                    time: 17500,
-                    action: () => {
-                        const rightArm = document.querySelector('.arm-right');
-                        rightArm.style.transition = 'transform 0.5s ease-in-out';
-                        rightArm.style.transform = 'rotate(80deg)';
-                    }
-                },
-                // Final flash transition
-                {
-                    time: 18500,
-                    action: () => {
-                        flash.style.transition = 'opacity 0.5s ease-in-out';
-                        flash.style.opacity = '1';
-                        
-                        setTimeout(() => {
-                            flash.style.opacity = '0';
-                            finalScene.style.opacity = '1';
-                            // Hide the animation character as we now have a separate character in the final scene
-                            character.style.opacity = '0';
-                        }, 500);
-                    }
-                }
+                            symbol.style.transition = 'transform 0.5s ease-in-out';
+                            symbol.style.transform = 'scale(1.2)';
+                            setInterval(() => {
+                                symbol.style.transform = `scale(${Math.random() * 0.4 + 0.8}) rotate(${Math.random() * 10 - 5}deg)`;
+                            }, 1000);
+                        }, index * 100);
+                    });
+                    beaker.style.opacity = '0.7';
+                }},
+                { time: 3500, action: () => {
+                    character.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out, transform 1s ease-in-out';
+                    character.style.left = '80%';
+                    character.style.bottom = '40%';
+                    character.style.transform = 'rotate(360deg)';
+                }},
+                { time: 4500, action: () => {
+                    mathSymbols.style.transition = 'opacity 0.25s ease-in-out';
+                    mathSymbols.style.opacity = '0';
+                    beaker.style.transition = 'opacity 0.25s ease-in-out';
+                    beaker.style.opacity = '0';
+                }},
+                { time: 4750, action: () => {
+                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out, transform 0.5s ease-in-out';
+                    character.style.left = '20%';
+                    character.style.bottom = '20%';
+                    character.style.transform = 'rotate(0deg)';
+                }},
+                { time: 5250, action: () => {
+                    puzzle.style.opacity = '1';
+                    cog.style.opacity = '0.7';
+                    palette.style.opacity = '0.7';
+                }},
+                { time: 5750, action: () => {
+                    character.style.transition = 'left 0.75s ease-in-out, bottom 0.75s ease-in-out';
+                    character.style.left = '70%';
+                    character.style.bottom = '30%';
+                }},
+                { time: 6500, action: () => {
+                    floatingPiece.style.transition = 'right 0.5s ease-in-out';
+                    floatingPiece.style.right = '50px';
+                }},
+                { time: 7000, action: () => {
+                    const rightArm = document.querySelector('.arm-right');
+                    rightArm.style.transition = 'transform 0.25s ease-in-out';
+                    rightArm.style.transform = 'rotate(60deg)';
+                    setTimeout(() => {
+                        rightArm.style.transform = 'rotate(20deg)';
+                    }, 250);
+                }},
+                { time: 7250, action: () => {
+                    floatingPiece.style.transition = 'all 0.5s ease-in-out';
+                    floatingPiece.style.top = '160px';
+                    floatingPiece.style.right = '160px';
+                }},
+                { time: 7750, action: () => {
+                    flash.style.transition = 'opacity 0.1s ease-in-out';
+                    flash.style.opacity = '1';
+                    setTimeout(() => {
+                        flash.style.opacity = '0';
+                    }, 100);
+                }},
+                { time: 8000, action: () => {
+                    puzzle.style.transition = 'opacity 0.25s ease-in-out';
+                    puzzle.style.opacity = '0';
+                    cog.style.transition = 'opacity 0.25s ease-in-out';
+                    cog.style.opacity = '0';
+                    palette.style.transition = 'opacity 0.25s ease-in-out';
+                    palette.style.opacity = '0';
+                }},
+                { time: 8250, action: () => {
+                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out';
+                    character.style.left = '50%';
+                    character.style.bottom = '30%';
+                    character.style.transform = 'translateX(-50%)';
+                }},
+                { time: 8750, action: () => {
+                    const rightArm = document.querySelector('.arm-right');
+                    rightArm.style.transition = 'transform 0.25s ease-in-out';
+                    rightArm.style.transform = 'rotate(80deg)';
+                }},
+                { time: 9250, action: () => {
+                    flash.style.transition = 'opacity 0.25s ease-in-out';
+                    flash.style.opacity = '1';
+                    setTimeout(() => {
+                        flash.style.opacity = '0';
+                        finalScene.style.opacity = '1';
+                        character.style.opacity = '0';
+                    }, 250);
+                }}
             ];
-            
-            // Run the animation timeline
+    
+            // Run timeline
             timeline.forEach(item => {
                 setTimeout(item.action, item.time);
             });
-            
-            // Skip button functionality
+    
+            // Skip button
             skipButton.addEventListener('click', function() {
-                // Hide animation scene
                 document.getElementById('animationScene').style.display = 'none';
-                
-                // Show final scene
                 finalScene.style.opacity = '1';
             });
-            
-            // Enter button functionality
+    
+            // Enter button
             enterButton.addEventListener('click', function() {
-                // Hide intro container
                 document.querySelector('.intro-container').style.opacity = '0';
                 setTimeout(() => {
                     document.querySelector('.intro-container').style.display = 'none';
-                }, 1000);
-                
-                // Show homepage
+                }, 500);
                 homepage.style.opacity = '1';
             });
         });
