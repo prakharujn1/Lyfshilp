@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import BankCard from "./BankCard";
+import Spline from "@splinetool/react-spline";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -255,174 +256,23 @@ export default function PickABank() {
   };
 
   return (
-    // <div
-    //   className="w-[90%] mx-auto p-5"
-    //   style={{ fontFamily: "'Comic Neue', cursive" }}
-    // >
-    //   <div className="bg-blue-50 p-6 flex flex-col items-center rounded-lg shadow-2xl">
-    //     <h1 className="text-3xl font-bold mb-2 text-blue-900">
-    //       🎉 You’ve turned 18. Welcome to banking!
-    //     </h1>
-    //     <h2 className="text-2xl font-semibold mb-6 text-blue-800">
-    //       🏦 Pick Your Bank Simulator
-    //     </h2>
-
-    //     {!submitted && (
-    //       <>
-    //         <div className="grid md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
-    //           {banks?.map((bank) => (
-    //             <BankCard
-    //               key={bank.id}
-    //               bank={bank}
-    //               onSelect={setSelectedBank}
-    //               selected={bank.id === selectedBank?.id}
-    //             />
-    //           ))}
-    //         </div>
-
-    //         {selectedBank && (
-    //           <form
-    //             onSubmit={handleSubmit}
-    //             className="w-full max-w-xl space-y-4 text-xl"
-    //           >
-    //             <div>
-    //               <label className="block font-bold mb-1">
-    //                 Which UPI/digital wallet do you use?
-    //               </label>
-    //               <div className="flex flex-wrap gap-2">
-    //                 {upiOptions.map((upi) => (
-    //                   <label key={upi} className="flex items-center space-x-1">
-    //                     <input
-    //                       type="checkbox"
-    //                       value={upi}
-    //                       checked={upiApp === upi}
-    //                       onChange={(e) => {
-    //                         if (e.target.checked) setUpiApp(upi);
-    //                         else {
-    //                           setUpiApp("");
-    //                         }
-    //                       }}
-    //                     />
-    //                     <span>{upi}</span>
-    //                   </label>
-    //                 ))}
-    //               </div>
-    //             </div>
-
-    //             <div>
-    //               <label className="block font-bold  mb-1">
-    //                 Did your parents give you any advice?
-    //               </label>
-    //               <div className="flex flex-wrap gap-2">
-    //                 {parentAdviceOptions.map((advice) => (
-    //                   <label
-    //                     key={advice}
-    //                     className="flex items-center space-x-1"
-    //                   >
-    //                     <input
-    //                       type="checkbox"
-    //                       value={advice}
-    //                       checked={parentAdvice === advice}
-    //                       onChange={(e) => {
-    //                         if (e.target.checked) setParentAdvice(advice);
-    //                         else {
-    //                           setParentAdvice("");
-    //                         }
-    //                       }}
-    //                     />
-    //                     <span>{advice}</span>
-    //                   </label>
-    //                 ))}
-    //               </div>
-    //             </div>
-
-    //             <div>
-    //               <label className="block font-bold mb-1">
-    //                 Why did you choose this bank?
-    //               </label>
-    //               <div className="flex flex-wrap gap-2">
-    //                 {reasonOptions.map((reason, index) => (
-    //                   <label
-    //                     key={index}
-    //                     className="flex items-center space-x-1"
-    //                   >
-    //                     <input
-    //                       type="checkbox"
-    //                       value={reason}
-    //                       checked={chosenReason === reason}
-    //                       onChange={(e) => {
-    //                         if (e.target.checked) setChosenReason(reason);
-    //                         else {
-    //                           setChosenReason("");
-    //                         }
-    //                       }}
-    //                     />
-    //                     <span>{reason}</span>
-    //                   </label>
-    //                 ))}
-    //               </div>
-    //             </div>
-
-    //             <button
-    //               type="submit"
-    //               disabled={notAllowed()}
-    //               className={`bg-blue-600 text-white py-2 px-4 rounded ${
-    //                 notAllowed() ? `cursor-not-allowed` : `cursor-pointer`
-    //               } hover:bg-blue-700`}
-    //             >
-    //               Submit for Feedback
-    //             </button>
-    //           </form>
-    //         )}
-    //       </>
-    //     )}
-
-    //     {submitted && (
-    //       <div className="mt-6 bg-white p-6 rounded-xl shadow-md max-w-xl w-full">
-    //         <h2 className="text-2xl font-bold mb-2 text-green-700">
-    //           ✅ Your Submission
-    //         </h2>
-    //         <p className="text-xl">
-    //           <strong>Selected Bank:</strong> {selectedBank.name}
-    //         </p>
-    //         <p className="text-xl">
-    //           <strong>UPI App:</strong> {upiApp}
-    //         </p>
-    //         <p className="text-xl">
-    //           <strong>Parent Advice:</strong> {parentAdvice}
-    //         </p>
-    //         <p className="text-xl">
-    //           <strong>Your Reason:</strong> {chosenReason}
-    //         </p>
-
-    //         <div className="mt-4">
-    //           <h3 className="text-2xl font-semibold text-blue-700 mb-2">
-    //             Feedback:
-    //           </h3>
-    //           {loadingFeedback ? (
-    //             <div className="flex flex-col items-center justify-center my-6">
-    //               <div className="w-12 h-12 border-4 border-t-pink-500 border-yellow-200 rounded-full animate-spin"></div>
-    //               <p className="mt-4 text-pink-600 text-2xl font-semibold">
-    //                 Thinking...
-    //               </p>
-    //             </div>
-    //           ) : (
-    //             <p className="text-xl whitespace-pre-line">{feedback}</p>
-    //           )}
-    //         </div>
-    //       </div>
-    //     )}
-    //   </div>
-    // </div>
     <div
-      className="w-[90%] mx-auto p-5"
+      className="w-full min-h-screen bg-gradient-to-br from-pink-100 to-yellow-50 p-4"
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
-      <div className="bg-gradient-to-br from-yellow-100 to-pink-100 p-6 flex flex-col items-center rounded-lg shadow-2xl">
-        <h1 className="text-3xl font-bold mb-2 text-pink-700 drop-shadow-sm animate-bounce">
+      {/* Spline Section */}
+      <div className="flex justify-center mt-[-1rem] mb-2">
+        <div className="w-full max-w-2xl h-[160px]">
+          <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
+        </div>
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-[92%] mx-auto bg-white/90 backdrop-blur-md p-6 pt-4 flex flex-col items-center rounded-2xl shadow-2xl">
+        <h1 className="text-3xl font-bold mb-2 text-purple-700 drop-shadow animate-bounce text-center">
           🎉 You’ve turned 18. Welcome to banking!
         </h1>
-        <h2 className="text-2xl font-semibold mb-6 text-fuchsia-700">
+        <h2 className="text-2xl font-semibold mb-4 text-indigo-600 text-center">
           🏦 Pick Your Bank Simulator
         </h2>
 
@@ -430,9 +280,11 @@ export default function PickABank() {
           <>
             <div className="grid md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
               {banks?.map((bank) => (
-                <div className="transition-transform hover:scale-105">
+                <div
+                  key={bank.id}
+                  className="transition-transform hover:scale-105"
+                >
                   <BankCard
-                    key={bank.id}
                     bank={bank}
                     onSelect={setSelectedBank}
                     selected={bank.id === selectedBank?.id}
@@ -444,26 +296,25 @@ export default function PickABank() {
             {selectedBank && (
               <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-xl space-y-5 text-lg bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg"
+                className="w-full max-w-xl space-y-5 text-lg bg-purple-50/60 p-5 rounded-xl shadow-xl"
               >
                 <div>
-                  <label className="block font-bold text-purple-700 mb-1">
+                  <label className="block font-bold text-indigo-800 mb-1">
                     💳 Which UPI/digital wallet do you use?
                   </label>
                   <div className="flex flex-wrap gap-3">
                     {upiOptions.map((upi) => (
                       <label
                         key={upi}
-                        className="flex items-center gap-1 bg-pink-200 px-3 py-1 rounded-full cursor-pointer hover:bg-pink-300"
+                        className="flex items-center gap-2 bg-fuchsia-200 px-4 py-1.5 rounded-full cursor-pointer hover:bg-fuchsia-300"
                       >
                         <input
                           type="checkbox"
                           value={upi}
                           checked={upiApp === upi}
-                          onChange={(e) => {
-                            if (e.target.checked) setUpiApp(upi);
-                            else setUpiApp("");
-                          }}
+                          onChange={(e) =>
+                            setUpiApp(e.target.checked ? upi : "")
+                          }
                         />
                         <span>{upi}</span>
                       </label>
@@ -472,23 +323,22 @@ export default function PickABank() {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-purple-700 mb-1">
+                  <label className="block font-bold text-indigo-800 mb-1">
                     👨‍👩‍👧 Did your parents give you any advice?
                   </label>
                   <div className="flex flex-wrap gap-3">
                     {parentAdviceOptions.map((advice) => (
                       <label
                         key={advice}
-                        className="flex items-center gap-1 bg-yellow-200 px-3 py-1 rounded-full cursor-pointer hover:bg-yellow-300"
+                        className="flex items-center gap-2 bg-yellow-200 px-4 py-1.5 rounded-full cursor-pointer hover:bg-yellow-300"
                       >
                         <input
                           type="checkbox"
                           value={advice}
                           checked={parentAdvice === advice}
-                          onChange={(e) => {
-                            if (e.target.checked) setParentAdvice(advice);
-                            else setParentAdvice("");
-                          }}
+                          onChange={(e) =>
+                            setParentAdvice(e.target.checked ? advice : "")
+                          }
                         />
                         <span>{advice}</span>
                       </label>
@@ -497,23 +347,22 @@ export default function PickABank() {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-purple-700 mb-1">
+                  <label className="block font-bold text-indigo-800 mb-1">
                     🌟 Why did you choose this bank?
                   </label>
                   <div className="flex flex-wrap gap-3">
                     {reasonOptions.map((reason, index) => (
                       <label
                         key={index}
-                        className="flex items-center gap-1 bg-blue-200 px-3 py-1 rounded-full cursor-pointer hover:bg-blue-300"
+                        className="flex items-center gap-2 bg-blue-200 px-4 py-1.5 rounded-full cursor-pointer hover:bg-blue-300"
                       >
                         <input
                           type="checkbox"
                           value={reason}
                           checked={chosenReason === reason}
-                          onChange={(e) => {
-                            if (e.target.checked) setChosenReason(reason);
-                            else setChosenReason("");
-                          }}
+                          onChange={(e) =>
+                            setChosenReason(e.target.checked ? reason : "")
+                          }
                         />
                         <span>{reason}</span>
                       </label>
@@ -524,10 +373,10 @@ export default function PickABank() {
                 <button
                   type="submit"
                   disabled={notAllowed()}
-                  className={`w-full bg-green-500 text-white py-2 px-4 rounded-xl text-xl font-bold transition-all duration-300 ${
+                  className={`w-full bg-indigo-500 text-white py-3 px-6 rounded-xl text-xl font-bold transition-all duration-300 ${
                     notAllowed()
                       ? "cursor-not-allowed opacity-50"
-                      : "hover:bg-green-600 hover:scale-105"
+                      : "hover:bg-indigo-600 hover:scale-105"
                   }`}
                 >
                   🚀 Submit for Feedback
@@ -537,9 +386,10 @@ export default function PickABank() {
           </>
         )}
 
+        {/* Submission View */}
         {submitted && (
-          <div className="mt-6 bg-white/80 p-6 rounded-xl shadow-md max-w-xl w-full border-2 border-green-300">
-            <h2 className="text-2xl font-bold mb-2 text-green-700">
+          <div className="mt-6 bg-white p-6 rounded-xl shadow-md max-w-xl w-full border-2 border-indigo-300">
+            <h2 className="text-2xl font-bold mb-3 text-green-700">
               ✅ Your Submission
             </h2>
             <p className="text-xl">
@@ -556,18 +406,18 @@ export default function PickABank() {
             </p>
 
             <div className="mt-4">
-              <h3 className="text-2xl font-semibold text-blue-700 mb-2">
+              <h3 className="text-2xl font-semibold text-indigo-700 mb-2">
                 💬 Feedback:
               </h3>
               {loadingFeedback ? (
                 <div className="flex flex-col items-center justify-center my-6">
-                  <div className="w-12 h-12 border-4 border-t-pink-500 border-yellow-200 rounded-full animate-spin"></div>
-                  <p className="mt-4 text-pink-600 text-2xl font-semibold">
+                  <div className="w-12 h-12 border-4 border-t-purple-500 border-yellow-200 rounded-full animate-spin"></div>
+                  <p className="mt-4 text-purple-600 text-2xl font-semibold">
                     Thinking...
                   </p>
                 </div>
               ) : (
-                <p className="text-xl whitespace-pre-line text-pink-800 font-medium">
+                <p className="text-xl whitespace-pre-line text-purple-800 font-medium">
                   {feedback}
                 </p>
               )}
