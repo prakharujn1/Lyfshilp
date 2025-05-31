@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FaWallet,
   FaFilm,
@@ -15,6 +15,7 @@ import axios from "axios";
 import Avatar from "./Avatar.jsx";
 import SurpriseAvatar from "./SurpriseAvatar.jsx";
 import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -111,6 +112,7 @@ const BudgetBuilder = () => {
   const [feedbackAvatarType, setFeedbackAvatarType] = useState("disappointing");
   const [showSurpriseAvatar, setShowSurpriseAvatar] = useState(false);
   const surpriseCount = useRef(0);
+  const [spin, setSpin] = useState(true);
 
   const addSurpriseExpense = (currentWallet) => {
     if (surpriseCount.current >= 2) {
@@ -306,149 +308,185 @@ Constraints:
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (spin) {
+      const timer = setTimeout(() => {
+        setSpin(false);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
-    <div className="bg-blue-200 overflow-y-auto rounded-2xl p-8 font-sans">
-      <div className="text-center text-4xl font-bold mb-6 text-blue-800">
-        Weekly Budget Builder
-      </div>
-
-      <div className="flex justify-center items-center text-2xl mb-6 text-green-700">
-        Wallet <FaWallet className="ml-2 mr-1" /> ₹{wallet}
-      </div>
-
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="flex justify-center space-x-12">
-          {/* Available Expenses */}
-          <Droppable droppableId="available">
-            {(provided) => (
-              <div
-                className="bg-white p-4 rounded shadow-md w-72 min-h-[300px]"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                <h2 className="text-xl font-semibold text-center text-blue-700 mb-2">
-                  Available Expenses
-                </h2>
-                {available.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="bg-blue-200 hover:bg-blue-300  p-2 m-2 rounded flex justify-between items-center"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <span className="text-lg flex items-center gap-2">
-                          {item.icon} {item.label}
-                        </span>
-                        <span className="text-sm font-bold">₹{item.cost}</span>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          {/* Spent Expenses */}
-          <Droppable droppableId="spent">
-            {(provided) => (
-              <div
-                className="bg-white p-4 rounded shadow-md w-72 min-h-[300px]"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                <h2 className="text-xl font-semibold text-center text-red-700 mb-2">
-                  Spent
-                </h2>
-                {spent.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="bg-red-200 p-2 m-2 rounded flex justify-between items-center"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <span className="flex items-center gap-2">
-                          {item.icon} {item.label}
-                        </span>
-                        <span className="text-sm font-bold">₹{item.cost}</span>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+    <div className="mx-auto overflow-y-auto p-8">
+      <div
+        className="bg-gradient-to-b from-sky-200 to-blue-100  rounded-3xl p-8 font-sans shadow-xl border-4 border-yellow-300"
+        style={{ fontFamily: "'Comic Neue', cursive" }}
+      >
+        <div className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${spin ? "animate-spin" : "animate-none"}`}>
+          🎯 Weekly Budget Builder!
         </div>
-      </DragDropContext>
-      <div className="mt-10">
-        <div className="flex justify-center">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center my-6">
-              <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-200 rounded-full animate-spin"></div>
-              <p className="mt-3 text-gray-600 text-2xl">Loading feedback...</p>
-            </div>
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              className="text-2xl rounded-2xl p-4 text-sky-800 bg-fuchsia-400 hover:bg-fuchsia-700"
-            >
-              Click for Feedback
-            </button>
+
+        <div className="flex justify-center items-center text-3xl mb-8 text-green-700 font-bold animate-bounce">
+          💰 Wallet <FaWallet className="ml-3 mr-2" /> ₹{wallet}
+        </div>
+
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <div className="flex justify-center space-x-14">
+            {/* Available Expenses */}
+            <Droppable droppableId="available">
+              {(provided) => (
+                <div
+                  className="bg-white p-5 rounded-3xl shadow-lg w-80 min-h-[300px] border-4 border-blue-300"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <h2 className="text-2xl font-bold text-center text-blue-600 mb-3">
+                    🛍️ Available Expenses
+                  </h2>
+                  {available.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          className="bg-blue-100 hover:bg-blue-300 transition-all duration-300 p-3 m-2 rounded-xl flex justify-between items-center shadow-sm cursor-grab"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <span className="text-lg flex items-center gap-2">
+                            {item.icon} {item.label}
+                          </span>
+                          <span className="text-sm font-bold">
+                            ₹{item.cost}
+                          </span>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+
+            {/* Spent Expenses */}
+            <Droppable droppableId="spent">
+              {(provided) => (
+                <div
+                  className="bg-white p-5 rounded-3xl shadow-lg w-80 min-h-[300px] border-4 border-red-300"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <h2 className="text-2xl font-bold text-center text-red-600 mb-3">
+                    🧾 Spent
+                  </h2>
+                  {spent.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          className="bg-red-100 hover:bg-red-200 transition-all duration-300 p-3 m-2 rounded-xl flex justify-between items-center shadow-sm cursor-grab"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <span className="flex items-center gap-2">
+                            {item.icon} {item.label}
+                          </span>
+                          <span className="text-sm font-bold">
+                            ₹{item.cost}
+                          </span>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </div>
+        </DragDropContext>
+
+        <div className="mt-12">
+          <div className="flex justify-center">
+            {loading ? (
+              <div className="flex flex-col items-center justify-center my-6">
+                <div className="w-12 h-12 border-4 border-t-pink-500 border-yellow-200 rounded-full animate-spin"></div>
+                <p className="mt-4 text-pink-600 text-2xl font-semibold">
+                  Thinking...
+                </p>
+              </div>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="text-2xl rounded-full py-3 px-6 bg-yellow-300 hover:bg-yellow-400 text-pink-700 font-bold shadow-md hover:scale-105 transition-transform duration-300"
+              >
+                🎉 Click for Feedback!
+              </button>
+            )}
+          </div>
+
+          {error && (
+            <p className="text-red-600 text-center mt-4 font-bold">{error}</p>
           )}
         </div>
-        {error && <p>{error}</p>}
-      </div>
-      {result && (
-        <div className="mt-10">
-          <div className="flex justify-center items-center">
-            <h2 className="text-2xl">Feedback</h2>
-          </div>
-          <div className="w-1/2 p-5 mx-auto mt-2 flex items-center justify-center">
-            <div className=" bg-white border-2 p-4 border-purple-400 rounded-lg  whitespace-pre-wrap">
-              <div className="text-gray-800 space-y-2">
-                <div className="flex items-center space-x-5">
-                  <Avatar
-                    style={{ width: 150, height: 150 }}
-                    type={feedbackAvatarType}
-                  />
-                  <span className="text-xl rounded-lg shadow-lg p-4 bg-yellow-200">
-                    {feedbackAvatarType === "disappointing"
-                      ? "You can do better"
-                      : "Good budgeting skills"}
-                  </span>
-                </div>
-                <p>
-                  <strong>Spending Score:</strong> {result?.spendingScore}
-                </p>
-                <p>
-                  <strong>Tip: </strong>
-                  {result?.tip}
-                </p>
-                <div>
-                  <strong>Category to cut: </strong>
-                  {result?.categoryToCut}
+
+        {result && (
+          <div className="mt-12">
+            <div className="flex justify-center items-center">
+              <h2 className="text-3xl text-purple-600 font-bold">
+                📣 Feedback
+              </h2>
+            </div>
+            <div className="w-2/3 p-6 mx-auto mt-4 flex items-center justify-center">
+              <div className="bg-white border-4 p-6 border-fuchsia-400 rounded-3xl shadow-md whitespace-pre-wrap">
+                <div className="text-gray-800 space-y-4">
+                  <div className="flex items-center space-x-5">
+                    <Avatar
+                      style={{ width: 120, height: 120 }}
+                      type={feedbackAvatarType}
+                    />
+                    <span className="text-xl rounded-full shadow-lg p-4 bg-yellow-200 font-semibold">
+                      {feedbackAvatarType === "disappointing"
+                        ? "😟 You can do better!"
+                        : "🌟 Great job budgeting!"}
+                    </span>
+                  </div>
+                  <p>
+                    <strong>🎯 Spending Score:</strong> {result?.spendingScore}
+                  </p>
+                  <p>
+                    <strong>💡 Tip:</strong> {result?.tip}
+                  </p>
+                  <div>
+                    <strong>✂️ Cut this category:</strong>{" "}
+                    {result?.categoryToCut}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      <AnimatePresence>
-        {showSurpriseAvatar && (
-          <SurpriseAvatar
-            show={showSurpriseAvatar}
-            onClose={() => setShowSurpriseAvatar(false)}
-          />
         )}
-      </AnimatePresence>
 
-      <ToastContainer />
+        <AnimatePresence>
+          {showSurpriseAvatar && (
+            <SurpriseAvatar
+              show={showSurpriseAvatar}
+              onClose={() => setShowSurpriseAvatar(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        <ToastContainer />
+      </div>
     </div>
   );
 };
