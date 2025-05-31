@@ -1,4 +1,10 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Lottie from "lottie-react";
+
+// Lottie animations
+import superheroAnimation from "../../../../lotties/superhero.json";
+import thinkingAnimation from "../../../../lotties/thinking.json";
 
 const items = [
   { name: "School bag", price: 1200 },
@@ -10,56 +16,50 @@ const items = [
 ];
 
 const getFeedback = (item, category, totalSpent, limit) => {
-  const { name, price } = item;
-
-  const overspendWarning = totalSpent + price > limit
-    ? `⚠️ Buying this will exceed your ₹${limit} monthly budget!`
-    : "";
+  const overspendWarning =
+    totalSpent + item.price > limit
+      ? `⚠️ Buying this will exceed your ₹${limit} monthly budget!`
+      : "";
 
   switch (category) {
     case "needNow":
-      if (["Bus pass", "School bag"].includes(name)) {
-        return `✅ Smart! ₹${price} on ${name} is a good investment. ${overspendWarning}`;
+      if (["Bus pass", "School bag"].includes(item.name)) {
+        return `✅ Smart! ₹${item.price} on ${item.name} is a good investment. ${overspendWarning}`;
       } else {
-        return `🤔 Consider if ${name} (₹${price}) is truly essential. ${overspendWarning}`;
+        return `🤔 Consider if ${item.name} (₹${item.price}) is truly essential. ${overspendWarning}`;
       }
-
     case "wantLater":
-      return `⏳ Waiting for ${name} shows patience. ${overspendWarning}`;
-
+      return `⏳ Waiting for ${item.name} shows patience. ${overspendWarning}`;
     case "skipIt":
-      return `🙌 Skipping ${name} (₹${price}) saved money. Good choice!`;
-
+      return `🙌 Skipping ${item.name} (₹${item.price}) saved money. Good choice!`;
     default:
       return "";
   }
 };
 
-const ProgressBar = ({ current, total }) => {
-  const percentage = Math.round((current / total) * 100);
-  return (
-    <div className="w-full bg-gray-300 rounded-full h-4 mb-4">
-      <div
-        className="bg-green-500 h-4 rounded-full transition-all"
-        style={{ width: `${percentage}%` }}
-      ></div>
-    </div>
-  );
+const getLottieAnimation = (category) => {
+  switch (category) {
+    case "needNow":
+      return superheroAnimation;
+    case "wantLater":
+      return thinkingAnimation;
+    default:
+      return null;
+  }
 };
 
 const Challenge3 = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [step, setStep] = useState(0);
+  const [inputValue, setInputValue] = useState("");
   const [expenseLimit, setExpenseLimit] = useState("");
-  const [limitSet, setLimitSet] = useState(false);
-
   const [sortedItems, setSortedItems] = useState({
     needNow: [],
     wantLater: [],
     skipIt: [],
   });
-
   const [feedbackLog, setFeedbackLog] = useState([]);
   const [lastFeedback, setLastFeedback] = useState("");
+  const [currentAction, setCurrentAction] = useState("");
 
   const getTotalSpent = () =>
     [...sortedItems.needNow, ...sortedItems.wantLater].reduce(
@@ -67,186 +67,153 @@ const Challenge3 = () => {
       0
     );
 
+  const handleStartGame = () => {
+    if (Number(inputValue) > 0) setExpenseLimit(inputValue);
+  };
+
   const handleSort = (category) => {
-    const item = items[currentIndex];
-    const currentSpent = getTotalSpent();
-    const feedback = getFeedback(item, category, currentSpent, Number(expenseLimit));
+    const item = items[step];
+    const total = getTotalSpent();
+    const feedback = getFeedback(item, category, total, Number(expenseLimit));
+    const lottieType = getLottieAnimation(category);
+
+    setCurrentAction(category);
 
     setSortedItems((prev) => ({
       ...prev,
       [category]: [...prev[category], item],
     }));
 
-    setFeedbackLog((prev) => [
-      ...prev,
-      { ...item, category, feedback },
-    ]);
-
+    setFeedbackLog((prev) => [...prev, { ...item, category, feedback }]);
     setLastFeedback(feedback);
 
     setTimeout(() => {
       setLastFeedback("");
-      setCurrentIndex((prev) => prev + 1);
-    }, 1800);
+      setCurrentAction("");
+      setStep((prev) => prev + 1);
+    }, 2000);
   };
 
-  if (!limitSet) {
+  if (!expenseLimit) {
     return (
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded">
-        <h2 className="text-xl font-semibold mb-4 text-center">
-          Set Your Monthly Expense Limit 💰
-        </h2>
+      <motion.div
+        className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <h2 className="text-2xl font-bold text-center text-blue-600 mb-2">🎮 Budget Challenge</h2>
+        <p className="text-center text-sm text-gray-600 mb-4">Enter your monthly budget to begin:</p>
         <input
           type="number"
-          placeholder="e.g. 3000"
-          className="w-full border p-2 mb-4 rounded"
-          value={expenseLimit}
-          onChange={(e) => setExpenseLimit(e.target.value)}
+          placeholder="e.g. 5000"
+          className="w-full border-2 p-2 rounded text-center mb-4"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
         />
         <button
+          onClick={handleStartGame}
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          onClick={() => {
-            if (expenseLimit > 0) setLimitSet(true);
-          }}
         >
-          Start Sorting ➡️
+          🚀 Start Game
         </button>
-      </div>
+      </motion.div>
     );
   }
 
-  return (
-    <div className="p-6 max-w-xl mx-auto bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">
-        Challenge 3: Wants vs Needs Sorting
-      </h2>
+  if (step >= items.length) {
+    const overspent = getTotalSpent() > Number(expenseLimit);
+    return (
+      <motion.div
+        className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <h2 className="text-2xl font-bold text-center text-green-600 mb-4">🎉 Game Over</h2>
+        <p className="text-center mb-2">🧾 Total Spent: ₹{getTotalSpent()} / ₹{expenseLimit}</p>
+        <p className={`text-center font-bold ${overspent ? "text-red-500" : "text-green-500"}`}>
+          {overspent
+            ? "❌ You overspent. Try skipping more next time!"
+            : "✅ Great job! You stayed within budget!"}
+        </p>
 
-      <p className="text-sm text-gray-600 text-center mb-2">
-        Monthly Budget: ₹{expenseLimit}
-      </p>
-
-      {currentIndex < items.length ? (
-        <>
-          <ProgressBar current={currentIndex} total={items.length} />
-
-          <div className="mb-4 p-4 bg-gray-100 rounded shadow-sm">
-            <p className="text-lg font-semibold">
-              🛒 Item: {items[currentIndex].name}
-            </p>
-            <p className="text-sm text-gray-600">
-              💰 Price: ₹{items[currentIndex].price}
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-2 mb-4">
-            <button
-              onClick={() => handleSort("needNow")}
-              className="flex-1 bg-green-600 text-white py-2 px-3 rounded hover:bg-green-700"
-            >
-              ✅ Need Now
-            </button>
-            <button
-              onClick={() => handleSort("wantLater")}
-              className="flex-1 bg-blue-600 text-white py-2 px-3 rounded hover:bg-blue-700"
-            >
-              ⏳ Want Later
-            </button>
-            <button
-              onClick={() => handleSort("skipIt")}
-              className="flex-1 bg-gray-600 text-white py-2 px-3 rounded hover:bg-gray-700"
-            >
-              ❌ Skip It
-            </button>
-          </div>
-
-          {lastFeedback && (
-            <div className="bg-yellow-100 text-yellow-800 p-3 rounded shadow text-sm">
-              {lastFeedback}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {["needNow", "wantLater", "skipIt"].map((cat) => (
+            <div key={cat} className="bg-gray-100 p-4 rounded shadow">
+              <h4 className="text-center font-bold text-blue-700 uppercase">{cat.replace(/([A-Z])/g, " $1")}</h4>
+              {sortedItems[cat].length > 0 ? (
+                <ul className="mt-2 list-disc pl-5 text-sm">
+                  {sortedItems[cat].map((item, i) => (
+                    <li key={i}>{item.name} — ₹{item.price}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-center text-xs text-gray-500 mt-2">No items</p>
+              )}
             </div>
-          )}
-        </>
-      ) : (
-        <>
-          <div className="text-center mb-6">
-            <h3 className="text-xl font-bold text-green-700">🎉 Sorting Complete!</h3>
-            <p className="text-sm text-gray-600">
-              Here's your decision summary & spending report:
-            </p>
-          </div>
+          ))}
+        </div>
 
-          <div className="mt-6 text-center font-medium">
-            <p>
-              🧾 <strong>Total Spent:</strong> ₹{getTotalSpent()} / ₹{expenseLimit}
-            </p>
-            {getTotalSpent() > Number(expenseLimit) ? (
-              <p className="text-red-600 font-semibold mt-1 mb-3">
-                ❌ You overspent! Try skipping more non-essentials.
-              </p>
-            ) : (
-              <p className="text-green-600 font-semibold mt-1 mb-3">
-                ✅ Well done! You stayed within your budget!
-              </p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {["needNow", "wantLater", "skipIt"].map((cat) => (
-              <div key={cat} className="bg-gray-50 p-4 rounded shadow border">
-                <h4 className="text-center text-blue-600 font-bold uppercase tracking-wide mb-3">
-                  {cat.replace(/([A-Z])/g, " $1")}
-                </h4>
-                {sortedItems[cat].length > 0 ? (
-                  <ul className="text-sm list-disc pl-4 space-y-1">
-                    {sortedItems[cat].map((item, i) => (
-                      <li key={i}>
-                        {item.name} — ₹{item.price}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-xs text-gray-500 text-center">No items</p>
-                )}
+        <div className="mt-6">
+          <h3 className="text-xl font-bold mb-4">💬 Feedback Summary</h3>
+          <div className="space-y-4">
+            {feedbackLog.map((entry, i) => (
+              <div key={i} className="bg-white border rounded-lg p-4 shadow-sm">
+                <p className="font-bold text-gray-800">{entry.name} — ₹{entry.price}</p>
+                <p className="text-sm">
+                  <span className="font-semibold">Category:</span>{" "}
+                  <span className="text-blue-700 uppercase">{entry.category.replace(/([A-Z])/g, " $1")}</span>
+                </p>
+                <p className="mt-1 text-gray-700">{entry.feedback}</p>
               </div>
             ))}
           </div>
+        </div>
+      </motion.div>
+    );
+  }
 
-          <div className="mt-8 bg-white border rounded-xl shadow-sm p-6">
-            <h4 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-              💬 <span>Feedback Summary</span>
-            </h4>
+  const currentItem = items[step];
+  const currentLottie = getLottieAnimation(currentAction);
 
-            <div className="space-y-5">
-              {feedbackLog.map((entry, idx) => (
-                <div key={idx} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                  <div className="flex justify-between items-center">
-                    <h5 className="text-lg font-semibold text-gray-900">{entry.name}</h5>
-                    <span className="text-green-600 font-medium text-base">₹{entry.price}</span>
-                  </div>
+  return (
+    <motion.div
+      className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">🛍️ Budget Choice</h2>
+      <p className="text-center text-sm mb-2 text-gray-600">Budget: ₹{expenseLimit}</p>
 
-                  <p className="text-sm text-gray-600 mt-1">
-                    <span className="font-bold text-gray-700">Category:</span>{" "}
-                    <span className="text-indigo-600 uppercase">
-                      {entry.category.replace(/([A-Z])/g, " $1").toUpperCase()}
-                    </span>
-                  </p>
+      <div className="flex justify-center mb-4 h-40">
+        {currentLottie && (
+          <Lottie animationData={currentLottie} loop={true} />
+        )}
+      </div>
 
-                  <p className="text-sm text-gray-700 mt-2 leading-relaxed">
-                    <span className="font-bold text-gray-800">Feedback:</span>{' '}
-                    <span className="text-gray-900 font-medium tracking-wide">
-                      {entry.feedback}
-                    </span>
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+      <div className="mb-4 bg-gray-100 p-4 rounded shadow text-center">
+        <p className="text-lg font-semibold">🛒 Item: {currentItem.name}</p>
+        <p className="text-sm text-gray-700">💰 Price: ₹{currentItem.price}</p>
+      </div>
 
+      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+        <button onClick={() => handleSort("needNow")} className="bg-green-600 text-white py-2 rounded hover:bg-green-700 flex-1">✅ Need Now</button>
+        <button onClick={() => handleSort("wantLater")} className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 flex-1">⏳ Want Later</button>
+        <button onClick={() => handleSort("skipIt")} className="bg-gray-600 text-white py-2 rounded hover:bg-gray-700 flex-1">❌ Skip It</button>
+      </div>
 
-
-
-        </>
-      )}
-    </div>
+      <AnimatePresence>
+        {lastFeedback && (
+          <motion.div
+            className="bg-yellow-100 text-yellow-800 p-3 rounded shadow text-sm text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {lastFeedback}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
