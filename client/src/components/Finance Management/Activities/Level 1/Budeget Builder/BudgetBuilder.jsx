@@ -16,6 +16,7 @@ import Avatar from "./Avatar.jsx";
 import SurpriseAvatar from "./SurpriseAvatar.jsx";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
+import Spline from "@splinetool/react-spline";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -319,12 +320,17 @@ Constraints:
   }, []);
 
   return (
-    <div className="mx-auto overflow-y-auto p-8">
+    <div className="flex justify-center items-start gap-6 p-8">
+      {/* 🎮 Weekly Budget Builder */}
       <div
-        className="bg-gradient-to-b from-sky-200 to-blue-100  rounded-3xl p-8 font-sans shadow-xl border-4 border-yellow-300"
+        className="w-3/5 bg-gradient-to-b from-sky-200 to-blue-100 rounded-3xl p-6 font-sans shadow-xl border-4 border-yellow-300"
         style={{ fontFamily: "'Comic Neue', cursive" }}
       >
-        <div className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${spin ? "animate-spin" : "animate-none"}`}>
+        <div
+          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${
+            spin ? "animate-spin" : "animate-none"
+          }`}
+        >
           🎯 Weekly Budget Builder!
         </div>
 
@@ -486,6 +492,11 @@ Constraints:
         </AnimatePresence>
 
         <ToastContainer />
+      </div>
+
+      {/* 🤖 Spline Robot Model */}
+      <div className="w-2/5 h-[600px] rounded-3xl overflow-hidden">
+        <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
       </div>
     </div>
   );
