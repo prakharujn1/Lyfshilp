@@ -29,41 +29,30 @@ import Section4 from "./pages/sections/Section4.jsx";
 import Section5 from "./pages/sections/Section5.jsx";
 import Section6 from "./pages/sections/Section6.jsx";
 import { useEffect, useState } from "react";
-import Preloader from "./components/Preloader.jsx";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [showAnimation, setShowAnimation] = useState(false); // HTML animation
+  const [showAnimation, setShowAnimation] = useState(true);
   const [animationEnded, setAnimationEnded] = useState(false);
+  const [startApp, setStartApp] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false);
-      setShowAnimation(true);
-    }, 2000);
+      setShowAnimation(false);
+      setAnimationEnded(true);
+    }, 13000);
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    if (showAnimation) {
-      const animationTimer = setTimeout(() => {
-        setShowAnimation(false); // Animation ends
-        setAnimationEnded(true);
-      }, 22000); // time for animation
-      return () => clearTimeout(animationTimer);
-    }
-  }, [showAnimation]);
-
   const handleSkip = () => {
-    setShowAnimation(false); // skip the animation
+    setShowAnimation(false);
+    setAnimationEnded(true);
   };
 
   const handleStartJourney = () => {
-    setAnimationEnded(false); // Go to homepage
+    setStartApp(true);
   };
 
-  if (loading) return <Preloader />;
-
+  // Show animation iframe
   if (showAnimation) {
     return (
       <div
@@ -104,7 +93,8 @@ function App() {
     );
   }
 
-  if (animationEnded) {
+  // Show the start screen after animation ends or skip
+  if (animationEnded && !startApp) {
     return (
       <div className="bg-gradient-to-b from-[#AEC8A4] to-white h-screen text-center flex flex-col items-center justify-center">
         <h1 className="text-6xl font-extrabold mb-6">Ready to Begin?</h1>
@@ -118,6 +108,7 @@ function App() {
     );
   }
 
+  // Full app after "Start Journey"
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
