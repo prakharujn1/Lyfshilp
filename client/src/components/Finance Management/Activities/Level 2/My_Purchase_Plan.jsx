@@ -1,3 +1,4 @@
+// My Purchase Plan - Game Style with Lottie Animations & Detailed Calculations
 import { useState } from "react";
 import axios from "axios";
 import {
@@ -13,6 +14,11 @@ import {
   Label,
 } from "recharts";
 import { CheckCircle, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Lottie from "lottie-react";
+import thinkingBoy from "../../../../lotties/thingking-boy.json";
+import celebrationGirl from "../../../../lotties/celebration-girl.json";
+import shoppingBag from "../../../../lotties/shopping-bag.json";
 
 const APIKEY = "AIzaSyDxF9hs4z0ZvCNOFGNBqhZmCfccstydH4k";
 
@@ -20,13 +26,10 @@ const My_Purchase_Plan = () => {
   const [product, setProduct] = useState("");
   const [price, setPrice] = useState("");
   const [months, setMonths] = useState("");
-
   const [emiAvailable, setEmiAvailable] = useState(false);
   const [interestRate, setInterestRate] = useState("2");
-
   const [discountAvailable, setDiscountAvailable] = useState(false);
   const [discountPercent, setDiscountPercent] = useState("10");
-
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -58,17 +61,10 @@ const My_Purchase_Plan = () => {
     const prompt = `
 I want to buy "${product}" priced approximately at ₹${price}.
 Please help with:
-
 1. Break down a ${months}-month saving plan showing savings for each month.
-
-${emiAvailable ? `2. Suggest an EMI plan with ${interestRate}% monthly interest for ${months} months. 
-Explain simply: Multiply monthly EMI without interest and add interest to each month.` : "2. EMI is not available."}
-
-${discountAvailable ? `3. Show the discounted price if there's a ${discountPercent}% discount.
-Explain it in a very simple way: Multiply price by ${discountPercent}%, subtract that from original price.` : "3. Discount is not available."}
-
-4. Suggest 5 alternatives: all cheaper. 
-
+${emiAvailable ? `2. Suggest an EMI plan with ${interestRate}% monthly interest for ${months} months.` : "2. EMI is not available."}
+${discountAvailable ? `3. Show the discounted price if there's a ${discountPercent}% discount.` : "3. Discount is not available."}
+4. Suggest 5 alternatives: all cheaper.
 ### FINAL INSTRUCTION ###
 Return ONLY raw JSON (no markdown or text).
 Format:
@@ -79,8 +75,7 @@ Format:
     "totalPayment": "₹..."
   },
   "discountedPrice": "₹...",
-  "alternatives": ["...", "..."]
-}`;
+  "alternatives": ["...", "..."]}`;
 
     try {
       const response = await axios.post(
@@ -89,7 +84,6 @@ Format:
           contents: [{ parts: [{ text: prompt }] }],
         }
       );
-
       const aiReply = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       setResult(parsed);
@@ -113,254 +107,107 @@ Format:
     });
   };
 
-  const numericPrice = Number(price) || 0;
-  const numericMonths = Number(months) || 1;
-  const numericInterest = Number(interestRate) || 0;
-  const numericDiscount = Number(discountPercent) || 0;
+  const numericPrice = Number(price);
+  const numericInterest = Number(interestRate);
+  const numericMonths = Number(months);
+  const interestAmount = Math.round(numericPrice * (numericInterest / 100) * numericMonths);
+  const totalPayment = numericPrice + interestAmount;
+  const emiPerMonth = Math.round(totalPayment / numericMonths);
+  const discountAmount = Math.round(numericPrice * (discountPercent / 100));
+  const discountedFinal = numericPrice - discountAmount;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-center text-blue-700 mb-4">My Purchase Plan</h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-        <input
-          type="text"
-          placeholder="Product name"
-          value={product}
-          onChange={(e) => setProduct(e.target.value)}
-          className="border p-2 rounded"
-        />
-        <input
-          type="number"
-          placeholder="Estimated price (INR)"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          className="border p-2 rounded"
-          min={0}
-        />
-        <input
-          type="number"
-          placeholder="Plan duration (months)"
-          value={months}
-          onChange={(e) => setMonths(e.target.value)}
-          className="border p-2 rounded"
-          min={1}
-        />
+    <div className="p-6 max-w-3xl mx-auto">
+      <div className="text-center">
+        <Lottie animationData={shoppingBag} className="h-28 mx-auto" loop={true} />
+        <h2 className="text-4xl font-bold text-purple-700 mb-2 animate-bounce">My Purchase Plan</h2>
+        <p className="text-gray-600 mb-4 text-lg italic">Smart shopping starts here! 💡</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        {/* EMI Section: checkbox + input side-by-side always */}
-        <div className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            checked={emiAvailable}
-            onChange={() => setEmiAvailable(!emiAvailable)}
-            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            id="emiAvailable"
-          />
-          <label htmlFor="emiAvailable" className="font-medium text-gray-700 cursor-pointer">
-            EMI Available?
-          </label>
+      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+          <input type="text" placeholder="Product name" value={product} onChange={(e) => setProduct(e.target.value)} className="border p-2 rounded shadow-inner" />
+          <input type="number" placeholder="Estimated price (₹)" value={price} onChange={(e) => setPrice(e.target.value)} className="border p-2 rounded shadow-inner" min={0} />
+          <input type="number" placeholder="Months" value={months} onChange={(e) => setMonths(e.target.value)} className="border p-2 rounded shadow-inner" min={1} />
+        </div>
 
-          <div className="flex items-center ml-4 space-x-2 border border-gray-300 rounded-md p-2 w-32">
-            <input
-              type="number"
-              placeholder="EMI Interest Rate"
-              value={interestRate}
-              onChange={(e) => setInterestRate(e.target.value)}
-              className="w-full outline-none"
-              min={0}
-              step="0.01"
-              aria-label="EMI Interest Rate"
-              disabled={!emiAvailable}
-            />
-            <span className={`text-gray-600 font-semibold ${!emiAvailable ? "opacity-50" : ""}`}>%</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="flex items-center gap-3">
+            <input type="checkbox" checked={emiAvailable} onChange={() => setEmiAvailable(!emiAvailable)} className="w-5 h-5 text-blue-600 border-gray-300 rounded" />
+            <label className="font-medium text-gray-700">EMI Available?</label>
+            <input type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} className="ml-4 w-24 border rounded p-2" disabled={!emiAvailable} />
+            <span className="text-sm">%</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <input type="checkbox" checked={discountAvailable} onChange={() => setDiscountAvailable(!discountAvailable)} className="w-5 h-5 text-green-600 border-gray-300 rounded" />
+            <label className="font-medium text-gray-700">Discount Available?</label>
+            <input type="number" value={discountPercent} onChange={(e) => setDiscountPercent(e.target.value)} className="ml-4 w-24 border rounded p-2" disabled={!discountAvailable} />
+            <span className="text-sm">%</span>
           </div>
         </div>
 
-        {/* Discount Section: checkbox + input side-by-side always */}
-        <div className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            checked={discountAvailable}
-            onChange={() => setDiscountAvailable(!discountAvailable)}
-            className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
-            id="discountAvailable"
-          />
-          <label htmlFor="discountAvailable" className="font-medium text-gray-700 cursor-pointer">
-            Discount Available?
-          </label>
+        {loading && <Lottie animationData={thinkingBoy} className="h-40 mx-auto" />}
 
-          <div className="flex items-center ml-4 space-x-2 border border-gray-300 rounded-md p-2 w-32">
-            <input
-              type="number"
-              placeholder="Discount"
-              value={discountPercent}
-              onChange={(e) => setDiscountPercent(e.target.value)}
-              className="w-full outline-none"
-              min={0}
-              max={100}
-              step="0.01"
-              aria-label="Discount Percentage"
-              disabled={!discountAvailable}
-            />
-            <span className={`text-gray-600 font-semibold ${!discountAvailable ? "opacity-50" : ""}`}>%</span>
-          </div>
-        </div>
-      </div>
+        <button onClick={generatePlan} className="bg-purple-600 hover:bg-purple-700 transition-all text-white w-full py-3 rounded-xl font-bold text-lg shadow-lg" disabled={loading}>
+          {loading ? "Generating Plan..." : "🎯 Generate My Smart Plan"}
+        </button>
+      </motion.div>
 
-      {emiAvailable && (
-        <p className="text-sm text-gray-600 mb-2">
-          <b>EMI:</b> EMI means you pay monthly with added interest. For example, ₹5000 over 5 months
-          with 2% interest means you pay a little more than ₹1000 each month.
-        </p>
-      )}
+      {error && <div className="mt-4 text-red-600 flex items-center gap-2"><AlertCircle className="w-5 h-5" />{error}</div>}
 
-      <button
-        onClick={generatePlan}
-        className="bg-blue-600 text-white w-full py-2 rounded font-semibold"
-        disabled={loading}
-      >
-        {loading ? "Generating..." : "Get Plan"}
-      </button>
+      <AnimatePresence>
+        {result && !result.error && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="bg-white shadow-xl rounded-xl mt-6 p-6 space-y-6 border">
 
-      {error && (
-        <div className="mt-4 text-red-600 flex items-center gap-2">
-          <AlertCircle className="w-5 h-5" />
-          {error}
-        </div>
-      )}
+            <div className="text-green-700 font-semibold flex items-center gap-2">
+              <CheckCircle className="w-5 h-5" /> Plan generated successfully!
+            </div>
 
-      {result && !result.error && (
-        <div className="bg-white shadow-md rounded mt-6 p-4 space-y-4 border">
-          <div className="text-green-700 font-semibold flex items-center gap-2">
-            <CheckCircle className="w-5 h-5" />
-            Plan generated successfully!
-          </div>
+            <Lottie animationData={celebrationGirl} className="h-32 mx-auto" />
 
-          <div>
-            <h2 className="text-xl font-semibold mb-2 text-center">Monthly Savings Report</h2>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={getChartData()}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
-                >
+                <BarChart data={getChartData()} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month">
-                    <Label value="Month" offset={-10} position="insideBottom" />
-                  </XAxis>
-                  <YAxis>
-                    <Label value="Savings (₹)" angle={-90} position="insideLeft" />
-                  </YAxis>
-                  <Tooltip
-                    formatter={(value) => [
-                      `₹${Number(value).toLocaleString("en-IN")}`,
-                      "Amount",
-                    ]}
-                  />
+                  <XAxis dataKey="month"><Label value="Month" offset={-10} position="insideBottom" /></XAxis>
+                  <YAxis><Label value="₹ Savings" angle={-90} position="insideLeft" /></YAxis>
+                  <Tooltip formatter={(value) => `₹${Number(value).toLocaleString("en-IN")}`} />
                   <Legend verticalAlign="top" height={36} />
-                  <Bar dataKey="amount" name="Monthly Savings" fill="#2563eb">
+                  <Bar dataKey="amount" name="Monthly Savings" fill="#8b5cf6">
                     <LabelList dataKey="label" position="top" fill="#000" fontSize={12} />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
 
-          {emiAvailable &&
-            <div className=" mx-auto p-4 bg-white rounded-md border border-gray-200">
-              <h4 className="text-lg font-semibold text-gray-800 mb-4">📆 EMI Option:</h4>
-
-              {/* Step 1: Interest Calculation */}
-              <div className="mb-4">
-                <p className="text-sm font-semibold text-blue-700 mb-1 uppercase tracking-wide">
-                  Step 1: Calculate Total Interest
-                </p>
-                <code className="block bg-blue-100 text-blue-900 rounded-md px-3 py-1 text-xs font-mono mb-2 select-text shadow-sm">
-                  Interest = Principal × (Interest Rate / 100) × Months
-                </code>
-                <p className="text-sm font-semibold text-gray-800">
-                  Interest = <span className="text-blue-600">₹{price.toLocaleString("en-IN")}</span> × <span className="text-blue-600">({interestRate} / 100)</span> × <span className="text-blue-600">{months}</span> = <span className="font-bold text-green-700">₹{Math.round(price * (interestRate / 100) * months).toLocaleString("en-IN")}</span>
-                </p>
+            {emiAvailable && result.emiOption && (
+              <div className="bg-blue-50 p-4 rounded-xl shadow">
+                <h4 className="text-lg font-bold text-blue-800 mb-2">📆 EMI Breakdown</h4>
+                <p>Step 1: Interest = ₹{price} × ({interestRate}/100) × {months} = <strong>₹{interestAmount.toLocaleString("en-IN")}</strong></p>
+                <p>Step 2: Total Payment = ₹{price} + ₹{interestAmount} = <strong>₹{totalPayment.toLocaleString("en-IN")}</strong></p>
+                <p>Step 3: Monthly EMI = ₹{totalPayment} / {months} = <strong>₹{emiPerMonth.toLocaleString("en-IN")}</strong></p>
+                <p className="mt-2">AI Suggested EMI: <strong>{result.emiOption.monthlyPayment}</strong></p>
               </div>
+            )}
 
-              {/* Step 2: Total Payment */}
-              <div className="mb-6">
-                <p className="text-sm font-semibold text-blue-700 mb-1 uppercase tracking-wide">
-                  Step 2: Calculate Total Payment
-                </p>
-                <code className="block bg-blue-100 text-blue-900 rounded-md px-3 py-1 text-xs font-mono mb-2 select-text shadow-sm">
-                  Total Payment = Principal + Total Interest
-                </code>
-                <p className="text-sm font-semibold text-gray-800">
-                  Total Payment = <span className="text-blue-600">₹{price.toLocaleString("en-IN")}</span> + <span className="text-blue-600">₹{Math.round(price * (interestRate / 100) * months).toLocaleString("en-IN")}</span> = <span className="font-bold text-green-700">{result.emiOption.totalPayment.toLocaleString("en-IN")}</span>
-                </p>
+            {discountAvailable && result.discountedPrice && (
+              <div className="bg-green-50 p-4 rounded-xl shadow">
+                <h4 className="text-lg font-bold text-green-800 mb-2">🏷️ Discounted Price</h4>
+                <p>Step 1: Discount = ₹{price} × ({discountPercent}/100) = <strong>₹{discountAmount.toLocaleString("en-IN")}</strong></p>
+                <p>Step 2: Final Price = ₹{price} - ₹{discountAmount} = <strong>₹{discountedFinal.toLocaleString("en-IN")}</strong></p>
+                <p className="mt-2">AI Suggested Price: <strong>{result.discountedPrice}</strong></p>
               </div>
+            )}
 
-              {/* Step 3: Monthly EMI */}
-              <div>
-                <p className="text-sm font-semibold text-blue-700 mb-1 uppercase tracking-wide">
-                  Step 3: Calculate Monthly EMI
-                </p>
-                <code className="block bg-blue-100 text-blue-900 rounded-md px-3 py-1 text-xs font-mono mb-2 select-text shadow-sm">
-                  EMI = Total Payment / Months
-                </code>
-                <p className="text-sm font-semibold text-gray-800">
-                  EMI = <span className="text-blue-600">{result.emiOption.totalPayment.toLocaleString("en-IN")}</span> / <span className="text-blue-600">{months}</span> = <span className="font-bold text-green-700">{result.emiOption.monthlyPayment.toLocaleString("en-IN")}</span>
-                </p>
-              </div>
+            <div className="bg-yellow-50 p-4 rounded-xl shadow">
+              <h4 className="text-lg font-bold text-yellow-800 mb-2">💡 Cheaper Alternatives</h4>
+              <ul className="list-disc list-inside space-y-1">
+                {result.alternatives.map((alt, i) => <li key={i}>🛍️ {alt}</li>)}
+              </ul>
             </div>
-          }
-
-          {discountAvailable &&
-            <div className=" mx-auto p-4 bg-white rounded-md border border-gray-200">
-              <h4 className="font-bold text-gray-700 mb-4">🏷️ Discounted Price:</h4>
-
-              {/* Step 1: Calculate Discount Amount */}
-              <div className="mb-6">
-                <p className="text-sm font-semibold text-blue-700 mb-1 uppercase tracking-wide">
-                  Step 1: Calculate Discount Amount
-                </p>
-                <code className="block bg-blue-100 text-blue-900 rounded-md px-3 py-1 text-xs font-mono mb-2 select-text shadow-sm">
-                  Discount = Original Price × (Discount% / 100)
-                </code>
-                <p className="text-sm font-semibold text-gray-800">
-                  Discount = <span className="text-blue-600">₹{price.toLocaleString("en-IN")}</span> × <span className="text-blue-600">({discountPercent} / 100)</span> = <span className="font-bold text-green-700">₹{Math.round(price * (discountPercent / 100)).toLocaleString("en-IN")}</span>
-                </p>
-              </div>
-
-              {/* Step 2: Calculate Final Discounted Price */}
-              <div>
-                <p className="text-sm font-semibold text-blue-700 mb-1 uppercase tracking-wide">
-                  Step 2: Calculate Final Price After Discount
-                </p>
-                <code className="block bg-blue-100 text-blue-900 rounded-md px-3 py-1 text-xs font-mono mb-2 select-text shadow-sm">
-                  Discounted Price = Original Price - Discount
-                </code>
-                <p className="text-sm font-semibold text-gray-800">
-                  Discounted Price = <span className="text-blue-600">₹{price.toLocaleString("en-IN")}</span> - <span className="text-blue-600">₹{Math.round(price * (discountPercent / 100)).toLocaleString("en-IN")}</span> = <span className="font-bold text-green-700">{result.discountedPrice.toLocaleString("en-IN")}</span>
-                </p>
-              </div>
-            </div>
-
-          }
-
-
-          <div>
-            <h4 className="font-bold text-gray-700">💡 Cheaper Alternatives:</h4>
-            <ul className="list-disc list-inside text-gray-700 space-y-1">
-              {(result.alternatives || []).map((alt, idx) => (
-                <li key={idx}>{alt}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-
-      {result?.error && (
-        <div className="mt-4 text-red-600 font-semibold">{result.error}</div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
