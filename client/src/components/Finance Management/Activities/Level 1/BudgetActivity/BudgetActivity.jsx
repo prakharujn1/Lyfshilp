@@ -1,0 +1,355 @@
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import Confetti from "react-confetti";
+import { motion } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
+import Avatar from "./Avatar";
+
+function parsePossiblyStringifiedJSON(text) {
+  if (typeof text !== "string") return null;
+
+  text = text.trim();
+  if (text.startsWith("```")) {
+    text = text
+      .replace(/^```(json)?/, "")
+      .replace(/```$/, "")
+      .trim();
+  }
+
+  if (text.startsWith("`") && text.endsWith("`")) {
+    text = text.slice(1, -1).trim();
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    console.error("Failed to parse JSON:", err);
+    return null;
+  }
+}
+
+const APIKEY = import.meta.env.VITE_API_KEY;
+
+const BudgetActivity = () => {
+  const [income, setIncome] = useState("");
+  const [selectedExpenses, setSelectedExpenses] = useState([]);
+  const [expenseDetails, setExpenseDetails] = useState([]);
+  const [customExpense, setCustomExpense] = useState("");
+  const [selectedStrategies, setSelectedStrategies] = useState([]);
+  const [customStrategy, setCustomStrategy] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const feedbackRef = useRef(null);
+  const [remark, setRemark] = useState("");
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [feedbackAvatarType, setFeedbackAvatarType] = useState("disappointing");
+  const feedbackMap = {
+    Sad: "💸 Save some! Don't be a Spendthrift",
+    Happy: "🌟 Good savings!",
+    Miser: "C'mon, loosen your wallet!",
+  };
+
+  const expenseOptions = ["Food", "Travel", "Lunch", "Movie", "Books", "Other"];
+  const strategyOptions = [
+    "Use piggy bank",
+    "Avoid impulse buys",
+    "Track spending",
+    "Limit outings",
+    "Buy second-hand items",
+    "Other",
+  ];
+
+  const allExpenses = [
+    ...selectedExpenses.filter((e) => e !== "Other"),
+    customExpense.trim(),
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const allStrategies = [
+    ...selectedStrategies.filter((s) => s !== "Other"),
+    customStrategy.trim(),
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const prompt = () => {
+    const totalSpent = expenseDetails.reduce(
+      (acc, item) => acc + Number(item.cost),
+      0
+    );
+    const percentageSpent = Number(((totalSpent / income) * 100).toFixed(0));
+    console.log(typeof percentageSpent);
+
+    return `
+You are a critical financial advisor.
+A student created this one-month budget:
+
+Income: ₹${income}
+Expense Details: ${expenseDetails}
+Percentage spent : ${percentageSpent}
+Saving Strategies: ${allStrategies}
+
+Please give helpful feedback focusing on whether the student is making smart choices and if the saving strategies are strong. Also comment on whether it shows discipline and planning. If the choices are bad, give criticism and a poor remark. If the choices are good, give helpful suggestions for improvemnt and encouraging remark. 
+
+Constraints:
+- The larger the percentageSpent, the poorer the remark and the feedback
+
+- The 'remark' must match these rules:
+  - If percentageSpent > 90 and <= 100, remark must be "Spendthrift"
+  - If percentageSpent > 70 and <= 90, remark must be "Poor budgeting"
+  - If percentageSpent > 60 and <= 70, remark must be "Not bad"
+  - If percentageSpent > 50 and <=60, remark must be "Impressive" or "Smart"
+  - If percentageSpent > 40 and <=50, remark must be "Great"
+  - If percentageSpent <40, remark must be "Excellent"
+  - If percentageSpent <10, remark must be "Miser"
+
+
+- The 'feedback' must match these rules:
+  - If percentageSpent > 60, feedback must include some strong criticism and an actionable advice to improve budgeting. Also give review about the saving strategies.
+  - If percentageSpent <= 10, , feedback must encourage to spend a little more and not to save like a miser. Do not praise for this kind of saving attitude where percentageSpent <= 10.
+  - If percentageSpent < 60 and >10, feedback must include some praise. Also give review about the saving strategies.
+  - Maximum length of ffedbacvk is 60 words.
+
+
+### FINAL INSTRUCTION ###
+Return ONLY raw JSON (no backticks, no markdown, no explanations).
+Example format:
+{
+  feedback : "Your feedback",
+  remark : ""
+}
+
+Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive", "Not bad", "Poor budgeting", "Spendthrift" 
+`;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setShowConfetti(false);
+    setFeedback("");
+    setRemark("");
+
+    try {
+      const response = await axios.post(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${APIKEY}`,
+        {
+          contents: [
+            {
+              parts: [{ text: prompt() }],
+            },
+          ],
+        }
+      );
+
+      const aiReply = response.data.candidates[0].content.parts[0].text;
+      const parsed = parsePossiblyStringifiedJSON(aiReply);
+      setFeedback(parsed.feedback);
+      setRemark(parsed.remark);
+
+      if (/Excellent|Great|Smart/i.test(parsed.remark)) {
+        setShowConfetti(true);
+        setFeedbackAvatarType("Happy");
+        setTimeout(() => {
+          setShowConfetti(false);
+        }, 5000);
+      } else if (parsed.remark === "Miser") {
+        setFeedbackAvatarType("Miser");
+      } else {
+        setFeedbackAvatarType("Sad");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setFeedback("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleExpenseChange = (expense, checked) => {
+    setSelectedExpenses((prev) =>
+      checked ? [...prev, expense] : prev.filter((item) => item !== expense)
+    );
+
+    setExpenseDetails((prev) =>
+      checked
+        ? [...prev, { name: expense, cost: 0 }]
+        : prev.filter((item) => item.name !== expense)
+    );
+  };
+
+  const handleCostChange = (expense, value) => {
+    const updated = expenseDetails.map((item) =>
+      item.name === expense ? { ...item, cost: Number(value) } : item
+    );
+    setExpenseDetails(updated);
+
+    const total = updated.reduce(
+      (sum, item) => sum + (parseFloat(item.cost) || 0),
+      0
+    );
+    if (income && total > parseFloat(income)) {
+      toast.error("Expenses exceed income!", { duration: 3000 });
+    }
+  };
+
+  useEffect(() => {
+    if (feedback) {
+      setTimeout(() => {
+        if (feedbackRef.current) {
+          feedbackRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, [feedback]);
+
+  console.log(feedbackAvatarType);
+
+  return (
+    <div className="p-5 bg-gradient-to-br from-pink-50 via-yellow-50 to-green-50" style={{ fontFamily: "'Comic Neue', cursive" }}>
+      <div className="p-6 max-w-xl mx-auto bg-blue-100 shadow-2xl rounded-3xl border border-green-200">
+        {showConfetti && (
+          <>
+            <Confetti />
+            <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-green-400 via-lime-400 to-emerald-500 text-white py-5 px-6 text-center font-extrabold shadow-xl z-50 text-xl tracking-wide animate-pulse rounded-b-3xl">
+              🎉🎉 <span className="text-3xl">Congratulations!</span> You've
+              earned the <span className="underline">Smart Budgeter</span>{" "}
+              badge! 🏅
+            </div>
+          </>
+        )}
+
+        <h2 className="text-3xl font-extrabold mb-6 text-center text-green-700 drop-shadow-sm">
+          💰 Monthly Budget Activity
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <input
+            type="number"
+            placeholder="Monthly income (₹)"
+            value={income}
+            onChange={(e) => setIncome(Number(e.target.value))}
+            className="w-full p-4 border-2 border-green-300 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm"
+            required
+          />
+
+          <div>
+            <p className="font-semibold mb-2 text-blue-600 text-lg">
+              🛍️ Select Expenses:
+            </p>
+            {expenseOptions.map((option) => (
+              <div key={option} className="mb-3">
+                <label className="inline-flex items-center">
+                  <input
+                    type="checkbox"
+                    value={option}
+                    checked={selectedExpenses.includes(option)}
+                    onChange={(e) =>
+                      handleExpenseChange(option, e.target.checked)
+                    }
+                    className="mr-3 h-5 w-5 text-green-600"
+                  />
+                  <span className="text-base font-medium">{option}</span>
+                </label>
+
+                {selectedExpenses.includes(option) && (
+                  <input
+                    type="number"
+                    placeholder="Enter cost"
+                    value={
+                      expenseDetails.find((item) => item.name === option)
+                        ?.cost || ""
+                    }
+                    onChange={(e) =>
+                      handleCostChange(option, Number(e.target.value))
+                    }
+                    className="ml-4 p-2 border-2 border-blue-300 rounded-lg w-44 text-base"
+                  />
+                )}
+              </div>
+            ))}
+
+            {selectedExpenses.includes("Other") && (
+              <textarea
+                placeholder="Enter other expense"
+                value={customExpense}
+                onChange={(e) => setCustomExpense(e.target.value)}
+                className="w-full p-3 mt-2 border-2 border-blue-300 rounded-xl text-base"
+              />
+            )}
+          </div>
+
+          <div>
+            <p className="font-semibold mb-2 text-purple-600 text-lg">
+              💡 Select Saving Strategies:
+            </p>
+            {strategyOptions.map((option) => (
+              <label key={option} className="block mb-2">
+                <input
+                  type="checkbox"
+                  value={option}
+                  checked={selectedStrategies.includes(option)}
+                  onChange={(e) =>
+                    e.target.checked
+                      ? setSelectedStrategies((prev) => [...prev, option])
+                      : setSelectedStrategies((prev) =>
+                          prev.filter((item) => item !== option)
+                        )
+                  }
+                  className="mr-3 h-5 w-5 text-purple-500"
+                />
+                <span className="text-base font-medium">{option}</span>
+              </label>
+            ))}
+            {selectedStrategies.includes("Other") && (
+              <textarea
+                placeholder="Enter custom strategy"
+                value={customStrategy}
+                onChange={(e) => setCustomStrategy(e.target.value)}
+                className="w-full p-3 mt-2 border-2 border-purple-300 rounded-xl text-base"
+              />
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 rounded-2xl text-lg transition-all duration-300 ease-in-out shadow-md disabled:opacity-50"
+          >
+            {loading ? "Submitting..." : "🚀 Submit for feedback"}
+          </button>
+        </form>
+
+        {feedback && (
+          <motion.div
+            ref={feedbackRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="mt-10 p-5 border-2 border-gray-300 rounded-xl bg-gradient-to-br from-yellow-50 to-pink-50 shadow-inner"
+          >
+            <h3 className="font-bold text-xl mb-3 text-indigo-600">
+              ✨ Feedback
+            </h3>
+            <div className="flex items-center gap-4 mb-2">
+              <Avatar type={feedbackAvatarType} />
+              <span className="text-lg font-semibold whitespace-nowrap">
+                {feedbackMap[feedbackAvatarType]}
+              </span>
+            </div>
+            <p className="text-gray-800 mb-1">
+              <strong>Remark:</strong> {remark}
+            </p>
+            <p className="text-gray-800">
+              <strong>Description:</strong> {feedback}
+            </p>
+          </motion.div>
+        )}
+      </div>
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default BudgetActivity;
