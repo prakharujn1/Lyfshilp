@@ -242,7 +242,7 @@ export default function PickABank() {
     setFeedback(feedbackText);
     setTimeout(() => {
       setLoadingFeedback(false);
-    }, 1000);
+    }, 1500);
   };
 
   const notAllowed = () => {
@@ -255,140 +255,326 @@ export default function PickABank() {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50 p-6 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-2 text-blue-900">
-        🎉 You’ve turned 18. Welcome to banking!
-      </h1>
-      <h2 className="text-xl font-semibold mb-6 text-blue-800">
-        🏦 Pick Your Bank Simulator
-      </h2>
+    // <div
+    //   className="w-[90%] mx-auto p-5"
+    //   style={{ fontFamily: "'Comic Neue', cursive" }}
+    // >
+    //   <div className="bg-blue-50 p-6 flex flex-col items-center rounded-lg shadow-2xl">
+    //     <h1 className="text-3xl font-bold mb-2 text-blue-900">
+    //       🎉 You’ve turned 18. Welcome to banking!
+    //     </h1>
+    //     <h2 className="text-2xl font-semibold mb-6 text-blue-800">
+    //       🏦 Pick Your Bank Simulator
+    //     </h2>
 
-      {!submitted && (
-        <>
-          <div className="grid md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
-            {banks?.map((bank) => (
-              <BankCard key={bank.id} bank={bank} onSelect={setSelectedBank} />
-            ))}
-          </div>
+    //     {!submitted && (
+    //       <>
+    //         <div className="grid md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
+    //           {banks?.map((bank) => (
+    //             <BankCard
+    //               key={bank.id}
+    //               bank={bank}
+    //               onSelect={setSelectedBank}
+    //               selected={bank.id === selectedBank?.id}
+    //             />
+    //           ))}
+    //         </div>
 
-          {selectedBank && (
-            <form onSubmit={handleSubmit} className="w-full max-w-xl space-y-4">
-              <div>
-                <label className="block font-medium text-gray-700 mb-1">
-                  Which UPI/digital wallet do you use?
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {upiOptions.map((upi) => (
-                    <label key={upi} className="flex items-center space-x-1">
-                      <input
-                        type="checkbox"
-                        value={upi}
-                        checked={upiApp === upi}
-                        onChange={(e) => {
-                          if (e.target.checked) setUpiApp(upi);
-                          else {
-                            setUpiApp("");
-                          }
-                        }}
-                      />
-                      <span>{upi}</span>
-                    </label>
-                  ))}
+    //         {selectedBank && (
+    //           <form
+    //             onSubmit={handleSubmit}
+    //             className="w-full max-w-xl space-y-4 text-xl"
+    //           >
+    //             <div>
+    //               <label className="block font-bold mb-1">
+    //                 Which UPI/digital wallet do you use?
+    //               </label>
+    //               <div className="flex flex-wrap gap-2">
+    //                 {upiOptions.map((upi) => (
+    //                   <label key={upi} className="flex items-center space-x-1">
+    //                     <input
+    //                       type="checkbox"
+    //                       value={upi}
+    //                       checked={upiApp === upi}
+    //                       onChange={(e) => {
+    //                         if (e.target.checked) setUpiApp(upi);
+    //                         else {
+    //                           setUpiApp("");
+    //                         }
+    //                       }}
+    //                     />
+    //                     <span>{upi}</span>
+    //                   </label>
+    //                 ))}
+    //               </div>
+    //             </div>
+
+    //             <div>
+    //               <label className="block font-bold  mb-1">
+    //                 Did your parents give you any advice?
+    //               </label>
+    //               <div className="flex flex-wrap gap-2">
+    //                 {parentAdviceOptions.map((advice) => (
+    //                   <label
+    //                     key={advice}
+    //                     className="flex items-center space-x-1"
+    //                   >
+    //                     <input
+    //                       type="checkbox"
+    //                       value={advice}
+    //                       checked={parentAdvice === advice}
+    //                       onChange={(e) => {
+    //                         if (e.target.checked) setParentAdvice(advice);
+    //                         else {
+    //                           setParentAdvice("");
+    //                         }
+    //                       }}
+    //                     />
+    //                     <span>{advice}</span>
+    //                   </label>
+    //                 ))}
+    //               </div>
+    //             </div>
+
+    //             <div>
+    //               <label className="block font-bold mb-1">
+    //                 Why did you choose this bank?
+    //               </label>
+    //               <div className="flex flex-wrap gap-2">
+    //                 {reasonOptions.map((reason, index) => (
+    //                   <label
+    //                     key={index}
+    //                     className="flex items-center space-x-1"
+    //                   >
+    //                     <input
+    //                       type="checkbox"
+    //                       value={reason}
+    //                       checked={chosenReason === reason}
+    //                       onChange={(e) => {
+    //                         if (e.target.checked) setChosenReason(reason);
+    //                         else {
+    //                           setChosenReason("");
+    //                         }
+    //                       }}
+    //                     />
+    //                     <span>{reason}</span>
+    //                   </label>
+    //                 ))}
+    //               </div>
+    //             </div>
+
+    //             <button
+    //               type="submit"
+    //               disabled={notAllowed()}
+    //               className={`bg-blue-600 text-white py-2 px-4 rounded ${
+    //                 notAllowed() ? `cursor-not-allowed` : `cursor-pointer`
+    //               } hover:bg-blue-700`}
+    //             >
+    //               Submit for Feedback
+    //             </button>
+    //           </form>
+    //         )}
+    //       </>
+    //     )}
+
+    //     {submitted && (
+    //       <div className="mt-6 bg-white p-6 rounded-xl shadow-md max-w-xl w-full">
+    //         <h2 className="text-2xl font-bold mb-2 text-green-700">
+    //           ✅ Your Submission
+    //         </h2>
+    //         <p className="text-xl">
+    //           <strong>Selected Bank:</strong> {selectedBank.name}
+    //         </p>
+    //         <p className="text-xl">
+    //           <strong>UPI App:</strong> {upiApp}
+    //         </p>
+    //         <p className="text-xl">
+    //           <strong>Parent Advice:</strong> {parentAdvice}
+    //         </p>
+    //         <p className="text-xl">
+    //           <strong>Your Reason:</strong> {chosenReason}
+    //         </p>
+
+    //         <div className="mt-4">
+    //           <h3 className="text-2xl font-semibold text-blue-700 mb-2">
+    //             Feedback:
+    //           </h3>
+    //           {loadingFeedback ? (
+    //             <div className="flex flex-col items-center justify-center my-6">
+    //               <div className="w-12 h-12 border-4 border-t-pink-500 border-yellow-200 rounded-full animate-spin"></div>
+    //               <p className="mt-4 text-pink-600 text-2xl font-semibold">
+    //                 Thinking...
+    //               </p>
+    //             </div>
+    //           ) : (
+    //             <p className="text-xl whitespace-pre-line">{feedback}</p>
+    //           )}
+    //         </div>
+    //       </div>
+    //     )}
+    //   </div>
+    // </div>
+    <div
+      className="w-[90%] mx-auto p-5"
+      style={{ fontFamily: "'Comic Neue', cursive" }}
+    >
+      <div className="bg-gradient-to-br from-yellow-100 to-pink-100 p-6 flex flex-col items-center rounded-lg shadow-2xl">
+        <h1 className="text-3xl font-bold mb-2 text-pink-700 drop-shadow-sm animate-bounce">
+          🎉 You’ve turned 18. Welcome to banking!
+        </h1>
+        <h2 className="text-2xl font-semibold mb-6 text-fuchsia-700">
+          🏦 Pick Your Bank Simulator
+        </h2>
+
+        {!submitted && (
+          <>
+            <div className="grid md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
+              {banks?.map((bank) => (
+                <div className="transition-transform hover:scale-105">
+                  <BankCard
+                    key={bank.id}
+                    bank={bank}
+                    onSelect={setSelectedBank}
+                    selected={bank.id === selectedBank?.id}
+                  />
                 </div>
-              </div>
+              ))}
+            </div>
 
-              <div>
-                <label className="block font-medium text-gray-700 mb-1">
-                  Did your parents give you any advice?
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {parentAdviceOptions.map((advice) => (
-                    <label key={advice} className="flex items-center space-x-1">
-                      <input
-                        type="checkbox"
-                        value={advice}
-                        checked={parentAdvice === advice}
-                        onChange={(e) => {
-                          if (e.target.checked) setParentAdvice(advice);
-                          else {
-                            setParentAdvice("");
-                          }
-                        }}
-                      />
-                      <span>{advice}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-medium text-gray-700 mb-1">
-                  Why did you choose this bank?
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {reasonOptions.map((reason, index) => (
-                    <label key={index} className="flex items-center space-x-1">
-                      <input
-                        type="checkbox"
-                        value={reason}
-                        checked={chosenReason === reason}
-                        onChange={(e) => {
-                          if (e.target.checked) setChosenReason(reason);
-                          else {
-                            setChosenReason("");
-                          }
-                        }}
-                      />
-                      <span>{reason}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={notAllowed()}
-                className={`bg-blue-600 text-white py-2 px-4 rounded ${
-                  notAllowed() ? `cursor-not-allowed` : `cursor-pointer`
-                } hover:bg-blue-700`}
+            {selectedBank && (
+              <form
+                onSubmit={handleSubmit}
+                className="w-full max-w-xl space-y-5 text-lg bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg"
               >
-                Submit for Feedback
-              </button>
-            </form>
-          )}
-        </>
-      )}
+                <div>
+                  <label className="block font-bold text-purple-700 mb-1">
+                    💳 Which UPI/digital wallet do you use?
+                  </label>
+                  <div className="flex flex-wrap gap-3">
+                    {upiOptions.map((upi) => (
+                      <label
+                        key={upi}
+                        className="flex items-center gap-1 bg-pink-200 px-3 py-1 rounded-full cursor-pointer hover:bg-pink-300"
+                      >
+                        <input
+                          type="checkbox"
+                          value={upi}
+                          checked={upiApp === upi}
+                          onChange={(e) => {
+                            if (e.target.checked) setUpiApp(upi);
+                            else setUpiApp("");
+                          }}
+                        />
+                        <span>{upi}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-      {submitted && (
-        <div className="mt-6 bg-white p-6 rounded-xl shadow-md max-w-xl w-full">
-          <h2 className="text-xl font-bold mb-2 text-green-700">
-            ✅ Your Submission
-          </h2>
-          <p>
-            <strong>Selected Bank:</strong> {selectedBank.name}
-          </p>
-          <p>
-            <strong>UPI App:</strong> {upiApp}
-          </p>
-          <p>
-            <strong>Parent Advice:</strong> {parentAdvice}
-          </p>
-          <p>
-            <strong>Your Reason:</strong> {chosenReason}
-          </p>
+                <div>
+                  <label className="block font-bold text-purple-700 mb-1">
+                    👨‍👩‍👧 Did your parents give you any advice?
+                  </label>
+                  <div className="flex flex-wrap gap-3">
+                    {parentAdviceOptions.map((advice) => (
+                      <label
+                        key={advice}
+                        className="flex items-center gap-1 bg-yellow-200 px-3 py-1 rounded-full cursor-pointer hover:bg-yellow-300"
+                      >
+                        <input
+                          type="checkbox"
+                          value={advice}
+                          checked={parentAdvice === advice}
+                          onChange={(e) => {
+                            if (e.target.checked) setParentAdvice(advice);
+                            else setParentAdvice("");
+                          }}
+                        />
+                        <span>{advice}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">
-              Feedback:
-            </h3>
-            {loadingFeedback ? (
-              <p className="italic text-gray-500">Generating feedback...</p>
-            ) : (
-              <p className="whitespace-pre-line">{feedback}</p>
+                <div>
+                  <label className="block font-bold text-purple-700 mb-1">
+                    🌟 Why did you choose this bank?
+                  </label>
+                  <div className="flex flex-wrap gap-3">
+                    {reasonOptions.map((reason, index) => (
+                      <label
+                        key={index}
+                        className="flex items-center gap-1 bg-blue-200 px-3 py-1 rounded-full cursor-pointer hover:bg-blue-300"
+                      >
+                        <input
+                          type="checkbox"
+                          value={reason}
+                          checked={chosenReason === reason}
+                          onChange={(e) => {
+                            if (e.target.checked) setChosenReason(reason);
+                            else setChosenReason("");
+                          }}
+                        />
+                        <span>{reason}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={notAllowed()}
+                  className={`w-full bg-green-500 text-white py-2 px-4 rounded-xl text-xl font-bold transition-all duration-300 ${
+                    notAllowed()
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-green-600 hover:scale-105"
+                  }`}
+                >
+                  🚀 Submit for Feedback
+                </button>
+              </form>
             )}
+          </>
+        )}
+
+        {submitted && (
+          <div className="mt-6 bg-white/80 p-6 rounded-xl shadow-md max-w-xl w-full border-2 border-green-300">
+            <h2 className="text-2xl font-bold mb-2 text-green-700">
+              ✅ Your Submission
+            </h2>
+            <p className="text-xl">
+              <strong>🏦 Selected Bank:</strong> {selectedBank.name}
+            </p>
+            <p className="text-xl">
+              <strong>📱 UPI App:</strong> {upiApp}
+            </p>
+            <p className="text-xl">
+              <strong>👪 Parent Advice:</strong> {parentAdvice}
+            </p>
+            <p className="text-xl">
+              <strong>🎯 Your Reason:</strong> {chosenReason}
+            </p>
+
+            <div className="mt-4">
+              <h3 className="text-2xl font-semibold text-blue-700 mb-2">
+                💬 Feedback:
+              </h3>
+              {loadingFeedback ? (
+                <div className="flex flex-col items-center justify-center my-6">
+                  <div className="w-12 h-12 border-4 border-t-pink-500 border-yellow-200 rounded-full animate-spin"></div>
+                  <p className="mt-4 text-pink-600 text-2xl font-semibold">
+                    Thinking...
+                  </p>
+                </div>
+              ) : (
+                <p className="text-xl whitespace-pre-line text-pink-800 font-medium">
+                  {feedback}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
