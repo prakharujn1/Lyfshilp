@@ -61,7 +61,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#5A827E] text-white shadow-md sticky top-0 z-50 w-full">
+    <nav className="bg-gradient-to-r from-[#4C7522] via-[#184802] to-[#184802] text-white shadow-md sticky top-0 z-50 w-full">
       <div className="w-full py-5 px-2 flex justify-between items-center">
         <div className="ml-7">
           <Link to="/" className="flex items-center gap-3 ml-3 md:ml-5">
@@ -79,19 +79,19 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4 mr-4">
           <Link
             to="/login"
-            className="bg-[#2A4759] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#183B4E] transition shadow-md"
+            className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300" 
           >
             Login
           </Link>
           <Link
             to="/register"
-            className="bg-[#2A4759] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#183B4E] transition shadow-md"
+            className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
           >
             Register
           </Link>
           <Link
             to="/book-trial"
-            className="bg-[#2A4759] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#183B4E] transition shadow-md"
+            className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
           >
             Book a Free Trial
           </Link>
@@ -177,6 +177,13 @@ const Navbar = () => {
             className="block bg-[#2A4759] text-center mx-3 text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mb-2"
           >
             Login
+          </Link>
+          <Link
+            to="/login"
+            onClick={handleItemClick}
+            className="block bg-[#2A4759] text-center mx-3 text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mb-2"
+          >
+            Register
           </Link>
           <Link
             to="/book-trial"
