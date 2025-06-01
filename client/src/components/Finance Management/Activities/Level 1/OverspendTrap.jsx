@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Spline from "@splinetool/react-spline";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -107,8 +108,14 @@ Example format:
   }, [feedback]);
 
   return (
-    <div className="p-5">
-      <div className="max-w-xl mx-auto mt-10 p-6 bg-gradient-to-br from-pink-100 to-yellow-100 shadow-2xl rounded-3xl">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-white to-yellow-50 p-6 space-x-10">
+      {/* Left: Spline Model */}
+      <div className="w-full md:w-1/2 min-h-[300px]">
+        <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
+      </div>
+
+      {/* Right: Overspend Trap Card */}
+      <div className="max-w-xl w-full p-6 bg-gradient-to-br from-pink-100 to-yellow-100 shadow-2xl rounded-3xl">
         <h2 className="text-3xl font-extrabold mb-6 text-purple-700 font-sans text-center">
           🎯 Overspend Trap
         </h2>

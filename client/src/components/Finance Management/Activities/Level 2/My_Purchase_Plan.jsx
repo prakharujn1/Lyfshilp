@@ -1,3 +1,4 @@
+// My Purchase Plan - Game Style with Lottie Animations & Detailed Calculations
 import { useState } from "react";
 import axios from "axios";
 import {
@@ -13,6 +14,12 @@ import {
   Label,
 } from "recharts";
 import { CheckCircle, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Lottie from "lottie-react";
+import thinkingBoy from "../../../../lotties/thingking-boy.json";
+import celebrationGirl from "../../../../lotties/celebration-girl.json";
+import shoppingBag from "../../../../lotties/shopping-bag.json";
+import Spline from "@splinetool/react-spline";
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -21,9 +28,9 @@ const My_Purchase_Plan = () => {
   const [price, setPrice] = useState("");
   const [months, setMonths] = useState("");
   const [emiAvailable, setEmiAvailable] = useState(false);
-  const [interestRate, setInterestRate] = useState("");
+  const [interestRate, setInterestRate] = useState("2");
   const [discountAvailable, setDiscountAvailable] = useState(false);
-  const [discountPercent, setDiscountPercent] = useState("");
+  const [discountPercent, setDiscountPercent] = useState("10");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -67,7 +74,6 @@ ${
     : "3. Discount is not available."
 }
 4. Suggest 5 alternatives: all cheaper.
-
 ### FINAL INSTRUCTION ###
 Return ONLY raw JSON (no markdown or text).
 Format:
@@ -78,8 +84,7 @@ Format:
     "totalPayment": "₹..."
   },
   "discountedPrice": "₹...",
-  "alternatives": ["...", "..."]
-}`;
+  "alternatives": ["...", "..."]}`;
 
     try {
       const response = await axios.post(
@@ -88,7 +93,6 @@ Format:
           contents: [{ parts: [{ text: prompt }] }],
         }
       );
-
       const aiReply =
         response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
       const parsed = parsePossiblyStringifiedJSON(aiReply);
@@ -123,109 +127,121 @@ Format:
     });
   };
 
-  console.log(discountPercent, typeof discountPercent);
+  const numericPrice = Number(price);
+  const numericInterest = Number(interestRate);
+  const numericMonths = Number(months);
+  const interestAmount = Math.round(
+    numericPrice * (numericInterest / 100) * numericMonths
+  );
+  const totalPayment = numericPrice + interestAmount;
+  const emiPerMonth = Math.round(totalPayment / numericMonths);
+  const discountAmount = Math.round(numericPrice * (discountPercent / 100));
+  const discountedFinal = numericPrice - discountAmount;
 
   return (
-    <div className="w-[90%] mx-auto p-5">
-      <div
-        className="bg-gradient-to-tr  from-yellow-100 via-pink-100 to-blue-100 p-6 flex flex-col items-center rounded-lg "
-        style={{ fontFamily: "'Comic Neue', cursive" }}
-      >
-        <div className="w-full max-w-3xl relative bg-white rounded-3xl shadow-2xl p-8 border-4 border-pink-300">
-          <h2 className="text-4xl text-center font-extrabold text-pink-600 mb-8 animate-bounce">
-            🎮 My Purchase Plan 🛍️
-          </h2>
-
-          {/* Input Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <input
-              type="text"
-              placeholder="🎁 Product name"
-              value={product}
-              onChange={(e) => setProduct(e.target.value)}
-              className="rounded-xl border-2 border-pink-400 p-4 text-lg shadow-md focus:outline-none focus:ring-4 focus:ring-pink-300 transition-all"
+    <div className="p-4 max-w-7xl mx-auto">
+      <div className="flex flex-col-reverse md:flex-row items-center gap-12">
+        {/* Left: Game / Planning UI */}
+        <div className="w-full md:w-2/3">
+          <div className="text-center">
+            <Lottie
+              animationData={shoppingBag}
+              className="h-28 mx-auto"
+              loop={true}
             />
-            <input
-              type="number"
-              placeholder="💰 Price (₹)"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              className="rounded-xl border-2 border-yellow-400 p-4 text-lg shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all"
-            />
-            <input
-              type="number"
-              placeholder="📅 Duration (months)"
-              value={months}
-              onChange={(e) => setMonths(e.target.value)}
-              className="rounded-xl border-2 border-blue-400 p-4 text-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all"
-            />
+            <h2 className="text-4xl font-bold text-purple-700 mb-2 animate-bounce">
+              My Purchase Plan
+            </h2>
+            <p className="text-gray-600 mb-4 text-lg italic">
+              Smart shopping starts here! 💡
+            </p>
           </div>
 
-          {/* EMI & Discount Checkboxes */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="flex items-center flex-wrap gap-3 bg-pink-50 p-4 rounded-xl shadow">
-              <input
-                type="checkbox"
-                checked={emiAvailable}
-                onChange={() => setEmiAvailable(!emiAvailable)}
-                className="w-6 h-6 accent-green-500"
-                id="emiAvailable"
-              />
-              <label
-                htmlFor="emiAvailable"
-                className="cursor-pointer text-pink-700 font-semibold"
-              >
-                ✅ EMI Available?
-              </label>
-              <input
-                type="text"
-                placeholder="Interest %"
-                value={interestRate}
-                onChange={(e) => setInterestRate(e.target.value)}
-                className="ml-4 border-2 border-green-300 rounded-lg px-4 py-2 w-28"
-                disabled={!emiAvailable}
-              />
-            </div>
-
-            <div className="flex items-center flex-wrap gap-3 bg-yellow-50 p-4 rounded-xl shadow">
-              <input
-                type="checkbox"
-                checked={discountAvailable}
-                onChange={() => setDiscountAvailable(!discountAvailable)}
-                className="w-6 h-6 accent-yellow-400"
-                id="discountAvailable"
-              />
-              <label
-                htmlFor="discountAvailable"
-                className="cursor-pointer text-yellow-700 font-semibold"
-              >
-                🎁 Discount Available?
-              </label>
-              <input
-                type="text"
-                placeholder="Discount %"
-                value={discountPercent}
-                onChange={(e) => setDiscountPercent(e.target.value)}
-                className="ml-4 border-2 border-yellow-300 rounded-lg px-4 py-2 w-28"
-                disabled={!discountAvailable}
-              />
-            </div>
-          </div>
-
-          {/* Button */}
-          <button
-            onClick={generatePlan}
-            disabled={loading}
-            className={`w-full py-4 text-white text-xl rounded-full font-bold transition-all duration-300 shadow-lg ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-pink-500 via-yellow-400 to-purple-500 hover:brightness-110 hover:scale-105"
-            }`}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            {loading ? "Generating..." : "✨ Get My Fun Plan! ✨"}
-          </button>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+              <input
+                type="text"
+                placeholder="Product name"
+                value={product}
+                onChange={(e) => setProduct(e.target.value)}
+                className="border p-2 rounded shadow-inner"
+              />
+              <input
+                type="number"
+                placeholder="Estimated price (₹)"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="border p-2 rounded shadow-inner"
+                min={0}
+              />
+              <input
+                type="number"
+                placeholder="Months"
+                value={months}
+                onChange={(e) => setMonths(e.target.value)}
+                className="border p-2 rounded shadow-inner"
+                min={1}
+              />
+            </div>
 
-          {/* Error Message */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={emiAvailable}
+                  onChange={() => setEmiAvailable(!emiAvailable)}
+                  className="w-5 h-5 text-blue-600 border-gray-300 rounded"
+                />
+                <label className="font-medium text-gray-700">
+                  EMI Available?
+                </label>
+                <input
+                  type="number"
+                  value={interestRate}
+                  onChange={(e) => setInterestRate(e.target.value)}
+                  className="ml-4 w-24 border rounded p-2"
+                  disabled={!emiAvailable}
+                />
+                <span className="text-sm">%</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={discountAvailable}
+                  onChange={() => setDiscountAvailable(!discountAvailable)}
+                  className="w-5 h-5 text-green-600 border-gray-300 rounded"
+                />
+                <label className="font-medium text-gray-700">
+                  Discount Available?
+                </label>
+                <input
+                  type="number"
+                  value={discountPercent}
+                  onChange={(e) => setDiscountPercent(e.target.value)}
+                  className="ml-4 w-24 border rounded p-2"
+                  disabled={!discountAvailable}
+                />
+                <span className="text-sm">%</span>
+              </div>
+            </div>
+
+            {loading && (
+              <Lottie animationData={thinkingBoy} className="h-40 mx-auto" />
+            )}
+
+            <button
+              onClick={generatePlan}
+              className="bg-purple-600 hover:bg-purple-700 transition-all text-white w-full py-3 rounded-xl font-bold text-lg shadow-lg"
+              disabled={loading}
+            >
+              {loading ? "Generating Plan..." : "🎯 Generate My Smart Plan"}
+            </button>
+          </motion.div>
+
           {error && (
             <div className="mt-4 text-red-600 flex items-center gap-2">
               <AlertCircle className="w-5 h-5" />
@@ -233,151 +249,135 @@ Format:
             </div>
           )}
 
-          {/* Results Section */}
-          {result && !result.error && (
-            <div className="bg-white border-4 border-yellow-300 mt-8 rounded-2xl shadow-xl p-6 space-y-6 animate-fade-in">
-              <div className="text-green-700 font-bold flex items-center gap-2 text-xl">
-                <CheckCircle className="w-6 h-6" />
-                Plan generated successfully! 🎉
-              </div>
+          <AnimatePresence>
+            {result && !result.error && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="bg-white shadow-xl rounded-xl mt-6 p-6 space-y-6 border"
+              >
+                <div className="text-green-700 font-semibold flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5" /> Plan generated
+                  successfully!
+                </div>
 
-              {/* Chart Section */}
-              <div>
-                <h3 className="text-2xl font-bold text-purple-700 mb-4">
-                  📊 Monthly Savings
-                </h3>
+                <Lottie
+                  animationData={celebrationGirl}
+                  className="h-32 mx-auto"
+                />
+
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       data={getChartData()}
                       margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
                     >
-                      <CartesianGrid strokeDasharray="4 4" />
+                      <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month">
-                        <Label value="" offset={-5} position="insideBottom" />
+                        <Label
+                          value="Month"
+                          offset={-10}
+                          position="insideBottom"
+                        />
                       </XAxis>
                       <YAxis>
                         <Label
-                          value="₹ Saved"
+                          value="₹ Savings"
                           angle={-90}
                           position="insideLeft"
                         />
                       </YAxis>
                       <Tooltip
-                        formatter={(value) => [
-                          `₹${Number(value).toLocaleString("en-IN")}`,
-                          "Saved",
-                        ]}
+                        formatter={(value) =>
+                          `₹${Number(value).toLocaleString("en-IN")}`
+                        }
                       />
-                      <Legend />
+                      <Legend verticalAlign="top" height={36} />
                       <Bar
                         dataKey="amount"
-                        name="Savings"
-                        fill="url(#colorPink)"
-                        isAnimationActive={true}
-                        animationDuration={1500}
-                        onMouseEnter={(e) => {
-                          e.target.style.fill = "#ff1493";
-                          e.target.style.filter =
-                            "drop-shadow(0 0 6px #ff69b4)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.fill = "url(#colorPink)";
-                          e.target.style.filter = "none";
-                        }}
+                        name="Monthly Savings"
+                        fill="#8b5cf6"
                       >
                         <LabelList
                           dataKey="label"
                           position="top"
-                          fontSize={14}
-                          fill="#ff1493"
-                          // style={{ animation: "bounce 1s infinite" }}
+                          fill="#000"
+                          fontSize={12}
                         />
                       </Bar>
-
-                      <defs>
-                        <linearGradient
-                          id="colorPink"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#ff69b4"
-                            stopOpacity={0.8}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#ff1493"
-                            stopOpacity={0.2}
-                          />
-                        </linearGradient>
-                      </defs>
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-              </div>
 
-              {/* EMI Section */}
-              {result.emiOption && (
-                <div>
-                  <h3 className="text-2xl font-bold text-purple-700 mb-2">
-                    📈 EMI Plan
-                  </h3>
-                  <p className="bg-red-200 font-semibold text-xl p-3 mr-5 inline-block rounded-lg">
-                    <strong>Monthly:</strong> {result.emiOption.monthlyPayment}
-                  </p>
-                  <p className="bg-blue-200 font-semibold mr-5 text-xl p-3 inline-block rounded-lg">
-                    <strong>Total:</strong> {result.emiOption.totalPayment}
-                  </p>
-                  <p className="bg-green-200 font-semibold text-xl p-3 inline-block rounded-lg">
-                    <strong>Extra: </strong>
-                    {`${result?.emiOption?.totalPayment - price}`}
-                  </p>
-                </div>
-              )}
-
-              {/* Discount Section */}
-              {discountAvailable && (
-                <div>
-                  <h3 className="text-2xl font-bold text-purple-700 mb-2">
-                    🎉 Discounted Price
-                  </h3>
-                  <p>
-                    <strong>{discountPercent}% off:</strong>{" "}
-                    {result.discountedPrice}
-                  </p>
-                </div>
-              )}
-
-              {/* Alternatives Section */}
-              {result.alternatives?.length > 0 && (
-                <div className="bg-gradient-to-br from-pink-100 to-yellow-100 rounded-2xl p-6 border-4 border-purple-300 shadow-2xl">
-                  <h3 className="text-3xl text-center font-extrabold text-purple-700 mb-6 drop-shadow-md">
-                    🌈 Cheaper & Fun Alternatives 🎉
-                  </h3>
-                  <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
-                    {result.alternatives.map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="bg-white rounded-xl p-4 border-2 border-yellow-300 shadow-lg transform transition-all hover:scale-105 hover:rotate-1 hover:bg-yellow-50 text-center"
-                      >
-                        <h4 className="text-lg font-bold text-blue-600 mb-2">
-                          🧸 Option {idx + 1}
-                        </h4>
-                        <p className="text-gray-800 font-medium">{item}</p>
-                      </div>
-                    ))}
+                {emiAvailable && result.emiOption && (
+                  <div className="bg-blue-50 p-4 rounded-xl shadow">
+                    <h4 className="text-lg font-bold text-blue-800 mb-2">
+                      📆 EMI Breakdown
+                    </h4>
+                    <p>
+                      Step 1: Interest = ₹{price} × ({interestRate}/100) ×{" "}
+                      {months} ={" "}
+                      <strong>₹{interestAmount.toLocaleString("en-IN")}</strong>
+                    </p>
+                    <p>
+                      Step 2: Total Payment = ₹{price} + ₹{interestAmount} ={" "}
+                      <strong>₹{totalPayment.toLocaleString("en-IN")}</strong>
+                    </p>
+                    <p>
+                      Step 3: Monthly EMI = ₹{totalPayment} / {months} ={" "}
+                      <strong>₹{emiPerMonth.toLocaleString("en-IN")}</strong>
+                    </p>
+                    <p className="mt-2">
+                      AI Suggested EMI:{" "}
+                      <strong>{result.emiOption.monthlyPayment}</strong>
+                    </p>
                   </div>
-                  <p className="text-center mt-6 text-pink-600 font-semibold">
-                    ✨ Pick one that saves money & still brings joy! ✨
-                  </p>
+                )}
+
+                {discountAvailable && result.discountedPrice && (
+                  <div className="bg-green-50 p-4 rounded-xl shadow">
+                    <h4 className="text-lg font-bold text-green-800 mb-2">
+                      🏷️ Discounted Price
+                    </h4>
+                    <p>
+                      Step 1: Discount = ₹{price} × ({discountPercent}/100) ={" "}
+                      <strong>₹{discountAmount.toLocaleString("en-IN")}</strong>
+                    </p>
+                    <p>
+                      Step 2: Final Price = ₹{price} - ₹{discountAmount} ={" "}
+                      <strong>
+                        ₹{discountedFinal.toLocaleString("en-IN")}
+                      </strong>
+                    </p>
+                    <p className="mt-2">
+                      AI Suggested Price:{" "}
+                      <strong>{result.discountedPrice}</strong>
+                    </p>
+                  </div>
+                )}
+
+                <div className="bg-yellow-50 p-4 rounded-xl shadow">
+                  <h4 className="text-lg font-bold text-yellow-800 mb-2">
+                    💡 Cheaper Alternatives
+                  </h4>
+                  <ul className="list-disc list-inside space-y-1">
+                    {result.alternatives.map((alt, i) => (
+                      <li key={i}>🛍️ {alt}</li>
+                    ))}
+                  </ul>
                 </div>
-              )}
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Right: Spline 3D Model */}
+        <div className="w-full lg:w-1/2 h-[400px] lg:h-auto flex justify-center items-center pr-4 lg:pr-8">
+          <div className="w-full h-full">
+            <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
+          </div>
         </div>
       </div>
     </div>
