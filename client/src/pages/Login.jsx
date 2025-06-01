@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { KeyRound, ArrowRight } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import Spline from "@splinetool/react-spline";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -104,8 +105,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden transition-all duration-500">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex flex-col lg:flex-row items-center justify-center p-4 gap-8 lg:gap-16">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md lg:max-w-lg overflow-hidden transition-all duration-500">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6">
           <h1 className="text-white text-2xl font-bold">Welcome Back</h1>
           <p className="text-blue-100 mt-2">
@@ -227,6 +228,10 @@ const Login = () => {
             </form>
           )}
         </div>
+      </div>
+
+      <div className="w-full max-w-md lg:max-w-lg h-80 lg:h-[500px] rounded-2xl shadow-lg backdrop-blur-md bg-white/20 overflow-hidden">
+        <Spline scene="https://prod.spline.design/gu3sKHlo2-Mmh2CM/scene.splinecode" />
       </div>
     </div>
   );
