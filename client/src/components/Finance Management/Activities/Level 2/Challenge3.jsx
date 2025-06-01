@@ -17,9 +17,11 @@ const items = [
 ];
 
 const getFeedback = (item, category, totalSpent, limit) => {
+
   const overspendWarning =
     totalSpent + item.price > limit
       ? `⚠️ Buying this will exceed your ₹${limit} monthly budget!`
+
       : "";
 
   switch (category) {
@@ -63,10 +65,7 @@ const Challenge3 = () => {
   const [currentAction, setCurrentAction] = useState("");
 
   const getTotalSpent = () =>
-    [...sortedItems.needNow, ...sortedItems.wantLater].reduce(
-      (sum, item) => sum + item.price,
-      0
-    );
+    [...sortedItems.needNow].reduce((sum, item) => sum + item.price, 0);
 
   const handleStartGame = () => {
     if (Number(inputValue) > 0) setExpenseLimit(inputValue);
@@ -84,7 +83,6 @@ const Challenge3 = () => {
       ...prev,
       [category]: [...prev[category], item],
     }));
-
     setFeedbackLog((prev) => [...prev, { ...item, category, feedback }]);
     setLastFeedback(feedback);
 
