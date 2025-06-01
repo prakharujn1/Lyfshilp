@@ -49,8 +49,8 @@ const EmiVsLumpSum = () => {
   const emiTotal = 4500 + 3000 * 3; // ₹13,500
 
   const data = [
-    { name: "Lump Sum", cost: lumpSumTotal },
-    { name: "EMI", cost: emiTotal },
+    { name: "Lump Sum", cost: lumpSumTotal, extra: 0 },
+    { name: "EMI", cost: emiTotal, extra: 1500 },
   ];
 
   const handleSubmit = async () => {
