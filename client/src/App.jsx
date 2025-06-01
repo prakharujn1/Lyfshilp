@@ -16,7 +16,6 @@ import NewsFlash from "./components/Finance Management/Activities/Level 3/NewsFl
 import RiskOMeter from "./components/Finance Management/Activities/Level 3/RiskOMeter.jsx";
 import Challenge3 from "./components/Finance Management/Activities/Level 2/Challenge3.jsx";
 import My_Purchase_Plan from "./components/Finance Management/Activities/Level 2/My_Purchase_Plan.jsx";
-import YourPortfolio from "./components/Finance Management/Activities/Level 3/YourPortfolio.jsx";
 import FinanceNotes from "./pages/FinanceNotes.jsx";
 import FAQ from "./FinanceDesign/FAQ.jsx";
 import Login from "./pages/Login.jsx";
