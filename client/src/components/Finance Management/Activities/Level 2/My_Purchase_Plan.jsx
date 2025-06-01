@@ -21,7 +21,7 @@ import celebrationGirl from "../../../../lotties/celebration-girl.json";
 import shoppingBag from "../../../../lotties/shopping-bag.json";
 import Spline from "@splinetool/react-spline";
 
-const APIKEY = "AIzaSyDxF9hs4z0ZvCNOFGNBqhZmCfccstydH4k";
+const APIKEY = import.meta.env.VITE_API_KEY;
 
 const My_Purchase_Plan = () => {
   const [product, setProduct] = useState("");
@@ -97,6 +97,7 @@ Format:
         response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       setResult(parsed);
+      console.log(parsed);
     } catch (err) {
       console.error(err);
       setError("Error generating plan. Try again.");
@@ -107,12 +108,21 @@ Format:
 
   const getChartData = () => {
     if (!result?.monthlySavings) return [];
+    const rainbow = [
+      "#FF6B6B",
+      "#FFD93D",
+      "#6BCB77",
+      "#4D96FF",
+      "#A66DD4",
+      "#FF9CEE",
+    ];
     return result.monthlySavings.map((val, i) => {
       const numericAmount = Number(val.replace(/[₹,]/g, ""));
       return {
         month: `Month ${i + 1}`,
         amount: numericAmount,
         label: `₹${numericAmount.toLocaleString("en-IN")}`,
+        fill: rainbow[i % rainbow.length],
       };
     });
   };
