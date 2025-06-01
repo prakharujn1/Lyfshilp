@@ -145,7 +145,6 @@ function App() {
             <Route path="/riskometer" element={<RiskOMeter />} />
             <Route path="/challenge3" element={<Challenge3 />} />
             <Route path="/my_purchase_plan" element={<My_Purchase_Plan />} />
-            <Route path="/your_portfolio" element={<YourPortfolio />} />
             <Route path="/faq's" element={<FAQ />} />
           </Routes>
         </main>
