@@ -76,12 +76,6 @@ const Curriculum = forwardRef((props, ref) => {
       duration: "4 weeks",
       challenges: [
         {
-          title: "Investment Options Simulator",
-          description: "Explore various investment avenues.",
-          duration: "60 min",
-          path: "/investment-simulator",
-        },
-        {
           title: " “News Flash!” Market Events",
           description: "React to market changes in real time.",
           duration: "50 min",
@@ -97,7 +91,7 @@ const Curriculum = forwardRef((props, ref) => {
           title: "Boss-Level Task: “Build & Present Your Portfolio”",
           description: "Create a mock investment plan.",
           duration: "55 min",
-          path: "/your_portfolio",
+          path: "/investment-simulator",
         },
       ],
     },
