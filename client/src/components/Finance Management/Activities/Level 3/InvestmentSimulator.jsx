@@ -1,6 +1,7 @@
 import { useState } from "react";
 import BarChart from "../../../charts/BarChart";
 import PieChart from "../../../charts/PieChart";
+import Spline from "@splinetool/react-spline";
 
 const InvestmentSimulator = () => {
   const [allocations, setAllocations] = useState({
@@ -100,7 +101,7 @@ const InvestmentSimulator = () => {
     const invested = total;
     const finalAmount = res.reduce((acc, item) => acc + Number(item.value), 0);
     const returns = finalAmount - invested;
-    
+
     setFinalAmount([
       {
         name: "Investment",
@@ -114,172 +115,206 @@ const InvestmentSimulator = () => {
   };
 
   return (
-<div className="w-[90%] mx-auto p-5">
-  <div
-    className="bg-gradient-to-br from-yellow-100 to-orange-200 rounded-[30px] p-8 shadow-lg border-4 border-pink-300"
-    style={{ fontFamily: "'Comic Neue', cursive" }}
-  >
-    <div>
-      <h1 className="text-3xl font-extrabold p-3 rounded-full bg-purple-300 text-pink-700 shadow-md hover:scale-105 transition-transform duration-300 inline-block">
-        Investment Simulator
-      </h1>
-    </div>
-
-    <div className="flex flex-col lg:flex-row mt-6 gap-4">
-      <div className="space-x-3 text-xl font-bold p-5 rounded-[20px] bg-yellow-300 shadow-inner hover:bg-yellow-400 transition-all">
-        <span>Total Amount</span>
-        <input
-          type="number"
-          value={total}
-          onChange={(e) => setTotal(e.target.value)}
-          className="border-2 border-pink-400 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-500"
-          placeholder="Enter the amount"
-        />
-      </div>
-      <div className="space-x-3 text-xl font-bold p-5 rounded-[20px] bg-blue-300 shadow-inner hover:bg-blue-400 transition-all">
-        <span>For Years : </span>
-        <input
-          type="number"
-          value={years}
-          onChange={(e) => setYears(e.target.value)}
-          className="border-2 border-purple-400 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          placeholder="Enter the amount"
-        />
-      </div>
-    </div>
-
-    <div className="mt-6 p-3">
-      <h2 className="text-2xl font-extrabold mb-3 text-purple-700">Distributions : </h2>
-      <ul className="mb-4 bg-gradient-to-r p-4 rounded-3xl from-pink-100 to-purple-200 text-xl list-disc list-inside space-y-2 shadow-md">
-        <li><strong>Fixed Deposits:</strong> A safe investment option offering fixed interest over a set period.</li>
-        <li><strong>Gold:</strong> A traditional store of value, often used as a hedge against inflation.</li>
-        <li><strong>Mutual Funds:</strong> Diversified investments managed by professionals to balance risk and return.</li>
-        <li><strong>Stocks:</strong> Shares in companies that can yield high returns, but carry market risks.</li>
-        <li><strong>Savings:</strong> Funds kept in a bank account, offering high liquidity with minimal returns.</li>
-      </ul>
-
-      <span className="text-xl font-semibold text-blue-600">
-        Rate of Return :{" "}
-        <input
-          type="checkbox"
-          checked={randomRate}
-          onChange={(e) => {
-            setRandomRate(e.target.checked);
-            console.log(e.target.checked);
-          }}
-          className="scale-125 accent-pink-500 ml-2"
-        />
-        Random
-      </span>
-
-      <p className="mt-2 text-xl font-semibold text-green-700">
-        Remaining Allocation:{" "}
-        {100 - Object.values(allocations).reduce((a, b) => a + b, 0)}%
-      </p>
-
-      <div className="max-w-[450px] mt-4 p-5 bg-gradient-to-br from-pink-200 to-blue-200 rounded-[25px] shadow-xl">
-        <div className="max-w-[400px] grid grid-cols-2 gap-4 font-semibold text-center text-lg">
-          <span className="text-pink-600">Asset</span>
-          <span className="text-blue-600">
-            {randomRate ? "Rate of Return" : "Choose custom rate"}
-          </span>
-        </div>
-
-        <div className="mt-4 space-y-4">
-          {Object.keys(allocations).map((key, index) => {
-            const totalAllocated = Object.values(allocations).reduce((a, b) => a + b, 0);
-            const remaining = 100 - totalAllocated + allocations[key];
-            const safeMax = Math.max(0, Math.min(100, remaining));
-
-            return (
-              <div
-                key={key}
-                className="max-w-[450px] grid grid-cols-2 gap-8 lg:gap-4 items-center bg-white/70 rounded-xl p-3 hover:scale-[1.01] transition-transform"
-              >
-                <div>
-                  <span className="font-bold text-purple-700">{names[index]}</span>
-                  <div className="flex items-center gap-3 mt-1">
-                    <input
-                      type="range"
-                      min={0}
-                      max={safeMax}
-                      value={allocations[key]}
-                      onChange={(e) =>
-                        setAllocations((prev) => ({
-                          ...prev,
-                          [key]: Number(e.target.value),
-                        }))
-                      }
-                      className="accent-pink-500"
-                    />
-                    <span className="text-sm font-bold text-blue-600">{allocations[key]}%</span>
-                  </div>
-                </div>
-
-                {randomRate ? (
-                  <div className="flex justify-center items-center gap-1 text-xl text-green-600 font-bold">
-                    {(randomReturnRate[key] * 100).toFixed(2)}%
-                  </div>
-                ) : (
-                  <div className="flex justify-center items-center gap-2">
-                    <input
-                      type="number"
-                      value={returnRate[key]}
-                      className="border-2 border-blue-400 rounded-lg px-2 py-1 w-24 text-center focus:ring-2 focus:ring-blue-500"
-                      placeholder="Enter rate"
-                      onChange={(e) =>
-                        setReturnRate((prev) => ({
-                          ...prev,
-                          [key]: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-6 flex justify-center">
-      <button
-        onClick={handleSimulate}
-        className="bg-gradient-to-r from-pink-400 to-purple-500 text-white px-6 py-3 text-xl font-bold rounded-full shadow-lg hover:scale-110 transition-all duration-300"
+    <div className="w-[90%] mx-auto p-5">
+      <div
+        className="bg-gradient-to-br from-yellow-100 to-orange-200 rounded-[30px] p-8 shadow-lg border-4 border-pink-300"
+        style={{ fontFamily: "'Comic Neue', cursive" }}
       >
-        🎲 Simulate Returns
-      </button>
-    </div>
+        <div>
+          <h1 className="text-3xl font-extrabold p-3 rounded-full bg-purple-300 text-pink-700 shadow-md hover:scale-105 transition-transform duration-300 inline-block">
+            Investment Simulator
+          </h1>
+        </div>
 
-    {result && (
-      <div className="mt-8 flex flex-col lg:flex-row justify-center items-center gap-6">
-        <div className="bg-sky-200 p-5 rounded-2xl shadow-xl hover:rotate-1 transition-transform">
-          <BarChart
-            data={result.map((item) => item.value)}
-            colors={COLORS}
-            labels={result.map((item) => item.name)}
-          />
+        <div className="flex flex-col lg:flex-row mt-6 gap-4">
+          <div className="space-x-3 text-xl font-bold p-5 rounded-[20px] bg-yellow-300 shadow-inner hover:bg-yellow-400 transition-all">
+            <span>Total Amount</span>
+            <input
+              type="number"
+              value={total}
+              onChange={(e) => setTotal(e.target.value)}
+              className="border-2 border-pink-400 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              placeholder="Enter the amount"
+            />
+          </div>
+          <div className="space-x-3 text-xl font-bold p-5 rounded-[20px] bg-blue-300 shadow-inner hover:bg-blue-400 transition-all">
+            <span>For Years : </span>
+            <input
+              type="number"
+              value={years}
+              onChange={(e) => setYears(e.target.value)}
+              className="border-2 border-purple-400 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter the amount"
+            />
+          </div>
         </div>
-        <div className="bg-sky-200 p-5 rounded-2xl shadow-xl hover:-rotate-1 transition-transform">
-          <PieChart
-            values={result.map((item) => item.value)}
-            colors={COLORS}
-            labels={result.map((item) => item.name)}
-          />
+
+        <div className="flex flex-col lg:flex-row items-start lg:items-stretch justify-between gap-6 mt-6">
+          {/* Left Section: Your existing content */}
+          <div className="flex-1 p-3">
+            <h2 className="text-2xl font-extrabold mb-3 text-purple-700">
+              Distributions :{" "}
+            </h2>
+            <ul className="mb-4 bg-gradient-to-r p-4 rounded-3xl from-pink-100 to-purple-200 text-xl list-disc list-inside space-y-2 shadow-md">
+              <li>
+                <strong>Fixed Deposits:</strong> A safe investment option
+                offering fixed interest over a set period.
+              </li>
+              <li>
+                <strong>Gold:</strong> A traditional store of value, often used
+                as a hedge against inflation.
+              </li>
+              <li>
+                <strong>Mutual Funds:</strong> Diversified investments managed
+                by professionals to balance risk and return.
+              </li>
+              <li>
+                <strong>Stocks:</strong> Shares in companies that can yield high
+                returns, but carry market risks.
+              </li>
+              <li>
+                <strong>Savings:</strong> Funds kept in a bank account, offering
+                high liquidity with minimal returns.
+              </li>
+            </ul>
+
+            <span className="text-xl font-semibold text-blue-600">
+              Rate of Return :{" "}
+              <input
+                type="checkbox"
+                checked={randomRate}
+                onChange={(e) => {
+                  setRandomRate(e.target.checked);
+                  console.log(e.target.checked);
+                }}
+                className="scale-125 accent-pink-500 ml-2"
+              />
+              Random
+            </span>
+
+            <p className="mt-2 text-xl font-semibold text-green-700">
+              Remaining Allocation:{" "}
+              {100 - Object.values(allocations).reduce((a, b) => a + b, 0)}%
+            </p>
+
+            <div className="max-w-[450px] mt-4 p-5 bg-gradient-to-br from-pink-200 to-blue-200 rounded-[25px] shadow-xl">
+              <div className="max-w-[400px] grid grid-cols-2 gap-4 font-semibold text-center text-lg">
+                <span className="text-pink-600">Asset</span>
+                <span className="text-blue-600">
+                  {randomRate ? "Rate of Return" : "Choose custom rate"}
+                </span>
+              </div>
+
+              <div className="mt-4 space-y-4">
+                {Object.keys(allocations).map((key, index) => {
+                  const totalAllocated = Object.values(allocations).reduce(
+                    (a, b) => a + b,
+                    0
+                  );
+                  const remaining = 100 - totalAllocated + allocations[key];
+                  const safeMax = Math.max(0, Math.min(100, remaining));
+
+                  return (
+                    <div
+                      key={key}
+                      className="max-w-[450px] grid grid-cols-2 gap-8 lg:gap-4 items-center bg-white/70 rounded-xl p-3 hover:scale-[1.01] transition-transform"
+                    >
+                      <div>
+                        <span className="font-bold text-purple-700">
+                          {names[index]}
+                        </span>
+                        <div className="flex items-center gap-3 mt-1">
+                          <input
+                            type="range"
+                            min={0}
+                            max={safeMax}
+                            value={allocations[key]}
+                            onChange={(e) =>
+                              setAllocations((prev) => ({
+                                ...prev,
+                                [key]: Number(e.target.value),
+                              }))
+                            }
+                            className="accent-pink-500"
+                          />
+                          <span className="text-sm font-bold text-blue-600">
+                            {allocations[key]}%
+                          </span>
+                        </div>
+                      </div>
+
+                      {randomRate ? (
+                        <div className="flex justify-center items-center gap-1 text-xl text-green-600 font-bold">
+                          {(randomReturnRate[key] * 100).toFixed(2)}%
+                        </div>
+                      ) : (
+                        <div className="flex justify-center items-center gap-2">
+                          <input
+                            type="number"
+                            value={returnRate[key]}
+                            className="border-2 border-blue-400 rounded-lg px-2 py-1 w-24 text-center focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter rate"
+                            onChange={(e) =>
+                              setReturnRate((prev) => ({
+                                ...prev,
+                                [key]: e.target.value,
+                              }))
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Section: Spline Fish */}
+          <div className="mt-22 flex-1 hidden lg:flex items-center justify-center min-h-[600px]">
+            <Spline
+              scene="https://prod.spline.design/plC3J5ubKLbcpWBL/scene.splinecode"
+              className="w-full max-w-[400px] h-auto"
+            />
+          </div>
         </div>
-        <div className="bg-sky-200 p-5 rounded-2xl shadow-xl hover:rotate-2 transition-transform">
-          <PieChart
-            values={finalAmount.map((item) => item.value)}
-            colors={COLORS}
-            labels={finalAmount.map((item) => item.name)}
-          />
+
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={handleSimulate}
+            className="bg-gradient-to-r from-pink-400 to-purple-500 text-white px-6 py-3 text-xl font-bold rounded-full shadow-lg hover:scale-110 transition-all duration-300"
+          >
+            🎲 Simulate Returns
+          </button>
         </div>
+
+        {result && (
+          <div className="mt-8 flex flex-col lg:flex-row justify-center items-center gap-6">
+            <div className="bg-sky-200 p-5 rounded-2xl shadow-xl hover:rotate-1 transition-transform">
+              <BarChart
+                data={result.map((item) => item.value)}
+                colors={COLORS}
+                labels={result.map((item) => item.name)}
+              />
+            </div>
+            <div className="bg-sky-200 p-5 rounded-2xl shadow-xl hover:-rotate-1 transition-transform">
+              <PieChart
+                values={result.map((item) => item.value)}
+                colors={COLORS}
+                labels={result.map((item) => item.name)}
+              />
+            </div>
+            <div className="bg-sky-200 p-5 rounded-2xl shadow-xl hover:rotate-2 transition-transform">
+              <PieChart
+                values={finalAmount.map((item) => item.value)}
+                colors={COLORS}
+                labels={finalAmount.map((item) => item.name)}
+              />
+            </div>
+          </div>
+        )}
       </div>
-    )}
-  </div>
-</div>
-
+    </div>
   );
 };
 

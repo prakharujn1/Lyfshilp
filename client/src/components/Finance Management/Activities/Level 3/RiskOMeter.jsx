@@ -77,13 +77,20 @@ export default function RiskOMeter() {
   const riskProfile = calculateRiskProfile(totalScore);
 
   return (
-    <div className="w-[90%] mx-auto p-5 ">
-      <BackgroundBeamsWithCollision>
-        <div className="p-6 max-w-xl mx-auto  rounded-3xl shadow-2xl bg-gradient-to-br from-yellow-100 to-pink-100 transition-all duration-500">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background beams behind content */}
+      <div className="absolute inset-0 z-0">
+        <BackgroundBeamsWithCollision />
+      </div>
+
+      {/* Foreground content - centered */}
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-5">
+        <div className="w-full max-w-xl rounded-3xl shadow-2xl bg-gradient-to-br from-yellow-100 to-pink-100 transition-all duration-500 p-6">
           <h2 className="text-4xl font-extrabold mb-6 text-center text-pink-600 drop-shadow-md">
             🎉 Risk-O-Meter Game 🎯
           </h2>
 
+          {/* Progress Bar */}
           <div className="w-full bg-pink-200 h-4 rounded-full mb-6">
             <div
               className="bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 h-4 rounded-full transition-all duration-700 ease-in-out"
@@ -91,6 +98,7 @@ export default function RiskOMeter() {
             ></div>
           </div>
 
+          {/* Result or Questions */}
           {showResult ? (
             <div
               className={`text-center ${
@@ -136,7 +144,7 @@ export default function RiskOMeter() {
             </div>
           )}
         </div>
-      </BackgroundBeamsWithCollision>
+      </div>
     </div>
   );
 }
