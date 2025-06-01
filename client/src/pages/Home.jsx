@@ -5,6 +5,47 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { CardSpotlight } from "../components/ui/card-spotlight";
+
+const sliderImages = [
+  "/logo.jpg",
+  "https://images.pexels.com/photos/9783353/pexels-photo-9783353.jpeg",
+  "https://images.pexels.com/photos/7821487/pexels-photo-7821487.jpeg",
+  "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg",
+  "https://images.pexels.com/photos/7688173/pexels-photo-7688173.jpeg",
+  "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg",
+];
+
+const featureItems = [
+  {
+    img: "https://cdn-icons-png.flaticon.com/512/3159/3159066.png",
+    alt: "Levels & Challenges",
+    title: "Proper Levels & Challenges",
+    desc: "Each subject offers structured levels and engaging challenges to help you master concepts step by step.",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4", // sample video
+  },
+  {
+    img: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+    alt: "Progress Analysis",
+    title: "Progress Report Analysis",
+    desc: "Get detailed analysis of your progress reports to track your growth and identify areas for improvement.",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    img: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+    alt: "Personalized Suggestions",
+    title: "Personalized Suggestions",
+    desc: "Receive tailored suggestions and resources to help you overcome challenges and accelerate your learning.",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    img: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
+    alt: "Top Educators",
+    title: "Best Guidance from Top Educators",
+    desc: "Learn from the best—our top educators provide expert guidance and mentorship throughout your journey.",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+];
 
 const Home = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -61,7 +102,7 @@ const Home = () => {
 
   useEffect(() => {
     if (isHovered) {
-      controls.stop(); // pause animation
+      controls.stop();
     } else {
       controls.start({
         x: ["0%", "-100%"],
@@ -75,52 +116,76 @@ const Home = () => {
   }, [isHovered]);
 
   return (
-    <div className="px-4 py-10">
-      {/*Carousel Section*/}
-      <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={30}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 3000 }}
-        loop
-        className="w-full h-[400px] mb-12 overflow-hidden bg-transparent"
-      >
-        {[
-          "/logo.jpg",
-          "https://images.pexels.com/photos/9783353/pexels-photo-9783353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-          "https://images.pexels.com/photos/7821487/pexels-photo-7821487.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-          "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600",
-          "https://media.istockphoto.com/id/613246804/photo/law-and-justice-concept-legal-code-and-scales.webp?a=1&b=1&s=612x612&w=0&k=20&c=v9TlnnmOr5p9JIZcwuW8N8Jg_MNcFGhi1T8Gu1oRm3Q=",
-          "https://images.pexels.com/photos/7688173/pexels-photo-7688173.jpeg?auto=compress&cs=tinysrgb&w=600",
-          "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600",
-          "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=600",
-          "https://images.pexels.com/photos/7692893/pexels-photo-7692893.jpeg?auto=compress&cs=tinysrgb&w=600",
-          "https://images.unsplash.com/photo-1621887348744-6b0444f8a058?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U29jaWFsJTIwRW1vdGlvbmFsJTIwTGVhcm5pbmclMjAlMkIlMjBQaHlzaWNhbCUyMCUyNiUyME1lbnRhbCUyMEhlYWx0aHxlbnwwfHwwfHx8MA%3D%3D",
-        ].map((src, i) => (
-          <SwiperSlide key={i}>
-            <img
-              src={src}
-              alt={`Slide ${i + 1}`}
-              className="w-full h-full object-contain rounded-lg shadow-lg  opacity-100 mix-blend-normal"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+    <div style={{ padding: "3rem 3rem", margin: "0" }}>
+      {/* Intro Section */}
+      <div className="w-full flex h-[600px] mb-15 bg-white">
+        <div className="w-1/2">
+          <div className="flex flex-col justify-center h-full px-8 bg-white text-black">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+              Real Skills.{" "}
+              <span style={{ color: "#184802" }}>Fun Learning.</span>
+            </h1>
+            <p className="mt-4 text-lg text-black-500 max-w-md">
+              Master finance, law, communication, coding & more — through
+              exciting notes, challenges & games designed for students from
+              Grade 6 to 12.
+            </p>
+            <div className="mt-6 flex gap-4">
+              <button className="bg-[#184802] text-[#6FCF97] hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
+                Start Learning
+              </button>
+              <button className="bg-[#184802] text-[#6FCF97] hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
+                Explore Subjects
+              </button>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
+                <span className="text-yellow-300">🎮</span> Game-Based Learning
+              </div>
+              <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
+                <span className="text-yellow-300">📚</span> Interactive Notes
+              </div>
+              <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
+                <span className="text-yellow-300">💡</span> Real-Life Skills
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {/* Subject Overview Section */}
+        <div className="w-1/2 h-full flex flex-col justify-center px-8 item-center">
+          <div className="overflow-hidden w-[600px] h-[400px]">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={20}
+              slidesPerView={1}
+              autoplay={{ delay: 2500 }}
+              loop={true}
+              className="w-full h-full rounded-xl overflow-hidden"
+            >
+              {sliderImages.map((src, i) => (
+                <SwiperSlide key={i}>
+                  <img
+                    src={src}
+                    alt={`Slide ${i + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+      </div>
+
+      {/* Subjects Marquee */}
       <style>
         {`
           @keyframes marqueeScroll {
             0% { transform: translateX(0%); }
             100% { transform: translateX(-50%); }
           }
-
           .marquee-track {
             animation: marqueeScroll 20s linear infinite;
           }
-
           .marquee-wrapper:hover .marquee-track {
             animation-play-state: paused;
           }
@@ -131,7 +196,6 @@ const Home = () => {
         <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
           Beyond Textbooks: Real Skills. Real Impact.
         </h2>
-
         <div
           className="marquee-wrapper overflow-hidden w-full"
           ref={marqueeRef}
@@ -161,54 +225,62 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Features Section */}
-      <section className="py-16 bg-white">
+      {/* NEW FEATURES SECTION */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-20">
             Platform <span className="text-[#129990]">Key Features</span>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {/* Feature Card */}
-            {[
-              {
-                img: "https://cdn-icons-png.flaticon.com/512/3159/3159066.png",
-                alt: "Levels & Challenges",
-                title: "Proper Levels & Challenges",
-                desc: "Each subject offers structured levels and engaging challenges to help you master concepts step by step.",
-              },
-              {
-                img: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
-                alt: "Progress Analysis",
-                title: "Progress Report Analysis",
-                desc: "Get detailed analysis of your progress reports to track your growth and identify areas for improvement.",
-              },
-              {
-                img: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
-                alt: "Personalized Suggestions",
-                title: "Personalized Suggestions",
-                desc: "Receive tailored suggestions and resources to help you overcome challenges and accelerate your learning.",
-              },
-              {
-                img: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
-                alt: "Top Educators",
-                title: "Best Guidance from Top Educators",
-                desc: "Learn from the best—our top educators provide expert guidance and mentorship throughout your journey.",
-              },
-            ].map((feature, index) => (
-              <div
+
+          <div className="space-y-24">
+            {featureItems.map((feature, index) => (
+              <motion.div
                 key={index}
-                className="bg-gray-50 rounded-xl shadow p-6 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-95"
+                className={`flex bg-[#F0FDF4] flex-col-reverse md:flex-row ${
+                  index % 2 === 1 ? "md:flex-row-reverse" : ""
+                } items-center gap-10`}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
               >
-                <img
-                  src={feature.img}
-                  alt={feature.alt}
-                  className="h-20 w-20 mb-4"
-                />
-                <div className="font-semibold text-lg mb-2">
-                  {feature.title}
+                {/* 🟢 Text Section */}
+                <div className="flex-1 bg-gradient-to-br from-[#f0fdfa] to-white rounded-2xl shadow-xl p-8 md:p-10 text-center md:text-left space-y-4 transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                  <span className="text-xs uppercase tracking-widest text-[#129990] font-semibold">
+                    Feature #{index + 1}
+                  </span>
+                  <img
+                    src={feature.img}
+                    alt={feature.alt}
+                    className="h-20 w-20 mb-4 mx-auto md:mx-0"
+                  />
+                  <h3 className="text-2xl font-bold text-[#129990] mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed text-lg">
+                    {feature.desc}
+                  </p>
                 </div>
-                <p className="text-gray-600">{feature.desc}</p>
-              </div>
+
+                {/* 🔵 Video Section */}
+                <div className="flex-1">
+                  <motion.div
+                    className="w-full max-w-[500px] aspect-video mx-auto"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    <video
+                      src={feature.video}
+                      controls
+                      muted
+                      playsInline
+                      autoPlay
+                      className="w-full h-full object-cover rounded-xl shadow-lg"
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
