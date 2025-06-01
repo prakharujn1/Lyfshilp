@@ -23,7 +23,7 @@ const fadeUp = {
 
 const Footer = () => {
   return (
-    <footer className="bg-[#152347] text-gray-200 pt-16 pb-8 px-6">
+    <footer className="bg-[#5A827E] text-gray-200 pt-16 pb-8 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1.5fr] gap-x-12 gap-y-10">
         {/* Company Info */}
         <motion.div
@@ -41,11 +41,11 @@ const Footer = () => {
             designed for growth.
           </p>
           <div className="flex items-center gap-3 text-sm text-white mb-2">
-            <FaEnvelope className="text-yellow-400" />
+            <FaEnvelope className="text-[#2A4759]" />
             <span>service.excellence@lyfshilpacademy.com</span>
           </div>
           <div className="flex items-center gap-3 text-sm text-white">
-            <FaPhoneAlt className="text-yellow-400" />
+            <FaPhoneAlt className="text-[#2A4759]" />
             <span>+91 98765 43210</span>
           </div>
         </motion.div>
@@ -61,22 +61,22 @@ const Footer = () => {
           <h3 className="font-semibold mb-3 text-white">Explore</h3>
           <ul className="space-y-2 text-sm text-white">
             <li>
-              <Link to="/about" className="hover:text-yellow-400 transition">
+              <Link to="/about" className="hover:text-[#2A4759] transition">
                 About Us
               </Link>
             </li>
             <li>
-              <Link to="/courses" className="hover:text-yellow-400 transition">
+              <Link to="/courses" className="hover:text-[#2A4759] transition">
                 Courses
               </Link>
             </li>
             <li>
-              <Link to="/faq's" className="hover:text-yellow-400 transition">
+              <Link to="/faq's" className="hover:text-[#2A4759] transition">
                 FAQs
               </Link>
             </li>
             <li>
-              <Link to="/blog" className="hover:text-yellow-400 transition">
+              <Link to="/blog" className="hover:text-[#2A4759] transition">
                 Blog
               </Link>
             </li>
@@ -96,20 +96,20 @@ const Footer = () => {
             <li>
               <Link
                 to="/privacy-policy"
-                className="hover:text-yellow-400 transition"
+                className="hover:text-[#2A4759] transition"
               >
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link to="/terms" className="hover:text-yellow-400 transition">
+              <Link to="/terms" className="hover:text-[#2A4759] transition">
                 Terms & Conditions
               </Link>
             </li>
             <li>
               <Link
                 to="/refund-policy"
-                className="hover:text-yellow-400 transition"
+                className="hover:text-[#2A4759] transition"
               >
                 Refund Policy
               </Link>
@@ -133,14 +133,8 @@ const Footer = () => {
             <input
               type="email"
               placeholder="Your email address"
-              className="px-4 py-2 rounded-full border border-gray-600 bg-[#1f2c50] text-white placeholder-white focus:outline-none focus:ring-2 w-full text-sm"
+              className="px-4 py-2 rounded-full border border-gray-600 bg-[#2A4759] text-white placeholder-white focus:outline-none focus:ring-2 w-full text-sm"
             />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-yellow-500 text-black text-sm font-medium rounded-full hover:bg-yellow-400 transition"
-            >
-              Subscribe
-            </button>
           </form>
         </motion.div>
       </div>
@@ -173,21 +167,21 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaLinkedin className="hover:text-yellow-400 transition text-2xl" />
+            <FaLinkedin className="hover:text-[#2A4759] transition text-2xl" />
           </a>
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaXTwitter className="hover:text-yellow-400 transition text-2xl" />
+            <FaXTwitter className="hover:text-[#2A4759] transition text-2xl" />
           </a>
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaInstagram className="hover:text-yellow-400 transition text-2xl" />
+            <FaInstagram className="hover:text-[#2A4759] transition text-2xl" />
           </a>
         </div>
       </motion.div>

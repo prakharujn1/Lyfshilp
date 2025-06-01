@@ -8,6 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import Spline from "@splinetool/react-spline";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -115,52 +116,55 @@ feedback : "Your feedback"
   };
 
   return (
-    <div className="w-[95%] max-w-5xl mx-auto py-8 px-4 sm:px-6">
-      <div
-        className="bg-gradient-to-br from-yellow-50 to-pink-100 rounded-3xl shadow-2xl p-6 sm:p-10 border border-yellow-200"
-        style={{ fontFamily: "'Comic Neue', cursive" }}
-      >
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-center text-purple-800 mb-10 tracking-wide drop-shadow">
+    <div className=" min-h-screen flex flex-col lg:flex-row items-start justify-center gap-8 p-4 sm:p-6">
+      {/* Left: Spline Model */}
+      <div className="w-full lg:w-1/2 h-[400px] lg:h-auto">
+        <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
+      </div>
+
+      {/* Right: Game Content */}
+      <div className="bg-blue-200 rounded-lg w-full lg:w-1/2 max-w-2xl p-4 sm:p-6">
+        <h1 className="text-2xl font-bold text-center text-purple-800 mb-6">
           📱 EMI vs Lump Sum
         </h1>
 
         {!showResult && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             <button
-              className={`p-6 rounded-2xl shadow-lg transition-transform transform hover:scale-105 duration-300 ${
+              className={`p-5 rounded-lg shadow-md transition-all ${
                 selectedOption === "A"
-                  ? "bg-green-200 border-2 border-green-600"
-                  : "bg-green-100 hover:bg-green-50"
+                  ? "bg-green-100 border-2 border-green-600"
+                  : "bg-white hover:bg-green-50"
               }`}
               onClick={() => setSelectedOption("A")}
             >
-              <h2 className="text-2xl font-bold text-green-800 mb-3">
+              <h2 className="text-lg font-semibold text-green-800 mb-2">
                 Option A: Lump Sum
               </h2>
-              <p className="text-gray-700 text-xl font-medium">
+              <p className="text-gray-700">
                 Save ₹4,000/month for 3 months. Then buy the phone in one shot.
               </p>
-              <p className="mt-3 text-green-700 text-xl font-bold">
+              <p className="mt-2 font-medium text-green-700">
                 Total: ₹{lumpSumTotal}
               </p>
             </button>
 
             <button
-              className={`p-6 rounded-2xl shadow-lg transition-transform transform hover:scale-105 duration-300 ${
+              className={`p-5 rounded-lg shadow-md transition-all ${
                 selectedOption === "B"
-                  ? "bg-blue-200 border-2 border-blue-600"
-                  : "bg-blue-100 hover:bg-blue-50"
+                  ? "bg-blue-100 border-2 border-blue-600"
+                  : "bg-white hover:bg-blue-50"
               }`}
               onClick={() => setSelectedOption("B")}
             >
-              <h2 className="text-2xl font-bold text-blue-800 mb-3">
+              <h2 className="text-lg font-semibold text-blue-800 mb-2">
                 Option B: EMI
               </h2>
-              <p className="text-gray-700 font-medium text-xl">
+              <p className="text-gray-700">
                 Pay ₹4,500 upfront + ₹3,000/month for 3 months (includes
                 interest).
               </p>
-              <p className="mt-3 text-blue-700 text-xl font-bold">
+              <p className="mt-2 font-medium text-blue-700">
                 Total: ₹{emiTotal}
               </p>
             </button>
@@ -168,23 +172,21 @@ feedback : "Your feedback"
         )}
 
         {!showResult && (
-          <div className="bg-yellow-100 p-6 rounded-2xl shadow-md mb-10">
-            <label className="mb-4 px-4 py-2 text-xl bg-purple-100 text-yellow-900 rounded-full font-bold inline-block">
+          <div className="bg-yellow-50 p-4 rounded-lg shadow mb-6">
+            <label className="block font-medium text-yellow-800 mb-2">
               💬 Why did you choose this option?
             </label>
             <textarea
-              className="w-full h-28 p-4 font-medium text-xl rounded-xl border bg-purple-100 text-purple-900 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full h-24 p-3 rounded border border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
               placeholder="Type your reason here..."
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
             <button
               disabled={notAllowed()}
-              className={`mt-6 px-6 py-3 font-bold text-xl text-yellow-900 rounded-full shadow transition-all ${
-                notAllowed()
-                  ? "bg-yellow-300 cursor-not-allowed"
-                  : "bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
-              }`}
+              className={`mt-4 ${
+                notAllowed() ? "cursor-not-allowed" : "cursor-pointer"
+              } bg-yellow-400 text-yellow-900 px-4 py-2 rounded shadow hover:bg-yellow-500 transition-all`}
               onClick={handleSubmit}
             >
               Submit
@@ -193,68 +195,32 @@ feedback : "Your feedback"
         )}
 
         {showResult && (
-          <div className="space-y-10">
-            <div className="bg-red-100 rounded-2xl shadow-lg p-6">
-              <h3 className="text-2xl font-bold text-purple-700 mb-6">
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-bold text-purple-700 mb-4">
                 📊 Cost Comparison Chart
               </h3>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart
-                  data={data}
-                  margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-                >
-                  
-                  <XAxis
-                    dataKey="name"
-                    stroke="#4f46e5"
-                    tick={{ fontSize: 14, fontFamily: "'Comic Neue', cursive" }}
-                  />
-                  <YAxis
-                    stroke="#4f46e5"
-                    tick={{ fontSize: 14, fontFamily: "'Comic Neue', cursive" }}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fff7ed",
-                      borderRadius: 12,
-                      border: "1px solid #fbbf24",
-                    }}
-                    labelStyle={{ color: "#4b5563", fontWeight: "bold" }}
-                  />
-                  <Bar
-                    dataKey="cost"
-                    stackId="a"
-                    fill="#facc15"
-                    radius={[0, 0, 0, 0]}
-                    isAnimationActive={true}
-                    animationDuration={1000}
-                  />
-                  {/* Extra EMI (highlighted part) */}
-                  <Bar
-                    dataKey="extra"
-                    stackId="a"
-                    fill="#f87171" // red highlight
-                    radius={[0, 0, 0, 0]}
-                    isAnimationActive={true}
-                    animationDuration={1500}
-                  />
+                <BarChart data={data}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="cost" fill="#a855f7" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-green-100 border-l-4 border-green-500 p-6 rounded-xl shadow-sm">
-              <h4 className="text-2xl  font-semibold text-green-800 mb-2">
-                {loading ? "Loading feedback..." : "Your Feedback"}
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded shadow">
+              <h4 className="font-semibold text-green-800 mb-2">
+                {loading ? "Loading feedback..." : "Your feedback"}
               </h4>
-              {error && <p className="text-red-500">{error}</p>}
-              {feedback && (
-                <p className="text-gray-700 text-xl font-medium">{feedback}</p>
-              )}
+              {error && <p>{error}</p>}
+              {feedback && <p>{feedback}</p>}
             </div>
 
             <div className="text-center">
               <button
-                className="bg-red-500 px-7 py-5 text-xl text-white font-semibold rounded-full shadow hover:bg-red-600 transition-all"
+                className="bg-red-500 text-white px-5 py-2 rounded shadow hover:bg-red-600 transition-all"
                 onClick={handleRestart}
               >
                 🔁 Restart

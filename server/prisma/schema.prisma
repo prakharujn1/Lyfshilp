@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  name           String?
+  age            Int?
+  userClass      String?
+  phonenumber    String   @unique
+  otp            String?
+  otpExpiration  DateTime?
+  createdAt      DateTime @default(now())
+
+  gender         String?
+  characterName  String?
+  style          String?     // one of: casual, sporty, formal, fantasy
+  traits         String[]    // 2 traits from 8 options
+  onboarded      Boolean  @default(false)
+}
