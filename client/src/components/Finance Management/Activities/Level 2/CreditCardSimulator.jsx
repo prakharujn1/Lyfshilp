@@ -115,169 +115,227 @@ export default function CreditCardSimulator() {
     : [];
 
   return (
-    <div className="max-w-3xl mx-auto p-6 mt-8 bg-white rounded shadow">
-      <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
-        💳 Credit Card Simulator
-      </h1>
+    <div className="w-[90%] mx-auto">
+      <div
+        className="max-w-3xl mx-auto p-6 mt-8 bg-gradient-to-br from-purple-200 to-blue-100 rounded-3xl shadow-2xl border-4 border-pink-300"
+        style={{ fontFamily: "'Comic Neue', cursive" }}
+      >
+        <h1 className="text-4xl font-extrabold text-pink-600 text-center mb-6">
+          🎮 KidzPay - Spend Smart!
+        </h1>
 
-      {!selectedItem ? (
-        <>
-          <p className="mb-4 text-gray-700 text-center">
-            Choose an item to simulate purchase:
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            {items.map((item) => (
+        {!selectedItem ? (
+          <>
+            <p className="mb-4 text-purple-800 text-center text-lg font-semibold">
+              🛍️ Pick something fun to buy!
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              {items.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handlePurchase(item)}
+                  className="border-2 border-purple-400 rounded-xl p-4 bg-white hover:bg-purple-100 transform hover:scale-105 transition font-bold text-lg text-blue-700 shadow-md"
+                >
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  <p>₹{item.cost.toLocaleString()}</p>
+                </button>
+              ))}
+            </div>
+          </>
+        ) : !paymentMethod ? (
+          <>
+            <p className="text-center mt-6 text-lg text-purple-800 font-semibold">
+              💰 How would you like to pay?
+            </p>
+            <div className="flex justify-center gap-4 mt-4">
               <button
-                key={item.name}
-                onClick={() => handlePurchase(item)}
-                className="border border-blue-500 rounded p-4 hover:bg-blue-100"
+                onClick={() => chooseMethod("min")}
+                className="bg-yellow-300 text-purple-900 px-6 py-3 rounded-full font-bold hover:bg-yellow-400 transform hover:scale-105 transition shadow-lg"
               >
-                <h3 className="text-lg font-semibold">{item.name}</h3>
-                <p>₹{item.cost.toLocaleString()}</p>
+                Credit Card (Min Due)
               </button>
-            ))}
-          </div>
-        </>
-      ) : !paymentMethod ? (
-        <>
-          <p className="text-center mt-6">How would you like to pay?</p>
-          <div className="flex justify-center gap-4 mt-4">
-            <button
-              onClick={() => chooseMethod("min")}
-              className="bg-yellow-400 px-6 py-2 rounded text-white font-semibold"
-            >
-              Credit Card (Minimum Due)
-            </button>
-            <button
-              onClick={() => chooseMethod("emi")}
-              className="bg-green-500 px-6 py-2 rounded text-white font-semibold"
-            >
-              EMI Plan (6 months)
-            </button>
-          </div>
-        </>
-      ) : !done ? (
-        <>
-          <p className="text-lg font-medium mb-2">📅 Month {month}</p>
+              <button
+                onClick={() => chooseMethod("emi")}
+                className="bg-green-300 text-blue-900 px-6 py-3 rounded-full font-bold hover:bg-green-400 transform hover:scale-105 transition shadow-lg"
+              >
+                EMI Plan (6 Months)
+              </button>
+            </div>
+          </>
+        ) : !done ? (
+          <>
+            <p className="text-xl font-bold mb-3 text-blue-800">
+              📅 Month {month}
+            </p>
 
-          {paymentMethod === "min" ? (
-            <>
-              <p className="mb-4">
-                <div>
-                  <span className="font-semibold">Outstanding Debt:</span> ₹
-                  {debt.toFixed(2)}
+            {paymentMethod === "min" ? (
+              <>
+                <div className="bg-white p-4 rounded-lg shadow-md mb-4">
+                  <div>
+                    <strong>💳 Outstanding:</strong> ₹{debt.toFixed(2)}
+                  </div>
+                  <div>🧾 Min Due: ₹{(0.05 * debt).toFixed(2)}</div>
+                  <div>
+                    📈 Interest Rate: {(interestRate * 100).toFixed(2)}%
+                  </div>
+                  <div>
+                    💸 After Payment:{" "}
+                    {(0.95 * debt + interestRate * 0.95 * debt).toFixed(2)}
+                  </div>
                 </div>
-                <div>
-                  Min Due Amount : ₹{(0.05 * debt).toFixed(2)} (5% of
-                  Outstanding Debt)
-                </div>
-                <div>Interest Rate : {(interestRate * 100).toFixed(2)}% </div>
-                <div>
-                  After this payment, amount to be paid :{" "}
-                  {(0.95 * debt + interestRate * 0.95 * debt).toFixed(2)}{" "}
-                </div>
-                <div className="mt-5">
+
+                <div className="mt-3">
                   <button
                     onClick={() => setShowCalc(!showCalc)}
-                    className="bg-pink-400 mb-3 text-yellow-50 p-3 rounded-lg"
+                    className="bg-pink-400 mb-3 text-white p-3 rounded-full font-semibold hover:bg-pink-500 shadow"
                   >
-                    {showCalc ? "Hide Calculation" : "Show Calculation"}
+                    {showCalc ? "🙈 Hide Math" : "🧠 Show Math"}
                   </button>
+
                   {showCalc && (
-                    <div>
+                    <div className="bg-white p-3 rounded shadow-sm text-sm">
                       <div>
-                        Outstanding Amount after this payment :{" "}
                         {`${debt.toFixed(2)} - ${(
                           minPaymentRate * debt
-                        ).toFixed(2)}`}{" "}
-                        = {(0.95 * debt).toFixed(2)}
+                        ).toFixed(2)} = ${(0.95 * debt).toFixed(2)}`}
                       </div>
                       <div>
-                        Interest on Outstanding Amount :{` ${interestRate} * `}{" "}
-                        {debt.toFixed(2) - (minPaymentRate * debt).toFixed(2)} ={" "}
-                        {(interestRate * 0.95 * debt).toFixed(2)}
-                      </div>
-                      <div>
-                        Total :{" "}
-                        {`${(0.95 * debt).toFixed(2)} + ${(
+                        Interest:{" "}
+                        {`${interestRate} * ${(0.95 * debt).toFixed(2)} = ${(
                           interestRate *
                           0.95 *
                           debt
-                        ).toFixed(2)}`}{" "}
-                        ={" "}
+                        ).toFixed(2)}`}
+                      </div>
+                      <div>
+                        Total:{" "}
                         {(0.95 * debt + interestRate * 0.95 * debt).toFixed(2)}
                       </div>
                     </div>
                   )}
                 </div>
-              </p>
-              <button
-                onClick={handleMinPayment}
-                className="bg-yellow-500 hover:bg-yellow-600 px-6 py-2 rounded text-white font-semibold"
-              >
-                Pay Minimum Due (10%) + Interest
-              </button>
-            </>
-          ) : (
-            <>
-              <p className="mb-4">
-                <span className="font-semibold">Remaining Principal:</span> ₹
-                {remainingPrincipal.toLocaleString()}
-              </p>
-              <p className="mb-4">Monthly EMI: ₹{Math.round(emiAmount)}</p>
-              <button
-                onClick={handleEMIPayment}
-                className="bg-green-500 hover:bg-green-600 px-6 py-2 rounded text-white font-semibold"
-              >
-                Pay EMI
-              </button>
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <h2 className="text-xl font-semibold text-center text-green-700 mb-4">
-            📊 Payment Summary
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="amount" fill="#3b82f6" />
-            </BarChart>
-          </ResponsiveContainer>
 
-          <div className="mt-4 text-center">
-            <p className="text-gray-700">
-              <strong>Total Paid:</strong> ₹{totalPaid.toLocaleString()}
-            </p>
-            <p className="text-gray-700 mt-1">
-              <strong>Extra Paid Over Item Price:</strong> ₹
-              {(totalPaid - selectedItem.cost).toLocaleString()}
-            </p>
-          </div>
+                <button
+                  onClick={handleMinPayment}
+                  className="bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-full text-white font-bold mt-4 transition transform hover:scale-105 shadow-lg"
+                >
+                  ✅ Pay Min Due + Interest
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="bg-white p-4 rounded-lg shadow-md mb-4">
+                  <div>
+                    <strong>🏦 Remaining Principal:</strong> ₹
+                    {remainingPrincipal.toLocaleString()}
+                  </div>
+                  <div>📆 Monthly EMI: ₹{Math.round(emiAmount)}</div>
+                </div>
 
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => {
-                setSelectedItem(null);
-                setUserPayments([]);
-                setDebt(0);
-                setMonth(1);
-                setDone(false);
-                setPaymentMethod(null);
-                setRemainingPrincipal(0);
-              }}
-              className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-            >
-              Try Another Purchase
-            </button>
-          </div>
-        </>
-      )}
+                <button
+                  onClick={handleEMIPayment}
+                  className="bg-green-400 hover:bg-green-500 px-6 py-3 rounded-full text-white font-bold transition transform hover:scale-105 shadow-lg"
+                >
+                  🚀 Pay EMI
+                </button>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl font-extrabold text-center text-green-700 mb-4">
+              🎉 Payment Summary
+            </h2>
+            <div className="bg-white p-4 rounded-xl shadow-lg border border-yellow-300">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart
+                  data={chartData}
+                  barCategoryGap={40}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                >
+                  <CartesianGrid strokeDasharray="5 5" stroke="#ffd6e8" />
+                  <XAxis
+                    dataKey="name"
+                    tick={{
+                      fill: "#ff69b4",
+                      fontSize: 16,
+                      fontFamily: "'Comic Neue', cursive",
+                    }}
+                  />
+                  <YAxis
+                    tick={{
+                      fill: "#00bcd4",
+                      fontSize: 14,
+                      fontFamily: "'Comic Neue', cursive",
+                    }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#fff3f7",
+                      border: "2px solid #ff80ab",
+                      borderRadius: "12px",
+                      fontFamily: "'Comic Neue', cursive",
+                    }}
+                    formatter={(value) => [
+                      `₹${value.toLocaleString()}`,
+                      "💰 Money",
+                    ]}
+                  />
+                  <Legend
+                    formatter={(value) => `🧾 ${value}`}
+                    wrapperStyle={{
+                      fontFamily: "'Comic Neue', cursive",
+                      fontSize: 16,
+                    }}
+                  />
+                  <Bar
+                    dataKey="amount"
+                    fill="#ff80ab"
+                    isAnimationActive={true}
+                    animationDuration={1000}
+                    animationEasing="ease-out"
+                    radius={[10, 10, 0, 0]}
+                    label={{
+                      position: "top",
+                      fill: "#ff1493",
+                      fontSize: 14,
+                      fontFamily: "'Comic Neue', cursive",
+                      formatter: (value) => `₹${value}`,
+                    }}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="mt-4 text-center text-lg">
+              <p className="text-blue-800">
+                <strong>💵 Total Paid:</strong> ₹{totalPaid.toLocaleString()}
+              </p>
+              <p className="text-pink-700 mt-2">
+                <strong>😲 Extra Paid:</strong> ₹
+                {(totalPaid - selectedItem.cost).toLocaleString()}
+              </p>
+            </div>
+
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => {
+                  setSelectedItem(null);
+                  setUserPayments([]);
+                  setDebt(0);
+                  setMonth(1);
+                  setDone(false);
+                  setPaymentMethod(null);
+                  setRemainingPrincipal(0);
+                }}
+                className="bg-indigo-500 text-white px-6 py-3 rounded-full hover:bg-indigo-600 transition font-bold shadow-lg"
+              >
+                🔁 Try Another Purchase
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
