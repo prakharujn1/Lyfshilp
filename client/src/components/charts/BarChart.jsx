@@ -49,7 +49,7 @@ const BarChart = ({ labels, data, colors }) => {
       datalabels: {
         anchor: "end",
         // align: "end",
-        formatter: (value) => `₹${value.toFixed(2)}`,
+        formatter: (value) => `₹${Number(value)}`,
         color: "#000",
         font: {
           weight: "bold",
@@ -57,7 +57,7 @@ const BarChart = ({ labels, data, colors }) => {
       },
       tooltip: {
         callbacks: {
-          label: (context) => `₹${context.raw.toFixed(2)}`,
+          label: (context) => `₹${context.raw}`,
         },
       },
 
@@ -78,7 +78,7 @@ const BarChart = ({ labels, data, colors }) => {
   };
 
   return (
-    <div className="w-[400px] h-[350px]  flex items-center">
+    <div className="w-full sm:w-[300px] md:w-[350px] aspect-square flex items-center">
       <Bar data={chartData} options={options} plugins={[ChartDataLabels]} />
       {/* 👆 Important: pass ChartDataLabels plugin here too */}
     </div>
