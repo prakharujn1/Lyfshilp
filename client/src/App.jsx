@@ -37,6 +37,9 @@ import Section5dm from "./pages/DMsections/Section5dm";
 import Section6dm from "./pages/DMsections/Section6dm";
 import Section7dm from "./pages/DMsections/Section7dm";
 import Section8dm from "./pages/DMsections/Section8dm";
+import IntroPageAdDetective from "./components/Digital Marketing/Level 1/AdDetective/IntroPageAdDetective";
+import MissionCompleteAdDetective from "./components/Digital Marketing/Level 1/AdDetective/MissionCompleteAdDetective";
+import AdDetectiveGamePage from "./components/Digital Marketing/Level 1/AdDetective/AdDetectiveGamePage";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -155,6 +158,30 @@ function App() {
             <Route path="/my_purchase_plan" element={<My_Purchase_Plan />} />
 
             {/* Digital Marketing Routes */}
+
+            {/* Games of digital marketing */}
+
+            {/* Level 1 games of digital marketing */}
+
+            <Route
+              path="/intro-ad-detective-game"
+              element={<IntroPageAdDetective />}
+            />
+            <Route
+              path="/ad-detective-game"
+              element={<AdDetectiveGamePage />}
+            />
+            <Route
+              path="/ad-detective-mission-complete"
+              element={<MissionCompleteAdDetective />}
+            />
+
+            {/* Level 2 games of digital marketing */}
+
+            {/* Level 3 games of digital marketing */}
+
+            {/*End of Games of digital marketing */}
+
             {/* Notes Page of digital marketing */}
             <Route
               path="/digital-marketing/notes"
