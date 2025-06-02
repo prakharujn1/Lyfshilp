@@ -8,18 +8,22 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  name           String?
-  age            Int?
-  userClass      String?
-  phonenumber    String   @unique
-  otp            String?
-  otpExpiration  DateTime?
-  createdAt      DateTime @default(now())
+  id                String   @id @default(cuid())
+  phonenumber       String   @unique
+  name              String
+  age               Int
+  userClass         String
+  characterGender   String
+  characterName     String
+  characterStyle    String
+  characterTraits   String[] // Array of traits
+  createdAt         DateTime @default(now())
+}
 
-  gender         String?
-  characterName  String?
-  style          String?     // one of: casual, sporty, formal, fantasy
-  traits         String[]    // 2 traits from 8 options
-  onboarded      Boolean  @default(false)
+
+model OtpVerification {
+  phonenumber   String   @id
+  otp           String
+  otpExpiration DateTime
+  createdAt     DateTime @default(now())
 }

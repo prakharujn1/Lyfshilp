@@ -4,9 +4,10 @@ import { KeyRound, ArrowRight } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import Spline from "@splinetool/react-spline";
 
+
 const Login = () => {
   const navigate = useNavigate();
-  const { login, verifyOTP } = useAuth();
+    const { sendOtp, verifyOtpAndLogin } = useAuth();
   const [step, setStep] = useState(1);
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -37,18 +38,17 @@ const Login = () => {
     setLoading(true);
 
     try {
-      login(phone);
+       const response = await sendOtp(phone);
+      console.log("Login response from backend:", response);
       setOtpSent(true);
       setStep(2);
-      // In a real app, OTP would be sent via SMS
-      // For demo purposes, use "123456" as the OTP
-      console.log('Use "123456" as the OTP for testing');
     } catch {
       setError("Failed to send OTP. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleOtpChange = (index, value) => {
     // Only allow numeric inputs
@@ -85,17 +85,19 @@ const Login = () => {
 
     setLoading(true);
 
-    try {
-      const isValid = verifyOTP(otp);
-      if (isValid) {
-        navigate("/dashboard");
+     try {
+      const result = await verifyOtpAndLogin(otp, navigate);
+      if (result.success) {
+        
+        // alert("Logged in successfully ✅"); // 🎉 Show success
+        navigate("/dashboard");  
       } else {
-        setError("Invalid OTP. Please try again.");
+        setError(result.message || "Invalid OTP. Please try again.");
         setOtpInputs(["", "", "", "", "", ""]);
         setOtp("");
-        // Focus the first input
         const firstInput = document.getElementById("otp-0");
         if (firstInput) firstInput.focus();
+        console.log(result.message)
       }
     } catch (err) {
       setError("Failed to verify OTP. Please try again.");
@@ -103,6 +105,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex flex-col lg:flex-row items-center justify-center p-4 gap-8 lg:gap-16">
@@ -210,21 +213,6 @@ const Login = () => {
               >
                 {loading ? "Verifying..." : "Verify OTP"}
               </button>
-
-              <div className="text-center mt-4">
-                <p className="text-sm text-gray-600">
-                  Didn't receive the code?{" "}
-                  <button
-                    type="button"
-                    className="text-indigo-600 hover:text-indigo-800"
-                    onClick={() => {
-                      setOtpSent(false);
-                    }}
-                  >
-                    Send again
-                  </button>
-                </p>
-              </div>
             </form>
           )}
         </div>

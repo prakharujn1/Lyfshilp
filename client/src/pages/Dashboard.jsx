@@ -5,20 +5,19 @@ import { LogOut } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth();
+  const { user, logout } = useAuth();
 
-  if (!currentUser) {
-    // Redirect to login if not authenticated
-    useEffect(() => {
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!user) {
       navigate("/login");
-    }, [navigate]);
+    }
+  }, [user, navigate]);
 
-    return null;
-  }
+  if (!user) return null;
 
   const handleLogout = () => {
-    logout();
-    navigate("/login");
+    logout(navigate); // 🔄 Pass navigate because logout requires it
   };
 
   return (
@@ -40,7 +39,7 @@ const Dashboard = () => {
         <div className="bg-white shadow rounded-lg overflow-hidden">
           <div className="bg-gradient-to-r from-indigo-500 to-purple-500 px-6 py-4">
             <h2 className="text-white text-lg font-semibold">
-              Welcome, {currentUser.name}!
+              Welcome, {user.name}!
             </h2>
           </div>
 
@@ -55,28 +54,28 @@ const Dashboard = () => {
                   <div className="bg-white p-4 rounded-md shadow-sm">
                     <p className="text-sm font-medium text-gray-500">Name</p>
                     <p className="text-indigo-700 font-medium">
-                      {currentUser.character.name}
+                      {user.characterName}
                     </p>
                   </div>
 
                   <div className="bg-white p-4 rounded-md shadow-sm">
                     <p className="text-sm font-medium text-gray-500">Gender</p>
                     <p className="text-indigo-700 font-medium">
-                      {currentUser.character.gender}
+                      {user.characterGender}
                     </p>
                   </div>
 
                   <div className="bg-white p-4 rounded-md shadow-sm">
                     <p className="text-sm font-medium text-gray-500">Style</p>
                     <p className="text-indigo-700 font-medium">
-                      {currentUser.character.style}
+                      {user.characterStyle}
                     </p>
                   </div>
 
                   <div className="bg-white p-4 rounded-md shadow-sm">
                     <p className="text-sm font-medium text-gray-500">Traits</p>
                     <div className="flex gap-2 mt-1">
-                      {currentUser.character.traits.map((trait, index) => (
+                      {user.characterTraits.map((trait, index) => (
                         <span
                           key={index}
                           className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
@@ -100,23 +99,26 @@ const Dashboard = () => {
                       <dt className="text-sm font-medium text-gray-500">
                         Name
                       </dt>
-                      <dd className="mt-1 text-gray-900">{currentUser.name}</dd>
+                      <dd className="mt-1 text-gray-900">{user.name}</dd>
                     </div>
 
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Age</dt>
-                      <dd className="mt-1 text-gray-900">{currentUser.age}</dd>
+                      <dd className="mt-1 text-gray-900">{user.age}</dd>
                     </div>
+
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Class:</dt>
+                      <dd className="mt-1 text-gray-900">{user.userClass}</dd>
+                    </div>
+
 
                     <div>
                       <dt className="text-sm font-medium text-gray-500">
                         Phone
                       </dt>
                       <dd className="mt-1 text-gray-900">
-                        {currentUser.phone.replace(
-                          /(\d{3})(\d{3})(\d{4})/,
-                          "$1-$2-$3"
-                        )}
+                        {user.phonenumber}
                       </dd>
                     </div>
 
@@ -125,7 +127,11 @@ const Dashboard = () => {
                         Account Created
                       </dt>
                       <dd className="mt-1 text-gray-900">
-                        {new Date().toLocaleDateString()}
+                        {new Intl.DateTimeFormat('en-GB', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric'
+                        }).format(new Date(user.createdAt))}
                       </dd>
                     </div>
                   </dl>
