@@ -28,6 +28,15 @@ import Section4 from "./pages/sections/Section4.jsx";
 import Section5 from "./pages/sections/Section5.jsx";
 import Section6 from "./pages/sections/Section6.jsx";
 import { useEffect, useState } from "react";
+import DigitalMarketingNotes from "./pages/DigitalMarketingNotes.jsx"; // Importing the Digital Marketing Notes page
+import Section1dm from "./pages/DMsections/Section1dm";
+import Section2dm from "./pages/DMsections/Section2dm";
+import Section3dm from "./pages/DMsections/Section3dm";
+import Section4dm from "./pages/DMsections/Section4dm";
+import Section5dm from "./pages/DMsections/Section5dm";
+import Section6dm from "./pages/DMsections/Section6dm";
+import Section7dm from "./pages/DMsections/Section7dm";
+import Section8dm from "./pages/DMsections/Section8dm";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -144,6 +153,46 @@ function App() {
             <Route path="/riskometer" element={<RiskOMeter />} />
             <Route path="/challenge3" element={<Challenge3 />} />
             <Route path="/my_purchase_plan" element={<My_Purchase_Plan />} />
+
+            {/* Digital Marketing Routes */}
+            {/* Notes Page of digital marketing */}
+            <Route
+              path="/digital-marketing/notes"
+              element={<DigitalMarketingNotes />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-1"
+              element={<Section1dm />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-2"
+              element={<Section2dm />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-3"
+              element={<Section3dm />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-4"
+              element={<Section4dm />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-5"
+              element={<Section5dm />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-6"
+              element={<Section6dm />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-7"
+              element={<Section7dm />}
+            />
+            <Route
+              path="/digitalmarketing/notes/section-8"
+              element={<Section8dm />}
+            />
+
             <Route path="/faq's" element={<FAQ />} />
           </Routes>
         </main>
