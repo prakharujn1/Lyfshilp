@@ -26,7 +26,7 @@ const PieChart = ({ values, labels, colors }) => {
     responsive: true,
     plugins: {
       datalabels: {
-        formatter: (value) => `₹${Number(value).toFixed(2)}`,
+        formatter: (value) => `₹${Number(value)}`,
         color: "#070707", // Change if background is light
         font: {
           // size : 1,
@@ -54,7 +54,7 @@ const PieChart = ({ values, labels, colors }) => {
   };
 
   return (
-    <div className="w-[400px] h-[400px]">
+    <div className="w-full sm:w-[300px] md:w-[350px] aspect-square flex justify-center items-center">
       <Pie data={data} options={options} plugins={[ChartDataLabels]} />
       {/* ✅ Include plugin here */}
     </div>
