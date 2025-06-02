@@ -7,171 +7,193 @@ import Spline from "@splinetool/react-spline";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register } = useAuth();
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const {
+    sendOtp,
+    verifyOtpAndRegister,
+  } = useAuth();
+  // flat formData
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    phone: "",
-    character: {
-      gender: "",
-      name: "",
-      style: "",
-      traits: [],
-    },
-  });
-  const [errors, setErrors] = useState({
-    name: "",
-    age: "",
-    phone: "",
+    phonenumber: "",
+    userClass: "",
+    gender: "",
     characterName: "",
-    characterGender: "",
-    characterStyle: "",
-    characterTraits: "",
+    style: "",
+    traits: [],
   });
+  const [step, setStep] = useState(1);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpInputs, setOtpInputs] = useState(["", "", "", "", "", ""]);
+  
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpError, setOtpError] = useState("");
+
 
   const validateStep = (currentStep) => {
-    const newErrors = { ...errors };
+    const errs = {};
 
     if (currentStep === 1) {
-      if (!formData.name.trim()) newErrors.name = "Name is required";
-      else newErrors.name = "";
-
-      if (!formData.age) newErrors.age = "Age is required";
+      if (!formData.name.trim()) errs.name = "Name is required";
+      if (!formData.age) errs.age = "Age is required";
       else if (parseInt(formData.age) < 13)
-        newErrors.age = "You must be at least 13 years old";
-      else newErrors.age = "";
-
-      if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
-      else if (!/^\d{10}$/.test(formData.phone))
-        newErrors.phone = "Enter a valid 10-digit phone number";
-      else newErrors.phone = "";
-
-      setErrors(newErrors);
-      return !newErrors.name && !newErrors.age && !newErrors.phone;
+        errs.age = "Must be at least 13 years old";
+      if (!formData.phonenumber.trim())
+        errs.phonenumber = "Phone number is required";
+      else if (!/^\d{10}$/.test(formData.phonenumber))
+        errs.phonenumber = "Enter a valid 10-digit phone number";
+      if (!formData.userClass.trim())
+        errs.userClass = "User class is required";
     }
 
     if (currentStep === 2) {
-      if (!formData.character.gender)
-        newErrors.characterGender = "Please select a gender";
-      else newErrors.characterGender = "";
-
-      if (!formData.character.name.trim())
-        newErrors.characterName = "Character name is required";
-      else newErrors.characterName = "";
-
-      setErrors(newErrors);
-      return !newErrors.characterGender && !newErrors.characterName;
+      if (!formData.gender) errs.gender = "Please select a gender";
+      if (!formData.characterName.trim())
+        errs.characterName = "Character name is required";
     }
 
     if (currentStep === 3) {
-      if (!formData.character.style)
-        newErrors.characterStyle = "Please select a character style";
-      else newErrors.characterStyle = "";
-
-      setErrors(newErrors);
-      return !newErrors.characterStyle;
+      if (!formData.style) errs.style = "Please select a character style";
     }
 
     if (currentStep === 4) {
-      if (formData.character.traits.length !== 2) {
-        newErrors.characterTraits = "Please select exactly 2 traits";
-        setErrors(newErrors);
-        return false;
-      } else {
-        newErrors.characterTraits = "";
-        setErrors(newErrors);
-        return true;
-      }
+      if (formData.traits.length !== 2)
+        errs.traits = "Please select exactly 2 traits";
     }
 
-    return true;
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
   };
 
-  const handleNext = () => {
-    if (validateStep(step)) {
-      setStep(step + 1);
-    }
-  };
 
-  const handleBack = () => {
-    setStep(step - 1);
-  };
-
-  const handleInputChange = (e) => {
+  // Handlers for input changes, traits toggle
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleCharacterInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      character: { ...formData.character, [name]: value },
-    });
+    setFormData((fd) => ({ ...fd, [name]: value }));
   };
 
   const handleGenderSelect = (gender) => {
-    setFormData({
-      ...formData,
-      character: { ...formData.character, gender },
-    });
+    setFormData((fd) => ({ ...fd, gender }));
   };
 
   const handleStyleSelect = (style) => {
-    setFormData({
-      ...formData,
-      character: { ...formData.character, style },
-    });
+    setFormData((fd) => ({ ...fd, style }));
   };
 
   const handleTraitSelect = (trait) => {
-    const currentTraits = [...formData.character.traits];
-    const traitIndex = currentTraits.indexOf(trait);
+    let traits = [...formData.traits];
+    const idx = traits.indexOf(trait);
 
-    if (traitIndex > -1) {
-      // Remove trait if already selected
-      currentTraits.splice(traitIndex, 1);
+    if (idx > -1) {
+      traits.splice(idx, 1);
     } else {
-      // Add trait if not already selected and less than 2 traits are selected
-      if (currentTraits.length < 2) {
-        currentTraits.push(trait);
-      } else {
-        // Replace the first trait if 2 are already selected
-        currentTraits.shift();
-        currentTraits.push(trait);
+      if (traits.length < 2) traits.push(trait);
+      else {
+        traits.shift();
+        traits.push(trait);
       }
     }
 
-    setFormData({
-      ...formData,
-      character: { ...formData.character, traits: currentTraits },
-    });
+    setFormData((fd) => ({ ...fd, traits }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateStep(step)) {
+  // Next button logic with OTP send after last data step (step 4)
+  const handleNext = async () => {
+    if (!validateStep(step)) return;
+
+    if (step === 5) {
+      // Send OTP here before proceeding to OTP step
       setLoading(true);
-
+      const updatedFormData = {
+        ...formData,
+        age: parseInt(formData.age, 10), // ensure age is number
+      };
       try {
-        // In a real app, this would be an API call
-        register({
-          name: formData.name,
-          age: parseInt(formData.age),
-          phone: formData.phone,
-          character: formData.character,
-        });
-
-        navigate("/dashboard");
+        const result = await sendOtp(updatedFormData.phonenumber);
+        if (result.success) {
+          console.log("OTP sent successfully");
+          setOtpSent(true);
+          setStep(step + 1); // move to OTP step
+        } else {
+          console.log("Failed to send OTP:", result.message);
+        }
       } catch (error) {
-        console.error("Registration error:", error);
+        setErrors({ phonenumber: "Failed to send OTP. Try again." });
       } finally {
         setLoading(false);
       }
+    } else {
+      setStep((s) => s + 1);
     }
   };
+
+ const handleBack = () => {
+  if (step === 6) {
+    setOtpInputs(["", "", "", "", "", ""]);
+    setOtp("");
+    setOtpError("");
+  }
+  setStep((s) => s - 1);
+};
+
+  const handleOtpChange = (index, value) => {
+    // Only allow numeric inputs
+    if (value && !/^\d+$/.test(value)) return;
+
+    const newOtpInputs = [...otpInputs];
+    newOtpInputs[index] = value;
+    setOtpInputs(newOtpInputs);
+    setOtp(newOtpInputs.join(""));
+
+    // Auto focus to next input
+    if (value && index < 5) {
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      if (nextInput) nextInput.focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    // Handle backspace
+    if (e.key === "Backspace" && !otpInputs[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      if (prevInput) prevInput.focus();
+    }
+  };
+
+  // OTP verify submit
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    if (otp.length !== 6) {
+  setOtpError("Please enter the 6-digit OTP");
+  return;
+}
+    setLoading(true);
+    setOtpError("");
+    try {
+      const finalFormData = {
+        phonenumber: formData.phonenumber,
+        name: formData.name,
+        age: parseInt(formData.age, 10),
+        userClass: formData.userClass,
+        characterGender: formData.gender,
+        characterName: formData.characterName,
+        characterStyle: formData.style,
+        characterTraits: formData.traits,
+      };
+      const result = await verifyOtpAndRegister(finalFormData, otp, navigate);
+      if (!result.success) {
+        setOtpError(result.message || "Invalid OTP, please try again.");
+      }
+      // On success, navigate happens inside handleVerify
+    } catch (error) {
+      setOtpError("Invalid OTP, please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex flex-col lg:flex-row items-center justify-center p-4 gap-8 lg:gap-16">
@@ -179,33 +201,29 @@ const Register = () => {
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6">
           <h1 className="text-white text-2xl font-bold">Create Your Account</h1>
           <div className="flex mt-4">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="flex-1 px-1">
                 <div
-                  className={`h-2 rounded-full ${
-                    i === step
-                      ? "bg-white"
-                      : i < step
+                  className={`h-2 rounded-full ${i === step
+                    ? "bg-white"
+                    : i < step
                       ? "bg-blue-300"
                       : "bg-blue-400/30"
-                  }`}
+                    }`}
                 ></div>
               </div>
             ))}
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6">
+        <form onSubmit={step === 6 ? handleOtpSubmit : (e) => e.preventDefault()} className="p-6">
           {step === 1 && (
             <div className="space-y-4 animate-fade-in">
               <h2 className="text-xl font-semibold text-gray-800">
                 Personal Information
               </h2>
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Full Name
                 </label>
                 <input
@@ -213,21 +231,15 @@ const Register = () => {
                   id="name"
                   name="name"
                   value={formData.name}
-                  onChange={handleInputChange}
-                  className={`mt-1 block w-full rounded-md border ${
-                    errors.name ? "border-red-500" : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full rounded-md border ${errors.name ? "border-red-500" : "border-gray-300"
+                    } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
                 />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-                )}
+                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
               </div>
 
               <div>
-                <label
-                  htmlFor="age"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="age" className="block text-sm font-medium text-gray-700">
                   Age
                 </label>
                 <input
@@ -235,40 +247,57 @@ const Register = () => {
                   id="age"
                   name="age"
                   value={formData.age}
-                  onChange={handleInputChange}
-                  className={`mt-1 block w-full rounded-md border ${
-                    errors.age ? "border-red-500" : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full rounded-md border ${errors.age ? "border-red-500" : "border-gray-300"
+                    } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
                 />
-                {errors.age && (
-                  <p className="mt-1 text-sm text-red-600">{errors.age}</p>
-                )}
+                {errors.age && <p className="mt-1 text-sm text-red-600">{errors.age}</p>}
               </div>
 
               <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="phonenumber" className="block text-sm font-medium text-gray-700">
                   Phone Number
                 </label>
                 <input
                   type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
+                  id="phonenumber"
+                  name="phonenumber"
+                  value={formData.phonenumber}
+                  onChange={handleChange}
                   placeholder="10-digit number"
-                  className={`mt-1 block w-full rounded-md border ${
-                    errors.phone ? "border-red-500" : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                  className={`mt-1 block w-full rounded-md border ${errors.phonenumber ? "border-red-500" : "border-gray-300"
+                    } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
                 />
-                {errors.phone && (
-                  <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
+                {errors.phonenumber && (
+                  <p className="mt-1 text-sm text-red-600">{errors.phonenumber}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="userClass" className="block text-sm font-medium text-gray-700">
+                  Class
+                </label>
+                <select
+                  id="userClass"
+                  name="userClass"
+                  value={formData.userClass}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full rounded-md border ${errors.userClass ? "border-red-500" : "border-gray-300"
+                    } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                >
+                  <option value="">Select your class</option>
+                  <option value="6th">6th</option>
+                  <option value="7th">7th</option>
+                  <option value="8th">8th</option>
+                </select>
+                {errors.userClass && (
+                  <p className="mt-1 text-sm text-red-600">{errors.userClass}</p>
                 )}
               </div>
             </div>
           )}
+
+
 
           {step === 2 && (
             <div className="space-y-4 animate-fade-in">
@@ -285,20 +314,17 @@ const Register = () => {
                     <div
                       key={gender}
                       onClick={() => handleGenderSelect(gender)}
-                      className={`cursor-pointer p-4 rounded-lg flex items-center justify-center transition-all ${
-                        formData.character.gender === gender
-                          ? "bg-indigo-100 border-2 border-indigo-500"
-                          : "bg-gray-50 border border-gray-300 hover:bg-gray-100"
-                      }`}
+                      className={`cursor-pointer p-4 rounded-lg flex items-center justify-center transition-all ${formData.gender === gender
+                        ? "bg-indigo-100 border-2 border-indigo-500"
+                        : "bg-gray-50 border border-gray-300 hover:bg-gray-100"
+                        }`}
                     >
                       <span className="text-sm font-medium">{gender}</span>
                     </div>
                   ))}
                 </div>
-                {errors.characterGender && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {errors.characterGender}
-                  </p>
+                {errors.gender && (
+                  <p className="mt-1 text-sm text-red-600">{errors.gender}</p>
                 )}
               </div>
 
@@ -312,12 +338,11 @@ const Register = () => {
                 <input
                   type="text"
                   id="characterName"
-                  name="name"
-                  value={formData.character.name}
-                  onChange={handleCharacterInputChange}
-                  className={`mt-1 block w-full rounded-md border ${
-                    errors.characterName ? "border-red-500" : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                  name="characterName"
+                  value={formData.characterName}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full rounded-md border ${errors.characterName ? "border-red-500" : "border-gray-300"
+                    } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
                 />
                 {errors.characterName && (
                   <p className="mt-1 text-sm text-red-600">
@@ -338,16 +363,16 @@ const Register = () => {
               </p>
 
               <AvatarSelection
-                selectedStyle={formData.character.style}
+                selectedStyle={formData.style}
                 onSelectStyle={handleStyleSelect}
-                gender={formData.character.gender}
+                gender={formData.gender}
               />
 
-              {errors.characterStyle && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.characterStyle}
-                </p>
+
+              {errors.style && (
+                <p className="mt-1 text-sm text-red-600">{errors.style}</p>
               )}
+
             </div>
           )}
 
@@ -372,24 +397,21 @@ const Register = () => {
                   <div
                     key={trait}
                     onClick={() => handleTraitSelect(trait)}
-                    className={`cursor-pointer p-3 rounded-lg flex items-center justify-between transition-all ${
-                      formData.character.traits.includes(trait)
-                        ? "bg-indigo-100 border-2 border-indigo-500"
-                        : "bg-gray-50 border border-gray-300 hover:bg-gray-100"
-                    }`}
+                    className={`cursor-pointer p-3 rounded-lg flex items-center justify-between transition-all ${formData.traits.includes(trait)
+                      ? "bg-indigo-100 border-2 border-indigo-500"
+                      : "bg-gray-50 border border-gray-300 hover:bg-gray-100"
+                      }`}
                   >
                     <span className="text-sm font-medium">{trait}</span>
-                    {formData.character.traits.includes(trait) && (
+                    {formData.traits.includes(trait) && (
                       <Check size={16} className="text-indigo-600" />
                     )}
                   </div>
                 ))}
               </div>
 
-              {errors.characterTraits && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.characterTraits}
-                </p>
+              {errors.traits && (
+                <p className="mt-1 text-sm text-red-600">{errors.traits}</p>
               )}
             </div>
           )}
@@ -406,19 +428,19 @@ const Register = () => {
                 <ul className="mt-2 space-y-1 text-sm text-indigo-700">
                   <li>
                     <span className="font-medium">Name:</span>{" "}
-                    {formData.character.name}
+                    {formData.characterName}
                   </li>
                   <li>
                     <span className="font-medium">Gender:</span>{" "}
-                    {formData.character.gender}
+                    {formData.gender}
                   </li>
                   <li>
                     <span className="font-medium">Style:</span>{" "}
-                    {formData.character.style}
+                    {formData.style}
                   </li>
                   <li>
                     <span className="font-medium">Traits:</span>{" "}
-                    {formData.character.traits.join(", ")}
+                    {formData.traits.join(", ")}
                   </li>
                 </ul>
               </div>
@@ -428,6 +450,35 @@ const Register = () => {
               </p>
             </div>
           )}
+
+          {step === 6 && (
+            <div className="space-y-4 animate-fade-in">
+              <h2 className="text-xl font-semibold text-gray-800">Verify Phone</h2>
+              <p className="text-sm text-gray-600">
+                We've sent an OTP to {formData.phonenumber}. Enter it below to verify.
+              </p>
+
+              <div className="flex justify-between gap-2">
+                {otpInputs.map((digit, idx) => (
+                  <input
+                    key={idx}
+                    id={`otp-${idx}`}
+                    type="text"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => handleOtpChange(idx, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, idx)}
+                    className="block w-12 h-12 text-center text-xl font-semibold rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                    autoFocus={idx === 0}
+                  />
+                ))}
+              </div>
+              {otpError && <p className="mt-1 text-sm text-red-600">{otpError}</p>}
+            </div>
+          )}
+
+
+
 
           <div className="mt-6 flex justify-between">
             {step > 1 && (
@@ -440,24 +491,27 @@ const Register = () => {
                 Back
               </button>
             )}
-            {step < 5 ? (
+            {step < 6 ? (
               <button
                 type="button"
                 onClick={handleNext}
                 className="ml-auto flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
               >
-                Next
+                {step === 5
+                  ? loading
+                    ? "Sending..."
+                    : "Send OTP"
+                  : "Next"}
                 <ArrowRight size={16} className="ml-2" />
               </button>
             ) : (
               <button
                 type="submit"
                 disabled={loading}
-                className={`ml-auto px-4 py-2 bg-indigo-600 text-white rounded-md transition-colors ${
-                  loading
-                    ? "opacity-70 cursor-not-allowed"
-                    : "hover:bg-indigo-700"
-                }`}
+                className={`ml-auto px-4 py-2 bg-indigo-600 text-white rounded-md transition-colors ${loading
+                  ? "opacity-70 cursor-not-allowed"
+                  : "hover:bg-indigo-700"
+                  }`}
               >
                 {loading ? "Processing..." : "Complete Registration"}
               </button>

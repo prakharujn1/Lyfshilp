@@ -1,104 +1,131 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState,useEffect } from "react";
+import axios from "axios";
+import toast from 'react-hot-toast';
 
-/**
- * @typedef {Object} User
- * @property {string} name
- * @property {number} age
- * @property {string} phone
- * @property {{ gender: string, name: string, style: string, traits: string[] }} character
- */
-
-/**
- * @typedef {Object} AuthContextType
- * @property {User|null} currentUser
- * @property {boolean} isAuthenticated
- * @property {(phone: string) => void} login
- * @property {(otp: string) => boolean} verifyOTP
- * @property {(user: User) => void} register
- * @property {() => void} logout
- * @property {string|null} pendingPhone
- */
-
-const AuthContext = React.createContext(undefined);
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-}
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [pendingPhone, setPendingPhone] = useState(null);
+  const server = "https://lyfshilp-api-58229779928.asia-south1.run.app";
+
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [user, setUser] = useState(
+    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+  );
+  const [phonenumber, setPhonenumber] = useState("");
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("currentUser");
-    if (savedUser) {
-      setCurrentUser(JSON.parse(savedUser));
-      setIsAuthenticated(true);
+    if (token && !user) {
+      fetchMe(); // Only fetch if token exists and user is not yet set
     }
   }, []);
 
-  const register = (user) => {
-    // In a real app, this would make an API call to register the user
-    // For this demo, we'll store in localStorage
-    localStorage.setItem(`user_${user.phone}`, JSON.stringify(user));
-
-    // Auto login after registration
-    setCurrentUser(user);
-    setIsAuthenticated(true);
-    localStorage.setItem("currentUser", JSON.stringify(user));
-  };
-
-  const login = (phone) => {
-    // In a real app, this would make an API call to send an OTP
-    // For this demo, we'll just store the phone number and simulate OTP sending
-    setPendingPhone(phone);
-
-    // Check if user exists (for demo purposes)
-    const savedUser = localStorage.getItem(`user_${phone}`);
-    if (!savedUser) {
-      console.log("User not found, but we will still simulate OTP sending");
+  // Step 1 - Shared OTP send for both register & login
+  const sendOtp = async (phone) => {
+    try {
+      const res = await axios.post(`${server}/send-otp`, { phonenumber: phone });
+      setPhonenumber(phone);
+      return { success: true, message: "OTP sent" };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.response?.data?.message || "Failed to send OTP",
+      };
     }
-
-    console.log(`OTP sent to ${phone}`);
   };
 
-  const verifyOTP = (otp) => {
-    // In a real app, this would validate the OTP with the server
-    // For this demo, we'll accept "123456" as the valid OTP
-    if (otp === "123456" && pendingPhone) {
-      const savedUser = localStorage.getItem(`user_${pendingPhone}`);
-      if (savedUser) {
-        const user = JSON.parse(savedUser);
-        setCurrentUser(user);
-        setIsAuthenticated(true);
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        setPendingPhone(null);
-        return true;
-      }
+  // Step 2A - Verify OTP and Register
+  const verifyOtpAndRegister = async (formData, otp, navigate) => {
+    try {
+      const res = await axios.post(`${server}/verify-otp-register`, {
+        ...formData,
+        otp,
+        phonenumber,
+      });
+      const { token, user } = res.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      setToken(token);
+      setUser(user);
+      toast.success("Registered successfully ");
+      navigate("/dashboard");
+      return { success: true };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.response?.data?.message || "Registration failed",
+      };
     }
-    return false;
   };
 
-  const logout = () => {
-    setCurrentUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem("currentUser");
+  // Step 2B - Verify OTP and Login
+  const verifyOtpAndLogin = async (otp, navigate) => {
+    try {
+      const res = await axios.post(`${server}/verify-otp-login`, {
+        phonenumber,
+        otp,
+      });
+      const { token, user } = res.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      setToken(token);
+      setUser(user);
+      toast.success("Logged in successfully ");
+      navigate("/dashboard");
+      return { success: true };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.response?.data?.message || "Login failed",
+      };
+    }
   };
 
-  const value = {
-    currentUser,
-    isAuthenticated,
-    login,
-    verifyOTP,
-    register,
-    logout,
-    pendingPhone,
+  // Fetch currently logged-in user using token
+  const fetchMe = async () => {
+    try {
+      const res = await axios.get(`${server}/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      return { success: true };
+    } catch (err) {
+      console.error("Fetch /me failed:", err);
+      return {
+        success: false,
+        message: err.response?.data?.message || "Failed to fetch user",
+      };
+    }
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  // Logout
+  const logout = (navigate) => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken("");
+    setUser(null);
+    setPhonenumber("");
+    navigate("/login");
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        token,
+        user,
+        phonenumber,
+        sendOtp,
+        verifyOtpAndRegister,
+        verifyOtpAndLogin,
+        fetchMe,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
+
+export const useAuth = () => useContext(AuthContext);
