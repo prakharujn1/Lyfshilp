@@ -1,6 +1,15 @@
-export default function HeaderStockMarket() {
+export default function HeaderStockMarket({ topicRefs }) {
   return (
-    <div className="w-[90%] p-5 mx-auto">
+    <div
+      id="4-1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4-1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="w-[90%] p-5 mx-auto">
       <div className="bg-yellow-50  shadow-2xl p-6 rounded-2xl mx-auto space-y-4">
         <h2 className="text-3xl text-center font-bold mb-3">
           Understanding the Stock Market
@@ -20,5 +29,7 @@ export default function HeaderStockMarket() {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 }

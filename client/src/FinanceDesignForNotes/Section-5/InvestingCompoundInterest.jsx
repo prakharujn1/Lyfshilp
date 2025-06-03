@@ -1,9 +1,18 @@
 import React from "react";
 import { ArrowDownCircle, Snowflake } from "lucide-react";
 
-const InvestingCompoundInterest = () => {
+const InvestingCompoundInterest = ({ topicRefs }) => {
   return (
-    <section id="investing-compound" className="py-24 bg-white">
+    <div
+      id="5-3"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5-3"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="investing-compound" className="py-24 bg-white">
       <div className="container mx-auto px-4 max-w-3xl">
         <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
           🔄 What is Compound Interest?
@@ -40,6 +49,8 @@ const InvestingCompoundInterest = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

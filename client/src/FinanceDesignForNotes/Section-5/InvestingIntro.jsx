@@ -1,9 +1,18 @@
 import React from "react";
 import { TrendingUp, PiggyBank } from "lucide-react";
 
-const InvestingIntro = () => {
+const InvestingIntro = ({ topicRefs }) => {
   return (
-    <section id="investing-intro" className="py-24 bg-gradient-to-b from-blue-50 to-white">
+   <div
+      id="5-1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5-1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="investing-intro" className="py-24 bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4 max-w-4xl">
         <h2 className="text-4xl font-bold mb-8 text-center text-blue-900">
           📈 The Value of Investing Early
@@ -47,6 +56,8 @@ const InvestingIntro = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

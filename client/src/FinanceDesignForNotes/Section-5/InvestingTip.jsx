@@ -1,9 +1,18 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
 
-const InvestingTips = () => {
+const InvestingTips = ({ topicRefs }) => {
   return (
-    <section id="investing-tips" className="py-24 bg-white">
+    <div
+      id="5-6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5-6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="investing-tips" className="py-24 bg-white">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="bg-green-50 p-6 md:p-8 rounded-xl shadow-md border-l-4 border-green-600">
           <div className="flex items-start mb-4">
@@ -35,6 +44,8 @@ const InvestingTips = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 
