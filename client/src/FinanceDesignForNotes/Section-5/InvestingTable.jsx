@@ -1,9 +1,18 @@
 import React from "react";
 import { BarChart2 } from "lucide-react";
 
-const InvestingTable = () => {
+const InvestingTable = ({ topicRefs }) => {
   return (
-    <section id="investing-table" className="py-24 bg-gradient-to-b from-white to-blue-50">
+    <div
+      id="5-4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5-4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="investing-table" className="py-24 bg-gradient-to-b from-white to-blue-50">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="flex items-center mb-6">
           <BarChart2 className="w-6 h-6 text-blue-600 mr-2" />
@@ -56,6 +65,8 @@ const InvestingTable = () => {
         </p>
       </div>
     </section>
+    </div>
+    
   );
 };
 

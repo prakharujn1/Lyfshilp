@@ -1,4 +1,4 @@
-export default function CreditsTricky() {
+export default function CreditsTricky({ topicRefs }) {
   const smartUse = [
     "Buying school laptop with 0% EMI",
     "Emergency hospital bill",
@@ -11,7 +11,16 @@ export default function CreditsTricky() {
   ];
 
   return (
-    <div className="w-[90%] mx-auto">
+   <div
+      id="3-5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["3-5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="w-[90%] mx-auto">
     <div className="bg-yellow-50 shadow-lg mx-auto p-4 rounded-lg">
       <h2 className="text-2xl font-bold mb-2">⚠️ Why Credit Can Be Tricky:</h2>
       <div className="grid grid-cols-2 mt-5  space-x-2">
@@ -40,5 +49,7 @@ export default function CreditsTricky() {
       </div>
     </div>
     </div>
+    </div>
+    
   );
 }

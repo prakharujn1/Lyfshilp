@@ -1,6 +1,15 @@
-export default function CreditScore() {
+export default function CreditScore({ topicRefs }) {
   return (
-    <div className="w-[50%] mx-auto">
+    <div
+      id="3-6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["3-6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="w-[50%] mx-auto">
       <div className="bg-yellow-50 p-3 shadow-2xl rounded-lg">
         <h2 className="text-2xl font-bold mb-2">
           🧾 Credit Score – Your Money Reputation
@@ -22,5 +31,7 @@ export default function CreditScore() {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 }

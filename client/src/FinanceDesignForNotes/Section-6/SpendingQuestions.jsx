@@ -2,8 +2,17 @@ import React from "react";
 import { HelpCircle } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingQuestions = () => (
-  <SectionContainer>
+const SpendingQuestions = ({ topicRefs }) => (
+  <div
+      id="6-4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6-4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+    <SectionContainer>
     <div className="flex items-center gap-3 mb-6">
       <HelpCircle className="text-blue-600" size={28} />
       <h2 className="text-2xl font-bold text-gray-800">Questions to Ask Before You Buy</h2>
@@ -16,6 +25,7 @@ const SpendingQuestions = () => (
       <li>What will I have to give up if I buy this now?</li>
     </ul>
   </SectionContainer>
+  </div>
 );
 
 export default SpendingQuestions;

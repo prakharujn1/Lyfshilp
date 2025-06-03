@@ -2,9 +2,18 @@ import React from "react";
 import { HelpCircle } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const Reflection = () => {
+const Reflection = ({ topicRefs }) => {
   return (
-    <SectionContainer>
+    <div
+      id="2-8"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-8"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <SectionContainer>
       <div className="flex items-center gap-3 mb-6">
         <HelpCircle className="text-blue-500" size={28} />
         <h2 className="text-2xl font-bold text-gray-800">Reflection Prompt</h2>
@@ -53,6 +62,8 @@ const Reflection = () => {
         </div>
       </div>
     </SectionContainer>
+    </div>
+    
   );
 };
 

@@ -2,8 +2,17 @@ import React from "react";
 import { AlertOctagon } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingBadHabits = () => (
-  <SectionContainer>
+const SpendingBadHabits = ({ topicRefs }) => (
+  <div
+      id="6-6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6-6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+    <SectionContainer>
     <div className="flex items-center gap-3 mb-6">
       <AlertOctagon className="text-red-500" size={28} />
       <h2 className="text-2xl font-bold text-gray-800">Bad Spending Habits (To Avoid)</h2>
@@ -16,6 +25,8 @@ const SpendingBadHabits = () => (
       <li>🚫 Not checking how much money is left</li>
     </ul>
   </SectionContainer>
+  </div>
+  
 );
 
 export default SpendingBadHabits;

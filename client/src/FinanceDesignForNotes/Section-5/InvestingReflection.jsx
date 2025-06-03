@@ -1,9 +1,18 @@
 import React from "react";
 import { HelpCircle, MessageCircle } from "lucide-react";
 
-const InvestingReflection = () => {
+const InvestingReflection = ({ topicRefs }) => {
   return (
-    <section id="investing-reflection" className="py-24 bg-gradient-to-b from-yellow-50 to-white">
+    <div
+      id="5-7"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5-7"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="investing-reflection" className="py-24 bg-gradient-to-b from-yellow-50 to-white">
       <div className="container mx-auto px-4 max-w-3xl">
         <div className="bg-white p-8 rounded-xl shadow-xl border-l-4 border-yellow-400">
           <div className="flex items-start mb-6">
@@ -47,6 +56,8 @@ const InvestingReflection = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

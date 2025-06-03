@@ -1,9 +1,18 @@
 import React from "react";
 import { Ban as Bank, ShieldCheck, Coins, CreditCard } from "lucide-react";
 
-const Introduction = () => {
+const Introduction = ({ topicRefs }) => {
   return (
-    <section
+    <div
+      id="1-1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1-1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section
       id="intro"
       className="flex items-center justify-center bg-gradient-to-b from-blue-50 to-white py-16"
     >
@@ -88,6 +97,8 @@ const Introduction = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

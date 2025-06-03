@@ -1,9 +1,18 @@
 import React from "react";
 import { Clock4 } from "lucide-react";
 
-const InvestingWhyTimeMatters = () => {
+const InvestingWhyTimeMatters = ({ topicRefs }) => {
   return (
-    <section id="investing-time" className="py-24 bg-blue-50">
+    <div
+      id="5-5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5-5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="investing-time" className="py-24 bg-blue-50">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="bg-white p-6 md:p-8 rounded-xl shadow-md border-l-4 border-green-500">
           <div className="flex items-start mb-4">
@@ -54,6 +63,8 @@ const InvestingWhyTimeMatters = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 
