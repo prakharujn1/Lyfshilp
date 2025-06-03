@@ -1,6 +1,15 @@
-export default function StocksReflection() {
+export default function StocksReflection({ topicRefs }) {
   return (
-    <div className="bg-yellow-50 max-w-3xl shadow-2xl p-6 rounded-2xl mx-auto space-y-4">
+    <div
+      id="4-8"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4-8"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-yellow-50 max-w-3xl shadow-2xl p-6 rounded-2xl mx-auto space-y-4">
       <h2 className="text-2xl font-bold mb-3">🧠 Reflection Prompt:</h2>
 
       <div className="bg-blue-200 p-4 rounded-xl shadow-sm">
@@ -18,5 +27,7 @@ export default function StocksReflection() {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 }

@@ -1,6 +1,15 @@
-export default function StockMarketAndGambling() {
+export default function StockMarketAndGambling({ topicRefs }) {
   return (
-    <div className="bg-yellow-50 max-w-3xl shadow-2xl p-6 rounded-2xl mx-auto space-y-4">
+    <div
+      id="4-6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4-6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-yellow-50 max-w-3xl shadow-2xl p-6 rounded-2xl mx-auto space-y-4">
       <h2 className="text-2xl font-bold mb-3">
         🧪 Is the Stock Market Like Gambling?
       </h2>
@@ -24,5 +33,7 @@ export default function StockMarketAndGambling() {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 }

@@ -2,9 +2,18 @@ import React from "react";
 import { Calculator } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const BudgetFormula = () => {
+const BudgetFormula = ({ topicRefs }) => {
   return (
-    <SectionContainer className="bg-blue-50">
+    <div
+      id="2-3"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-3"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <SectionContainer className="bg-blue-50">
       <div className="flex items-center gap-3 mb-6">
         <Calculator className="text-blue-500" size={28} />
         <h2 className="text-2xl font-bold text-gray-800">
@@ -27,6 +36,8 @@ const BudgetFormula = () => {
         </div>
       </div>
     </SectionContainer>
+    </div>
+    
   );
 };
 

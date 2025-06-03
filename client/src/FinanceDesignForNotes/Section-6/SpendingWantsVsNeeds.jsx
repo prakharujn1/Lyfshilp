@@ -2,8 +2,17 @@ import React from "react";
 import { Split } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingWantsVsNeeds = () => (
-  <SectionContainer>
+const SpendingWantsVsNeeds = ({ topicRefs }) => (
+  <div
+      id="6-3"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6-3"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+    <SectionContainer>
     <div className="flex items-center gap-3 mb-6">
       <Split className="text-purple-500" size={28} />
       <h2 className="text-2xl font-bold text-gray-800">Want vs. Need: What’s the Difference?</h2>
@@ -32,6 +41,7 @@ const SpendingWantsVsNeeds = () => (
       Smart spenders learn to: <br /> ✓ Buy what they need first <br /> ✓ Save for what they want later
     </p>
   </SectionContainer>
+  </div>
 );
 
 export default SpendingWantsVsNeeds;

@@ -2,8 +2,17 @@ import React from "react";
 import { ThumbsUp } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingTips = () => (
-  <SectionContainer className="bg-blue-50">
+const SpendingTips = ({ topicRefs }) => (
+  <div
+      id="6-5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6-5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+    <SectionContainer className="bg-blue-50">
     <div className="flex items-center gap-3 mb-6">
       <ThumbsUp className="text-green-500" size={28} />
       <h2 className="text-2xl font-bold text-gray-800">Tips for Smart Spending</h2>
@@ -16,6 +25,8 @@ const SpendingTips = () => (
       <li>✅ Wait 24 hours before buying expensive things (cooling-off rule!)</li>
     </ul>
   </SectionContainer>
+  </div>
+  
 );
 
 export default SpendingTips;

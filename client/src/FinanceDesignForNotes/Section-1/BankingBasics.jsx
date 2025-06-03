@@ -1,9 +1,18 @@
 import React from "react";
 import { ShieldCheck, ArrowUpDown, PiggyBank, CreditCard } from "lucide-react";
 
-const BankingBasics = () => {
+const BankingBasics = ({ topicRefs }) => {
   return (
-    <section id="what-is-bank" className="py-24 bg-white">
+    <div
+      id="1-2"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1-2"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="what-is-bank" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-12 text-center">
@@ -130,6 +139,8 @@ const BankingBasics = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

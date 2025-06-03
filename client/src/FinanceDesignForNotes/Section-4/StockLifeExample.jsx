@@ -1,6 +1,15 @@
-export default function StockLifeExample() {
+export default function StockLifeExample({ topicRefs }) {
   return (
-    <div className="w-[90%] mx-auto flex justify-center">
+    <div
+      id="4-3"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4-3"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="w-[90%] mx-auto flex justify-center">
     <div className="max-w-3xl bg-yellow-50 p-3 shadow-2xl rounded-lg">
       <h2 className="text-2xl max-w-2xl font-bold mb-2">💡 Real-Life Example</h2>
       <p className="max-w-2xl text-xl mt-5">
@@ -11,5 +20,7 @@ export default function StockLifeExample() {
       </p>
     </div>
   </div>
+    </div>
+    
   );
 }

@@ -2,9 +2,18 @@ import React from "react";
 import { Brain, PiggyBank } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const IntroSection = () => {
+const IntroSection = ({ topicRefs }) => {
   return (
-    <SectionContainer className="bg-white">
+    <div
+      id="2-2"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-2"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <SectionContainer className="bg-white">
       <div className="grid md:grid-cols-2 gap-10">
         <div className="space-y-6 animate-fade-in">
           <div className="flex items-center gap-3">
@@ -54,6 +63,8 @@ const IntroSection = () => {
         </div>
       </div>
     </SectionContainer>
+    </div>
+    
   );
 };
 
