@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Confetti from "react-confetti";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; 
 import { toast, ToastContainer } from "react-toastify";
 import Avatar from "./Avatar";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -32,6 +33,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const BudgetActivity = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [income, setIncome] = useState("");
   const [selectedExpenses, setSelectedExpenses] = useState([]);
   const [expenseDetails, setExpenseDetails] = useState([]);
@@ -160,6 +162,8 @@ Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive
       } else {
         setFeedbackAvatarType("Sad");
       }
+
+        completeFinanceChallenge(0, 3);//MARK CHALLENGE COMPLETED
     } catch (err) {
       console.error("Error:", err);
       setFeedback("Something went wrong. Try again.");

@@ -17,6 +17,8 @@ import SurpriseAvatar from "./SurpriseAvatar.jsx";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
+
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -46,6 +48,8 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const BudgetBuilder = () => {
+  const { completeFinanceChallenge } = useFinance();
+
   const initialExpenses = [
     { id: "1", label: "Weekend Movie", cost: 200, icon: <FaFilm /> },
     { id: "2", label: "Data Plan", cost: 210, icon: <FaPiggyBank /> },
@@ -301,11 +305,12 @@ Constraints:
       console.log(parsed);
       setResult(parsed);
       setFeedbackAvatarType(parsed.avatarType);
+
+      completeFinanceChallenge(0, 0);//MARK CHALLENGE COMPLETED
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
     }
-
     setLoading(false);
   };
 

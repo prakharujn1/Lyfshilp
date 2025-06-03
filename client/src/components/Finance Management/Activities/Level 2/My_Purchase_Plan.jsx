@@ -20,10 +20,13 @@ import thinkingBoy from "../../../../lotties/thingking-boy.json";
 import celebrationGirl from "../../../../lotties/celebration-girl.json";
 import shoppingBag from "../../../../lotties/shopping-bag.json";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../contexts/FinanceContext";
+
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const My_Purchase_Plan = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [product, setProduct] = useState("");
   const [price, setPrice] = useState("");
   const [months, setMonths] = useState("");
@@ -98,6 +101,8 @@ Format:
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       setResult(parsed);
       console.log(parsed);
+
+      completeFinanceChallenge(1, 3); //mark challenge completed
     } catch (err) {
       console.error(err);
       setError("Error generating plan. Try again.");
