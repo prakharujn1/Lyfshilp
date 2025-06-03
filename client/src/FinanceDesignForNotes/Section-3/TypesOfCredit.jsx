@@ -1,4 +1,4 @@
-export default function TypesOfCredit() {
+export default function TypesOfCredit({ topicRefs }) {
   const creditDetails = [
     {
       type: "Loan",
@@ -19,7 +19,16 @@ export default function TypesOfCredit() {
   ];
 
   return (
-    <div className="w-[90%] mx-auto">
+    <div
+      id="3-4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["3-4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="w-[90%] mx-auto">
       <div className="bg-blue-50 shadow-lg p-4 rounded-lg mx-auto">
         <h2 className="text-xl font-bold mb-2">💳 Common Types of Credit:</h2>
         <div className="grid grid-cols-2 mt-5 space-x-2 font-semibold text-2xl text-center">
@@ -43,5 +52,7 @@ export default function TypesOfCredit() {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 }

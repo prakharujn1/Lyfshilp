@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HelpCircle, CheckCircle, AlertCircle } from "lucide-react";
 
-const Reflection = () => {
+const Reflection = ({ topicRefs }) => {
   const [showTip, setShowTip] = useState(false);
   const [responses, setResponses] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -19,7 +19,16 @@ const Reflection = () => {
   };
 
   return (
-    <section id="reflection" className="py-24 bg-gray-50">
+    <div
+      id="1-7"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1-7"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="reflection" className="py-24 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12 text-center">
           Reflection Prompt
@@ -203,6 +212,8 @@ const Reflection = () => {
         </div>
       </div>
     </section>
+     </div>
+    
   );
 };
 

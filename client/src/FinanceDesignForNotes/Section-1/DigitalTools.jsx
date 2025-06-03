@@ -1,8 +1,17 @@
 import { digitalTools, toolIcons } from "../../utilities/constants.js";
 
-const DigitalTools = () => {
+const DigitalTools = ({ topicRefs }) => {
   return (
-    <section id="digital-tools" className="py-24 bg-white">
+    <div
+      id="1-4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1-4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="digital-tools" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12 text-center">
           Digital Banking Tools You Use
@@ -78,6 +87,8 @@ const DigitalTools = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

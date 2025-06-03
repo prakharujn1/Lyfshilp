@@ -2,7 +2,7 @@ import React from "react";
 import { Wrench, Wallet, FileSpreadsheet, Smartphone } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const BudgetTools = () => {
+const BudgetTools = ({ topicRefs }) => {
   const tools = [
     {
       title: "Envelope Method",
@@ -22,7 +22,16 @@ const BudgetTools = () => {
   ];
 
   return (
-    <SectionContainer>
+    <div
+      id="2-6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <SectionContainer>
       <div className="flex items-center gap-3 mb-8">
         <Wrench className="text-blue-500" size={28} />
         <h2 className="text-2xl font-bold text-gray-800">Budgeting Tools</h2>
@@ -47,6 +56,8 @@ const BudgetTools = () => {
         ))}
       </div>
     </SectionContainer>
+    </div>
+    
   );
 };
 

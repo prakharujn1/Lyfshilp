@@ -1,9 +1,18 @@
 import React from "react";
 import { Coins, Wallet } from "lucide-react";
 
-const Example = () => {
+const Example = ({ topicRefs }) => {
   return (
-    <section id="example" className="py-24 bg-white">
+    <div
+      id="1-6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1-6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="example" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12 text-center">
           Real-Life Example
@@ -122,6 +131,8 @@ const Example = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 
