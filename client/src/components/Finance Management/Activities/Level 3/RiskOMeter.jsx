@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { GiMoneyStack, GiReceiveMoney, GiChart } from "react-icons/gi";
 import { BackgroundBeamsWithCollision } from "../../../../../StyleComponents/BackGroundWithBeams";
+import { useFinance } from "../../../../contexts/FinanceContext";
 
 const questions = [
   {
@@ -53,6 +54,7 @@ function calculateRiskProfile(score) {
 }
 
 export default function RiskOMeter() {
+  const { completeFinanceChallenge } = useFinance();
   const [currentQ, setCurrentQ] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -70,6 +72,8 @@ export default function RiskOMeter() {
       setTimeout(() => {
         setAnimate(false);
       }, 2500);
+
+      completeFinanceChallenge(2, 1); //maek challenge completed 
     }
   };
 

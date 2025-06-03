@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -77,18 +79,31 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-4 mr-4">
-          <Link
-            to="/login"
-            className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300" 
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
-          >
-            Register
-          </Link>
+          {
+            user ?
+              <>
+                <Link
+                  to="/dashboard"
+                  className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
+                >
+                  Dashboard
+                </Link>
+              </> :
+              <>
+                <Link
+                  to="/login"
+                  className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
+                >
+                  Register
+                </Link>
+              </>
+          }
           <Link
             to="/book-trial"
             className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"

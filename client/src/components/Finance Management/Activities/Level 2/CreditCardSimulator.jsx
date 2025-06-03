@@ -1,5 +1,5 @@
 // CreditCardSimulator.jsx
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Confetti from "react-confetti";
 import Lottie from "lottie-react";
@@ -19,6 +19,7 @@ import dancingLeft from "../../../../lotties/danceLeft.json";
 import dancingRight from "../../../../lotties/danceRight.json";
 import sparkle from "../../../../lotties/sparkle.json";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../contexts/FinanceContext";
 
 const items = [
   { name: "📱 Smartphone", cost: 9000 },
@@ -38,12 +39,16 @@ const calculateEMI = (principal, rate, months) => {
 };
 
 export default function CreditCardSimulator() {
+  const { completeFinanceChallenge } = useFinance();
   const [selectedItem, setSelectedItem] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [debt, setDebt] = useState(0);
   const [userPayments, setUserPayments] = useState([]);
   const [month, setMonth] = useState(1);
-  const [done, setDone] = useState(false);
+  const [emiDone, setEmiDone] = useState(false);
+  const [minDone, setMinDone] = useState(false);
+  const [hasTriedEmi, setHasTriedEmi] = useState(false);
+const [hasTriedMin, setHasTriedMin] = useState(false);
   const [emiAmount, setEmiAmount] = useState(0);
   const [remainingPrincipal, setRemainingPrincipal] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
@@ -59,7 +64,8 @@ export default function CreditCardSimulator() {
     setRemainingPrincipal(item.cost);
     setUserPayments([]);
     setMonth(1);
-    setDone(false);
+    setEmiDone(false);
+    setMinDone(false);
     setPaymentMethod(null);
     triggerSparkle();
   };
@@ -91,7 +97,8 @@ export default function CreditCardSimulator() {
     ]);
 
     if (month === totalMonths || newDebt <= 0) {
-      setDone(true);
+      setMinDone(true);
+      setHasTriedMin(true);
     } else {
       setDebt(newDebt);
       setMonth(month + 1);
@@ -115,7 +122,8 @@ export default function CreditCardSimulator() {
     ]);
 
     if (month === totalMonths || newPrincipal <= 0) {
-      setDone(true);
+      setEmiDone(true);
+        setHasTriedEmi(true);
     } else {
       setRemainingPrincipal(newPrincipal);
       setMonth(month + 1);
@@ -125,15 +133,22 @@ export default function CreditCardSimulator() {
   const totalPaid = userPayments.reduce((sum, p) => sum + p.payment, 0);
   const chartData = selectedItem
     ? [
-        { name: "Item Price", amount: selectedItem.cost },
-        { name: "Total Paid", amount: totalPaid },
-      ]
+      { name: "Item Price", amount: selectedItem.cost },
+      { name: "Total Paid", amount: totalPaid },
+    ]
     : [];
+
+  useEffect(() => {
+  if (hasTriedEmi && hasTriedMin) {
+    completeFinanceChallenge(1, 0);
+  }
+}, [hasTriedEmi, hasTriedMin]);
+
 
   return (
     <div className="relative min-h-screen bg-gray-50">
-      {done && <Confetti />}
-      {done && (
+      {(emiDone || minDone) && <Confetti />}
+      {(emiDone || minDone) && (
         <>
           <Lottie
             animationData={dancingLeft}
@@ -197,7 +212,7 @@ export default function CreditCardSimulator() {
                 </button>
               </div>
             </>
-          ) : !done ? (
+          ) : !(emiDone || minDone) ? (
             <>
               <p className="text-xl text-center mt-4 font-semibold">
                 📅 Month {month}
@@ -273,7 +288,8 @@ export default function CreditCardSimulator() {
                     setUserPayments([]);
                     setDebt(0);
                     setMonth(1);
-                    setDone(false);
+                    setEmiDone(false);
+                    setMinDone(false);
                     setPaymentMethod(null);
                     setRemainingPrincipal(0);
                   }}

@@ -8,22 +8,37 @@ datasource db {
 }
 
 model User {
-  id                String   @id @default(cuid())
-  phonenumber       String   @unique
+  id                String              @id @default(cuid())
+  phonenumber       String              @unique
   name              String
   age               Int
   userClass         String
   characterGender   String
   characterName     String
   characterStyle    String
-  characterTraits   String[] // Array of traits
-  createdAt         DateTime @default(now())
-}
+  characterTraits   String[]            // Array of traits
+  createdAt         DateTime            @default(now())
 
+  // Reverse relation to FinanceChallenge
+  financeChallenges FinanceChallenge[]  // 👈 This is the required missing relation
+}
 
 model OtpVerification {
   phonenumber   String   @id
   otp           String
   otpExpiration DateTime
   createdAt     DateTime @default(now())
+}
+
+model FinanceChallenge {
+  id             String   @id @default(cuid())
+  userId         String
+  moduleIndex    Int
+  challengeIndex Int
+  completed      Boolean  @default(false)
+  completedAt    DateTime?
+
+  user           User     @relation(fields: [userId], references: [id])  // Forward relation
+
+  @@unique([userId, moduleIndex, challengeIndex]) // Prevent duplicate entries
 }
