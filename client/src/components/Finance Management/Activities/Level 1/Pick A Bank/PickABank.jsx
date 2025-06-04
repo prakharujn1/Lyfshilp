@@ -8,7 +8,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 const upiOptions = ["Google Pay", "PhonePe", "Paytm", "BHIM"];
 const banks = [
-  {
+  { 
     id: "A",
     name: "Bank A",
     fee: "₹0/month",

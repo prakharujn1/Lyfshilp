@@ -26,7 +26,7 @@ const Curriculum = forwardRef((props, ref) => {
           description: "Objective: Introduce banking basics.",
           duration: "50 min",
           path: "/pick-a-bank",
-        },
+        }, 
         {
           title: "Overspend Trap (Quiz Game)",
           description: "Scenario-based decision making.",
@@ -39,7 +39,7 @@ const Curriculum = forwardRef((props, ref) => {
           duration: "55 min",
           path: "/budget-activity",
         },
-      ],
+      ], 
     },
     {
       title: "🎮 LEVEL 2: The Smart Spender",
