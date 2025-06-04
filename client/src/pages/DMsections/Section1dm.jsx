@@ -53,9 +53,18 @@ const adTypes = [
   },
 ];
 
-const Section1dm = () => {
+const Section1dm = ({ topicRefs }) => {
   return (
-    <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
+    <div
+      id="1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-pink-600 mb-6">
         ✨ Types of Digital Ads – Not All Ads Look the Same!
       </h2>
@@ -101,6 +110,8 @@ const Section1dm = () => {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 };
 

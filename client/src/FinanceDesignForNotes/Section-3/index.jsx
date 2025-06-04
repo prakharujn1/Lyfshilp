@@ -12,10 +12,10 @@ const Section3 = ({ topicRefs }) => {
       <h1 className="text-2xl font-bold mb-4">Section 3: Credit</h1>
       <HeaderCredits topicRefs={topicRefs} />
       <WhatIsCredit topicRefs={topicRefs} />
-      <TypesOfCredit topicRefs={topicRefs} />
-      <CreditScore topicRefs={topicRefs} />
-      <CreditsTricky topicRefs={topicRefs} />
       <CreditExample topicRefs={topicRefs} />
+      <TypesOfCredit topicRefs={topicRefs} />
+      <CreditsTricky topicRefs={topicRefs} />
+      <CreditScore topicRefs={topicRefs} />
       <ReflectionCredit topicRefs={topicRefs} />
     </div>
   );
