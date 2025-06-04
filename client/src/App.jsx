@@ -40,6 +40,10 @@ import Section8dm from "./pages/DMsections/Section8dm";
 import IntroPageAdDetective from "./components/Digital Marketing/Level 1/AdDetective/IntroPageAdDetective";
 import MissionCompleteAdDetective from "./components/Digital Marketing/Level 1/AdDetective/MissionCompleteAdDetective";
 import AdDetectiveGamePage from "./components/Digital Marketing/Level 1/AdDetective/AdDetectiveGamePage";
+import BrandCreatorGame from "./components/Digital Marketing/Level 1/BrandCreator/BrandCreatorGame";
+import BrandBrandExplorerGameSelect from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerSelect";
+import IntroPageBrandExplorer from "./components/Digital Marketing/Level 1/BrandExplorer/IntroPageBrandExplorer";
+import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerGameComplete";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -174,6 +178,20 @@ function App() {
             <Route
               path="/ad-detective-mission-complete"
               element={<MissionCompleteAdDetective />}
+            />
+            <Route path="/brand-creator-game" element={<BrandCreatorGame />} />
+            
+            <Route
+              path="/brand-explorer-intro"
+              element={<IntroPageBrandExplorer />}
+            />
+            <Route
+              path="/brand-explorer-game"
+              element={<BrandBrandExplorerGameSelect />}
+            />
+            <Route
+              path="/brand-explorer-game-complete"
+              element={<BrandExplorerGameComplete />}
             />
 
             {/* Level 2 games of digital marketing */}
