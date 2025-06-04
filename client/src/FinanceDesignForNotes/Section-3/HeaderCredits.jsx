@@ -1,6 +1,15 @@
-export default function HeaderCredits() {
+export default function HeaderCredits({ topicRefs }) {
   return (
-    <div className="w-[90%] mx-auto">
+    <div
+      id="3-1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["3-1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="w-[90%] mx-auto">
       <div className="bg-yellow-50 shadow-2xl p-10 rounded-2xl mx-auto space-y-4">
         <h2 className="text-3xl text-center font-bold mb-3">
           What Is Credit and Why It Matters
@@ -16,5 +25,7 @@ export default function HeaderCredits() {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 }

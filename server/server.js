@@ -6,11 +6,13 @@ require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
 const userRoutes = require("./routes/userRoutes");
+const financeRoutes = require("./routes/financeRoutes");
 
 // Enable CORS for all origins
 app.use(cors());
 
 app.use(express.json());
 app.use("/", userRoutes);
+app.use("/finance", financeRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

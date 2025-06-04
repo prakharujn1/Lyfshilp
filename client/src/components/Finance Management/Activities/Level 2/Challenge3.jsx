@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Lottie from "lottie-react";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../contexts/FinanceContext";
 
 // Lottie animations
 import superheroAnimation from "../../../../lotties/superhero.json";
@@ -52,6 +53,7 @@ const getLottieAnimation = (category) => {
 };
 
 const Challenge3 = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [step, setStep] = useState(0);
   const [inputValue, setInputValue] = useState("");
   const [expenseLimit, setExpenseLimit] = useState("");
@@ -123,8 +125,10 @@ const Challenge3 = () => {
     );
   }
 
+
   if (step >= items.length) {
     const overspent = getTotalSpent() > Number(expenseLimit);
+    {!overspent && completeFinanceChallenge(1, 2);}//mark challenge completed
     return (
       <motion.div
         className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
@@ -138,9 +142,8 @@ const Challenge3 = () => {
           🧾 Total Spent: ₹{getTotalSpent()} / ₹{expenseLimit}
         </p>
         <p
-          className={`text-center font-bold ${
-            overspent ? "text-red-500" : "text-green-500"
-          }`}
+          className={`text-center font-bold ${overspent ? "text-red-500" : "text-green-500"
+            }`}
         >
           {overspent
             ? "❌ You overspent. Try skipping more next time!"

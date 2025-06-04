@@ -1,8 +1,11 @@
 import { useState } from "react";
 import BarChart from "../../../charts/BarChart";
 import PieChart from "../../../charts/PieChart";
+import { useFinance } from "../../../../contexts/FinanceContext";
+
 
 const InvestmentSimulator = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [allocations, setAllocations] = useState({
     fixedDeposits: 0,
     gold: 0,
@@ -111,6 +114,9 @@ const InvestmentSimulator = () => {
         value: returns,
       },
     ]);
+      // ✅ Mark challenge as complete
+    completeFinanceChallenge(2, 2);
+
   };
 
   return (

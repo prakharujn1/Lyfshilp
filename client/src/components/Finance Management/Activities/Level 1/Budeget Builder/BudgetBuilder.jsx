@@ -17,6 +17,8 @@ import SurpriseAvatar from "./SurpriseAvatar.jsx";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
+
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -46,6 +48,8 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const BudgetBuilder = () => {
+  const { completeFinanceChallenge } = useFinance();
+
   const initialExpenses = [
     { id: "1", label: "Weekend Movie", cost: 200, icon: <FaFilm /> },
     { id: "2", label: "Data Plan", cost: 210, icon: <FaPiggyBank /> },
@@ -301,11 +305,17 @@ Constraints:
       console.log(parsed);
       setResult(parsed);
       setFeedbackAvatarType(parsed.avatarType);
+
+      // ✅ Extract the numeric score safely from "X/10"
+      const scoreNumber = parseInt(parsed.spendingScore?.split("/")[0]);
+
+      if (!isNaN(scoreNumber) && scoreNumber >= 8) {
+        completeFinanceChallenge(0, 0);
+      }
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
     }
-
     setLoading(false);
   };
 
@@ -327,9 +337,8 @@ Constraints:
         style={{ fontFamily: "'Comic Neue', cursive" }}
       >
         <div
-          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${
-            spin ? "animate-spin" : "animate-none"
-          }`}
+          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${spin ? "animate-spin" : "animate-none"
+            }`}
         >
           🎯 Weekly Budget Builder!
         </div>

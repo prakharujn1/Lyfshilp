@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../contexts/FinanceContext";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -31,6 +32,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 export default function OverspendTrap() {
+  const { completeFinanceChallenge } = useFinance();
   const [selectedOption, setSelectedOption] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -89,6 +91,9 @@ Example format:
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       console.log(parsed);
       setFeedback(parsed.feedback);
+
+
+      completeFinanceChallenge(0, 2);//MARK CHALLENGE COMPLETED
     } catch (e) {
       console.error("Error generating feedback", e);
       setError("Error generating feedback. Try again later.");

@@ -315,101 +315,67 @@ const Home = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="mt-20 bg-white flex flex-col items-center">
-        <div className="max-w-5xl w-full mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center">
-            Your Pathway to Success{" "}
-            <span className="text-[#129990]">with EduManiax!</span>
-          </h2>
+      {/* Call to Action Section */}
+<section className="mt-20 relative overflow-hidden bg-gradient-to-br from-[#f0fcfa] via-[#e0f7f4] to-white py-20 px-4">
+  <div className="absolute top-[-50px] left-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
+  <div className="absolute bottom-[-50px] right-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
 
-          <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-            {/* Enroll */}
-            <motion.div
-              className="flex flex-col items-center text-center flex-1 min-w-[220px] transition-transform duration-300 hover:scale-105"
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true, amount: 0.4 }}
-            >
-              <div className="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center mb-4 shadow-md">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/4202/4202843.png"
-                  alt="Enroll"
-                  className="w-28 h-28 object-contain"
-                />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Enroll</h3>
-              <p className="text-gray-600">
-                Choose your likeable course and proceed.
-              </p>
-            </motion.div>
+  <div className="relative z-10 max-w-6xl mx-auto text-center">
+    <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+      Your Pathway to Success{" "}
+      <span className="text-[#129990]">with EduManiax!</span>
+    </h2>
 
-            {/* Arrow */}
-            <div className="hidden md:flex flex-col items-center">
-              <img
-                src="https://a.storyblok.com/f/114532/401x313/673568ba17/plane1.png/m/400x312"
-                alt="Plane Arrow"
-                className="max-w-[200px] max-h-[156px] object-cover"
-                style={{ aspectRatio: "1.28205" }}
-              />
-            </div>
+    <motion.div
+      className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ staggerChildren: 0.2 }}
+      variants={{
+        visible: { transition: { staggerChildren: 0.2 } },
+        hidden: {},
+      }}
+    >
+      {[
+        {
+          title: "Enroll",
+          desc: "Choose your likeable course and proceed.",
+          icon: "https://cdn-icons-png.flaticon.com/512/4202/4202843.png",
+        },
+        {
+          title: "Get Trained",
+          desc: "Learn from our educators and industry experts to gain practical skills.",
+          icon: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
+        },
+        {
+          title: "Excel",
+          desc: "Apply your skills in real-world scenarios and excel in your career.",
+          icon: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
+        },
+      ].map((step, index) => (
+        <motion.div
+          key={index}
+          className="bg-white bg-opacity-70 backdrop-blur-md rounded-3xl p-6 shadow-xl flex flex-col items-center text-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
+          initial={{ y: 50, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: index * 0.2 }}
+        >
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 3 }}
+            className="w-32 h-32 rounded-full bg-white flex items-center justify-center mb-6 shadow-md border"
+          >
+            <img src={step.icon} alt={step.title} className="w-20 h-20" />
+          </motion.div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">{step.title}</h3>
+          <p className="text-gray-600">{step.desc}</p>
+        </motion.div>
+      ))}
+    </motion.div>
+  </div>
+</section>
 
-            {/* Get Trained */}
-            <motion.div
-              className="flex flex-col items-center text-center flex-1 min-w-[220px] transition-transform duration-300 hover:scale-105"
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true, amount: 0.4 }}
-            >
-              <div className="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center mb-4 shadow-md">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
-                  alt="Get Trained"
-                  className="w-28 h-28 object-contain"
-                />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Get Trained</h3>
-              <p className="text-gray-600">
-                Learn from our educators and industry experts to gain practical
-                skills.
-              </p>
-            </motion.div>
-
-            {/* Arrow */}
-            <div className="hidden md:flex flex-col items-center">
-              <img
-                src="https://a.storyblok.com/f/114532/401x313/673568ba17/plane1.png/m/400x312"
-                alt="Plane Arrow"
-                className="max-w-[200px] max-h-[156px] object-cover"
-                style={{ aspectRatio: "1.28205" }}
-              />
-            </div>
-
-            {/* Excel */}
-            <motion.div
-              className="flex flex-col items-center text-center flex-1 min-w-[220px] transition-transform duration-300 hover:scale-105"
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true, amount: 0.4 }}
-            >
-              <div className="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center mb-4 shadow-md">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png"
-                  alt="Excel"
-                  className="w-28 h-28 object-contain"
-                />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Excel</h3>
-              <p className="text-gray-600">
-                Apply your skills in real-world scenarios and excel in your
-                career.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { PieChart } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const BudgetRule = () => {
+const BudgetRule = ({ topicRefs }) => {
   const categories = [
     {
       percentage: "50%",
@@ -25,7 +25,16 @@ const BudgetRule = () => {
   ];
 
   return (
-    <SectionContainer className="bg-blue-50">
+    <div
+      id="2-5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <SectionContainer className="bg-blue-50">
       <div className="flex items-center gap-3 mb-8">
         <PieChart className="text-blue-500" size={28} />
         <h2 className="text-2xl font-bold text-gray-800">
@@ -55,6 +64,8 @@ const BudgetRule = () => {
         ))}
       </div>
     </SectionContainer>
+    </div>
+    
   );
 };
 

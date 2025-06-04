@@ -2,7 +2,7 @@ import React from "react";
 import { Receipt } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const ExampleBudget = () => {
+const ExampleBudget = ({ topicRefs }) => {
   const budgetItems = [
     { type: "Canteen snacks", amount: "₹600" },
     { type: "Data top-up", amount: "₹200" },
@@ -12,7 +12,16 @@ const ExampleBudget = () => {
   ];
 
   return (
-    <SectionContainer>
+    <div
+      id="2-4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <SectionContainer>
       <div className="flex items-center gap-3 mb-6">
         <Receipt className="text-blue-500" size={28} />
         <h2 className="text-2xl font-bold text-gray-800">Example Budget</h2>
@@ -66,6 +75,8 @@ const ExampleBudget = () => {
         </div>
       </div>
     </SectionContainer>
+    </div>
+    
   );
 };
 

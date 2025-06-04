@@ -2,11 +2,20 @@ import React, { useState } from "react";
 import { LightbulbIcon } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const Scenario = () => {
+const Scenario = ({ topicRefs }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <SectionContainer className="bg-blue-50">
+    <div
+      id="2-7"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-7"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <SectionContainer className="bg-blue-50">
       <div className="flex items-center gap-3 mb-6">
         <LightbulbIcon className="text-yellow-500" size={28} />
         <h2 className="text-2xl font-bold text-gray-800">Real-Life Scenario</h2>
@@ -71,6 +80,8 @@ const Scenario = () => {
         </div>
       </div>
     </SectionContainer>
+    </div>
+    
   );
 };
 

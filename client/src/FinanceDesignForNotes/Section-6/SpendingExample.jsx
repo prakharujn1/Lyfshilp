@@ -2,8 +2,17 @@ import React from "react";
 import { Lightbulb } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingExample = () => (
-  <SectionContainer className="bg-blue-50">
+const SpendingExample = ({ topicRefs }) => (
+  <div
+      id="6-2"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6-2"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+    <SectionContainer className="bg-blue-50">
     <div className="flex items-center gap-3 mb-6">
       <Lightbulb className="text-yellow-500" size={28} />
       <h2 className="text-2xl font-bold text-gray-800">Real-Life Example</h2>
@@ -21,6 +30,8 @@ const SpendingExample = () => (
       <p className="text-green-600 font-medium">Which one feels smarter by Friday?</p>
     </div>
   </SectionContainer>
+  </div>
+  
 );
 
 export default SpendingExample;
