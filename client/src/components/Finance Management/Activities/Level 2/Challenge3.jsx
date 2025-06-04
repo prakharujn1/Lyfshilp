@@ -127,8 +127,8 @@ const Challenge3 = () => {
 
 
   if (step >= items.length) {
-     completeFinanceChallenge(1, 2);//mark challenge completed
     const overspent = getTotalSpent() > Number(expenseLimit);
+    {!overspent && completeFinanceChallenge(1, 2);}//mark challenge completed
     return (
       <motion.div
         className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
