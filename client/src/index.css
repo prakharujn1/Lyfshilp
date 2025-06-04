@@ -137,3 +137,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Hide browser extension's speed overlay */
+body > #video-speed-controller {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+}

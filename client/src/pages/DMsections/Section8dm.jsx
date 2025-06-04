@@ -35,9 +35,18 @@ const questions = [
   "📈 What are some key metrics you can use to measure the success of an online ad campaign?",
 ];
 
-const Section8dm = () => {
+const Section8dm = ({ topicRefs }) => {
   return (
-    <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
+    <div
+      id="8"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["8"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-600 mb-6">
         Analytics – See What’s Working 📈
       </h2>
@@ -104,6 +113,8 @@ const Section8dm = () => {
         </ul>
       </div>
     </div>
+    </div>
+    
   );
 };
 

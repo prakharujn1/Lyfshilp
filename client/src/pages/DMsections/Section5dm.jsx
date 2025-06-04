@@ -38,9 +38,18 @@ const platforms = [
   },
 ];
 
-const Section5dm = () => {
+const Section5dm = ({ topicRefs }) => {
   return (
-    <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
+    <div
+      id="5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-sky-600 mb-6">
         Digital Platforms – Where Will You Show It?
       </h2>
@@ -88,6 +97,8 @@ const Section5dm = () => {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 };
 

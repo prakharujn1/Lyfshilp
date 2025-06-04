@@ -35,9 +35,18 @@ const contentTypes = [
   },
 ];
 
-const Section4dm = () => {
+const Section4dm = ({ topicRefs }) => {
   return (
-    <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
+    <div
+      id="4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-orange-600 mb-6">
         Content Creation – Make It Catchy and Cool
       </h2>
@@ -99,6 +108,8 @@ const Section4dm = () => {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 };
 

@@ -11,11 +11,11 @@ const Section6 = ({ topicRefs }) => {
     <div>
       <h1 className="text-2xl font-bold mb-4">Section 6: Spending Habits</h1>
       <SpendingIntro topicRefs={topicRefs} />
+      <SpendingExample topicRefs={topicRefs} />
       <SpendingWantsVsNeeds topicRefs={topicRefs} />
+      <SpendingQuestions topicRefs={topicRefs} />
       <SpendingTips topicRefs={topicRefs} />
       <SpendingBadHabits topicRefs={topicRefs} />
-      <SpendingExample topicRefs={topicRefs} />
-      <SpendingQuestions topicRefs={topicRefs} />
       <SpendingReflection topicRefs={topicRefs} />
     </div>
   );
