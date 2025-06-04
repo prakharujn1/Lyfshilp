@@ -23,9 +23,18 @@ const audienceData = [
   },
 ];
 
-const Section2dm = () => {
+const Section2dm = ({ topicRefs }) => {
   return (
-    <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
+    <div
+      id="2"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-indigo-600 mb-6">
         🎯 Target Audience – Who Are You Talking To?
       </h2>
@@ -92,6 +101,8 @@ const Section2dm = () => {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 };
 

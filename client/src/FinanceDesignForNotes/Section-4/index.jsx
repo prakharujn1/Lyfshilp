@@ -13,11 +13,11 @@ const Section4 = ({ topicRefs }) => {
       <h1 className="text-2xl font-bold mb-4">Section 4: Stock Market</h1>
       <HeaderStockMarket topicRefs={topicRefs} />
       <IntroStockMarket topicRefs={topicRefs} />
-      <KeyTermsStock topicRefs={topicRefs} />
-      <PricesFluctuate topicRefs={topicRefs} />
       <StockLifeExample topicRefs={topicRefs} />
-      <StockMarketAndGambling topicRefs={topicRefs} />
       <WhereBuyShares topicRefs={topicRefs} />
+      <PricesFluctuate topicRefs={topicRefs} />
+      <StockMarketAndGambling topicRefs={topicRefs} />
+      <KeyTermsStock topicRefs={topicRefs} />
       <StocksReflection topicRefs={topicRefs} />
     </div>
   );

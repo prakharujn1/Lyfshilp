@@ -116,14 +116,13 @@ const Home = () => {
   }, [isHovered]);
 
   return (
-    <div style={{ padding: "3rem 3rem", margin: "0" }}>
+    <div className="px-4 sm:px-6 md:px-10 lg:px-16 py-10 overflow-x-hidden">
       {/* Intro Section */}
-      <div className="w-full flex h-[600px] mb-15 bg-white">
-        <div className="w-1/2">
-          <div className="flex flex-col justify-center h-full px-8 bg-white text-black">
+      <div className="w-full flex flex-col-reverse lg:flex-row gap-10 mb-16">
+        <div className="w-full lg:w-1/2 flex flex-col justify-center text-black">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Real Skills.{" "}
-              <span style={{ color: "#184802" }}>Fun Learning.</span>
+              Real Skills{" "}
+              <span style={{ color: "#184802" }}>Fun Learning</span>
             </h1>
             <p className="mt-4 text-lg text-black-500 max-w-md">
               Master finance, law, communication, coding & more — through
@@ -131,10 +130,10 @@ const Home = () => {
               Grade 6 to 12.
             </p>
             <div className="mt-6 flex gap-4">
-              <button className="bg-[#184802] text-[#6FCF97] hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
+              <button className="bg-[#184802] text-white hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
                 Start Learning
               </button>
-              <button className="bg-[#184802] text-[#6FCF97] hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
+              <button className="bg-[#184802] text-white hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
                 Explore Subjects
               </button>
             </div>
@@ -149,11 +148,11 @@ const Home = () => {
                 <span className="text-yellow-300">💡</span> Real-Life Skills
               </div>
             </div>
-          </div>
+          
         </div>
 
-        <div className="w-1/2 h-full flex flex-col justify-center px-8 item-center">
-          <div className="overflow-hidden w-[600px] h-[400px]">
+        <div className="w-full lg:w-1/2 flex justify-center items-center">
+          <div className="w-full max-w-[500px] h-[280px] sm:h-[360px] md:h-[420px] lg:h-[470px] overflow-hidden rounded-xl">
             <Swiper
               modules={[Autoplay]}
               spaceBetween={20}
@@ -192,9 +191,9 @@ const Home = () => {
         `}
       </style>
 
-      <div className="max-w-7xl mx-auto mb-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto mb-10 overflow-hidden">
         <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-          Beyond Textbooks: Real Skills. Real Impact.
+          Beyond Textbooks: Real Skills Real Impact
         </h2>
         <div
           className="marquee-wrapper overflow-hidden w-full"
