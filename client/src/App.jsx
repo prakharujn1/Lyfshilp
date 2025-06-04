@@ -40,6 +40,9 @@ import Section8dm from "./pages/DMsections/Section8dm";
 import IntroPageAdDetective from "./components/Digital Marketing/Level 1/AdDetective/IntroPageAdDetective";
 import MissionCompleteAdDetective from "./components/Digital Marketing/Level 1/AdDetective/MissionCompleteAdDetective";
 import AdDetectiveGamePage from "./components/Digital Marketing/Level 1/AdDetective/AdDetectiveGamePage";
+import PrivacyPolicy from "./Footer-Routes/PrivacyPolicy";
+import RefundPolicy from "./Footer-Routes/RefundPolicy";
+import TermsAndConditions from "./Footer-Routes/TermsAndConditions";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -221,6 +224,9 @@ function App() {
             />
 
             <Route path="/faq's" element={<FAQ />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/refund-policy" element={<RefundPolicy />} />
+            <Route path="/terms-conditions" element={<TermsAndConditions />} />
           </Routes>
         </main>
         <Footer />
