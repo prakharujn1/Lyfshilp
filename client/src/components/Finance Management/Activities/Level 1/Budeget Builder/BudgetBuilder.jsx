@@ -306,7 +306,12 @@ Constraints:
       setResult(parsed);
       setFeedbackAvatarType(parsed.avatarType);
 
-      completeFinanceChallenge(0, 0);//MARK CHALLENGE COMPLETED
+      // ✅ Extract the numeric score safely from "X/10"
+      const scoreNumber = parseInt(parsed.spendingScore?.split("/")[0]);
+
+      if (!isNaN(scoreNumber) && scoreNumber >= 8) {
+        completeFinanceChallenge(0, 0);
+      }
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
@@ -332,9 +337,8 @@ Constraints:
         style={{ fontFamily: "'Comic Neue', cursive" }}
       >
         <div
-          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${
-            spin ? "animate-spin" : "animate-none"
-          }`}
+          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${spin ? "animate-spin" : "animate-none"
+            }`}
         >
           🎯 Weekly Budget Builder!
         </div>

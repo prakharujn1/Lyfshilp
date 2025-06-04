@@ -1,5 +1,5 @@
 // CreditCardSimulator.jsx
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Confetti from "react-confetti";
 import Lottie from "lottie-react";
@@ -48,7 +48,7 @@ export default function CreditCardSimulator() {
   const [emiDone, setEmiDone] = useState(false);
   const [minDone, setMinDone] = useState(false);
   const [hasTriedEmi, setHasTriedEmi] = useState(false);
-const [hasTriedMin, setHasTriedMin] = useState(false);
+  const [hasTriedMin, setHasTriedMin] = useState(false);
   const [emiAmount, setEmiAmount] = useState(0);
   const [remainingPrincipal, setRemainingPrincipal] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
@@ -123,7 +123,7 @@ const [hasTriedMin, setHasTriedMin] = useState(false);
 
     if (month === totalMonths || newPrincipal <= 0) {
       setEmiDone(true);
-        setHasTriedEmi(true);
+      setHasTriedEmi(true);
     } else {
       setRemainingPrincipal(newPrincipal);
       setMonth(month + 1);
@@ -139,10 +139,10 @@ const [hasTriedMin, setHasTriedMin] = useState(false);
     : [];
 
   useEffect(() => {
-  if (hasTriedEmi && hasTriedMin) {
-    completeFinanceChallenge(1, 0);
-  }
-}, [hasTriedEmi, hasTriedMin]);
+    if (hasTriedEmi && hasTriedMin) {
+      completeFinanceChallenge(1, 0); // mark challenge completed
+    }
+  }, [hasTriedEmi, hasTriedMin]);
 
 
   return (
