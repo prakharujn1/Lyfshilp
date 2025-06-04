@@ -63,7 +63,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-[#4C7522] via-[#184802] to-[#184802] text-white shadow-md sticky top-0 z-50 w-full">
+    <nav className="bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a] text-white shadow-md sticky top-0 z-50 w-full">
+
       <div className="w-full py-5 px-2 flex justify-between items-center">
         <div className="ml-7">
           <Link to="/" className="flex items-center gap-3 ml-3 md:ml-5">
@@ -79,34 +80,32 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-4 mr-4">
-          {
-            user ?
-              <>
-                <Link
-                  to="/dashboard"
-                  className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
-                >
-                  Dashboard
-                </Link>
-              </> :
-              <>
-                <Link
-                  to="/login"
-                  className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
-                >
-                  Register
-                </Link>
-              </>
-          }
+          {user ? (
+            <Link
+              to="/dashboard"
+              className="bg-white text-[#4C7522] font-semibold px-5 py-2 rounded-full hover:bg-[#C2E59C] transition duration-300"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="bg-white text-[#4C7522] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="bg-white text-[#4C7522] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
+              >
+                Register
+              </Link>
+            </>
+          )}
           <Link
             to="/book-trial"
-            className="bg-[#6FCF97] text-[#1B3B0A] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
+            className="bg-white text-[#4C7522] font-semibold px-5 py-2 rounded-full hover:bg-[#57B87C] hover:text-white transition duration-300"
           >
             Book a Free Trial
           </Link>
@@ -189,21 +188,21 @@ const Navbar = () => {
           <Link
             to="/login"
             onClick={handleItemClick}
-            className="block bg-[#2A4759] text-center mx-3 text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mb-2"
+           className="block bg-[#184802] text-white hover:bg-[#57B87C] text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
           >
             Login
           </Link>
           <Link
             to="/login"
             onClick={handleItemClick}
-            className="block bg-[#2A4759] text-center mx-3 text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-300 mb-2"
+            className="block bg-[#184802] text-white hover:bg-[#57B87C] text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
           >
             Register
           </Link>
           <Link
             to="/book-trial"
             onClick={handleItemClick}
-            className="block bg-[#2A4759] mx-3 text-center text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-300"
+            className="block bg-[#184802] text-white hover:bg-[#57B87C] text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
           >
             Book a Free Trial
           </Link>
@@ -213,7 +212,7 @@ const Navbar = () => {
       {/* Mobile Dropdown */}
       {isOpen && (
         <div
-          className="md:hidden bg-[#152347] px-4 py-2 space-y-3 text-sm font-medium"
+          className="md:hidden bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a] px-4 py-2 space-y-3 text-sm font-medium"
           ref={sidebarRef}
         >
           <div>

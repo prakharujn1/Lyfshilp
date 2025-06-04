@@ -40,9 +40,18 @@ const identityElements = [
   },
 ];
 
-const Section3dm = () => {
+const Section3dm = ({ topicRefs }) => {
   return (
-    <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
+    <div
+      id="3"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["3"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-rose-600 mb-6">
         Brand Identity – Give Your Product a Personality
       </h2>
@@ -129,6 +138,8 @@ const Section3dm = () => {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 };
 

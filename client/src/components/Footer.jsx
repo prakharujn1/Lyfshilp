@@ -16,13 +16,14 @@ const fadeUp = {
     transition: {
       delay: i * 0.2,
       duration: 0.6,
-      ease: "easeOut",
+      ease: "easeOut", 
     },
   }),
 };
 
 const Footer = () => {
   return (
+
     <footer
       className="bg-[#2F4F2F] text-gray-200 pt-16 pb-8 px-6"
       style={{

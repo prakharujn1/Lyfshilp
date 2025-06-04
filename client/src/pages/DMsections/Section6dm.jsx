@@ -31,9 +31,18 @@ const platforms = [
   },
 ];
 
-const Section6dm = () => {
+const Section6dm = ({ topicRefs }) => {
   return (
-    <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
+    <div
+      id="6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="p-6 md:p-10 max-w-6xl mx-auto text-gray-800">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-green-600 mb-6">
         Budgeting – Spend Smart, Not More
       </h2>
@@ -96,6 +105,8 @@ const Section6dm = () => {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 };
 

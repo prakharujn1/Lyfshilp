@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Menu } from "lucide-react";
 
 import Section1 from "../FinanceDesignForNotes/Section-1";
 import Section2 from "../FinanceDesignForNotes/Section-2";
@@ -25,12 +26,12 @@ const notesSidebar = [
     id: "section-2",
     title: "Section 2: Budgeting",
     topics: [
-      { id: "2-1", title: "Intro" },
-      { id: "2-2", title: "Header" },
-      { id: "2-3", title: "Budget Rule" },
-      { id: "2-4", title: "Budget Formula" },
-      { id: "2-5", title: "Budget Tools" },
-      { id: "2-6", title: "Example Budget" },
+      { id: "2-1", title: "Header" },
+      { id: "2-2", title: "Intro" },
+      { id: "2-3", title: "Budget Formula" },
+      { id: "2-4", title: "Example Budget" },
+      { id: "2-5", title: "Budget Rule" },
+      { id: "2-6", title: "Budget Tools" },
       { id: "2-7", title: "Scenario" },
       { id: "2-8", title: "Reflection" },
     ],
@@ -41,10 +42,10 @@ const notesSidebar = [
     topics: [
       { id: "3-1", title: "Header" },
       { id: "3-2", title: "What is Credit?" },
-      { id: "3-3", title: "Types of Credit" },
-      { id: "3-4", title: "Credit Score" },
+      { id: "3-3", title: "Example" },
+      { id: "3-4", title: "Types of Credit" },
       { id: "3-5", title: "Tricky Credit" },
-      { id: "3-6", title: "Example" },
+      { id: "3-6", title: "Credit Score" },
       { id: "3-7", title: "Reflection" },
     ],
   },
@@ -54,11 +55,11 @@ const notesSidebar = [
     topics: [
       { id: "4-1", title: "Header" },
       { id: "4-2", title: "Intro" },
-      { id: "4-3", title: "Key Terms" },
-      { id: "4-4", title: "Price Fluctuation" },
-      { id: "4-5", title: "Stock Life Example" },
+      { id: "4-3", title: "Stock Life Example" },
+      { id: "4-4", title: "Where to Buy" },
+      { id: "4-5", title: "Price Fluctuation" },
       { id: "4-6", title: "Gambling vs Stock" },
-      { id: "4-7", title: "Where to Buy" },
+      { id: "4-7", title: "Key Terms" },
       { id: "4-8", title: "Reflection" },
     ],
   },
@@ -67,10 +68,10 @@ const notesSidebar = [
     title: "Section 5: Investing",
     topics: [
       { id: "5-1", title: "Intro" },
-      { id: "5-2", title: "Why Time Matters" },
+      { id: "5-2", title: "Example" },
       { id: "5-3", title: "Compound Interest" },
-      { id: "5-4", title: "Example" },
-      { id: "5-5", title: "Table" },
+      { id: "5-4", title: "Table" },
+      { id: "5-5", title: "Why Time Matters" },
       { id: "5-6", title: "Tips" },
       { id: "5-7", title: "Reflection" },
     ],
@@ -80,11 +81,11 @@ const notesSidebar = [
     title: "Section 6: Spending Habits",
     topics: [
       { id: "6-1", title: "Spending Intro" },
-      { id: "6-2", title: "Wants vs Needs" },
-      { id: "6-3", title: "Tips" },
-      { id: "6-4", title: "Bad Habits" },
-      { id: "6-5", title: "Example" },
-      { id: "6-6", title: "Questions" },
+      { id: "6-2", title: "Example" },
+      { id: "6-3", title: "Wants vs Needs" },
+      { id: "6-4", title: "Questions" },
+      { id: "6-5", title: "Tips" },
+      { id: "6-6", title: "Bad Habits" },
       { id: "6-7", title: "Reflection" },
     ],
   },
@@ -92,6 +93,7 @@ const notesSidebar = [
 
 const FinanceFullNotes = () => {
   const [activeId, setActiveId] = useState(null);
+  const [showSidebar, setShowSidebar] = useState(false);
   const topicRefs = useRef({});
   const visibleTopics = useRef(new Set());
 
@@ -109,7 +111,6 @@ const FinanceFullNotes = () => {
           }
         });
 
-        // sort visible topics by vertical position
         const sorted = Array.from(visibleTopics.current).sort((a, b) => {
           const aTop = topicRefs.current[a]?.getBoundingClientRect().top ?? 0;
           const bTop = topicRefs.current[b]?.getBoundingClientRect().top ?? 0;
@@ -120,10 +121,7 @@ const FinanceFullNotes = () => {
           setActiveId(sorted[0]);
         }
       },
-      {
-        root: container,
-        threshold: 0.1,
-      }
+      { root: container, threshold: 0 }
     );
 
     Object.entries(topicRefs.current).forEach(([id, el]) => {
@@ -133,14 +131,35 @@ const FinanceFullNotes = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = document.querySelector(`[data-scroll-id="${activeId}"]`);
+    if (el) {
+      el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }, [activeId]);
+
   const scrollTo = (id) => {
     topicRefs.current[id]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setShowSidebar(false);
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden relative pt-[4.5rem] md:pt-0">
+
+      {/* Toggle Button */}
+      <button
+        onClick={() => setShowSidebar(!showSidebar)}
+        className="md:hidden fixed top-[4.5rem] left-4 z-40 p-2 bg-blue-600 text-white rounded shadow-lg"
+      >
+        <Menu />
+      </button>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-100 p-4 overflow-y-auto sticky top-0 h-screen border-r">
+      <aside
+        className={`fixed md:static z-30 top-[4.5rem] md:top-0 left-0 h-full md:h-auto w-64 bg-gray-100 p-4 border-r overflow-y-auto transform transition-transform duration-300 ease-in-out ${
+          showSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
+      >
         {notesSidebar.map((section) => (
           <div key={section.id} className="mb-4">
             <h2 className="text-md font-bold text-gray-800">{section.title}</h2>
@@ -148,6 +167,7 @@ const FinanceFullNotes = () => {
               {section.topics.map((topic) => (
                 <li
                   key={topic.id}
+                  data-scroll-id={topic.id}
                   className={`text-sm cursor-pointer transition-all duration-300 px-2 py-1 rounded ${
                     activeId === topic.id
                       ? "text-blue-700 font-semibold bg-blue-100 border-l-4 border-blue-500"
@@ -166,14 +186,16 @@ const FinanceFullNotes = () => {
       {/* Main Content */}
       <main
         id="main-content"
-        className="flex-1 overflow-y-auto p-6 space-y-10 scroll-smooth"
+        className="flex-1 overflow-y-auto p-4 md:p-6 space-y-10 scroll-smooth"
       >
-        <Section1 topicRefs={topicRefs} />
-        <Section2 topicRefs={topicRefs} />
-        <Section3 topicRefs={topicRefs} />
-        <Section4 topicRefs={topicRefs} />
-        <Section5 topicRefs={topicRefs} />
-        <Section6 topicRefs={topicRefs} />
+        <div className="space-y-10">
+          <div className="overflow-x-auto"><Section1 topicRefs={topicRefs} /></div>
+          <div className="overflow-x-auto"><Section2 topicRefs={topicRefs} /></div>
+          <div className="overflow-x-auto"><Section3 topicRefs={topicRefs} /></div>
+          <div className="overflow-x-auto"><Section4 topicRefs={topicRefs} /></div>
+          <div className="overflow-x-auto"><Section5 topicRefs={topicRefs} /></div>
+          <div className="overflow-x-auto"><Section6 topicRefs={topicRefs} /></div>
+        </div>
       </main>
     </div>
   );
