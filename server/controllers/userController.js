@@ -30,7 +30,7 @@ const sendOtp = async (req, res) => {
     });
 
     // Format message
-    const message = `Your ${otp} OTP for verification is: ${otp}. OTP is confidential, refrain from sharing it with anyone. By Edumarc Technologies`;
+    const message = `Your EduManiax OTP for verification is: ${otp}. OTP is confidential, refrain from sharing it with anyone. By Edumarc Technologies`;
 
     // Send SMS
     const response = await axios.post(

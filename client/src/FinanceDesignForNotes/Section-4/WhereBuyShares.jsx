@@ -1,6 +1,15 @@
-export default function WhereBuyShares() {
+export default function WhereBuyShares({ topicRefs }) {
   return (
-    <div className="bg-yellow-50 max-w-3xl shadow-2xl p-4 rounded-lg mx-auto">
+    <div
+      id="4-4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4-4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-yellow-50 max-w-3xl shadow-2xl p-4 rounded-lg mx-auto">
       <h2 className="text-2xl font-bold mb-2">🛍️ Where Do You Buy Shares?</h2>
       <div className="grid grid-cols-2 space-x-2">
         <div className="bg-red-200 p-3 rounded-lg text-xl">
@@ -22,5 +31,7 @@ export default function WhereBuyShares() {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 }

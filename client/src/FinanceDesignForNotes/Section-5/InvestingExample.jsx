@@ -1,8 +1,17 @@
 import React from "react";
 
-const InvestingRealExample = () => {
+const InvestingRealExample = ({ topicRefs }) => {
   return (
-    <section id="investing-example" className="py-24 bg-gray-50">
+    <div
+      id="5-2"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5-2"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="investing-example" className="py-24 bg-gray-50">
       <div className="container mx-auto px-4 max-w-3xl">
         <h2 className="text-2xl font-bold mb-6 text-center">
           💡 Real-Life Example
@@ -22,6 +31,8 @@ const InvestingRealExample = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

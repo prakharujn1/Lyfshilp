@@ -2,8 +2,17 @@ import React from "react";
 import { MessageSquareHeart } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingReflection = () => (
-  <SectionContainer>
+const SpendingReflection = ({ topicRefs }) => (
+  <div
+      id="6-7"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6-7"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+    <SectionContainer>
     <div className="flex items-center gap-3 mb-6">
       <MessageSquareHeart className="text-pink-500" size={28} />
       <h2 className="text-2xl font-bold text-gray-800">Reflection Prompt</h2>
@@ -16,6 +25,8 @@ const SpendingReflection = () => (
       </p>
     </div>
   </SectionContainer>
+  </div>
+  
 );
 
 export default SpendingReflection;

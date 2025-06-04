@@ -1,9 +1,18 @@
 import React from "react";
 import { Wallet } from "lucide-react";
 
-const Header = () => {
+const Header = ({ topicRefs }) => {
   return (
-    <header className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-16 px-6 md:py-24">
+    <div
+      id="2-1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2-1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+       <header className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-16 px-6 md:py-24">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <Wallet size={32} className="text-yellow-300" />
@@ -17,6 +26,8 @@ const Header = () => {
         </p>
       </div>
     </header>
+    </div>
+   
   );
 };
 

@@ -2,9 +2,18 @@ import React from "react";
 import { comparisonItems } from "../../utilities/constants";
 import { CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 
-const Comparison = () => {
+const Comparison = ({ topicRefs }) => {
   return (
-    <section id="comparison" className="py-24 bg-gray-50">
+    <div
+      id="1-5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1-5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <section id="comparison" className="py-24 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12 text-center">
           Digital Wallet vs Bank Account
@@ -120,6 +129,8 @@ const Comparison = () => {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 };
 

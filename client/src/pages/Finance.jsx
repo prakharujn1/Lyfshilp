@@ -15,7 +15,7 @@ const Finance = () => {
       />
       <CourseOverview />
       <div ref={curriculumRef}>
-        <Curriculum />
+        <Curriculum /> 
       </div>
     </div>
   );

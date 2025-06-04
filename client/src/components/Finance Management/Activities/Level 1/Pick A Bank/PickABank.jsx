@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import BankCard from "./BankCard";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const upiOptions = ["Google Pay", "PhonePe", "Paytm", "BHIM"];
 const banks = [
-  {
+  { 
     id: "A",
     name: "Bank A",
     fee: "₹0/month",
@@ -217,6 +218,7 @@ function parsePossiblyStringifiedJSON(text) {
 }
 
 export default function PickABank() {
+  const { completeFinanceChallenge } = useFinance();
   const [selectedBank, setSelectedBank] = useState(null);
   const [upiApp, setUpiApp] = useState("");
   const [parentAdvice, setParentAdvice] = useState("");
@@ -244,6 +246,8 @@ export default function PickABank() {
     setTimeout(() => {
       setLoadingFeedback(false);
     }, 1500);
+
+    completeFinanceChallenge(0, 1);//MARK CHALLENGE COMPLETED
   };
 
   const notAllowed = () => {

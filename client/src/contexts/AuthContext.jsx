@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
     if (token && !user) {
       fetchMe(); // Only fetch if token exists and user is not yet set
     }
-  }, []);
+  }, [token]);
 
   // Step 1 - Shared OTP send for both register & login
   const sendOtp = async (phone) => {
@@ -82,6 +82,7 @@ export function AuthProvider({ children }) {
 
   // Fetch currently logged-in user using token
   const fetchMe = async () => {
+    if(!token ) return ;
     try {
       const res = await axios.get(`${server}/me`, {
         headers: {

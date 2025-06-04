@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaChartLine, FaChartBar, FaCoins } from "react-icons/fa";
 import PieChart from "../../../charts/PieChart";
+import { useFinance } from "../../../../contexts/FinanceContext";
 
 const getRandom = (max, min) => Math.random() * (max - min) + min;
 
@@ -44,6 +45,7 @@ const newsItems = [
 ];
 
 export default function NewsFlash() {
+  const { completeFinanceChallenge } = useFinance();
   const [base, setBase] = useState({
     stocks: 1000,
     gold: 1000,
@@ -59,6 +61,7 @@ export default function NewsFlash() {
 
   const [highlighted, setHighlighted] = useState("");
   const [message, setMessage] = useState("");
+  const [appliedEffects, setAppliedEffects] = useState(new Set());
 
   const applyEffect = (item) => {
     // Generate effect dynamically based on the item's effectType
@@ -87,6 +90,23 @@ export default function NewsFlash() {
 
     setMessage(`News Applied: ${item.title} - Rate: ${sign}${ratePercentage}%`);
 
+    // Update the applied effects
+    setAppliedEffects((prev) => {
+      const updatedSet = new Set(prev);
+      updatedSet.add(effectKey);
+
+      if (
+        updatedSet.has("stocks") &&
+        updatedSet.has("gold") &&
+        updatedSet.has("mutualFunds")
+      ) {
+        completeFinanceChallenge(2, 0); //mark challenge completed 
+      }
+
+      return updatedSet; // ✅ this is essential
+    });
+
+
     setTimeout(() => {
       setHighlighted("");
       setMessage("");
@@ -95,6 +115,7 @@ export default function NewsFlash() {
 
   const resetInvestments = () => {
     setInvestments(base);
+    setAppliedEffects(new Set()); // ✅ clear effect tracking
     setMessage("Portfolio reset.");
     setTimeout(() => setMessage(""), 1500);
   };
@@ -207,13 +228,11 @@ export default function NewsFlash() {
             {Object.entries(investments).map(([type, value], idx) => (
               <div
                 key={type}
-                className={`flex items-center justify-between sm:justify-start ${
-                  colors3[idx]
-                } space-x-3 px-3 sm:px-5 py-3 rounded-lg border ${
-                  highlighted === type
+                className={`flex items-center justify-between sm:justify-start ${colors3[idx]
+                  } space-x-3 px-3 sm:px-5 py-3 rounded-lg border ${highlighted === type
                     ? "bg-green-100 border-green-300"
                     : "border-gray-200"
-                } transition w-full sm:w-auto`}
+                  } transition w-full sm:w-auto`}
               >
                 <span className="capitalize font-medium text-lg sm:text-xl text-gray-700">
                   {type === "mutualFunds" ? "Mutual Funds" : type}

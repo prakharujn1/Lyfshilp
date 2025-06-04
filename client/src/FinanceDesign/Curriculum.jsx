@@ -3,8 +3,10 @@ import { ChevronDown, ChevronUp, PlayCircle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useFinance } from "../contexts/FinanceContext";
 
 const Curriculum = forwardRef((props, ref) => {
+  const { progress } = useFinance();
   const [activeModule, setActiveModule] = useState(null);
 
   const modules = [
@@ -16,7 +18,7 @@ const Curriculum = forwardRef((props, ref) => {
         {
           title: "Weekly Budget Builder (Drag-and-Drop Game)",
           description: "Objective: Teach budgeting and prioritization.",
-          duration: "45 min",
+          duration: "45 min", 
           path: "/budget-builder",
         },
         {
@@ -24,7 +26,7 @@ const Curriculum = forwardRef((props, ref) => {
           description: "Objective: Introduce banking basics.",
           duration: "50 min",
           path: "/pick-a-bank",
-        },
+        }, 
         {
           title: "Overspend Trap (Quiz Game)",
           description: "Scenario-based decision making.",
@@ -37,7 +39,7 @@ const Curriculum = forwardRef((props, ref) => {
           duration: "55 min",
           path: "/budget-activity",
         },
-      ],
+      ], 
     },
     {
       title: "🎮 LEVEL 2: The Smart Spender",
@@ -99,6 +101,30 @@ const Curriculum = forwardRef((props, ref) => {
 
   const handleLockedClick = () => {
     toast.info("🔒 Complete previous challenges to unlock this one!");
+  };
+
+  const isChallengeCompleted = (moduleIndex, challengeIndex) => {
+    return progress.some(
+      (p) =>
+        p.moduleIndex === moduleIndex &&
+        p.challengeIndex === challengeIndex &&
+        p.completed
+    );
+  };
+
+  const isChallengeUnlocked = (moduleIndex, challengeIndex) => {
+    if (moduleIndex === 0 && challengeIndex === 0) return true;
+
+    // Check if the previous challenge in the same module is completed
+    if (challengeIndex > 0) {
+      return isChallengeCompleted(moduleIndex, challengeIndex - 1);
+    }
+
+    // If it's the first challenge in a module, unlock if last challenge in previous module is complete
+    const prevModule = modules[moduleIndex - 1];
+    if (!prevModule) return false;
+    const lastChallengeIndex = prevModule.challenges.length - 1;
+    return isChallengeCompleted(moduleIndex - 1, lastChallengeIndex);
   };
 
   return (
@@ -165,40 +191,42 @@ const Curriculum = forwardRef((props, ref) => {
                 <div className="px-6 pb-4">
                   <div className="pt-2 pb-4">
                     {module.challenges.map((challenge, challengeIndex) => {
-                      const isUnlocked =
-                        moduleIndex === 0 && challengeIndex === 0;
+                      const isUnlocked = isChallengeUnlocked(moduleIndex, challengeIndex);
+                      const isCompleted = isChallengeCompleted(moduleIndex, challengeIndex);
 
                       return (
                         <div key={challengeIndex} className="mt-4 first:mt-0">
                           <div className="flex items-start">
                             <div className="flex-shrink-0 mt-1">
                               <PlayCircle
-                                className={`h-5 w-5 ${
-                                  isUnlocked
-                                    ? "text-yellow-500"
-                                    : "text-gray-400"
-                                }`}
+                                className={`h-5 w-5 ${isCompleted
+                                    ? "text-green-500"
+                                    : isUnlocked
+                                      ? "text-yellow-500"
+                                      : "text-gray-400"
+                                  }`}
                               />
                             </div>
                             <div className="ml-3">
-                              {isUnlocked ? (
+                              {isUnlocked || isCompleted ? (
                                 <Link to={challenge.path}>
                                   <h4 className="text-md font-semibold text-navy-800 hover:underline hover:text-yellow-600 transition">
-                                    Challenge {challengeIndex + 1}:{" "}
-                                    {challenge.title}
+                                    {isCompleted ? "✅" : "⏳"} Challenge {challengeIndex + 1}: {challenge.title}
                                   </h4>
                                 </Link>
                               ) : (
                                 <button
                                   onClick={handleLockedClick}
                                   className="text-left"
+                                  disabled
                                 >
                                   <h4 className="text-md font-semibold text-gray-400 cursor-not-allowed">
-                                    🔒 Challenge {challengeIndex + 1}:{" "}
-                                    {challenge.title}
+                                    🔒 Challenge {challengeIndex + 1}: {challenge.title}
                                   </h4>
                                 </button>
+
                               )}
+                              
                               <p className="text-sm text-gray-600 mt-1">
                                 {challenge.description}
                               </p>

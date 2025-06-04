@@ -9,6 +9,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Spline from "@splinetool/react-spline";
+import { useFinance } from "../../../../contexts/FinanceContext";
+
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -38,7 +40,10 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const EmiVsLumpSum = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [selectedOption, setSelectedOption] = useState(null);
+  const [hasselectedA, setasselectedA] = useState(false);
+  const [hasselectedB, setasselectedB] = useState(false);
   const [reason, setReason] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -92,6 +97,8 @@ feedback : "Your feedback"
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       console.log(parsed);
       setFeedback(parsed.feedback);
+
+      if(hasselectedA && hasselectedB)completeFinanceChallenge(1, 1); //mark challenge completed
     } catch (err) {
       setError("Error fetching feedback. Try again later");
       console.log(err);
@@ -131,12 +138,15 @@ feedback : "Your feedback"
         {!showResult && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             <button
-              className={`p-5 rounded-lg shadow-md transition-all ${
-                selectedOption === "A"
-                  ? "bg-green-100 border-2 border-green-600"
-                  : "bg-white hover:bg-green-50"
-              }`}
-              onClick={() => setSelectedOption("A")}
+              className={`p-5 rounded-lg shadow-md transition-all ${selectedOption === "A"
+                ? "bg-green-100 border-2 border-green-600"
+                : "bg-white hover:bg-green-50"
+                }`}
+              onClick={() => {
+                setSelectedOption("A")
+                setasselectedA(true);
+              }
+              }
             >
               <h2 className="text-lg font-semibold text-green-800 mb-2">
                 Option A: Lump Sum
@@ -150,12 +160,15 @@ feedback : "Your feedback"
             </button>
 
             <button
-              className={`p-5 rounded-lg shadow-md transition-all ${
-                selectedOption === "B"
-                  ? "bg-blue-100 border-2 border-blue-600"
-                  : "bg-white hover:bg-blue-50"
-              }`}
-              onClick={() => setSelectedOption("B")}
+              className={`p-5 rounded-lg shadow-md transition-all ${selectedOption === "B"
+                ? "bg-blue-100 border-2 border-blue-600"
+                : "bg-white hover:bg-blue-50"
+                }`}
+              onClick={() => {
+                setSelectedOption("B")
+                setasselectedB(true);
+              }
+              }
             >
               <h2 className="text-lg font-semibold text-blue-800 mb-2">
                 Option B: EMI
@@ -184,9 +197,8 @@ feedback : "Your feedback"
             />
             <button
               disabled={notAllowed()}
-              className={`mt-4 ${
-                notAllowed() ? "cursor-not-allowed" : "cursor-pointer"
-              } bg-yellow-400 text-yellow-900 px-4 py-2 rounded shadow hover:bg-yellow-500 transition-all`}
+              className={`mt-4 ${notAllowed() ? "cursor-not-allowed" : "cursor-pointer"
+                } bg-yellow-400 text-yellow-900 px-4 py-2 rounded shadow hover:bg-yellow-500 transition-all`}
               onClick={handleSubmit}
             >
               Submit
