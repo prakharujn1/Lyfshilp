@@ -157,13 +157,15 @@ Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive
         setTimeout(() => {
           setShowConfetti(false);
         }, 5000);
+
+        completeFinanceChallenge(0, 3);//MARK CHALLENGE COMPLETED
       } else if (parsed.remark === "Miser") {
         setFeedbackAvatarType("Miser");
       } else {
         setFeedbackAvatarType("Sad");
       }
 
-        completeFinanceChallenge(0, 3);//MARK CHALLENGE COMPLETED
+        
     } catch (err) {
       console.error("Error:", err);
       setFeedback("Something went wrong. Try again.");
