@@ -40,10 +40,16 @@ import Section8dm from "./pages/DMsections/Section8dm";
 import IntroPageAdDetective from "./components/Digital Marketing/Level 1/AdDetective/IntroPageAdDetective";
 import MissionCompleteAdDetective from "./components/Digital Marketing/Level 1/AdDetective/MissionCompleteAdDetective";
 import AdDetectiveGamePage from "./components/Digital Marketing/Level 1/AdDetective/AdDetectiveGamePage";
+<<<<<<< HEAD
+import PrivacyPolicy from "./Footer-Routes/PrivacyPolicy";
+import RefundPolicy from "./Footer-Routes/RefundPolicy";
+import TermsAndConditions from "./Footer-Routes/TermsAndConditions";
+=======
 import BrandCreatorGame from "./components/Digital Marketing/Level 1/BrandCreator/BrandCreatorGame";
 import BrandBrandExplorerGameSelect from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerSelect";
 import IntroPageBrandExplorer from "./components/Digital Marketing/Level 1/BrandExplorer/IntroPageBrandExplorer";
 import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerGameComplete";
+>>>>>>> 8d2c50c6b5fe3289f5dd9047c5872dbce4ff3ba7
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -239,6 +245,9 @@ function App() {
             />
 
             <Route path="/faq's" element={<FAQ />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/refund-policy" element={<RefundPolicy />} />
+            <Route path="/terms-conditions" element={<TermsAndConditions />} />
           </Routes>
         </main>
         <Footer />
