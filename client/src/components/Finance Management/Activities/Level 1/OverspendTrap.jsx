@@ -92,8 +92,7 @@ Example format:
       console.log(parsed);
       setFeedback(parsed.feedback);
 
-
-      completeFinanceChallenge(0, 2);//MARK CHALLENGE COMPLETED
+      completeFinanceChallenge(0, 2); //MARK CHALLENGE COMPLETED
     } catch (e) {
       console.error("Error generating feedback", e);
       setError("Error generating feedback. Try again later.");
@@ -113,9 +112,9 @@ Example format:
   }, [feedback]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-white to-yellow-50 p-6 space-x-10">
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gradient-to-br from-white to-yellow-50 p-6 md:space-x-10 space-y-10 md:space-y-0">
       {/* Left: Spline Model */}
-      <div className="w-full md:w-1/2 min-h-[300px]">
+      <div className="w-full mt-5 md:w-1/2 min-h-[350px] md:min-h-[400px] pt-6 md:pt-0">
         <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
       </div>
 

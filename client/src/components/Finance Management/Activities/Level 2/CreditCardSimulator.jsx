@@ -133,9 +133,9 @@ export default function CreditCardSimulator() {
   const totalPaid = userPayments.reduce((sum, p) => sum + p.payment, 0);
   const chartData = selectedItem
     ? [
-      { name: "Item Price", amount: selectedItem.cost },
-      { name: "Total Paid", amount: totalPaid },
-    ]
+        { name: "Item Price", amount: selectedItem.cost },
+        { name: "Total Paid", amount: totalPaid },
+      ]
     : [];
 
   useEffect(() => {
@@ -144,19 +144,18 @@ export default function CreditCardSimulator() {
     }
   }, [hasTriedEmi, hasTriedMin]);
 
-
   return (
-    <div className="relative min-h-screen bg-gray-50">
+    <div className="relative min-h-screen bg-gray-50 px-4">
       {(emiDone || minDone) && <Confetti />}
       {(emiDone || minDone) && (
         <>
           <Lottie
             animationData={dancingLeft}
-            className="absolute left-0 bottom-0 w-32 z-20"
+            className="absolute left-0 bottom-0 w-24 sm:w-32 z-20"
           />
           <Lottie
             animationData={dancingRight}
-            className="absolute right-0 bottom-0 w-32 z-20"
+            className="absolute right-0 bottom-0 w-24 sm:w-32 z-20"
           />
         </>
       )}
@@ -164,11 +163,11 @@ export default function CreditCardSimulator() {
       {showSparkle && (
         <Lottie
           animationData={sparkle}
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 w-40 z-30"
+          className="absolute top-0 left-1/2 transform -translate-x-1/2 w-36 sm:w-40 z-30"
         />
       )}
 
-      <div className="flex flex-col lg:flex-row items-start justify-center gap-8 px-4">
+      <div className="flex flex-col lg:flex-row items-start justify-center gap-8 max-w-7xl mx-auto">
         {/* Left: Game Content */}
         <div className="w-full lg:w-1/2 max-w-2xl p-6 mt-8 bg-white rounded-xl shadow-xl">
           <h1 className="text-3xl font-bold text-center text-purple-700 mb-6">
@@ -197,16 +196,16 @@ export default function CreditCardSimulator() {
               <p className="text-center mt-6 text-lg font-semibold">
                 Choose Payment Method:
               </p>
-              <div className="flex justify-center gap-4 mt-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
                 <button
                   onClick={() => chooseMethod("min")}
-                  className="bg-yellow-400 px-6 py-2 rounded-full text-white font-semibold shadow hover:bg-yellow-500"
+                  className="bg-yellow-400 px-6 py-2 rounded-full text-white font-semibold shadow hover:bg-yellow-500 w-full sm:w-auto"
                 >
                   💳 Minimum Due (Credit Card)
                 </button>
                 <button
                   onClick={() => chooseMethod("emi")}
-                  className="bg-green-500 px-6 py-2 rounded-full text-white font-semibold shadow hover:bg-green-600"
+                  className="bg-green-500 px-6 py-2 rounded-full text-white font-semibold shadow hover:bg-green-600 w-full sm:w-auto"
                 >
                   📆 EMI Plan (6 Months)
                 </button>
@@ -228,7 +227,7 @@ export default function CreditCardSimulator() {
 
                   <button
                     onClick={handleMinPayment}
-                    className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-full"
+                    className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-full w-full sm:w-auto"
                   >
                     Pay Minimum Due + Interest
                   </button>
@@ -242,7 +241,7 @@ export default function CreditCardSimulator() {
                   <p>EMI This Month: ₹{Math.round(emiAmount)}</p>
                   <button
                     onClick={handleEMIPayment}
-                    className="mt-4 bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full"
+                    className="mt-4 bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full w-full sm:w-auto"
                   >
                     Pay EMI
                   </button>
@@ -303,7 +302,7 @@ export default function CreditCardSimulator() {
         </div>
 
         {/* Right: Spline Model */}
-        <div className="w-full lg:w-1/2 h-[500px] mt-8 ">
+        <div className="w-full lg:w-1/2 h-64 sm:h-96 lg:h-[500px] mt-8">
           <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
         </div>
       </div>
