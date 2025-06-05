@@ -1,49 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Edumaniax Animation</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap"
+      rel="stylesheet"
+    />
     <!-- Place the provided CSS here -->
     <style>
-       * {
+      * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
-    
-    body {
-        font-family: 'Nunito', sans-serif;
+      }
+
+      body {
+        font-family: "Nunito", sans-serif;
         overflow: hidden;
         background: #f8fafc;
-    }
-    
-    .intro-container {
+      }
+
+      .intro-container {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: 1000;
-    }
-    
-    .animation-scene {
+      }
+
+      .animation-scene {
         position: absolute;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #4158D0, #C850C0, #FFCC70);
+        background: linear-gradient(135deg, #4158d0, #c850c0, #ffcc70);
         background-size: 400% 400%;
         animation: gradient-bg 7.5s ease infinite;
         overflow: hidden;
-    }
-    
-    @keyframes gradient-bg {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    
-    .skip-button {
+      }
+
+      @keyframes gradient-bg {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .skip-button {
         position: absolute;
         top: 20px;
         right: 20px;
@@ -52,19 +61,19 @@
         color: white;
         border: none;
         border-radius: 20px;
-        font-family: 'Nunito', sans-serif;
+        font-family: "Nunito", sans-serif;
         font-weight: 600;
         cursor: pointer;
         z-index: 1001;
         transition: all 0.3s ease;
-    }
-    
-    .skip-button:hover {
+      }
+
+      .skip-button:hover {
         background: rgba(255, 255, 255, 0.5);
-    }
-    
-    /* Character - Milo */
-    .character {
+      }
+
+      /* Character - Milo */
+      .character {
         position: absolute;
         width: 120px;
         height: 180px;
@@ -72,211 +81,212 @@
         left: -150px;
         z-index: 10;
         transition: transform 0.5s ease;
-    }
-    
-    .character-body {
+      }
+
+      .character-body {
         position: absolute;
         width: 80px;
         height: 100px;
-        background: #FFCC29;
+        background: #ffcc29;
         border-radius: 40px 40px 30px 30px;
         bottom: 40px;
         left: 20px;
-    }
-    
-    .character-head {
+      }
+
+      .character-head {
         position: absolute;
         width: 70px;
         height: 70px;
-        background: #FFE7A9;
+        background: #ffe7a9;
         border-radius: 50%;
         bottom: 120px;
         left: 25px;
-    }
-    
-    .character-hair {
+      }
+
+      .character-hair {
         position: absolute;
         width: 80px;
         height: 40px;
         bottom: 160px;
         left: 20px;
         z-index: -1;
-    }
-    
-    .hair-spike {
+      }
+
+      .hair-spike {
         position: absolute;
         width: 15px;
         height: 30px;
-        background: #3B82F6;
+        background: #3b82f6;
         border-radius: 50% 50% 0 0;
         transform-origin: bottom center;
-    }
-    
-    .glasses {
+      }
+
+      .glasses {
         position: absolute;
         width: 60px;
         height: 20px;
         bottom: 145px;
         left: 30px;
-    }
-    
-    .lens {
+      }
+
+      .lens {
         position: absolute;
         width: 25px;
         height: 25px;
         background: transparent;
-        border: 3px solid #22C55E;
+        border: 3px solid #22c55e;
         border-radius: 50%;
         top: -5px;
-    }
-    
-    .lens-left {
+      }
+
+      .lens-left {
         left: 0;
-    }
-    
-    .lens-right {
+      }
+
+      .lens-right {
         right: 0;
-    }
-    
-    .lens-bridge {
+      }
+
+      .lens-bridge {
         position: absolute;
         width: 10px;
         height: 3px;
-        background: #22C55E;
+        background: #22c55e;
         top: 7px;
         left: 25px;
-    }
-    
-    .face {
+      }
+
+      .face {
         position: absolute;
         width: 40px;
         height: 20px;
         bottom: 135px;
         left: 40px;
-    }
-    
-    .eye {
+      }
+
+      .eye {
         position: absolute;
         width: 8px;
         height: 8px;
-        background: #0F172A;
+        background: #0f172a;
         border-radius: 50%;
         top: 0;
-    }
-    
-    .eye-left {
+      }
+
+      .eye-left {
         left: 8px;
-    }
-    
-    .eye-right {
+      }
+
+      .eye-right {
         right: 8px;
-    }
-    
-    .mouth {
+      }
+
+      .mouth {
         position: absolute;
         width: 20px;
         height: 10px;
-        border-bottom: 3px solid #0F172A;
+        border-bottom: 3px solid #0f172a;
         border-radius: 0 0 10px 10px;
         bottom: 0;
         left: 10px;
-    }
-    
-    .arm {
+      }
+
+      .arm {
         position: absolute;
         width: 15px;
         height: 60px;
-        background: #FFCC29;
+        background: #ffcc29;
         border-radius: 10px;
         transform-origin: top center;
-    }
-    
-    .arm-left {
+      }
+
+      .arm-left {
         transform: rotate(-20deg);
         top: 60px;
         left: 15px;
-    }
-    
-    .arm-right {
+      }
+
+      .arm-right {
         transform: rotate(20deg);
         top: 60px;
         right: 15px;
-    }
-    
-    .leg {
+      }
+
+      .leg {
         position: absolute;
         width: 20px;
         height: 40px;
-        background: #3B82F6;
+        background: #3b82f6;
         border-radius: 10px;
         bottom: 0;
-    }
-    
-    .leg-left {
+      }
+
+      .leg-left {
         left: 25px;
-    }
-    
-    .leg-right {
+      }
+
+      .leg-right {
         right: 25px;
-    }
-    
-    .skateboard {
+      }
+
+      .skateboard {
         position: absolute;
         width: 140px;
         height: 20px;
-        background: #2DD4BF;
+        background: #2dd4bf;
         border-radius: 20px;
         bottom: -10px;
         left: -10px;
         box-shadow: 0 0 15px rgba(45, 212, 191, 0.7);
         z-index: -1;
-    }
-    
-    .skateboard::before, .skateboard::after {
-        content: '';
+      }
+
+      .skateboard::before,
+      .skateboard::after {
+        content: "";
         position: absolute;
         width: 20px;
         height: 8px;
-        background: #0F172A;
+        background: #0f172a;
         border-radius: 4px;
         bottom: -4px;
-    }
-    
-    .skateboard::before {
+      }
+
+      .skateboard::before {
         left: 20px;
-    }
-    
-    .skateboard::after {
+      }
+
+      .skateboard::after {
         right: 20px;
-    }
-    
-    /* Learning Elements */
-    .learning-element {
+      }
+
+      /* Learning Elements */
+      .learning-element {
         position: absolute;
         opacity: 0;
         transition: opacity 0.5s ease;
-    }
-    
-    .floating-books {
+      }
+
+      .floating-books {
         width: 300px;
         height: 200px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-    }
-    
-    .book {
+      }
+
+      .book {
         position: absolute;
         width: 120px;
         height: 30px;
-        background: #F472B6;
+        background: #f472b6;
         border-radius: 5px;
         transform-origin: center;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .book::before {
-        content: '';
+      }
+
+      .book::before {
+        content: "";
         position: absolute;
         width: 100%;
         height: 100%;
@@ -284,42 +294,42 @@
         border-radius: 5px;
         top: 0;
         left: 0;
-    }
-    
-    .math-symbols {
+      }
+
+      .math-symbols {
         width: 400px;
         height: 300px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-    }
-    
-    .symbol {
+      }
+
+      .symbol {
         position: absolute;
         font-size: 40px;
         color: white;
         font-weight: bold;
         opacity: 0.7;
-    }
-    
-    .puzzle {
+      }
+
+      .puzzle {
         width: 400px;
         height: 400px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-    }
-    
-    .puzzle-piece {
+      }
+
+      .puzzle-piece {
         position: absolute;
         width: 80px;
         height: 80px;
         background: rgba(255, 255, 255, 0.2);
         border: 2px solid rgba(255, 255, 255, 0.5);
         border-radius: 10px;
-    }
-    
-    .puzzle-center {
+      }
+
+      .puzzle-center {
         position: absolute;
         width: 80px;
         height: 80px;
@@ -328,9 +338,9 @@
         background: transparent;
         border: 2px dashed rgba(255, 255, 255, 0.5);
         border-radius: 10px;
-    }
-    
-    .floating-piece {
+      }
+
+      .floating-piece {
         position: absolute;
         width: 80px;
         height: 80px;
@@ -340,28 +350,28 @@
         top: 50px;
         right: -150px;
         box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-    }
-    
-    /* Particles */
-    .particles {
+      }
+
+      /* Particles */
+      .particles {
         position: absolute;
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;
-    }
-    
-    .particle {
+      }
+
+      .particle {
         position: absolute;
         width: 10px;
         height: 10px;
         background: white;
         border-radius: 50%;
         opacity: 0.5;
-    }
-    
-    /* Final Scene */
-    .final-scene {
+      }
+
+      /* Final Scene */
+      .final-scene {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -374,63 +384,63 @@
         justify-content: center;
         opacity: 0;
         transition: opacity 1s ease;
-    }
-    
-    .logo-container {
+      }
+
+      .logo-container {
         display: flex;
         align-items: center;
         margin-bottom: 30px;
-    }
-    
-    .logo {
+      }
+
+      .logo {
         width: 80px;
         height: 80px;
-    }
-    
-    .logo-text {
+      }
+
+      .logo-text {
         margin-left: 20px;
         font-size: 48px;
         font-weight: 800;
-        color: #3B82F6;
-    }
-    
-    .tagline {
+        color: #3b82f6;
+      }
+
+      .tagline {
         font-size: 24px;
-        color: #64748B;
+        color: #64748b;
         margin-bottom: 40px;
-    }
-    
-    .enter-button {
+      }
+
+      .enter-button {
         padding: 15px 40px;
-        background: #3B82F6;
+        background: #3b82f6;
         color: white;
         border: none;
         border-radius: 30px;
-        font-family: 'Nunito', sans-serif;
+        font-family: "Nunito", sans-serif;
         font-weight: 700;
         font-size: 20px;
         cursor: pointer;
         transition: all 0.3s ease;
-    }
-    
-    .enter-button:hover {
-        background: #2563EB;
+      }
+
+      .enter-button:hover {
+        background: #2563eb;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-    }
-    
-    /* Character in final scene */
-    .final-character {
+      }
+
+      /* Character in final scene */
+      .final-character {
         position: absolute;
         width: 120px;
         height: 180px;
         bottom: 20%;
         right: 15%;
         z-index: 10;
-    }
-    
-    /* Homepage */
-    .homepage {
+      }
+
+      /* Homepage */
+      .homepage {
         position: fixed;
         top: 0;
         left: 0;
@@ -440,89 +450,89 @@
         opacity: 0;
         z-index: 900;
         transition: opacity 1s ease;
-    }
-    
-    .header {
+      }
+
+      .header {
         display: flex;
         align-items: center;
         padding: 20px;
         background: white;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .nav-items {
+      }
+
+      .nav-items {
         display: flex;
         margin-left: auto;
-    }
-    
-    .nav-item {
+      }
+
+      .nav-item {
         margin-left: 20px;
         padding: 10px 15px;
         border-radius: 5px;
         cursor: pointer;
         transition: all 0.3s;
-    }
-    
-    .nav-item:hover {
+      }
+
+      .nav-item:hover {
         background: #f1f5f9;
-    }
-    
-    .sign-up {
-        background: #3B82F6;
+      }
+
+      .sign-up {
+        background: #3b82f6;
         color: white;
-    }
-    
-    .sign-up:hover {
-        background: #2563EB;
-    }
-    
-    .hero {
+      }
+
+      .sign-up:hover {
+        background: #2563eb;
+      }
+
+      .hero {
         display: flex;
         align-items: center;
         justify-content: center;
         height: calc(100% - 80px);
         padding: 40px;
-    }
-    
-    .hero-content {
+      }
+
+      .hero-content {
         max-width: 600px;
         text-align: center;
-    }
-    
-    .hero-title {
+      }
+
+      .hero-title {
         font-size: 48px;
         font-weight: 800;
         margin-bottom: 20px;
-        color: #0F172A;
-    }
-    
-    .hero-subtitle {
+        color: #0f172a;
+      }
+
+      .hero-subtitle {
         font-size: 20px;
-        color: #64748B;
+        color: #64748b;
         margin-bottom: 30px;
-    }
-    
-    .cta-button {
+      }
+
+      .cta-button {
         padding: 15px 30px;
-        background: #3B82F6;
+        background: #3b82f6;
         color: white;
         border: none;
         border-radius: 30px;
-        font-family: 'Nunito', sans-serif;
+        font-family: "Nunito", sans-serif;
         font-weight: 700;
         font-size: 18px;
         cursor: pointer;
         transition: all 0.3s;
-    }
-    
-    .cta-button:hover {
-        background: #2563EB;
+      }
+
+      .cta-button:hover {
+        background: #2563eb;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-    }
-    
-    /* Flash effect */
-    .flash {
+      }
+
+      /* Flash effect */
+      .flash {
         position: fixed;
         top: 0;
         left: 0;
@@ -532,374 +542,602 @@
         opacity: 0;
         z-index: 1100;
         pointer-events: none;
-    }
-    
-    /* Learning icons */
-    .learning-icons {
+      }
+
+      /* Learning icons */
+      .learning-icons {
         position: absolute;
         width: 100%;
         height: 100%;
-    }
-    
-    .icon {
+      }
+
+      .icon {
         position: absolute;
         width: 60px;
         height: 60px;
         opacity: 0;
         transition: opacity 0.5s ease;
-    }
+      }
+
+      /* Responsive fix for mobile devices */
+      @media (max-width: 768px) {
+        .final-scene {
+          padding: 20px;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .logo-text {
+          font-size: 32px;
+        }
+
+        .tagline {
+          font-size: 18px;
+          margin: 20px 0;
+        }
+
+        .final-character {
+          position: static; /* removes absolute positioning */
+          order: 2; /* ensures it comes after text */
+          margin-top: 20px;
+          width: 100px;
+          height: auto;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="intro-container" id="introContainer">
-        <button class="skip-button" id="skipButton">Skip</button>
-        <div class="animation-scene" id="animationScene">
-            <!-- Particles -->
-            <div class="particles" id="particles"></div>
-            
-            <!-- Learning Icons -->
-            <div class="learning-icons">
-                <svg class="icon" id="lightbulb" style="top: 20%; left: 30%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C8.13 2 5 5.13 5 9C5 11.38 6.19 13.47 8 14.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V14.74C17.81 13.47 19 11.38 19 9C19 5.13 15.87 2 12 2Z" fill="#FFEB3B"/>
-                    <path d="M9 19H15V20C15 21.1 14.1 22 13 22H11C9.9 22 9 21.1 9 20V19Z" fill="#FFEB3B"/>
-                </svg>
-                
-                <svg class="icon" id="beaker" style="top: 40%; left: 70%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 19C5 19.55 5.45 20 6 20H18C18.55 20 19 19.55 19 19C19 18.79 18.93 18.59 18.82 18.43L13 8.35V4H11V8.35L5.18 18.43C5.07 18.59 5 18.79 5 19Z" fill="#90CAF9"/>
-                    <path d="M7 20H17" stroke="#1565C0" stroke-width="2" stroke-linecap="round"/>
-                    <circle cx="12" cy="14" r="1" fill="#1565C0"/>
-                    <circle cx="10" cy="16" r="1" fill="#1565C0"/>
-                    <circle cx="14" cy="16" r="1" fill="#1565C0"/>
-                </svg>
-                
-                <svg class="icon" id="cog" style="top: 60%; left: 20%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.14 12.94C19.18 12.64 19.2 12.33 19.2 12C19.2 11.68 19.18 11.36 19.14 11.06L21.16 9.48C21.34 9.34 21.39 9.07 21.28 8.87L19.36 5.55C19.24 5.33 18.99 5.26 18.77 5.33L16.38 6.29C15.88 5.91 15.35 5.59 14.76 5.35L14.4 2.81C14.36 2.57 14.16 2.4 13.92 2.4H10.08C9.84 2.4 9.65 2.57 9.61 2.81L9.25 5.35C8.66 5.59 8.12 5.91 7.63 6.29L5.24 5.33C5.02 5.26 4.77 5.33 4.65 5.55L2.74 8.87C2.62 9.07 2.66 9.34 2.86 9.48L4.88 11.06C4.84 11.36 4.8 11.69 4.8 12C4.8 12.31 4.82 12.64 4.86 12.94L2.84 14.52C2.66 14.66 2.61 14.93 2.72 15.13L4.64 18.45C4.76 18.67 5.01 18.74 5.23 18.67L7.62 17.71C8.12 18.09 8.65 18.41 9.24 18.65L9.6 21.19C9.65 21.43 9.84 21.6 10.08 21.6H13.92C14.16 21.6 14.36 21.43 14.39 21.19L14.75 18.65C15.34 18.41 15.88 18.09 16.37 17.71L18.76 18.67C18.98 18.74 19.23 18.67 19.35 18.45L21.27 15.13C21.39 14.91 21.34 14.66 21.14 14.52L19.14 12.94ZM12 15.6C10.02 15.6 8.4 13.98 8.4 12C8.4 10.02 10.02 8.4 12 8.4C13.98 8.4 15.6 10.02 15.6 12C15.6 13.98 13.98 15.6 12 15.6Z" fill="#F5F5F5"/>
-                </svg>
-                
-                <svg class="icon" id="palette" style="top: 30%; left: 80%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21C12.83 21 13.5 20.33 13.5 19.5C13.5 19.11 13.35 18.76 13.11 18.49C12.88 18.23 12.73 17.88 12.73 17.5C12.73 16.67 13.4 16 14.23 16H16C18.76 16 21 13.76 21 11C21 6.58 16.97 3 12 3Z" fill="#FF9800"/>
-                    <circle cx="6.5" cy="11.5" r="1.5" fill="#FFEB3B"/>
-                    <circle cx="9.5" cy="7.5" r="1.5" fill="#F44336"/>
-                    <circle cx="14.5" cy="7.5" r="1.5" fill="#9C27B0"/>
-                    <circle cx="17.5" cy="11.5" r="1.5" fill="#2196F3"/>
-                </svg>
-            </div>
-            
-            <!-- Learning Elements -->
-            <div class="learning-element floating-books" id="floatingBooks">
-                <div class="book" style="transform: rotate(5deg); top: 0; left: 0; background: #F472B6;"></div>
-            <div class="book" style="transform: rotate(-8deg); top: 50px; left: 30px; background: #60A5FA;"></div>
-            <div class="book" style="transform: rotate(12deg); top: 100px; left: -20px; background: #34D399;"></div>
-            <div class="book" style="transform: rotate(-5deg); top: 150px; left: 40px; background: #FBBF24;"></div>
-            </div>
-            <div class="learning-element math-symbols" id="mathSymbols">
-                <div class="symbol" style="top: 50px; left: 100px;">+</div>
-                <div class="symbol" style="top: 120px; left: 200px;">÷</div>
-                <div class="symbol" style="top: 80px; left: 300px;">×</div>
-                <div class="symbol" style="top: 200px; left: 150px;">−</div>
-                <div class="symbol" style="top: 150px; left: 50px;">=</div>
-                <div class="symbol" style="top: 30px; left: 250px;">π</div>
-            </div>
-            <div class="learning-element puzzle" id="puzzle">
-                <div class="puzzle-piece" style="top: 0; left: 0;"></div>
-                <div class="puzzle-piece" style="top: 0; left: 80px;"></div>
-                <div class="puzzle-piece" style="top: 0; left: 160px;"></div>
-                <div class="puzzle-piece" style="top: 0; left: 240px;"></div>
-                <div class="puzzle-piece" style="top: 80px; left: 0;"></div>
-                <div class="puzzle-piece" style="top: 80px; left: 80px;"></div>
-                <div class="puzzle-piece" style="top: 80px; left: 240px;"></div>
-                <div class="puzzle-piece" style="top: 160px; left: 0;"></div>
-                <div class="puzzle-piece" style="top: 160px; left: 80px;"></div>
-                <div class="puzzle-piece" style="top: 160px; left: 240px;"></div>
-                <div class="puzzle-piece" style="top: 240px; left: 0;"></div>
-                <div class="puzzle-piece" style="top: 240px; left: 80px;"></div>
-                <div class="puzzle-piece" style="top: 240px; left: 160px;"></div>
-                <div class="puzzle-piece" style="top: 240px; left: 240px;"></div>
-                <div class="puzzle-piece" style="top: 160px; left: 240px;"></div>
-                <!-- Missing center piece -->
-                <div class="puzzle-center"></div>
-                <div class="floating-piece" id="floatingPiece"></div>
-            </div>
-            
-            <!-- Character - Milo -->
-            <div class="character" id="character">
-                <div class="skateboard"></div>
-                <div class="character-body"></div>
-                <div class="character-head"></div>
-                <div class="character-hair">
-                    <div class="hair-spike" style="transform: rotate(-30deg); left: 10px;"></div>
-                    <div class="hair-spike" style="transform: rotate(-10deg); left: 25px;"></div>
-                    <div class="hair-spike" style="transform: rotate(10deg); left: 40px;"></div>
-                    <div class="hair-spike" style="transform: rotate(30deg); left: 55px;"></div>
-                </div>
-                <div class="glasses">
-                    <div class="lens lens-left"></div>
-                    <div class="lens lens-right"></div>
-                    <div class="lens-bridge"></div>
-                </div>
-                <div class="face">
-                    <div class="eye eye-left"></div>
-                    <div class="eye eye-right"></div>
-                    <div class="mouth"></div>
-                </div>
-                <div class="arm arm-left"></div>
-                <div class="arm arm-right"></div>
-                <div class="leg leg-left"></div>
-                <div class="leg leg-right"></div>
-            </div>
+      <button class="skip-button" id="skipButton">Skip</button>
+      <div class="animation-scene" id="animationScene">
+        <!-- Particles -->
+        <div class="particles" id="particles"></div>
+
+        <!-- Learning Icons -->
+        <div class="learning-icons">
+          <svg
+            class="icon"
+            id="lightbulb"
+            style="top: 20%; left: 30%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2C8.13 2 5 5.13 5 9C5 11.38 6.19 13.47 8 14.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V14.74C17.81 13.47 19 11.38 19 9C19 5.13 15.87 2 12 2Z"
+              fill="#FFEB3B"
+            />
+            <path
+              d="M9 19H15V20C15 21.1 14.1 22 13 22H11C9.9 22 9 21.1 9 20V19Z"
+              fill="#FFEB3B"
+            />
+          </svg>
+
+          <svg
+            class="icon"
+            id="beaker"
+            style="top: 40%; left: 70%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 19C5 19.55 5.45 20 6 20H18C18.55 20 19 19.55 19 19C19 18.79 18.93 18.59 18.82 18.43L13 8.35V4H11V8.35L5.18 18.43C5.07 18.59 5 18.79 5 19Z"
+              fill="#90CAF9"
+            />
+            <path
+              d="M7 20H17"
+              stroke="#1565C0"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <circle cx="12" cy="14" r="1" fill="#1565C0" />
+            <circle cx="10" cy="16" r="1" fill="#1565C0" />
+            <circle cx="14" cy="16" r="1" fill="#1565C0" />
+          </svg>
+
+          <svg
+            class="icon"
+            id="cog"
+            style="top: 60%; left: 20%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19.14 12.94C19.18 12.64 19.2 12.33 19.2 12C19.2 11.68 19.18 11.36 19.14 11.06L21.16 9.48C21.34 9.34 21.39 9.07 21.28 8.87L19.36 5.55C19.24 5.33 18.99 5.26 18.77 5.33L16.38 6.29C15.88 5.91 15.35 5.59 14.76 5.35L14.4 2.81C14.36 2.57 14.16 2.4 13.92 2.4H10.08C9.84 2.4 9.65 2.57 9.61 2.81L9.25 5.35C8.66 5.59 8.12 5.91 7.63 6.29L5.24 5.33C5.02 5.26 4.77 5.33 4.65 5.55L2.74 8.87C2.62 9.07 2.66 9.34 2.86 9.48L4.88 11.06C4.84 11.36 4.8 11.69 4.8 12C4.8 12.31 4.82 12.64 4.86 12.94L2.84 14.52C2.66 14.66 2.61 14.93 2.72 15.13L4.64 18.45C4.76 18.67 5.01 18.74 5.23 18.67L7.62 17.71C8.12 18.09 8.65 18.41 9.24 18.65L9.6 21.19C9.65 21.43 9.84 21.6 10.08 21.6H13.92C14.16 21.6 14.36 21.43 14.39 21.19L14.75 18.65C15.34 18.41 15.88 18.09 16.37 17.71L18.76 18.67C18.98 18.74 19.23 18.67 19.35 18.45L21.27 15.13C21.39 14.91 21.34 14.66 21.14 14.52L19.14 12.94ZM12 15.6C10.02 15.6 8.4 13.98 8.4 12C8.4 10.02 10.02 8.4 12 8.4C13.98 8.4 15.6 10.02 15.6 12C15.6 13.98 13.98 15.6 12 15.6Z"
+              fill="#F5F5F5"
+            />
+          </svg>
+
+          <svg
+            class="icon"
+            id="palette"
+            style="top: 30%; left: 80%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21C12.83 21 13.5 20.33 13.5 19.5C13.5 19.11 13.35 18.76 13.11 18.49C12.88 18.23 12.73 17.88 12.73 17.5C12.73 16.67 13.4 16 14.23 16H16C18.76 16 21 13.76 21 11C21 6.58 16.97 3 12 3Z"
+              fill="#FF9800"
+            />
+            <circle cx="6.5" cy="11.5" r="1.5" fill="#FFEB3B" />
+            <circle cx="9.5" cy="7.5" r="1.5" fill="#F44336" />
+            <circle cx="14.5" cy="7.5" r="1.5" fill="#9C27B0" />
+            <circle cx="17.5" cy="11.5" r="1.5" fill="#2196F3" />
+          </svg>
         </div>
 
-            <!-- Flash Effect -->
-    <div class="flash" id="flash"></div>
-
-        
-        <!-- Final Scene -->
-        <div class="final-scene" id="finalScene">
-            <!-- Character in final scene -->
-            <div class="final-character">
-                <div class="character-body"></div>
-                <div class="character-head"></div>
-                <div class="character-hair">
-                    <div class="hair-spike" style="transform: rotate(-30deg); left: 10px;"></div>
-                    <div class="hair-spike" style="transform: rotate(-10deg); left: 25px;"></div>
-                    <div class="hair-spike" style="transform: rotate(10deg); left: 40px;"></div>
-                    <div class="hair-spike" style="transform: rotate(30deg); left: 55px;"></div>
-                </div>
-                <div class="glasses">
-                    <div class="lens lens-left"></div>
-                    <div class="lens lens-right"></div>
-                    <div class="lens-bridge"></div>
-                </div>
-                <div class="face">
-                    <div class="eye eye-left"></div>
-                    <div class="eye eye-right"></div>
-                    <div class="mouth"></div>
-                </div>
-                <div class="arm arm-left"></div>
-                <div class="arm arm-right" style="transform: rotate(80deg);"></div>
-                <div class="leg leg-left"></div>
-                <div class="leg leg-right"></div>
-            </div>
-            
-            <div class="logo-container">
-                <svg class="logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 10C30 10 15 25 15 45C15 65 30 80 50 80C70 80 85 65 85 45C85 25 70 10 50 10Z" fill="#3B82F6"/>
-                    <path d="M40 30C40 27.2386 42.2386 25 45 25C47.7614 25 50 27.2386 50 30C50 32.7614 47.7614 35 45 35C42.2386 35 40 32.7614 40 30Z" fill="white"/>
-                    <path d="M50 30C50 27.2386 52.2386 25 55 25C57.7614 25 60 27.2386 60 30C60 32.7614 57.7614 35 55 35C52.2386 35 50 32.7614 50 30Z" fill="white"/>
-                    <path d="M35 45C35 42.2386 37.2386 40 40 40C42.7614 40 45 42.2386 45 45C45 47.7614 42.7614 50 40 50C37.2386 50 35 47.7614 35 45Z" fill="white"/>
-                    <path d="M55 45C55 42.2386 57.2386 40 60 40C62.7614 40 65 42.2386 65 45C65 47.7614 62.7614 50 60 50C57.2386 50 55 47.7614 55 45Z" fill="white"/>
-                    <path d="M45 60C45 57.2386 47.2386 55 50 55C52.7614 55 55 57.2386 55 60C55 62.7614 52.7614 65 50 65C47.2386 65 45 62.7614 45 60Z" fill="white"/>
-                    <path d="M30 60C30 57.2386 32.2386 55 35 55C37.7614 55 40 57.2386 40 60C40 62.7614 37.7614 65 35 65C32.2386 65 30 62.7614 30 60Z" fill="white"/>
-                    <path d="M60 60C60 57.2386 62.2386 55 65 55C67.7614 55 70 57.2386 70 60C70 62.7614 67.7614 65 65 65C62.2386 65 60 62.7614 60 60Z" fill="white"/>
-                    <path d="M40 30L45 40M55 30L50 40M40 50L45 55M60 50L55 55M35 60L45 60M65 60L55 60" stroke="white" stroke-width="2"/>
-                </svg>
-                <div class="logo-text">EduManiax</div>
-            </div>
-            <div class="tagline">Your adventure in learning starts !</div>
+        <!-- Learning Elements -->
+        <div class="learning-element floating-books" id="floatingBooks">
+          <div
+            class="book"
+            style="
+              transform: rotate(5deg);
+              top: 0;
+              left: 0;
+              background: #f472b6;
+            "
+          ></div>
+          <div
+            class="book"
+            style="
+              transform: rotate(-8deg);
+              top: 50px;
+              left: 30px;
+              background: #60a5fa;
+            "
+          ></div>
+          <div
+            class="book"
+            style="
+              transform: rotate(12deg);
+              top: 100px;
+              left: -20px;
+              background: #34d399;
+            "
+          ></div>
+          <div
+            class="book"
+            style="
+              transform: rotate(-5deg);
+              top: 150px;
+              left: 40px;
+              background: #fbbf24;
+            "
+          ></div>
         </div>
-    </div>
+
+        <div class="learning-element math-symbols" id="mathSymbols">
+          <div class="symbol" style="top: 50px; left: 100px">+</div>
+          <div class="symbol" style="top: 120px; left: 200px">÷</div>
+          <div class="symbol" style="top: 80px; left: 300px">×</div>
+          <div class="symbol" style="top: 200px; left: 150px">−</div>
+          <div class="symbol" style="top: 150px; left: 50px">=</div>
+          <div class="symbol" style="top: 30px; left: 250px">π</div>
+        </div>
+        <div class="learning-element puzzle" id="puzzle">
+          <div class="puzzle-piece" style="top: 0; left: 0"></div>
+          <div class="puzzle-piece" style="top: 0; left: 80px"></div>
+          <div class="puzzle-piece" style="top: 0; left: 160px"></div>
+          <div class="puzzle-piece" style="top: 0; left: 240px"></div>
+          <div class="puzzle-piece" style="top: 80px; left: 0"></div>
+          <div class="puzzle-piece" style="top: 80px; left: 80px"></div>
+          <div class="puzzle-piece" style="top: 80px; left: 240px"></div>
+          <div class="puzzle-piece" style="top: 160px; left: 0"></div>
+          <div class="puzzle-piece" style="top: 160px; left: 80px"></div>
+          <div class="puzzle-piece" style="top: 160px; left: 240px"></div>
+          <div class="puzzle-piece" style="top: 240px; left: 0"></div>
+          <div class="puzzle-piece" style="top: 240px; left: 80px"></div>
+          <div class="puzzle-piece" style="top: 240px; left: 160px"></div>
+          <div class="puzzle-piece" style="top: 240px; left: 240px"></div>
+          <div class="puzzle-piece" style="top: 160px; left: 240px"></div>
+          <!-- Missing center piece -->
+          <div class="puzzle-center"></div>
+          <div class="floating-piece" id="floatingPiece"></div>
+        </div>
+
+        <!-- Character - Milo -->
+        <div class="character" id="character">
+          <div class="skateboard"></div>
+          <div class="character-body"></div>
+          <div class="character-head"></div>
+          <div class="character-hair">
+            <div
+              class="hair-spike"
+              style="transform: rotate(-30deg); left: 10px"
+            ></div>
+            <div
+              class="hair-spike"
+              style="transform: rotate(-10deg); left: 25px"
+            ></div>
+            <div
+              class="hair-spike"
+              style="transform: rotate(10deg); left: 40px"
+            ></div>
+            <div
+              class="hair-spike"
+              style="transform: rotate(30deg); left: 55px"
+            ></div>
+          </div>
+          <div class="glasses">
+            <div class="lens lens-left"></div>
+            <div class="lens lens-right"></div>
+            <div class="lens-bridge"></div>
+          </div>
+          <div class="face">
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="mouth"></div>
+          </div>
+          <div class="arm arm-left"></div>
+          <div class="arm arm-right"></div>
+        </div>
+      </div>
+
+      <!-- Final Scene -->
+      <div class="final-scene" id="finalScene">
+        <!-- Character in final scene -->
+        <div class="final-character">
+          <div class="character-body"></div>
+          <div class="character-head"></div>
+          <div class="character-hair">
+            <div
+              class="hair-spike"
+              style="transform: rotate(-30deg); left: 10px"
+            ></div>
+            <div
+              class="hair-spike"
+              style="transform: rotate(-10deg); left: 25px"
+            ></div>
+            <div
+              class="hair-spike"
+              style="transform: rotate(10deg); left: 40px"
+            ></div>
+            <div
+              class="hair-spike"
+              style="transform: rotate(30deg); left: 55px"
+            ></div>
+          </div>
+          <div class="glasses">
+            <div class="lens lens-left"></div>
+            <div class="lens lens-right"></div>
+            <div class="lens-bridge"></div>
+          </div>
+          <div class="face">
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="mouth"></div>
+          </div>
+        </div>
+
+        <div class="logo-container">
+          <svg
+            class="logo"
+            viewBox="0 0 100 100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M50 10C30 10 15 25 15 45C15 65 30 80 50 80C70 80 85 65 85 45C85 25 70 10 50 10Z"
+              fill="#3B82F6"
+            />
+            <path
+              d="M40 30C40 27.2386 42.2386 25 45 25C47.7614 25 50 27.2386 50 30C50 32.7614 47.7614 35 45 35C42.2386 35 40 32.7614 40 30Z"
+              fill="white"
+            />
+            <path
+              d="M50 30C50 27.2386 52.2386 25 55 25C57.7614 25 60 27.2386 60 30C60 32.7614 57.7614 35 55 35C52.2386 35 50 32.7614 50 30Z"
+              fill="white"
+            />
+            <path
+              d="M35 45C35 42.2386 37.2386 40 40 40C42.7614 40 45 42.2386 45 45C45 47.7614 42.7614 50 40 50C37.2386 50 35 47.7614 35 45Z"
+              fill="white"
+            />
+            <path
+              d="M55 45C55 42.2386 57.2386 40 60 40C62.7614 40 65 42.2386 65 45C65 47.7614 62.7614 50 60 50C57.2386 50 55 47.7614 55 45Z"
+              fill="white"
+            />
+            <path
+              d="M45 60C45 57.2386 47.2386 55 50 55C52.7614 55 55 57.2386 55 60C55 62.7614 52.7614 65 50 65C47.2386 65 45 62.7614 45 60Z"
+              fill="white"
+            />
+            <path
+              d="M30 60C30 57.2386 32.2386 55 35 55C37.7614 55 40 57.2386 40 60C40 62.7614 37.7614 65 35 65C32.2386 65 30 62.7614 30 60Z"
+              fill="white"
+            />
+            <path
+              d="M60 60C60 57.2386 62.2386 55 65 55C67.7614 55 70 57.2386 70 60C70 62.7614 67.7614 65 65 65C62.2386 65 60 62.7614 60 60Z"
+              fill="white"
+            />
+            <path
+              d="M40 30L45 40M55 30L50 40M40 50L45 55M60 50L55 55M35 60L45 60M65 60L55 60"
+              stroke="white"
+              stroke-width="2"
+            />
+          </svg>
+          <div class="logo-text">EduManiax</div>
+        </div>
+        <div class="tagline">Your adventure in learning starts !</div>
+      </div>
     </div>
     <!-- Flash effect for transitions -->
     <div class="flash" id="flash"></div>
     <!-- Optionally, add your JavaScript for animation and transitions here -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const character = document.getElementById('character');
-            const floatingBooks = document.getElementById('floatingBooks');
-            const mathSymbols = document.getElementById('mathSymbols');
-            const puzzle = document.getElementById('puzzle');
-            const floatingPiece = document.getElementById('floatingPiece');
-            const flash = document.getElementById('flash');
-            const finalScene = document.getElementById('finalScene');
-            const homepage = document.getElementById('homepage');
-            const skipButton = document.getElementById('skipButton');
-            const enterButton = document.getElementById('enterButton');
-            const lightbulb = document.getElementById('lightbulb');
-            const beaker = document.getElementById('beaker');
-            const cog = document.getElementById('cog');
-            const palette = document.getElementById('palette');
-    
-            // Create particles
-            const particles = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.width = Math.random() * 5 + 5 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.opacity = Math.random() * 0.5 + 0.2;
-                particles.appendChild(particle);
-    
-                // Animate particles
-                setInterval(() => {
-                    particle.style.transition = 'top 2.5s ease-in-out, left 2.5s ease-in-out';
-                    particle.style.top = Math.random() * 100 + '%';
-                    particle.style.left = Math.random() * 100 + '%';
-                }, Math.random() * 2500 + 2500);
-            }
-    
-            // Animation timeline (times halved)
-            const timeline = [
-                { time: 0, action: () => {
-                    character.style.left = '-150px';
-                    character.style.bottom = '20%';
-                }},
-                { time: 250, action: () => {
-                    character.style.transition = 'left 0.75s ease-out';
-                    character.style.left = '20%';
-                }},
-                { time: 1000, action: () => {
-                    const leftEye = document.querySelector('.eye-left');
-                    leftEye.style.height = '1px';
-                    setTimeout(() => {
-                        leftEye.style.height = '8px';
-                    }, 150);
-                }},
-                { time: 1250, action: () => {
-                    floatingBooks.style.opacity = '1';
-                    const books = floatingBooks.querySelectorAll('.book');
-                    books.forEach((book, index) => {
-                        setTimeout(() => {
-                            book.style.transition = 'transform 0.5s ease-in-out';
-                            book.style.transform = `rotate(${Math.random() * 20 - 10}deg) translateY(-20px)`;
-                            setInterval(() => {
-                                book.style.transform = `rotate(${Math.random() * 20 - 10}deg) translateY(${Math.random() * 40 - 20}px)`;
-                            }, 1000);
-                        }, index * 100);
-                    });
-                    lightbulb.style.opacity = '0.7';
-                }},
-                { time: 1750, action: () => {
-                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out';
-                    character.style.left = '40%';
-                    character.style.bottom = '40%';
-                }},
-                { time: 2500, action: () => {
-                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out';
-                    character.style.left = '60%';
-                    character.style.bottom = '20%';
-                    floatingBooks.style.transition = 'opacity 0.25s ease-in-out';
-                    floatingBooks.style.opacity = '0';
-                    lightbulb.style.transition = 'opacity 0.25s ease-in-out';
-                    lightbulb.style.opacity = '0';
-                }},
-                { time: 3000, action: () => {
-                    mathSymbols.style.opacity = '1';
-                    const symbols = mathSymbols.querySelectorAll('.symbol');
-                    symbols.forEach((symbol, index) => {
-                        setTimeout(() => {
-                            symbol.style.transition = 'transform 0.5s ease-in-out';
-                            symbol.style.transform = 'scale(1.2)';
-                            setInterval(() => {
-                                symbol.style.transform = `scale(${Math.random() * 0.4 + 0.8}) rotate(${Math.random() * 10 - 5}deg)`;
-                            }, 1000);
-                        }, index * 100);
-                    });
-                    beaker.style.opacity = '0.7';
-                }},
-                { time: 3500, action: () => {
-                    character.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out, transform 1s ease-in-out';
-                    character.style.left = '80%';
-                    character.style.bottom = '40%';
-                    character.style.transform = 'rotate(360deg)';
-                }},
-                { time: 4500, action: () => {
-                    mathSymbols.style.transition = 'opacity 0.25s ease-in-out';
-                    mathSymbols.style.opacity = '0';
-                    beaker.style.transition = 'opacity 0.25s ease-in-out';
-                    beaker.style.opacity = '0';
-                }},
-                { time: 4750, action: () => {
-                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out, transform 0.5s ease-in-out';
-                    character.style.left = '20%';
-                    character.style.bottom = '20%';
-                    character.style.transform = 'rotate(0deg)';
-                }},
-                { time: 5250, action: () => {
-                    puzzle.style.opacity = '1';
-                    cog.style.opacity = '0.7';
-                    palette.style.opacity = '0.7';
-                }},
-                { time: 5750, action: () => {
-                    character.style.transition = 'left 0.75s ease-in-out, bottom 0.75s ease-in-out';
-                    character.style.left = '70%';
-                    character.style.bottom = '30%';
-                }},
-                { time: 6500, action: () => {
-                    floatingPiece.style.transition = 'right 0.5s ease-in-out';
-                    floatingPiece.style.right = '50px';
-                }},
-                { time: 7000, action: () => {
-                    const rightArm = document.querySelector('.arm-right');
-                    rightArm.style.transition = 'transform 0.25s ease-in-out';
-                    rightArm.style.transform = 'rotate(60deg)';
-                    setTimeout(() => {
-                        rightArm.style.transform = 'rotate(20deg)';
-                    }, 250);
-                }},
-                { time: 7250, action: () => {
-                    floatingPiece.style.transition = 'all 0.5s ease-in-out';
-                    floatingPiece.style.top = '160px';
-                    floatingPiece.style.right = '160px';
-                }},
-                { time: 7750, action: () => {
-                    flash.style.transition = 'opacity 0.1s ease-in-out';
-                    flash.style.opacity = '1';
-                    setTimeout(() => {
-                        flash.style.opacity = '0';
-                    }, 100);
-                }},
-                { time: 8000, action: () => {
-                    puzzle.style.transition = 'opacity 0.25s ease-in-out';
-                    puzzle.style.opacity = '0';
-                    cog.style.transition = 'opacity 0.25s ease-in-out';
-                    cog.style.opacity = '0';
-                    palette.style.transition = 'opacity 0.25s ease-in-out';
-                    palette.style.opacity = '0';
-                }},
-                { time: 8250, action: () => {
-                    character.style.transition = 'left 0.5s ease-in-out, bottom 0.5s ease-in-out';
-                    character.style.left = '50%';
-                    character.style.bottom = '30%';
-                    character.style.transform = 'translateX(-50%)';
-                }},
-                { time: 8750, action: () => {
-                    const rightArm = document.querySelector('.arm-right');
-                    rightArm.style.transition = 'transform 0.25s ease-in-out';
-                    rightArm.style.transform = 'rotate(80deg)';
-                }},
-                { time: 9250, action: () => {
-                    flash.style.transition = 'opacity 0.25s ease-in-out';
-                    flash.style.opacity = '1';
-                    setTimeout(() => {
-                        flash.style.opacity = '0';
-                        finalScene.style.opacity = '1';
-                        character.style.opacity = '0';
-                    }, 250);
-                }}
-            ];
-    
-            // Run timeline
-            timeline.forEach(item => {
-                setTimeout(item.action, item.time);
-            });
-    
-            // Skip button
-            skipButton.addEventListener('click', function() {
-                document.getElementById('animationScene').style.display = 'none';
-                finalScene.style.opacity = '1';
-            });
-    
-            // Enter button
-            enterButton.addEventListener('click', function() {
-                document.querySelector('.intro-container').style.opacity = '0';
+      document.addEventListener("DOMContentLoaded", function () {
+        const character = document.getElementById("character");
+        const floatingBooks = document.getElementById("floatingBooks");
+        const mathSymbols = document.getElementById("mathSymbols");
+        const puzzle = document.getElementById("puzzle");
+        const floatingPiece = document.getElementById("floatingPiece");
+        const flash = document.getElementById("flash");
+        const finalScene = document.getElementById("finalScene");
+        const homepage = document.getElementById("homepage");
+        const skipButton = document.getElementById("skipButton");
+        const enterButton = document.getElementById("enterButton");
+        const lightbulb = document.getElementById("lightbulb");
+        const beaker = document.getElementById("beaker");
+        const cog = document.getElementById("cog");
+        const palette = document.getElementById("palette");
+
+        // Create particles
+        const particles = document.getElementById("particles");
+        for (let i = 0; i < 50; i++) {
+          const particle = document.createElement("div");
+          particle.classList.add("particle");
+          particle.style.width = Math.random() * 5 + 5 + "px";
+          particle.style.height = particle.style.width;
+          particle.style.top = Math.random() * 100 + "%";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.opacity = Math.random() * 0.5 + 0.2;
+          particles.appendChild(particle);
+
+          // Animate particles
+          setInterval(() => {
+            particle.style.transition =
+              "top 2.5s ease-in-out, left 2.5s ease-in-out";
+            particle.style.top = Math.random() * 100 + "%";
+            particle.style.left = Math.random() * 100 + "%";
+          }, Math.random() * 2500 + 2500);
+        }
+
+        // Animation timeline (times halved)
+        const timeline = [
+          {
+            time: 0,
+            action: () => {
+              character.style.left = "-150px";
+              character.style.bottom = "20%";
+            },
+          },
+          {
+            time: 250,
+            action: () => {
+              character.style.transition = "left 0.75s ease-out";
+              character.style.left = "20%";
+            },
+          },
+          {
+            time: 1000,
+            action: () => {
+              const leftEye = document.querySelector(".eye-left");
+              leftEye.style.height = "1px";
+              setTimeout(() => {
+                leftEye.style.height = "8px";
+              }, 150);
+            },
+          },
+          {
+            time: 1250,
+            action: () => {
+              floatingBooks.style.opacity = "1";
+              const books = floatingBooks.querySelectorAll(".book");
+              books.forEach((book, index) => {
                 setTimeout(() => {
-                    document.querySelector('.intro-container').style.display = 'none';
-                }, 500);
-                homepage.style.opacity = '1';
-            });
+                  book.style.transition = "transform 0.5s ease-in-out";
+                  book.style.transform = `rotate(${
+                    Math.random() * 20 - 10
+                  }deg) translateY(-20px)`;
+                  setInterval(() => {
+                    book.style.transform = `rotate(${
+                      Math.random() * 20 - 10
+                    }deg) translateY(${Math.random() * 40 - 20}px)`;
+                  }, 1000);
+                }, index * 100);
+              });
+              lightbulb.style.opacity = "0.7";
+            },
+          },
+          {
+            time: 1750,
+            action: () => {
+              character.style.transition =
+                "left 0.5s ease-in-out, bottom 0.5s ease-in-out";
+              character.style.left = "40%";
+              character.style.bottom = "40%";
+            },
+          },
+          {
+            time: 2500,
+            action: () => {
+              character.style.transition =
+                "left 0.5s ease-in-out, bottom 0.5s ease-in-out";
+              character.style.left = "60%";
+              character.style.bottom = "20%";
+              floatingBooks.style.transition = "opacity 0.25s ease-in-out";
+              floatingBooks.style.opacity = "0";
+              lightbulb.style.transition = "opacity 0.25s ease-in-out";
+              lightbulb.style.opacity = "0";
+            },
+          },
+          {
+            time: 3000,
+            action: () => {
+              mathSymbols.style.opacity = "1";
+              const symbols = mathSymbols.querySelectorAll(".symbol");
+              symbols.forEach((symbol, index) => {
+                setTimeout(() => {
+                  symbol.style.transition = "transform 0.5s ease-in-out";
+                  symbol.style.transform = "scale(1.2)";
+                  setInterval(() => {
+                    symbol.style.transform = `scale(${
+                      Math.random() * 0.4 + 0.8
+                    }) rotate(${Math.random() * 10 - 5}deg)`;
+                  }, 1000);
+                }, index * 100);
+              });
+              beaker.style.opacity = "0.7";
+            },
+          },
+          {
+            time: 3500,
+            action: () => {
+              character.style.transition =
+                "left 1s ease-in-out, bottom 1s ease-in-out, transform 1s ease-in-out";
+              character.style.left = "80%";
+              character.style.bottom = "40%";
+              character.style.transform = "rotate(360deg)";
+            },
+          },
+          {
+            time: 4500,
+            action: () => {
+              mathSymbols.style.transition = "opacity 0.25s ease-in-out";
+              mathSymbols.style.opacity = "0";
+              beaker.style.transition = "opacity 0.25s ease-in-out";
+              beaker.style.opacity = "0";
+            },
+          },
+          {
+            time: 4750,
+            action: () => {
+              character.style.transition =
+                "left 0.5s ease-in-out, bottom 0.5s ease-in-out, transform 0.5s ease-in-out";
+              character.style.left = "20%";
+              character.style.bottom = "20%";
+              character.style.transform = "rotate(0deg)";
+            },
+          },
+          {
+            time: 5250,
+            action: () => {
+              puzzle.style.opacity = "1";
+              cog.style.opacity = "0.7";
+              palette.style.opacity = "0.7";
+            },
+          },
+          {
+            time: 5750,
+            action: () => {
+              character.style.transition =
+                "left 0.75s ease-in-out, bottom 0.75s ease-in-out";
+              character.style.left = "70%";
+              character.style.bottom = "30%";
+            },
+          },
+          {
+            time: 6500,
+            action: () => {
+              floatingPiece.style.transition = "right 0.5s ease-in-out";
+              floatingPiece.style.right = "50px";
+            },
+          },
+          {
+            time: 7000,
+            action: () => {
+              const rightArm = document.querySelector(".arm-right");
+              rightArm.style.transition = "transform 0.25s ease-in-out";
+              rightArm.style.transform = "rotate(60deg)";
+              setTimeout(() => {
+                rightArm.style.transform = "rotate(20deg)";
+              }, 250);
+            },
+          },
+          {
+            time: 7250,
+            action: () => {
+              floatingPiece.style.transition = "all 0.5s ease-in-out";
+              floatingPiece.style.top = "160px";
+              floatingPiece.style.right = "160px";
+            },
+          },
+          {
+            time: 7750,
+            action: () => {
+              flash.style.transition = "opacity 0.1s ease-in-out";
+              flash.style.opacity = "1";
+              setTimeout(() => {
+                flash.style.opacity = "0";
+              }, 100);
+            },
+          },
+          {
+            time: 8000,
+            action: () => {
+              puzzle.style.transition = "opacity 0.25s ease-in-out";
+              puzzle.style.opacity = "0";
+              cog.style.transition = "opacity 0.25s ease-in-out";
+              cog.style.opacity = "0";
+              palette.style.transition = "opacity 0.25s ease-in-out";
+              palette.style.opacity = "0";
+            },
+          },
+          {
+            time: 8250,
+            action: () => {
+              character.style.transition =
+                "left 0.5s ease-in-out, bottom 0.5s ease-in-out";
+              character.style.left = "50%";
+              character.style.bottom = "30%";
+              character.style.transform = "translateX(-50%)";
+            },
+          },
+          {
+            time: 8750,
+            action: () => {
+              const rightArm = document.querySelector(".arm-right");
+              rightArm.style.transition = "transform 0.25s ease-in-out";
+              rightArm.style.transform = "rotate(80deg)";
+            },
+          },
+          {
+            time: 9250,
+            action: () => {
+              flash.style.transition = "opacity 0.25s ease-in-out";
+              flash.style.opacity = "1";
+              setTimeout(() => {
+                flash.style.opacity = "0";
+                finalScene.style.opacity = "1";
+                character.style.opacity = "0";
+              }, 250);
+            },
+          },
+        ];
+
+        // Run timeline
+        timeline.forEach((item) => {
+          setTimeout(item.action, item.time);
         });
+
+        // Skip button
+        skipButton.addEventListener("click", function () {
+          document.getElementById("animationScene").style.display = "none";
+          finalScene.style.opacity = "1";
+        });
+
+        // Enter button
+        enterButton.addEventListener("click", function () {
+          document.querySelector(".intro-container").style.opacity = "0";
+          setTimeout(() => {
+            document.querySelector(".intro-container").style.display = "none";
+          }, 500);
+          homepage.style.opacity = "1";
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
