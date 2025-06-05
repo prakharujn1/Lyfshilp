@@ -165,7 +165,6 @@ const BudgetBuilder = () => {
   const [feedbackAvatarType, setFeedbackAvatarType] = useState("disappointing");
   const [showSurpriseAvatar, setShowSurpriseAvatar] = useState(false);
   const surpriseCount = useRef(0);
-  const [spin, setSpin] = useState(true);
 
   const addSurpriseExpense = (currentWallet) => {
     if (surpriseCount.current >= 2) {
@@ -385,42 +384,30 @@ Constraints -
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (spin) {
-      const timer = setTimeout(() => {
-        setSpin(false);
-      }, 1500);
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
   return (
-    <div className="flex justify-center items-start gap-6 p-8">
+    <div className="flex flex-col lg:flex-row justify-center items-start gap-8 lg:gap-6 p-4 sm:p-6 lg:p-8">
       {/* 🎮 Weekly Budget Builder */}
       <div
-        className="w-3/5 bg-gradient-to-b from-sky-200 to-blue-100 rounded-3xl p-6 font-sans shadow-xl border-4 border-yellow-300"
+        className="w-full lg:w-3/5 bg-gradient-to-b from-sky-200 to-blue-100 rounded-3xl p-6 font-sans shadow-xl border-4 border-yellow-300"
         style={{ fontFamily: "'Comic Neue', cursive" }}
       >
         <div
-          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${
-            spin ? "animate-spin" : "animate-none"
-          }`}
+          className={`text-center text-4xl sm:text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm`}
         >
           🎯 Weekly Budget Builder!
         </div>
 
-        <div className="flex justify-center items-center text-3xl mb-8 text-green-700 font-bold animate-bounce">
+        <div className="flex justify-center items-center text-2xl sm:text-3xl mb-8 text-green-700 font-bold animate-bounce">
           💰 Wallet <FaWallet className="ml-3 mr-2" /> ₹{wallet}
         </div>
 
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex justify-center space-x-14">
+          <div className="flex flex-col md:flex-row justify-center md:space-x-14 space-y-8 md:space-y-0">
             {/* Available Expenses */}
             <Droppable droppableId="available">
               {(provided) => (
                 <div
-                  className="bg-white p-5 rounded-3xl shadow-lg w-80 min-h-[300px] border-4 border-blue-300"
+                  className="bg-white p-5 rounded-3xl shadow-lg w-full md:w-80 min-h-[300px] border-4 border-blue-300"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -459,7 +446,7 @@ Constraints -
             <Droppable droppableId="spent">
               {(provided) => (
                 <div
-                  className="bg-white p-5 rounded-3xl shadow-lg w-80 min-h-[300px] border-4 border-red-300"
+                  className="bg-white p-5 rounded-3xl shadow-lg w-full md:w-80 min-h-[300px] border-4 border-red-300"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -528,10 +515,10 @@ Constraints -
                 📣 Feedback
               </h2>
             </div>
-            <div className="w-2/3 p-6 mx-auto mt-4 flex items-center justify-center">
+            <div className="w-full lg:w-2/3 p-6 mx-auto mt-4 flex items-center justify-center">
               <div className="bg-white border-4 p-6 border-fuchsia-400 rounded-3xl shadow-md whitespace-pre-wrap">
                 <div className="text-gray-800 space-y-4">
-                  <div className="flex items-center space-x-5">
+                  <div className="flex flex-col sm:flex-row items-center sm:space-x-5 space-y-4 sm:space-y-0">
                     <Avatar
                       style={{ width: 120, height: 120 }}
                       type={feedbackAvatarType}
@@ -571,7 +558,7 @@ Constraints -
       </div>
 
       {/* 🤖 Spline Robot Model */}
-      <div className="w-2/5 h-[600px] rounded-3xl overflow-hidden">
+      <div className="w-full lg:w-2/5 h-[400px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden">
         <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
       </div>
     </div>

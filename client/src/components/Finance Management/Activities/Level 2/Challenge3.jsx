@@ -18,11 +18,9 @@ const items = [
 ];
 
 const getFeedback = (item, category, totalSpent, limit) => {
-
   const overspendWarning =
     totalSpent + item.price > limit
       ? `⚠️ Buying this will exceed your ₹${limit} monthly budget!`
-
       : "";
 
   switch (category) {
@@ -98,7 +96,7 @@ const Challenge3 = () => {
   if (!expenseLimit) {
     return (
       <motion.div
-        className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
+        className="max-w-md mx-auto mt-6 px-4 py-6 bg-white rounded-xl shadow-xl sm:max-w-lg"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -125,13 +123,14 @@ const Challenge3 = () => {
     );
   }
 
-
   if (step >= items.length) {
     const overspent = getTotalSpent() > Number(expenseLimit);
-    {!overspent && completeFinanceChallenge(1, 2);}//mark challenge completed
+    {
+      !overspent && completeFinanceChallenge(1, 2);
+    } //mark challenge completed
     return (
       <motion.div
-        className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
+        className="max-w-full sm:max-w-3xl mx-auto mt-6 px-4 py-6 bg-white rounded-xl shadow-xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -142,15 +141,16 @@ const Challenge3 = () => {
           🧾 Total Spent: ₹{getTotalSpent()} / ₹{expenseLimit}
         </p>
         <p
-          className={`text-center font-bold ${overspent ? "text-red-500" : "text-green-500"
-            }`}
+          className={`text-center font-bold ${
+            overspent ? "text-red-500" : "text-green-500"
+          }`}
         >
           {overspent
             ? "❌ You overspent. Try skipping more next time!"
             : "✅ Great job! You stayed within budget!"}
         </p>
 
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {["needNow", "wantLater", "skipIt"].map((cat) => (
             <div key={cat} className="bg-gray-100 p-4 rounded shadow">
               <h4 className="text-center font-bold text-blue-700 uppercase">
@@ -201,13 +201,13 @@ const Challenge3 = () => {
 
   return (
     <motion.div
-      className="max-w-5xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl"
+      className="max-w-full sm:max-w-5xl mx-auto mt-6 px-4 py-6 bg-white rounded-xl shadow-xl"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
       <div className="flex flex-col md:flex-row gap-6 items-center">
         {/* Left side - Spline */}
-        <div className="w-full md:w-1/2 h-80">
+        <div className="w-full md:w-1/2 h-64 sm:h-80">
           <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
         </div>
 

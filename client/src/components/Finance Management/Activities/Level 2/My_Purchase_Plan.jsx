@@ -144,16 +144,12 @@ Format:
   const discountedFinal = numericPrice - discountAmount;
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+     <div className="p-4 max-w-7xl mx-auto">
       <div className="flex flex-col-reverse md:flex-row items-center gap-12">
         {/* Left: Game / Planning UI */}
         <div className="w-full md:w-2/3">
           <div className="text-center">
-            <Lottie
-              animationData={shoppingBag}
-              className="h-28 mx-auto"
-              loop={true}
-            />
+            <Lottie animationData={shoppingBag} className="h-28 mx-auto" loop />
             <h2 className="text-4xl font-bold text-purple-700 mb-2 animate-bounce">
               My Purchase Plan
             </h2>
@@ -255,7 +251,7 @@ Format:
           )}
 
           <AnimatePresence>
-            {result && !result.error && (
+            {result && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -268,10 +264,7 @@ Format:
                   successfully!
                 </div>
 
-                <Lottie
-                  animationData={celebrationGirl}
-                  className="h-32 mx-auto"
-                />
+                <Lottie animationData={celebrationGirl} className="h-32 mx-auto" />
 
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -281,18 +274,10 @@ Format:
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month">
-                        <Label
-                          value="Month"
-                          offset={-10}
-                          position="insideBottom"
-                        />
+                        <Label value="Month" offset={-10} position="insideBottom" />
                       </XAxis>
                       <YAxis>
-                        <Label
-                          value="₹ Savings"
-                          angle={-90}
-                          position="insideLeft"
-                        />
+                        <Label value="₹ Savings" angle={-90} position="insideLeft" />
                       </YAxis>
                       <Tooltip
                         formatter={(value) =>
@@ -300,17 +285,8 @@ Format:
                         }
                       />
                       <Legend verticalAlign="top" height={36} />
-                      <Bar
-                        dataKey="amount"
-                        name="Monthly Savings"
-                        fill="#8b5cf6"
-                      >
-                        <LabelList
-                          dataKey="label"
-                          position="top"
-                          fill="#000"
-                          fontSize={12}
-                        />
+                      <Bar dataKey="amount" name="Monthly Savings" fill="#8b5cf6">
+                        <LabelList dataKey="label" position="top" fill="#000" fontSize={12} />
                       </Bar>
                     </BarChart>
                   </ResponsiveContainer>
@@ -318,12 +294,9 @@ Format:
 
                 {emiAvailable && result.emiOption && (
                   <div className="bg-blue-50 p-4 rounded-xl shadow">
-                    <h4 className="text-lg font-bold text-blue-800 mb-2">
-                      📆 EMI Breakdown
-                    </h4>
+                    <h4 className="text-lg font-bold text-blue-800 mb-2">📆 EMI Breakdown</h4>
                     <p>
-                      Step 1: Interest = ₹{price} × ({interestRate}/100) ×{" "}
-                      {months} ={" "}
+                      Step 1: Interest = ₹{price} × ({interestRate}/100) × {months} ={" "}
                       <strong>₹{interestAmount.toLocaleString("en-IN")}</strong>
                     </p>
                     <p>
@@ -335,30 +308,24 @@ Format:
                       <strong>₹{emiPerMonth.toLocaleString("en-IN")}</strong>
                     </p>
                     <p className="mt-2">
-                      AI Suggested EMI:{" "}
-                      <strong>{result.emiOption.monthlyPayment}</strong>
+                      AI Suggested EMI: <strong>{result.emiOption.monthlyPayment}</strong>
                     </p>
                   </div>
                 )}
 
                 {discountAvailable && result.discountedPrice && (
                   <div className="bg-green-50 p-4 rounded-xl shadow">
-                    <h4 className="text-lg font-bold text-green-800 mb-2">
-                      🏷️ Discounted Price
-                    </h4>
+                    <h4 className="text-lg font-bold text-green-800 mb-2">🏷️ Discounted Price</h4>
                     <p>
                       Step 1: Discount = ₹{price} × ({discountPercent}/100) ={" "}
                       <strong>₹{discountAmount.toLocaleString("en-IN")}</strong>
                     </p>
                     <p>
                       Step 2: Final Price = ₹{price} - ₹{discountAmount} ={" "}
-                      <strong>
-                        ₹{discountedFinal.toLocaleString("en-IN")}
-                      </strong>
+                      <strong>₹{discountedFinal.toLocaleString("en-IN")}</strong>
                     </p>
                     <p className="mt-2">
-                      AI Suggested Price:{" "}
-                      <strong>{result.discountedPrice}</strong>
+                      AI Suggested Price: <strong>{result.discountedPrice}</strong>
                     </p>
                   </div>
                 )}

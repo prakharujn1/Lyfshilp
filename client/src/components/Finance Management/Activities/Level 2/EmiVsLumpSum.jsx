@@ -123,7 +123,7 @@ feedback : "Your feedback"
   };
 
   return (
-    <div className=" min-h-screen flex flex-col lg:flex-row items-start justify-center gap-8 p-4 sm:p-6">
+    <div className="min-h-screen flex flex-col lg:flex-row items-start justify-center gap-8 p-4 sm:p-6">
       {/* Left: Spline Model */}
       <div className="w-full lg:w-1/2 h-[400px] lg:h-auto">
         <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
@@ -136,74 +136,78 @@ feedback : "Your feedback"
         </h1>
 
         {!showResult && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-            <button
-              className={`p-5 rounded-lg shadow-md transition-all ${selectedOption === "A"
-                ? "bg-green-100 border-2 border-green-600"
-                : "bg-white hover:bg-green-50"
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+              <button
+                aria-pressed={selectedOption === "A"}
+                className={`p-5 rounded-lg shadow-md transition-all ${
+                  selectedOption === "A"
+                    ? "bg-green-100 border-2 border-green-600"
+                    : "bg-white hover:bg-green-50"
                 }`}
-              onClick={() => {
-                setSelectedOption("A")
-                setasselectedA(true);
-              }
-              }
-            >
-              <h2 className="text-lg font-semibold text-green-800 mb-2">
-                Option A: Lump Sum
-              </h2>
-              <p className="text-gray-700">
-                Save ₹4,000/month for 3 months. Then buy the phone in one shot.
-              </p>
-              <p className="mt-2 font-medium text-green-700">
-                Total: ₹{lumpSumTotal}
-              </p>
-            </button>
+                onClick={() => setSelectedOption("A")}
+              >
+                <h2 className="text-lg font-semibold text-green-800 mb-2">
+                  Option A: Lump Sum
+                </h2>
+                <p className="text-gray-700">
+                  Save ₹4,000/month for 3 months. Then buy the phone in one
+                  shot.
+                </p>
+                <p className="mt-2 font-medium text-green-700">
+                  Total: ₹{lumpSumTotal.toLocaleString()}
+                </p>
+              </button>
 
-            <button
-              className={`p-5 rounded-lg shadow-md transition-all ${selectedOption === "B"
-                ? "bg-blue-100 border-2 border-blue-600"
-                : "bg-white hover:bg-blue-50"
+              <button
+                aria-pressed={selectedOption === "B"}
+                className={`p-5 rounded-lg shadow-md transition-all ${
+                  selectedOption === "B"
+                    ? "bg-blue-100 border-2 border-blue-600"
+                    : "bg-white hover:bg-blue-50"
                 }`}
-              onClick={() => {
-                setSelectedOption("B")
-                setasselectedB(true);
-              }
-              }
-            >
-              <h2 className="text-lg font-semibold text-blue-800 mb-2">
-                Option B: EMI
-              </h2>
-              <p className="text-gray-700">
-                Pay ₹4,500 upfront + ₹3,000/month for 3 months (includes
-                interest).
-              </p>
-              <p className="mt-2 font-medium text-blue-700">
-                Total: ₹{emiTotal}
-              </p>
-            </button>
-          </div>
-        )}
+                onClick={() => setSelectedOption("B")}
+              >
+                <h2 className="text-lg font-semibold text-blue-800 mb-2">
+                  Option B: EMI
+                </h2>
+                <p className="text-gray-700">
+                  Pay ₹4,500 upfront + ₹3,000/month for 3 months (includes
+                  interest).
+                </p>
+                <p className="mt-2 font-medium text-blue-700">
+                  Total: ₹{emiTotal.toLocaleString()}
+                </p>
+              </button>
+            </div>
 
-        {!showResult && (
-          <div className="bg-yellow-50 p-4 rounded-lg shadow mb-6">
-            <label className="block font-medium text-yellow-800 mb-2">
-              💬 Why did you choose this option?
-            </label>
-            <textarea
-              className="w-full h-24 p-3 rounded border border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              placeholder="Type your reason here..."
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-            />
-            <button
-              disabled={notAllowed()}
-              className={`mt-4 ${notAllowed() ? "cursor-not-allowed" : "cursor-pointer"
+            <div className="bg-yellow-50 p-4 rounded-lg shadow mb-6">
+              <label
+                htmlFor="reason"
+                className="block font-medium text-yellow-800 mb-2"
+              >
+                💬 Why did you choose this option?
+              </label>
+              <textarea
+                id="reason"
+                className="w-full h-24 p-3 rounded border border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                placeholder="Type your reason here..."
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              />
+              <button
+                disabled={notAllowed()}
+                className={`mt-4 ${
+                  notAllowed()
+                    ? "cursor-not-allowed opacity-50"
+                    : "cursor-pointer"
                 } bg-yellow-400 text-yellow-900 px-4 py-2 rounded shadow hover:bg-yellow-500 transition-all`}
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </>
         )}
 
         {showResult && (
@@ -226,7 +230,7 @@ feedback : "Your feedback"
               <h4 className="font-semibold text-green-800 mb-2">
                 {loading ? "Loading feedback..." : "Your feedback"}
               </h4>
-              {error && <p>{error}</p>}
+              {error && <p className="text-red-600">{error}</p>}
               {feedback && <p>{feedback}</p>}
             </div>
 
