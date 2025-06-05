@@ -9,7 +9,7 @@ const Avatar = ({ style, type }) => {
     type == "disappointing" ? characterAnimationSad : characterAnimationHappy;
 
   return (
-    <div style={style}>
+    <div className={`${style}`}>
       <Lottie animationData={charAnimat} loop={true} />
     </div>
   );
