@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserSecret } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Spline from "@splinetool/react-spline";
 
 const IntroPageAdDetective = () => {
   const navigate = useNavigate();
@@ -21,15 +22,23 @@ const IntroPageAdDetective = () => {
   }, []);
 
   return (
-    <div className="w-[90%] mx-auto p-3  h-screen">
+    <div className="w-[90%] mx-auto p-3 h-screen">
       <div
-        className="h-full rounded-2xl bg-gradient-to-r from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center p-6 relative"
+        className="h-full rounded-2xl bg-gradient-to-r from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center p-6 relative gap-12"
         style={{ fontFamily: "'Comic Neue', cursive" }}
       >
         {/* Agent Avatar */}
         <div className="absolute top-6 left-6 flex items-center space-x-2">
           <FaUserSecret className="text-3xl text-yellow-400 animate-pulse" />
           <span className="text-lg font-semibold">Agent 007</span>
+        </div>
+
+        {/* Spline Model on Left */}
+        <div className="hidden md:block w-1/4 h-[300px]">
+          <Spline
+            className="rounded-lg object-fit"
+            scene="https://prod.spline.design/hB2IF38lQ1umF15e/scene.splinecode"
+          />
         </div>
 
         {/* Mission Brief Card */}
@@ -56,7 +65,6 @@ const IntroPageAdDetective = () => {
             case!
           </p>
 
-          {/* Start Button as Folder */}
           <button
             onClick={() => navigate("/ad-detective-game")}
             className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-xl shadow-lg border-2 border-yellow-300 transition duration-300 ease-in-out transform hover:scale-105 hover:rotate-1 hover:shadow-yellow-400"
