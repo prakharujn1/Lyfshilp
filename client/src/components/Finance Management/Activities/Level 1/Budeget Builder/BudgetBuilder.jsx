@@ -19,7 +19,6 @@ import { motion } from "framer-motion";
 import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
 
-
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
 
@@ -51,12 +50,36 @@ const BudgetBuilder = () => {
   const { completeFinanceChallenge } = useFinance();
 
   const initialExpenses = [
-    { id: "1", label: "Weekend Movie", cost: 200, icon: <FaFilm /> },
-    { id: "2", label: "Data Plan", cost: 210, icon: <FaPiggyBank /> },
-    { id: "3", label: "Lunch", cost: 125, icon: <FaHamburger /> },
-    { id: "4", label: "Save for Shoes", cost: 350, icon: <FaShoePrints /> },
-    { id: "5", label: "Books", cost: 200, icon: <FaBook /> },
-    { id: "6", label: "Gift", cost: 150, icon: <FaGift /> },
+    {
+      id: "1",
+      label: "Weekend Movie",
+      cost: 200,
+      icon: <FaFilm />,
+      priorityScore: 2,
+    },
+    {
+      id: "2",
+      label: "Data Plan",
+      cost: 210,
+      icon: <FaPiggyBank />,
+      priorityScore: 4,
+    },
+    {
+      id: "3",
+      label: "Lunch",
+      cost: 125,
+      icon: <FaHamburger />,
+      priorityScore: 3,
+    },
+    {
+      id: "4",
+      label: "Save for Shoes",
+      cost: 350,
+      icon: <FaShoePrints />,
+      priorityScore: 4,
+    },
+    { id: "5", label: "Books", cost: 200, icon: <FaBook />, priorityScore: 5 },
+    { id: "6", label: "Gift", cost: 150, icon: <FaGift />, priorityScore: 4 },
   ];
 
   const [surpriseExpenses, setSurpriseExpenses] = useState([
@@ -66,6 +89,7 @@ const BudgetBuilder = () => {
       cost: 250,
       icon: <FaQuestionCircle />,
       shown: false,
+      priorityScore: 5,
     },
     {
       id: "s2",
@@ -73,6 +97,7 @@ const BudgetBuilder = () => {
       cost: 180,
       icon: <FaQuestionCircle />,
       shown: false,
+      priorityScore: 5,
     },
     {
       id: "s3",
@@ -80,6 +105,7 @@ const BudgetBuilder = () => {
       cost: 120,
       icon: <FaQuestionCircle />,
       shown: false,
+      priorityScore: 1,
     },
     {
       id: "s4",
@@ -87,6 +113,7 @@ const BudgetBuilder = () => {
       cost: 80,
       icon: <FaQuestionCircle />,
       shown: false,
+      priorityScore: 1,
     },
     {
       id: "s5",
@@ -94,6 +121,7 @@ const BudgetBuilder = () => {
       cost: 60,
       icon: <FaQuestionCircle />,
       shown: false,
+      priorityScore: 5,
     },
     {
       id: "s6",
@@ -101,6 +129,7 @@ const BudgetBuilder = () => {
       cost: 50,
       icon: <FaQuestionCircle />,
       shown: false,
+      priorityScore: 3,
     },
     {
       id: "s7",
@@ -108,8 +137,27 @@ const BudgetBuilder = () => {
       cost: 200,
       icon: <FaQuestionCircle />,
       shown: false,
+      priorityScore: 2,
     },
   ]);
+
+  function getSavingsScore(percentageSpent) {
+    let savingsScore;
+
+    if (percentageSpent > 90 && percentageSpent <= 100) {
+      savingsScore = 1;
+    } else if (percentageSpent > 60 && percentageSpent <= 80) {
+      savingsScore = 4;
+    } else if (percentageSpent >= 50 && percentageSpent <= 60) {
+      savingsScore = 7;
+    } else if (percentageSpent < 50) {
+      savingsScore = 10;
+    } else {
+      savingsScore = 2; // fallback if needed, e.g. for 81–90%
+    }
+
+    return savingsScore;
+  }
 
   const [wallet, setWallet] = useState(1000);
   const [available, setAvailable] = useState(initialExpenses);
@@ -235,20 +283,44 @@ const BudgetBuilder = () => {
     setError("");
     setResult(null);
 
-    const cleanExpenses = initialExpenses.map(({ id, label, cost }) => ({
-      id,
-      label,
-      cost,
-    }));
+    const cleanExpenses = initialExpenses.map(
+      ({ id, label, cost, priorityScore }) => ({
+        id,
+        label,
+        cost,
+        priorityScore,
+      })
+    );
 
-    const cleanSpent = spent.map(({ id, label, cost }) => ({
+    const cleanSpent = spent.map(({ id, label, cost, priorityScore }) => ({
       id,
       label,
       cost,
+      priorityScore,
     }));
 
     const totalSpent = spent.reduce((acc, item) => acc + item.cost, 0);
-    const percentageSpent = ((totalSpent / 1000) * 100).toFixed(0);
+    const percentageSpent = Number(((totalSpent / 1000) * 100).toFixed(0));
+    const totalPriorityScore = spent.reduce(
+      (acc, item) => acc + item.priorityScore * item.cost,
+      0
+    );
+
+    const priorityScoreRatio = totalPriorityScore / (5 * totalSpent);
+    const savingScore = Number(getSavingsScore(percentageSpent));
+    const finalScore = Number(
+      (7 * priorityScoreRatio + 0.3 * savingScore).toFixed(1)
+    );
+    console.log(
+      cleanSpent,
+      percentageSpent,
+      totalPriorityScore,
+      priorityScoreRatio,
+      savingScore,
+      finalScore
+    );
+
+    // console.log(finalScore);
 
     try {
       const response = await axios.post(
@@ -269,29 +341,23 @@ Percentage spent : ${percentageSpent}
 Return ONLY raw JSON (no backticks, no markdown, no explanations).
 Example format:
 {
-  spendingScore: 7/10, ##Here always give marks in the format "marks/10" 
+  spendingScore: ${finalScore} / 10, ##Here always give marks in the format "marks/10". 
   tip: "Saving is crucial. Consider a higher savings rate in future.",
-  categoryToCut: "Books", ##The categoryToCut, if present, must be one of the spent items only.
+  categoryToCut: "Movie", ##The categoryToCut, if present, must be one of the spent items only and must be of the lowest priority score among all spent items.
   avatarType : "congratulatory" or "disappointing"
 }
 
 The four fields should never be empty. If you find exceptionally well-balanced expenses, you may keep the categoryToCut field as "None - you balanced your expenses really well".
  
-Constraints:
-- The 'spendingScore' must match these rules:
-  - If percentageSpent > 90 and <= 100, score must be "1/10" or "2/10"
-  - If percentageSpent > 60 and <= 80, score must be "3/10" or "4/10"
-  - If percentageSpent >= 50 and <= 60, score must be "5/10" to "7/10"
-  - If percentageSpent < 50, score must be "8/10" to "10/10"
-
-- The 'avatarType' must be:
-  - "disappointing" if percentageSpent > 50
-  - "congratulatory" if percentageSpent <= 50
-
-- The 'tip' must always suggest a clear, specific action — not general advice.
-- If percentageSpent > 50, the tip must include some criticism.
-- If percentageSpent <= 50, the tip must include some praise.
-`,
+Constraints - 
+- Do not make any changes int he spending score. Keep the given score as it is.
+-Always give marks in the format "marks/10".  
+- Tip must suggest something actionable, not vague advice.
+- If final spending score <= 6, the tip must be critical.  
+- If final spending score > 6, the tip include some praise.
+- If final spending score <= 6, avatarType should be "disappointing".
+- If final spending score > 6, avatarType should be "congratulatory".
+- If you find exceptional budgeting, the categoryToCut must be "None - you managed your expenses really well".`,
                 },
               ],
             },
@@ -337,8 +403,9 @@ Constraints:
         style={{ fontFamily: "'Comic Neue', cursive" }}
       >
         <div
-          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${spin ? "animate-spin" : "animate-none"
-            }`}
+          className={`text-center text-5xl font-bold mb-8 text-pink-600 drop-shadow-sm ${
+            spin ? "animate-spin" : "animate-none"
+          }`}
         >
           🎯 Weekly Budget Builder!
         </div>
