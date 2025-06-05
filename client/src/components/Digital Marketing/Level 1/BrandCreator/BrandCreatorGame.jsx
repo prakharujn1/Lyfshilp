@@ -148,9 +148,7 @@ export default function BrandCreatorGame() {
             onChange={handleChange}
           />
 
-          <label className="block font-bold text-yellow-700 mt-4">
-            Upload Logo
-          </label>
+          <label className="block font-bold text-yellow-700 mt-4">Upload Logo</label>
           <input
             type="file"
             accept="image/*"
@@ -158,23 +156,18 @@ export default function BrandCreatorGame() {
             onChange={handleLogoUpload}
           />
 
-          <label className="block font-bold text-yellow-700 mt-4">
-            Pick Background Color 🎨
-          </label>
-          <div className="flex space-x-3">
-            <div className=" ">
-              <ChromePicker
-                color={brand.color}
-                onChangeComplete={handleColorChange}
-              />
+          <label className="block font-bold text-yellow-700 mt-4">Pick Background Color 🎨</label>
+          <div className="flex flex-col space-y-3 md:flex-row  space-x-3">
+            <div>
+              <ChromePicker color={brand.color} onChangeComplete={handleColorChange} />
             </div>
             <div>
               <button
                 onClick={() =>
-                  setBrand({
-                    ...brand,
+                  setBrand((prev) => ({
+                    ...prev,
                     color: "",
-                  })
+                  }))
                 }
                 className="p-3 bg-pink-200 rounded-2xl text-lg"
               >
@@ -246,15 +239,13 @@ export default function BrandCreatorGame() {
         <div
           ref={cardRef}
           className={`mt-10 p-6 md:p-8 relative ${
-            !brand.color &&
-            "bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-200"
+            !brand.color && "bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-200"
           } rounded-3xl border-8  shadow-2xl transition-all duration-500 hover:shadow-pink-300`}
           style={{
             backgroundColor: brand.color,
             fontFamily: brand.font || "Comic Sans MS",
             border: "8px solid",
-            borderImage:
-              "linear-gradient(45deg, #f472b6, #a855f7, #3b82f6, #10b981) 1",
+            borderImage: "linear-gradient(45deg, #f472b6, #a855f7, #3b82f6, #10b981) 1",
           }}
         >
           <canvas
@@ -272,22 +263,19 @@ export default function BrandCreatorGame() {
           </h2>
 
           <p className="text-lg md:text-2xl italic text-center text-purple-800 mb-6 font-bold hover:text-pink-600 transition-colors duration-300 transform hover:scale-105">
-            <span className="inline-block ">{`${brand.slogan && "''"}`}</span>
+            <span className="inline-block ">{brand.slogan && "''"}</span>
             <span className="inline-block">{brand.slogan}</span>
-            <span className="inline-block animate-pulse">{`${
-              brand.slogan && "''"
-            }`}</span>
+            <span className="inline-block animate-pulse">{brand.slogan && "''"}</span>
           </p>
 
           {brand.logo && (
-            <div className="mt-8 absolute top-0 left-4 md:left-10">
+            <div className="mt-8 absolute top-20 left-4 md:left-10 md:top-0">
               <img
                 src={brand.logo}
                 alt="Brand Logo"
                 className="w-24 h-24 md:w-32 md:h-32 object-contain bg-white rounded-full shadow-2xl hover:rotate-12 hover:scale-125 transition-all duration-500 hover:shadow-pink-400 animate-pulse"
                 style={{
-                  borderImage:
-                    "linear-gradient(45deg, #fde047, #f472b6, #a855f7) 1",
+                  borderImage: "linear-gradient(45deg, #fde047, #f472b6, #a855f7) 1",
                 }}
               />
             </div>

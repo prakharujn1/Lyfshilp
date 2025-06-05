@@ -6,15 +6,15 @@ export default function SurpriseAvatar({ show, onClose }) {
 
   return (
     <motion.div
-      className="fixed top-20 left-30 w-[100px] h-[100px] bg-transparent bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 z-50"
       onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.5 }}
       exit={{ opacity: 0, scale: 0.7 }}
     >
-      <div className="bg-white p-6 rounded-lg text-center relative max-w-sm mx-auto">
-        <div className="flex justify-around text-5xl">
+      <div className="bg-white p-4 rounded-lg text-center w-[90%] max-w-xs mx-auto shadow-lg">
+        <div className="flex justify-around text-4xl sm:text-5xl">
           <span role="img" aria-label="character1">
             🐵
           </span>
@@ -22,7 +22,7 @@ export default function SurpriseAvatar({ show, onClose }) {
             🦊
           </span>
         </div>
-        <p className="mt-4 text-xl font-semibold">
+        <p className="mt-4 text-base sm:text-lg font-semibold">
           🎉 Surprise! Do save some for them!
         </p>
       </div>

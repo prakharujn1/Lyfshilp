@@ -1,4 +1,3 @@
-
 import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
@@ -7,52 +6,65 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
   const containerRef = useRef(null);
   const parentRef = useRef(null);
 
+  // Use viewport width for responsive beam positions
+  const [vw, setVw] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 800
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setVw(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const beams = [
     {
-      initialX: 10,
-      translateX: 10,
+      initialX: vw * 0.01,
+      translateX: vw * 0.01,
       duration: 3,
       repeatDelay: 3,
       delay: 1,
     },
     {
-      initialX: 600,
-      translateX: 600,
+      initialX: vw * 0.75,
+      translateX: vw * 0.75,
       duration: 3,
       repeatDelay: 3,
       delay: 4,
     },
     {
-      initialX: 100,
-      translateX: 100,
+      initialX: vw * 0.15,
+      translateX: vw * 0.15,
       duration: 3,
       repeatDelay: 3,
       className: "h-6",
     },
     {
-      initialX: 400,
-      translateX: 400,
+      initialX: vw * 0.5,
+      translateX: vw * 0.5,
       duration: 3,
       repeatDelay: 4,
       delay: 4,
     },
     {
-      initialX: 800,
-      translateX: 800,
+      initialX: vw * 0.9,
+      translateX: vw * 0.9,
       duration: 3,
       repeatDelay: 2,
       className: "h-20",
     },
     {
-      initialX: 1000,
-      translateX: 1000,
+      initialX: vw * 1.1,
+      translateX: vw * 1.1,
       duration: 3,
       repeatDelay: 2,
       className: "h-12",
     },
     {
-      initialX: 1200,
-      translateX: 1200,
+      initialX: vw * 1.3,
+      translateX: vw * 1.3,
       duration: 3,
       repeatDelay: 4,
       delay: 2,
@@ -64,8 +76,7 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
     <div
       ref={parentRef}
       className={cn(
-        "min-h-[70vh] md:min-h-[40rem] rounded-xl w-[80%] mx-auto bg-gradient-to-b from-blue-900 to-black relative flex items-center  justify-center overflow-hidden",
-        // h-screen if you want bigger
+        "min-h-screen rounded-xl w-full max-w-[800px] mx-auto bg-gradient-to-b from-blue-900 to-black relative flex items-center justify-center overflow-hidden",
         className
       )}
     >
@@ -132,7 +143,7 @@ const CollisionMechanism = React.forwardRef(
       const animationInterval = setInterval(checkCollision, 10);
 
       return () => clearInterval(animationInterval);
-    }, [cycleCollisionDetected, containerRef]);
+    }, [cycleCollisionDetected, containerRef, parentRef]);
 
     useEffect(() => {
       if (collision.detected && collision.coordinates) {

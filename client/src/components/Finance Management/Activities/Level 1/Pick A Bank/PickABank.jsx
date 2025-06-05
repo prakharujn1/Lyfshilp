@@ -8,7 +8,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 const upiOptions = ["Google Pay", "PhonePe", "Paytm", "BHIM"];
 const banks = [
-  { 
+  {
     id: "A",
     name: "Bank A",
     fee: "₹0/month",
@@ -247,7 +247,7 @@ export default function PickABank() {
       setLoadingFeedback(false);
     }, 1500);
 
-    completeFinanceChallenge(0, 1);//MARK CHALLENGE COMPLETED
+    completeFinanceChallenge(0, 1); //MARK CHALLENGE COMPLETED
   };
 
   const notAllowed = () => {
@@ -266,23 +266,23 @@ export default function PickABank() {
     >
       {/* Spline Section */}
       <div className="flex justify-center mt-[-1rem] mb-2">
-        <div className="w-full max-w-2xl h-[160px]">
+        <div className="w-full max-w-2xl h-[160px] sm:h-[200px] md:h-[250px]">
           <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
         </div>
       </div>
 
       {/* Main Content Card */}
-      <div className="w-[92%] mx-auto bg-white/90 backdrop-blur-md p-6 pt-4 flex flex-col items-center rounded-2xl shadow-2xl">
-        <h1 className="text-3xl font-bold mb-2 text-purple-700 drop-shadow animate-bounce text-center">
+      <div className="w-[92%] max-w-4xl mx-auto bg-white/90 backdrop-blur-md p-6 pt-4 flex flex-col items-center rounded-2xl shadow-2xl">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-purple-700 drop-shadow animate-bounce text-center">
           🎉 You’ve turned 18. Welcome to banking!
         </h1>
-        <h2 className="text-2xl font-semibold mb-4 text-indigo-600 text-center">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-indigo-600 text-center">
           🏦 Pick Your Bank Simulator
         </h2>
 
         {!submitted && (
           <>
-            <div className="grid md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
               {banks?.map((bank) => (
                 <div
                   key={bank.id}
