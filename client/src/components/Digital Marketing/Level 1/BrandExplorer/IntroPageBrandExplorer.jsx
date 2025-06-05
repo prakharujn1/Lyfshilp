@@ -1,19 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Spline from "@splinetool/react-spline";
 
 const IntroPageBrandExplorer = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    navigate("/brand-explorer-game"); // change to your actual game start route
+    navigate("/brand-explorer-game");
   };
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-200 text-center p-6"
+      className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-200 text-center p-6 pt-12"
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
-      <h1 className="text-5xl font-extrabold text-purple-700 mb-4 drop-shadow-lg  animate-bounce">
+      {/* Spline Model */}
+      <div className="w-full max-w-[600px] h-[300px] mb-10 rounded-lg overflow-hidden shadow-lg">
+        <Spline scene="https://prod.spline.design/hB2IF38lQ1umF15e/scene.splinecode" />
+      </div>
+
+      {/* Intro Content */}
+      <h1 className="text-5xl font-extrabold text-purple-700 mb-4 drop-shadow-lg animate-bounce">
         🧠 Brand Explorer!
       </h1>
 
