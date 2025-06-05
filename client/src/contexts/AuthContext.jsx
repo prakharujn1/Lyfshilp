@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState,useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from 'react-hot-toast';
 
@@ -12,12 +12,23 @@ export function AuthProvider({ children }) {
     localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
   );
   const [phonenumber, setPhonenumber] = useState("");
+  const [role, setRole] = useState(localStorage.getItem("role") || "student");
+
 
   useEffect(() => {
     if (token && !user) {
       fetchMe(); // Only fetch if token exists and user is not yet set
     }
   }, [token]);
+
+  // Save role to localStorage if it changes
+  useEffect(() => {
+    if (role) {
+      localStorage.setItem("role", role);
+    } else {
+      localStorage.removeItem("role");
+    }
+  }, [role]);
 
   // Step 1 - Shared OTP send for both register & login
   const sendOtp = async (phone) => {
@@ -82,7 +93,7 @@ export function AuthProvider({ children }) {
 
   // Fetch currently logged-in user using token
   const fetchMe = async () => {
-    if(!token ) return ;
+    if (!token) return;
     try {
       const res = await axios.get(`${server}/me`, {
         headers: {
@@ -103,12 +114,30 @@ export function AuthProvider({ children }) {
 
   // Logout
   const logout = (navigate) => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setToken("");
-    setUser(null);
-    setPhonenumber("");
-    navigate("/login");
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("role"); // Clear admin role
+  setToken("");
+  setUser(null);
+  setRole("student"); // Reset role to student or null as default
+  setPhonenumber("");
+  navigate("/login");
+};
+
+
+  // Admin login function
+  const loginAsAdmin = (username, password, navigate) => {
+    // Hardcoded credentials
+    if (username === "admin" && password === "admin123") {
+      setRole("admin");
+      localStorage.setItem("role", "admin");
+      toast.success("Admin login successful");
+      navigate("/");
+      return { success: true };
+    } else {
+      toast.error("Invalid admin credentials");
+      return { success: false, message: "Invalid credentials" };
+    }
   };
 
   return (
@@ -122,6 +151,8 @@ export function AuthProvider({ children }) {
         verifyOtpAndLogin,
         fetchMe,
         logout,
+        role,
+        loginAsAdmin
       }}
     >
       {children}

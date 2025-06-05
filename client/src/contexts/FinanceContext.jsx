@@ -13,7 +13,7 @@ export const FinanceProvider = ({ children }) => {
 
     // Fetch progress for logged-in user
     const fetchFinanceChallenges = async () => {
-        if(!token) return ;
+        if (!token) return;
         try {
             const res = await axios.get(`${server}/finance/get-challenges`, {
                 headers: {
@@ -33,7 +33,7 @@ export const FinanceProvider = ({ children }) => {
 
     // Mark a challenge complete
     const completeFinanceChallenge = async (moduleIndex, challengeIndex) => {
-        if(!user) return ;
+        if (!user) return;
 
         const isAlreadyCompleted = progress?.some(
             (entry) =>
@@ -60,7 +60,7 @@ export const FinanceProvider = ({ children }) => {
                 setProgress((prev) => [...prev, res.data.progress]);
                 toast.success("Challenge completed!");
             }
-            
+
             return { success: true };
         } catch (err) {
             console.error("Error marking challenge complete:", err);
@@ -76,6 +76,12 @@ export const FinanceProvider = ({ children }) => {
             fetchFinanceChallenges();
         }
     }, [token, user]);
+
+    useEffect(() => {
+        if (!user) {
+            setProgress([]); // 🔁 Reset progress when user logs out
+        }
+    }, [user]);
 
     return (
         <FinanceContext.Provider

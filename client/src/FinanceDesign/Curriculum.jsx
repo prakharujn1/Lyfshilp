@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useFinance } from "../contexts/FinanceContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const Curriculum = forwardRef((props, ref) => {
   const { progress } = useFinance();
   const [activeModule, setActiveModule] = useState(null);
+  const { role } = useAuth();
 
   const modules = [
     {
@@ -199,7 +201,7 @@ const Curriculum = forwardRef((props, ref) => {
                           <div className="flex items-start">
                             <div className="flex-shrink-0 mt-1">
                               <PlayCircle
-                                className={`h-5 w-5 ${isCompleted
+                                className={`h-5 w-5 ${(isCompleted || role === "admin" )
                                     ? "text-green-500"
                                     : isUnlocked
                                       ? "text-yellow-500"
@@ -208,10 +210,10 @@ const Curriculum = forwardRef((props, ref) => {
                               />
                             </div>
                             <div className="ml-3">
-                              {isUnlocked || isCompleted ? (
+                              {(isUnlocked || isCompleted || role === "admin" ) ? (
                                 <Link to={challenge.path}>
                                   <h4 className="text-md font-semibold text-navy-800 hover:underline hover:text-yellow-600 transition">
-                                    {isCompleted ? "✅" : "⏳"} Challenge {challengeIndex + 1}: {challenge.title}
+                                    {(isCompleted || role === "admin" ) ? "✅" : "⏳"} Challenge {challengeIndex + 1}: {challenge.title}
                                   </h4>
                                 </Link>
                               ) : (

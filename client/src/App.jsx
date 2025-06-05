@@ -51,6 +51,7 @@ import IntroPageBrandExplorer from "./components/Digital Marketing/Level 1/Brand
 import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerGameComplete";
 import { Scroll } from "lucide-react";
 import ScrollToTop from "./ScrollToTop";
+import AdminLogin from "./pages/AdminLogin";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -140,6 +141,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<AdminLogin/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
