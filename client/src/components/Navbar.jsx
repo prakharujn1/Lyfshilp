@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user ,role } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -80,7 +80,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-4 mr-4">
-          {user ? (
+          {(user || role ==="admin")? (
             <Link
               to="/dashboard"
               className="bg-white text-[#4C7522] font-semibold px-5 py-2 rounded-full hover:bg-[#C2E59C] transition duration-300"
