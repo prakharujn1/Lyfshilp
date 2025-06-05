@@ -49,6 +49,8 @@ import BrandCreatorGame from "./components/Digital Marketing/Level 1/BrandCreato
 import BrandBrandExplorerGameSelect from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerSelect";
 import IntroPageBrandExplorer from "./components/Digital Marketing/Level 1/BrandExplorer/IntroPageBrandExplorer";
 import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerGameComplete";
+import { Scroll } from "lucide-react";
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -131,6 +133,7 @@ function App() {
   // Full app after "Start Journey"
   return (
     <Router>
+      <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow p-5">
