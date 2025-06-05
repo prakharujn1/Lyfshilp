@@ -6,14 +6,9 @@ const FAQ = () => {
 
   const faqs = [
     {
-      question: "How is this finance course different from others?",
+      question: "How are these courses different from others?",
       answer:
-        "Our finance curriculum is designed with a practical, real-world focus that bridges theory and application. We emphasize hands-on learning through interactive tools, case studies, and personalized coaching. Unlike many programs that focus solely on theory, we provide actionable strategies you can implement immediately to improve your financial situation.",
-    },
-    {
-      question: "Do I need any prior finance knowledge to take these courses?",
-      answer:
-        "No prior finance knowledge is required. Our courses are designed with progressive difficulty levels, starting with fundamental concepts suitable for complete beginners. We carefully explain financial terminology and concepts from the ground up, ensuring everyone can follow along regardless of their background.",
+        "Our curriculum is designed with a practical, real-world focus that bridges theory and application. We emphasize hands-on learning through interactive tools, case studies, and personalized coaching. Unlike many programs that focus solely on theory, we provide actionable strategies you can implement immediately to improve your situation.",
     },
     {
       question: "How long does it take to complete the program?",
@@ -24,11 +19,6 @@ const FAQ = () => {
       question: "Will I receive a certificate upon completion?",
       answer:
         "Yes, you will receive a digital certificate upon completion of each course and the full program. Our certificates are recognized in the financial industry and can be added to your resume and LinkedIn profile. Many students have used our certifications to advance their careers or negotiate salary increases.",
-    },
-    {
-      question: "Can I get personalized financial advice through this program?",
-      answer:
-        "While our courses provide comprehensive financial education, they do not constitute personalized financial advice. However, program participants do have access to monthly Q&A sessions with our instructors where you can ask questions about applying the concepts to your specific situation. For individualized advice, we recommend consulting with a financial advisor.",
     },
     {
       question: "What if I'm not satisfied with the course?",
