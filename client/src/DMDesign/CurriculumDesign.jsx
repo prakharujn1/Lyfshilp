@@ -3,11 +3,11 @@ import { ChevronDown, ChevronUp, PlayCircle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useFinance } from "../contexts/FinanceContext";
-import { useAuth } from "../contexts/AuthContext";
+import { useDM } from "../contexts/DMContext";
+import { useAuth } from "../contexts/AuthContext"; 
 
 const CurriculumDesign = forwardRef((props, ref) => {
-  const { progress } = useFinance();
+  const { dmprogress } = useDM();
   const [activeModule, setActiveModule] = useState(null);
   const { role } = useAuth();
 
@@ -66,7 +66,7 @@ const CurriculumDesign = forwardRef((props, ref) => {
           description:
             "Objective: Match content types to brands and suggest one idea.",
           duration: "50 min",
-          path: "/post-match",
+          path: "/post-match", 
         },
       ],
     },
@@ -106,7 +106,7 @@ const CurriculumDesign = forwardRef((props, ref) => {
   };
 
   const isChallengeCompleted = (moduleIndex, challengeIndex) => {
-    return progress.some(
+    return dmprogress.some(
       (p) =>
         p.moduleIndex === moduleIndex &&
         p.challengeIndex === challengeIndex &&

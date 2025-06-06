@@ -178,7 +178,7 @@ function App() {
             {/* Level 1 games of digital marketing */}
             <Route
               path="/digital-marketing/games"
-              element={<DigitalMarketing />}
+              element={<DigitalMarketing />} 
             />
 
             <Route
