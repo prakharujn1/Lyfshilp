@@ -6,96 +6,96 @@ import "react-toastify/dist/ReactToastify.css";
 import { useFinance } from "../contexts/FinanceContext";
 import { useAuth } from "../contexts/AuthContext";
 
-const Curriculum = forwardRef((props, ref) => {
+const CurriculumDesign = forwardRef((props, ref) => {
   const { progress } = useFinance();
   const [activeModule, setActiveModule] = useState(null);
   const { role } = useAuth();
 
   const modules = [
     {
-      title: "🧩 LEVEL 1: The Budgeter",
-      description: "🎯 Mission: “Survive the Month Without Going Broke”",
+      title: "🧭 LEVEL 1: Digital Explorer",
+      description:
+        "🎯 Mission: Discover what digital marketing is and how brands use it to connect with people online.",
       duration: "4 weeks",
       challenges: [
         {
-          title: "Weekly Budget Builder (Drag-and-Drop Game)",
-          description: "Objective: Teach budgeting and prioritization.",
+          title: "Ad Detective",
+          description:
+            "Objective: Spot 5 types of digital marketing around you.",
           duration: "45 min",
-          path: "/budget-builder",
+          path: "/intro-ad-detective-game",
         },
         {
-          title: "“Pick Your Bank” Simulator",
-          description: "Objective: Introduce banking basics.",
+          title: "Brand Explorer",
+          description:
+            "Objective: Analyze how 3 favorite brands express their identity online.",
           duration: "50 min",
-          path: "/pick-a-bank",
+          path: "/brand-explorer-intro",
         },
         {
-          title: "Overspend Trap (Quiz Game)",
-          description: "Scenario-based decision making.",
-          duration: "45 min",
-          path: "/overspend-trap",
-        },
-        {
-          title: "Boss-Level Task: “My Real-Life Budget”",
-          description: "Create a one-month budget for yourself.",
+          title: "Build-A-Brand",
+          description:
+            "Objective: Create your own fun brand with a logo, personality, and slogan.",
           duration: "55 min",
-          path: "/budget-activity",
+          path: "/brand-creator-game",
         },
       ],
     },
     {
-      title: "🎮 LEVEL 2: The Smart Spender",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
+      title: "🧠 LEVEL 2: Content Commander",
+      description:
+        "🎯 Mission: Learn how content is used to attract and engage audiences.",
       duration: "4 weeks",
       challenges: [
         {
-          title: "Credit Card Crash Course (Simulator)",
-          description: "Objective: Explain credit, interest, and EMI traps.",
-          duration: "50 min",
-          path: "/credit-card-simulator",
-        },
-        {
-          title: " EMI vs Lump Sum (Choice-Based Game)",
-          description: "Understand the cost of payment methods.",
-          duration: "50 min",
-          path: "/emi-vs-lumpsum",
-        },
-        {
-          title: " Wants vs Needs Sorting",
-          description: "Game format decision-making activity.",
+          title: "Caption Craze",
+          description:
+            "Objective: Write fun, catchy captions for a smoothie brand.",
           duration: "45 min",
-          path: "/challenge3",
+          path: "/caption-craze",
         },
         {
-          title: "Boss-Level Task: “My Purchase Plan”",
-          description: "Plan a smart purchase over 3 months.",
-          duration: "55 min",
-          path: "/my_purchase_plan",
+          title: "Reel It In!",
+          description:
+            "Objective: Plan a 15-second reel ad for a chocolate brand.",
+          duration: "50 min",
+          path: "/reel-it-in",
+        },
+        {
+          title: "Post Match",
+          description:
+            "Objective: Match content types to brands and suggest one idea.",
+          duration: "50 min",
+          path: "/post-match",
         },
       ],
     },
     {
-      title: "📈 LEVEL 3: The Rookie Investor",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "🚀 LEVEL 3: Campaign Captain",
+      description:
+        "🎯 Mission: Plan and launch a digital ad campaign for a fun cap brand.",
       duration: "4 weeks",
       challenges: [
         {
-          title: " “News Flash!” Market Events",
-          description: "React to market changes in real time.",
-          duration: "50 min",
-          path: "/newsflash",
-        },
-        {
-          title: "Risk-O-Meter Game",
-          description: "Identify risk appetite.",
-          duration: "45 min",
-          path: "/riskometer",
-        },
-        {
-          title: "Boss-Level Task: “Build & Present Your Portfolio”",
-          description: "Create a mock investment plan.",
+          title: "Campaign Planner",
+          description:
+            "Objective: Define your audience, platforms, slogan, and strategy.",
           duration: "55 min",
-          path: "/investment-simulator",
+          path: "/campaign-planner",
+        },
+        {
+          title: "Budget Battle",
+          description:
+            "Objective: Spend ₹500 across platforms and justify your strategy.",
+          duration: "50 min",
+          path: "/budget-battle",
+        },
+        {
+          title: "Analytics Adventure",
+          description:
+            "Objective: Analyze campaign performance using mock data.",
+          duration: "50 min",
+          path: "/analytics-adventure",
         },
       ],
     },
@@ -138,12 +138,13 @@ const Curriculum = forwardRef((props, ref) => {
             Comprehensive Curriculum
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-navy-900 mb-4">
-            Your Journey to Financial Mastery
+            Your Journey to Digital Marketing Mastery
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Our structured curriculum takes you from financial basics to
-            advanced wealth-building strategies through 3 carefully designed
-            levels ensuring practical learning phases.
+            Our structured curriculum takes you from digital marketing
+            fundamentals to advanced growth strategies through 3 carefully
+            designed levels, ensuring a hands-on, results-driven learning
+            journey.
           </p>
         </div>
 
@@ -274,4 +275,4 @@ const Curriculum = forwardRef((props, ref) => {
   );
 });
 
-export default Curriculum;
+export default CurriculumDesign;
