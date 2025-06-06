@@ -49,9 +49,9 @@ import BrandCreatorGame from "./components/Digital Marketing/Level 1/BrandCreato
 import BrandBrandExplorerGameSelect from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerSelect";
 import IntroPageBrandExplorer from "./components/Digital Marketing/Level 1/BrandExplorer/IntroPageBrandExplorer";
 import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/BrandExplorer/BrandExplorerGameComplete";
-import { Scroll } from "lucide-react";
 import ScrollToTop from "./ScrollToTop";
 import AdminLogin from "./pages/AdminLogin";
+import DigitalMarketing from "./pages/DigitalMarketing";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -141,7 +141,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<AdminLogin/>} />
+            <Route path="/admin" element={<AdminLogin />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
@@ -176,6 +176,10 @@ function App() {
             {/* Games of digital marketing */}
 
             {/* Level 1 games of digital marketing */}
+            <Route
+              path="/digital-marketing/games"
+              element={<DigitalMarketing />} 
+            />
 
             <Route
               path="/intro-ad-detective-game"

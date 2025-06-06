@@ -2,8 +2,10 @@ import React, { useState, useRef } from "react";
 import { ChromePicker } from "react-color";
 import confetti from "canvas-confetti";
 import Spline from "@splinetool/react-spline";
+import { useDM } from "@/contexts/DMContext";
 
 export default function BrandCreatorGame() {
+  const {completeDMChallenge} = useDM();
   const [brand, setBrand] = useState({
     name: "",
     product: "",
@@ -101,6 +103,8 @@ export default function BrandCreatorGame() {
         shapes: ["circle"],
       });
     };
+    completeDMChallenge(0,2);
+
 
     setTimeout(shoot, 0);
     setTimeout(shoot, 100);

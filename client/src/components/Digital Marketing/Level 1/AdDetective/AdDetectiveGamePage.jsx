@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
+import { useDM } from "@/contexts/DMContext";
 
 const adTypes = ["Video", "Post", "Banner", "Popup", "Other"];
 
 const AdDetectiveGamePage = () => {
+  const {completeDMChallenge} = useDM();
   const [entries, setEntries] = useState(
     Array.from({ length: 5 }, () => ({
       platform: "",
@@ -224,7 +226,10 @@ const AdDetectiveGamePage = () => {
           <button
             onClick={() => {
               const x = isFormComplete();
-              if (x) navigate("/ad-detective-mission-complete");
+              if (x){
+                  completeDMChallenge(0,0);
+                  navigate("/ad-detective-mission-complete");
+              }
               else {
                 setMissed(true);
                 setTimeout(() => {

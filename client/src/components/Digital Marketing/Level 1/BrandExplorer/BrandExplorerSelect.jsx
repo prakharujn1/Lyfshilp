@@ -7,10 +7,13 @@ import legoLogo from "../BrandExplorer/images/lego.png";
 import marvelLogo from "../BrandExplorer/images/marvel.png";
 import mcdonaldsLogo from "../BrandExplorer/images/mcdonalds.png";
 import { useNavigate } from "react-router-dom";
+import { useDM } from "@/contexts/DMContext";
+
 
 import { toast, ToastContainer } from "react-toastify";
 
 const BrandBrandExplorerGameSelect = () => {
+  const {completeDMChallenge} = useDM();
   const availableBrands = [
     { name: "Kinder Joy", logo: kinderLogo },
     { name: "Nike", logo: nikeLogo },
@@ -100,6 +103,7 @@ const BrandBrandExplorerGameSelect = () => {
 
   const handleGameSubmit = () => {
     console.log("Submitted:", formData);
+    completeDMChallenge(0,1);
     navigate("/brand-explorer-game-complete");
     // You can navigate or show a result screen here.
   };
