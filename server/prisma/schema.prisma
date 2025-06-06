@@ -21,6 +21,7 @@ model User {
 
   // Reverse relation to FinanceChallenge
   financeChallenges FinanceChallenge[]  // 👈 This is the required missing relation
+    dmChallenges      DMChallenge[]       // Relation to DM challenges
 }
 
 model OtpVerification {
@@ -42,3 +43,19 @@ model FinanceChallenge {
 
   @@unique([userId, moduleIndex, challengeIndex]) // Prevent duplicate entries
 }
+
+model DMChallenge {
+  id             String   @id @default(cuid())
+  userId         String
+  moduleIndex    Int
+  challengeIndex Int
+  completed      Boolean  @default(false)
+  completedAt    DateTime?
+
+  user           User     @relation(fields: [userId], references: [id])  // Forward relation
+
+  @@unique([userId, moduleIndex, challengeIndex]) // Prevent duplicate entries
+}
+
+
+
