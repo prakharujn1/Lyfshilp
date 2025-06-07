@@ -59,14 +59,14 @@ const CurriculumDesign = forwardRef((props, ref) => {
           description:
             "Objective: Plan a 15-second reel ad for a chocolate brand.",
           duration: "50 min",
-          path: "/reel-it-in",
+          path: "/reel-maker-game",
         },
         {
           title: "Post Match",
           description:
             "Objective: Match content types to brands and suggest one idea.",
           duration: "50 min",
-          path: "/post-match", 
+          path: "/matching-game", 
         },
       ],
     },
