@@ -215,7 +215,6 @@ function App() {
             {/* Level 2 games of digital marketing */}
 
             <Route path="/caption-craze" element={<CaptionCraze />} />
-
             <Route path="/matching-game" element={<MatchingGame />} />
             <Route
               path="/matching-game-result"
