@@ -53,6 +53,17 @@ import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/Br
 import ScrollToTop from "./ScrollToTop";
 import AdminLogin from "./pages/AdminLogin";
 import DigitalMarketing from "./pages/DigitalMarketing";
+import CaptionCraze from "./components/Digital Marketing/Level 2/Caption Craze/CaptionCraze";
+import MatchingGame from "./components/Digital Marketing/Level 2/PostMatch/MatchingGame";
+import MatchingGameResult from "./components/Digital Marketing/Level 2/PostMatch/MatchingGameResult";
+import ReelPlannerGame from "./components/Digital Marketing/Level 2/Reel-Maker/ReelPlannerGame";
+import LegalAwarenessNotes from "./pages/LegalAwarenessNotes";
+import Module1 from "./pages/LegalAwareness/Module1";
+import Module2 from "./pages/LegalAwareness/Module2";
+import Module3 from "./pages/LegalAwareness/Module3";
+import Module4 from "./pages/LegalAwareness/Module4";
+import Module5 from "./pages/LegalAwareness/Module5";
+import Module6 from "./pages/LegalAwareness/Module6";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -218,7 +229,7 @@ function App() {
               element={<MatchingGameResult />}
             />
 
-            <Route path="/reel-maker-game" element={<ReelMakerGame />} />
+            <Route path="/reel-planner-game" element={<ReelPlannerGame />} />
 
             {/* Level 3 games of digital marketing */}
 
