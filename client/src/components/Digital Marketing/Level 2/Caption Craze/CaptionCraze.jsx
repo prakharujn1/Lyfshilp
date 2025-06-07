@@ -21,9 +21,9 @@ const captions = {
 };
 
 const smoothieEmojis = {
-  Mango: "🥭",
-  Strawberry: "🍓",
-  Green: "🌿",
+  "Mango Madness": "🥭",
+  "Strawberry Zoom": "🍓",
+  "Green Power": "🌿",
 };
 
 const text =
@@ -32,7 +32,7 @@ const text =
 const appearingText = text.split(" ");
 
 export default function CaptionCraze() {
-  const [selectedSmoothie, setSelectedSmoothie] = useState("Mango");
+  const [selectedSmoothie, setSelectedSmoothie] = useState("Mango Madness");
   const [userCaption, setUserCaption] = useState("");
   const [showExamples, setShowExamples] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -44,18 +44,18 @@ export default function CaptionCraze() {
   };
 
   return (
-    <div className="w-[90%] mx-auto py-5 px-5 min-h-screen">
+    <div className="w-[100%] mx-auto py-5 px-5 min-h-screen">
       <div className="w-full h-full bg-gradient-to-br from-yellow-200 via-pink-100 to-green-200 rounded-3xl shadow-2xl p-6 md:p-8 flex flex-col items-center font-bold transition-all duration-500 ease-in-out ring-4 ring-purple-200">
         {!submitted ? (
           <>
             <div className="flex flex-col md:flex-row items-center gap-5">
-              <h1 className="text-3xl md:text-5xl mb-4 text-purple-700 animate-bounce drop-shadow-lg text-center">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl mb-4 text-purple-700 animate-bounce drop-shadow-lg text-center">
                 🎮 Caption Craze
               </h1>
-              <SmoothieAvatar className="w-24 h-24 md:w-30 md:h-30 drop-shadow-xl" />
+              <SmoothieAvatar className="w-24 h-24 md:w-28 md:h-28 drop-shadow-xl" />
             </div>
 
-            <div className="text-lg md:text-2xl px-4 font-semibold flex flex-wrap  max-w-3xl mb-6 mt-6 text-center text-purple-800">
+            <div className="text-lg md:text-2xl px-4 font-semibold flex flex-wrap  max-w-3xl mb-6 mt-6 text-center justify-center text-purple-800">
               {appearingText.map((word, index) => (
                 <motion.span
                   key={index}
@@ -98,14 +98,16 @@ export default function CaptionCraze() {
 
             <button
               onClick={() => setShowExamples(!showExamples)}
-              className="mb-6 px-6 py-2 bg-pink-400 text-xl text-white rounded-full hover:bg-pink-500 transition duration-300"
+              className="mb-6 px-6 py-2 bg-pink-400 text-md md:text-xl text-white rounded-full hover:bg-pink-500 transition duration-300"
             >
               {showExamples ? "Hide Example Captions" : "See Example Captions"}
             </button>
 
-            {showExamples && (
+            {
+            showExamples && (
               <div className="grid gap-4 w-full max-w-lg mb-6">
-                {captions[selectedSmoothie].map((caption, idx) => (
+                { 
+                captions[selectedSmoothie].map((caption, idx) => (
                   <div
                     key={idx}
                     className="p-4 rounded-2xl bg-white border text-lg border-purple-300 shadow hover:bg-yellow-100 transition-all duration-300"
@@ -118,7 +120,7 @@ export default function CaptionCraze() {
 
             <button
               onClick={handleSubmit}
-              className="mt-4 px-8 py-3 bg-green-400 text-white rounded-full text-lg md:text-xl shadow-md hover:scale-105 hover:bg-green-500 transition-all duration-300"
+              className="mt-4 px-8 py-3 bg-green-400 text-white rounded-full text-md md:text-xl text-center shadow-md hover:scale-105 hover:bg-green-500 transition-all duration-300"
             >
               Submit Caption 🚀
             </button>
@@ -126,14 +128,14 @@ export default function CaptionCraze() {
         ) : (
           <div className="text-center">
             <div className="flex flex-col md:flex-row items-center gap-5">
-              <h1 className="text-4xl md:text-5xl mb-4 text-purple-700 animate-bounce drop-shadow-lg">
+              <h1 className="text-2xl md:text-3xl lg:text-5xl mb-4 text-purple-700 animate-bounce drop-shadow-lg">
                 🎮 Caption Craze
               </h1>
-              <SmoothieAvatar className="w-24 h-24 md:w-36 md:h-36 drop-shadow-xl" />
+              <SmoothieAvatar className="w-24 h-24 md:w-30 md:h-30 drop-shadow-xl" />
             </div>
 
             <div className="text-5xl mt-10 mb-4 animate-bounce">
-              {smoothieEmojis[selectedSmoothie]}
+              { smoothieEmojis[selectedSmoothie]}
             </div>
 
             <motion.h2
@@ -145,7 +147,7 @@ export default function CaptionCraze() {
                 repeatType: "mirror",
                 ease: "easeInOut",
               }}
-              className="text-3xl text-purple-700 p-3 mb-4 drop-shadow-xl"
+              className="text-xl md:text-3xl text-purple-700 p-3 mb-4 drop-shadow-xl"
             >
               🎉 Great caption!
             </motion.h2>

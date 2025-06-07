@@ -55,16 +55,17 @@ const BrandExplorerGameComplete = () => {
           ref={canvasRef}
           className="absolute top-0 left-0 w-full h-full pointer-events-none"
         />
-        <h1 className="text-5xl font-extrabold text-purple-700 mb-4 animate-bounce">
+        <h1 className="text-lg  md:text-5xl font-extrabold text-purple-700 mb-4 animate-bounce">
           🎉 Game Complete! 🎉
         </h1>
-        <p className="text-xl text-gray-800 mb-6">
+        <p className=" text-sm md:text-xl text-center text-gray-800 mb-6">
           You’ve mastered the brands! 🧠✨
-          <br />
-          That was *seriously* impressive!
+        </p>
+        <p className="text-sm md:text-xl text-gray-800 text-center mb-6">
+          That was really impressive!
         </p>
 
-        <div className="text-3xl mb-8">
+        <div className="text-md md:text-3xl mb-8">
           🏆{" "}
           <span className="text-yellow-600 font-bold">
             Brand Explorer Champion

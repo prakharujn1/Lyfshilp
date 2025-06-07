@@ -64,7 +64,7 @@ const MatchingGameResult = () => {
       className="w-[90%] mx-auto p-5 h-screen "
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
-      <div className="w-full h-full rounded-2xl relative shadow-2xl flex flex-col justify-center items-center bg-gradient-to-br from-pink-200 to-yellow-100 text-center p-6">
+      <div className="w-full h-[60%] md:h-[80%] lg:h-[90%] rounded-2xl relative shadow-2xl flex flex-col justify-center items-center bg-gradient-to-br from-pink-200 to-yellow-100 text-center p-6">
         <canvas
           ref={canvasRef}
           className="absolute top-0 left-0 w-full h-full pointer-events-none"
@@ -72,14 +72,14 @@ const MatchingGameResult = () => {
         <h1 className="text-xl md:text-5xl font-extrabold text-purple-700 mb-4 animate-bounce">
           🎉 Game Complete! 🎉
         </h1>
-        <p className=" text-sm md:text-xl text-gray-800 mb-6">
+        <p className=" text-xs md:text-2xl text-gray-800 mb-6">
           Your score : {score}/4 🧠✨
           <br />
           {remark}
         </p>
 
         {score === 4 && (
-          <div className="text-md md:text-3xl mb-8">
+          <div className="text-xs md:text-2xl lg:text-3xl mb-8">
             🏆{" "}
             <span className="text-yellow-600 font-bold">
               Post Matching Champion
