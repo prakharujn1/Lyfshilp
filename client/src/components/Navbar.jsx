@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const { user ,role } = useAuth();
+  const { user, role } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -64,7 +64,6 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a] text-white shadow-md sticky top-0 z-50 w-full">
-
       <div className="w-full py-5 px-2 flex justify-between items-center">
         <div className="ml-7">
           <Link to="/" className="flex items-center gap-3 ml-3 md:ml-5">
@@ -80,7 +79,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-4 mr-4">
-          {(user || role ==="admin")? (
+          {user || role === "admin" ? (
             <Link
               to="/dashboard"
               className="bg-white text-[#4C7522] font-semibold px-5 py-2 rounded-full hover:bg-[#C2E59C] transition duration-300"
@@ -188,21 +187,21 @@ const Navbar = () => {
           <Link
             to="/login"
             onClick={handleItemClick}
-           className="block bg-[#184802] text-white hover:bg-[#57B87C] text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
+            className="block bg-[#184802] text-white  text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
           >
             Login
           </Link>
           <Link
             to="/login"
             onClick={handleItemClick}
-            className="block bg-[#184802] text-white hover:bg-[#57B87C] text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
+            className="block bg-[#184802] text-white  text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
           >
             Register
           </Link>
           <Link
             to="/book-trial"
             onClick={handleItemClick}
-            className="block bg-[#184802] text-white hover:bg-[#57B87C] text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
+            className="block bg-[#184802] text-white text-center mx-3 hover:bg-[#57B87C] hover:text-white transition duration-300 px-4 py-2 rounded-md font-semibold  mb-2"
           >
             Book a Free Trial
           </Link>
