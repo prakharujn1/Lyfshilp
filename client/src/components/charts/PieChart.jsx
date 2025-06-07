@@ -24,6 +24,7 @@ const PieChart = ({ values, labels, colors }) => {
 
   const options = {
     responsive: true,
+    // aspectRatio: 2,
     plugins: {
       datalabels: {
         formatter: (value) => `₹${Number(value)}`,
@@ -34,10 +35,11 @@ const PieChart = ({ values, labels, colors }) => {
           // color : "black"
         },
         anchor: "end", // positions label outside the slice
-        align: "start", // aligns the label relative to anchor
+        align: "center", // aligns the label relative to anchor
         // offset: 10, // moves the label away from the arc edge
         clamp: true,
-        clip : false
+        clip: false,
+        // offset : 5
       },
       legend: {
         position: "top",
@@ -54,7 +56,7 @@ const PieChart = ({ values, labels, colors }) => {
   };
 
   return (
-    <div className="w-full sm:w-[300px] md:w-[350px] aspect-square flex justify-center items-center">
+    <div className="bg-sky-200 shadow-xl rounded-2xl p-3 w-[300px]  md:w-[350px] lg:aspect-square flex justify-center items-center">
       <Pie data={data} options={options} plugins={[ChartDataLabels]} />
       {/* ✅ Include plugin here */}
     </div>

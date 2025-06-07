@@ -9,11 +9,10 @@ import mcdonaldsLogo from "../BrandExplorer/images/mcdonalds.png";
 import { useNavigate } from "react-router-dom";
 import { useDM } from "@/contexts/DMContext";
 
-
 import { toast, ToastContainer } from "react-toastify";
 
 const BrandBrandExplorerGameSelect = () => {
-  const {completeDMChallenge} = useDM();
+  const { completeDMChallenge } = useDM();
   const availableBrands = [
     { name: "Kinder Joy", logo: kinderLogo },
     { name: "Nike", logo: nikeLogo },
@@ -93,7 +92,7 @@ const BrandBrandExplorerGameSelect = () => {
     setFormData(updated);
   };
 
-  console.log(formData)
+  console.log(formData);
   const checkGameSubmit = () => {
     let x = formData.some(
       (item) => !item.whatTheySell || !item.postStyle || !item.mood
@@ -103,7 +102,7 @@ const BrandBrandExplorerGameSelect = () => {
 
   const handleGameSubmit = () => {
     console.log("Submitted:", formData);
-    completeDMChallenge(0,1);
+    completeDMChallenge(0, 1);
     navigate("/brand-explorer-game-complete");
     // You can navigate or show a result screen here.
   };
@@ -119,12 +118,10 @@ const BrandBrandExplorerGameSelect = () => {
       className="min-h-screen bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-200 p-6 text-center"
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
-      <h1 className="text-3xl font-extrabold text-purple-700 mb-4">
+      <h1 className="text-3xl font-extrabold text-purple-700 mb-4 animate-bounce">
         📝 Brand Explorer
       </h1>
-      <p className="mb-6 text-gray-800 text-lg">
-        Pick how these brands talk to you!
-      </p>
+      <p className="mb-6 text-gray-800 text-lg"></p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {selectedBrands.map((brand, index) => {
@@ -134,7 +131,6 @@ const BrandBrandExplorerGameSelect = () => {
               key={index}
               className={`floating-card ${floatClass} relative rounded-3xl shadow-2xl p-5 border-4  hover:scale-105 transition-all duration-300 ease-in-out bg-gradient-to-br from-pink-300 via-sky-200 to-purple-400 overflow-hidden`}
             >
-
               <div className="relative z-10 font-kids text-purple-700">
                 <img
                   src={brand.logo}
@@ -149,7 +145,7 @@ const BrandBrandExplorerGameSelect = () => {
                   <p className="font-semibold mb-2 text-lg text-yellow-600">
                     🔍 What do they sell?
                   </p>
-                  <div className="grid grid-cols-3">
+                  <div className="flex flex-wrap gap-4 ">
                     {whatTheySellOptions.map((option) => (
                       <div>
                         <label
@@ -177,7 +173,7 @@ const BrandBrandExplorerGameSelect = () => {
                   <p className="font-semibold mb-2 text-lg text-blue-600">
                     🎨 What do their posts look like?
                   </p>
-                  <div className="grid grid-cols-3">
+                  <div className="flex flex-wrap gap-4">
                     {postStyleOptions.map((option) => (
                       <div>
                         <label
@@ -206,7 +202,7 @@ const BrandBrandExplorerGameSelect = () => {
                   <p className="font-semibold mb-2 text-lg text-pink-600">
                     😎 What mood or personality do they give?
                   </p>
-                  <div className="grid grid-cols-3">
+                  <div className="flex flex-wrap gap-4">
                     {moodOptions.map((option) => (
                       <div>
                         <label
@@ -248,7 +244,7 @@ const BrandBrandExplorerGameSelect = () => {
       className="min-h-screen bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-200 p-6 text-center"
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
-      <h1 className="text-3xl font-extrabold text-purple-700 mb-4">
+      <h1 className="text-3xl font-extrabold text-purple-700 mb-4 animate-bounce">
         📝 Brand Explorer
       </h1>
       <p className="mb-6 text-gray-800 text-lg">
