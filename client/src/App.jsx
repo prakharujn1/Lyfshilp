@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -52,10 +53,6 @@ import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/Br
 import ScrollToTop from "./ScrollToTop";
 import AdminLogin from "./pages/AdminLogin";
 import DigitalMarketing from "./pages/DigitalMarketing";
-import CaptionCraze from "./components/Digital Marketing/Level 2/Caption Craze/CaptionCraze";
-import MatchingGame from "./components/Digital Marketing/Level 2/PostMatch/MatchingGame";
-import MatchingGameResult from "./components/Digital Marketing/Level 2/PostMatch/MatchingGameResult";
-import ReelMakerGame from "./components/Digital Marketing/Level 2/Reel-Maker/ReelMakerGame";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -264,6 +261,17 @@ function App() {
               path="/digitalmarketing/notes/section-8"
               element={<Section8dm />}
             />
+
+            {/* Legal Awareness Notes Page */}
+            <Route path="/law/notes" element={<LegalAwarenessNotes />} />
+            <Route path="/law/notes/module-1" element={<Module1 />} />
+            <Route path="/law/notes/module-2" element={<Module2 />} />
+            <Route path="/law/notes/module-3" element={<Module3 />} />
+            <Route path="/law/notes/module-4" element={<Module4 />} />
+            <Route path="/law/notes/module-5" element={<Module5 />} />
+            <Route path="/law/notes/module-6" element={<Module6 />} />
+
+            {/* Other Routes */}
 
             <Route path="/faq's" element={<FAQ />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
