@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDM } from "../contexts/DMContext";
-import { useAuth } from "../contexts/AuthContext"; 
+import { useAuth } from "../contexts/AuthContext";
 
 const CurriculumDesign = forwardRef((props, ref) => {
   const { dmprogress } = useDM();
@@ -66,7 +66,7 @@ const CurriculumDesign = forwardRef((props, ref) => {
           description:
             "Objective: Match content types to brands and suggest one idea.",
           duration: "50 min",
-          path: "/matching-game", 
+          path: "/matching-game",
         },
       ],
     },
