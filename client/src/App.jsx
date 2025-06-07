@@ -52,6 +52,13 @@ import BrandExplorerGameComplete from "./components/Digital Marketing/Level 1/Br
 import ScrollToTop from "./ScrollToTop";
 import AdminLogin from "./pages/AdminLogin";
 import DigitalMarketing from "./pages/DigitalMarketing";
+import LegalAwarenessNotes from "./pages/LegalAwarenessNotes";
+import Module1 from "./pages/LegalAwareness/Module1";
+import Module2 from "./pages/LegalAwareness/Module2";
+import Module3 from "./pages/LegalAwareness/Module3";
+import Module4 from "./pages/LegalAwareness/Module4";
+import Module5 from "./pages/LegalAwareness/Module5";
+import Module6 from "./pages/LegalAwareness/Module6";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -178,7 +185,7 @@ function App() {
             {/* Level 1 games of digital marketing */}
             <Route
               path="/digital-marketing/games"
-              element={<DigitalMarketing />} 
+              element={<DigitalMarketing />}
             />
 
             <Route
@@ -251,6 +258,17 @@ function App() {
               path="/digitalmarketing/notes/section-8"
               element={<Section8dm />}
             />
+
+            {/* Legal Awareness Notes Page */}
+            <Route path="/law/notes" element={<LegalAwarenessNotes />} />
+            <Route path="/law/notes/module-1" element={<Module1 />} />
+            <Route path="/law/notes/module-2" element={<Module2 />} />
+            <Route path="/law/notes/module-3" element={<Module3 />} />
+            <Route path="/law/notes/module-4" element={<Module4 />} />
+            <Route path="/law/notes/module-5" element={<Module5 />} />
+            <Route path="/law/notes/module-6" element={<Module6 />} />
+
+            {/* Other Routes */}
 
             <Route path="/faq's" element={<FAQ />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
