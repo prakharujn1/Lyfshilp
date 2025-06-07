@@ -213,9 +213,9 @@ const AdDetectiveGamePage = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 2 }}
                 exit={{ opacity: 0, scale: 0.7 }}
-                className="absolute text-3xl rounded-lg top-0 left-1/2 -translate-x-1/2 p-5 bg-gradient-to-br from-red-100 to-blue-400"
+                className="absolute text-3xl rounded-lg bottom-0 left-1/2 -translate-x-1/2 p-5 bg-gradient-to-br from-red-100 to-blue-400"
               >
-                <h1>Detective 🕵️, you missed a case</h1>
+                <h1 className="text-center">Detective 🕵️, you missed a case</h1>
               </motion.div>
             )}
           </AnimatePresence>
