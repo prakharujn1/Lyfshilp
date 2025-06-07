@@ -1,4 +1,4 @@
-import { motion, useAnimation } from "framer-motion";
+import { useAnimation } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -48,7 +48,7 @@ const featureItems = [
 ];
 
 const Home = () => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered] = useState(false);
   const marqueeRef = useRef(null);
   const controls = useAnimation();
 
@@ -113,42 +113,39 @@ const Home = () => {
         },
       });
     }
-  }, [isHovered]);
+  }, [isHovered, controls]);
 
   return (
     <div className="px-4 sm:px-6 md:px-10 lg:px-16 py-10 overflow-x-hidden">
       {/* Intro Section */}
       <div className="w-full flex flex-col-reverse lg:flex-row gap-10 mb-16">
         <div className="w-full lg:w-1/2 flex flex-col justify-center text-black">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Real Skills{" "}
-              <span style={{ color: "#184802" }}>Fun Learning</span>
-            </h1>
-            <p className="mt-4 text-lg text-black-500 max-w-md">
-              Master finance, law, communication, coding & more — through
-              exciting notes, challenges & games designed for students from
-              Grade 6 to 12.
-            </p>
-            <div className="mt-6 flex gap-4">
-              <button className="bg-[#184802] text-white hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
-                Start Learning
-              </button>
-              <button className="bg-[#184802] text-white hover:bg-[#57B87C] font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
-                Explore Subjects
-              </button>
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            Real Skills <span style={{ color: "#184802" }}>Fun Learning</span>
+          </h1>
+          <p className="mt-4 text-lg text-black-500 max-w-md">
+            Master finance, law, communication, coding & more — through exciting
+            notes, challenges & games designed for students from Grade 6 to 12.
+          </p>
+          <div className="mt-6 flex gap-4">
+            <button className="bg-[#184802] text-white font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
+              Start Learning
+            </button>
+            <button className="bg-[#184802] text-white font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
+              Explore Subjects
+            </button>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
+              <span className="text-yellow-300">🎮</span> Game-Based Learning
             </div>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
-                <span className="text-yellow-300">🎮</span> Game-Based Learning
-              </div>
-              <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
-                <span className="text-yellow-300">📚</span> Interactive Notes
-              </div>
-              <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
-                <span className="text-yellow-300">💡</span> Real-Life Skills
-              </div>
+            <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
+              <span className="text-yellow-300">📚</span> Interactive Notes
             </div>
-          
+            <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
+              <span className="text-yellow-300">💡</span> Real-Life Skills
+            </div>
+          </div>
         </div>
 
         <div className="w-full lg:w-1/2 flex justify-center items-center">
@@ -315,66 +312,67 @@ const Home = () => {
 
       {/* Call to Action Section */}
       {/* Call to Action Section */}
-<section className="mt-20 relative overflow-hidden bg-gradient-to-br from-[#f0fcfa] via-[#e0f7f4] to-white py-20 px-4">
-  <div className="absolute top-[-50px] left-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
-  <div className="absolute bottom-[-50px] right-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
+      <section className="mt-20 relative overflow-hidden bg-gradient-to-br from-[#f0fcfa] via-[#e0f7f4] to-white py-20 px-4">
+        <div className="absolute top-[-50px] left-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
+        <div className="absolute bottom-[-50px] right-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
 
-  <div className="relative z-10 max-w-6xl mx-auto text-center">
-    <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-      Your Pathway to Success{" "}
-      <span className="text-[#129990]">with EduManiax!</span>
-    </h2>
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+            Your Pathway to Success{" "}
+            <span className="text-[#129990]">with EduManiax!</span>
+          </h2>
 
-    <motion.div
-      className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ staggerChildren: 0.2 }}
-      variants={{
-        visible: { transition: { staggerChildren: 0.2 } },
-        hidden: {},
-      }}
-    >
-      {[
-        {
-          title: "Enroll",
-          desc: "Choose your likeable course and proceed.",
-          icon: "https://cdn-icons-png.flaticon.com/512/4202/4202843.png",
-        },
-        {
-          title: "Get Trained",
-          desc: "Learn from our educators and industry experts to gain practical skills.",
-          icon: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
-        },
-        {
-          title: "Excel",
-          desc: "Apply your skills in real-world scenarios and excel in your career.",
-          icon: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
-        },
-      ].map((step, index) => (
-        <motion.div
-          key={index}
-          className="bg-white bg-opacity-70 backdrop-blur-md rounded-3xl p-6 shadow-xl flex flex-col items-center text-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: index * 0.2 }}
-        >
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 3 }}
-            className="w-32 h-32 rounded-full bg-white flex items-center justify-center mb-6 shadow-md border"
+            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ staggerChildren: 0.2 }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.2 } },
+              hidden: {},
+            }}
           >
-            <img src={step.icon} alt={step.title} className="w-20 h-20" />
+            {[
+              {
+                title: "Enroll",
+                desc: "Choose your likeable course and proceed.",
+                icon: "https://cdn-icons-png.flaticon.com/512/4202/4202843.png",
+              },
+              {
+                title: "Get Trained",
+                desc: "Learn from our educators and industry experts to gain practical skills.",
+                icon: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
+              },
+              {
+                title: "Excel",
+                desc: "Apply your skills in real-world scenarios and excel in your career.",
+                icon: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
+              },
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                className="bg-white bg-opacity-70 backdrop-blur-md rounded-3xl p-6 shadow-xl flex flex-col items-center text-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+              >
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 3 }}
+                  className="w-32 h-32 rounded-full bg-white flex items-center justify-center mb-6 shadow-md border"
+                >
+                  <img src={step.icon} alt={step.title} className="w-20 h-20" />
+                </motion.div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-gray-600">{step.desc}</p>
+              </motion.div>
+            ))}
           </motion.div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">{step.title}</h3>
-          <p className="text-gray-600">{step.desc}</p>
-        </motion.div>
-      ))}
-    </motion.div>
-  </div>
-</section>
-
+        </div>
+      </section>
     </div>
   );
 };
