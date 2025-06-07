@@ -1,4 +1,4 @@
-import { useAnimation } from "framer-motion";
+import {motion, useAnimation } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
