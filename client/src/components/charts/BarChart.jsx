@@ -32,12 +32,15 @@ const BarChart = ({ labels, data, colors }) => {
         // label: "",
         data,
         backgroundColor: colors,
+        // barPercentage : 0.7,
+        // categoryPercentage: 0.7,
       },
     ],
   };
 
   const options = {
     responsive: true,
+    //  maintainAspectRatio: false,
     layout: {
       padding: 0,
     },
@@ -48,10 +51,12 @@ const BarChart = ({ labels, data, colors }) => {
       },
       datalabels: {
         anchor: "end",
-        // align: "end",
+        align: "center",
         formatter: (value) => `₹${Number(value)}`,
         color: "#000",
+        // offset : 9,
         font: {
+          size : 12,
           weight: "bold",
         },
       },
@@ -72,13 +77,14 @@ const BarChart = ({ labels, data, colors }) => {
         barPercentage: 0.9,
       },
       y: {
-        beginAtZero: false,
+        beginAtZero: true,
       },
     },
   };
 
   return (
-    <div className="w-full sm:w-[300px] md:w-[350px] aspect-square flex items-center">
+    <div className="bg-sky-200 shadow-xl rounded-2xl p-3 w-[300px] h-full
+     md:w-[350px] lg:aspect-square flex justify-center items-center">
       <Bar data={chartData} options={options} plugins={[ChartDataLabels]} />
       {/* 👆 Important: pass ChartDataLabels plugin here too */}
     </div>

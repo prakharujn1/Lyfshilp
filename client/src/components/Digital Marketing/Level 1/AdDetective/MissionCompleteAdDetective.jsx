@@ -45,7 +45,7 @@ const MissionCompleteAdDetective = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-[90%] p-5 mx-auto h-screen ">
+    <div className="w-[100%] lg:w-[90%] p-5 mx-auto h-screen ">
       <div className="w-full h-full relative bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 flex rounded-2xl items-center justify-center p-6">
         <canvas
           ref={canvasRef}

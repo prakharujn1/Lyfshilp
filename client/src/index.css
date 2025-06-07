@@ -3,6 +3,88 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes float1 {
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(8px, -6px);
+  }
+}
+
+@keyframes float2 {
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-7px, 5px);
+  }
+}
+
+@keyframes float3 {
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(5px, 10px);
+  }
+}
+
+@keyframes float4 {
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-10px, -5px);
+  }
+}
+
+.floating-card {
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+
+
+.float1 {
+  animation-name: float1;
+}
+.float2 {
+  animation-name: float2;
+}
+.float3 {
+  animation-name: float3;
+}
+.float4 {
+  animation-name: float4;
+}
+
+.floating-card:hover {
+  animation-play-state: paused;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.wiggleEmoji{
+  animation-name: wiggle;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
 @theme inline {
   --animate-meteor-effect: meteor 5s linear infinite;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -57,7 +139,7 @@
 
   --radius-lg: var(--radius);
 
-  --radius-xl: calc(var(--radius) + 4px)
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 :root {
@@ -137,7 +219,6 @@
     @apply bg-background text-foreground;
   }
 }
-
 
 /* Hide browser extension's speed overlay */
 body > #video-speed-controller {

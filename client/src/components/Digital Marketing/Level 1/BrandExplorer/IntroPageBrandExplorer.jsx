@@ -20,11 +20,11 @@ const IntroPageBrandExplorer = () => {
       </div>
 
       {/* Intro Content */}
-      <h1 className="text-5xl font-extrabold text-purple-700 mb-4 drop-shadow-lg animate-bounce">
+      <h1 className="text-3xl  md:text-5xl font-extrabold text-purple-700 mb-4 drop-shadow-lg animate-bounce">
         🧠 Brand Explorer!
       </h1>
 
-      <p className="text-lg text-gray-800 mb-6 max-w-xl leading-relaxed">
+      <p className="text-lg md:text-2xl text-gray-800 mb-6 max-w-xl leading-relaxed">
         Welcome, young explorer! 🎒🌟
         <br />
         Your mission: Pick your favorite brands and discover how they talk,
