@@ -64,6 +64,12 @@ import Module3 from "./pages/LegalAwareness/Module3";
 import Module4 from "./pages/LegalAwareness/Module4";
 import Module5 from "./pages/LegalAwareness/Module5";
 import Module6 from "./pages/LegalAwareness/Module6";
+import CommunicationsNotes from "./pages/CommunicationsNotes";
+import Mod1 from "./pages/CommunicationNotes/Mod1";
+import Mod2 from "./pages/CommunicationNotes/Mod2";
+import Mod3 from "./pages/CommunicationNotes/Mod3";
+import Mod4 from "./pages/CommunicationNotes/Mod4";
+import Mod5 from "./pages/CommunicationNotes/Mod5";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -281,6 +287,32 @@ function App() {
             <Route path="/law/notes/module-4" element={<Module4 />} />
             <Route path="/law/notes/module-5" element={<Module5 />} />
             <Route path="/law/notes/module-6" element={<Module6 />} />
+
+            {/*Communication Notes Page */}
+            <Route
+              path="/communications/notes"
+              element={<CommunicationsNotes />}
+            />
+            <Route
+              path="/communications/notes/listen-to-understand"
+              element={<Mod1 />}
+            />
+            <Route
+              path="/communications/notes/feelings-explorer"
+              element={<Mod2 />}
+            />
+            <Route
+              path="/communications/notes/speak-with-purpose"
+              element={<Mod3 />}
+            />
+            <Route
+              path="/communications/notes/conflict-resolution"
+              element={<Mod4 />}
+            />
+            <Route
+              path="/communications/notes/online-vs-real"
+              element={<Mod5 />}
+            />
 
             {/* Other Routes */}
 
