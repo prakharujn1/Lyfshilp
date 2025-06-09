@@ -6,9 +6,18 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-const Module5 = () => {
+const Module5 = ({ topicRefs }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
+    <div
+      id="5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
       <div className="max-w-5xl mx-auto space-y-12">
         {/* Heading */}
         <motion.div
@@ -147,6 +156,8 @@ const Module5 = () => {
         </motion.div>
       </div>
     </div>
+    </div>
+    
   );
 };
 
