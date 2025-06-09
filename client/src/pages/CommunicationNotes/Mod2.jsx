@@ -1,8 +1,17 @@
 import React from "react";
 
-const Mod2 = () => {
+const Mod2 = ({ topicRefs }) => {
   return (
-    <div className="px-4 py-8 md:px-16 bg-pink-50 min-h-screen text-gray-800">
+    <div
+      id="2"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="px-4 py-8 md:px-16 bg-pink-50 min-h-screen text-gray-800">
       {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-5xl font-bold text-pink-700 mb-2">
@@ -111,6 +120,8 @@ const Mod2 = () => {
         </p>
       </div>
     </div>
+    </div>
+    
   );
 };
 
