@@ -88,6 +88,7 @@ import ImportanceOfAi from "./pages/CompNotes/ImportanceOfAi";
 import ListenUp from "./components/Communication/Level-1/ListenUp/ListenUp";
 import SayItLikeUMeanIt from "./components/Communication/Level-1/SayItLikeUMeanIt/SayItLikeUMeanIt";
 import PickYourPersuasion from "./components/Communication/Level-1/PickYourPersuasion/PickYourPersuasion";
+import AnalyticsDashboard from "./components/Digital Marketing/Level 3/AnalyticsDashboard/AnalyticsDashboard";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -256,6 +257,9 @@ function App() {
             <Route path="/reel-planner-game" element={<ReelPlannerGame />} />
 
             {/* Level 3 games of digital marketing */}
+
+            <Route path="/analytics-adventure" element={<AnalyticsDashboard />} />
+
 
             {/*End of Games of digital marketing */}
 
