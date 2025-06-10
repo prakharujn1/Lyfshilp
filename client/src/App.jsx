@@ -70,6 +70,12 @@ import Mod2 from "./pages/CommunicationNotes/Mod2";
 import Mod3 from "./pages/CommunicationNotes/Mod3";
 import Mod4 from "./pages/CommunicationNotes/Mod4";
 import Mod5 from "./pages/CommunicationNotes/Mod5";
+import SocialLearningNotes from "./pages/SocialLearningNotes";
+import KnowingMyself from "./pages/SocialLearningNotes/KnowingMyself";
+import BuildPositiveRel from "./pages/SocialLearningNotes/BuildPositiveRel";
+import HandlingStress from "./pages/SocialLearningNotes/HandlingStress";
+import SelfDiscipline from "./pages/SocialLearningNotes/SelfDiscipline";
+import DecisionMaking from "./pages/SocialLearningNotes/DecisionMaking";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -312,6 +318,32 @@ function App() {
             <Route
               path="/communications/notes/online-vs-real"
               element={<Mod5 />}
+            />
+
+            {/* Social Learning Notes */}
+            <Route
+              path="/social-learning/notes"
+              element={<SocialLearningNotes />}
+            />
+            <Route
+              path="/social-learning/module-1"
+              element={<KnowingMyself />}
+            />
+            <Route
+              path="/social-learning/module-2"
+              element={<BuildPositiveRel />}
+            />
+            <Route
+              path="/social-learning/module-3"
+              element={<HandlingStress />}
+            />
+            <Route
+              path="/social-learning/module-4"
+              element={<SelfDiscipline />}
+            />
+            <Route
+              path="/social-learning/module-5"
+              element={<DecisionMaking />}
             />
 
             {/* Other Routes */}
