@@ -85,6 +85,9 @@ import ImpAIWords from "./pages/CompNotes/ImpAIWords";
 import BuildAi from "./pages/CompNotes/BuildAi";
 import TestUrSkills from "./pages/CompNotes/TestUrSkills";
 import ImportanceOfAi from "./pages/CompNotes/ImportanceOfAi";
+import ListenUp from "./components/Communication/Level-1/ListenUp/ListenUp";
+import SayItLikeUMeanIt from "./components/Communication/Level-1/SayItLikeUMeanIt/SayItLikeUMeanIt";
+import PickYourPersuasion from "./components/Communication/Level-1/PickYourPersuasion/PickYourPersuasion";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -302,6 +305,18 @@ function App() {
             <Route path="/law/notes/module-4" element={<Module4 />} />
             <Route path="/law/notes/module-5" element={<Module5 />} />
             <Route path="/law/notes/module-6" element={<Module6 />} />
+
+            {/* Communication Games */}
+            {/* Level -1*/}
+            <Route path="/listen-up" element={<ListenUp />} />
+            <Route
+              path="/say-it-like-you-mean-it"
+              element={<SayItLikeUMeanIt />}
+            />
+            <Route
+              path="/pick-your-persuasion"
+              element={<PickYourPersuasion />}
+            />
 
             {/*Communication Notes Page */}
             <Route
