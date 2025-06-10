@@ -76,6 +76,15 @@ import BuildPositiveRel from "./pages/SocialLearningNotes/BuildPositiveRel";
 import HandlingStress from "./pages/SocialLearningNotes/HandlingStress";
 import SelfDiscipline from "./pages/SocialLearningNotes/SelfDiscipline";
 import DecisionMaking from "./pages/SocialLearningNotes/DecisionMaking";
+import ComputerNotes from "./pages/ComputerNotes";
+import WhatIsAi from "./pages/CompNotes/WhatIsAi";
+import WorkOfAi from "./pages/CompNotes/WorkOfAi";
+import TypesAndUseOfAi from "./pages/CompNotes/TypesAndUseOfAi";
+import WhatCantAiDo from "./pages/CompNotes/WhatCantAiDo";
+import ImpAIWords from "./pages/CompNotes/ImpAIWords";
+import BuildAi from "./pages/CompNotes/BuildAi";
+import TestUrSkills from "./pages/CompNotes/TestUrSkills";
+import ImportanceOfAi from "./pages/CompNotes/ImportanceOfAi";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -344,6 +353,23 @@ function App() {
             <Route
               path="/social-learning/module-5"
               element={<DecisionMaking />}
+            />
+
+            {/* Computer Notes*/}
+            <Route path="/computer/notes" element={<ComputerNotes />} />
+            <Route path="/computer/notes/module-1" element={<WhatIsAi />} />
+            <Route path="/computer/notes/module-2" element={<WorkOfAi />} />
+            <Route
+              path="/computer/notes/module-3"
+              element={<TypesAndUseOfAi />}
+            />
+            <Route path="/computer/notes/module-4" element={<WhatCantAiDo />} />
+            <Route path="/computer/notes/module-5" element={<ImpAIWords />} />
+            <Route path="/computer/notes/module-6" element={<BuildAi />} />
+            <Route path="/computer/notes/module-7" element={<TestUrSkills />} />
+            <Route
+              path="/computer/notes/module-8"
+              element={<ImportanceOfAi />}
             />
 
             {/* Other Routes */}
