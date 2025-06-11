@@ -2,7 +2,7 @@ import React from "react";
 import { Wrench, Wallet, FileSpreadsheet, Smartphone } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const BudgetTools = ({ topicRefs }) => {
+const BudgetTools = () => {
   const tools = [
     {
       title: "Envelope Method",
@@ -23,12 +23,7 @@ const BudgetTools = ({ topicRefs }) => {
 
   return (
     <div
-      id="2-6"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["2-6"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <SectionContainer>

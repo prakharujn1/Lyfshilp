@@ -8,16 +8,27 @@ import InvestingReflection from "./InvestingReflection";
 
 const Section5 = ({ topicRefs }) => {
   return (
-    <div>
+    <div
+      id="5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div>
       <h1 className="text-2xl font-bold mb-4">Section 5: Investing</h1>
-      <InvestingIntro topicRefs={topicRefs} />
-      <InvestingExample topicRefs={topicRefs} />
-      <InvestingCompoundInterest topicRefs={topicRefs} />
-      <InvestingTable topicRefs={topicRefs} />
-      <InvestingWhyTimeMatters topicRefs={topicRefs} />
-      <InvestingTip topicRefs={topicRefs} />
-      <InvestingReflection topicRefs={topicRefs} />
+      <InvestingIntro  />
+      <InvestingExample  />
+      <InvestingCompoundInterest  />
+      <InvestingTable />
+      <InvestingWhyTimeMatters  />
+      <InvestingTip  />
+      <InvestingReflection  />
     </div>
+    </div>
+    
   );
 };
 

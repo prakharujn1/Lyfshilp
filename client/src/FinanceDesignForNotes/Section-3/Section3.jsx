@@ -8,16 +8,27 @@ import ReflectionCredit from "./ReflectionCredit";
 
 const Section3 = ({ topicRefs }) => {
   return (
-    <div>
+    <div
+      id="3"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["3"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div>
       <h1 className="text-2xl font-bold mb-4">Section 3: Credit</h1>
-      <HeaderCredits topicRefs={topicRefs} />
-      <WhatIsCredit topicRefs={topicRefs} />
-      <CreditExample topicRefs={topicRefs} />
-      <TypesOfCredit topicRefs={topicRefs} />
-      <CreditsTricky topicRefs={topicRefs} />
-      <CreditScore topicRefs={topicRefs} />
-      <ReflectionCredit topicRefs={topicRefs} />
+      <HeaderCredits  />
+      <WhatIsCredit  />
+      <CreditExample  />
+      <TypesOfCredit  />
+      <CreditsTricky  />
+      <CreditScore  />
+      <ReflectionCredit  />
     </div>
+    </div>
+    
   );
 };
 

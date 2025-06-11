@@ -1,8 +1,17 @@
 import React from "react";
 
-const SelfDiscipline = () => {
+const SelfDiscipline = ({ topicRefs }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 md:p-10 space-y-10">
+    <div
+      id="4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-white rounded-xl shadow-md p-6 md:p-10 space-y-10">
       <h1 className="text-3xl font-bold text-center text-indigo-800 mb-4">
         🎯 Module 4: Self-Discipline and Setting Goals
       </h1>
@@ -130,6 +139,8 @@ const SelfDiscipline = () => {
         </div>
       </section>
     </div>
+    </div>
+    
   );
 };
 

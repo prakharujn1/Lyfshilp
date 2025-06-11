@@ -2,14 +2,9 @@ import React from "react";
 import { Split } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingWantsVsNeeds = ({ topicRefs }) => (
+const SpendingWantsVsNeeds = () => (
   <div
-      id="6-3"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["6-3"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
     <SectionContainer>

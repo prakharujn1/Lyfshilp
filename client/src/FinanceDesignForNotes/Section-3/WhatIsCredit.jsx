@@ -1,12 +1,7 @@
-export default function WhatIsCredit({ topicRefs }) {
+export default function WhatIsCredit() {
   return (
     <div
-      id="3-2"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["3-2"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[90%] mx-auto">

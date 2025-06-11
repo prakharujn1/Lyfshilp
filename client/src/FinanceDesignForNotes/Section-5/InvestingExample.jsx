@@ -1,14 +1,9 @@
 import React from "react";
 
-const InvestingRealExample = ({ topicRefs }) => {
+const InvestingRealExample = () => {
   return (
     <div
-      id="5-2"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["5-2"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="investing-example" className="py-24 bg-gray-50">

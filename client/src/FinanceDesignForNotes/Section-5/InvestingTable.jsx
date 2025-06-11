@@ -1,15 +1,10 @@
 import React from "react";
 import { BarChart2 } from "lucide-react";
 
-const InvestingTable = ({ topicRefs }) => {
+const InvestingTable = () => {
   return (
     <div
-      id="5-4"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["5-4"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="investing-table" className="py-24 bg-gradient-to-b from-white to-blue-50">

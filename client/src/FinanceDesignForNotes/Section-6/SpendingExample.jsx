@@ -2,14 +2,9 @@ import React from "react";
 import { Lightbulb } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingExample = ({ topicRefs }) => (
+const SpendingExample = () => (
   <div
-      id="6-2"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["6-2"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
     <SectionContainer className="bg-blue-50">

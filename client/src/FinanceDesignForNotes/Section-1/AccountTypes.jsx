@@ -2,15 +2,10 @@ import React from "react";
 import { CheckCircle, XCircle } from "lucide-react";
 import { accountTypes } from "../../utilities/constants.js";
 
-const AccountTypes = ({ topicRefs }) => {
+const AccountTypes = () => {
   return (
     <div
-      id="1-3"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["1-3"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="account-types" className="py-24 bg-gray-50">

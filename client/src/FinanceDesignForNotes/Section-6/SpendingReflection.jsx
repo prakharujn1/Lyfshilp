@@ -2,14 +2,9 @@ import React from "react";
 import { MessageSquareHeart } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingReflection = ({ topicRefs }) => (
+const SpendingReflection = () => (
   <div
-      id="6-7"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["6-7"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
     <SectionContainer>

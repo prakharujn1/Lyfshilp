@@ -1,12 +1,7 @@
-export default function CreditExample({ topicRefs }) {
+export default function CreditExample() {
   return (
     <div
-      id="3-3"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["3-3"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[90%] mx-auto">

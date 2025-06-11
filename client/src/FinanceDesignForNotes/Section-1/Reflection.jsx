@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HelpCircle, CheckCircle, AlertCircle } from "lucide-react";
 
-const Reflection = ({ topicRefs }) => {
+const Reflection = () => {
   const [showTip, setShowTip] = useState(false);
   const [responses, setResponses] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -20,12 +20,6 @@ const Reflection = ({ topicRefs }) => {
 
   return (
     <div
-      id="1-7"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["1-7"] = el;
-        }
-      }}
       className="mb-10"
     >
       <section id="reflection" className="py-24 bg-gray-50">
