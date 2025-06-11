@@ -1,15 +1,10 @@
 import React from "react";
 import { TrendingUp, PiggyBank } from "lucide-react";
 
-const InvestingIntro = ({ topicRefs }) => {
+const InvestingIntro = () => {
   return (
    <div
-      id="5-1"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["5-1"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="investing-intro" className="py-24 bg-gradient-to-b from-blue-50 to-white">

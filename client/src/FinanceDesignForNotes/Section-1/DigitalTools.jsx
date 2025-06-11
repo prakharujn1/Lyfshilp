@@ -1,14 +1,8 @@
 import { digitalTools, toolIcons } from "../../utilities/constants.js";
 
-const DigitalTools = ({ topicRefs }) => {
+const DigitalTools = () => {
   return (
     <div
-      id="1-4"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["1-4"] = el;
-        }
-      }}
       className="mb-10"
     >
       <section id="digital-tools" className="py-24 bg-white">

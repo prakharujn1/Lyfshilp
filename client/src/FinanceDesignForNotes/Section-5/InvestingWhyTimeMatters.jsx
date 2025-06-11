@@ -1,15 +1,10 @@
 import React from "react";
 import { Clock4 } from "lucide-react";
 
-const InvestingWhyTimeMatters = ({ topicRefs }) => {
+const InvestingWhyTimeMatters = () => {
   return (
     <div
-      id="5-5"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["5-5"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="investing-time" className="py-24 bg-blue-50">

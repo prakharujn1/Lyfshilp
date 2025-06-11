@@ -1,12 +1,7 @@
-export default function WhereBuyShares({ topicRefs }) {
+export default function WhereBuyShares() {
   return (
     <div
-      id="4-4"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["4-4"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="bg-yellow-50 max-w-3xl shadow-2xl p-4 rounded-lg mx-auto">

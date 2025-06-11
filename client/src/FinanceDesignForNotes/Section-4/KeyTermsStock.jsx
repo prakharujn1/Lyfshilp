@@ -1,4 +1,4 @@
-export default function KeyTermsStock({ topicRefs }) {
+export default function KeyTermsStock() {
   const words = ["Share/Stock", "Investor", "Profit", "Loss", "Dividend"];
   const meaning = [
     "A small part of a company you can buy",
@@ -10,12 +10,7 @@ export default function KeyTermsStock({ topicRefs }) {
 
   return (
     <div
-      id="4-7"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["4-7"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="bg-blue-200 shadow p-4 rounded-lg mx-auto">

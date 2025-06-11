@@ -1,15 +1,10 @@
 import React from "react";
 import { HelpCircle, MessageCircle } from "lucide-react";
 
-const InvestingReflection = ({ topicRefs }) => {
+const InvestingReflection = () => {
   return (
     <div
-      id="5-7"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["5-7"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="investing-reflection" className="py-24 bg-gradient-to-b from-yellow-50 to-white">

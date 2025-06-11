@@ -8,16 +8,28 @@ import Reflection from "./Reflection";
 
 const Section1 = ({ topicRefs }) => {
   return (
-    <div>
+    <div
+      id="1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div>
       <h1 className="text-2xl font-bold mb-4">Section 1: Banking Basics</h1>
-      <Introduction topicRefs={topicRefs} />
-      <BankingBasics topicRefs={topicRefs} />
-      <AccountTypes topicRefs={topicRefs} />
-      <DigitalTools topicRefs={topicRefs} />
-      <Comparison topicRefs={topicRefs} />
-      <Example topicRefs={topicRefs} />
-      <Reflection topicRefs={topicRefs} />
+      <Introduction  />
+      <BankingBasics  />
+      <AccountTypes  />
+      <DigitalTools  />
+      <Comparison  />
+      <Example  />
+      <Reflection  />
     </div>
+
+    </div>
+    
   );
 };
 

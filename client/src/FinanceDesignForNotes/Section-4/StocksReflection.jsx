@@ -1,12 +1,7 @@
-export default function StocksReflection({ topicRefs }) {
+export default function StocksReflection() {
   return (
     <div
-      id="4-8"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["4-8"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="bg-yellow-50 max-w-3xl shadow-2xl p-6 rounded-2xl mx-auto space-y-4">

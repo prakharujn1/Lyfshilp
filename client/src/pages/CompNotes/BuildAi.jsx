@@ -1,8 +1,17 @@
 import React from "react";
 
-const BuildAi = () => {
+const BuildAi = ({ topicRefs }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6 text-gray-800">
+    <div
+      id="6"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["6"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6 text-gray-800">
       <div className="max-w-4xl mx-auto space-y-8">
         <h1 className="text-4xl font-bold text-blue-700 text-center">
           🎨 Module 6: Let's Build an AI!
@@ -113,6 +122,8 @@ const BuildAi = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 };
 

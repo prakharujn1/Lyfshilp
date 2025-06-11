@@ -1,15 +1,10 @@
 import React from "react";
 import { Coins, Wallet } from "lucide-react";
 
-const Example = ({ topicRefs }) => {
+const Example = () => {
   return (
     <div
-      id="1-6"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["1-6"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="example" className="py-24 bg-white">

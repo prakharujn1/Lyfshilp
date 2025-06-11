@@ -2,14 +2,9 @@ import React from "react";
 import { ThumbsUp } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingTips = ({ topicRefs }) => (
+const SpendingTips = () => (
   <div
-      id="6-5"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["6-5"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
     <SectionContainer className="bg-blue-50">

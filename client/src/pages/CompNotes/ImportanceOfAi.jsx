@@ -1,8 +1,17 @@
 import React from "react";
 
-const ImportanceOfAi = () => {
+const ImportanceOfAi = ({ topicRefs }) => {
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-100 min-h-screen py-10 px-4 sm:px-10 text-gray-800">
+    <div
+      id="8"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["8"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+       <div className="bg-gradient-to-br from-slate-50 to-blue-100 min-h-screen py-10 px-4 sm:px-10 text-gray-800">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-700 text-center mb-6">
           🌟 Importance of Using AI Judiciously
@@ -183,6 +192,8 @@ const ImportanceOfAi = () => {
         </section>
       </div>
     </div>
+    </div>
+   
   );
 };
 

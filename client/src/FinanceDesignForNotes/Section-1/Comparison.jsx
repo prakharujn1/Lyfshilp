@@ -2,15 +2,10 @@ import React from "react";
 import { comparisonItems } from "../../utilities/constants";
 import { CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 
-const Comparison = ({ topicRefs }) => {
+const Comparison = () => {
   return (
     <div
-      id="1-5"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["1-5"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="comparison" className="py-24 bg-gray-50">

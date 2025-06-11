@@ -2,14 +2,9 @@ import React from "react";
 import { BrainCircuit } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingIntro = ({ topicRefs }) => (
+const SpendingIntro = () => (
   <div
-      id="6-1"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["6-1"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
     <SectionContainer className="bg-white">

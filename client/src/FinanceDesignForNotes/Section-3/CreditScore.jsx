@@ -1,12 +1,7 @@
-export default function CreditScore({ topicRefs }) {
+export default function CreditScore() {
   return (
     <div
-      id="3-6"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["3-6"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[50%] mx-auto">

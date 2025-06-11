@@ -1,15 +1,9 @@
 import React from "react";
 import { Ban as Bank, ShieldCheck, Coins, CreditCard } from "lucide-react";
 
-const Introduction = ({ topicRefs }) => {
+const Introduction = () => {
   return (
     <div
-      id="1-1"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["1-1"] = el;
-        }
-      }}
       className="mb-10"
     >
       <section

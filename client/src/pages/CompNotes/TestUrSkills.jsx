@@ -1,8 +1,17 @@
 import React from "react";
 
-const TestUrSkills = () => {
+const TestUrSkills = ({ topicRefs }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-white p-6 text-gray-800">
+    <div
+      id="7"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["7"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-white p-6 text-gray-800">
       <div className="max-w-4xl mx-auto space-y-10">
         <h1 className="text-4xl font-bold text-yellow-700 text-center">
           🧠 Module 7: Test Your AI Skills (Comprehensive Exercises)
@@ -171,6 +180,8 @@ const TestUrSkills = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 };
 
