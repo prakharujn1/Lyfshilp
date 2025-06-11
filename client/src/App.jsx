@@ -258,8 +258,10 @@ function App() {
 
             {/* Level 3 games of digital marketing */}
 
-            <Route path="/analytics-adventure" element={<AnalyticsDashboard />} />
-
+            <Route
+              path="/analytics-adventure"
+              element={<AnalyticsDashboard />}
+            />
 
             {/*End of Games of digital marketing */}
 
