@@ -95,6 +95,9 @@ import NVCGame from "./components/Communication/Level 2/NVC/NVCGame";
 import ToneFixer from "./components/Communication/Level-3/ToneFixer/ToneFixer";
 import ComplimentQuest from "./components/Communication/Level-3/ComplimentQuest/ComplimentQuest";
 import SpeakUpGame from "./components/Communication/Level-3/SpeakUp/SpeakUp";
+import WindowSeatWar from "./components/Communication/Level-4/WindowSeatWar/WindowSeatWar";
+import PitchItLikePro from "./components/Communication/Level-4/PitchItLikePro/PitchItLikePro";
+import CoolTheConflict from "./components/Communication/Level-4/CoolTheConflict/CoolTheConflict";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -345,6 +348,11 @@ function App() {
               element={<SpeakUpGame />}
             />
             <Route path="/compliment-quest" element={<ComplimentQuest />} />
+
+            {/*Level 4*/}
+            <Route path="/window-seat-war" element={<WindowSeatWar />} />
+            <Route path="/pitch-it-like-a-pro" element={<PitchItLikePro />} />
+            <Route path="/cool-the-conflict" element={<CoolTheConflict />} />
 
             {/*Communication Notes Page */}
             <Route
