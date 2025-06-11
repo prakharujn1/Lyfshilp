@@ -89,14 +89,12 @@ import ListenUp from "./components/Communication/Level-1/ListenUp/ListenUp";
 import SayItLikeUMeanIt from "./components/Communication/Level-1/SayItLikeUMeanIt/SayItLikeUMeanIt";
 import PickYourPersuasion from "./components/Communication/Level-1/PickYourPersuasion/PickYourPersuasion";
 import AnalyticsDashboard from "./components/Digital Marketing/Level 3/AnalyticsDashboard/AnalyticsDashboard";
-import AdCampaignerGame from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignerGame";
-import AdCampaignerIntro from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignerIntro";
-import AdCampaignComplete from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignComplete";
-import BudgetBattleGameComplete from "./components/Digital Marketing/Level 3/Budget Battle/BudgetBattleGameComplete";
-import IntroBudgetBattle from "./components/Digital Marketing/Level 3/Budget Battle/IntroBudgetBattle";
 import InterruptGame from "./components/Communication/Level 2/Interrupt/InterruptGame";
 import FeelItFindItGame from "./components/Communication/Level 2/FeelItFindIt/FeelItFindItGame";
 import NVCGame from "./components/Communication/Level 2/NVC/NVCGame";
+import ToneFixer from "./components/Communication/Level-3/ToneFixer/ToneFixer";
+import ComplimentQuest from "./components/Communication/Level-3/ComplimentQuest/ComplimentQuest";
+import SpeakUpGame from "./components/Communication/Level-3/SpeakUp/SpeakUp";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -339,6 +337,14 @@ function App() {
               element={<FeelItFindItGame />}
             />
             <Route path="/nvc-game" element={<NVCGame />} />
+
+            {/* Level - 3*/}
+            <Route path="/tone-fixer" element={<ToneFixer />} />
+            <Route
+              path="/speak-up-without-blowing-up"
+              element={<SpeakUpGame />}
+            />
+            <Route path="/compliment-quest" element={<ComplimentQuest />} />
 
             {/*Communication Notes Page */}
             <Route
