@@ -1,8 +1,17 @@
 import React from "react";
 
-const KnowingMyself = () => {
+const KnowingMyself = ({ topicRefs }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 md:p-10 space-y-10">
+    <div
+      id="1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-white rounded-xl shadow-md p-6 md:p-10 space-y-10">
       <h1 className="text-3xl font-bold text-center text-blue-800 mb-4">
         🌟 Module 1: Knowing Myself
       </h1>
@@ -169,6 +178,8 @@ const KnowingMyself = () => {
         </div>
       </section>
     </div>
+    </div>
+    
   );
 };
 

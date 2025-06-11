@@ -9,17 +9,28 @@ import Reflection2 from "./Reflection2";
 
 const Section2 = ({ topicRefs }) => {
   return (
-    <div>
+    <div
+      id="2"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["2"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div>
       <h1 className="text-2xl font-bold mb-4">Section 2: Budgeting</h1>
-      <Header topicRefs={topicRefs} />
-      <IntroSection topicRefs={topicRefs} />
-      <BudgetFormula topicRefs={topicRefs} />
-      <ExampleBudget topicRefs={topicRefs} />
-      <BudgetRule topicRefs={topicRefs} />
-      <BudgetTools topicRefs={topicRefs} />
-      <Scenario topicRefs={topicRefs} />
-      <Reflection2 topicRefs={topicRefs} />
+      <Header  />
+      <IntroSection  />
+      <BudgetFormula  />
+      <ExampleBudget  />
+      <BudgetRule  />
+      <BudgetTools  />
+      <Scenario  />
+      <Reflection2  />
     </div>
+    </div>
+    
   );
 };
 

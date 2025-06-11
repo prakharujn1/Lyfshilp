@@ -2,17 +2,12 @@ import React, { useState } from "react";
 import { LightbulbIcon } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const Scenario = ({ topicRefs }) => {
+const Scenario = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <div
-      id="2-7"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["2-7"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <SectionContainer className="bg-blue-50">

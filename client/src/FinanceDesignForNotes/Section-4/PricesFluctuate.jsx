@@ -1,12 +1,7 @@
-export default function PricesFluctuate({ topicRefs }) {
+export default function PricesFluctuate() {
   return (
     <div
-      id="4-5"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["4-5"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="bg-yellow-50 max-w-3xl shadow-2xl p-6 rounded-2xl mx-auto space-y-4">

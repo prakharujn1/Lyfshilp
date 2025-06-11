@@ -9,17 +9,28 @@ import StocksReflection from "./StocksReflection";
 
 const Section4 = ({ topicRefs }) => {
   return (
-    <div>
+    <div
+      id="4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div>
       <h1 className="text-2xl font-bold mb-4">Section 4: Stock Market</h1>
-      <HeaderStockMarket topicRefs={topicRefs} />
-      <IntroStockMarket topicRefs={topicRefs} />
-      <StockLifeExample topicRefs={topicRefs} />
-      <WhereBuyShares topicRefs={topicRefs} />
-      <PricesFluctuate topicRefs={topicRefs} />
-      <StockMarketAndGambling topicRefs={topicRefs} />
-      <KeyTermsStock topicRefs={topicRefs} />
-      <StocksReflection topicRefs={topicRefs} />
+      <HeaderStockMarket  />
+      <IntroStockMarket  />
+      <StockLifeExample  />
+      <WhereBuyShares  />
+      <PricesFluctuate  />
+      <StockMarketAndGambling  />
+      <KeyTermsStock  />
+      <StocksReflection  />
     </div>
+    </div>
+    
   );
 };
 

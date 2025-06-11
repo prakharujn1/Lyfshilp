@@ -1,10 +1,19 @@
 import React from "react";
 
-const DecisionMaking = () => {
+const DecisionMaking = ({ topicRefs }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 md:p-10 space-y-10">
+    <div
+      id="5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-white rounded-xl shadow-md p-6 md:p-10 space-y-10">
       <h1 className="text-3xl font-bold text-center text-purple-800 mb-4">
-        ✅ Module 6: Decision Making and Responsibility
+        ✅ Module 5: Decision Making and Responsibility
       </h1>
       <p className="text-center text-gray-700 text-lg mb-8">
         Let’s learn how to make smart choices and own our actions!
@@ -114,6 +123,8 @@ const DecisionMaking = () => {
         </div>
       </section>
     </div>
+    </div>
+    
   );
 };
 

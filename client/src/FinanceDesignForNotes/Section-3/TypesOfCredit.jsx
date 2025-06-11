@@ -1,4 +1,4 @@
-export default function TypesOfCredit({ topicRefs }) {
+export default function TypesOfCredit() {
   const creditDetails = [
     {
       type: "Loan",
@@ -20,12 +20,7 @@ export default function TypesOfCredit({ topicRefs }) {
 
   return (
     <div
-      id="3-4"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["3-4"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[90%] mx-auto">

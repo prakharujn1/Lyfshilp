@@ -2,15 +2,10 @@ import React from "react";
 import { Brain, PiggyBank } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const IntroSection = ({ topicRefs }) => {
+const IntroSection = () => {
   return (
     <div
-      id="2-2"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["2-2"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <SectionContainer className="bg-white">

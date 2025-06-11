@@ -131,9 +131,7 @@ const Home = () => {
             <button className="bg-[#184802] text-white font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
               Start Learning
             </button>
-            <button className="bg-[#184802] text-white font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
-              Explore Subjects
-            </button>
+            
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
             <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">

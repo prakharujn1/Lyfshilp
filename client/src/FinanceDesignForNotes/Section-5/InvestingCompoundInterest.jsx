@@ -1,15 +1,10 @@
 import React from "react";
 import { ArrowDownCircle, Snowflake } from "lucide-react";
 
-const InvestingCompoundInterest = ({ topicRefs }) => {
+const InvestingCompoundInterest = () => {
   return (
     <div
-      id="5-3"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["5-3"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="investing-compound" className="py-24 bg-white">

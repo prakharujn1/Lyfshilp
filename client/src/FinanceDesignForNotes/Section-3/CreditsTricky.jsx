@@ -1,4 +1,4 @@
-export default function CreditsTricky({ topicRefs }) {
+export default function CreditsTricky() {
   const smartUse = [
     "Buying school laptop with 0% EMI",
     "Emergency hospital bill",
@@ -12,12 +12,7 @@ export default function CreditsTricky({ topicRefs }) {
 
   return (
    <div
-      id="3-5"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["3-5"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[90%] mx-auto">
