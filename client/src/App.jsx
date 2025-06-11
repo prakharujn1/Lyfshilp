@@ -89,6 +89,14 @@ import ListenUp from "./components/Communication/Level-1/ListenUp/ListenUp";
 import SayItLikeUMeanIt from "./components/Communication/Level-1/SayItLikeUMeanIt/SayItLikeUMeanIt";
 import PickYourPersuasion from "./components/Communication/Level-1/PickYourPersuasion/PickYourPersuasion";
 import AnalyticsDashboard from "./components/Digital Marketing/Level 3/AnalyticsDashboard/AnalyticsDashboard";
+import AdCampaignerGame from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignerGame";
+import AdCampaignerIntro from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignerIntro";
+import AdCampaignComplete from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignComplete";
+import BudgetBattleGameComplete from "./components/Digital Marketing/Level 3/Budget Battle/BudgetBattleGameComplete";
+import IntroBudgetBattle from "./components/Digital Marketing/Level 3/Budget Battle/IntroBudgetBattle";
+import InterruptGame from "./components/Communication/Level 2/Interrupt/InterruptGame";
+import FeelItFindItGame from "./components/Communication/Level 2/FeelItFindIt/FeelItFindItGame";
+import NVCGame from "./components/Communication/Level 2/NVC/NVCGame";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -323,6 +331,14 @@ function App() {
               path="/pick-your-persuasion"
               element={<PickYourPersuasion />}
             />
+
+            {/* Level 2 */}
+            <Route path="/interrupt-game" element={<InterruptGame />} />
+            <Route
+              path="/feel-it-find-it-game"
+              element={<FeelItFindItGame />}
+            />
+            <Route path="/nvc-game" element={<NVCGame />} />
 
             {/*Communication Notes Page */}
             <Route
