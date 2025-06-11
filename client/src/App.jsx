@@ -271,26 +271,6 @@ function App() {
               element={<AnalyticsDashboard />}
             />
 
-            <Route
-              path="/ad-campaigner-intro"
-              element={<AdCampaignerIntro />}
-            />
-            <Route path="/ad-campaigner-game" element={<AdCampaignerGame />} />
-
-            <Route
-              path="/ad-campaigner-game-complete"
-              element={<AdCampaignComplete />}
-            />
-
-            <Route
-              path="/intro-budget-battle"
-              element={<IntroBudgetBattle />}
-            />
-            <Route
-              path="/budget-battle-game-complete"
-              element={<BudgetBattleGameComplete />}
-            />
-
             {/*End of Games of digital marketing */}
 
             {/* Notes Page of digital marketing */}
