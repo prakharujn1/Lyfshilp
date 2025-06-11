@@ -1,8 +1,17 @@
 import React from "react";
 
-const TypesAndUseOfAi = () => {
+const TypesAndUseOfAi = ({ topicRefs }) => {
   return (
-    <div className="bg-gradient-to-b from-yellow-50 to-white min-h-screen px-4 py-10 text-gray-800">
+    <div
+      id="3"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["3"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-gradient-to-b from-yellow-50 to-white min-h-screen px-4 py-10 text-gray-800">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-yellow-600 mb-8 text-center">
           🤖 Module 3: Types and Uses of AI
@@ -191,6 +200,8 @@ const TypesAndUseOfAi = () => {
         </section>
       </div>
     </div>
+    </div>
+    
   );
 };
 

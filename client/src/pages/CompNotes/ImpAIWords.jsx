@@ -1,8 +1,17 @@
 import React from "react";
 
-const ImpAIWords = () => {
+const ImpAIWords = ({ topicRefs }) => {
   return (
-    <div className="bg-gradient-to-b from-white to-blue-50 min-h-screen px-4 py-10 text-gray-800">
+    <div
+      id="5"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["5"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-gradient-to-b from-white to-blue-50 min-h-screen px-4 py-10 text-gray-800">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-blue-700 mb-10 text-center">
           📘 Module 5: AI Words You Should Know
@@ -179,6 +188,8 @@ const ImpAIWords = () => {
         </section>
       </div>
     </div>
+    </div>
+    
   );
 };
 

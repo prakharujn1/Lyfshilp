@@ -2,15 +2,10 @@ import React from "react";
 import { HelpCircle } from "lucide-react";
 import SectionContainer from "./SectionContainer";
 
-const Reflection = ({ topicRefs }) => {
+const Reflection = () => {
   return (
     <div
-      id="2-8"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["2-8"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <SectionContainer>

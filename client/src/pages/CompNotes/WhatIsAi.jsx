@@ -1,8 +1,17 @@
 import React from "react";
 
-const WhatIsAi = () => {
+const WhatIsAi = ({ topicRefs }) => {
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen px-4 py-10 text-gray-800">
+    <div
+      id="1"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["1"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+      <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen px-4 py-10 text-gray-800">
       <div className="max-w-5xl mx-auto">
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-indigo-700 mb-6 text-center">
@@ -197,6 +206,8 @@ const WhatIsAi = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 };
 

@@ -1,8 +1,17 @@
 import React from "react";
 
-const WhatCantAiDo = () => {
+const WhatCantAiDo = ({ topicRefs }) => {
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen px-4 py-10 text-gray-800">
+    <div
+      id="4"
+      ref={(el) => {
+        if (topicRefs?.current) {
+          topicRefs.current["4"] = el;
+        }
+      }}
+      className="mb-10"
+    >
+       <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen px-4 py-10 text-gray-800">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-blue-600 mb-8 text-center">
           🤖 Module 4: What AI Can and Can’t Do
@@ -187,6 +196,8 @@ const WhatCantAiDo = () => {
         </section>
       </div>
     </div>
+    </div>
+   
   );
 };
 

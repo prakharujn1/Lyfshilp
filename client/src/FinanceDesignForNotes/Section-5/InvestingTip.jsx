@@ -1,15 +1,10 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
 
-const InvestingTips = ({ topicRefs }) => {
+const InvestingTips = () => {
   return (
     <div
-      id="5-6"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["5-6"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="investing-tips" className="py-24 bg-white">

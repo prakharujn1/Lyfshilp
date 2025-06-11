@@ -1,15 +1,10 @@
 import React from "react";
 import { Wallet } from "lucide-react";
 
-const Header = ({ topicRefs }) => {
+const Header = () => {
   return (
     <div
-      id="2-1"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["2-1"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
        <header className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-16 px-6 md:py-24">

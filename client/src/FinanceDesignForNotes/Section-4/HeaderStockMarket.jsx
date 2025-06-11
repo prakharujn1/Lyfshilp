@@ -1,12 +1,7 @@
-export default function HeaderStockMarket({ topicRefs }) {
+export default function HeaderStockMarket() {
   return (
     <div
-      id="4-1"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["4-1"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[90%] p-5 mx-auto">

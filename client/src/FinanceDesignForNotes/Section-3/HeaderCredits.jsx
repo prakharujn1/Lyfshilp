@@ -1,12 +1,7 @@
-export default function HeaderCredits({ topicRefs }) {
+export default function HeaderCredits() {
   return (
     <div
-      id="3-1"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["3-1"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[90%] mx-auto">

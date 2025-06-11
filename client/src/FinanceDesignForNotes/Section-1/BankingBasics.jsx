@@ -1,15 +1,10 @@
 import React from "react";
 import { ShieldCheck, ArrowUpDown, PiggyBank, CreditCard } from "lucide-react";
 
-const BankingBasics = ({ topicRefs }) => {
+const BankingBasics = () => {
   return (
     <div
-      id="1-2"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["1-2"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <section id="what-is-bank" className="py-24 bg-white">

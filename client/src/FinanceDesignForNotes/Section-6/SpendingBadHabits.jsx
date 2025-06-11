@@ -2,14 +2,9 @@ import React from "react";
 import { AlertOctagon } from "lucide-react";
 import SectionContainer from "../SectionContainer";
 
-const SpendingBadHabits = ({ topicRefs }) => (
+const SpendingBadHabits = () => (
   <div
-      id="6-6"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["6-6"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
     <SectionContainer>

@@ -1,12 +1,7 @@
-export default function IntroStockMarket({ topicRefs }) {
+export default function IntroStockMarket() {
   return (
     <div
-      id="4-2"
-      ref={(el) => {
-        if (topicRefs?.current) {
-          topicRefs.current["4-2"] = el;
-        }
-      }}
+      
       className="mb-10"
     >
       <div className="w-[90%] mx-auto">
