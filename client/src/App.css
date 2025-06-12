@@ -1,0 +1,6 @@
+.text-glow {
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.8), 0 0 12px rgba(0, 240, 255, 0.6);
+}
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}

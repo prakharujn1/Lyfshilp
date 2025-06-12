@@ -109,6 +109,15 @@ import AdCampaignComplete from "./components/Digital Marketing/Level 3/AdCampaig
 import BudgetBattleGameComplete from "./components/Digital Marketing/Level 3/Budget Battle/BudgetBattleGameComplete";
 import IntroBudgetBattle from "./components/Digital Marketing/Level 3/Budget Battle/IntroBudgetBattle";
 import SortItOut from "./components/Legal Awareness/Level1/SortItOut/SortItOut";
+import AIChallengeGame from "./components/Computers/Level 1/AIChallengeGame/AIChallengeGame";
+import MeetAITypeGame from "./components/Computers/Level 1/MeetAITypeGame/MeetAITypeGame";
+import BuildABotChallenge from "./components/Computers/Level 1/BuildABotChallenge/BuildABotChallenge";
+import TrainTheBrainGame from "./components/Computers/Level 2/TrainTheBrainGame/TrainTheBrainGame";
+import SmartOrNotGame from "./components/Computers/Level 2/SmartOrNotGame/SmartOrNotGame";
+import AIProblemSolverGame from "./components/Computers/Level 2/AIProblemSolverGame/AIProblemSolverGame";
+import AIEthicsDetective from "./components/Computers/Level 3/AIEthicsDetective/AIEthicsDetective";
+import FutureAIArchitect from "./components/Computers/Level 3/FutureAIArchitect/FutureAIArchitect";
+import AICareerExplorerGame from "./components/Computers/Level 3/AICareerExplorer/AICareerExplorer";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -467,6 +476,26 @@ function App() {
               path="/computer/notes/module-8"
               element={<ImportanceOfAi />}
             />
+
+ {/* Games of Computers */}
+
+            {/* Level 1 games of Computers */}
+            <Route path="/AI-challenge" element={<AIChallengeGame />} />
+            <Route path="/meet-ai-types" element={<MeetAITypeGame/>} />
+            <Route path="/build-a-bot" element={<BuildABotChallenge />} />
+            {/* Level 2 games of Computers */}
+            <Route path="/train-the-brain" element={<TrainTheBrainGame />} />
+            <Route path="/smart-or-not" element={<SmartOrNotGame />} />
+            <Route path="/ai-problem-solver" element={<AIProblemSolverGame />} />
+             
+            {/* Level 3 games of Computers */}
+            <Route path="/ai-ethics-detective" element={<AIEthicsDetective />} />
+            <Route path="/future-ai-architect" element={<FutureAIArchitect />} />
+            <Route path="/ai-career-explorer" element={<AICareerExplorerGame />} />
+            
+
+
+
 
             {/* Other Routes */}
 
