@@ -268,6 +268,24 @@ function App() {
             {/* Level 3 games of digital marketing */}
 
             <Route
+              path="/intro-budget-battle"
+              element={<IntroBudgetBattle />}
+            />
+            <Route
+              path="/budget-battle-game-complete"
+              element={<BudgetBattleGameComplete />}
+            />
+            <Route
+              path="/ad-campaigner-game-complete"
+              element={<AdCampaignComplete />}
+            />
+            <Route
+              path="/ad-campaigner-intro"
+              element={<AdCampaignerIntro />}
+            />
+            <Route path="/ad-campaigner-game" element={<AdCampaignerGame />} />
+
+            <Route
               path="/analytics-adventure"
               element={<AnalyticsDashboard />}
             />
@@ -311,6 +329,22 @@ function App() {
               path="/digitalmarketing/notes/section-8"
               element={<Section8dm />}
             />
+
+            {/* Legal Awareness  */}
+
+            {/* Legal Awareness Games */}
+
+            <Route path="/maze-of-choices" element={<MazeOfChoices />} />
+            <Route path="/case-hear" element={<CaseHear />} />
+            <Route
+              path="/catch-your-rights"
+              element={<CatchYourRightsGame />}
+            />
+            <Route path="/puzzle-match" element={<PuzzleMatch />} />
+            <Route path="/sort-it-out" element={<LawSortingGame />} />
+            <Route path="/legal-quiz" element={<LegalQuiz />} />
+
+            {/* Legal Awareness Games Finish */}
 
             {/* Legal Awareness Notes Page */}
             <Route path="/law/notes" element={<LegalAwarenessNotes />} />
