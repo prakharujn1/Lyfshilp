@@ -118,6 +118,9 @@ import AIProblemSolverGame from "./components/Computers/Level 2/AIProblemSolverG
 import AIEthicsDetective from "./components/Computers/Level 3/AIEthicsDetective/AIEthicsDetective";
 import FutureAIArchitect from "./components/Computers/Level 3/FutureAIArchitect/FutureAIArchitect";
 import AICareerExplorerGame from "./components/Computers/Level 3/AICareerExplorer/AICareerExplorer";
+import MoodMirror from "./components/SEL/Level-1/MoodMirror/MoodMirror";
+import FriendshipFixer from "./components/SEL/Level-1/FriendshipFixer/FriendshipFixer";
+import KindnessClicks from "./components/SEL/Level-1/KindnessClicks/KindnessClicks";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -434,6 +437,12 @@ function App() {
               element={<Mod5 />}
             />
 
+            {/* Social Learning Games for 6th-8th */}
+            {/* Level 1 */}
+            <Route path="/mood-mirror" element={<MoodMirror />} />
+            <Route path="/friendship-fixer" element={<FriendshipFixer />} />
+            <Route path="/kindness-clicks" element={<KindnessClicks />} />
+
             {/* Social Learning Notes */}
             <Route
               path="/social-learning/notes"
@@ -477,25 +486,33 @@ function App() {
               element={<ImportanceOfAi />}
             />
 
- {/* Games of Computers */}
+            {/* Games of Computers */}
 
             {/* Level 1 games of Computers */}
             <Route path="/AI-challenge" element={<AIChallengeGame />} />
-            <Route path="/meet-ai-types" element={<MeetAITypeGame/>} />
+            <Route path="/meet-ai-types" element={<MeetAITypeGame />} />
             <Route path="/build-a-bot" element={<BuildABotChallenge />} />
             {/* Level 2 games of Computers */}
             <Route path="/train-the-brain" element={<TrainTheBrainGame />} />
             <Route path="/smart-or-not" element={<SmartOrNotGame />} />
-            <Route path="/ai-problem-solver" element={<AIProblemSolverGame />} />
-             
+            <Route
+              path="/ai-problem-solver"
+              element={<AIProblemSolverGame />}
+            />
+
             {/* Level 3 games of Computers */}
-            <Route path="/ai-ethics-detective" element={<AIEthicsDetective />} />
-            <Route path="/future-ai-architect" element={<FutureAIArchitect />} />
-            <Route path="/ai-career-explorer" element={<AICareerExplorerGame />} />
-            
-
-
-
+            <Route
+              path="/ai-ethics-detective"
+              element={<AIEthicsDetective />}
+            />
+            <Route
+              path="/future-ai-architect"
+              element={<FutureAIArchitect />}
+            />
+            <Route
+              path="/ai-career-explorer"
+              element={<AICareerExplorerGame />}
+            />
 
             {/* Other Routes */}
 
