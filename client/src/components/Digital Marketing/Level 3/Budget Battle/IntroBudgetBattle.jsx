@@ -232,11 +232,7 @@ Example format:
             return (
               <div
                 key={index}
-                className={`p-4 sm:p-6 ${
-                  platform.bgColor
-                } rounded-3xl shadow-xl text-base sm:text-lg md:text-xl border-4 border-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl ${
-                  platform.hoverColor || "hover:brightness-110"
-                }`}
+                className={`p-4 sm:p-6 ${platform.bgColor} rounded-3xl shadow-xl text-base sm:text-lg md:text-xl border-4 border-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl`}
               >
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                   <h3 className="font-bold text-gray-800 text-lg sm:text-xl mb-2 sm:mb-0">
