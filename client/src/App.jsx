@@ -98,6 +98,17 @@ import SpeakUpGame from "./components/Communication/Level-3/SpeakUp/SpeakUp";
 import WindowSeatWar from "./components/Communication/Level-4/WindowSeatWar/WindowSeatWar";
 import PitchItLikePro from "./components/Communication/Level-4/PitchItLikePro/PitchItLikePro";
 import CoolTheConflict from "./components/Communication/Level-4/CoolTheConflict/CoolTheConflict";
+import LegalQuiz from "./components/Legal Awareness/Level1/LegalQuiz/LegalQuiz";
+import PuzzleMatch from "./components/Legal Awareness/Level2/Puzzle Match/PuzzleMatch";
+import CatchYourRightsGame from "./components/Legal Awareness/Level2/Catch-rights/CatchYourRightsGame";
+import CaseHear from "./components/Legal Awareness/Level3/Case Hear/CaseHear";
+import MazeOfChoices from "./components/Legal Awareness/Level4/MazeOfChoices/MazeOfChoices";
+import AdCampaignerGame from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignerGame";
+import AdCampaignerIntro from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignerIntro";
+import AdCampaignComplete from "./components/Digital Marketing/Level 3/AdCampaign/AdCampaignComplete";
+import BudgetBattleGameComplete from "./components/Digital Marketing/Level 3/Budget Battle/BudgetBattleGameComplete";
+import IntroBudgetBattle from "./components/Digital Marketing/Level 3/Budget Battle/IntroBudgetBattle";
+import SortItOut from "./components/Legal Awareness/Level1/SortItOut/SortItOut";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -268,6 +279,24 @@ function App() {
             {/* Level 3 games of digital marketing */}
 
             <Route
+              path="/intro-budget-battle"
+              element={<IntroBudgetBattle />}
+            />
+            <Route
+              path="/budget-battle-game-complete"
+              element={<BudgetBattleGameComplete />}
+            />
+            <Route
+              path="/ad-campaigner-game-complete"
+              element={<AdCampaignComplete />}
+            />
+            <Route
+              path="/ad-campaigner-intro"
+              element={<AdCampaignerIntro />}
+            />
+            <Route path="/ad-campaigner-game" element={<AdCampaignerGame />} />
+
+            <Route
               path="/analytics-adventure"
               element={<AnalyticsDashboard />}
             />
@@ -311,6 +340,22 @@ function App() {
               path="/digitalmarketing/notes/section-8"
               element={<Section8dm />}
             />
+
+            {/* Legal Awareness  */}
+
+            {/* Legal Awareness Games */}
+
+            <Route path="/maze-of-choices" element={<MazeOfChoices />} />
+            <Route path="/case-hear" element={<CaseHear />} />
+            <Route
+              path="/catch-your-rights"
+              element={<CatchYourRightsGame />}
+            />
+            <Route path="/puzzle-match" element={<PuzzleMatch />} />
+            <Route path="/sort-it-out" element={<SortItOut />} />
+            <Route path="/legal-quiz" element={<LegalQuiz />} />
+
+            {/* Legal Awareness Games Finish */}
 
             {/* Legal Awareness Notes Page */}
             <Route path="/law/notes" element={<LegalAwarenessNotes />} />
