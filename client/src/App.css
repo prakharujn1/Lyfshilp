@@ -4,3 +4,6 @@
 .font-orbitron {
   font-family: 'Orbitron', sans-serif;
 }
+.drop-shadow-glow {
+  filter: drop-shadow(0 0 10px #facc15) drop-shadow(0 0 20px #facc15);
+}
