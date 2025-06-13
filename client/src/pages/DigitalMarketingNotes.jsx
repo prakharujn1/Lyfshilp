@@ -11,14 +11,14 @@ import Section7dm from "../pages/DMsections/Section7dm";
 import Section8dm from "../pages/DMsections/Section8dm";
 
 const notesSidebar = [
-  { id: "1", title: "Section 1" },
-  { id: "2", title: "Section 2" },
-  { id: "3", title: "Section 3" },
-  { id: "4", title: "Section 4" },
-  { id: "5", title: "Section 5" },
-  { id: "6", title: "Section 6" },
-  { id: "7", title: "Section 7" },
-  { id: "8", title: "Section 8" },
+  { id: "1", title: "Section 1: Types" },
+  { id: "2", title: "Section 2: Target Audience" },
+  { id: "3", title: "Section 3: Branding and Identity" },
+  { id: "4", title: "Section 4: Creating Content" },
+  { id: "5", title: "Section 5: Digital Platforms " },
+  { id: "6", title: "Section 6: Spending Smartly" },
+  { id: "7", title: "Section 7: Campaign Strategy" },
+  { id: "8", title: "Section 8: Analytics" },
 ];
 
 const DigitalMarketingFullNotes = () => {
@@ -85,24 +85,29 @@ const DigitalMarketingFullNotes = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static z-30 top-[4.5rem] md:top-0 left-0 h-full md:h-auto w-64 bg-gray-100 p-4 border-r overflow-y-auto transform transition-transform duration-300 ease-in-out ${
+        className={`fixed md:static z-30 top-[4.5rem] md:top-0 left-0 h-full md:h-auto min-w-[260px] max-w-[280px] bg-white p-4 border-r shadow-lg overflow-y-auto transform transition-transform duration-300 ease-in-out ${
           showSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Digital Marketing</h2>
-        <ul className="space-y-2">
+        <h2 className="text-xl font-bold text-blue-800 mb-6 px-2">
+          Digital Marketing
+        </h2>
+        <ul className="space-y-3">
           {notesSidebar.map((section) => (
             <li
               key={section.id}
               data-scroll-id={section.id}
-              className={`cursor-pointer px-3 py-2 rounded transition text-sm ${
+              className={`cursor-pointer px-3 py-2 rounded-lg transition-all duration-200 text-sm shadow-sm ${
                 activeId === section.id
-                  ? "bg-blue-100 text-blue-700 font-semibold border-l-4 border-blue-500"
-                  : "hover:bg-gray-200 text-gray-700"
+                  ? "bg-blue-100 text-blue-800 font-semibold border-l-4 border-blue-500"
+                  : "hover:bg-blue-50 text-gray-800"
               }`}
               onClick={() => scrollTo(section.id)}
+              title={section.title} 
             >
-              {section.title}
+              <div className="text-[14px] font-medium leading-5 break-words whitespace-normal">
+                {section.title}
+              </div>
             </li>
           ))}
         </ul>
