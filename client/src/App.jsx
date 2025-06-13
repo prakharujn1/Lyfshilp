@@ -124,6 +124,7 @@ import KindnessClicks from "./components/SEL/Level-1/KindnessClicks/KindnessClic
 import StressBusterLab from "./components/SEL/Level-2/StressBusterLab/StressBusterLab";
 import ConflictQuest from "./components/SEL/Level-2/ConflictQuest/ConflictQuest";
 import MindBodyMatchUp from "./components/SEL/Level-2/MindBodyMatchUp/MindBodyMatchUp";
+import InfluenceExplorer from "./components/SEL/Level-2/InfluenceExplorer/InfluenceExplorer";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -449,6 +450,7 @@ function App() {
             <Route path="/stress-buster-lab" element={<StressBusterLab />} />
             <Route path="/conflict-quest" element={<ConflictQuest />} />
             <Route path="/mind-body-match-up" element={<MindBodyMatchUp />} />
+            <Route path="/influence-explorer" element={<InfluenceExplorer />} />
 
             {/* Social Learning Notes */}
             <Route
