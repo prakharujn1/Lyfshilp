@@ -129,8 +129,16 @@ import InfluenceExplorer from "./components/SEL/Level-2/InfluenceExplorer/Influe
 import SmartCityGame from "./components/Games for 9-10/AI/Level1/SmartCityGame/SmartCityGame";
 import SpyTheSmartTech from "./components/Games for 9-10/AI/Level1/SpyTheSmartTech/SpyTheSmartTech";
 import WhichAIDoesWhat from "./components/Games for 9-10/AI/Level1/WhichAIDoesWhat/WhichAIDoesWhat";
+
+import AIMistakeDetectorGame from "./components/Games for 9-10/AI/Level2/AIMistakeDetectorGame/AIMistakeDetectorGame";
+import TrainTheTrainerPlants from "./components/Games for 9-10/AI/Level2/TrainTheTrainerPlants/TrainTheTrainerPlants";
+import RateTheIntelligenceGame from "./components/Games for 9-10/AI/Level2/RateTheIntelligenceGame/RateTheIntelligenceGame";
+
 import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/JusticeForAll";
 import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
+import FutureMeInAI from "./components/Games for 9-10/AI/Level3/FutureMeInAI/FutureMeInAI";
+import ThinkBeforeYouTechGame from "./components/Games for 9-10/AI/Level3/ThinkBeforeYouTechGame/ThinkBeforeYouTechGame";
+
 import Courses from "./pages/Courses";
 
 
@@ -540,10 +548,16 @@ function App() {
             <Route path="/which-ai-does-what" element={<WhichAIDoesWhat />} />
 
             {/* Level 2 */}
+            <Route path="/train-the-trainer-plant" element={<TrainTheTrainerPlants />} />
+            <Route path="/ai-mistake-detector" element={<AIMistakeDetectorGame />} />
+            <Route path="/rate-the-intelligence" element={<RateTheIntelligenceGame />} />
+
 
             {/* Level 3 */}
             <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/justice-for-all" element={<JusticeForAll />} />
+            <Route path="/future-me-in-ai" element={<FutureMeInAI />} />
+            <Route path="/think-before-you-tech" element={<ThinkBeforeYouTechGame />} />
 
             {/* Other Routes */}
 
