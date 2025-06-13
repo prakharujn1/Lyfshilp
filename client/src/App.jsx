@@ -125,6 +125,11 @@ import StressBusterLab from "./components/SEL/Level-2/StressBusterLab/StressBust
 import ConflictQuest from "./components/SEL/Level-2/ConflictQuest/ConflictQuest";
 import MindBodyMatchUp from "./components/SEL/Level-2/MindBodyMatchUp/MindBodyMatchUp";
 import InfluenceExplorer from "./components/SEL/Level-2/InfluenceExplorer/InfluenceExplorer";
+import SmartCityGame from "./components/Games for 9-10/AI/Level1/SmartCityGame/SmartCityGame";
+import SpyTheSmartTech from "./components/Games for 9-10/AI/Level1/SpyTheSmartTech/SpyTheSmartTech";
+import WhichAIDoesWhat from "./components/Games for 9-10/AI/Level1/WhichAIDoesWhat/WhichAIDoesWhat";
+import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/JusticeForAll";
+import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -381,6 +386,7 @@ function App() {
             <Route path="/law/notes/module-4" element={<Module4 />} />
             <Route path="/law/notes/module-5" element={<Module5 />} />
             <Route path="/law/notes/module-6" element={<Module6 />} />
+            {/* Legal Awareness Notes Finish */}
 
             {/* Communication Games */}
             {/* Level -1*/}
@@ -522,6 +528,19 @@ function App() {
               path="/ai-career-explorer"
               element={<AICareerExplorerGame />}
             />
+
+            {/* Games of AI Class 9-10 */}
+            {/* Level 1 */}
+
+            <Route path="/smart-city-game" element={<SmartCityGame />} />
+            <Route path="/spy-the-smart-tech" element={<SpyTheSmartTech />} />
+            <Route path="/which-ai-does-what" element={<WhichAIDoesWhat />} />
+
+            {/* Level 2 */}
+
+            {/* Level 3 */}
+            <Route path="/design-a-bot" element={<DesignAbot />} />
+            <Route path="/justice-for-all" element={<JusticeForAll />} />
 
             {/* Other Routes */}
 
