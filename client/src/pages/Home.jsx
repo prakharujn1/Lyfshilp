@@ -1,4 +1,4 @@
-import {motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { CardSpotlight } from "../components/ui/card-spotlight";
+import { useNavigate } from "react-router-dom";
 
 const sliderImages = [
   "/logo.jpg",
@@ -51,6 +52,7 @@ const Home = () => {
   const [isHovered] = useState(false);
   const marqueeRef = useRef(null);
   const controls = useAnimation();
+  const navigate = useNavigate();
 
   const items = [
     {
@@ -61,42 +63,42 @@ const Home = () => {
     {
       title: "Computers",
       subtitle: "AI, Machine Learning, neural networks, full stack development",
-      icon: "https://cdn-icons-png.flaticon.com/512/2721/2721297.png",
+      icon: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     },
     {
       title: "Fundamentals of Law",
       subtitle: "Criminal & civil law",
-      icon: "https://cdn-icons-png.flaticon.com/512/4324/4324655.png",
+      icon: "/law.png",
     },
     {
       title: "Communication Skills",
       subtitle: "Public speaking, negotiation, persuasion",
-      icon: "https://cdn-icons-png.flaticon.com/512/4959/4959559.png",
+      icon: "/discussion.png",
     },
     {
       title: "Entrepreneurship",
       subtitle: "",
-      icon: "https://cdn-icons-png.flaticon.com/512/3011/3011270.png",
+      icon: "/entrepreneurship.png",
     },
     {
       title: "Digital Marketing",
       subtitle: "SEO, analytics, campaigns",
-      icon: "https://cdn-icons-png.flaticon.com/512/3062/3062634.png",
+      icon: "/marketing.png",
     },
     {
       title: "Leadership & Adaptability",
       subtitle: "",
-      icon: "https://cdn-icons-png.flaticon.com/512/4380/4380955.png",
+      icon: "/leadership.png",
     },
     {
       title: "Environmental & Sustainability Awareness",
       subtitle: "",
-      icon: "https://cdn-icons-png.flaticon.com/512/3817/3817045.png",
+      icon: "/save-the-planet.png",
     },
     {
       title: "Social-Emotional Learning + Physical & Mental Health",
       subtitle: "",
-      icon: "https://cdn-icons-png.flaticon.com/512/3641/3641364.png",
+      icon: "https://cdn-icons-png.flaticon.com/512/2784/2784403.png",
     },
   ];
 
@@ -128,10 +130,12 @@ const Home = () => {
             notes, challenges & games designed for students from Grade 6 to 12.
           </p>
           <div className="mt-6 flex gap-4">
-            <button className="bg-[#184802] text-white font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300">
+            <button
+              className="bg-[#184802] text-white font-semibold px-5 py-2 rounded-md hover:bg-[#57B87C] hover:text-white transition duration-300"
+              onClick={() => navigate("/courses")}
+            >
               Start Learning
             </button>
-            
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
             <div className="bg-[#333301] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#4A4A01] transition duration-300">
@@ -281,14 +285,14 @@ const Home = () => {
       </section>
 
       {/* Trust and Join Section */}
-      <section className="relative aspect-[16/9] w-full bg-white overflow-hidden rounded-2xl">
+      <section className="relative w-full bg-white overflow-hidden rounded-2xl min-h-[360px] sm:min-h-[420px] md:min-h-[480px] lg:min-h-[520px]">
         {/* Background Video */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute top-0 left-0 w-full h-full object-contain z-0 opacity-30"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 opacity-30"
         >
           <source src="/Bb-Video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -296,13 +300,13 @@ const Home = () => {
 
         {/* Foreground Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-2 text-black">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-black leading-tight mb-2">
             Join EduManiax to Develop Your
           </h2>
-          <h1 className="text-3xl md:text-5xl font-bold text-black">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black leading-snug mb-4">
             Real-World Skills & Confidence.
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 mt-4">
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-[90%] sm:max-w-[80%] mx-auto">
             We build trust—because we know you’ll trust us to help you grow!
           </p>
         </div>
