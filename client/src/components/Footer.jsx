@@ -16,21 +16,14 @@ const fadeUp = {
     transition: {
       delay: i * 0.2,
       duration: 0.6,
-      ease: "easeOut", 
+      ease: "easeOut",
     },
   }),
 };
 
 const Footer = () => {
   return (
-
-    <footer
-      className="bg-[#2F4F2F] text-gray-200 pt-16 pb-8 px-6"
-      style={{
-        background:
-          "linear-gradient(90deg,rgba(81, 121, 31, 0.98) 0%,rgb(42, 98, 12) 50%,rgb(24, 72, 2) 100%)",
-      }}
-    >
+    <footer className="bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a] text-white shadow-md pt-16 pb-8 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1.5fr] gap-x-12 gap-y-10">
         {/* Company Info */}
         <motion.div
@@ -53,7 +46,7 @@ const Footer = () => {
           </div>
           <div className="flex items-center gap-3 text-sm text-white">
             <FaPhoneAlt className="text-[#2A4759]" />
-            <span>+91 98765 43210</span>
+            <span>+91 8595034205</span>
           </div>
         </motion.div>
 
@@ -109,10 +102,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="/terms-conditions"
-                className="hover:text-[#2A4759] transition"
-              >
+              <Link to="/terms-conditions" className="hover:text-[#2A4759] transition">
                 Terms & Conditions
               </Link>
             </li>
