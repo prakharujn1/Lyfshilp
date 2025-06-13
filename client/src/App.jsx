@@ -121,6 +121,9 @@ import AICareerExplorerGame from "./components/Computers/Level 3/AICareerExplore
 import MoodMirror from "./components/SEL/Level-1/MoodMirror/MoodMirror";
 import FriendshipFixer from "./components/SEL/Level-1/FriendshipFixer/FriendshipFixer";
 import KindnessClicks from "./components/SEL/Level-1/KindnessClicks/KindnessClicks";
+import StressBusterLab from "./components/SEL/Level-2/StressBusterLab/StressBusterLab";
+import ConflictQuest from "./components/SEL/Level-2/ConflictQuest/ConflictQuest";
+import MindBodyMatchUp from "./components/SEL/Level-2/MindBodyMatchUp/MindBodyMatchUp";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -442,6 +445,10 @@ function App() {
             <Route path="/mood-mirror" element={<MoodMirror />} />
             <Route path="/friendship-fixer" element={<FriendshipFixer />} />
             <Route path="/kindness-clicks" element={<KindnessClicks />} />
+            {/* Level 2 */}
+            <Route path="/stress-buster-lab" element={<StressBusterLab />} />
+            <Route path="/conflict-quest" element={<ConflictQuest />} />
+            <Route path="/mind-body-match-up" element={<MindBodyMatchUp />} />
 
             {/* Social Learning Notes */}
             <Route
