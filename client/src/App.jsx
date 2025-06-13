@@ -140,7 +140,9 @@ import FutureMeInAI from "./components/Games for 9-10/AI/Level3/FutureMeInAI/Fut
 import ThinkBeforeYouTechGame from "./components/Games for 9-10/AI/Level3/ThinkBeforeYouTechGame/ThinkBeforeYouTechGame";
 
 import Courses from "./pages/Courses";
-
+import MissionGoalTracker from "./components/SEL/Level-3/MissionGoalTracker/MissionGoalTracker";
+import HelpHub from "./components/SEL/Level-3/HelpHub/HelpHub";
+import MyCircleMission from "./components/SEL/Level-3/MyCircleMission/MyCircleMission";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -468,6 +470,13 @@ function App() {
             <Route path="/conflict-quest" element={<ConflictQuest />} />
             <Route path="/mind-body-match-up" element={<MindBodyMatchUp />} />
             <Route path="/influence-explorer" element={<InfluenceExplorer />} />
+            {/* Level 3 */}
+            <Route
+              path="/mission-goal-tracker"
+              element={<MissionGoalTracker />}
+            />
+            <Route path="/help-hub" element={<HelpHub />} />
+            <Route path="/my-circle-mission" element={<MyCircleMission />} />
 
             {/* Social Learning Notes */}
             <Route
@@ -548,16 +557,27 @@ function App() {
             <Route path="/which-ai-does-what" element={<WhichAIDoesWhat />} />
 
             {/* Level 2 */}
-            <Route path="/train-the-trainer-plant" element={<TrainTheTrainerPlants />} />
-            <Route path="/ai-mistake-detector" element={<AIMistakeDetectorGame />} />
-            <Route path="/rate-the-intelligence" element={<RateTheIntelligenceGame />} />
-
+            <Route
+              path="/train-the-trainer-plant"
+              element={<TrainTheTrainerPlants />}
+            />
+            <Route
+              path="/ai-mistake-detector"
+              element={<AIMistakeDetectorGame />}
+            />
+            <Route
+              path="/rate-the-intelligence"
+              element={<RateTheIntelligenceGame />}
+            />
 
             {/* Level 3 */}
             <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/justice-for-all" element={<JusticeForAll />} />
             <Route path="/future-me-in-ai" element={<FutureMeInAI />} />
-            <Route path="/think-before-you-tech" element={<ThinkBeforeYouTechGame />} />
+            <Route
+              path="/think-before-you-tech"
+              element={<ThinkBeforeYouTechGame />}
+            />
 
             {/* Other Routes */}
 
