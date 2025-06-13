@@ -203,13 +203,17 @@ const DigitalMarketingFullNotes = () => {
               transition={{ duration: 0.8 }}
               className="text-center"
             >
-              <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                📱💻 Welcome to Digital Marketing! 🎯✨
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 mt-30 leading-tight">
+                  Welcome to Digital Marketing!
                 <br />
+                
+              </h1>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                 <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
                   Master the art of reaching people through digital channels
                 </span>
-              </h1>
+              </h2>
+              
               <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
                 Discover world-class courses designed to unlock your potential.
               </p>
