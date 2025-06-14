@@ -144,7 +144,9 @@ import MissionGoalTracker from "./components/SEL/Level-3/MissionGoalTracker/Miss
 import HelpHub from "./components/SEL/Level-3/HelpHub/HelpHub";
 import MyCircleMission from "./components/SEL/Level-3/MyCircleMission/MyCircleMission";
 import EnvironmentalNotes from "./pages/EnvironmentalNotes";
-
+import ClassifyIt from "./components/Environment/Level-1/ClassifyIt/ClassifyIt";
+import PickZone from "./components/Environment/Level-1/PickZone/PickZone";
+import ChainReaction from "./components/Environment/Level-1/ChainReaction/ChainReaction";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -506,9 +508,16 @@ function App() {
               element={<DecisionMaking />}
             />
 
-
             {/*  Environmental Notes*/}
-            <Route path="/environmental/notes" element={<EnvironmentalNotes />} />
+            <Route
+              path="/environmental/notes"
+              element={<EnvironmentalNotes />}
+            />
+            {/* Environmental Games for 6th-8th */}
+            {/* Level 1 */}
+            <Route path="/classify-it" element={<ClassifyIt />} />
+            <Route path="/pick-zone" element={<PickZone />} />
+            <Route path="/chain-reaction" element={<ChainReaction />} />
 
             {/* Computer Notes*/}
             <Route path="/computer/notes" element={<ComputerNotes />} />
