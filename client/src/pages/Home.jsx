@@ -313,7 +313,6 @@ const Home = () => {
       </section>
 
       {/* Call to Action Section */}
-      {/* Call to Action Section */}
       <section className="mt-20 relative overflow-hidden bg-gradient-to-br from-[#f0fcfa] via-[#e0f7f4] to-white py-20 px-4">
         <div className="absolute top-[-50px] left-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
         <div className="absolute bottom-[-50px] right-[-50px] w-[300px] h-[300px] bg-[#12999033] rounded-full blur-3xl opacity-50 z-0 animate-pulse"></div>
