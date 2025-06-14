@@ -143,6 +143,8 @@ import Courses from "./pages/Courses";
 import MissionGoalTracker from "./components/SEL/Level-3/MissionGoalTracker/MissionGoalTracker";
 import HelpHub from "./components/SEL/Level-3/HelpHub/HelpHub";
 import MyCircleMission from "./components/SEL/Level-3/MyCircleMission/MyCircleMission";
+import EnvironmentalNotes from "./pages/EnvironmentalNotes";
+
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -503,6 +505,10 @@ function App() {
               path="/social-learning/module-5"
               element={<DecisionMaking />}
             />
+
+
+            {/*  Environmental Notes*/}
+            <Route path="/environmental/notes" element={<EnvironmentalNotes />} />
 
             {/* Computer Notes*/}
             <Route path="/computer/notes" element={<ComputerNotes />} />

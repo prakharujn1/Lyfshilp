@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { 
   BookOpen, 
   Gamepad2, 
@@ -34,7 +35,7 @@ const courses = [
   },
   {
     id: 2,
-    title: "Computer Science Fundamentals",
+    title: "Computer Science ",
     description: "Dive into programming, algorithms, and software development with hands-on projects and real-world applications.",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     notesLink: "/computer/notes",
@@ -343,6 +344,7 @@ const Courses = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
 
   const filteredCourses = courses.filter(course => {
     const matchesCategory = selectedCategory === "All" || course.category === selectedCategory;
@@ -543,6 +545,7 @@ const Courses = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+             onClick={() => navigate("/register")}
           >
             Get Started Today
           </motion.button>
