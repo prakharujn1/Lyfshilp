@@ -5,7 +5,7 @@ const thoughtsData = [
   {
     id: 1,
     text: "My exam score",
-    correctCircle: "Concern",
+    correctCircle: "Concern", 
     reason:
       "The score has already been given – you can’t change it now. You can learn from it, but the score itself is out of your hands.",
   },
@@ -105,8 +105,8 @@ const MyCircleMission = () => {
 
   const verifyActionWithGemini = async (text) => {
     const apiKey = import.meta.env.VITE_API_KEY;
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta1/models/gemini-pro:generateContent?key=${apiKey}`;
-
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+ 
     const requestBody = {
       contents: [
         {
