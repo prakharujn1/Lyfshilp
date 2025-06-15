@@ -147,6 +147,9 @@ import EnvironmentalNotes from "./pages/EnvironmentalNotes";
 import ClassifyIt from "./components/Environment/Level-1/ClassifyIt/ClassifyIt";
 import PickZone from "./components/Environment/Level-1/PickZone/PickZone";
 import ChainReaction from "./components/Environment/Level-1/ChainReaction/ChainReaction";
+import GreenBudget from "./components/Environment/Level-2/GreenBudget/GreenBudget";
+import MatchFallOut from "./components/Environment/Level-2/MatchFallout/MatchFallOut";
+import ClimatePledge from "./components/Environment/Level-2/ClimatePledge/ClimatePledge";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -518,6 +521,10 @@ function App() {
             <Route path="/classify-it" element={<ClassifyIt />} />
             <Route path="/pick-zone" element={<PickZone />} />
             <Route path="/chain-reaction" element={<ChainReaction />} />
+            {/* Level 2 */}
+            <Route path="/green-budget" element={<GreenBudget />} />
+            <Route path="/match-fallout" element={<MatchFallOut />} />
+            <Route path="/climate-pledge" element={<ClimatePledge />} />
 
             {/* Computer Notes*/}
             <Route path="/computer/notes" element={<ComputerNotes />} />
