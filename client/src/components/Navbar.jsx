@@ -63,7 +63,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a] text-white shadow-md sticky top-0 z-50 w-full">
+    <nav className="bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a] text-white  sticky top-0 z-50 w-full">
       <div className="w-full py-5 px-2 flex justify-between items-center">
         <div className="ml-7">
           <Link to="/" className="flex items-center gap-3 ml-3 md:ml-5">
