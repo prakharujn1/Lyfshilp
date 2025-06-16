@@ -162,6 +162,7 @@ import BrandVoiceChallenge from "./components/Games for 9-10/Dig Mkting/Level2/B
 import CampaignCaptainGame from "./components/Games for 9-10/Dig Mkting/Level3/CampaignCaptainGame/CampaignCaptainGame";
 import CauseScanner from "./components/Environment/Level-3/CauseScanner/CauseScanner";
 import MeltDownTracker from "./components/Environment/Level-3/MeltDownTracker/MeltDownTracker";
+import DilemmaCards from "./components/Environment/Level-3/DilemmaCards/DilemmaCards";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -540,6 +541,7 @@ function App() {
             {/* Level 3 */}
             <Route path="/cause-scanner" element={<CauseScanner />} />
             <Route path="/melt-down-tracker" element={<MeltDownTracker />} />
+            <Route path="/dilemma-cards" element={<DilemmaCards />} />
 
             {/* Computer Notes*/}
             <Route path="/computer/notes" element={<ComputerNotes />} />
