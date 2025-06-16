@@ -13,6 +13,20 @@ const ClimatePledge = () => {
     waste: "",
     awareness: "",
   });
+  const [feedback, setFeedback] = useState({
+    school: "",
+    home: "",
+    energy: "",
+    waste: "",
+    awareness: "",
+  });
+  const [verifyMessage, setVerifyMessage] = useState({
+    school: "",
+    home: "",
+    energy: "",
+    waste: "",
+    awareness: "",
+  });
   const [score, setScore] = useState(null);
   const [bonus, setBonus] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
@@ -30,14 +44,107 @@ const ClimatePledge = () => {
 
   const handleChange = (e) => {
     setPledge({ ...pledge, [e.target.name]: e.target.value });
+    setVerifyMessage({ ...verifyMessage, [e.target.name]: "" }); // Clear Gemini message when editing
   };
 
-  const handleSubmit = () => {
+  const checkCreativity = (text) => {
+    const keywords = [
+      "make",
+      "plan",
+      "share",
+      "lead",
+      "team",
+      "clean",
+      "grow",
+      "paint",
+      "poster",
+      "group",
+      "project",
+      "idea",
+      "help",
+      "teach",
+      "invite",
+      "talk",
+    ];
+    return keywords.some((k) => text.toLowerCase().includes(k));
+  };
+
+  const verifySingleWithGemini = async (text, isBonus) => {
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    const prompt = `You are a friendly teacher for students in Class 6–8.
+  
+  A student wrote this action plan: "${text}"
+  
+  Check:
+  1️⃣ Is it clear and specific?
+  2️⃣ Is it realistic and doable today?
+  ${isBonus ? "3️⃣ Does it show creativity or initiative?" : ""}
+  
+  🎓 Reply in 1–2 short sentences with simple words & emojis:
+  - If it's good, say: "Good job! ..."
+  - If it needs changes, say: "Needs improvement: ..."
+  
+  Be short and supportive!`;
+
+    const requestBody = {
+      contents: [{ parts: [{ text: prompt }] }],
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      return (
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "⚠️ Gemini could not check this time."
+      );
+    } catch (error) {
+      console.error(error);
+      return "⚠️ Gemini check failed.";
+    }
+  };
+
+  const handleSubmit = async () => {
     let baseScore = 0;
-    Object.values(pledge).forEach((p) => {
-      if (p.trim().length > 5) baseScore += 1;
-    });
-    if (bonus) baseScore += 2;
+    const newFeedback = {};
+    let goodCount = 0;
+    let hasCreative = false;
+
+    // For each pledge point: verify with Gemini & decide correctness
+    for (const [key, value] of Object.entries(pledge)) {
+      if (!value.trim()) {
+        newFeedback[key] = "⚠️ Please write something!";
+        continue;
+      }
+
+      // Call Gemini for this point:
+      const geminiFeedback = await verifySingleWithGemini(value, bonus);
+
+      newFeedback[key] = geminiFeedback;
+
+      if (geminiFeedback.toLowerCase().includes("good job")) {
+        baseScore += 1;
+        goodCount += 1;
+      }
+
+      // Creative check (only if bonus is ticked)
+      if (bonus && checkCreativity(value)) {
+        hasCreative = true;
+      }
+    }
+
+    // Bonus: only if at least 3 points are actually GOOD and user checked bonus
+    if (bonus && hasCreative && goodCount >= 3) {
+      baseScore += 2;
+    }
+
+    setFeedback(newFeedback);
     setScore(baseScore);
     setSubmitted(true);
     setView("result");
@@ -51,11 +158,89 @@ const ClimatePledge = () => {
       waste: "",
       awareness: "",
     });
+    setFeedback({
+      school: "",
+      home: "",
+      energy: "",
+      waste: "",
+      awareness: "",
+    });
+    setVerifyMessage({
+      school: "",
+      home: "",
+      energy: "",
+      waste: "",
+      awareness: "",
+    });
     setScore(null);
     setBonus(false);
     setTimeLeft(300);
     setSubmitted(false);
     setView("intro");
+  };
+
+  const verifyActionWithGemini = async (field) => {
+    const text = pledge[field];
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    // Build the bonus part dynamically
+    const bonusPart = bonus
+      ? `4️⃣ Also, check if it is creative or something new that helps others too!`
+      : "";
+
+    const requestBody = {
+      contents: [
+        {
+          parts: [
+            {
+              text: `You are a super friendly teacher for students in Class 6–8. 
+  A student wrote this action plan: "${text}"
+  
+  ✅ Please check if it meets these:
+  1️⃣ Is it clear and specific?  
+  2️⃣ Is it realistic and doable today?  
+  3️⃣ Is it something the student can control?  
+  ${bonusPart}
+  
+  🎓 Then give your feedback in **very simple words with emojis**, like a supportive teacher talking to a 12-year-old:
+  - If it's good, start with: "✅ Good job! ..." and explain why it's good.
+  - If it needs changes, start with: "⚠️ Needs improvement: ..." and explain what to fix in an easy way.
+  
+  Keep your answer short, friendly, and use 1-2 emojis!`,
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        console.error("API error:", response.status, response.statusText);
+        setVerifyMessage((prev) => ({
+          ...prev,
+          [field]: "⚠️ Gemini could not verify right now. Please try again.",
+        }));
+        return;
+      }
+
+      const data = await response.json();
+      const geminiReply =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      setVerifyMessage((prev) => ({ ...prev, [field]: geminiReply }));
+    } catch (error) {
+      console.error("Error:", error);
+      setVerifyMessage((prev) => ({
+        ...prev,
+        [field]: "⚠️ Oops! Something went wrong. Try again later.",
+      }));
+    }
   };
 
   const minutes = Math.floor(timeLeft / 60);
@@ -119,75 +304,61 @@ const ClimatePledge = () => {
           </div>
 
           <div className="space-y-4 text-left">
-            <div>
-              <label className="block font-semibold">
-                1️⃣ One change at school:
-              </label>
-              <input
-                type="text"
-                name="school"
-                value={pledge.school}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                placeholder="E.g., Organize a tree planting event"
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold">
-                2️⃣ One change at home:
-              </label>
-              <input
-                type="text"
-                name="home"
-                value={pledge.home}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                placeholder="E.g., Start composting food waste"
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold">
-                3️⃣ One energy-saving habit:
-              </label>
-              <input
-                type="text"
-                name="energy"
-                value={pledge.energy}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                placeholder="E.g., Switch off lights when not in use"
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold">
-                4️⃣ One waste-reducing habit:
-              </label>
-              <input
-                type="text"
-                name="waste"
-                value={pledge.waste}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                placeholder="E.g., Carry reusable bags for shopping"
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold">
-                5️⃣ One awareness action:
-              </label>
-              <input
-                type="text"
-                name="awareness"
-                value={pledge.awareness}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                placeholder="E.g., Share climate facts on school bulletin"
-              />
-            </div>
+            {["school", "home", "energy", "waste", "awareness"].map((field) => (
+              <div key={field}>
+                <label className="block font-semibold">
+                  {field === "school"
+                    ? "1️⃣ One change at school:"
+                    : field === "home"
+                    ? "2️⃣ One change at home:"
+                    : field === "energy"
+                    ? "3️⃣ One energy-saving habit:"
+                    : field === "waste"
+                    ? "4️⃣ One waste-reducing habit:"
+                    : "5️⃣ One awareness action:"}
+                </label>
+                <input
+                  type="text"
+                  name={field}
+                  value={pledge[field]}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder={
+                    field === "school"
+                      ? "E.g., Organize a tree planting event"
+                      : field === "home"
+                      ? "E.g., Start composting food waste"
+                      : field === "energy"
+                      ? "E.g., Switch off lights when not in use"
+                      : field === "waste"
+                      ? "E.g., Carry reusable bags for shopping"
+                      : "E.g., Share climate facts on school bulletin"
+                  }
+                />
+                {feedback[field] && (
+                  <p
+                    className={`mt-1 text-sm ${
+                      feedback[field].includes("✅")
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {feedback[field]}
+                  </p>
+                )}
+                <button
+                  onClick={() => verifyActionWithGemini(field)}
+                  className="mt-2 px-3 py-1 bg-purple-600 text-white rounded"
+                >
+                  Verify with Gemini
+                </button>
+                {verifyMessage[field] && (
+                  <p className="mt-1 text-sm text-blue-600">
+                    {verifyMessage[field]}
+                  </p>
+                )}
+              </div>
+            ))}
 
             <div className="flex items-center mt-4">
               <input
@@ -218,7 +389,10 @@ const ClimatePledge = () => {
           {score === 7 && <Confetti width={width} height={height} />}
           <h2 className="text-2xl font-bold mb-2">{getResultMessage()}</h2>
           <p className="text-lg mb-2">
-            Your Score: <strong>{score} / 7</strong>
+            Your Score:{" "}
+            <strong>
+              {score} / {bonus ? 7 : 5}
+            </strong>
           </p>
           <img
             src={getResultGif()}
