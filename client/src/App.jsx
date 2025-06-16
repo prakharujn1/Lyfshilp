@@ -125,9 +125,15 @@ import StressBusterLab from "./components/SEL/Level-2/StressBusterLab/StressBust
 import ConflictQuest from "./components/SEL/Level-2/ConflictQuest/ConflictQuest";
 import MindBodyMatchUp from "./components/SEL/Level-2/MindBodyMatchUp/MindBodyMatchUp";
 import InfluenceExplorer from "./components/SEL/Level-2/InfluenceExplorer/InfluenceExplorer";
+
 import SmartCityGame from "./components/Games for 9-10/AI/Level1/SmartCityGame/SmartCityGame";
 import SpyTheSmartTech from "./components/Games for 9-10/AI/Level1/SpyTheSmartTech/SpyTheSmartTech";
 import WhichAIDoesWhat from "./components/Games for 9-10/AI/Level1/WhichAIDoesWhat/WhichAIDoesWhat";
+
+import AIMistakeDetectorGame from "./components/Games for 9-10/AI/Level2/AIMistakeDetectorGame/AIMistakeDetectorGame";
+import TrainTheTrainerPlants from "./components/Games for 9-10/AI/Level2/TrainTheTrainerPlants/TrainTheTrainerPlants";
+import RateTheIntelligenceGame from "./components/Games for 9-10/AI/Level2/RateTheIntelligenceGame/RateTheIntelligenceGame";
+
 import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/JusticeForAll";
 import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
 import BrandVoiceResult from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceResult";
@@ -135,6 +141,22 @@ import BrandVoiceGame from "./components/Games for 9-10/Dig Mkting/Level1/BrandV
 import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign CarouselCampaign";
 import DigitalExplorerResult from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorerResult DigitalExplorerResult";
 import DigitalExplorer from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorer";
+
+import FutureMeInAI from "./components/Games for 9-10/AI/Level3/FutureMeInAI/FutureMeInAI";
+import ThinkBeforeYouTechGame from "./components/Games for 9-10/AI/Level3/ThinkBeforeYouTechGame/ThinkBeforeYouTechGame";
+
+import Courses from "./pages/Courses";
+import MissionGoalTracker from "./components/SEL/Level-3/MissionGoalTracker/MissionGoalTracker";
+import HelpHub from "./components/SEL/Level-3/HelpHub/HelpHub";
+import MyCircleMission from "./components/SEL/Level-3/MyCircleMission/MyCircleMission";
+import EnvironmentalNotes from "./pages/EnvironmentalNotes";
+import ClassifyIt from "./components/Environment/Level-1/ClassifyIt/ClassifyIt";
+import PickZone from "./components/Environment/Level-1/PickZone/PickZone";
+import ChainReaction from "./components/Environment/Level-1/ChainReaction/ChainReaction";
+import GreenBudget from "./components/Environment/Level-2/GreenBudget/GreenBudget";
+import MatchFallOut from "./components/Environment/Level-2/MatchFallout/MatchFallOut";
+import ClimatePledge from "./components/Environment/Level-2/ClimatePledge/ClimatePledge";
+
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -220,7 +242,7 @@ function App() {
       <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow p-5">
+        <main className="flex-grow ">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -462,6 +484,13 @@ function App() {
             <Route path="/conflict-quest" element={<ConflictQuest />} />
             <Route path="/mind-body-match-up" element={<MindBodyMatchUp />} />
             <Route path="/influence-explorer" element={<InfluenceExplorer />} />
+            {/* Level 3 */}
+            <Route
+              path="/mission-goal-tracker"
+              element={<MissionGoalTracker />}
+            />
+            <Route path="/help-hub" element={<HelpHub />} />
+            <Route path="/my-circle-mission" element={<MyCircleMission />} />
 
             {/* Social Learning Notes */}
             <Route
@@ -488,6 +517,21 @@ function App() {
               path="/social-learning/module-5"
               element={<DecisionMaking />}
             />
+
+            {/*  Environmental Notes*/}
+            <Route
+              path="/environmental/notes"
+              element={<EnvironmentalNotes />}
+            />
+            {/* Environmental Games for 6th-8th */}
+            {/* Level 1 */}
+            <Route path="/classify-it" element={<ClassifyIt />} />
+            <Route path="/pick-zone" element={<PickZone />} />
+            <Route path="/chain-reaction" element={<ChainReaction />} />
+            {/* Level 2 */}
+            <Route path="/green-budget" element={<GreenBudget />} />
+            <Route path="/match-fallout" element={<MatchFallOut />} />
+            <Route path="/climate-pledge" element={<ClimatePledge />} />
 
             {/* Computer Notes*/}
             <Route path="/computer/notes" element={<ComputerNotes />} />
@@ -542,10 +586,27 @@ function App() {
             <Route path="/which-ai-does-what" element={<WhichAIDoesWhat />} />
 
             {/* Level 2 */}
+            <Route
+              path="/train-the-trainer-plant"
+              element={<TrainTheTrainerPlants />}
+            />
+            <Route
+              path="/ai-mistake-detector"
+              element={<AIMistakeDetectorGame />}
+            />
+            <Route
+              path="/rate-the-intelligence"
+              element={<RateTheIntelligenceGame />}
+            />
 
             {/* Level 3 */}
             <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/justice-for-all" element={<JusticeForAll />} />
+            <Route path="/future-me-in-ai" element={<FutureMeInAI />} />
+            <Route
+              path="/think-before-you-tech"
+              element={<ThinkBeforeYouTechGame />}
+            />
 
             {/* Finish Games of AI Class 9-10 */}
 
@@ -572,6 +633,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/refund-policy" element={<RefundPolicy />} />
             <Route path="/terms-conditions" element={<TermsAndConditions />} />
+            <Route path="/courses" element={<Courses />} />
           </Routes>
         </main>
         <Footer />
