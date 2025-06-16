@@ -130,6 +130,11 @@ import SpyTheSmartTech from "./components/Games for 9-10/AI/Level1/SpyTheSmartTe
 import WhichAIDoesWhat from "./components/Games for 9-10/AI/Level1/WhichAIDoesWhat/WhichAIDoesWhat";
 import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/JusticeForAll";
 import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
+import BrandVoiceResult from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceResult";
+import BrandVoiceGame from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceGame";
+import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign CarouselCampaign";
+import DigitalExplorerResult from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorerResult DigitalExplorerResult";
+import DigitalExplorer from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorer";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -541,6 +546,25 @@ function App() {
             {/* Level 3 */}
             <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/justice-for-all" element={<JusticeForAll />} />
+
+            {/* Finish Games of AI Class 9-10 */}
+
+            {/* Games of Dig Mkting Class 9-10 */}
+            {/* Level 1 */}
+
+            <Route path="/brand-voice-result" element={<BrandVoiceResult />} />
+            <Route path="/brand-voice" element={<BrandVoiceGame />} />
+            <Route path="/carousel-campaign" element={<CarouselCampaign />} />
+            <Route
+              path="/digital-explorer-result"
+              element={<DigitalExplorerResult />}
+            />
+            <Route path="/digital-explorer" element={<DigitalExplorer />} />
+
+            {/* Level 2 */}
+
+            {/* Level 3 */}
+            {/* Finish Games of Dig Mkting Class 9-10 */}
 
             {/* Other Routes */}
 
