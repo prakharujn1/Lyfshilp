@@ -163,6 +163,7 @@ import CampaignCaptainGame from "./components/Games for 9-10/Dig Mkting/Level3/C
 import CauseScanner from "./components/Environment/Level-3/CauseScanner/CauseScanner";
 import MeltDownTracker from "./components/Environment/Level-3/MeltDownTracker/MeltDownTracker";
 import DilemmaCards from "./components/Environment/Level-3/DilemmaCards/DilemmaCards";
+import EntrepreneurshipNotes from "./pages/EntrepreneurshipNotes"
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -522,6 +523,13 @@ function App() {
             <Route
               path="/social-learning/module-5"
               element={<DecisionMaking />}
+            />
+
+
+              {/*  Entrepreneurship Notes*/}
+            <Route
+              path="/entreprenerurship/notes"
+              element={<EntrepreneurshipNotes />}
             />
 
             {/*  Environmental Notes*/}
