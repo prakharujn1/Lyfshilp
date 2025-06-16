@@ -5,7 +5,7 @@ const thoughtsData = [
   {
     id: 1,
     text: "My exam score",
-    correctCircle: "Concern", 
+    correctCircle: "Concern",
     reason:
       "The score has already been given – you can’t change it now. You can learn from it, but the score itself is out of your hands.",
   },
@@ -106,20 +106,26 @@ const MyCircleMission = () => {
   const verifyActionWithGemini = async (text) => {
     const apiKey = import.meta.env.VITE_API_KEY;
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
- 
+
     const requestBody = {
       contents: [
         {
           parts: [
             {
               text: `You are a friendly teacher for students in Class 6–8. 
-  Here is a student's action plan: "${text}"
-  
-  Please check if it's:
-  1️⃣ Clear and realistic  
-  2️⃣ Shows they understood how to focus on their Circle of Influence
-  
-  Reply with short helpful feedback: "Good job!..." or "Needs improvement: ..." in simple language.`,
+    
+    A student wrote this action plan: "${text}"
+    
+    ✅ Please check if it meets all these:
+    1️⃣ Is the action clear and specific?  
+    2️⃣ Is it realistic and achievable today?  
+    3️⃣ Does it show they are focusing on something they can control (Circle of Influence)?
+    
+    🎓 Then give simple feedback in **1-2 sentences**, using easy words a middle schooler understands:
+    - If it's good, say: "Good job! ..." and explain why it's good.
+    - If it needs changes, say: "Needs improvement: ..." and explain how to make it clearer or more realistic.
+    
+    Keep your answer short and supportive!`,
             },
           ],
         },
@@ -211,7 +217,7 @@ const MyCircleMission = () => {
         ></textarea>
 
         <button
-          onClick={verifyActionWithGemini}
+          onClick={() => verifyActionWithGemini(actionText)}
           className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
         >
           ✅ Verify with Gemini
