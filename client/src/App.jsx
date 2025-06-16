@@ -136,6 +136,12 @@ import RateTheIntelligenceGame from "./components/Games for 9-10/AI/Level2/RateT
 
 import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/JusticeForAll";
 import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
+import BrandVoiceResult from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceResult";
+import BrandVoiceGame from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceGame";
+import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign CarouselCampaign";
+import DigitalExplorerResult from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorerResult DigitalExplorerResult";
+import DigitalExplorer from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorer";
+
 import FutureMeInAI from "./components/Games for 9-10/AI/Level3/FutureMeInAI/FutureMeInAI";
 import ThinkBeforeYouTechGame from "./components/Games for 9-10/AI/Level3/ThinkBeforeYouTechGame/ThinkBeforeYouTechGame";
 
@@ -150,6 +156,7 @@ import ChainReaction from "./components/Environment/Level-1/ChainReaction/ChainR
 import GreenBudget from "./components/Environment/Level-2/GreenBudget/GreenBudget";
 import MatchFallOut from "./components/Environment/Level-2/MatchFallout/MatchFallOut";
 import ClimatePledge from "./components/Environment/Level-2/ClimatePledge/ClimatePledge";
+
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -600,6 +607,25 @@ function App() {
               path="/think-before-you-tech"
               element={<ThinkBeforeYouTechGame />}
             />
+
+            {/* Finish Games of AI Class 9-10 */}
+
+            {/* Games of Dig Mkting Class 9-10 */}
+            {/* Level 1 */}
+
+            <Route path="/brand-voice-result" element={<BrandVoiceResult />} />
+            <Route path="/brand-voice" element={<BrandVoiceGame />} />
+            <Route path="/carousel-campaign" element={<CarouselCampaign />} />
+            <Route
+              path="/digital-explorer-result"
+              element={<DigitalExplorerResult />}
+            />
+            <Route path="/digital-explorer" element={<DigitalExplorer />} />
+
+            {/* Level 2 */}
+
+            {/* Level 3 */}
+            {/* Finish Games of Dig Mkting Class 9-10 */}
 
             {/* Other Routes */}
 
