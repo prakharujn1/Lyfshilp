@@ -156,6 +156,10 @@ import ChainReaction from "./components/Environment/Level-1/ChainReaction/ChainR
 import GreenBudget from "./components/Environment/Level-2/GreenBudget/GreenBudget";
 import MatchFallOut from "./components/Environment/Level-2/MatchFallout/MatchFallOut";
 import ClimatePledge from "./components/Environment/Level-2/ClimatePledge/ClimatePledge";
+import ReelArchitectGame from "./components/Games for 9-10/Dig Mkting/Level2/ReelArchitectGame/ReelArchitectGame";
+import StoryboardSprintGame from "./components/Games for 9-10/Dig Mkting/Level2/StoryboardSprintGame/StoryboardSprintGame";
+import BrandVoiceChallenge from "./components/Games for 9-10/Dig Mkting/Level2/BrandVoiceChallenge/BrandVoiceChallenge";
+import CampaignCaptainGame from "./components/Games for 9-10/Dig Mkting/Level3/CampaignCaptainGame/CampaignCaptainGame";
 
 
 function App() {
@@ -623,8 +627,27 @@ function App() {
             <Route path="/digital-explorer" element={<DigitalExplorer />} />
 
             {/* Level 2 */}
+            <Route
+              path="/reel-architect"
+              element={<ReelArchitectGame />}
+            />
+
+            <Route
+              path="/StoryboardSprintGame"
+              element={<StoryboardSprintGame />}
+            />
+
+            <Route
+              path="/BrandVoiceChallengeGame"
+              element={<BrandVoiceChallenge />}
+            />
 
             {/* Level 3 */}
+
+            <Route
+              path="/CampaignCaptainGame"
+              element={<CampaignCaptainGame/>}
+            />
             {/* Finish Games of Dig Mkting Class 9-10 */}
 
             {/* Other Routes */}
