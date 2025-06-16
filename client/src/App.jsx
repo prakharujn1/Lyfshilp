@@ -160,7 +160,8 @@ import ReelArchitectGame from "./components/Games for 9-10/Dig Mkting/Level2/Ree
 import StoryboardSprintGame from "./components/Games for 9-10/Dig Mkting/Level2/StoryboardSprintGame/StoryboardSprintGame";
 import BrandVoiceChallenge from "./components/Games for 9-10/Dig Mkting/Level2/BrandVoiceChallenge/BrandVoiceChallenge";
 import CampaignCaptainGame from "./components/Games for 9-10/Dig Mkting/Level3/CampaignCaptainGame/CampaignCaptainGame";
-
+import CauseScanner from "./components/Environment/Level-3/CauseScanner/CauseScanner";
+import MeltDownTracker from "./components/Environment/Level-3/MeltDownTracker/MeltDownTracker";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -536,6 +537,9 @@ function App() {
             <Route path="/green-budget" element={<GreenBudget />} />
             <Route path="/match-fallout" element={<MatchFallOut />} />
             <Route path="/climate-pledge" element={<ClimatePledge />} />
+            {/* Level 3 */}
+            <Route path="/cause-scanner" element={<CauseScanner />} />
+            <Route path="/melt-down-tracker" element={<MeltDownTracker />} />
 
             {/* Computer Notes*/}
             <Route path="/computer/notes" element={<ComputerNotes />} />
@@ -627,10 +631,7 @@ function App() {
             <Route path="/digital-explorer" element={<DigitalExplorer />} />
 
             {/* Level 2 */}
-            <Route
-              path="/reel-architect"
-              element={<ReelArchitectGame />}
-            />
+            <Route path="/reel-architect" element={<ReelArchitectGame />} />
 
             <Route
               path="/StoryboardSprintGame"
@@ -646,7 +647,7 @@ function App() {
 
             <Route
               path="/CampaignCaptainGame"
-              element={<CampaignCaptainGame/>}
+              element={<CampaignCaptainGame />}
             />
             {/* Finish Games of Dig Mkting Class 9-10 */}
 
