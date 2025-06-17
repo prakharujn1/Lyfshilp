@@ -163,7 +163,9 @@ import CampaignCaptainGame from "./components/Games for 9-10/Dig Mkting/Level3/C
 import CauseScanner from "./components/Environment/Level-3/CauseScanner/CauseScanner";
 import MeltDownTracker from "./components/Environment/Level-3/MeltDownTracker/MeltDownTracker";
 import DilemmaCards from "./components/Environment/Level-3/DilemmaCards/DilemmaCards";
-import EntrepreneurshipNotes from "./pages/EntrepreneurshipNotes"
+import EntrepreneurshipNotes from "./pages/EntrepreneurshipNotes";
+import InnovationExplorer from "./components/Entrepreneurship/Level-1/InnovationExplorer/InnovationExplorer";
+import AIStartupBuilder from "./components/Entrepreneurship/Level-1/AIStartupBuilder.jsx/AIStartupBuilder";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -525,12 +527,18 @@ function App() {
               element={<DecisionMaking />}
             />
 
-
-              {/*  Entrepreneurship Notes*/}
+            {/*  Entrepreneurship Notes*/}
             <Route
               path="/entreprenerurship/notes"
               element={<EntrepreneurshipNotes />}
             />
+            {/* Entrepreneurship Games for 6th-8th */}
+            {/* Level 1 */}
+            <Route
+              path="/innovation-explorer"
+              element={<InnovationExplorer />}
+            />
+            <Route path="/ai-startup-builder" element={<AIStartupBuilder />} />
 
             {/*  Environmental Notes*/}
             <Route
