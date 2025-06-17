@@ -166,6 +166,10 @@ import DilemmaCards from "./components/Environment/Level-3/DilemmaCards/DilemmaC
 import EntrepreneurshipNotes from "./pages/EntrepreneurshipNotes";
 import InnovationExplorer from "./components/Entrepreneurship/Level-1/InnovationExplorer/InnovationExplorer";
 import AIStartupBuilder from "./components/Entrepreneurship/Level-1/AIStartupBuilder.jsx/AIStartupBuilder";
+import EthicsAndImpact from "./components/Entrepreneurship/Level-2/EthicsAndImpact/EthicsAndImpact";
+import PitchChampion from "./components/Entrepreneurship/Level-2/PitchChampion/PitchChampion";
+import UserPersonaDetective from "./components/Entrepreneurship/Level-3/UserPersonaDetective/UserPersonaDetective";
+import MVPTest from "./components/Entrepreneurship/Level-3/MVPTest/MVPTest";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -539,6 +543,15 @@ function App() {
               element={<InnovationExplorer />}
             />
             <Route path="/ai-startup-builder" element={<AIStartupBuilder />} />
+            {/*Level 2 */}
+            <Route path="/ethics-and-impact" element={<EthicsAndImpact />} />
+            <Route path="/pitch-champion" element={<PitchChampion />} />
+            {/*Level 3 */}
+            <Route
+              path="/user-persona-detective"
+              element={<UserPersonaDetective />}
+            />
+            <Route path="/mvp-test" element={<MVPTest />} />
 
             {/*  Environmental Notes*/}
             <Route
