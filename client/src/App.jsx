@@ -755,7 +755,7 @@ function App() {
 
             <Route
               path="/ToneTranslatorGame"
-              element={<ToneTranslatorGame />}  // 1 thing to do
+              element={<ToneTranslatorGame />} 
             />
 
             {/* Level 3  */}
@@ -763,13 +763,15 @@ function App() {
               path="/ConflictCommanderGame"
               element={<ConflictCommanderGame />}
             />
-            <Route
-              path="/InboxInsight"
-              element={<InboxInsightGame />}
-            />
+            
             <Route
               path="/TheBigSpeech"
               element={<TheBigSpeech />}
+            />
+
+            <Route
+              path="/InboxInsight"
+              element={<InboxInsightGame />}
             />
             
 
