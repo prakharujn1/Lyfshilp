@@ -1,9 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-
-
-const markChallengeComplete = async (req, res) => {
+export const markChallengeComplete = async (req, res) => {
   const { moduleIndex, challengeIndex } = req.body;
   const userId = req.user.id;
 
@@ -32,11 +30,13 @@ const markChallengeComplete = async (req, res) => {
     res.json({ success: true, progress });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, error: "Failed to update progress" });
+    res
+      .status(500)
+      .json({ success: false, error: "Failed to update progress" });
   }
 };
 
-const getUserProgress = async (req, res) => {
+export const getUserProgress = async (req, res) => {
   const userId = req.user.id;
 
   try {
@@ -49,9 +49,4 @@ const getUserProgress = async (req, res) => {
     console.error(err);
     res.status(500).json({ success: false, error: "Failed to fetch progress" });
   }
-};
-
-module.exports = {
-  markChallengeComplete,
-  getUserProgress,
 };
