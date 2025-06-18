@@ -176,6 +176,15 @@ import MeasureCompareQuiz from "./components/Games for 9-10/Environment/Level2/M
 import FeedbackLoopGame from "./components/Games for 9-10/Environment/Level1/Feedback Loop/FeedbackLoopGame";
 import CauseEffectGame from "./components/Games for 9-10/Environment/Level1/System Sync/CauseEffectGame";
 import ExternalityDetectiveGame from "./components/Games for 9-10/Environment/Level2/Externality Detective/ExternalityDetectiveGame";
+import DecodetheMessage from "./components/Games for 9-10/Communication/Level1/DecodetheMessage/DecodetheMessage";
+import ListenerLensGame from "./components/Games for 9-10/Communication/Level1/ListenerLensGame/ListenerLensGame";
+import WhatWentWrongGame from "./components/Games for 9-10/Communication/Level1/WhatWentWrongGame/WhatWentWrongGame";
+import PitchPerfectGame from "./components/Games for 9-10/Communication/Level2/PitchPerfectGame/PitchPerfectGame";
+import DigitalDilemma from "./components/Games for 9-10/Communication/Level2/DigitalDilemma/DigitalDilemma";
+import ToneTranslatorGame from "./components/Games for 9-10/Communication/Level2/ToneTranslatorGame/ToneTranslatorGame";
+import ConflictCommanderGame from "./components/Games for 9-10/Communication/Level3/ConflictCommanderGame/ConflictCommanderGame";
+import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/InboxInsight/InboxInsight";
+import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBigSpeech/TheBigSpeech";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -711,6 +720,60 @@ function App() {
             <Route path="/cause-effect-game" element={<CauseEffectGame />} />
 
             {/* Finish Games of Environment Class 9-10 */}
+
+
+            
+            {/* Games of Communication Class 9-10 */}
+
+            {/* Level 1 */}
+            <Route
+              path="/DecodetheMessage"
+              element={<DecodetheMessage />}
+            />
+
+            <Route
+              path="/ListenerLensGame"
+              element={<ListenerLensGame />}
+            />
+
+            <Route
+              path="/WhatWentWrongGame"
+              element={<WhatWentWrongGame />}
+            />
+
+
+            {/* Level 2 */}
+            <Route
+              path="/PitchPerfectGame"
+              element={<PitchPerfectGame />}
+            />
+
+            <Route
+              path="/DigitalDilemma"
+              element={<DigitalDilemma />}
+            />
+
+            <Route
+              path="/ToneTranslatorGame"
+              element={<ToneTranslatorGame />}  // 1 thing to do
+            />
+
+            {/* Level 3  */}
+            <Route
+              path="/ConflictCommanderGame"
+              element={<ConflictCommanderGame />}
+            />
+            <Route
+              path="/InboxInsight"
+              element={<InboxInsightGame />}
+            />
+            <Route
+              path="/TheBigSpeech"
+              element={<TheBigSpeech />}
+            />
+            
+
+            {/* Finish Games of Communication Class 9-10 */}
 
             {/* Other Routes */}
 
