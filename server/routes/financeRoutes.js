@@ -1,13 +1,15 @@
 // routes/progressRoutes.js
-const express = require("express");
-const router = express.Router();
-const authenticateUser = require("../middlewares/authMiddleware");
-const {
+
+import { Router } from "express";
+import authenticateUser from "../middlewares/authMiddleware.js";
+import {
   markChallengeComplete,
   getUserProgress,
-} = require("../controllers/finanaceController");
+} from "../controllers/finanaceController.js";
+
+const router = Router();
 
 router.post("/challenge-complete", authenticateUser, markChallengeComplete);
 router.get("/get-challenges", authenticateUser, getUserProgress);
 
-module.exports = router;
+export default router;

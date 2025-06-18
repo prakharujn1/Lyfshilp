@@ -1,14 +1,20 @@
-const express = require("express");
-const router = express.Router();
-const {
-  sendOtp, verifyOtpAndRegister, verifyOtpAndLogin, test , getMe
-} = require("../controllers/userController");
+// routes/userRoutes.js
 
-router.get("/",test)
+import { Router } from "express";
+import {
+  sendOtp,
+  verifyOtpAndRegister,
+  verifyOtpAndLogin,
+  test,
+  getMe,
+} from "../controllers/userController.js";
+
+const router = Router();
+
+router.get("/", test);
 router.post("/send-otp", sendOtp);
 router.post("/verify-otp-login", verifyOtpAndLogin);
-router.post("/verify-otp-register", verifyOtpAndRegister); 
+router.post("/verify-otp-register", verifyOtpAndRegister);
 router.get("/me", getMe);
 
- 
-module.exports = router;
+export default router;
