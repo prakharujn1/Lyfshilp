@@ -40,7 +40,7 @@ const UserPersonaDetective = () => {
     setFeedback("");
 
     const apiKey = import.meta.env.VITE_API_KEY;
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     const prompt = `
 You are a kind UX mentor for a student creating a user persona for an AI startup.
