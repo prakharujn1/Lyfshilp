@@ -1,12 +1,15 @@
-require("dotenv").config();
-const { PrismaClient } = require("@prisma/client");
+import dotenv from "dotenv";
+dotenv.config();
+
+import { PrismaClient } from "@prisma/client";
+import otpGenerator from "otp-generator";
+import jwt from "jsonwebtoken";
+import axios from "axios";
+
 const prisma = new PrismaClient();
-const otpGenerator = require("otp-generator");
-const jwt = require("jsonwebtoken");
-const axios = require("axios");
 
 // Send OTP for registration or login
-const sendOtp = async (req, res) => {
+export const sendOtp = async (req, res) => {
   const { phonenumber } = req.body;
 
   if (!phonenumber) {
@@ -22,17 +25,14 @@ const sendOtp = async (req, res) => {
   const otpExpiration = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
   try {
-    // Save or update OTP in DB
     await prisma.otpVerification.upsert({
       where: { phonenumber },
       update: { otp, otpExpiration },
       create: { phonenumber, otp, otpExpiration },
     });
 
-    // Format message
     const message = `Your EduManiax OTP for verification is: ${otp}. OTP is confidential, refrain from sharing it with anyone. By Edumarc Technologies`;
 
-    // Send SMS
     const response = await axios.post(
       "https://smsapi.edumarcsms.com/api/v1/sendsms",
       {
@@ -52,13 +52,16 @@ const sendOtp = async (req, res) => {
     const { success, data } = response.data;
 
     if (success) {
-      // console.log("SMS sent:", data.msg);
       return res.status(200).json({ message: "OTP sent successfully" });
     } else {
-      console.error("Unexpected success:false response from Edumarc API:", response.data);
-      return res.status(500).json({ message: "Failed to send OTP", details: response.data });
+      console.error(
+        "Unexpected success:false response from Edumarc API:",
+        response.data
+      );
+      return res
+        .status(500)
+        .json({ message: "Failed to send OTP", details: response.data });
     }
-
   } catch (err) {
     if (err.response) {
       const { code, message, details } = err.response.data;
@@ -73,13 +76,13 @@ const sendOtp = async (req, res) => {
       });
     }
 
-    console.error(" Internal error while sending OTP:", err.message);
+    console.error("Internal error while sending OTP:", err.message);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
 // Verify OTP and Register
-const verifyOtpAndRegister = async (req, res) => {
+export const verifyOtpAndRegister = async (req, res) => {
   const {
     phonenumber,
     otp,
@@ -89,21 +92,32 @@ const verifyOtpAndRegister = async (req, res) => {
     characterGender,
     characterName,
     characterStyle,
-    characterTraits
+    characterTraits,
   } = req.body;
 
   if (
-    !phonenumber || !otp || !name || !age || !userClass ||
-    !characterGender || !characterName || !characterStyle || !characterTraits
+    !phonenumber ||
+    !otp ||
+    !name ||
+    !age ||
+    !userClass ||
+    !characterGender ||
+    !characterName ||
+    !characterStyle ||
+    !characterTraits
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   const otpRecord = await prisma.otpVerification.findUnique({
-    where: { phonenumber }
+    where: { phonenumber },
   });
 
-  if (!otpRecord || otpRecord.otp !== otp || new Date() > otpRecord.otpExpiration) {
+  if (
+    !otpRecord ||
+    otpRecord.otp !== otp ||
+    new Date() > otpRecord.otpExpiration
+  ) {
     return res.status(400).json({ message: "Invalid or expired OTP" });
   }
 
@@ -121,53 +135,65 @@ const verifyOtpAndRegister = async (req, res) => {
       characterGender,
       characterName,
       characterStyle,
-      characterTraits
-    }
+      characterTraits,
+    },
   });
 
   await prisma.otpVerification.delete({ where: { phonenumber } });
 
   const token = jwt.sign({ id: user.id }, process.env.Jwt_sec, {
-    expiresIn: "5d"
+    expiresIn: "5d",
   });
 
   res.status(201).json({ token, user });
 };
 
 // Verify OTP and Login
-const verifyOtpAndLogin = async (req, res) => {
+export const verifyOtpAndLogin = async (req, res) => {
   const { phonenumber, otp } = req.body;
 
   if (!phonenumber || !otp) {
-    return res.status(400).json({ message: "Phone number and OTP are required" });
+    return res
+      .status(400)
+      .json({ message: "Phone number and OTP are required" });
   }
 
-  const otpRecord = await prisma.otpVerification.findUnique({ where: { phonenumber } });
+  const otpRecord = await prisma.otpVerification.findUnique({
+    where: { phonenumber },
+  });
 
-  if (!otpRecord || otpRecord.otp !== otp || new Date() > otpRecord.otpExpiration) {
+  if (
+    !otpRecord ||
+    otpRecord.otp !== otp ||
+    new Date() > otpRecord.otpExpiration
+  ) {
     return res.status(400).json({ message: "Invalid or expired OTP" });
   }
 
   const user = await prisma.user.findUnique({ where: { phonenumber } });
   if (!user) {
-    return res.status(404).json({ message: "User not found. Please register." });
+    return res
+      .status(404)
+      .json({ message: "User not found. Please register." });
   }
 
   await prisma.otpVerification.delete({ where: { phonenumber } });
 
   const token = jwt.sign({ id: user.id }, process.env.Jwt_sec, {
-    expiresIn: "5d"
+    expiresIn: "5d",
   });
 
   res.status(200).json({ success: true, message: "Logged in", token, user });
 };
 
-const getMe = async (req, res) => {
+export const getMe = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Authorization token missing or malformed" });
+      return res
+        .status(401)
+        .json({ message: "Authorization token missing or malformed" });
     }
 
     const token = authHeader.split(" ")[1];
@@ -185,8 +211,8 @@ const getMe = async (req, res) => {
         characterName: true,
         characterStyle: true,
         characterTraits: true,
-        createdAt: true
-      }
+        createdAt: true,
+      },
     });
 
     if (!user) {
@@ -200,16 +226,7 @@ const getMe = async (req, res) => {
   }
 };
 
-
 // Test Route
-const test = async (req, res) => {
+export const test = async (req, res) => {
   res.status(200).json({ success: true, message: "Welcome to EduManiax!" });
-};
-
-module.exports = {
-  sendOtp,
-  verifyOtpAndRegister,
-  verifyOtpAndLogin,
-  getMe,
-  test
 };
