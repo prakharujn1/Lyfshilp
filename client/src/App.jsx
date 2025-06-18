@@ -170,6 +170,12 @@ import EthicsAndImpact from "./components/Entrepreneurship/Level-2/EthicsAndImpa
 import PitchChampion from "./components/Entrepreneurship/Level-2/PitchChampion/PitchChampion";
 import UserPersonaDetective from "./components/Entrepreneurship/Level-3/UserPersonaDetective/UserPersonaDetective";
 import MVPTest from "./components/Entrepreneurship/Level-3/MVPTest/MVPTest";
+import SustainabilityGames1 from "./components/Games for 9-10/Environment/Level3/InfrastructureShowdown/SustainabilityGames1";
+import SustainabilityGames2 from "./components/Games for 9-10/Environment/Level3/Techno-Solutionism/SustainabilityGames2";
+import MeasureCompareQuiz from "./components/Games for 9-10/Environment/Level2/Measure and Compare/MeasureCompareQuiz";
+import FeedbackLoopGame from "./components/Games for 9-10/Environment/Level1/Feedback Loop/FeedbackLoopGame";
+import CauseEffectGame from "./components/Games for 9-10/Environment/Level1/System Sync/CauseEffectGame";
+import ExternalityDetectiveGame from "./components/Games for 9-10/Environment/Level2/Externality Detective/ExternalityDetectiveGame";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -681,6 +687,30 @@ function App() {
               element={<CampaignCaptainGame />}
             />
             {/* Finish Games of Dig Mkting Class 9-10 */}
+
+            {/*  Games of Environment Class 9-10 */}
+
+            <Route
+              path="/sustainability-game-1"
+              element={<SustainabilityGames1 />}
+            />
+            <Route
+              path="/sustainability-game-2"
+              element={<SustainabilityGames2 />}
+            />
+            <Route
+              path="/externality-detective-quiz"
+              element={<ExternalityDetectiveGame />}
+            />
+            <Route
+              path="/measure-compare-quiz"
+              element={<MeasureCompareQuiz />}
+            />
+
+            <Route path="/feedback-loop-game" element={<FeedbackLoopGame />} />
+            <Route path="/cause-effect-game" element={<CauseEffectGame />} />
+
+            {/* Finish Games of Environment Class 9-10 */}
 
             {/* Other Routes */}
 
