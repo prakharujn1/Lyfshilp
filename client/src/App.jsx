@@ -187,6 +187,8 @@ import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/I
 import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBigSpeech/TheBigSpeech";
 import LeaderTypeMatch from "./components/Leadership/Level-1/LeaderType/LeaderTypeMatch";
 import VisionBuilder from "./components/Leadership/Level-1/VisionBuilder/VisionBuilder";
+import CommunicationLab from "./components/Leadership/Level-2/CommunicationLab/CommunicationLab";
+import EmpathyRadarGame from "./components/Leadership/Level-2/EmpathyRadarGame/EmpathyRadarGame";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -574,6 +576,9 @@ function App() {
             {/* Level 1 */}
             <Route path="/leader-type-match" element={<LeaderTypeMatch />} />
             <Route path="/vision-builder" element={<VisionBuilder />} />
+            {/* Level 2 */}
+            <Route path="/communication-lab" element={<CommunicationLab />} />
+            <Route path="/empathy-radar-game" element={<EmpathyRadarGame />} />
 
             {/*  Environmental Notes*/}
             <Route
