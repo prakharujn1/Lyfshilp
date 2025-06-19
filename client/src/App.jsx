@@ -185,6 +185,8 @@ import ToneTranslatorGame from "./components/Games for 9-10/Communication/Level2
 import ConflictCommanderGame from "./components/Games for 9-10/Communication/Level3/ConflictCommanderGame/ConflictCommanderGame";
 import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/InboxInsight/InboxInsight";
 import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBigSpeech/TheBigSpeech";
+import LeaderTypeMatch from "./components/Leadership/Level-1/LeaderType/LeaderTypeMatch";
+import VisionBuilder from "./components/Leadership/Level-1/VisionBuilder/VisionBuilder";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -568,6 +570,11 @@ function App() {
             />
             <Route path="/mvp-test" element={<MVPTest />} />
 
+            {/*Leadership Games for 6th to 8th*/}
+            {/* Level 1 */}
+            <Route path="/leader-type-match" element={<LeaderTypeMatch />} />
+            <Route path="/vision-builder" element={<VisionBuilder />} />
+
             {/*  Environmental Notes*/}
             <Route
               path="/environmental/notes"
@@ -721,41 +728,23 @@ function App() {
 
             {/* Finish Games of Environment Class 9-10 */}
 
-
-            
             {/* Games of Communication Class 9-10 */}
 
             {/* Level 1 */}
-            <Route
-              path="/DecodetheMessage"
-              element={<DecodetheMessage />}
-            />
+            <Route path="/DecodetheMessage" element={<DecodetheMessage />} />
 
-            <Route
-              path="/ListenerLensGame"
-              element={<ListenerLensGame />}
-            />
+            <Route path="/ListenerLensGame" element={<ListenerLensGame />} />
 
-            <Route
-              path="/WhatWentWrongGame"
-              element={<WhatWentWrongGame />}
-            />
-
+            <Route path="/WhatWentWrongGame" element={<WhatWentWrongGame />} />
 
             {/* Level 2 */}
-            <Route
-              path="/PitchPerfectGame"
-              element={<PitchPerfectGame />}
-            />
+            <Route path="/PitchPerfectGame" element={<PitchPerfectGame />} />
 
-            <Route
-              path="/DigitalDilemma"
-              element={<DigitalDilemma />}
-            />
+            <Route path="/DigitalDilemma" element={<DigitalDilemma />} />
 
             <Route
               path="/ToneTranslatorGame"
-              element={<ToneTranslatorGame />} 
+              element={<ToneTranslatorGame />}
             />
 
             {/* Level 3  */}
@@ -763,17 +752,10 @@ function App() {
               path="/ConflictCommanderGame"
               element={<ConflictCommanderGame />}
             />
-            
-            <Route
-              path="/TheBigSpeech"
-              element={<TheBigSpeech />}
-            />
 
-            <Route
-              path="/InboxInsight"
-              element={<InboxInsightGame />}
-            />
-            
+            <Route path="/TheBigSpeech" element={<TheBigSpeech />} />
+
+            <Route path="/InboxInsight" element={<InboxInsightGame />} />
 
             {/* Finish Games of Communication Class 9-10 */}
 
