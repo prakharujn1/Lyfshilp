@@ -191,6 +191,8 @@ import CommunicationLab from "./components/Leadership/Level-2/CommunicationLab/C
 import EmpathyRadarGame from "./components/Leadership/Level-2/EmpathyRadarGame/EmpathyRadarGame";
 import DecisionRoom from "./components/Leadership/Level-3/DecisionRoom/DecisionRoom";
 import TeamArchitect from "./components/Leadership/Level-3/TeamArchitect/TeamArchitect";
+import IntegrityQuest from "./components/Leadership/Level-4/IntegrityQuest/IntegrityQuest";
+import InnovationSprint from "./components/Leadership/Level-4/InnovationSprint/InnovationSprint";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -584,6 +586,9 @@ function App() {
             {/* Level 3 */}
             <Route path="/decision-room" element={<DecisionRoom />} />
             <Route path="/team-architect" element={<TeamArchitect />} />
+            {/*Level 4 */}
+            <Route path="/integrity-quest" element={<IntegrityQuest />} />
+            <Route path="/innovation-sprint" element={<InnovationSprint />} />
 
             {/*  Environmental Notes*/}
             <Route
