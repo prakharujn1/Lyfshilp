@@ -189,6 +189,8 @@ import LeaderTypeMatch from "./components/Leadership/Level-1/LeaderType/LeaderTy
 import VisionBuilder from "./components/Leadership/Level-1/VisionBuilder/VisionBuilder";
 import CommunicationLab from "./components/Leadership/Level-2/CommunicationLab/CommunicationLab";
 import EmpathyRadarGame from "./components/Leadership/Level-2/EmpathyRadarGame/EmpathyRadarGame";
+import DecisionRoom from "./components/Leadership/Level-3/DecisionRoom/DecisionRoom";
+import TeamArchitect from "./components/Leadership/Level-3/TeamArchitect/TeamArchitect";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -579,6 +581,9 @@ function App() {
             {/* Level 2 */}
             <Route path="/communication-lab" element={<CommunicationLab />} />
             <Route path="/empathy-radar-game" element={<EmpathyRadarGame />} />
+            {/* Level 3 */}
+            <Route path="/decision-room" element={<DecisionRoom />} />
+            <Route path="/team-architect" element={<TeamArchitect />} />
 
             {/*  Environmental Notes*/}
             <Route
