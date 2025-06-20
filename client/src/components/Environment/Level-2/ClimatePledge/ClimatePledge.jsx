@@ -350,7 +350,7 @@ const ClimatePledge = () => {
                   onClick={() => verifyActionWithGemini(field)}
                   className="mt-2 px-3 py-1 bg-purple-600 text-white rounded"
                 >
-                  Verify with Gemini
+                  Verify
                 </button>
                 {verifyMessage[field] && (
                   <p className="mt-1 text-sm text-blue-600">

@@ -264,7 +264,7 @@ const MVPTest = () => {
               className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition"
               disabled={loading}
             >
-              {loading ? "Verifying..." : "Verify with Gemini"}
+              {loading ? "Verifying..." : "Verify"}
             </button>
             <button
               onClick={handleTryAgain}
