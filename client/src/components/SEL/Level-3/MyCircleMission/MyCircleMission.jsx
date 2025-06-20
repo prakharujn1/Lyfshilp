@@ -220,7 +220,7 @@ const MyCircleMission = () => {
           onClick={() => verifyActionWithGemini(actionText)}
           className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
         >
-          ✅ Verify with Gemini
+          ✅ Verify
         </button>
 
         {verifyMessage && (

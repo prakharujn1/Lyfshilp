@@ -278,7 +278,7 @@ Keep your reply short, simple, and kind with emojis if possible.`,
                     disabled={checking}
                     className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                   >
-                    {checking ? "Checking..." : "🤖 Verify with Gemini"}
+                    {checking ? "Checking..." : "🤖 Verify"}
                   </button>
                   {feedbackGif === "invalid" && (
                     <button
