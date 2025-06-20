@@ -221,7 +221,7 @@ You’ve got this! 💫 Let’s improve it together! 😊”
           }
           className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600"
         >
-          Verify with Gemini ✨
+          Verify ✨
         </button>
         {verifyMessage && !verifyMessage.toLowerCase().includes("good job") && (
           <button
