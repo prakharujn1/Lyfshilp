@@ -175,24 +175,12 @@ import SustainabilityGames2 from "./components/Games for 9-10/Environment/Level3
 import MeasureCompareQuiz from "./components/Games for 9-10/Environment/Level2/Measure and Compare/MeasureCompareQuiz";
 import FeedbackLoopGame from "./components/Games for 9-10/Environment/Level1/Feedback Loop/FeedbackLoopGame";
 import CauseEffectGame from "./components/Games for 9-10/Environment/Level1/System Sync/CauseEffectGame";
+import LeadershipNotes from "./pages/LeadershipNotes";
 import ExternalityDetectiveGame from "./components/Games for 9-10/Environment/Level2/Externality Detective/ExternalityDetectiveGame";
-import DecodetheMessage from "./components/Games for 9-10/Communication/Level1/DecodetheMessage/DecodetheMessage";
-import ListenerLensGame from "./components/Games for 9-10/Communication/Level1/ListenerLensGame/ListenerLensGame";
-import WhatWentWrongGame from "./components/Games for 9-10/Communication/Level1/WhatWentWrongGame/WhatWentWrongGame";
-import PitchPerfectGame from "./components/Games for 9-10/Communication/Level2/PitchPerfectGame/PitchPerfectGame";
-import DigitalDilemma from "./components/Games for 9-10/Communication/Level2/DigitalDilemma/DigitalDilemma";
-import ToneTranslatorGame from "./components/Games for 9-10/Communication/Level2/ToneTranslatorGame/ToneTranslatorGame";
-import ConflictCommanderGame from "./components/Games for 9-10/Communication/Level3/ConflictCommanderGame/ConflictCommanderGame";
-import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/InboxInsight/InboxInsight";
-import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBigSpeech/TheBigSpeech";
-import LeaderTypeMatch from "./components/Leadership/Level-1/LeaderType/LeaderTypeMatch";
-import VisionBuilder from "./components/Leadership/Level-1/VisionBuilder/VisionBuilder";
-import CommunicationLab from "./components/Leadership/Level-2/CommunicationLab/CommunicationLab";
-import EmpathyRadarGame from "./components/Leadership/Level-2/EmpathyRadarGame/EmpathyRadarGame";
-import DecisionRoom from "./components/Leadership/Level-3/DecisionRoom/DecisionRoom";
-import TeamArchitect from "./components/Leadership/Level-3/TeamArchitect/TeamArchitect";
-import IntegrityQuest from "./components/Leadership/Level-4/IntegrityQuest/IntegrityQuest";
-import InnovationSprint from "./components/Leadership/Level-4/InnovationSprint/InnovationSprint";
+
+
+
+
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -553,6 +541,15 @@ function App() {
               path="/social-learning/module-5"
               element={<DecisionMaking />}
             />
+            
+
+
+          {/*  Leadership Notes*/}
+          <Route
+              path="/leadership/notes"
+              element={<LeadershipNotes />}
+            />
+
 
             {/*  Entrepreneurship Notes*/}
             <Route
@@ -575,20 +572,6 @@ function App() {
               element={<UserPersonaDetective />}
             />
             <Route path="/mvp-test" element={<MVPTest />} />
-
-            {/*Leadership Games for 6th to 8th*/}
-            {/* Level 1 */}
-            <Route path="/leader-type-match" element={<LeaderTypeMatch />} />
-            <Route path="/vision-builder" element={<VisionBuilder />} />
-            {/* Level 2 */}
-            <Route path="/communication-lab" element={<CommunicationLab />} />
-            <Route path="/empathy-radar-game" element={<EmpathyRadarGame />} />
-            {/* Level 3 */}
-            <Route path="/decision-room" element={<DecisionRoom />} />
-            <Route path="/team-architect" element={<TeamArchitect />} />
-            {/*Level 4 */}
-            <Route path="/integrity-quest" element={<IntegrityQuest />} />
-            <Route path="/innovation-sprint" element={<InnovationSprint />} />
 
             {/*  Environmental Notes*/}
             <Route
@@ -742,37 +725,6 @@ function App() {
             <Route path="/cause-effect-game" element={<CauseEffectGame />} />
 
             {/* Finish Games of Environment Class 9-10 */}
-
-            {/* Games of Communication Class 9-10 */}
-
-            {/* Level 1 */}
-            <Route path="/DecodetheMessage" element={<DecodetheMessage />} />
-
-            <Route path="/ListenerLensGame" element={<ListenerLensGame />} />
-
-            <Route path="/WhatWentWrongGame" element={<WhatWentWrongGame />} />
-
-            {/* Level 2 */}
-            <Route path="/PitchPerfectGame" element={<PitchPerfectGame />} />
-
-            <Route path="/DigitalDilemma" element={<DigitalDilemma />} />
-
-            <Route
-              path="/ToneTranslatorGame"
-              element={<ToneTranslatorGame />}
-            />
-
-            {/* Level 3  */}
-            <Route
-              path="/ConflictCommanderGame"
-              element={<ConflictCommanderGame />}
-            />
-
-            <Route path="/TheBigSpeech" element={<TheBigSpeech />} />
-
-            <Route path="/InboxInsight" element={<InboxInsightGame />} />
-
-            {/* Finish Games of Communication Class 9-10 */}
 
             {/* Other Routes */}
 
