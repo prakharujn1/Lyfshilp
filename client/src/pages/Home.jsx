@@ -39,13 +39,7 @@ const featureItems = [
     desc: "Receive tailored suggestions and resources to help you overcome challenges and accelerate your learning.",
     video: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
-  {
-    img: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
-    alt: "Top Educators",
-    title: "Best Guidance from Top Educators",
-    desc: "Learn from the best—our top educators provide expert guidance and mentorship throughout your journey.",
-    video: "https://www.w3schools.com/html/mov_bbb.mp4",
-  },
+  
 ];
 
 const Home = () => {
@@ -126,7 +120,7 @@ const Home = () => {
             Real Skills <span style={{ color: "#184802" }}>Fun Learning</span>
           </h1>
           <p className="mt-4 text-lg text-black-500 max-w-md">
-            Master finance, law, communication, coding & more — through exciting
+            Master finance, law, communication, coding & more through exciting
             notes, challenges & games designed for students from Grade 6 to 12.
           </p>
           <div className="mt-6 flex gap-4">
@@ -234,7 +228,7 @@ const Home = () => {
             {featureItems.map((feature, index) => (
               <motion.div
                 key={index}
-                className={`flex bg-[#F0FDF4] flex-col-reverse md:flex-row ${
+                className={`flex bg-white flex-col-reverse md:flex-row ${
                   index % 2 === 1 ? "md:flex-row-reverse" : ""
                 } items-center gap-10`}
                 initial={{ opacity: 0, y: 50 }}
@@ -244,14 +238,8 @@ const Home = () => {
               >
                 {/* 🟢 Text Section */}
                 <div className="flex-1 bg-gradient-to-br from-[#f0fdfa] to-white rounded-2xl shadow-xl p-8 md:p-10 text-center md:text-left space-y-4 transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
-                  <span className="text-xs uppercase tracking-widest text-[#129990] font-semibold">
-                    Feature #{index + 1}
-                  </span>
-                  <img
-                    src={feature.img}
-                    alt={feature.alt}
-                    className="h-20 w-20 mb-4 mx-auto md:mx-0"
-                  />
+                  
+                  
                   <h3 className="text-2xl font-bold text-[#129990] mb-2">
                     {feature.title}
                   </h3>

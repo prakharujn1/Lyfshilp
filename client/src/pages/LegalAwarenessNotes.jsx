@@ -1,15 +1,31 @@
 
+
+
+
 import { useEffect, useRef, useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, ChevronDown, BookOpen, TrendingUp, Target } from "lucide-react";
+import { motion } from "framer-motion";
 
-import Module1 from "../pages/LegalAwareness/Module1";
-import Module2 from "../pages/LegalAwareness/Module2";
-import Module3 from "../pages/LegalAwareness/Module3";
-import Module4 from "../pages/LegalAwareness/Module4";
-import Module5 from "../pages/LegalAwareness/Module5";
-import Module6 from "../pages/LegalAwareness/Module6";
+import Section1dm from "./LegalAwareness/Module1";
+import Section2dm from "./LegalAwareness/Module2";
+import Section3dm from "./LegalAwareness/Module3";
+import Section4dm from "./LegalAwareness/Module4";
+import Section5dm from "./LegalAwareness/Module5";
+import Section6dm from "./LegalAwareness/Module6";
 
-const notesSidebar = [
+
+import Module1 from "./LegalAwareness/9-10Section1";
+import Module2 from "./LegalAwareness/9-10Section2";
+import Module3 from "./LegalAwareness/9-10Section3";
+import Module4 from "./LegalAwareness/9-10Section4";
+import Module5 from "./LegalAwareness/9-10Section5";
+
+const gradeOptions = [
+  { value: "6-8", label: "8th and Below" },
+  { value: "9-10", label: "9th to 10th Grade" },
+];
+
+const notesSidebar6to8 = [
   { id: "1", title: "Section 1: Intorduction" },
   { id: "2", title: "Section 2: Constitution" },
   { id: "3", title: "Section 3: Law for childern" },
@@ -18,19 +34,46 @@ const notesSidebar = [
   { id: "6", title: "Section 6: Courts, Justice, and You" },
 ];
 
-const LegalAwarenessNotes = () => {
+const notesSidebar9to10 = [
+  { id: "m-1", title: "Module 1: Introduction" },
+  { id: "m-2", title: "Module 2: Strategy & Objectives" },
+  { id: "m-3", title: "Module 3: Platform Deep Dive" },
+  { id: "m-4", title: "Module 4: Content Creation" },
+  { id: "m-5", title: "Module 5: Analytics & Optimization" },
+];
+
+const DigitalMarketingFullNotes = () => {
+  const [selectedGrade, setSelectedGrade] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
   const [activeId, setActiveId] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [notesVisible, setNotesVisible] = useState(false);
+
   const topicRefs = useRef({});
   const visibleTopics = useRef(new Set());
 
   useEffect(() => {
+    topicRefs.current = {};
+    visibleTopics.current = new Set();
+    setActiveId(null);
+    setNotesVisible(false);
+
+    if (selectedGrade) {
+      setTimeout(() => setNotesVisible(true), 100);
+    }
+  }, [selectedGrade]);
+
+  useEffect(() => {
+    if (!selectedGrade || !notesVisible) return;
+
     const container = document.getElementById("main-content");
+    if (!container) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const id = entry.target.id;
+          console.log("INTERSECTING:", id, entry.isIntersecting);
           if (entry.isIntersecting) {
             visibleTopics.current.add(id);
           } else {
@@ -48,17 +91,20 @@ const LegalAwarenessNotes = () => {
           setActiveId(sorted[0]);
         }
       },
-      { root: container, threshold: 0.1 }
+      { threshold: 0.1 }
     );
 
-    Object.entries(topicRefs.current).forEach(([id, el]) => {
-      if (el) observer.observe(el);
-    });
+    setTimeout(() => {
+      Object.entries(topicRefs.current).forEach(([id, el]) => {
+        if (el) observer.observe(el);
+      });
+    }, 200);
 
     return () => observer.disconnect();
-  }, []);
+  }, [selectedGrade, notesVisible]);
 
   useEffect(() => {
+    if (!activeId) return;
     const el = document.querySelector(`[data-scroll-id="${activeId}"]`);
     if (el) {
       el.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -73,119 +119,244 @@ const LegalAwarenessNotes = () => {
     setShowSidebar(false);
   };
 
+  const handleGradeSelect = (grade) => {
+    setSelectedGrade(grade);
+    setShowDropdown(false);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+  };
+
+  const getCurrentSidebar = () => {
+    return selectedGrade === "6-8" ? notesSidebar6to8 : notesSidebar9to10;
+  };
+
+  const renderGradeNotes = () => {
+    if (selectedGrade === "6-8") {
+      return (
+        <>
+          {/* ...same content as before (keep as is)... */}
+          <div className="space-y-10">
+            <div className="overflow-x-auto">
+              <Section1dm topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Section2dm topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Section3dm topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Section4dm topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Section5dm topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Section6dm topicRefs={topicRefs} />
+            </div>
+            
+          </div>
+        </>
+      );
+    } else if (selectedGrade === "9-10") {
+      return (
+        <>
+          {/* ...same content as before (keep as is)... */}
+          <div className="space-y-10">
+            <div className="overflow-x-auto">
+              <Module1 topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Module2 topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Module3 topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Module4 topicRefs={topicRefs} />
+            </div>
+            <div className="overflow-x-auto">
+              <Module5 topicRefs={topicRefs} />
+            </div>
+          </div>
+        </>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="flex h-screen overflow-hidden relative pt-[4.5rem] md:pt-0">
-      {/* Toggle Button */}
-      <button
-        onClick={() => setShowSidebar(!showSidebar)}
-        className="md:hidden fixed top-[4.5rem] left-4 z-40 p-2 bg-blue-600 text-white rounded shadow-lg"
-      >
-        <Menu />
-      </button>
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed md:static z-30 top-[4.5rem] md:top-0 left-0 h-full md:h-auto min-w-[260px] max-w-[280px] bg-white p-4 border-r shadow-lg overflow-y-auto transform transition-transform duration-300 ease-in-out ${
-          showSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        }`}
-      >
-        <h2 className="text-xl font-bold text-blue-800 mb-6 px-2">
-          Fundamentals of Law
-        </h2>
-        <ul className="space-y-3">
-          {notesSidebar.map((section) => (
-            <li
-              key={section.id}
-              data-scroll-id={section.id}
-              className={`cursor-pointer px-3 py-2 rounded-lg transition-all duration-200 text-sm shadow-sm ${
-                activeId === section.id
-                  ? "bg-blue-100 text-blue-800 font-semibold border-l-4 border-blue-500"
-                  : "hover:bg-blue-50 text-gray-800"
-              }`}
-              onClick={() => scrollTo(section.id)}
-              title={section.title} 
+    <div className="min-h-screen bg-gray-50">
+      {/* HERO SECTION (only show when no grade is selected) */}
+      {!selectedGrade && (
+        <div className="h-[100vh] relative overflow-hidden bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a]">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,...')] opacity-10"></div>
+          <div className="relative max-w-7xl mx-auto px-6 py-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
             >
-              <div className="text-[14px] font-medium leading-5 break-words whitespace-normal">
-                {section.title}
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 mt-30 leading-tight">
+                  Welcome to Legal Awareness!
+                <br />
+                
+              </h1>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                 Understand your rights, laws, and the justice system that protects them
+                </span>
+              </h2>
+              
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
+                Explore powerful lessons designed to make you an informed and empowered citizen.
+              </p>
+              <div className="relative inline-block">
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-200 min-w-[200px] justify-between"
+                >
+                  <span>
+                    {selectedGrade
+                      ? gradeOptions.find((g) => g.value === selectedGrade)
+                          ?.label
+                      : "Select Grade Level"}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 ${showDropdown ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {showDropdown && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50">
+                    {gradeOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => handleGradeSelect(option.value)}
+                        className="w-full px-6 py-3 text-left text-gray-800 hover:bg-blue-50 border-b last:border-b-0"
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            </li>
-          ))}
-        </ul>
-      </aside>
-
-      {/* Main Content */}
-      <main
-        id="main-content"
-        className="flex-1 overflow-y-auto p-4 md:p-6 space-y-10 scroll-smooth"
-      >
-        {/* Introductory Section */}
-        <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl p-6 md:p-12 flex flex-col md:flex-row gap-10 items-center mb-16">
-          {/* Left Image */}
-          <div className="w-full md:w-1/2">
-            <img
-              src="https://images.unsplash.com/photo-1605792657660-596af9009e82?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
-              alt="Legal Awareness"
-              className="rounded-2xl shadow-lg w-full h-auto"
-            />
+            </motion.div>
           </div>
+        </div>
+      )}
 
-          {/* Right Content */}
-          <div className="w-full md:w-1/2 text-center md:text-left">
-            <h1 className="text-4xl font-extrabold text-navy-900 mb-4 leading-tight">
-              Legal Awareness with{" "}
-              <span className="text-blue-600">Edumaniax</span>
-            </h1>
-            <p className="text-gray-700 text-lg mb-6">
-              Welcome to the <strong>Legal Awareness Module</strong> – a crucial
-              step toward empowering yourself with knowledge about your rights,
-              responsibilities, and the legal frameworks that shape society.
-            </p>
-            <p className="text-gray-600 mb-6">
-              This module is designed to make legal concepts approachable and
-              practical. Whether it's understanding basic laws, knowing your
-              rights in everyday situations, or becoming aware of legal
-              remedies—you’ll gain real-world insights and tools to become a
-              more informed citizen.
-            </p>
-            <ul className="list-disc list-inside text-left text-gray-700 mb-6">
-              <li>Know your Fundamental Rights & Duties</li>
-              <li>
-                Learn about cyber laws, consumer rights, and workplace law
-              </li>
-              <li>Understand how to seek legal aid when needed</li>
+      {/* NOTES SECTION */}
+      {selectedGrade === "6-8" && (
+         <div className="flex h-screen overflow-hidden relative pt-[4.5rem] md:pt-0">
+          {/* Toggle for mobile */}
+          <button
+            onClick={() => setShowSidebar(!showSidebar)}
+            className="md:hidden fixed top-[4.5rem] left-4 z-40 p-2 bg-blue-600 text-white rounded shadow-lg"
+          >
+            <Menu />
+          </button>
+
+          {/* SIDEBAR: 6–8 */}
+
+          <aside
+            className={`fixed md:static z-30  top-[4.5rem] left-0 md:top-0 h-full md:h-500px min-w-[260px] max-w-[280px] bg-white p-4 border-r 
+              shadow-lg overflow-y-auto transform transition-transform duration-300 ease-in-out ${
+              showSidebar
+                ? "translate-x-0"
+                : "-translate-x-full md:translate-x-0"
+            }`}
+          >
+            <h2 className="text-xl font-bold text-blue-800 mb-6 px-2">
+              Digital Marketing
+              
+            </h2>
+            <ul className="space-y-3">
+              {notesSidebar6to8.map((section) => (
+                <li
+                  key={section.id}
+                  data-scroll-id={section.id}
+                  className={`cursor-pointer px-3 py-2 rounded-lg transition-all duration-200 text-sm shadow-sm ${
+                    activeId === section.id
+                      ? "bg-blue-100 text-blue-800 font-semibold border-l-4 border-blue-500"
+                      : "hover:bg-blue-50 text-gray-800"
+                  }`}
+                  onClick={() => scrollTo(section.id)}
+                >
+                  <div className="text-[14px] font-medium leading-5 break-words whitespace-normal">
+                    {section.title}
+                  </div>
+                </li>
+              ))}
             </ul>
-            <a
-              href="#modules"
-              className="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
-            >
-              Explore Modules
-            </a>
-          </div>
-        </div>
+          </aside>
 
-        <div className="space-y-10">
-          <div className="overflow-x-auto">
-            <Module1 topicRefs={topicRefs} />
-          </div>
-          <div className="overflow-x-auto">
-            <Module2 topicRefs={topicRefs} />
-          </div>
-          <div className="overflow-x-auto">
-            <Module3 topicRefs={topicRefs} />
-          </div>
-          <div className="overflow-x-auto">
-            <Module4 topicRefs={topicRefs} />
-          </div>
-          <div className="overflow-x-auto">
-            <Module5 topicRefs={topicRefs} />
-          </div>
-          <div className="overflow-x-auto">
-            <Module6 topicRefs={topicRefs} />
-          </div>
+          {/* MAIN CONTENT: 6–8 */}
+          <main
+            id="main-content"
+            className="flex-1 overflow-y-auto p-4 md:p-6 space-y-10 scroll-smooth"
+          >
+            {renderGradeNotes()}
+          </main>
         </div>
-      </main>
+      )}
+
+      {selectedGrade === "9-10" && (
+         <div className="flex h-screen overflow-hidden relative pt-[4.5rem] md:pt-0">
+          {/* Toggle for mobile */}
+          <button
+            onClick={() => setShowSidebar(!showSidebar)}
+            className="md:hidden fixed top-[4.5rem] left-4 z-40 p-2 bg-blue-600 text-white rounded shadow-lg"
+          >
+            <Menu />
+          </button>
+
+          {/* SIDEBAR: 6–8 */}
+
+          <aside
+            className={`fixed md:static z-30  top-[4.5rem] left-0 md:top-0 h-full md:h-500px min-w-[260px] max-w-[280px] bg-white p-4 border-r 
+              shadow-lg overflow-y-auto transform transition-transform duration-300 ease-in-out ${
+              showSidebar
+                ? "translate-x-0"
+                : "-translate-x-full md:translate-x-0"
+            }`}
+          >
+            <h2 className="text-xl font-bold text-blue-800 mb-6 px-2">
+              Digital Marketing
+              
+            </h2>
+            <ul className="space-y-3">
+              {notesSidebar9to10.map((section) => (
+                <li
+                  key={section.id}
+                  data-scroll-id={section.id}
+                  className={`cursor-pointer px-3 py-2 rounded-lg transition-all duration-200 text-sm shadow-sm ${
+                    activeId === section.id
+                      ? "bg-blue-100 text-blue-800 font-semibold border-l-4 border-blue-500"
+                      : "hover:bg-blue-50 text-gray-800"
+                  }`}
+                  onClick={() => scrollTo(section.id)}
+                >
+                  <div className="text-[14px] font-medium leading-5 break-words whitespace-normal">
+                    {section.title}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </aside>
+
+          {/* MAIN CONTENT: 6–8 */}
+          <main
+            id="main-content"
+            className="flex-1 overflow-y-auto p-4 md:p-6 space-y-10 scroll-smooth"
+          >
+            {renderGradeNotes()}
+          </main>
+        </div>
+      )}
     </div>
   );
 };
 
-export default LegalAwarenessNotes;
+export default DigitalMarketingFullNotes;

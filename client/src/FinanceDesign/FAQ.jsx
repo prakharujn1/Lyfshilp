@@ -52,15 +52,6 @@ const FAQ = () => {
     },
     {
       id: 3,
-      category: "Certificates",
-      question: "Are the certificates recognized by top employers?",
-      answer: "Absolutely! Our certificates are industry-validated and created in direct partnership with Fortune 500 companies and leading startups. They represent verifiable, job-ready skills that hiring managers actively seek. Our graduates regularly share success stories of career advances, promotions, and dream job offers.",
-      icon: Award,
-      popularity: 92,
-      trending: true
-    },
-    {
-      id: 4,
       category: "Support",
       question: "What if I'm not completely satisfied?",
       answer: "We stand behind every learning experience with our comprehensive 30-day satisfaction guarantee. If you're not thriving in your course, we'll provide a complete refund with zero hassle. Plus, you'll have ongoing access to our vibrant community forums and direct mentor support throughout your journey.",
@@ -69,7 +60,7 @@ const FAQ = () => {
       trending: false
     },
     {
-      id: 5,
+      id: 4,
       category: "Learning",
       question: "Can I learn seamlessly on mobile devices?",
       answer: "Yes! Our platform is meticulously optimized for mobile-first learning. Access courses, tackle interactive quizzes, track detailed progress, and engage in community discussions from any device. Your learning journey syncs flawlessly across all your devices with offline capabilities for learning on-the-go.",
@@ -78,16 +69,7 @@ const FAQ = () => {
       trending: false
     },
     {
-      id: 6,
-      category: "Courses",
-      question: "Do you offer team training and corporate solutions?",
-      answer: "We specialize in transforming teams through our enterprise learning solutions. Corporate packages include dedicated success managers, custom learning journeys, comprehensive analytics dashboards, and flexible bulk licensing. Let's discuss how we can accelerate your team's growth with a tailored proposal.",
-      icon: Users,
-      popularity: 78,
-      trending: false
-    },
-    {
-      id: 7,
+      id: 5,
       category: "Support",
       question: "How do I get instant help when I'm stuck?",
       answer: "Support is always within reach through multiple channels: 24/7 intelligent chat support, thriving community forums, weekly instructor office hours, and collaborative peer study groups. Our AI learning companion provides instant assistance with common questions and intelligently guides you to the perfect resources.",
@@ -96,7 +78,7 @@ const FAQ = () => {
       trending: false
     },
     {
-      id: 8,
+      id: 6,
       category: "Certificates",
       question: "Can I showcase my certificates professionally?",
       answer: "Definitely! Our stunning digital certificates are designed for maximum impact across professional networks. Seamlessly add them to LinkedIn, showcase them in portfolios, or share achievements on social platforms. Each certificate includes blockchain verification for unquestionable authenticity and credibility.",
