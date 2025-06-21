@@ -177,10 +177,14 @@ import FeedbackLoopGame from "./components/Games for 9-10/Environment/Level1/Fee
 import CauseEffectGame from "./components/Games for 9-10/Environment/Level1/System Sync/CauseEffectGame";
 import LeadershipNotes from "./pages/LeadershipNotes";
 import ExternalityDetectiveGame from "./components/Games for 9-10/Environment/Level2/Externality Detective/ExternalityDetectiveGame";
-
-
-
-
+import TortLawGame1 from "./components/Class 11-12/Legal Awareness/Level1/Game1/TortLawGame1";
+import TortLawGame2 from "./components/Class 11-12/Legal Awareness/Level1/Game2/TortLawGame2";
+import TortLawGame3 from "./components/Class 11-12/Legal Awareness/Level1/Game3/TortLawGame3";
+import CrimeCivilGame from "./components/Class 11-12/Legal Awareness/Level2/CrimeCivilGame/CrimeCivilGame";
+import LegalConceptsGame from "./components/Class 11-12/Legal Awareness/Level3/LegalConcepts/LegalConceptsGame";
+import LegalConceptsResult from "./components/Class 11-12/Legal Awareness/Level3/LegalConcepts/LegalConceptsResult";
+import LandmarkCasesGame from "./components/Class 11-12/Legal Awareness/Level3/LandmarkCases/LandmarkCasesGame";
+import LandmarkCasesResult from "./components/Class 11-12/Legal Awareness/Level3/LandmarkCases/LandmarkCasesResult";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -541,15 +545,9 @@ function App() {
               path="/social-learning/module-5"
               element={<DecisionMaking />}
             />
-            
 
-
-          {/*  Leadership Notes*/}
-          <Route
-              path="/leadership/notes"
-              element={<LeadershipNotes />}
-            />
-
+            {/*  Leadership Notes*/}
+            <Route path="/leadership/notes" element={<LeadershipNotes />} />
 
             {/*  Entrepreneurship Notes*/}
             <Route
@@ -725,6 +723,34 @@ function App() {
             <Route path="/cause-effect-game" element={<CauseEffectGame />} />
 
             {/* Finish Games of Environment Class 9-10 */}
+
+            {/* Games of Legal Awareness Class 11-12 */}
+
+            <Route
+              path="/landmark-cases-result"
+              element={<LandmarkCasesResult />}
+            />
+
+            <Route
+              path="/landmark-cases-game"
+              element={<LandmarkCasesGame />}
+            />
+
+            <Route
+              path="/legal-concepts-result"
+              element={<LegalConceptsResult />}
+            />
+            <Route
+              path="/legal-concepts-game"
+              element={<LegalConceptsGame />}
+            />
+            <Route path="/crime-or-civil" element={<CrimeCivilGame />} />
+
+            <Route path="/tort-law-3" element={<TortLawGame3 />} />
+            <Route path="/tort-law-2" element={<TortLawGame2 />} />
+            <Route path="/tort-law-1" element={<TortLawGame1 />} />
+
+            {/* Finish Games of Legal Awareness Class 11-12 */}
 
             {/* Other Routes */}
 
