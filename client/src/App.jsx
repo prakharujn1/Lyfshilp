@@ -188,6 +188,7 @@ import LandmarkCasesResult from "./components/Class 11-12/Legal Awareness/Level3
 import CarbonCycleVault from "./components/Class 11-12/Environment/Level-1/CarbonCycleVault/CarbonCycleVault";
 import NitrogenReactor from "./components/Class 11-12/Environment/Level-1/NitrogenReactor/NitrogenReactor";
 import PhosphorusLockdown from "./components/Class 11-12/Environment/Level-1/PhosphorusLockdown/PhosphorusLockdown";
+import ResourceThreat from "./components/Class 11-12/Environment/Level-1/ResourceThreat/ResourceThreat";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -763,6 +764,7 @@ function App() {
               path="/phosphorus-lockdown"
               element={<PhosphorusLockdown />}
             />
+            <Route path="/resource-threat" element={<ResourceThreat />} />
 
             {/* Other Routes */}
 
