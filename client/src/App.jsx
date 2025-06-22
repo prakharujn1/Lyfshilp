@@ -185,6 +185,9 @@ import LegalConceptsGame from "./components/Class 11-12/Legal Awareness/Level3/L
 import LegalConceptsResult from "./components/Class 11-12/Legal Awareness/Level3/LegalConcepts/LegalConceptsResult";
 import LandmarkCasesGame from "./components/Class 11-12/Legal Awareness/Level3/LandmarkCases/LandmarkCasesGame";
 import LandmarkCasesResult from "./components/Class 11-12/Legal Awareness/Level3/LandmarkCases/LandmarkCasesResult";
+import CarbonCycleVault from "./components/Class 11-12/Environment/Level-1/CarbonCycleVault/CarbonCycleVault";
+import NitrogenReactor from "./components/Class 11-12/Environment/Level-1/NitrogenReactor/NitrogenReactor";
+import PhosphorusLockdown from "./components/Class 11-12/Environment/Level-1/PhosphorusLockdown/PhosphorusLockdown";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -751,6 +754,15 @@ function App() {
             <Route path="/tort-law-1" element={<TortLawGame1 />} />
 
             {/* Finish Games of Legal Awareness Class 11-12 */}
+
+            {/*Environement Games for 11-12*/}
+            {/* Level 1 */}
+            <Route path="/carbon-cycle-vault" element={<CarbonCycleVault />} />
+            <Route path="/nitrogen-reactor" element={<NitrogenReactor />} />
+            <Route
+              path="/phosphorus-lockdown"
+              element={<PhosphorusLockdown />}
+            />
 
             {/* Other Routes */}
 
