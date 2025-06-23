@@ -291,6 +291,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/about" element={<AboutUs />} />
             <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
