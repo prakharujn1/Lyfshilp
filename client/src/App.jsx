@@ -191,6 +191,8 @@ import PhosphorusLockdown from "./components/Class 11-12/Environment/Level-1/Pho
 import WaterGridCrisis from "./components/Class 11-12/Environment/Level-1/WaterGridCrisis/WaterGridCrisis";
 import UrbanFloodFlashpoint from "./components/Class 11-12/Environment/Level-2/UrbanFloodFlashpoint/UrbanFloodFlashpoint";
 import DayZero from "./components/Class 11-12/Environment/Level-2/DayZero/DayZero";
+import UreaAddiction from "./components/Class 11-12/Environment/Level-3/UreaAddiction/UreaAddiction";
+import PeakPhosphorusPanic from "./components/Class 11-12/Environment/Level-3/PeakPhosphorusPanic/PeakPhosphorusPanic";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -773,6 +775,12 @@ function App() {
               element={<UrbanFloodFlashpoint />}
             />
             <Route path="/day-zero" element={<DayZero />} />
+            {/*Level 3 */}
+            <Route path="/urea-addiction" element={<UreaAddiction />} />
+            <Route
+              path="/peak-phosphorus-panic"
+              element={<PeakPhosphorusPanic />}
+            />
 
             {/* Other Routes */}
 
