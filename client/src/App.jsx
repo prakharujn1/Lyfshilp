@@ -803,6 +803,23 @@ function App() {
               element={<PeakPhosphorusPanic />}
             />
 
+            {/* 11-12 Entrepreneurship games start*/}
+
+            <Route
+              path="/ethics-firewall-game"
+              element={<EthicsFirewallGame />}
+            />
+            <Route
+              path="/startup-simulation-game"
+              element={<StartupSimulationGame />}
+            />
+            <Route
+              path="/problem-solution-game"
+              element={<ProblemSolutionGame />}
+            />
+
+            {/*11-12 Entrepreneurship games finish*/}
+
             {/* Other Routes */}
 
             <Route path="/faq's" element={<FAQ />} />
