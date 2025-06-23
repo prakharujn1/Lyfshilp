@@ -189,6 +189,8 @@ import CarbonCycleVault from "./components/Class 11-12/Environment/Level-1/Carbo
 import NitrogenReactor from "./components/Class 11-12/Environment/Level-1/NitrogenReactor/NitrogenReactor";
 import PhosphorusLockdown from "./components/Class 11-12/Environment/Level-1/PhosphorusLockdown/PhosphorusLockdown";
 import WaterGridCrisis from "./components/Class 11-12/Environment/Level-1/WaterGridCrisis/WaterGridCrisis";
+import UrbanFloodFlashpoint from "./components/Class 11-12/Environment/Level-2/UrbanFloodFlashpoint/UrbanFloodFlashpoint";
+import DayZero from "./components/Class 11-12/Environment/Level-2/DayZero/DayZero";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -765,6 +767,12 @@ function App() {
               element={<PhosphorusLockdown />}
             />
             <Route path="/water-grid-crisis" element={<WaterGridCrisis />} />
+            {/* Level 2 */}
+            <Route
+              path="/urban-flood-flashpoint"
+              element={<UrbanFloodFlashpoint />}
+            />
+            <Route path="/day-zero" element={<DayZero />} />
 
             {/* Other Routes */}
 
