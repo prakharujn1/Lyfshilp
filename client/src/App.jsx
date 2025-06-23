@@ -193,6 +193,10 @@ import UrbanFloodFlashpoint from "./components/Class 11-12/Environment/Level-2/U
 import DayZero from "./components/Class 11-12/Environment/Level-2/DayZero/DayZero";
 import UreaAddiction from "./components/Class 11-12/Environment/Level-3/UreaAddiction/UreaAddiction";
 import PeakPhosphorusPanic from "./components/Class 11-12/Environment/Level-3/PeakPhosphorusPanic/PeakPhosphorusPanic";
+import LegalQuizQuestLevel3 from "./components/Games for 9-10/Legal Awareness/Level3/Quiz/LegalQuizQuestLevel3";
+import JusticeThroneGame from "./components/Games for 9-10/Legal Awareness/Level2/Justice Throne/JusticeThroneGame";
+import MatchTermsGameResult from "./components/Games for 9-10/Legal Awareness/Level1/Result";
+import MatchTermsGame from "./components/Games for 9-10/Legal Awareness/Level1/Game";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -731,6 +735,23 @@ function App() {
             <Route path="/cause-effect-game" element={<CauseEffectGame />} />
 
             {/* Finish Games of Environment Class 9-10 */}
+
+            {/*  Games of Legal Awareness Class 9-10 */}
+
+            <Route
+              path="/legal-quiz-quest"
+              element={<LegalQuizQuestLevel3 />}
+            />
+            <Route
+              path="/justice-throne-game"
+              element={<JusticeThroneGame />}
+            />
+            <Route
+              path="/match-terms-game-result"
+              element={<MatchTermsGameResult />}
+            />
+            <Route path="/match-terms-game" element={<MatchTermsGame />} />
+            {/* Finish Games of Legal Awareness Class 9-10 */}
 
             {/* Games of Legal Awareness Class 11-12 */}
 
