@@ -193,58 +193,54 @@ const RefundPolicy = () => {
   const policyData = [
     {
       icon: <Calendar />,
-      title: "Refund Eligibility",
-      description: "Understanding when refunds are available and the conditions that apply to your purchase.",
+      title: "General Refund Terms",
+      description: "Understanding the basic terms and conditions that apply to all refund requests.",
       iconBg: "bg-gradient-to-r from-blue-500 to-blue-600",
       gradient: "bg-gradient-to-r from-blue-400 to-blue-600",
       items: [
-        { type: 'check', text: 'Refunds available for subscription and one-time purchases' },
-        { type: 'check', text: 'Must request within 14 days of original payment' },
-        { type: 'info', text: 'Unused services and content are eligible for refund' },
-        { type: 'warning', text: 'Already accessed services are non-refundable' }
+        { type: 'check', text: 'Refunds provided only for eligible subscription-based or one-time purchase services' },
+        { type: 'warning', text: 'Refund requests must be raised within 14 days of the original payment date' },
+        { type: 'cross', text: 'Services already availed or sessions already conducted are non-refundable' },
+        { type: 'info', text: 'All refund requests must be sent to support@edumaniax.com with relevant details (transaction ID, reason for refund, and registered user email)' }
       ],
       delay: 0.2
     },
     {
       icon: <DollarSign />,
-      title: "Refund Calculation",
-      description: "Transparent breakdown of how your refund amount is calculated and processed.",
+      title: "Refund Amount",
+      description: "Transparent breakdown of how your refund amount is calculated and what deductions apply.",
       iconBg: "bg-gradient-to-r from-green-500 to-green-600",
       gradient: "bg-gradient-to-r from-green-400 to-green-600",
       items: [
-        { type: 'info', text: '10% deducted as non-refundable GST component' },
-        { type: 'check', text: '90% of paid amount refunded to original payment method' },
-        { type: 'info', text: 'Refund processed after claim verification' },
-        { type: 'check', text: 'No hidden fees or additional charges' }
+        { type: 'info', text: 'EduManiax will deduct 10% of the total paid amount as a non-refundable component representing Goods and Services Tax (GST) that has already been paid by us as a registered service provider' },
+        { type: 'check', text: 'The remaining 90% of the paid amount will be refunded to your original payment method after verification of the claim' }
       ],
       delay: 0.4
     },
     {
       icon: <Timer />,
-      title: "Processing Timeline",
-      description: "Clear expectations for when you can expect to receive your refund.",
+      title: "Processing Time",
+      description: "Clear timeline for when you can expect to receive your refund.",
       iconBg: "bg-gradient-to-r from-purple-500 to-purple-600",
       gradient: "bg-gradient-to-r from-purple-400 to-purple-600",
       items: [
-        { type: 'check', text: 'Refunds processed within 7-10 business days' },
-        { type: 'info', text: 'Timeline starts from approval date' },
-        { type: 'warning', text: 'Bank processing may add 2-5 additional days' },
-        { type: 'check', text: 'Email confirmation sent once processed' }
+        { type: 'check', text: 'Refunds will be processed within 7 to 10 business days from the date of approval' },
+        { type: 'warning', text: 'The actual refund time may vary depending on your bank or payment provider' }
       ],
       delay: 0.6,
       isHighlighted: true
     },
     {
       icon: <XCircle />,
-      title: "Non-Refundable Cases",
-      description: "Situations where refunds cannot be processed to ensure fair usage policies.",
+      title: "Non-Refundable Situations",
+      description: "Specific situations where refunds cannot be processed to ensure fair usage policies.",
       iconBg: "bg-gradient-to-r from-red-500 to-red-600",
       gradient: "bg-gradient-to-r from-red-400 to-red-600",
       items: [
-        { type: 'cross', text: 'Services or content already accessed or used' },
-        { type: 'cross', text: 'Requests made after 14-day window' },
-        { type: 'cross', text: 'Policy violations or platform misuse detected' },
-        { type: 'cross', text: 'Non-refundable promotional offers' }
+        { type: 'cross', text: 'If services or digital content have already been accessed or used' },
+        { type: 'cross', text: 'If the request is made after 14 days from the purchase' },
+        { type: 'cross', text: 'If any policy violation or misuse of platform services is detected' },
+        { type: 'cross', text: 'If payment was made under a non-refundable promotional or discounted offer' }
       ],
       delay: 0.8
     }
@@ -355,7 +351,8 @@ const RefundPolicy = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12"
           >
-            At EduManiax, we believe in building trust through transparency. Our refund policy 
+            At EduManiax, we are committed to ensuring satisfaction with our educational and recreational services. 
+            However, we understand that there may be circumstances requiring a refund. Our refund policy 
             is designed to be fair, clear, and straightforward—ensuring you have peace of mind 
             with every purchase while supporting our mission to provide quality education.
           </motion.p>
