@@ -197,6 +197,9 @@ import LegalQuizQuestLevel3 from "./components/Games for 9-10/Legal Awareness/Le
 import JusticeThroneGame from "./components/Games for 9-10/Legal Awareness/Level2/Justice Throne/JusticeThroneGame";
 import MatchTermsGameResult from "./components/Games for 9-10/Legal Awareness/Level1/Result";
 import MatchTermsGame from "./components/Games for 9-10/Legal Awareness/Level1/Game";
+import EthicsFirewallGame from "./components/Class 11-12/Entrepreneurship/Game3/Game3";
+import StartupSimulationGame from "./components/Class 11-12/Entrepreneurship/Game2/Game2";
+import ProblemSolutionGame from "./components/Class 11-12/Entrepreneurship/Game1/Game1";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
