@@ -197,6 +197,8 @@ import LegalQuizQuestLevel3 from "./components/Games for 9-10/Legal Awareness/Le
 import JusticeThroneGame from "./components/Games for 9-10/Legal Awareness/Level2/Justice Throne/JusticeThroneGame";
 import MatchTermsGameResult from "./components/Games for 9-10/Legal Awareness/Level1/Result";
 import MatchTermsGame from "./components/Games for 9-10/Legal Awareness/Level1/Game";
+import AboutUs from "./pages/AboutUs";
+
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -288,6 +290,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/about" element={<AboutUs />} />
             <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />

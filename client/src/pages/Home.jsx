@@ -21,22 +21,22 @@ const featureItems = [
   {
     img: "https://cdn-icons-png.flaticon.com/512/3159/3159066.png",
     alt: "Levels & Challenges",
-    title: "Proper Levels & Challenges",
-    desc: "Each subject offers structured levels and engaging challenges to help you master concepts step by step.",
+    title: "Progressive Levels & Real-World Challenges",
+    desc: "Every module is designed with step-by-step levels and hands-on challenges that help you apply what you learn from solving real problems to building your own ideas.",
     video: "https://www.w3schools.com/html/mov_bbb.mp4", // sample video
   },
   {
     img: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
     alt: "Progress Analysis",
-    title: "Progress Report Analysis",
-    desc: "Get detailed analysis of your progress reports to track your growth and identify areas for improvement.",
+    title: "Personalized Growth Tracker",
+    desc: "Get actionable insights into your performance, helping you understand what you’ve mastered and what needs more focus.",
     video: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
     img: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     alt: "Personalized Suggestions",
-    title: "Personalized Suggestions",
-    desc: "Receive tailored suggestions and resources to help you overcome challenges and accelerate your learning.",
+    title: "Personalized Learning Paths",
+    desc: "Receive smart, tailored suggestions and curated resources that adapt to your progress helping you overcome challenges and unlock your full potential",
     video: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   
@@ -221,7 +221,8 @@ const Home = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-20">
-            Platform <span className="text-[#129990]">Key Features</span>
+            What Makes <span className="text-[#129990]">Edumaniax</span> Stand Out
+               
           </h2>
 
           <div className="space-y-24">
@@ -324,18 +325,18 @@ const Home = () => {
           >
             {[
               {
-                title: "Enroll",
-                desc: "Choose your likeable course and proceed.",
+                title: "Start Your Journey",
+                desc: "Find the course that excites you and begin learning at your own pace.",
                 icon: "https://cdn-icons-png.flaticon.com/512/4202/4202843.png",
               },
               {
-                title: "Get Trained",
-                desc: "Learn from our educators and industry experts to gain practical skills.",
-                icon: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
+                title: "Learn with Gamified Challenges",
+                desc: "Grasp complex concepts through smart AI tools, interactive games, and immersive simulations.",
+                icon: "challenge.png",
               },
               {
-                title: "Excel",
-                desc: "Apply your skills in real-world scenarios and excel in your career.",
+                title: "Apply & Succeed",
+                desc: "Turn your learning into action and shine in your projects and career.",
                 icon: "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
               },
             ].map((step, index) => (
