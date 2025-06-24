@@ -13,76 +13,87 @@ const Curriculum = forwardRef((props, ref) => {
 
   const modules = [
     {
-      title: "🧩 LEVEL 1",
-      description: "🎯 Mission: “Survive the Month Without Going Broke”",
+      title: "🧠 LEVEL 1 - Build  the vision",
+      description:
+        "🎯 Mission: Discover your leadership style and set your vision.",
       duration: "4 weeks",
       challenges: [
         {
           title: "Leader Type",
-          description: "Objective: Teach budgeting and prioritization.",
+          description:
+            "Match leadership styles with their traits and situations using interactive drag-and-drop and MCQs.",
           duration: "45 min",
           path: "/leader-type",
         },
         {
           title: "Vision Builder",
-          description: "Objective: Introduce banking basics.",
+          description:
+            "Build your personal leadership vision and define SMART goals through guided prompts.",
           duration: "50 min",
           path: "/vision-builder",
         },
       ],
     },
     {
-      title: "🎮 LEVEL 2",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
+      title: "🎤 LEVEL 2 - Leadership in life",
+      description:
+        "🎯 Mission: Master leadership communication and emotional intelligence.",
       duration: "4 weeks",
       challenges: [
         {
           title: "Communication Lab",
-          description: "Objective: Explain credit, interest, and EMI traps.",
+          description:
+            "Handle real-life communication scenarios and practice active listening with choose-your-path simulations.",
           duration: "50 min",
           path: "/communication-lab",
         },
         {
           title: "Empathy Radar",
-          description: "Understand the cost of payment methods.",
+          description:
+            "Learn how to support others and understand emotional intelligence through MCQs and reflections.",
           duration: "50 min",
           path: "/empathy-radar",
         },
       ],
     },
     {
-      title: "📈 LEVEL 3",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "🧩 LEVEL 3 - Decision and Team maker",
+      description:
+        "🎯 Mission: Make better decisions and lead collaborative teams.",
       duration: "4 weeks",
       challenges: [
         {
           title: "Decision Room",
-          description: "React to market changes in real time.",
+          description:
+            "Tackle decision-making dilemmas and solve problems under pressure with real-time feedback.",
           duration: "50 min",
           path: "/decision-room",
         },
         {
           title: "Team Architect",
-          description: "Identify risk appetite.",
+          description:
+            "Build effective teams by assigning roles based on skills and understanding good delegation.",
           duration: "45 min",
           path: "/team-architect",
         },
       ],
     },
     {
-      title: "📈 LEVEL 4",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "🚀 LEVEL 4 - Lead from the front",
+      description: "🎯 Mission: Lead with integrity and drive positive change.",
       duration: "4 weeks",
       challenges: [
         {
           title: "Innovation Sprint",
-          description: "React to market changes in real time.",
+          description:
+            "Identify a problem, brainstorm a solution, and submit your change project with an innovation checklist.",
           duration: "50 min",
           path: "/innovation-sprint",
         },
         {
           title: "Integrity Quest",
-          description: "Identify risk appetite.",
+          description:
+            "Explore ethical dilemmas and understand what it means to be a trustworthy leader.",
           duration: "45 min",
           path: "/integrity-quest",
         },

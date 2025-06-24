@@ -13,64 +13,65 @@ const Curriculum = forwardRef((props, ref) => {
 
   const modules = [
     {
-      title: "🧩 LEVEL 1",
-      description: "🎯 Mission",
+      title: "🧩 LEVEL 1 - Legal Starters – Awareness & Identification",
+      description: "🎯 Mission: Learn legal basics and awareness",
       duration: "4 weeks",
       challenges: [
         {
           title: "Sort It Out",
-          description: "Objective: Teach budgeting and prioritization.",
+          description: "Objective: Categorize legal phrases into correct law types.",
           duration: "45 min",
           path: "/sort-it-out",
         },
         {
-          title: "Legal Quiz",
-          description: "Objective: Introduce banking basics.",
+          title: "LawQuest – The Legal Adventure",
+          description: "Objective: Answer MCQs on rights, duties, and basic laws.",
           duration: "50 min",
           path: "/legal-quiz",
         },
       ],
     },
     {
-      title: "🎮 LEVEL 2",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
+      title: "🎮 LEVEL 2 - Law Learner – Match & Connect",
+      description: "🎯 Mission: Know rights, duties and law better.",
       duration: "4 weeks",
       challenges: [
         {
           title: "Puzzle Match",
-          description: "Objective: Explain credit, interest, and EMI traps.",
+          description:
+            "Objective: Match legal terms with correct descriptions.",
           duration: "50 min",
           path: "/puzzle-match",
         },
         {
           title: "Catch Your Rights",
-          description: "Understand the cost of payment methods.",
+          description: "Objective: Categorize terms into law, rights, duties.",
           duration: "50 min",
           path: "/catch-your-rights",
         },
       ],
     },
     {
-      title: "📈 LEVEL 3",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "📈 LEVEL 3 - Legal Strategist",
+      description: "🎯 Mission: Experience the Court",
       duration: "4 weeks",
       challenges: [
         {
-          title: "Case Hear",
-          description: "React to market changes in real time.",
+          title: "Courtroom Clash",
+          description: "Objective: Live through courtroom experience.",
           duration: "50 min",
           path: "/case-hear",
         },
       ],
     },
     {
-      title: "📈 LEVEL 4",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "📈 LEVEL 4 - Questionnaire",
+      description: "🎯 Mission: Be more legally aware",
       duration: "4 weeks",
       challenges: [
         {
           title: "Maze Of Choices",
-          description: "React to market changes in real time.",
+          description: "Objective: Break through several legal awareness questions.",
           duration: "50 min",
           path: "/maze-of-choices",
         },

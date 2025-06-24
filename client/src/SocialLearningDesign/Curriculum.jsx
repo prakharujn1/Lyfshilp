@@ -12,88 +12,89 @@ const Curriculum = forwardRef((props, ref) => {
   const { role } = useAuth();
 
   const modules = [
-    {
-      title: "🧩 LEVEL 1",
-      description: "🎯 Mission: “Survive the Month Without Going Broke”",
-      duration: "4 weeks",
-      challenges: [
-        {
-          title: "Mood Mirror",
-          description: "Objective: Teach budgeting and prioritization.",
-          duration: "45 min",
-          path: "/mood-mirror",
-        },
-        {
-          title: "Friendship Fixer",
-          description: "Objective: Introduce banking basics.",
-          duration: "50 min",
-          path: "/friendship-fixer",
-        },
-        {
-          title: "Kindness Clicks",
-          description: "Scenario-based decision making.",
-          duration: "45 min",
-          path: "/kindness-clicks",
-        },
-      ],
-    },
-    {
-      title: "🎮 LEVEL 2",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
-      duration: "4 weeks",
-      challenges: [
-        {
-          title: "Stress Buster Lab",
-          description: "Objective: Explain credit, interest, and EMI traps.",
-          duration: "50 min",
-          path: "/stress-buster-lab",
-        },
-        {
-          title: "Conflict Quest",
-          description: "Understand the cost of payment methods.",
-          duration: "50 min",
-          path: "/conflict-quest",
-        },
-        {
-          title: "Mind Body Match Up",
-          description: "Game format decision-making activity.",
-          duration: "45 min",
-          path: "/mind-body-match-up",
-        },
-        {
-          title: "Influence Explorer",
-          description: "Game format decision-making activity.",
-          duration: "45 min",
-          path: "/influence-explorer",
-        },
-      ],
-    },
-    {
-      title: "📈 LEVEL 3",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
-      duration: "4 weeks",
-      challenges: [
-        {
-          title: "Mission Goal Tracker",
-          description: "React to market changes in real time.",
-          duration: "50 min",
-          path: "/mission-goal-tracker",
-        },
-        {
-          title: "Help Hub",
-          description: "Identify risk appetite.",
-          duration: "45 min",
-          path: "/help-hub",
-        },
-        {
-          title: "My Circle Mission",
-          description: "Create a mock investment plan.",
-          duration: "55 min",
-          path: "/my-circle-mission",
-        },
-      ],
-    },
-  ];
+  {
+    title: "🧩 LEVEL 1 - Know Yourself First",
+    description: "🎯 Mission: Understanding Yourself + Relationships",
+    duration: "4 weeks",
+    challenges: [
+      {
+        title: "Mood Mirror",
+        description: "Objective: Help students identify and name their emotions in real-world school situations.",
+        duration: "45 min",
+        path: "/mood-mirror",
+      },
+      {
+        title: "Friendship Fixer",
+        description: "Objective: Teach students how to manage conflicts with peers using empathy and communication.",
+        duration: "50 min",
+        path: "/friendship-fixer",
+      },
+      {
+        title: "Kindness Clicks",
+        description: "Objective: Scenario-based decision making to promote empathy and positive social interactions.",
+        duration: "45 min",
+        path: "/kindness-clicks",
+      },
+    ],
+  },
+  {
+    title: "🎮 LEVEL 2 - Manage emotional issues",
+    description: "🎯 Mission: Learn to manage stress and responses",
+    duration: "4 weeks",
+    challenges: [
+      {
+        title: "Stress Buster Lab",
+        description: "Objective: Help students recognize stress triggers and practice calming strategies.",
+        duration: "50 min",
+        path: "/stress-buster-lab",
+      },
+      {
+        title: "Conflict Quest",
+        description: "Objective: Understand healthy vs unhealthy conflict responses and how to resolve issues peacefully.",
+        duration: "50 min",
+        path: "/conflict-quest",
+      },
+      {
+        title: "Mind Body Match Up",
+        description: "Objective: Understand how thoughts, emotions, and physical sensations are connected.",
+        duration: "45 min",
+        path: "/mind-body-match-up",
+      },
+      {
+        title: "Influence Explorer",
+        description: "Objective: Identify and reflect on peer pressure and media influence.",
+        duration: "45 min",
+        path: "/influence-explorer",
+      },
+    ],
+  },
+  {
+    title: "📈 LEVEL 3 - Navigating through connections",
+    description: "🎯 Mission: Manage friendships and networks",
+    duration: "4 weeks",
+    challenges: [
+      {
+        title: "Mission Goal Tracker",
+        description: "Objective: React to changing friendship dynamics and reflect on personal boundaries and goals.",
+        duration: "50 min",
+        path: "/mission-goal-tracker",
+      },
+      {
+        title: "Help Hub",
+        description: "Objective: Identify support networks and know how to ask for help when overwhelmed or stuck.",
+        duration: "45 min",
+        path: "/help-hub",
+      },
+      {
+        title: "My Circle Mission",
+        description: "Objective: Create a plan for building a safe and supportive friend circle, online and offline.",
+        duration: "55 min",
+        path: "/my-circle-mission",
+      },
+    ],
+  },
+];
+
 
   const handleLockedClick = () => {
     toast.info("🔒 Complete previous challenges to unlock this one!");
