@@ -201,6 +201,24 @@ import EthicsFirewallGame from "./components/Class 11-12/Entrepreneurship/Game3/
 import StartupSimulationGame from "./components/Class 11-12/Entrepreneurship/Game2/Game2";
 import ProblemSolutionGame from "./components/Class 11-12/Entrepreneurship/Game1/Game1";
 import AboutUs from "./pages/AboutUs";
+import StartupQuest from "./components/Games for 9-10/Entreprenurship/Level1/StartupQuest/StartupQuest";
+import LeanMachineGame from "./components/Games for 9-10/Entreprenurship/Level1/LeanMachineGame/LeanMachineGame";
+import PitchArenaGame from "./components/Games for 9-10/Entreprenurship/Level1/PitchArenaGame/PitchArenaGame";
+import MarketPulseChallenge from "./components/Games for 9-10/Entreprenurship/Level2/MarketPulseChallenge/MarketPulseChallenge";
+import EthicsEscapeRoomGame from "./components/Games for 9-10/Entreprenurship/Level2/EthicsEscapeRoomGame/EthicsEscapeRoomGame";
+import StartupFinanceFunGame from "./components/Games for 9-10/Entreprenurship/Level2/StartupFinanceLabGame/StartupFinanceLabGame";
+import BodyLanguageGame from "./components/Class 11-12/Communication/Level1/BodyLanguageGame/BodyLanguageGame";
+import ActiveListeningGame from "./components/Class 11-12/Communication/Level1/ActiveListeningGame/ActiveListeningGame";
+import ToneSimulatorGame from "./components/Class 11-12/Communication/Level1/ToneSimulatorGame/ToneSimulatorGame";
+import PersuasionGame from "./components/Class 11-12/Communication/Level2/PersuadeWithPurpose/PersuadeWithPurpose";
+import DigitalDilemmaGame from "./components/Class 11-12/Communication/Level2/DigitalDilemmaGame/DigitalDilemmaGame";
+import ResolveItRight from "./components/Class 11-12/Communication/Level2/ResolveItRight/ResolveItRight";
+import LeadershipGame from "./components/Class 11-12/Communication/Level3/LeadershipGame/LeadershipGame";
+import PRCrisisGame from "./components/Class 11-12/Communication/Level3/PRCrisisGame/PRCrisisGame";
+import FeedbackLoop from "./components/Class 11-12/Communication/Level3/FeedbackLoopGame/FeedbackLoopGame";
+import PitchArenaPro from "./components/Class 11-12/Entrepreneurship/Game4/Game4";
+import SimulatedMarketGame from "./components/Class 11-12/Entrepreneurship/Game5/Game5";
+import SDGStartupQuest from "./components/Class 11-12/Entrepreneurship/Game6/Game6";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -822,8 +840,110 @@ function App() {
               path="/problem-solution-game"
               element={<ProblemSolutionGame />}
             />
+            <Route
+              path="/PitchArenaPro"
+              element={<PitchArenaPro />}
+            />
+            <Route
+              path="/SimulatedMarketGame"
+              element={<SimulatedMarketGame />}
+            />
+            <Route
+              path="/SDGStartupQuest"
+              element={<SDGStartupQuest />}
+            />
 
             {/*11-12 Entrepreneurship games finish*/}
+
+            {/* Games of Entrepreneurship Class 9-10 */}
+
+            {/* Level 1 */}
+            <Route
+              path="/StartupQuest"
+              element={<StartupQuest />}
+            />
+
+            <Route
+              path="/LeanMachineGame"
+              element={<LeanMachineGame />}
+            />
+
+            <Route
+              path="/PitchArenaGame"
+              element={<PitchArenaGame />}
+            />
+
+
+            {/* Level 2 */}
+
+            <Route
+              path="/MarketPulseChallenge"
+              element={<MarketPulseChallenge />}
+            />
+
+            <Route
+              path="/EthicsEscapeRoomGame"
+              element={<EthicsEscapeRoomGame />}
+            />
+            <Route
+              path="/StartupFinanceLabGame"
+              element={<StartupFinanceFunGame />}
+            />
+
+
+            {/* Finish Games of Entrepreneurship Class 9-10 */}
+
+            {/* Games of Communication Class 11-12 */}
+
+            {/* Level 1 */}
+            <Route
+              path="/BodyLanguageGame"
+              element={<BodyLanguageGame />}
+            />
+
+            <Route
+              path="/ActiveListeningGame"
+              element={<ActiveListeningGame />}
+            />
+
+            <Route
+              path="/ToneSimulatorGame"
+              element={<ToneSimulatorGame />}
+            />
+
+            {/* Level 2 */}
+            <Route
+              path="/PersuasionGame"
+              element={<PersuasionGame />}
+            />
+
+            <Route
+              path="/DigitalDilemmaGame"
+              element={<DigitalDilemmaGame />}
+            />
+
+            <Route
+              path="/ResolveItRight"
+              element={<ResolveItRight />}
+            />
+
+            {/* Level 3 */}
+            <Route
+              path="/LeadershipGame"
+              element={<LeadershipGame />}
+            />
+
+            <Route
+              path="/PRCrisisGame"
+              element={<PRCrisisGame />}
+            />
+
+            <Route
+              path="/FeedbackLoop"
+              element={<FeedbackLoop />}
+            />
+
+            {/* Finish Games of Communication Class 11-12 */}
 
             {/* Other Routes */}
 
