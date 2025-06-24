@@ -194,7 +194,6 @@ import MatchTermsGame from "./components/Games for 9-10/Legal Awareness/Level1/G
 import EthicsFirewallGame from "./components/Class 11-12/Entrepreneurship/Game3/Game3";
 import StartupSimulationGame from "./components/Class 11-12/Entrepreneurship/Game2/Game2";
 import ProblemSolutionGame from "./components/Class 11-12/Entrepreneurship/Game1/Game1";
-import AboutUs from "./pages/AboutUs";
 import Computer from "./pages/Computers";
 import Law from "./pages/Law";
 import Communication from "./pages/Communication";
