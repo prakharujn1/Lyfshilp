@@ -201,6 +201,21 @@ import EthicsFirewallGame from "./components/Class 11-12/Entrepreneurship/Game3/
 import StartupSimulationGame from "./components/Class 11-12/Entrepreneurship/Game2/Game2";
 import ProblemSolutionGame from "./components/Class 11-12/Entrepreneurship/Game1/Game1";
 import AboutUs from "./pages/AboutUs";
+import Computer from "./pages/Computers";
+import Law from "./pages/Law";
+import Communication from "./pages/Communication";
+import Entrepreneurship from "./pages/Entrepreneurship";
+import LeaderTypeMatch from "./components/Leadership/Level-1/LeaderType/LeaderTypeMatch";
+import VisionBuilderGame from "./components/Leadership/Level-1/VisionBuilder/VisionBuilder";
+import CommunicationLab from "./components/Leadership/Level-2/CommunicationLab/CommunicationLab";
+import EmpathyRadarGame from "./components/Leadership/Level-2/EmpathyRadarGame/EmpathyRadarGame";
+import DecisionRoom from "./components/Leadership/Level-3/DecisionRoom/DecisionRoom";
+import TeamArchitect from "./components/Leadership/Level-3/TeamArchitect/TeamArchitect";
+import InnovationSprint from "./components/Leadership/Level-4/InnovationSprint/InnovationSprint";
+import Leadership from "./pages/Leadership";
+import IntegrityQuest from "./components/Leadership/Level-4/IntegrityQuest/IntegrityQuest";
+import Environment from "./pages/Environment";
+import SocialLearning from "./pages/SocialLearning";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -435,16 +450,23 @@ function App() {
             />
 
             {/* Legal Awareness  */}
+            <Route path="/law/games" element={<Law />} />
 
             {/* Legal Awareness Games */}
 
+            {/* Level 4 */}
             <Route path="/maze-of-choices" element={<MazeOfChoices />} />
+            {/* Level 3 */}
             <Route path="/case-hear" element={<CaseHear />} />
+
+            {/* Level 2 */}
             <Route
               path="/catch-your-rights"
               element={<CatchYourRightsGame />}
             />
             <Route path="/puzzle-match" element={<PuzzleMatch />} />
+
+            {/* Level 1 */}
             <Route path="/sort-it-out" element={<SortItOut />} />
             <Route path="/legal-quiz" element={<LegalQuiz />} />
 
@@ -461,6 +483,7 @@ function App() {
             {/* Legal Awareness Notes Finish */}
 
             {/* Communication Games */}
+            <Route path="/communications/games" element={<Communication />} />
             {/* Level -1*/}
             <Route path="/listen-up" element={<ListenUp />} />
             <Route
@@ -520,6 +543,7 @@ function App() {
             />
 
             {/* Social Learning Games for 6th-8th */}
+            <Route path="/social-learning/games" element={<SocialLearning />} />
             {/* Level 1 */}
             <Route path="/mood-mirror" element={<MoodMirror />} />
             <Route path="/friendship-fixer" element={<FriendshipFixer />} />
@@ -565,6 +589,25 @@ function App() {
 
             {/*  Leadership Notes*/}
             <Route path="/leadership/notes" element={<LeadershipNotes />} />
+            {/*  Leadership Games 6-8*/}
+            <Route path="/leadership/games" element={<Leadership />} />
+            {/*  level 1*/}
+            <Route path="/leader-type" element={<LeaderTypeMatch />} />
+            <Route path="/vision-builder" element={<VisionBuilderGame />} />
+
+            {/*  level 2*/}
+            <Route path="/communication-lab" element={<CommunicationLab />} />
+            <Route path="/empathy-radar" element={<EmpathyRadarGame />} />
+
+            {/*  level 3*/}
+            <Route path="/decision-room" element={<DecisionRoom />} />
+            <Route path="/team-architect" element={<TeamArchitect />} />
+
+            {/*  level 4*/}
+            <Route path="/innovation-sprint" element={<InnovationSprint />} />
+            <Route path="/integrity-quest" element={<IntegrityQuest />} />
+
+            {/* Finish  Leadership Games 6-8*/}
 
             {/*  Entrepreneurship Notes*/}
             <Route
@@ -572,6 +615,10 @@ function App() {
               element={<EntrepreneurshipNotes />}
             />
             {/* Entrepreneurship Games for 6th-8th */}
+            <Route
+              path="/entreprenerurship/games"
+              element={<Entrepreneurship />}
+            />
             {/* Level 1 */}
             <Route
               path="/innovation-explorer"
@@ -594,6 +641,7 @@ function App() {
               element={<EnvironmentalNotes />}
             />
             {/* Environmental Games for 6th-8th */}
+            <Route path="/environmental/games" element={<Environment />} />
             {/* Level 1 */}
             <Route path="/classify-it" element={<ClassifyIt />} />
             <Route path="/pick-zone" element={<PickZone />} />
@@ -625,7 +673,7 @@ function App() {
             />
 
             {/* Games of Computers */}
-
+            <Route path="/computer/games" element={<Computer />} />
             {/* Level 1 games of Computers */}
             <Route path="/AI-challenge" element={<AIChallengeGame />} />
             <Route path="/meet-ai-types" element={<MeetAITypeGame />} />
