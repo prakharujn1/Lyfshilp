@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   motion,
   useScroll,
@@ -205,84 +206,14 @@ const StatCard = ({ number, label, suffix = "", delay = 0 }) => (
   </motion.div>
 );
 
-// const TableOfContents = () => {
-//   const [activeSection, setActiveSection] = useState("mission");
-//   const [isVisible, setIsVisible] = useState(false);
 
-//   const sections = [
-//     {
-//       id: "mission",
-//       label: "Our Mission",
-//       icon: <Target className="w-4 h-4" />,
-//     },
-//     {
-//       id: "difference",
-//       label: "What Makes Us Different",
-//       icon: <Sparkles className="w-4 h-4" />,
-//     },
-//     {
-//       id: "offerings",
-//       label: "What We Offer",
-//       icon: <BookOpen className="w-4 h-4" />,
-//     },
-//     { id: "vision", label: "Our Vision", icon: <Eye className="w-4 h-4" /> },
-//     {
-//       id: "audience",
-//       label: "Who We Serve",
-//       icon: <Users className="w-4 h-4" />,
-//     },
-//   ];
-
-//   useEffect(() => {
-//     const timer = setTimeout(() => setIsVisible(true), 1000);
-//     return () => clearTimeout(timer);
-//   }, []);
-
-//   return (
-//     <AnimatePresence>
-//       {isVisible && (
-//         <motion.div
-//           initial={{ opacity: 0, x: -50 }}
-//           animate={{ opacity: 1, x: 0 }}
-//           exit={{ opacity: 0, x: -50 }}
-//           className="fixed left-8 top-1/2 transform -translate-y-1/2 z-50 hidden xl:block"
-//         >
-//           <div className="bg-white/90 backdrop-blur-xl border border-white/60 rounded-2xl p-4 shadow-xl">
-//             <div className="space-y-2">
-//               {sections.map((section) => (
-//                 <button
-//                   key={section.id}
-//                   onClick={() => {
-//                     document
-//                       .getElementById(section.id)
-//                       ?.scrollIntoView({ behavior: "smooth" });
-//                     setActiveSection(section.id);
-//                   }}
-//                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all ${
-//                     activeSection === section.id
-//                       ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg"
-//                       : "text-gray-600 hover:bg-gray-50"
-//                   }`}
-//                 >
-//                   {section.icon}
-//                   <span className="text-sm font-medium whitespace-nowrap">
-//                     {section.label}
-//                   </span>
-//                 </button>
-//               ))}
-//             </div>
-//           </div>
-//         </motion.div>
-//       )}
-//     </AnimatePresence>
-//   );
-// };
 
 const AboutUs = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, -100]);
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
   const y3 = useTransform(scrollY, [0, 500], [0, -200]);
+  const navigate = useNavigate();
 
   const differentiators = [
     {
@@ -1026,6 +957,7 @@ const AboutUs = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="inline-flex items-center gap-3 bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  onClick={() => navigate("/register")}
                 >
                   Start Your Journey
                   <ArrowRight className="w-6 h-6" />
