@@ -125,15 +125,9 @@ import StressBusterLab from "./components/SEL/Level-2/StressBusterLab/StressBust
 import ConflictQuest from "./components/SEL/Level-2/ConflictQuest/ConflictQuest";
 import MindBodyMatchUp from "./components/SEL/Level-2/MindBodyMatchUp/MindBodyMatchUp";
 import InfluenceExplorer from "./components/SEL/Level-2/InfluenceExplorer/InfluenceExplorer";
-
 import SmartCityGame from "./components/Games for 9-10/AI/Level1/SmartCityGame/SmartCityGame";
 import SpyTheSmartTech from "./components/Games for 9-10/AI/Level1/SpyTheSmartTech/SpyTheSmartTech";
 import WhichAIDoesWhat from "./components/Games for 9-10/AI/Level1/WhichAIDoesWhat/WhichAIDoesWhat";
-
-import AIMistakeDetectorGame from "./components/Games for 9-10/AI/Level2/AIMistakeDetectorGame/AIMistakeDetectorGame";
-import TrainTheTrainerPlants from "./components/Games for 9-10/AI/Level2/TrainTheTrainerPlants/TrainTheTrainerPlants";
-import RateTheIntelligenceGame from "./components/Games for 9-10/AI/Level2/RateTheIntelligenceGame/RateTheIntelligenceGame";
-
 import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/JusticeForAll";
 import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
 import BrandVoiceResult from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceResult";
@@ -201,24 +195,21 @@ import EthicsFirewallGame from "./components/Class 11-12/Entrepreneurship/Game3/
 import StartupSimulationGame from "./components/Class 11-12/Entrepreneurship/Game2/Game2";
 import ProblemSolutionGame from "./components/Class 11-12/Entrepreneurship/Game1/Game1";
 import AboutUs from "./pages/AboutUs";
-import StartupQuest from "./components/Games for 9-10/Entreprenurship/Level1/StartupQuest/StartupQuest";
-import LeanMachineGame from "./components/Games for 9-10/Entreprenurship/Level1/LeanMachineGame/LeanMachineGame";
-import PitchArenaGame from "./components/Games for 9-10/Entreprenurship/Level1/PitchArenaGame/PitchArenaGame";
-import MarketPulseChallenge from "./components/Games for 9-10/Entreprenurship/Level2/MarketPulseChallenge/MarketPulseChallenge";
-import EthicsEscapeRoomGame from "./components/Games for 9-10/Entreprenurship/Level2/EthicsEscapeRoomGame/EthicsEscapeRoomGame";
-import StartupFinanceFunGame from "./components/Games for 9-10/Entreprenurship/Level2/StartupFinanceLabGame/StartupFinanceLabGame";
-import BodyLanguageGame from "./components/Class 11-12/Communication/Level1/BodyLanguageGame/BodyLanguageGame";
-import ActiveListeningGame from "./components/Class 11-12/Communication/Level1/ActiveListeningGame/ActiveListeningGame";
-import ToneSimulatorGame from "./components/Class 11-12/Communication/Level1/ToneSimulatorGame/ToneSimulatorGame";
-import PersuasionGame from "./components/Class 11-12/Communication/Level2/PersuadeWithPurpose/PersuadeWithPurpose";
-import DigitalDilemmaGame from "./components/Class 11-12/Communication/Level2/DigitalDilemmaGame/DigitalDilemmaGame";
-import ResolveItRight from "./components/Class 11-12/Communication/Level2/ResolveItRight/ResolveItRight";
-import LeadershipGame from "./components/Class 11-12/Communication/Level3/LeadershipGame/LeadershipGame";
-import PRCrisisGame from "./components/Class 11-12/Communication/Level3/PRCrisisGame/PRCrisisGame";
-import FeedbackLoop from "./components/Class 11-12/Communication/Level3/FeedbackLoopGame/FeedbackLoopGame";
-import PitchArenaPro from "./components/Class 11-12/Entrepreneurship/Game4/Game4";
-import SimulatedMarketGame from "./components/Class 11-12/Entrepreneurship/Game5/Game5";
-import SDGStartupQuest from "./components/Class 11-12/Entrepreneurship/Game6/Game6";
+import Computer from "./pages/Computers";
+import Law from "./pages/Law";
+import Communication from "./pages/Communication";
+import Entrepreneurship from "./pages/Entrepreneurship";
+import LeaderTypeMatch from "./components/Leadership/Level-1/LeaderType/LeaderTypeMatch";
+import VisionBuilderGame from "./components/Leadership/Level-1/VisionBuilder/VisionBuilder";
+import CommunicationLab from "./components/Leadership/Level-2/CommunicationLab/CommunicationLab";
+import EmpathyRadarGame from "./components/Leadership/Level-2/EmpathyRadarGame/EmpathyRadarGame";
+import DecisionRoom from "./components/Leadership/Level-3/DecisionRoom/DecisionRoom";
+import TeamArchitect from "./components/Leadership/Level-3/TeamArchitect/TeamArchitect";
+import InnovationSprint from "./components/Leadership/Level-4/InnovationSprint/InnovationSprint";
+import Leadership from "./pages/Leadership";
+import IntegrityQuest from "./components/Leadership/Level-4/IntegrityQuest/IntegrityQuest";
+import Environment from "./pages/Environment";
+import SocialLearning from "./pages/SocialLearning";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -304,13 +295,12 @@ function App() {
       <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow ">
+        <main className="flex-grow p-5">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/about" element={<AboutUs />} />
             <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
@@ -453,16 +443,23 @@ function App() {
             />
 
             {/* Legal Awareness  */}
+            <Route path="/law/games" element={<Law />} />
 
             {/* Legal Awareness Games */}
 
+            {/* Level 4 */}
             <Route path="/maze-of-choices" element={<MazeOfChoices />} />
+            {/* Level 3 */}
             <Route path="/case-hear" element={<CaseHear />} />
+
+            {/* Level 2 */}
             <Route
               path="/catch-your-rights"
               element={<CatchYourRightsGame />}
             />
             <Route path="/puzzle-match" element={<PuzzleMatch />} />
+
+            {/* Level 1 */}
             <Route path="/sort-it-out" element={<SortItOut />} />
             <Route path="/legal-quiz" element={<LegalQuiz />} />
 
@@ -479,6 +476,7 @@ function App() {
             {/* Legal Awareness Notes Finish */}
 
             {/* Communication Games */}
+            <Route path="/communications/games" element={<Communication />} />
             {/* Level -1*/}
             <Route path="/listen-up" element={<ListenUp />} />
             <Route
@@ -538,6 +536,7 @@ function App() {
             />
 
             {/* Social Learning Games for 6th-8th */}
+            <Route path="/social-learning/games" element={<SocialLearning />} />
             {/* Level 1 */}
             <Route path="/mood-mirror" element={<MoodMirror />} />
             <Route path="/friendship-fixer" element={<FriendshipFixer />} />
@@ -547,13 +546,6 @@ function App() {
             <Route path="/conflict-quest" element={<ConflictQuest />} />
             <Route path="/mind-body-match-up" element={<MindBodyMatchUp />} />
             <Route path="/influence-explorer" element={<InfluenceExplorer />} />
-            {/* Level 3 */}
-            <Route
-              path="/mission-goal-tracker"
-              element={<MissionGoalTracker />}
-            />
-            <Route path="/help-hub" element={<HelpHub />} />
-            <Route path="/my-circle-mission" element={<MyCircleMission />} />
 
             {/* Social Learning Notes */}
             <Route
@@ -583,6 +575,25 @@ function App() {
 
             {/*  Leadership Notes*/}
             <Route path="/leadership/notes" element={<LeadershipNotes />} />
+            {/*  Leadership Games 6-8*/}
+            <Route path="/leadership/games" element={<Leadership />} />
+            {/*  level 1*/}
+            <Route path="/leader-type" element={<LeaderTypeMatch />} />
+            <Route path="/vision-builder" element={<VisionBuilderGame />} />
+
+            {/*  level 2*/}
+            <Route path="/communication-lab" element={<CommunicationLab />} />
+            <Route path="/empathy-radar" element={<EmpathyRadarGame />} />
+
+            {/*  level 3*/}
+            <Route path="/decision-room" element={<DecisionRoom />} />
+            <Route path="/team-architect" element={<TeamArchitect />} />
+
+            {/*  level 4*/}
+            <Route path="/innovation-sprint" element={<InnovationSprint />} />
+            <Route path="/integrity-quest" element={<IntegrityQuest />} />
+
+            {/* Finish  Leadership Games 6-8*/}
 
             {/*  Entrepreneurship Notes*/}
             <Route
@@ -590,6 +601,10 @@ function App() {
               element={<EntrepreneurshipNotes />}
             />
             {/* Entrepreneurship Games for 6th-8th */}
+            <Route
+              path="/entreprenerurship/games"
+              element={<Entrepreneurship />}
+            />
             {/* Level 1 */}
             <Route
               path="/innovation-explorer"
@@ -612,6 +627,7 @@ function App() {
               element={<EnvironmentalNotes />}
             />
             {/* Environmental Games for 6th-8th */}
+            <Route path="/environmental/games" element={<Environment />} />
             {/* Level 1 */}
             <Route path="/classify-it" element={<ClassifyIt />} />
             <Route path="/pick-zone" element={<PickZone />} />
@@ -643,7 +659,7 @@ function App() {
             />
 
             {/* Games of Computers */}
-
+            <Route path="/computer/games" element={<Computer />} />
             {/* Level 1 games of Computers */}
             <Route path="/AI-challenge" element={<AIChallengeGame />} />
             <Route path="/meet-ai-types" element={<MeetAITypeGame />} />
@@ -678,27 +694,10 @@ function App() {
             <Route path="/which-ai-does-what" element={<WhichAIDoesWhat />} />
 
             {/* Level 2 */}
-            <Route
-              path="/train-the-trainer-plant"
-              element={<TrainTheTrainerPlants />}
-            />
-            <Route
-              path="/ai-mistake-detector"
-              element={<AIMistakeDetectorGame />}
-            />
-            <Route
-              path="/rate-the-intelligence"
-              element={<RateTheIntelligenceGame />}
-            />
 
             {/* Level 3 */}
             <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/justice-for-all" element={<JusticeForAll />} />
-            <Route path="/future-me-in-ai" element={<FutureMeInAI />} />
-            <Route
-              path="/think-before-you-tech"
-              element={<ThinkBeforeYouTechGame />}
-            />
 
             {/* Finish Games of AI Class 9-10 */}
 
@@ -715,235 +714,9 @@ function App() {
             <Route path="/digital-explorer" element={<DigitalExplorer />} />
 
             {/* Level 2 */}
-            <Route path="/reel-architect" element={<ReelArchitectGame />} />
-
-            <Route
-              path="/StoryboardSprintGame"
-              element={<StoryboardSprintGame />}
-            />
-
-            <Route
-              path="/BrandVoiceChallengeGame"
-              element={<BrandVoiceChallenge />}
-            />
 
             {/* Level 3 */}
-
-            <Route
-              path="/CampaignCaptainGame"
-              element={<CampaignCaptainGame />}
-            />
             {/* Finish Games of Dig Mkting Class 9-10 */}
-
-            {/*  Games of Environment Class 9-10 */}
-
-            <Route
-              path="/sustainability-game-1"
-              element={<SustainabilityGames1 />}
-            />
-            <Route
-              path="/sustainability-game-2"
-              element={<SustainabilityGames2 />}
-            />
-            <Route
-              path="/externality-detective-quiz"
-              element={<ExternalityDetectiveGame />}
-            />
-            <Route
-              path="/measure-compare-quiz"
-              element={<MeasureCompareQuiz />}
-            />
-
-            <Route path="/feedback-loop-game" element={<FeedbackLoopGame />} />
-            <Route path="/cause-effect-game" element={<CauseEffectGame />} />
-
-            {/* Finish Games of Environment Class 9-10 */}
-
-            {/*  Games of Legal Awareness Class 9-10 */}
-
-            <Route
-              path="/legal-quiz-quest"
-              element={<LegalQuizQuestLevel3 />}
-            />
-            <Route
-              path="/justice-throne-game"
-              element={<JusticeThroneGame />}
-            />
-            <Route
-              path="/match-terms-game-result"
-              element={<MatchTermsGameResult />}
-            />
-            <Route path="/match-terms-game" element={<MatchTermsGame />} />
-            {/* Finish Games of Legal Awareness Class 9-10 */}
-
-            {/* Games of Legal Awareness Class 11-12 */}
-
-            <Route
-              path="/landmark-cases-result"
-              element={<LandmarkCasesResult />}
-            />
-
-            <Route
-              path="/landmark-cases-game"
-              element={<LandmarkCasesGame />}
-            />
-
-            <Route
-              path="/legal-concepts-result"
-              element={<LegalConceptsResult />}
-            />
-            <Route
-              path="/legal-concepts-game"
-              element={<LegalConceptsGame />}
-            />
-            <Route path="/crime-or-civil" element={<CrimeCivilGame />} />
-
-            <Route path="/tort-law-3" element={<TortLawGame3 />} />
-            <Route path="/tort-law-2" element={<TortLawGame2 />} />
-            <Route path="/tort-law-1" element={<TortLawGame1 />} />
-
-            {/* Finish Games of Legal Awareness Class 11-12 */}
-
-            {/*Environement Games for 11-12*/}
-            {/* Level 1 */}
-            <Route path="/carbon-cycle-vault" element={<CarbonCycleVault />} />
-            <Route path="/nitrogen-reactor" element={<NitrogenReactor />} />
-            <Route
-              path="/phosphorus-lockdown"
-              element={<PhosphorusLockdown />}
-            />
-            <Route path="/water-grid-crisis" element={<WaterGridCrisis />} />
-            {/* Level 2 */}
-            <Route
-              path="/urban-flood-flashpoint"
-              element={<UrbanFloodFlashpoint />}
-            />
-            <Route path="/day-zero" element={<DayZero />} />
-            {/*Level 3 */}
-            <Route path="/urea-addiction" element={<UreaAddiction />} />
-            <Route
-              path="/peak-phosphorus-panic"
-              element={<PeakPhosphorusPanic />}
-            />
-
-            {/* 11-12 Entrepreneurship games start*/}
-
-            <Route
-              path="/ethics-firewall-game"
-              element={<EthicsFirewallGame />}
-            />
-            <Route
-              path="/startup-simulation-game"
-              element={<StartupSimulationGame />}
-            />
-            <Route
-              path="/problem-solution-game"
-              element={<ProblemSolutionGame />}
-            />
-            <Route
-              path="/PitchArenaPro"
-              element={<PitchArenaPro />}
-            />
-            <Route
-              path="/SimulatedMarketGame"
-              element={<SimulatedMarketGame />}
-            />
-            <Route
-              path="/SDGStartupQuest"
-              element={<SDGStartupQuest />}
-            />
-
-            {/*11-12 Entrepreneurship games finish*/}
-
-            {/* Games of Entrepreneurship Class 9-10 */}
-
-            {/* Level 1 */}
-            <Route
-              path="/StartupQuest"
-              element={<StartupQuest />}
-            />
-
-            <Route
-              path="/LeanMachineGame"
-              element={<LeanMachineGame />}
-            />
-
-            <Route
-              path="/PitchArenaGame"
-              element={<PitchArenaGame />}
-            />
-
-
-            {/* Level 2 */}
-
-            <Route
-              path="/MarketPulseChallenge"
-              element={<MarketPulseChallenge />}
-            />
-
-            <Route
-              path="/EthicsEscapeRoomGame"
-              element={<EthicsEscapeRoomGame />}
-            />
-            <Route
-              path="/StartupFinanceLabGame"
-              element={<StartupFinanceFunGame />}
-            />
-
-
-            {/* Finish Games of Entrepreneurship Class 9-10 */}
-
-            {/* Games of Communication Class 11-12 */}
-
-            {/* Level 1 */}
-            <Route
-              path="/BodyLanguageGame"
-              element={<BodyLanguageGame />}
-            />
-
-            <Route
-              path="/ActiveListeningGame"
-              element={<ActiveListeningGame />}
-            />
-
-            <Route
-              path="/ToneSimulatorGame"
-              element={<ToneSimulatorGame />}
-            />
-
-            {/* Level 2 */}
-            <Route
-              path="/PersuasionGame"
-              element={<PersuasionGame />}
-            />
-
-            <Route
-              path="/DigitalDilemmaGame"
-              element={<DigitalDilemmaGame />}
-            />
-
-            <Route
-              path="/ResolveItRight"
-              element={<ResolveItRight />}
-            />
-
-            {/* Level 3 */}
-            <Route
-              path="/LeadershipGame"
-              element={<LeadershipGame />}
-            />
-
-            <Route
-              path="/PRCrisisGame"
-              element={<PRCrisisGame />}
-            />
-
-            <Route
-              path="/FeedbackLoop"
-              element={<FeedbackLoop />}
-            />
-
-            {/* Finish Games of Communication Class 11-12 */}
 
             {/* Other Routes */}
 
@@ -951,7 +724,6 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/refund-policy" element={<RefundPolicy />} />
             <Route path="/terms-conditions" element={<TermsAndConditions />} />
-            <Route path="/courses" element={<Courses />} />
           </Routes>
         </main>
         <Footer />
