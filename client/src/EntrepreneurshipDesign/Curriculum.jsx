@@ -13,56 +13,62 @@ const Curriculum = forwardRef((props, ref) => {
 
   const modules = [
     {
-      title: "🧩 LEVEL 1",
-      description: "🎯 Mission",
+      title: "🧩 LEVEL 1 - The Innovator Explorer",
+      description: "Mission: Solve real-life problems",
       duration: "4 weeks",
       challenges: [
         {
           title: "Innovation Explorer",
-          description: "Objective: Teach budgeting and prioritization.",
+          description: "Objective: Identify and solve daily problems",
           duration: "45 min",
           path: "/innovation-explorer",
         },
         {
           title: "AI Startup Builder",
-          description: "Objective: Teach budgeting and prioritization.",
+          description: "Objective: Build a purposeful AI business",
           duration: "45 min",
           path: "/ai-startup-builder",
         },
       ],
     },
     {
-      title: "🎮 LEVEL 2",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
+      title: "🎮 LEVEL 2 - Ethical Pitch Champion",
+      description: "Mission: Make responsible AI choices",
       duration: "4 weeks",
       challenges: [
         {
           title: "Ethics And Impact",
-          description: "Objective: Explain credit, interest, and EMI traps.",
+          description: "Objective: Address AI fairness and risk",
           duration: "50 min",
           path: "/ethics-and-impact",
         },
         {
           title: "Pitch Champion",
-          description: "Understand the cost of payment methods.",
+          description: "Objective: Present powerful AI solutions",
           duration: "50 min",
           path: "/pitch-champion",
         },
       ],
     },
     {
-      title: "📈 LEVEL 3",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "📈 LEVEL 3 - User-Centric MVP Strategist",
+      description: "Mission: Design and improve AI products",
       duration: "4 weeks",
       challenges: [
         {
           title: "User Persona Detective",
-          description: "React to market changes in real time.",
+          description: "Objective: Understand and empathize with users",
           duration: "50 min",
           path: "/user-persona-detective",
         },
+        {
+          title: "MVP Test",
+          description: "Objective: Test and refine your idea",
+          duration: "50 min",
+          path: "/mvp-test",
+        },
       ],
-    }
+    },
   ];
 
   const handleLockedClick = () => {

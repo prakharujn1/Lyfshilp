@@ -13,100 +13,104 @@ const Curriculum = forwardRef((props, ref) => {
 
   const modules = [
     {
-      title: "🧩 LEVEL 1",
-      description: "🎯 Mission: “Survive the Month Without Going Broke”",
+      title: "🧩 LEVEL 1 - Talk Detective",
+      description:
+        "🎯 Mission: Learn to listen, interpret tone, and persuade with purpose",
       duration: "4 weeks",
       challenges: [
         {
           title: "Listen Up",
-          description: "Objective: Teach budgeting and prioritization.",
+          description: "Skill: Active Listening.",
           duration: "45 min",
           path: "/listen-up",
         },
         {
-          title: "Say It Like You Mean  It",
-          description: "Objective: Introduce banking basics.",
+          title: "Say It Like You Mean It",
+          description: "Skill: Tone & Body Language.",
           duration: "50 min",
           path: "/say-it-like-you-mean-it",
         },
         {
           title: "Pick Your Persuasion",
-          description: "Scenario-based decision making.",
+          description: "Skill: Persuasive Speaking.",
           duration: "45 min",
           path: "/pick-your-persuasion",
         },
       ],
     },
     {
-      title: "🎮 LEVEL 2",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
+      title: "🎮 LEVEL 2 - Feelings Explorer",
+      description:
+        "🎯 Mission: Understand feelings, prevent conflicts, and express emotions with empathy",
       duration: "4 weeks",
       challenges: [
         {
-          title: "Interrupt Game",
-          description: "Objective: Explain credit, interest, and EMI traps.",
+          title: "Oops, I Interrupted!",
+          description: "Skill: Turn-taking.",
           duration: "50 min",
           path: "/interrupt-game",
         },
         {
-          title: "Feel It Find It Game",
-          description: "Understand the cost of payment methods.",
+          title: "Feel It, Find It",
+          description: "Skill: Emotion Recognition.",
           duration: "50 min",
           path: "/feel-it-find-it-game",
         },
         {
-          title: "No-violence Communication ",
-          description: "Game format decision-making activity.",
+          title: "Fix the Fight",
+          description: " Skill: Non-Violent Communication (NVC).",
           duration: "45 min",
           path: "/nvc-game",
         },
       ],
     },
     {
-      title: "📈 LEVEL 3",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "📈 LEVEL 3 - Real-World Communicator",
+      description:
+        "🎯 Mission: Practice smart communication in school, at home, and online.",
       duration: "4 weeks",
       challenges: [
         {
           title: "Tone Fixer",
-          description: "React to market changes in real time.",
+          description: "Skill: Digital communication.",
           duration: "50 min",
           path: "/tone-fixer",
         },
         {
           title: "Speak Up Without Blowing Up",
-          description: "Identify risk appetite.",
+          description: "Skill: Assertiveness.",
           duration: "45 min",
           path: "/speak-up-without-blowing-up",
         },
         {
           title: "Compliment Quest",
-          description: "Create a mock investment plan.",
+          description: "Skill: Positive communication.",
           duration: "55 min",
           path: "/compliment-quest",
         },
       ],
     },
     {
-      title: "📈 LEVEL 4",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "📈 LEVEL 4 - Dialogue Champ",
+      description:
+        "🎯 Mission: Learn how to convince others and resolve conflicts",
       duration: "4 weeks",
       challenges: [
         {
           title: "Window Seat War",
-          description: "React to market changes in real time.",
+          description: "Skill: Reaching at a compromise.",
           duration: "50 min",
           path: "/window-seat-war",
         },
         {
           title: "Pitch It Like A Pro",
-          description: "Identify risk appetite.",
+          description: "Skill: Convince others.",
           duration: "45 min",
           path: "/pitch-it-like-a-pro",
         },
         {
           title: "Cool The Conflict",
-          description: "Create a mock investment plan.",
+          description: "Skill: Resolving conflicts.",
           duration: "55 min",
           path: "/cool-the-conflict",
         },
