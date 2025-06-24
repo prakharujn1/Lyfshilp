@@ -210,6 +210,7 @@ import Leadership from "./pages/Leadership";
 import IntegrityQuest from "./components/Leadership/Level-4/IntegrityQuest/IntegrityQuest";
 import Environment from "./pages/Environment";
 import SocialLearning from "./pages/SocialLearning";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -302,6 +303,7 @@ function App() {
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/about" element={<AboutUs />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
             <Route path="/finance/notes/section-1" element={<Section1 />} />
