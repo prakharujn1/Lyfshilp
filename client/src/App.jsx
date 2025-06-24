@@ -125,15 +125,9 @@ import StressBusterLab from "./components/SEL/Level-2/StressBusterLab/StressBust
 import ConflictQuest from "./components/SEL/Level-2/ConflictQuest/ConflictQuest";
 import MindBodyMatchUp from "./components/SEL/Level-2/MindBodyMatchUp/MindBodyMatchUp";
 import InfluenceExplorer from "./components/SEL/Level-2/InfluenceExplorer/InfluenceExplorer";
-
 import SmartCityGame from "./components/Games for 9-10/AI/Level1/SmartCityGame/SmartCityGame";
 import SpyTheSmartTech from "./components/Games for 9-10/AI/Level1/SpyTheSmartTech/SpyTheSmartTech";
 import WhichAIDoesWhat from "./components/Games for 9-10/AI/Level1/WhichAIDoesWhat/WhichAIDoesWhat";
-
-import AIMistakeDetectorGame from "./components/Games for 9-10/AI/Level2/AIMistakeDetectorGame/AIMistakeDetectorGame";
-import TrainTheTrainerPlants from "./components/Games for 9-10/AI/Level2/TrainTheTrainerPlants/TrainTheTrainerPlants";
-import RateTheIntelligenceGame from "./components/Games for 9-10/AI/Level2/RateTheIntelligenceGame/RateTheIntelligenceGame";
-
 import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/JusticeForAll";
 import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
 import BrandVoiceResult from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceResult";
@@ -301,13 +295,12 @@ function App() {
       <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow ">
+        <main className="flex-grow p-5">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/about" element={<AboutUs />} />
             <Route path="/register" element={<Register />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
@@ -553,13 +546,6 @@ function App() {
             <Route path="/conflict-quest" element={<ConflictQuest />} />
             <Route path="/mind-body-match-up" element={<MindBodyMatchUp />} />
             <Route path="/influence-explorer" element={<InfluenceExplorer />} />
-            {/* Level 3 */}
-            <Route
-              path="/mission-goal-tracker"
-              element={<MissionGoalTracker />}
-            />
-            <Route path="/help-hub" element={<HelpHub />} />
-            <Route path="/my-circle-mission" element={<MyCircleMission />} />
 
             {/* Social Learning Notes */}
             <Route
@@ -708,27 +694,10 @@ function App() {
             <Route path="/which-ai-does-what" element={<WhichAIDoesWhat />} />
 
             {/* Level 2 */}
-            <Route
-              path="/train-the-trainer-plant"
-              element={<TrainTheTrainerPlants />}
-            />
-            <Route
-              path="/ai-mistake-detector"
-              element={<AIMistakeDetectorGame />}
-            />
-            <Route
-              path="/rate-the-intelligence"
-              element={<RateTheIntelligenceGame />}
-            />
 
             {/* Level 3 */}
             <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/justice-for-all" element={<JusticeForAll />} />
-            <Route path="/future-me-in-ai" element={<FutureMeInAI />} />
-            <Route
-              path="/think-before-you-tech"
-              element={<ThinkBeforeYouTechGame />}
-            />
 
             {/* Finish Games of AI Class 9-10 */}
 
@@ -745,133 +714,9 @@ function App() {
             <Route path="/digital-explorer" element={<DigitalExplorer />} />
 
             {/* Level 2 */}
-            <Route path="/reel-architect" element={<ReelArchitectGame />} />
-
-            <Route
-              path="/StoryboardSprintGame"
-              element={<StoryboardSprintGame />}
-            />
-
-            <Route
-              path="/BrandVoiceChallengeGame"
-              element={<BrandVoiceChallenge />}
-            />
 
             {/* Level 3 */}
-
-            <Route
-              path="/CampaignCaptainGame"
-              element={<CampaignCaptainGame />}
-            />
             {/* Finish Games of Dig Mkting Class 9-10 */}
-
-            {/*  Games of Environment Class 9-10 */}
-
-            <Route
-              path="/sustainability-game-1"
-              element={<SustainabilityGames1 />}
-            />
-            <Route
-              path="/sustainability-game-2"
-              element={<SustainabilityGames2 />}
-            />
-            <Route
-              path="/externality-detective-quiz"
-              element={<ExternalityDetectiveGame />}
-            />
-            <Route
-              path="/measure-compare-quiz"
-              element={<MeasureCompareQuiz />}
-            />
-
-            <Route path="/feedback-loop-game" element={<FeedbackLoopGame />} />
-            <Route path="/cause-effect-game" element={<CauseEffectGame />} />
-
-            {/* Finish Games of Environment Class 9-10 */}
-
-            {/*  Games of Legal Awareness Class 9-10 */}
-
-            <Route
-              path="/legal-quiz-quest"
-              element={<LegalQuizQuestLevel3 />}
-            />
-            <Route
-              path="/justice-throne-game"
-              element={<JusticeThroneGame />}
-            />
-            <Route
-              path="/match-terms-game-result"
-              element={<MatchTermsGameResult />}
-            />
-            <Route path="/match-terms-game" element={<MatchTermsGame />} />
-            {/* Finish Games of Legal Awareness Class 9-10 */}
-
-            {/* Games of Legal Awareness Class 11-12 */}
-
-            <Route
-              path="/landmark-cases-result"
-              element={<LandmarkCasesResult />}
-            />
-
-            <Route
-              path="/landmark-cases-game"
-              element={<LandmarkCasesGame />}
-            />
-
-            <Route
-              path="/legal-concepts-result"
-              element={<LegalConceptsResult />}
-            />
-            <Route
-              path="/legal-concepts-game"
-              element={<LegalConceptsGame />}
-            />
-            <Route path="/crime-or-civil" element={<CrimeCivilGame />} />
-
-            <Route path="/tort-law-3" element={<TortLawGame3 />} />
-            <Route path="/tort-law-2" element={<TortLawGame2 />} />
-            <Route path="/tort-law-1" element={<TortLawGame1 />} />
-
-            {/* Finish Games of Legal Awareness Class 11-12 */}
-
-            {/*Environement Games for 11-12*/}
-            {/* Level 1 */}
-            <Route path="/carbon-cycle-vault" element={<CarbonCycleVault />} />
-            <Route path="/nitrogen-reactor" element={<NitrogenReactor />} />
-            <Route
-              path="/phosphorus-lockdown"
-              element={<PhosphorusLockdown />}
-            />
-            <Route path="/water-grid-crisis" element={<WaterGridCrisis />} />
-            {/* Level 2 */}
-            <Route
-              path="/urban-flood-flashpoint"
-              element={<UrbanFloodFlashpoint />}
-            />
-            <Route path="/day-zero" element={<DayZero />} />
-            {/*Level 3 */}
-            <Route path="/urea-addiction" element={<UreaAddiction />} />
-            <Route
-              path="/peak-phosphorus-panic"
-              element={<PeakPhosphorusPanic />}
-            />
-
-            {/* 11-12 Entrepreneurship games start*/}
-
-            <Route
-              path="/ethics-firewall-game"
-              element={<EthicsFirewallGame />}
-            />
-            <Route
-              path="/startup-simulation-game"
-              element={<StartupSimulationGame />}
-            />
-            <Route
-              path="/problem-solution-game"
-              element={<ProblemSolutionGame />}
-            />
-
-            {/*11-12 Entrepreneurship games finish*/}
 
             {/* Other Routes */}
 
@@ -879,7 +724,6 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/refund-policy" element={<RefundPolicy />} />
             <Route path="/terms-conditions" element={<TermsAndConditions />} />
-            <Route path="/courses" element={<Courses />} />
           </Routes>
         </main>
         <Footer />
