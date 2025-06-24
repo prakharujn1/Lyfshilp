@@ -12,82 +12,83 @@ const Curriculum = forwardRef((props, ref) => {
   const { role } = useAuth();
 
   const modules = [
-    {
-      title: "🧩 LEVEL 1",
-      description: "🎯 Mission: “Survive the Month Without Going Broke”",
-      duration: "4 weeks",
-      challenges: [
-        {
-          title: "Classify It",
-          description: "Objective: Teach budgeting and prioritization.",
-          duration: "45 min",
-          path: "/classify-it",
-        },
-        {
-          title: "Pick Zone",
-          description: "Objective: Introduce banking basics.",
-          duration: "50 min",
-          path: "/pick-zone",
-        },
-        {
-          title: "Chain Reaction",
-          description: "Scenario-based decision making.",
-          duration: "45 min",
-          path: "/chain-reaction",
-        },
-      ],
-    },
-    {
-      title: "🎮 LEVEL 2",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
-      duration: "4 weeks",
-      challenges: [
-        {
-          title: "Green Budget",
-          description: "Objective: Explain credit, interest, and EMI traps.",
-          duration: "50 min",
-          path: "/green-budget",
-        },
-        {
-          title: "Match Fallout",
-          description: "Understand the cost of payment methods.",
-          duration: "50 min",
-          path: "/match-fallout",
-        },
-        {
-          title: "Climate Pledge",
-          description: "Game format decision-making activity.",
-          duration: "45 min",
-          path: "/climate-pledge",
-        },
-      ],
-    },
-    {
-      title: "📈 LEVEL 3",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
-      duration: "4 weeks",
-      challenges: [
-        {
-          title: "Cause Scanner",
-          description: "React to market changes in real time.",
-          duration: "50 min",
-          path: "/cause-scanner",
-        },
-        {
-          title: "Melt Down Tracker",
-          description: "Identify risk appetite.",
-          duration: "45 min",
-          path: "/melt-down-tracker",
-        },
-        {
-          title: "Dilemma Cards",
-          description: "Create a mock investment plan.",
-          duration: "55 min",
-          path: "/dilemma-cards",
-        },
-      ],
-    },
-  ];
+  {
+    title: "🧩 LEVEL 1: Environment and Its Components",
+    description: "🎯 Mission: Know the environment better",
+    duration: "4 weeks",
+    challenges: [
+      {
+        title: "Classify It",
+        description: "Objective: Identify and sort biotic and abiotic components of the environment.",
+        duration: "45 min",
+        path: "/classify-it",
+      },
+      {
+        title: "Pick the Zone",
+        description: "Objective: Understand different ecosystems (forest, desert, aquatic, etc.) and their characteristics.",
+        duration: "50 min",
+        path: "/pick-zone",
+      },
+      {
+        title: "Chain Reaction",
+        description: "Objective: Explore how one change in the environment can impact an entire ecosystem.",
+        duration: "45 min",
+        path: "/chain-reaction",
+      },
+    ],
+  },
+  {
+    title: "🎮 LEVEL 2 - Eco-Decision Makers",
+    description: "🎯 Mission: Make smart choices for a sustainable future",
+    duration: "4 weeks",
+    challenges: [
+      {
+        title: "Green Budget",
+        description: "Objective: Learn how to manage limited resources while minimizing environmental impact.",
+        duration: "50 min",
+        path: "/green-budget",
+      },
+      {
+        title: "Match the Fallout",
+        description: "Objective: Connect common human actions with their environmental consequences.",
+        duration: "50 min",
+        path: "/match-fallout",
+      },
+      {
+        title: "Climate Pledge",
+        description: "Objective: Make collective decisions to reduce carbon footprint in a simulated environment.",
+        duration: "45 min",
+        path: "/climate-pledge",
+      },
+    ],
+  },
+  {
+    title: "📈 LEVEL 3 - Climate Change",
+    description: "🎯 Mission: Tackle climate change through data, action, and advocacy",
+    duration: "4 weeks",
+    challenges: [
+      {
+        title: "Cause Scanner",
+        description: "Objective: Analyze causes of climate change using real-world data.",
+        duration: "50 min",
+        path: "/cause-scanner",
+      },
+      {
+        title: "Meltdown Tracker",
+        description: "Objective: Track melting ice, rising temperatures, and their effects globally.",
+        duration: "45 min",
+        path: "/melt-down-tracker",
+      },
+      {
+        title: "Dilemma Cards",
+        description: "Objective: Debate real-life ethical dilemmas involving the environment and propose solutions.",
+        duration: "55 min",
+        path: "/dilemma-cards",
+      },
+    ],
+  },
+];
+
 
   const handleLockedClick = () => {
     toast.info("🔒 Complete previous challenges to unlock this one!");

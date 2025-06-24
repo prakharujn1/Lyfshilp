@@ -13,75 +13,78 @@ const Curriculum = forwardRef((props, ref) => {
 
   const modules = [
     {
-      title: "🧩 LEVEL 1",
-      description: "🎯 Mission: “Survive the Month Without Going Broke”",
+      title: "🧩 LEVEL 1 – AI Explorer",
+      description:
+        "🎯 Mission: Discover what Artificial Intelligence (AI) is and how it helps machines think like humans.",
       duration: "4 weeks",
       challenges: [
         {
-          title: "AI Challenge",
-          description: "Objective: Teach budgeting and prioritization.",
+          title: "AI All Around You",
+          description: "Objective: Find AI in Your Life!",
           duration: "45 min",
           path: "/AI-challenge",
         },
         {
-          title: "“Meet AI",
-          description: "Objective: Introduce banking basics.",
+          title: "Meet the AI Types",
+          description: "Objective: Learn the Different Kinds of AI",
           duration: "50 min",
           path: "/meet-ai-types",
         },
         {
           title: "Build Your Bot",
-          description: "Scenario-based decision making.",
+          description: "Objective: Design Your Own AI Machine!",
           duration: "45 min",
           path: "/build-a-bot",
         },
       ],
     },
     {
-      title: "🎮 LEVEL 2",
-      description: "🎯 Mission: “Buy That Dream Phone Without Getting Tricked”",
+      title: "🎮 LEVEL 2 – AI Brain Trainer",
+      description:
+        "🎯 Mission: Learn how AI thinks, learns, and solves problems",
       duration: "4 weeks",
       challenges: [
         {
           title: "Train the Brain",
-          description: "Objective: Explain credit, interest, and EMI traps.",
+          description: "Objective: Understand How AI Learns.",
           duration: "50 min",
           path: "/train-the-brain",
         },
         {
-          title: " Smart Or Not",
-          description: "Understand the cost of payment methods.",
+          title: "Smart Or Not",
+          description: "Objective: What Can AI Do (and Not Do)?",
           duration: "50 min",
           path: "/smart-or-not",
         },
         {
           title: "AI Problem Solver",
-          description: "Game format decision-making activity.",
+          description: "Objective: Use AI to Solve Real Problems.",
           duration: "45 min",
           path: "/ai-problem-solver",
         },
       ],
     },
     {
-      title: "📈 LEVEL 3",
-      description: "🎯 Mission: “Make Your First ₹10,000 Grow”",
+      title: "📈 LEVEL 3 - AI Innovator",
+      description:
+        "🎯 Mission: Create, evaluate, and think critically about AI's impact on society",
       duration: "4 weeks",
       challenges: [
         {
           title: " AI Ethics Detective",
-          description: "React to market changes in real time.",
+          description: "Objective: Explore the Right and Wrong of AI.",
           duration: "50 min",
           path: "/ai-ethics-detective",
         },
         {
           title: "Future AI Architect",
-          description: "Identify risk appetite.",
+          description: "Objective: Design AI for Tomorrow's World.",
           duration: "45 min",
           path: "/future-ai-architect",
         },
         {
           title: "AI Career Explorer",
-          description: "Create a mock investment plan.",
+          description: "Objective: Discover Your Future with AI.",
           duration: "55 min",
           path: "/ai-career-explorer",
         },
