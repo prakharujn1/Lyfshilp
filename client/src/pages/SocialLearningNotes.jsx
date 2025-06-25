@@ -2,19 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { Menu, ChevronDown, BookOpen, TrendingUp, Target } from "lucide-react";
 import { motion } from "framer-motion";
 
-import Section1dm from "./CommunicationNotes/Mod1";
-import Section2dm from "./CommunicationNotes/Mod2";
-import Section3dm from "./CommunicationNotes/Mod3";
-import Section4dm from "./CommunicationNotes/Mod4";
-import Section5dm from "./CommunicationNotes/Mod5";
+import Section1dm from "./SocialLearningNotes/KnowingMyself";
+import Section2dm from "./SocialLearningNotes/BuildPositiveRel";
+import Section3dm from "./SocialLearningNotes/HandlingStress";
+import Section4dm from "./SocialLearningNotes/SelfDiscipline";
+import Section5dm from "./SocialLearningNotes/DecisionMaking";
 
 
-import Module1 from "./CommunicationNotes/9-10Section1";
-import Module2 from "./CommunicationNotes/9-10Section2";
-import Module3 from "./CommunicationNotes/9-10Section3";
-import Module4 from "./CommunicationNotes/9-10Section4";
-import Module5 from "./CommunicationNotes/9-10Section5";
-import Module6 from "./CommunicationNotes/9-10Section6";
+import Module1 from "./SocialLearningNotes/9-10Section1";
+import Module2 from "./SocialLearningNotes/9-10Section2";
+import Module3 from "./SocialLearningNotes/9-10Section3";
+import Module4 from "./SocialLearningNotes/9-10Section4";
+import Module5 from "./SocialLearningNotes/9-10Section5";
+import Module6 from "./SocialLearningNotes/9-10Section6";
 
 const gradeOptions = [
   { value: "6-8", label: "8th and Below" },
