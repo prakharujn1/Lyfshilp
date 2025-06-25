@@ -380,13 +380,13 @@ const PrivacyPolicy = () => {
             </p>
 
             <motion.a
-              href="mailto:service.excellence@lyfshilpacademy.com"
+              href="mailto:edumaniax.support@gmail.com"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all"
             >
               <Mail className="w-5 h-5" />
-              service.excellence@lyfshilpacademy.com
+              edumaniax.support@gmail.com
               <ArrowRight className="w-5 h-5" />
             </motion.a>
 

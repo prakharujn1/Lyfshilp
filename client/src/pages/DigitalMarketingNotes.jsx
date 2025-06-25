@@ -17,20 +17,17 @@ import Module3 from "./DMsections/9-10Section3";
 import Module4 from "./DMsections/9-10Section4";
 import Module5 from "./DMsections/9-10Section5";
 
-
 import Senior1 from "./DMsections/11-12Section1";
 import Senior2 from "./DMsections/11-12Section2";
 import Senior3 from "./DMsections/11-12Section3";
 import Senior4 from "./DMsections/11-12Section4";
 import Senior5 from "./DMsections/11-12Section5";
-import Senior6 from "./DMsections/11-12Section6";
-import Senior7 from "./DMsections/11-12Section7";
 
 
 const gradeOptions = [
   { value: "6-8", label: "8th and Below" },
   { value: "9-10", label: "9th to 10th Grade" },
-    { value: "11-12", label: "11th to 12th Grade" },
+  { value: "11-12", label: "11th to 12th Grade" },
 ];
 
 const notesSidebar6to8 = [
@@ -58,10 +55,8 @@ const notesSidebar11to12 = [
   { id: "s-3", title: "Unit 3: Advanced Targeting" },
   { id: "s-4", title: "Unit 4: ROI & Metrics" },
   { id: "s-5", title: "Unit 5: Project & Application" },
-  { id: "s-6", title: "Unit 5: Project & Application" },
-  { id: "s-7", title: "Unit 5: Project & Application" },
-
 ];
+
 
 
 const DigitalMarketingFullNotes = () => {
@@ -156,6 +151,7 @@ const DigitalMarketingFullNotes = () => {
   return [];
 };
 
+
   const renderGradeNotes = () => {
     if (selectedGrade === "6-8") {
       return (
@@ -223,6 +219,7 @@ const DigitalMarketingFullNotes = () => {
     </div>
   );
 }
+
     return null;
   };
 

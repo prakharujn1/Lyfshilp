@@ -241,7 +241,7 @@ const Module1DigitalMarketing = ({ topicRefs }) => {
         {/* Why Digital Marketing is Popular */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 md:p-12 border-l-4 border-green-400">
           <div className="text-center mb-12">
-            
+            <div className="text-4xl mb-4">🚀</div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
               Why Is Digital Marketing So Popular?
             </h2>
@@ -376,7 +376,7 @@ const Module1DigitalMarketing = ({ topicRefs }) => {
         {/* Real-World Teen Examples */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 md:p-12 border-l-4 border-green-400">
           <div className="text-center mb-12">
-            
+            <div className="text-4xl mb-4">🌟</div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
               Real-World Teen Examples
             </h2>

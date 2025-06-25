@@ -68,7 +68,7 @@ const Navbar = () => {
         <div className="ml-7">
           <Link to="/" className="flex items-center gap-3 ml-3 md:ml-5">
             <img
-              src="/EduManiaxLogo.png"
+              src="/new_logo.jpg"
               alt="EduManiax Logo"
               className="w-9 h-9 md:w-14 md:h-14 rounded-full object-cover border-2 border-white shadow-md"
             />
