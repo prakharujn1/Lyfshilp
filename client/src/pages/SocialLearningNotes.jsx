@@ -196,18 +196,18 @@ const DigitalMarketingFullNotes = () => {
               className="text-center"
             >
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 mt-30 leading-tight">
-                 Master the Art of communication.
+                 Welcome to Social-Emotional Learning!
                 <br />
                 
               </h1>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                 <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                  Your voice matters. Learn to use it wisely, effectively, and meaningfully
+                  Build stronger minds and kinder hearts through emotional awareness
                 </span>
               </h2>
               
               <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-                Learn the skills that make every word count
+                Explore powerful lessons that shape character, confidence, and connection
               </p>
               <div className="relative inline-block">
                 <button
@@ -265,7 +265,7 @@ const DigitalMarketingFullNotes = () => {
             }`}
           >
             <h2 className="text-xl font-bold text-blue-800 mb-6 px-2">
-              Digital Marketing
+              Social Learning
               
             </h2>
             <ul className="space-y-3">
@@ -319,7 +319,7 @@ const DigitalMarketingFullNotes = () => {
             }`}
           >
             <h2 className="text-xl font-bold text-blue-800 mb-6 px-2">
-              Digital Marketing
+              Social Learning
               
             </h2>
             <ul className="space-y-3">
