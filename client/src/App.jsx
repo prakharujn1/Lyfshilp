@@ -720,7 +720,7 @@ function App() {
             {/*Leadership Games for 9-10*/}
             {/* Level 1 */}
             <Route
-              path="/leadership-identity-matrix"
+              path="/leadership-identity-mixer"
               element={<LeadershipIdentityMixer />}
             />
             <Route
