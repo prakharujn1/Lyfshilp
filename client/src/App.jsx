@@ -210,6 +210,8 @@ import IntegrityQuest from "./components/Leadership/Level-4/IntegrityQuest/Integ
 import Environment from "./pages/Environment";
 import SocialLearning from "./pages/SocialLearning";
 import AboutUs from "./pages/AboutUs";
+import LeadershipIdentityMixer from "./components/Games for 9-10/Leadership/Level-1/LeadershipIdentityMixer/LeadershipIdentityMixer";
+import VisionBlueprintBuilder from "./components/Games for 9-10/Leadership/Level-1/VisionBlueprintBuilder/VisionBlueprintBuilder";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -713,11 +715,18 @@ function App() {
               element={<DigitalExplorerResult />}
             />
             <Route path="/digital-explorer" element={<DigitalExplorer />} />
-
-            {/* Level 2 */}
-
-            {/* Level 3 */}
             {/* Finish Games of Dig Mkting Class 9-10 */}
+
+            {/*Leadership Games for 9-10*/}
+            {/* Level 1 */}
+            <Route
+              path="/leadership-identity-matrix"
+              element={<LeadershipIdentityMixer />}
+            />
+            <Route
+              path="/vision-blueprint-builder"
+              element={<VisionBlueprintBuilder />}
+            />
 
             {/* Other Routes */}
 
