@@ -119,8 +119,8 @@ const Home = () => {
             Real Skills <span style={{ color: "#184802" }}>Fun Learning</span>
           </h1>
           <p className="mt-4 text-lg text-black-500 max-w-md">
-            Master finance, law, communication, coding & more through exciting
-            notes, challenges & games designed for students from Grade 6 to 12.
+            Master  Artificial Intelligence, Machine Learning, Finance, Law, Communication, Coding & more through exciting
+            games, challenges & notes designed for students from Grade 6 to 12.
           </p>
           <div className="mt-6 flex gap-4">
             <button

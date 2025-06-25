@@ -305,6 +305,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/courses" element={<Courses />} />
             <Route path="/finance/games" element={<Finance />} />
             <Route path="/finance/notes" element={<FinanceNotes />} />
             <Route path="/finance/notes/section-1" element={<Section1 />} />
