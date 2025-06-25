@@ -146,7 +146,7 @@ const Home = () => {
         <div className="w-full lg:w-1/2 flex justify-center items-center">
           <div className="w-full max-w-[500px] h-[280px] sm:h-[360px] md:h-[420px] lg:h-[470px] overflow-hidden rounded-xl">
             <img
-              src="/intro-video.gif"
+              src="/intro-v.gif"
               alt="Intro GIF"
               className="w-full h-full object-cover rounded-xl"
             />
