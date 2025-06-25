@@ -130,18 +130,18 @@ const PrivacyPolicy = () => {
   const y2 = useTransform(scrollY, [0, 300], [0, -100]);
 
   const dataTypes = [
-    { icon: <Mail />, label: "Contact Info", color: "bg-gradient-to-r from-blue-500 to-blue-600" },
-    { icon: <Phone />, label: "Phone Number", color: "bg-gradient-to-r from-green-500 to-green-600" },
-    { icon: <Calendar />, label: "Date of Birth", color: "bg-gradient-to-r from-purple-500 to-purple-600" },
-    { icon: <CreditCard />, label: "Payment Data", color: "bg-gradient-to-r from-red-500 to-red-600" },
+    { icon: <Mail />, label: "Name & Email", color: "bg-gradient-to-r from-blue-500 to-blue-600" },
+    { icon: <Phone />, label: "Class/Grade", color: "bg-gradient-to-r from-green-500 to-green-600" },
+    { icon: <Calendar />, label: "Progress Data", color: "bg-gradient-to-r from-purple-500 to-purple-600" },
+    { icon: <CreditCard />, label: "Browser Info", color: "bg-gradient-to-r from-red-500 to-red-600" },
     { icon: <Activity />, label: "Usage Analytics", color: "bg-gradient-to-r from-orange-500 to-orange-600" },
-    { icon: <Settings />, label: "Preferences", color: "bg-gradient-to-r from-teal-500 to-teal-600" }
+    { icon: <Settings />, label: "Cookies", color: "bg-gradient-to-r from-teal-500 to-teal-600" }
   ];
 
   const trustBadges = [
-    { icon: <Shield />, title: "GDPR Compliant", subtitle: "Full  data protection compliance" },
-    { icon: <Lock />, title: "256-bit Encryption", subtitle: "Military-grade data security" },
-    { icon: <Award />, title: "ISO 27001 Certified", subtitle: "International security standards" }
+    { icon: <Shield />, title: "SSL Encryption", subtitle: "Secure browsing protection" },
+    { icon: <Lock />, title: "Limited Access", subtitle: "Authorized staff only" },
+    { icon: <Award />, title: "Student Safety", subtitle: "Ages 10-18 focused design" }
   ];
 
   return (
@@ -193,27 +193,34 @@ const PrivacyPolicy = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-8"
           >
-            Your Privacy,
+            Privacy Policy
             <br />
-            <span className="text-4xl md:text-6xl">Our Sacred Promise</span>
+            <span className="text-4xl md:text-6xl">Edumaniax</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12"
+            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4"
           >
-            At EduManiax, we believe your personal data deserves the highest level of protection. 
-            Our commitment goes beyond compliance—it's about building lasting trust through transparency, 
-            security, and respect for your digital rights.
+            Effective Date: June 20, 2025
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12"
+          >
+            Last Updated: June 20, 2025
           </motion.p>
 
           {/* Data Types Visual */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 0.8, delay: 1 }}
             className="grid grid-cols-2 md:grid-cols-6 gap-4 max-w-4xl mx-auto mb-16"
           >
             {dataTypes.map((type, index) => (
@@ -236,14 +243,13 @@ const PrivacyPolicy = () => {
           <div className="grid lg:grid-cols-2 gap-8 mb-16">
             <FeatureCard
               icon={<Database />}
-              title="Information We Collect"
-              description="We collect only what's necessary to provide you with an exceptional learning experience, always with your explicit consent."
+              title="1. Information We Collect"
+              description="We may collect the following types of information from users:"
               items={[
-                "Personal identifiers (name, email, phone) for account creation",
-                "Educational preferences and progress tracking",
-                "Device information for optimized performance",
-                "Encrypted payment details for secure transactions",
-                "Usage analytics to improve our platform"
+                "Personal Information: Name (first name or username only), Email address (if required for login), Class or grade level (for personalized content)",
+                "Non-Personal Information: Browser type and device information, Pages visited and time spent on site",
+                "Progress in games, quizzes, and modules, IP address (used for regional access control)",
+                "We do not knowingly collect sensitive personal data such as phone numbers, addresses, or payment information"
               ]}
               delay={0.2}
               gradient="bg-gradient-to-r from-blue-500 to-blue-600"
@@ -251,14 +257,15 @@ const PrivacyPolicy = () => {
 
             <FeatureCard
               icon={<Zap />}
-              title="How We Use Your Data"
-              description="Your data powers personalized learning experiences while maintaining the highest standards of privacy and security."
+              title="2. How We Use Your Information"
+              description="We use your information to:"
               items={[
-                "Personalize your learning journey and recommendations",
-                "Send important updates and educational content",
-                "Analyze platform performance and user satisfaction",
-                "Ensure security and prevent fraudulent activities",
-                "Comply with legal requirements and protect rights"
+                "Provide access to educational content",
+                "Track student progress and activity completion",
+                "Improve our platform's user experience and performance",
+                "Respond to inquiries or feedback",
+                "Notify users of updates or new content",
+                "We do not sell or rent your personal information to third parties"
               ]}
               delay={0.4}
               gradient="bg-gradient-to-r from-purple-500 to-purple-600"
@@ -267,33 +274,85 @@ const PrivacyPolicy = () => {
 
           <div className="grid lg:grid-cols-2 gap-8 mb-16">
             <FeatureCard
-              icon={<Globe />}
-              title="Data Sharing & Partners"
-              description="We share data only when necessary, always under strict agreements that prioritize your privacy and security."
+              icon={<Settings />}
+              title="3. Use of Cookies"
+              description="We use cookies and similar technologies to:"
               items={[
-                "Service providers bound by confidentiality agreements",
-                "Educational partners (with anonymized, aggregated data only)",
-                "Legal authorities when required by law",
-                "Business successors during mergers (with your notification)",
-                "Never sold to third parties for marketing purposes"
+                "Keep you logged in",
+                "Save progress on challenges and modules",
+                "Understand site usage patterns to improve user experience",
+                "You can disable cookies in your browser settings, but doing so may affect the functionality of some features"
               ]}
               delay={0.6}
               gradient="bg-gradient-to-r from-green-500 to-green-600"
             />
 
             <FeatureCard
-              icon={<Eye />}
-              title="Your Rights & Control"
-              description="You have complete control over your data. Access, modify, or delete your information at any time with just a few clicks."
+              icon={<Lock />}
+              title="4. Data Protection"
+              description="We implement standard security practices to protect your data:"
               items={[
-                "View and download all your personal data instantly",
-                "Correct or update information through your dashboard",
-                "Request complete data deletion within 30 days",
-                "Opt-out of non-essential communications anytime",
-                "Contact our privacy team for personalized assistance"
+                "SSL encryption for secure browsing",
+                "Limited access to user data by authorized staff only",
+                "Routine monitoring to detect and prevent unauthorized access",
+                "Despite our best efforts, no method of transmission over the internet is 100% secure"
               ]}
               delay={0.8}
               gradient="bg-gradient-to-r from-red-500 to-red-600"
+            />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+            <FeatureCard
+              icon={<Users />}
+              title="5. Children's Privacy"
+              description="Edumaniax is designed for students aged 10-18 (Classes 6-12)."
+              items={[
+                "We do not knowingly collect more data than necessary for educational purposes",
+                "If you are a parent or guardian and believe your child has provided more information than required, please contact us for assistance"
+              ]}
+              delay={1.0}
+              gradient="bg-gradient-to-r from-orange-500 to-orange-600"
+            />
+
+            <FeatureCard
+              icon={<Globe />}
+              title="6. Third-Party Services"
+              description="We may use third-party services that may collect basic technical information."
+              items={[
+                "Analytics tools or embedded tools such as Canva, Google Forms, etc.",
+                "These services operate under their own privacy policies"
+              ]}
+              delay={1.2}
+              gradient="bg-gradient-to-r from-teal-500 to-teal-600"
+            />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+            <FeatureCard
+              icon={<Eye />}
+              title="7. Your Rights and Choices"
+              description="You have the right to:"
+              items={[
+                "Request access to the data we store about you",
+                "Request corrections or deletion of your data",
+                "Opt out of any non-essential communications",
+                "To make such a request, please contact us at: edumaniax.support@gmail.com"
+              ]}
+              delay={1.4}
+              gradient="bg-gradient-to-r from-indigo-500 to-indigo-600"
+            />
+
+            <FeatureCard
+              icon={<FileText />}
+              title="8. Changes to This Policy"
+              description="We may update this Privacy Policy from time to time."
+              items={[
+                "All updates will be posted on this page with the revised date",
+                "Continued use of the website after changes implies your acceptance of the revised policy"
+              ]}
+              delay={1.6}
+              gradient="bg-gradient-to-r from-pink-500 to-pink-600"
             />
           </div>
         </div>
@@ -313,12 +372,11 @@ const PrivacyPolicy = () => {
             </div>
             
             <h3 className="text-3xl font-bold text-gray-800 mb-4">
-              Questions About Your Privacy?
+              9. Contact Us
             </h3>
             
             <p className="text-gray-600 mb-8 text-lg">
-              Our dedicated privacy team is here to help. Reach out anytime for clarifications, 
-              requests, or just to chat about how we protect your data.
+              If you have any questions about this Privacy Policy, please contact:
             </p>
 
             <motion.a

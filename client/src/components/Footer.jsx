@@ -41,11 +41,11 @@ const Footer = () => {
             designed for growth.
           </p>
           <div className="flex items-center gap-3 text-sm text-white mb-2">
-            <FaEnvelope className="text-[#2A4759]" />
+            <FaEnvelope className="text-[#C2E59C]" />
             <span>service.excellence@lyfshilpacademy.com</span>
           </div>
           <div className="flex items-center gap-3 text-sm text-white">
-            <FaPhoneAlt className="text-[#2A4759]" />
+            <FaPhoneAlt className="text-[#C2E59C]" />
             <span>+91 8595034205</span>
           </div>
         </motion.div>
@@ -61,22 +61,22 @@ const Footer = () => {
           <h3 className="font-semibold mb-3 text-white">Explore</h3>
           <ul className="space-y-2 text-sm text-white">
             <li>
-              <Link to="/about" className="hover:text-[#2A4759] transition">
+              <Link to="/about" className="hover:text-[#57B87C] transition">
                 About Us
               </Link>
             </li>
             <li>
-              <Link to="/courses" className="hover:text-[#2A4759] transition">
+              <Link to="/courses" className="hover:text-[#57B87C] transition">
                 Courses
               </Link>
             </li>
             <li>
-              <Link to="/faq's" className="hover:text-[#2A4759] transition">
+              <Link to="/faq's" className="hover:text-[#57B87C] transition">
                 FAQs
               </Link>
             </li>
             <li>
-              <Link to="/blog" className="hover:text-[#2A4759] transition">
+              <Link to="/blog" className="hover:text-[#57B87C] transition">
                 Blog
               </Link>
             </li>
@@ -96,20 +96,20 @@ const Footer = () => {
             <li>
               <Link
                 to="/privacy-policy"
-                className="hover:text-[#2A4759] transition"
+                className="hover:text-[#57B87C] transition"
               >
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link to="/terms-conditions" className="hover:text-[#2A4759] transition">
+              <Link to="/terms-conditions" className="hover:text-[#57B87C] transition">
                 Terms & Conditions
               </Link>
             </li>
             <li>
               <Link
                 to="/refund-policy"
-                className="hover:text-[#2A4759] transition"
+                className="hover:text-[#57B87C] transition"
               >
                 Refund Policy
               </Link>
@@ -167,21 +167,21 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaLinkedin className="hover:text-[#2A4759] transition text-2xl" />
+            <FaLinkedin className="hover:text-[#57B87C] transition text-2xl" />
           </a>
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaXTwitter className="hover:text-[#2A4759] transition text-2xl" />
+            <FaXTwitter className="hover:text-[#57B87C] transition text-2xl" />
           </a>
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaInstagram className="hover:text-[#2A4759] transition text-2xl" />
+            <FaInstagram className="hover:text-[#57B87C] transition text-2xl" />
           </a>
         </div>
       </motion.div>

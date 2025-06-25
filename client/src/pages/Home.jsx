@@ -8,14 +8,14 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { CardSpotlight } from "../components/ui/card-spotlight";
 import { useNavigate } from "react-router-dom";
 
-const sliderImages = [
-  "/logo.jpg",
-  "https://images.pexels.com/photos/9783353/pexels-photo-9783353.jpeg",
-  "https://images.pexels.com/photos/7821487/pexels-photo-7821487.jpeg",
-  "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg",
-  "https://images.pexels.com/photos/7688173/pexels-photo-7688173.jpeg",
-  "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg",
-];
+// const sliderImages = [
+//   "/logo.jpg",
+//   "https://images.pexels.com/photos/9783353/pexels-photo-9783353.jpeg",
+//   "https://images.pexels.com/photos/7821487/pexels-photo-7821487.jpeg",
+//   "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg",
+//   "https://images.pexels.com/photos/7688173/pexels-photo-7688173.jpeg",
+//   "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg",
+// ];
 
 const featureItems = [
   {
@@ -39,7 +39,6 @@ const featureItems = [
     desc: "Receive smart, tailored suggestions and curated resources that adapt to your progress helping you overcome challenges and unlock your full potential",
     video: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
-  
 ];
 
 const Home = () => {
@@ -146,24 +145,11 @@ const Home = () => {
 
         <div className="w-full lg:w-1/2 flex justify-center items-center">
           <div className="w-full max-w-[500px] h-[280px] sm:h-[360px] md:h-[420px] lg:h-[470px] overflow-hidden rounded-xl">
-            <Swiper
-              modules={[Autoplay]}
-              spaceBetween={20}
-              slidesPerView={1}
-              autoplay={{ delay: 2500 }}
-              loop={true}
-              className="w-full h-full rounded-xl overflow-hidden"
-            >
-              {sliderImages.map((src, i) => (
-                <SwiperSlide key={i}>
-                  <img
-                    src={src}
-                    alt={`Slide ${i + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <img
+              src="/intro-video.gif"
+              alt="Intro GIF"
+              className="w-full h-full object-cover rounded-xl"
+            />
           </div>
         </div>
       </div>
@@ -221,8 +207,8 @@ const Home = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-20">
-            What Makes <span className="text-[#129990]">Edumaniax</span> Stand Out
-               
+            What Makes <span className="text-[#129990]">Edumaniax</span> Stand
+            Out
           </h2>
 
           <div className="space-y-24">
@@ -239,8 +225,6 @@ const Home = () => {
               >
                 {/* 🟢 Text Section */}
                 <div className="flex-1 bg-gradient-to-br from-[#f0fdfa] to-white rounded-2xl shadow-xl p-8 md:p-10 text-center md:text-left space-y-4 transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
-                  
-                  
                   <h3 className="text-2xl font-bold text-[#129990] mb-2">
                     {feature.title}
                   </h3>

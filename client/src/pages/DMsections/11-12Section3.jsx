@@ -33,7 +33,7 @@ const Module3ContentCreation = ({ topicRefs }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setVisibleCards([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+     setVisibleCards(Array.from({ length: 20 }, (_, i) => i));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -86,7 +86,7 @@ const Module3ContentCreation = ({ topicRefs }) => {
       duration: "24 hours",
       description: "Quick updates and polls",
       features: ["Behind-the-scenes", "Interactive polls", "Close connection"],
-      example: "Studying or chilling today? 🤔 Vote in poll!",
+      example: "Studying or chilling today?  Vote in poll!",
       icon: <Camera className="w-8 h-8" />,
       color: "from-teal-500 to-green-600",
     },
@@ -190,7 +190,7 @@ const Module3ContentCreation = ({ topicRefs }) => {
           topicRefs.current["s-3"] = el;
         }
       }}
-      className="mb-10"
+      className="mb-10 "
     >
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white">
@@ -554,7 +554,6 @@ const Module3ContentCreation = ({ topicRefs }) => {
         {/* Content Formula */}
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
           <div className="text-center mb-12">
-            <div className="text-4xl mb-4">🪄</div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
               The Content Formula
             </h2>
@@ -595,20 +594,20 @@ const Module3ContentCreation = ({ topicRefs }) => {
               <div className="space-y-4">
                 <div className="bg-white rounded-lg p-4 border-l-4 border-green-500">
                   <p className="text-gray-700">
-                    <strong className="text-green-600">Hook:</strong> 🧠 "Study
+                    <strong className="text-green-600">Hook:</strong>  "Study
                     smarter, not harder!"
                   </p>
                 </div>
                 <div className="bg-white rounded-lg p-4 border-l-4 border-emerald-500">
                   <p className="text-gray-700">
-                    <strong className="text-emerald-600">Value:</strong> 📌
+                    <strong className="text-emerald-600">Value:</strong> 
                     "Here are 3 memory tricks that actually work..."
                   </p>
                 </div>
                 <div className="bg-white rounded-lg p-4 border-l-4 border-teal-500">
                   <p className="text-gray-700">
                     <strong className="text-teal-600">Call to Action:</strong>{" "}
-                    ✅ "Save this for your next revision session."
+                     "Save this for your next revision session."
                   </p>
                 </div>
               </div>
@@ -617,136 +616,11 @@ const Module3ContentCreation = ({ topicRefs }) => {
         </div>
 
         {/* Content Planning */}
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 md:p-12 border-l-4 border-green-400">
-          <div className="text-center mb-12">
-            <Calendar className="w-16 h-16 text-green-600 mx-auto mb-4" />
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-              Plan Before You Post
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Consistency matters more than perfection. Create a content
-              calendar to stay organized.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                Example Weekly Plan
-              </h3>
-              <div className="space-y-4">
-                {[
-                  {
-                    day: "Monday",
-                    format: "Carousel",
-                    topic: "Time-blocking study method",
-                    color: "bg-green-100 text-green-700",
-                  },
-                  {
-                    day: "Wednesday",
-                    format: "Reel",
-                    topic: "Study motivation with trending audio",
-                    color: "bg-emerald-100 text-emerald-700",
-                  },
-                  {
-                    day: "Friday",
-                    format: "Story",
-                    topic: "Poll: Are you a night owl or early bird?",
-                    color: "bg-teal-100 text-teal-700",
-                  },
-                  {
-                    day: "Sunday",
-                    format: "Static Post",
-                    topic: "Quote of the week",
-                    color: "bg-green-100 text-green-700",
-                  },
-                ].map((item, index) => (
-                  <div key={index} className={`${item.color} rounded-lg p-4`}>
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-bold">{item.day}</span>
-                      <span className="text-sm font-medium px-2 py-1 bg-white rounded">
-                        {item.format}
-                      </span>
-                    </div>
-                    <p className="text-sm">{item.topic}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="bg-white rounded-2xl p-6 shadow-lg">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">
-                  Planning Tools
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Notion</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Google Sheets</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Simple notebook</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Phone calendar</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl p-6 shadow-lg">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">
-                  Planning Tips
-                </h3>
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border-l-4 border-green-400">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <p className="text-gray-700 font-medium">
-                        Plan 1 week ahead
-                      </p>
-                    </div>
-                    <p className="text-sm text-gray-600 ml-5">
-                      Reduces last-minute stress
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border-l-4 border-emerald-400">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                      <p className="text-gray-700 font-medium">
-                        Batch similar content
-                      </p>
-                    </div>
-                    <p className="text-sm text-gray-600 ml-5">
-                      Record 3 reels in one session
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border-l-4 border-teal-400">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
-                      <p className="text-gray-700 font-medium">
-                        Keep a backup list
-                      </p>
-                    </div>
-                    <p className="text-sm text-gray-600 ml-5">
-                      Ideas for when you're stuck
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      
 
         {/* Real-Life Student Examples */}
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
           <div className="text-center mb-12">
-            <div className="text-4xl mb-4">🌟</div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
               Real Student Success Stories
             </h2>
@@ -815,7 +689,6 @@ const Module3ContentCreation = ({ topicRefs }) => {
         {/* Key Takeaways */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 md:p-12 border-l-4 border-green-400">
           <div className="text-center mb-12">
-            <div className="text-4xl mb-4">🎯</div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
               Key Takeaways
             </h2>

@@ -32,7 +32,7 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setVisibleCards([0, 1, 2, 3, 4, 5, 6]);
+      setVisibleCards(Array.from({ length: 20 }, (_, i) => i));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -88,7 +88,7 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
       icon: <Camera className="w-6 h-6" />,
       examples: ["Clear headshot for personal", "Logo for business"],
       tips: ["Keep bio clear and focused", "Say what you do in bio"],
-      color: "emerald",
+      color: "green",
     },
     {
       title: "Brand Voice and Tone",
@@ -99,7 +99,7 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
         "Stay consistent across posts",
         "Match your audience expectations",
       ],
-      color: "teal",
+      color: "green",
     },
     {
       title: "Visual Identity",
@@ -115,14 +115,14 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
       icon: <Target className="w-6 h-6" />,
       examples: ["Study hacks + Productivity", "Product demos + Reviews"],
       tips: ["Stick to 2-3 main themes", "Be consistent with content type"],
-      color: "emerald",
+      color: "green",
     },
   ];
 
   const voiceTypes = [
     {
       type: "Friendly & Fun",
-      example: "OMG! You HAVE to try this app for notes 😍",
+      example: "OMG! You HAVE to try this app for notes ",
       color: "bg-green-100 text-green-700",
     },
     {
@@ -132,7 +132,7 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
     },
     {
       type: "Witty & Trendy",
-      example: "Your books called. They miss you. 📚💔",
+      example: "Your books called. They miss you. 📚",
       color: "bg-teal-100 text-teal-700",
     },
   ];
@@ -148,14 +148,14 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
       title: "Recognition",
       description: "A strong brand makes you memorable",
       icon: <Eye className="w-8 h-8" />,
-      color: "emerald",
+      color: "green",
     },
     {
       title: "Growth",
       description:
         "Brands grow faster because they look professional and reliable",
       icon: <Trophy className="w-8 h-8" />,
-      color: "teal",
+      color: "green",
     },
   ];
 
@@ -245,7 +245,6 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
           <div className="relative">
             <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100">
               <div className="text-center">
-                <div className="text-6xl mb-6">🎯</div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-6">
                   Your Brand Identity
                 </h3>
@@ -294,9 +293,6 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
           {/* Auto-rotating Brand Types */}
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
             <div className="text-center mb-8">
-              <div className="text-lg text-gray-600 mb-4">
-                Currently Highlighting
-              </div>
               <div
                 className={`bg-gradient-to-r ${brandTypes[currentBrandType].color} text-white rounded-2xl p-8 max-w-3xl mx-auto transform hover:scale-105 transition-all duration-500`}
               >
@@ -410,9 +406,6 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
           {/* Featured Element (Auto-rotating) */}
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
             <div className="text-center mb-8">
-              <div className="text-lg text-gray-600 mb-4">
-                Currently Highlighting
-              </div>
               <div
                 className={`bg-gradient-to-r from-${
                   brandElements[currentElement].color
@@ -687,149 +680,6 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
         </div>
 
         {/* Interactive Activity */}
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 md:p-12 border-l-4 border-green-400">
-          <div className="text-center mb-8">
-            <div className="text-4xl mb-4">📝</div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              Build Your Own Brand
-            </h2>
-            <p className="text-lg text-gray-600 mt-4">
-              Create a draft of your personal or project brand
-            </p>
-          </div>
-
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">
-                    Name/Handle:
-                  </label>
-                  <input
-                    type="text"
-                    value={userBrand.name}
-                    onChange={(e) => handleInputChange("name", e.target.value)}
-                    placeholder="@studywithsana"
-                    className="w-full p-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-300"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">
-                    Bio:
-                  </label>
-                  <textarea
-                    value={userBrand.bio}
-                    onChange={(e) => handleInputChange("bio", e.target.value)}
-                    placeholder="Study tips for Class 12 | Helping you score better"
-                    rows="3"
-                    className="w-full p-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-300"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">
-                    Brand Voice:
-                  </label>
-                  <select
-                    value={userBrand.voice}
-                    onChange={(e) => handleInputChange("voice", e.target.value)}
-                    className="w-full p-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-300"
-                  >
-                    <option value="">Choose your voice</option>
-                    <option value="friendly">Friendly & Fun</option>
-                    <option value="professional">Calm & Professional</option>
-                    <option value="witty">Witty & Trendy</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">
-                    Content Themes:
-                  </label>
-                  <input
-                    type="text"
-                    value={userBrand.themes}
-                    onChange={(e) =>
-                      handleInputChange("themes", e.target.value)
-                    }
-                    placeholder="Study hacks, Productivity tips"
-                    className="w-full p-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-300"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">
-                    Sample Post Idea:
-                  </label>
-                  <textarea
-                    value={userBrand.postIdea}
-                    onChange={(e) =>
-                      handleInputChange("postIdea", e.target.value)
-                    }
-                    placeholder="5 study hacks that actually work for exams"
-                    rows="3"
-                    className="w-full p-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-300"
-                  />
-                </div>
-
-                {/* Brand Preview */}
-                {(userBrand.name || userBrand.bio) && (
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border-2 border-green-200">
-                    <h4 className="text-sm font-bold text-gray-700 mb-3">
-                      Your Brand Preview:
-                    </h4>
-                    <div className="bg-white rounded-lg p-4 shadow-sm">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold">
-                          {userBrand.name
-                            ? userBrand.name.charAt(0).toUpperCase()
-                            : "?"}
-                        </div>
-                        <div>
-                          <p className="font-bold text-gray-800">
-                            {userBrand.name || "Your Name"}
-                          </p>
-                          <p className="text-sm text-gray-600">
-                            {userBrand.bio || "Your bio here..."}
-                          </p>
-                        </div>
-                      </div>
-                      {userBrand.voice && (
-                        <div className="mt-3 p-2 bg-green-50 rounded border-l-4 border-green-400">
-                          <p className="text-xs text-gray-600">
-                            Voice:{" "}
-                            <span className="font-semibold text-green-600">
-                              {userBrand.voice}
-                            </span>
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="mt-8 text-center">
-              <button
-                onClick={() => {
-                  // Simple feedback animation
-                  const button = document.getElementById("save-brand-btn");
-                  if (button) {
-                    button.innerHTML = "✅ Saved!";
-                    setTimeout(() => {
-                      button.innerHTML = "💾 Save My Brand";
-                    }, 2000);
-                  }
-                }}
-                id="save-brand-btn"
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
-              >
-                💾 Save My Brand
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* Recap Section */}
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
@@ -914,7 +764,6 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
         {/* Quick Self-Test Questions */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 md:p-12 border-l-4 border-green-400">
           <div className="text-center mb-8">
-            <div className="text-4xl mb-4">🧠</div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
               Quick Questions to Test Yourself
             </h2>
@@ -951,7 +800,6 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
         {/* Final Call to Action */}
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100 text-center">
           <div className="max-w-2xl mx-auto">
-            <div className="text-6xl mb-6">🚀</div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
               Ready to Build Your Brand?
             </h2>
@@ -962,7 +810,7 @@ const Module2PersonalBusinessBrand = ({ topicRefs }) => {
             </p>
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border-l-4 border-green-400">
               <p className="text-xl font-bold text-gray-800">
-                Start small, stay consistent, and watch your brand grow! 🌱✨
+                Start small, stay consistent, and watch your brand grow!
               </p>
             </div>
           </div>
