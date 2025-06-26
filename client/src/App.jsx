@@ -214,6 +214,8 @@ import LeadershipIdentityMixer from "./components/Games for 9-10/Leadership/Leve
 import VisionBlueprintBuilder from "./components/Games for 9-10/Leadership/Level-1/VisionBlueprintBuilder/VisionBlueprintBuilder";
 import ConflictSimulator from "./components/Games for 9-10/Leadership/Level-2/ConflictSimulator/ConflictSimulator";
 import EQTracker from "./components/Games for 9-10/Leadership/Level-2/EQTracker/EQTracker";
+import EthicalLogicMaze from "./components/Games for 9-10/Leadership/Level-3/EthicalLogicMaze/EthicalLogicMaze";
+import TeamArchitectMission from "./components/Games for 9-10/Leadership/Level-3/TeamArchitectMission/TeamArchitectMission";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -733,6 +735,15 @@ function App() {
             {/* Level 2 */}
             <Route path="/conflict-simulator" element={<ConflictSimulator />} />
             <Route path="/eq-tracker" element={<EQTracker />} />
+            {/*Level 3 */}
+            <Route
+              path="/ethical-logical-maze"
+              element={<EthicalLogicMaze />}
+            />
+            <Route
+              path="/team-architect-mission"
+              element={<TeamArchitectMission />}
+            />
 
             {/* Other Routes */}
 
