@@ -249,12 +249,20 @@ Let’s keep it simple, cool, and motivating! 😎`,
               ? "You just laid down a roadmap to your dreams 💪 Keep that energy up!"
               : "Oops! Your goals need a little more power ⚡. Check the feedback and try making them more focused and realistic!"}
           </p>
-          <button
-            onClick={fullReset}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            🔁 Play Again
-          </button>
+          <div className="flex justify-center items-center gap-4 mt-4">
+            <button
+              onClick={fullReset}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              🔁 Play Again
+            </button>
+
+            <Link to="/conflict-simulator">
+              <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+                Move to Next Game
+              </button>
+            </Link>
+          </div>
         </div>
       )}
     </div>
