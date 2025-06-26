@@ -212,6 +212,8 @@ import SocialLearning from "./pages/SocialLearning";
 import AboutUs from "./pages/AboutUs";
 import LeadershipIdentityMixer from "./components/Games for 9-10/Leadership/Level-1/LeadershipIdentityMixer/LeadershipIdentityMixer";
 import VisionBlueprintBuilder from "./components/Games for 9-10/Leadership/Level-1/VisionBlueprintBuilder/VisionBlueprintBuilder";
+import ConflictSimulator from "./components/Games for 9-10/Leadership/Level-2/ConflictSimulator/ConflictSimulator";
+import EQTracker from "./components/Games for 9-10/Leadership/Level-2/EQTracker/EQTracker";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -728,6 +730,9 @@ function App() {
               path="/vision-blueprint-builder"
               element={<VisionBlueprintBuilder />}
             />
+            {/* Level 2 */}
+            <Route path="/conflict-simulator" element={<ConflictSimulator />} />
+            <Route path="/eq-tracker" element={<EQTracker />} />
 
             {/* Other Routes */}
 
