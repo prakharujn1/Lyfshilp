@@ -73,7 +73,7 @@ export default function LeadershipGame() {
     }
 
     setEvaluating(true);
-    setFeedback("⏳ Evaluating your message with Gemini...");
+    setFeedback("⏳ Evaluating your message with AI...");
 
     const prompt = `You are an evaluator assessing a student's leadership message to their school event team. 
 

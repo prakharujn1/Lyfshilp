@@ -63,7 +63,7 @@ const DraggableCard = ({ card }) => {
     );
 };
 
-export default function PersuasionGame() {
+export default function PersuadeWithPurpose() {
     const [selectedCards, setSelectedCards] = useState({ intro: [], body: [], conclusion: [] });
     const [submitted, setSubmitted] = useState(false);
     const [feedback, setFeedback] = useState("");

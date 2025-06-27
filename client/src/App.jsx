@@ -153,7 +153,6 @@ import ClimatePledge from "./components/Environment/Level-2/ClimatePledge/Climat
 import ReelArchitectGame from "./components/Games for 9-10/Dig Mkting/Level2/ReelArchitectGame/ReelArchitectGame";
 import StoryboardSprintGame from "./components/Games for 9-10/Dig Mkting/Level2/StoryboardSprintGame/StoryboardSprintGame";
 import BrandVoiceChallenge from "./components/Games for 9-10/Dig Mkting/Level2/BrandVoiceChallenge/BrandVoiceChallenge";
-import CampaignCaptainGame from "./components/Games for 9-10/Dig Mkting/Level3/CampaignCaptainGame/CampaignCaptainGame";
 import CauseScanner from "./components/Environment/Level-3/CauseScanner/CauseScanner";
 import MeltDownTracker from "./components/Environment/Level-3/MeltDownTracker/MeltDownTracker";
 import DilemmaCards from "./components/Environment/Level-3/DilemmaCards/DilemmaCards";
@@ -218,6 +217,27 @@ import EthicalLogicMaze from "./components/Games for 9-10/Leadership/Level-3/Eth
 import TeamArchitectMission from "./components/Games for 9-10/Leadership/Level-3/TeamArchitectMission/TeamArchitectMission";
 import InnovationLaunchpad from "./components/Games for 9-10/Leadership/Level-4/InnovationLaunchpad/InnovationLaunchpad";
 import BiasDetective from "./components/Games for 9-10/Leadership/Level-4/BiasDetective/BiasDetective";
+import BiasDetectiveGame from "./components/Class 11-12/Leadership/BiasDetectiveGame/BiasDetectiveGame";
+import InnovationLaunchpadGame from "./components/Class 11-12/Leadership/InnovationLaunchpad/InnovationLaunchpad";
+import TeamLeadershipGame from "./components/Class 11-12/Leadership/TeamLeadershipGame/TeamLeadershipGame";
+import EthicsLabyrinth from "./components/Class 11-12/Leadership/EthicsLabyrinth/EthicsLabyrinth";
+import EQGame from "./components/Class 11-12/Leadership/EQGame/EQGame";
+import CommunicationGame from "./components/Class 11-12/Leadership/CommunicationGame/CommunicationGame";
+import StrategicFrameworkGame from "./components/Class 11-12/Leadership/StrategicDilemmaDecoder/StrategicDilemmaDecoder";
+import BrandYouSimulator from "./components/Class 11-12/Leadership/BrandYouSimulator/BrandYouSimulator";
+import SDGStartupQuest from "./components/Class 11-12/Entrepreneurship/Game6/Game6";
+import SimulatedMarketGame from "./components/Class 11-12/Entrepreneurship/Game5/Game5";
+import PitchArenaPro from "./components/Class 11-12/Entrepreneurship/Game4/Game4";
+import BodyLanguageGame from "./components/Class 11-12/Communication/Level1/BodyLanguageGame/BodyLanguageGame";
+import ActiveListeningGame from "./components/Class 11-12/Communication/Level1/ActiveListeningGame/ActiveListeningGame";
+import ToneSimulatorGame from "./components/Class 11-12/Communication/Level1/ToneSimulatorGame/ToneSimulatorGame";
+import PersuadeWithPurpose from "./components/Class 11-12/Communication/Level2/PersuadeWithPurpose/PersuadeWithPurpose";
+import DigitalDilemmaGame from "./components/Class 11-12/Communication/Level2/DigitalDilemmaGame/DigitalDilemmaGame";
+import ResolveItRight from "./components/Class 11-12/Communication/Level2/ResolveItRight/ResolveItRight";
+import LeadershipGame from "./components/Class 11-12/Communication/Level3/LeadershipGame/LeadershipGame";
+import PRCrisisGame from "./components/Class 11-12/Communication/Level3/PRCrisisGame/PRCrisisGame";
+import FeedbackLoop from "./components/Class 11-12/Communication/Level3/FeedbackLoopGame/FeedbackLoopGame";
+import LevelController from "./components/Games for 9-10/Dig Mkting/Level3/CampaignCaptainGame/LevelController";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -722,7 +742,30 @@ function App() {
               element={<DigitalExplorerResult />}
             />
             <Route path="/digital-explorer" element={<DigitalExplorer />} />
+
+            {/* Level 2 */}
+            <Route path="/reel-architect" element={<ReelArchitectGame />} />
+
+            <Route
+              path="/StoryboardSprintGame"
+              element={<StoryboardSprintGame />}
+            />
+
+            <Route
+              path="/BrandVoiceChallengeGame"
+              element={<BrandVoiceChallenge />}
+            />
+
+            {/* Level 3 */}
+
+            <Route
+              path="/CampaignCaptainGame"
+              element={<LevelController />}
+            />
+
+
             {/* Finish Games of Dig Mkting Class 9-10 */}
+
 
             {/*Leadership Games for 9-10*/}
             {/* Level 1 */}
@@ -752,6 +795,128 @@ function App() {
               element={<InnovationLaunchpad />}
             />
             <Route path="/bias-detective" element={<BiasDetective />} />
+
+            {/* Games of Communication Class 11-12 */}
+
+            {/* Level 1 */}
+            <Route
+              path="/BodyLanguageGame"
+              element={<BodyLanguageGame />}
+            />
+
+            <Route
+              path="/ActiveListeningGame"
+              element={<ActiveListeningGame />}
+            />
+
+            <Route
+              path="/ToneSimulatorGame"
+              element={<ToneSimulatorGame />}
+            />
+
+            {/* Level 2 */}
+            <Route
+              path="/PersuasionGame"
+              element={<PersuadeWithPurpose />}
+            />
+
+            <Route
+              path="/DigitalDilemmaGame"
+              element={<DigitalDilemmaGame />}
+            />
+
+            <Route
+              path="/ResolveItRight"
+              element={<ResolveItRight />}
+            />
+
+            {/* Level 3 */}
+            <Route
+              path="/LeadershipGame"
+              element={<LeadershipGame />}
+            />
+
+            <Route
+              path="/PRCrisisGame"
+              element={<PRCrisisGame />}
+            />
+
+            <Route
+              path="/FeedbackLoop"
+              element={<FeedbackLoop />}
+            />
+
+            {/* Finish Games of Communication Class 11-12 */}
+
+            {/* 11-12 Entrepreneurship games start*/}
+
+            <Route
+              path="/ethics-firewall-game"
+              element={<EthicsFirewallGame />}
+            />
+            <Route
+              path="/startup-simulation-game"
+              element={<StartupSimulationGame />}
+            />
+            <Route
+              path="/problem-solution-game"
+              element={<ProblemSolutionGame />}
+            />
+            <Route
+              path="/PitchArenaPro"
+              element={<PitchArenaPro />}
+            />
+            <Route
+              path="/SimulatedMarketGame"
+              element={<SimulatedMarketGame />}
+            />
+            <Route
+              path="/SDGStartupQuest"
+              element={<SDGStartupQuest />}
+            />
+
+            {/*11-12 Entrepreneurship games finish*/}
+
+            {/* Games of Leadership Class 11-12 */}
+
+            <Route
+              path="/BrandYouSimulator"
+              element={<BrandYouSimulator />}
+            />
+            <Route
+              path="/StrategicFrameworkGame"
+              element={<StrategicFrameworkGame />}
+            />
+            <Route
+              path="/CommunicationGame"
+              element={<CommunicationGame />}
+            />
+            <Route
+              path="/EQGame"
+              element={<EQGame />}
+            />
+            <Route
+              path="/EthicsLabyrinth"
+              element={<EthicsLabyrinth />}
+            />
+            <Route
+              path="/TeamLeadershipGame"
+              element={<TeamLeadershipGame />}
+            />
+            <Route
+              path="/BiasDetectiveGame"
+              element={<BiasDetectiveGame />}
+            />
+            <Route
+              path="/InnovationLaunchpad-Game"
+              element={<InnovationLaunchpadGame />}
+            />
+
+            {/* Finish Games of Leadership Class 11-12 */}
+
+
+
+
 
             {/* Other Routes */}
 
