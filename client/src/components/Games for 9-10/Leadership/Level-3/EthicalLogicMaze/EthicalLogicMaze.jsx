@@ -320,7 +320,7 @@ const EthicalLogicMaze = () => {
           </p>
           <div className="flex justify-center space-x-4">
             <Button onClick={restartGame}>🔁 Play Again</Button>
-            <a href="/next-game">
+            <a href="/team-architect-mission">
               <Button>Move to Next Game</Button>
             </a>
           </div>
