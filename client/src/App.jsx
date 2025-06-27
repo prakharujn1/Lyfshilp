@@ -238,6 +238,9 @@ import LeadershipGame from "./components/Class 11-12/Communication/Level3/Leader
 import PRCrisisGame from "./components/Class 11-12/Communication/Level3/PRCrisisGame/PRCrisisGame";
 import FeedbackLoop from "./components/Class 11-12/Communication/Level3/FeedbackLoopGame/FeedbackLoopGame";
 import LevelController from "./components/Games for 9-10/Dig Mkting/Level3/CampaignCaptainGame/LevelController";
+import BudgetBossGame from "./components/Games for 9-10/Finance/Game3";
+import MiniMarketMaster from "./components/Games for 9-10/Finance/Game2";
+import WealthQuestGame from "./components/Games for 9-10/Finance/Game";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -758,14 +761,15 @@ function App() {
 
             {/* Level 3 */}
 
-            <Route
-              path="/CampaignCaptainGame"
-              element={<LevelController />}
-            />
-
+            <Route path="/CampaignCaptainGame" element={<LevelController />} />
 
             {/* Finish Games of Dig Mkting Class 9-10 */}
 
+            {/* 9-10 Finance games */}
+            <Route path="/budget-boss-game" element={<BudgetBossGame />} />
+            <Route path="/mini-market-master" element={<MiniMarketMaster />} />
+            <Route path="/wealth-quest-game" element={<WealthQuestGame />} />
+            {/* Finished 9-10 Finance games */}
 
             {/*Leadership Games for 9-10*/}
             {/* Level 1 */}
@@ -799,52 +803,31 @@ function App() {
             {/* Games of Communication Class 11-12 */}
 
             {/* Level 1 */}
-            <Route
-              path="/BodyLanguageGame"
-              element={<BodyLanguageGame />}
-            />
+            <Route path="/BodyLanguageGame" element={<BodyLanguageGame />} />
 
             <Route
               path="/ActiveListeningGame"
               element={<ActiveListeningGame />}
             />
 
-            <Route
-              path="/ToneSimulatorGame"
-              element={<ToneSimulatorGame />}
-            />
+            <Route path="/ToneSimulatorGame" element={<ToneSimulatorGame />} />
 
             {/* Level 2 */}
-            <Route
-              path="/PersuasionGame"
-              element={<PersuadeWithPurpose />}
-            />
+            <Route path="/PersuasionGame" element={<PersuadeWithPurpose />} />
 
             <Route
               path="/DigitalDilemmaGame"
               element={<DigitalDilemmaGame />}
             />
 
-            <Route
-              path="/ResolveItRight"
-              element={<ResolveItRight />}
-            />
+            <Route path="/ResolveItRight" element={<ResolveItRight />} />
 
             {/* Level 3 */}
-            <Route
-              path="/LeadershipGame"
-              element={<LeadershipGame />}
-            />
+            <Route path="/LeadershipGame" element={<LeadershipGame />} />
 
-            <Route
-              path="/PRCrisisGame"
-              element={<PRCrisisGame />}
-            />
+            <Route path="/PRCrisisGame" element={<PRCrisisGame />} />
 
-            <Route
-              path="/FeedbackLoop"
-              element={<FeedbackLoop />}
-            />
+            <Route path="/FeedbackLoop" element={<FeedbackLoop />} />
 
             {/* Finish Games of Communication Class 11-12 */}
 
@@ -862,61 +845,36 @@ function App() {
               path="/problem-solution-game"
               element={<ProblemSolutionGame />}
             />
-            <Route
-              path="/PitchArenaPro"
-              element={<PitchArenaPro />}
-            />
+            <Route path="/PitchArenaPro" element={<PitchArenaPro />} />
             <Route
               path="/SimulatedMarketGame"
               element={<SimulatedMarketGame />}
             />
-            <Route
-              path="/SDGStartupQuest"
-              element={<SDGStartupQuest />}
-            />
+            <Route path="/SDGStartupQuest" element={<SDGStartupQuest />} />
 
             {/*11-12 Entrepreneurship games finish*/}
 
             {/* Games of Leadership Class 11-12 */}
 
-            <Route
-              path="/BrandYouSimulator"
-              element={<BrandYouSimulator />}
-            />
+            <Route path="/BrandYouSimulator" element={<BrandYouSimulator />} />
             <Route
               path="/StrategicFrameworkGame"
               element={<StrategicFrameworkGame />}
             />
-            <Route
-              path="/CommunicationGame"
-              element={<CommunicationGame />}
-            />
-            <Route
-              path="/EQGame"
-              element={<EQGame />}
-            />
-            <Route
-              path="/EthicsLabyrinth"
-              element={<EthicsLabyrinth />}
-            />
+            <Route path="/CommunicationGame" element={<CommunicationGame />} />
+            <Route path="/EQGame" element={<EQGame />} />
+            <Route path="/EthicsLabyrinth" element={<EthicsLabyrinth />} />
             <Route
               path="/TeamLeadershipGame"
               element={<TeamLeadershipGame />}
             />
-            <Route
-              path="/BiasDetectiveGame"
-              element={<BiasDetectiveGame />}
-            />
+            <Route path="/BiasDetectiveGame" element={<BiasDetectiveGame />} />
             <Route
               path="/InnovationLaunchpad-Game"
               element={<InnovationLaunchpadGame />}
             />
 
             {/* Finish Games of Leadership Class 11-12 */}
-
-
-
-
 
             {/* Other Routes */}
 
