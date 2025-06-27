@@ -216,6 +216,8 @@ import ConflictSimulator from "./components/Games for 9-10/Leadership/Level-2/Co
 import EQTracker from "./components/Games for 9-10/Leadership/Level-2/EQTracker/EQTracker";
 import EthicalLogicMaze from "./components/Games for 9-10/Leadership/Level-3/EthicalLogicMaze/EthicalLogicMaze";
 import TeamArchitectMission from "./components/Games for 9-10/Leadership/Level-3/TeamArchitectMission/TeamArchitectMission";
+import InnovationLaunchpad from "./components/Games for 9-10/Leadership/Level-4/InnovationLaunchpad/InnovationLaunchpad";
+import BiasDetective from "./components/Games for 9-10/Leadership/Level-4/BiasDetective/BiasDetective";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -744,6 +746,12 @@ function App() {
               path="/team-architect-mission"
               element={<TeamArchitectMission />}
             />
+            {/*Level 4 */}
+            <Route
+              path="/innovation-launchpad"
+              element={<InnovationLaunchpad />}
+            />
+            <Route path="/bias-detective" element={<BiasDetective />} />
 
             {/* Other Routes */}
 
