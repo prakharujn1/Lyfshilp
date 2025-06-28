@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Confetti from "react-confetti";
-import { motion } from "framer-motion"; 
+import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import Avatar from "./Avatar";
-import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
 
 function parsePossiblyStringifiedJSON(text) {
@@ -158,14 +157,12 @@ Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive
           setShowConfetti(false);
         }, 5000);
 
-        completeFinanceChallenge(0, 3);//MARK CHALLENGE COMPLETED
+        completeFinanceChallenge(0, 3); //MARK CHALLENGE COMPLETED
       } else if (parsed.remark === "Miser") {
         setFeedbackAvatarType("Miser");
       } else {
         setFeedbackAvatarType("Sad");
       }
-
-        
     } catch (err) {
       console.error("Error:", err);
       setFeedback("Something went wrong. Try again.");
@@ -214,148 +211,158 @@ Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive
   console.log(feedbackAvatarType);
 
   return (
-<div
-  className="px-4 py-6 sm:px-6 md:px-8 bg-gradient-to-br from-pink-50 via-yellow-50 to-green-50"
-  style={{ fontFamily: "'Comic Neue', cursive" }}
->
-  <div className="flex flex-col md:flex-row items-start justify-center gap-8 max-w-6xl mx-auto">
-    {/* Spline 3D Model */}
-    <div className="w-full md:w-1/2 min-h-[300px] sm:min-h-[400px]">
-      <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
-    </div>
+    <div
+      className="px-4 py-6 sm:px-6 md:px-8 bg-gradient-to-br from-pink-50 via-yellow-50 to-green-50"
+      style={{ fontFamily: "'Comic Neue', cursive" }}
+    >
+      <div className="flex flex-col md:flex-row items-start justify-center gap-8 max-w-6xl mx-auto">
+        {/* Form Section */}
+        <div className="p-6 w-full md:w-1/2 bg-blue-100 shadow-2xl rounded-3xl border border-green-200">
+          {showConfetti && (
+            <>
+              <Confetti />
+              <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-green-400 via-lime-400 to-emerald-500 text-white py-5 px-6 text-center font-extrabold shadow-xl z-50 text-lg sm:text-xl tracking-wide animate-pulse rounded-b-3xl">
+                🎉🎉{" "}
+                <span className="text-2xl sm:text-3xl">Congratulations!</span>{" "}
+                You've earned the{" "}
+                <span className="underline">Smart Budgeter</span> badge! 🏅
+              </div>
+            </>
+          )}
 
-    {/* Form Section */}
-    <div className="p-6 w-full md:w-1/2 bg-blue-100 shadow-2xl rounded-3xl border border-green-200">
-      {showConfetti && (
-        <>
-          <Confetti />
-          <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-green-400 via-lime-400 to-emerald-500 text-white py-5 px-6 text-center font-extrabold shadow-xl z-50 text-lg sm:text-xl tracking-wide animate-pulse rounded-b-3xl">
-            🎉🎉 <span className="text-2xl sm:text-3xl">Congratulations!</span> You've earned the{" "}
-            <span className="underline">Smart Budgeter</span> badge! 🏅
-          </div>
-        </>
-      )}
+          <h2 className="text-2xl sm:text-3xl font-extrabold mb-6 text-center text-green-700 drop-shadow-sm">
+            💰 Monthly Budget Activity
+          </h2>
 
-      <h2 className="text-2xl sm:text-3xl font-extrabold mb-6 text-center text-green-700 drop-shadow-sm">
-        💰 Monthly Budget Activity
-      </h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+              type="number"
+              placeholder="Monthly income (₹)"
+              value={income}
+              onChange={(e) => setIncome(Number(e.target.value))}
+              className="w-full p-4 border-2 border-green-300 rounded-xl text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm"
+              required
+            />
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <input
-          type="number"
-          placeholder="Monthly income (₹)"
-          value={income}
-          onChange={(e) => setIncome(Number(e.target.value))}
-          className="w-full p-4 border-2 border-green-300 rounded-xl text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm"
-          required
-        />
+            {/* Expenses Section */}
+            <div>
+              <p className="font-semibold mb-2 text-blue-600 text-lg">
+                🛍️ Select Expenses:
+              </p>
+              {expenseOptions.map((option) => (
+                <div key={option} className="mb-3">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      value={option}
+                      checked={selectedExpenses.includes(option)}
+                      onChange={(e) =>
+                        handleExpenseChange(option, e.target.checked)
+                      }
+                      className="mr-3 h-5 w-5 text-green-600"
+                    />
+                    <span className="text-base font-medium">{option}</span>
+                  </label>
 
-        {/* Expenses Section */}
-        <div>
-          <p className="font-semibold mb-2 text-blue-600 text-lg">🛍️ Select Expenses:</p>
-          {expenseOptions.map((option) => (
-            <div key={option} className="mb-3">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  value={option}
-                  checked={selectedExpenses.includes(option)}
-                  onChange={(e) => handleExpenseChange(option, e.target.checked)}
-                  className="mr-3 h-5 w-5 text-green-600"
-                />
-                <span className="text-base font-medium">{option}</span>
-              </label>
+                  {selectedExpenses.includes(option) && (
+                    <input
+                      type="number"
+                      placeholder="Enter cost"
+                      value={
+                        expenseDetails.find((item) => item.name === option)
+                          ?.cost || ""
+                      }
+                      onChange={(e) =>
+                        handleCostChange(option, Number(e.target.value))
+                      }
+                      className="ml-4 mt-2 sm:mt-0 p-2 border-2 border-blue-300 rounded-lg w-full sm:w-44 text-base"
+                    />
+                  )}
+                </div>
+              ))}
 
-              {selectedExpenses.includes(option) && (
-                <input
-                  type="number"
-                  placeholder="Enter cost"
-                  value={expenseDetails.find((item) => item.name === option)?.cost || ""}
-                  onChange={(e) => handleCostChange(option, Number(e.target.value))}
-                  className="ml-4 mt-2 sm:mt-0 p-2 border-2 border-blue-300 rounded-lg w-full sm:w-44 text-base"
+              {selectedExpenses.includes("Other") && (
+                <textarea
+                  placeholder="Enter other expense"
+                  value={customExpense}
+                  onChange={(e) => setCustomExpense(e.target.value)}
+                  className="w-full p-3 mt-2 border-2 border-blue-300 rounded-xl text-base"
                 />
               )}
             </div>
-          ))}
 
-          {selectedExpenses.includes("Other") && (
-            <textarea
-              placeholder="Enter other expense"
-              value={customExpense}
-              onChange={(e) => setCustomExpense(e.target.value)}
-              className="w-full p-3 mt-2 border-2 border-blue-300 rounded-xl text-base"
-            />
+            {/* Saving Strategies Section */}
+            <div>
+              <p className="font-semibold mb-2 text-purple-600 text-lg">
+                💡 Select Saving Strategies:
+              </p>
+              {strategyOptions.map((option) => (
+                <label key={option} className="block mb-2">
+                  <input
+                    type="checkbox"
+                    value={option}
+                    checked={selectedStrategies.includes(option)}
+                    onChange={(e) =>
+                      e.target.checked
+                        ? setSelectedStrategies((prev) => [...prev, option])
+                        : setSelectedStrategies((prev) =>
+                            prev.filter((item) => item !== option)
+                          )
+                    }
+                    className="mr-3 h-5 w-5 text-purple-500"
+                  />
+                  <span className="text-base font-medium">{option}</span>
+                </label>
+              ))}
+              {selectedStrategies.includes("Other") && (
+                <textarea
+                  placeholder="Enter custom strategy"
+                  value={customStrategy}
+                  onChange={(e) => setCustomStrategy(e.target.value)}
+                  className="w-full p-3 mt-2 border-2 border-purple-300 rounded-xl text-base"
+                />
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 rounded-2xl text-lg transition-all duration-300 ease-in-out shadow-md disabled:opacity-50"
+            >
+              {loading ? "Submitting..." : "🚀 Submit for feedback"}
+            </button>
+          </form>
+
+          {/* Feedback Section */}
+          {feedback && (
+            <motion.div
+              ref={feedbackRef}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="mt-10 p-5 border-2 border-gray-300 rounded-xl bg-gradient-to-br from-yellow-50 to-pink-50 shadow-inner"
+            >
+              <h3 className="font-bold text-xl mb-3 text-indigo-600">
+                ✨ Feedback
+              </h3>
+              <div className="flex items-center gap-4 mb-2">
+                <Avatar type={feedbackAvatarType} />
+                <span className="text-lg font-semibold whitespace-nowrap">
+                  {feedbackMap[feedbackAvatarType]}
+                </span>
+              </div>
+              <p className="text-gray-800 mb-1">
+                <strong>Remark:</strong> {remark}
+              </p>
+              <p className="text-gray-800">
+                <strong>Description:</strong> {feedback}
+              </p>
+            </motion.div>
           )}
         </div>
-
-        {/* Saving Strategies Section */}
-        <div>
-          <p className="font-semibold mb-2 text-purple-600 text-lg">💡 Select Saving Strategies:</p>
-          {strategyOptions.map((option) => (
-            <label key={option} className="block mb-2">
-              <input
-                type="checkbox"
-                value={option}
-                checked={selectedStrategies.includes(option)}
-                onChange={(e) =>
-                  e.target.checked
-                    ? setSelectedStrategies((prev) => [...prev, option])
-                    : setSelectedStrategies((prev) => prev.filter((item) => item !== option))
-                }
-                className="mr-3 h-5 w-5 text-purple-500"
-              />
-              <span className="text-base font-medium">{option}</span>
-            </label>
-          ))}
-          {selectedStrategies.includes("Other") && (
-            <textarea
-              placeholder="Enter custom strategy"
-              value={customStrategy}
-              onChange={(e) => setCustomStrategy(e.target.value)}
-              className="w-full p-3 mt-2 border-2 border-purple-300 rounded-xl text-base"
-            />
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 rounded-2xl text-lg transition-all duration-300 ease-in-out shadow-md disabled:opacity-50"
-        >
-          {loading ? "Submitting..." : "🚀 Submit for feedback"}
-        </button>
-      </form>
-
-      {/* Feedback Section */}
-      {feedback && (
-        <motion.div
-          ref={feedbackRef}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="mt-10 p-5 border-2 border-gray-300 rounded-xl bg-gradient-to-br from-yellow-50 to-pink-50 shadow-inner"
-        >
-          <h3 className="font-bold text-xl mb-3 text-indigo-600">✨ Feedback</h3>
-          <div className="flex items-center gap-4 mb-2">
-            <Avatar type={feedbackAvatarType} />
-            <span className="text-lg font-semibold whitespace-nowrap">
-              {feedbackMap[feedbackAvatarType]}
-            </span>
-          </div>
-          <p className="text-gray-800 mb-1">
-            <strong>Remark:</strong> {remark}
-          </p>
-          <p className="text-gray-800">
-            <strong>Description:</strong> {feedback}
-          </p>
-        </motion.div>
-      )}
+      </div>
+      <ToastContainer />
     </div>
-  </div>
-  <ToastContainer />
-</div>
-
-
   );
 };
 

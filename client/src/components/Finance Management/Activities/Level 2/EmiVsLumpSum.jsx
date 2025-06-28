@@ -8,9 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../contexts/FinanceContext";
-
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -98,7 +96,7 @@ feedback : "Your feedback"
       console.log(parsed);
       setFeedback(parsed.feedback);
 
-      if(hasselectedA && hasselectedB)completeFinanceChallenge(1, 1); //mark challenge completed
+      if (hasselectedA && hasselectedB) completeFinanceChallenge(1, 1); //mark challenge completed
     } catch (err) {
       setError("Error fetching feedback. Try again later");
       console.log(err);
@@ -124,11 +122,6 @@ feedback : "Your feedback"
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row items-start justify-center gap-8 p-4 sm:p-6">
-      {/* Left: Spline Model */}
-      <div className="w-full lg:w-1/2 h-[400px] lg:h-auto">
-        <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
-      </div>
-
       {/* Right: Game Content */}
       <div className="bg-blue-200 rounded-lg w-full lg:w-1/2 max-w-2xl p-4 sm:p-6">
         <h1 className="text-2xl font-bold text-center text-purple-800 mb-6">

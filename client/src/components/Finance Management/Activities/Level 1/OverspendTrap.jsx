@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../contexts/FinanceContext";
 
 function parsePossiblyStringifiedJSON(text) {
@@ -113,11 +112,6 @@ Example format:
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gradient-to-br from-white to-yellow-50 p-6 md:space-x-10 space-y-10 md:space-y-0">
-      {/* Left: Spline Model */}
-      <div className="w-full mt-5 md:w-1/2 min-h-[350px] md:min-h-[400px] pt-6 md:pt-0">
-        <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
-      </div>
-
       {/* Right: Overspend Trap Card */}
       <div className="max-w-xl w-full p-6 bg-gradient-to-br from-pink-100 to-yellow-100 shadow-2xl rounded-3xl">
         <h2 className="text-3xl font-extrabold mb-6 text-purple-700 font-sans text-center">

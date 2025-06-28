@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Lottie from "lottie-react";
-import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../contexts/FinanceContext";
 
 // Lottie animations
@@ -206,11 +205,6 @@ const Challenge3 = () => {
       animate={{ opacity: 1 }}
     >
       <div className="flex flex-col md:flex-row gap-6 items-center">
-        {/* Left side - Spline */}
-        <div className="w-full md:w-1/2 h-64 sm:h-80">
-          <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
-        </div>
-
         {/* Right side - Content */}
         <div className="w-full md:w-1/2">
           <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">
