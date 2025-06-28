@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import BankCard from "./BankCard";
-import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -264,13 +263,6 @@ export default function PickABank() {
       className="w-full min-h-screen bg-gradient-to-br from-pink-100 to-yellow-50 p-4"
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
-      {/* Spline Section */}
-      <div className="flex justify-center mt-[-1rem] mb-2">
-        <div className="w-full max-w-2xl h-[160px] sm:h-[200px] md:h-[250px]">
-          <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
-        </div>
-      </div>
-
       {/* Main Content Card */}
       <div className="w-[92%] max-w-4xl mx-auto bg-white/90 backdrop-blur-md p-6 pt-4 flex flex-col items-center rounded-2xl shadow-2xl">
         <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-purple-700 drop-shadow animate-bounce text-center">

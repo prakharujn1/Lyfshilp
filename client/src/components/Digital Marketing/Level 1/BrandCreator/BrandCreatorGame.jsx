@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { ChromePicker } from "react-color";
 import confetti from "canvas-confetti";
-import Spline from "@splinetool/react-spline";
 import { useDM } from "@/contexts/DMContext";
 
 export default function BrandCreatorGame() {
@@ -346,16 +345,6 @@ export default function BrandCreatorGame() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div className="w-full lg:w-1/3 flex items-center justify-center mt-12 lg:mt-0">
-          <div className="w-full h-[300px] lg:h-[400px]">
-            <Spline
-              className="rounded-lg object-contain w-full h-full"
-              scene="https://prod.spline.design/hB2IF38lQ1umF15e/scene.splinecode"
-            />
           </div>
         </div>
       </div>

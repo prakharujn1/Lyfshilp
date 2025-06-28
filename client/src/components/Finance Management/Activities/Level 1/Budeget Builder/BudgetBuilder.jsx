@@ -16,7 +16,6 @@ import Avatar from "./Avatar.jsx";
 import SurpriseAvatar from "./SurpriseAvatar.jsx";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
-import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
 
 function parsePossiblyStringifiedJSON(text) {
@@ -555,11 +554,6 @@ Constraints -
         </AnimatePresence>
 
         <ToastContainer />
-      </div>
-
-      {/* 🤖 Spline Robot Model */}
-      <div className="w-full lg:w-2/5 h-[400px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden">
-        <Spline scene="https://prod.spline.design/BMEf4K8pXX4lmahq/scene.splinecode" />
       </div>
     </div>
   );

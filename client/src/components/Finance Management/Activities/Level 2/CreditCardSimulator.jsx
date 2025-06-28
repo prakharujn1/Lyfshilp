@@ -18,7 +18,6 @@ import {
 import dancingLeft from "../../../../lotties/danceLeft.json";
 import dancingRight from "../../../../lotties/danceRight.json";
 import sparkle from "../../../../lotties/sparkle.json";
-import Spline from "@splinetool/react-spline";
 import { useFinance } from "../../../../contexts/FinanceContext";
 
 const items = [
@@ -299,11 +298,6 @@ export default function CreditCardSimulator() {
               </div>
             </>
           )}
-        </div>
-
-        {/* Right: Spline Model */}
-        <div className="w-full lg:w-1/2 h-64 sm:h-96 lg:h-[500px] mt-8">
-          <Spline scene="https://prod.spline.design/CRb3gJjRayBBe6x0/scene.splinecode" />
         </div>
       </div>
     </div>
