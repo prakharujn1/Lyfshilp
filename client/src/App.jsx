@@ -241,6 +241,9 @@ import LevelController from "./components/Games for 9-10/Dig Mkting/Level3/Campa
 import BudgetBossGame from "./components/Games for 9-10/Finance/Game3";
 import MiniMarketMaster from "./components/Games for 9-10/Finance/Game2";
 import WealthQuestGame from "./components/Games for 9-10/Finance/Game";
+import EmotionDecoder from "./components/Games for 9-10/SEL/Level-1/EmotionDecoder/EmotionDecoder";
+import RespondDontReact from "./components/Games for 9-10/SEL/Level-1/RespondDontReact/RespondDontReact";
+import SpotTheStrength from "./components/Games for 9-10/SEL/Level-1/SpotTheStrength/SpotTheStrength";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -799,6 +802,12 @@ function App() {
               element={<InnovationLaunchpad />}
             />
             <Route path="/bias-detective" element={<BiasDetective />} />
+
+            {/*Games of SEL Class 9-10*/}
+            {/* Level 1 */}
+            <Route path="/emotion-decoder" element={<EmotionDecoder />} />
+            <Route path="/respond-dont-react" element={<RespondDontReact />} />
+            <Route path="/spot-the-strength" element={<SpotTheStrength />} />
 
             {/* Games of Communication Class 11-12 */}
 
