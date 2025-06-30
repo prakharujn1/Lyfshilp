@@ -244,6 +244,10 @@ import WealthQuestGame from "./components/Games for 9-10/Finance/Game";
 import EmotionDecoder from "./components/Games for 9-10/SEL/Level-1/EmotionDecoder/EmotionDecoder";
 import RespondDontReact from "./components/Games for 9-10/SEL/Level-1/RespondDontReact/RespondDontReact";
 import SpotTheStrength from "./components/Games for 9-10/SEL/Level-1/SpotTheStrength/SpotTheStrength";
+import StressResponseBuilder from "./components/Games for 9-10/SEL/Level-2/StressResponseBuilder/StressResponseBuilder";
+import ConflictChoices from "./components/Games for 9-10/SEL/Level-2/ConflictChoices/ConflictChoices";
+import BodySignalMatchup from "./components/Games for 9-10/SEL/Level-2/BodySignalMatchup/BodySignalMatchup";
+import ControlSorter from "./components/Games for 9-10/SEL/Level-2/ControlSorter/ControlSorter";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -808,6 +812,17 @@ function App() {
             <Route path="/emotion-decoder" element={<EmotionDecoder />} />
             <Route path="/respond-dont-react" element={<RespondDontReact />} />
             <Route path="/spot-the-strength" element={<SpotTheStrength />} />
+            {/* Level 2 */}
+            <Route
+              path="/stress-response-builder"
+              element={<StressResponseBuilder />}
+            />
+            <Route path="/conflict-choices" element={<ConflictChoices />} />
+            <Route
+              path="/body-signal-matchup"
+              element={<BodySignalMatchup />}
+            />
+            <Route path="/control-sorter" element={<ControlSorter />} />
 
             {/* Games of Communication Class 11-12 */}
 
