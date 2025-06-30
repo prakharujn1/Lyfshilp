@@ -247,6 +247,9 @@ import SpotTheStrength from "./components/Games for 9-10/SEL/Level-1/SpotTheStre
 import StressResponseBuilder from "./components/Games for 9-10/SEL/Level-2/StressResponseBuilder/StressResponseBuilder";
 import ConflictChoices from "./components/Games for 9-10/SEL/Level-2/ConflictChoices/ConflictChoices";
 import BodySignalMatchup from "./components/Games for 9-10/SEL/Level-2/BodySignalMatchup/BodySignalMatchup";
+import FinFestGame from "./components/Class 11-12/Finance/Game3";
+import StockTraderGame from "./components/Class 11-12/Finance/Game2";
+import InvestoQuestPro from "./components/Class 11-12/Finance/Game1";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -821,6 +824,12 @@ function App() {
               path="/body-signal-matchup"
               element={<BodySignalMatchup />}
             />
+
+            {/*11-12 Finance games */}
+            <Route path="/fin-fest-game" element={<FinFestGame />} />
+            <Route path="/stock-trader-game" element={<StockTraderGame />} />
+            <Route path="/invest-quest-pro" element={<InvestoQuestPro />} />
+            {/* 11-12 Finance games */}
 
             {/* Games of Communication Class 11-12 */}
 
