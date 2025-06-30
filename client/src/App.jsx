@@ -247,7 +247,6 @@ import SpotTheStrength from "./components/Games for 9-10/SEL/Level-1/SpotTheStre
 import StressResponseBuilder from "./components/Games for 9-10/SEL/Level-2/StressResponseBuilder/StressResponseBuilder";
 import ConflictChoices from "./components/Games for 9-10/SEL/Level-2/ConflictChoices/ConflictChoices";
 import BodySignalMatchup from "./components/Games for 9-10/SEL/Level-2/BodySignalMatchup/BodySignalMatchup";
-import ControlSorter from "./components/Games for 9-10/SEL/Level-2/ControlSorter/ControlSorter";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -822,7 +821,6 @@ function App() {
               path="/body-signal-matchup"
               element={<BodySignalMatchup />}
             />
-            <Route path="/control-sorter" element={<ControlSorter />} />
 
             {/* Games of Communication Class 11-12 */}
 
