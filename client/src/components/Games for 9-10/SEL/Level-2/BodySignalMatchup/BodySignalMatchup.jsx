@@ -167,6 +167,14 @@ const BodySignalMatchup = () => {
             ? "Amazing job! Your awareness is on point."
             : "Give it another go and tune into your body's clues."}
         </p>
+        {win ? (
+          <Link
+            to="/smart-goal-lab"
+            className="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 mb-4"
+          >
+            Move to Next Game →
+          </Link>
+        ) : null}
         <button
           onClick={resetGame}
           className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700"
