@@ -92,10 +92,10 @@ const Module5EthicalDecision = ({ topicRefs }) => {
 
   return (
     <div
-      id="5"
+      id="m-5"
       ref={(el) => {
         if (topicRefs?.current) {
-          topicRefs.current["5"] = el;
+          topicRefs.current["m-5"] = el;
         }
       }}
       className="mb-10"

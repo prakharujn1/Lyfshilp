@@ -118,10 +118,10 @@ const Module2VisionGoals = ({ topicRefs }) => {
 
   return (
     <div
-      id="vision-goals-module"
+      id="m-2"
       ref={(el) => {
         if (topicRefs?.current) {
-          topicRefs.current["vision-goals"] = el;
+          topicRefs.current["m-2"] = el;
         }
       }}
       className="mb-10"

@@ -120,10 +120,10 @@ const Module6TeamLeadership = ({ topicRefs }) => {
 
   return (
     <div
-      id="6"
+      id="m-6"
       ref={(el) => {
         if (topicRefs?.current) {
-          topicRefs.current["6"] = el;
+          topicRefs.current["m-6"] = el;
         }
       }}
       className="mb-10"
