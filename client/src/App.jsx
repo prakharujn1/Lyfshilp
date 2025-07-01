@@ -247,6 +247,9 @@ import SpotTheStrength from "./components/Games for 9-10/SEL/Level-1/SpotTheStre
 import StressResponseBuilder from "./components/Games for 9-10/SEL/Level-2/StressResponseBuilder/StressResponseBuilder";
 import ConflictChoices from "./components/Games for 9-10/SEL/Level-2/ConflictChoices/ConflictChoices";
 import BodySignalMatchup from "./components/Games for 9-10/SEL/Level-2/BodySignalMatchup/BodySignalMatchup";
+import SmartGoalLab from "./components/Games for 9-10/SEL/Level-3/SmartGoalLab/SmartGoalLab";
+import HelpNetworkBuilder from "./components/Games for 9-10/SEL/Level-3/HelpNetworkBuilder/HelpNetworkBuilder";
+import InfluenceJournal from "./components/Games for 9-10/SEL/Level-3/InfluenceJournal/InfluenceJournal";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -821,6 +824,13 @@ function App() {
               path="/body-signal-matchup"
               element={<BodySignalMatchup />}
             />
+            {/*Level 3 */}
+            <Route path="/smart-goal-lab" element={<SmartGoalLab />} />
+            <Route
+              path="/help-network-builder"
+              element={<HelpNetworkBuilder />}
+            />
+            <Route path="/influence-journal" element={<InfluenceJournal />} />
 
             {/* Games of Communication Class 11-12 */}
 
