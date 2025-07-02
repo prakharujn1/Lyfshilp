@@ -2,51 +2,51 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const questions = [
-    {
-        question: "What motivates your leadership style",
-        options: [
-            { text: "Challenging the status quo", archetype: "Disruptor" },
-            { text: "Executing plans efficiently", archetype: "Operator" },
-            { text: "Inspiring a bold vision", archetype: "Visionary" },
-            { text: "Building meaningful relationships", archetype: "Connector" },
-        ],
-    },
-    {
-        question: "How do you approach team collaboration",
-        options: [
-            { text: "By energizing people toward a cause", archetype: "Visionary" },
-            { text: "By connecting and empathizing with everyone", archetype: "Connector" },
-            { text: "By designing structured workflows", archetype: "Operator" },
-            { text: "By disrupting outdated systems", archetype: "Disruptor" },
-        ],
-    },
-    {
-        question: "How do you define success as a leader",
-        options: [
-            { text: "When systems run smoothly", archetype: "Operator" },
-            { text: "When people feel empowered and heard", archetype: "Connector" },
-            { text: "When a new idea shakes the world", archetype: "Disruptor" },
-            { text: "When a bold vision becomes reality", archetype: "Visionary" },
-        ],
-    },
-    {
-        question: "What’s your strength in personal branding",
-        options: [
-            { text: "Clarity in purpose", archetype: "Visionary" },
-            { text: "Reliability and consistency", archetype: "Operator" },
-            { text: "Relatability and storytelling", archetype: "Connector" },
-            { text: "Originality and boldness", archetype: "Disruptor" },
-        ],
-    },
-    {
-        question: "How do others describe your leadership identity",
-        options: [
-            { text: "Grounded and dependable", archetype: "Operator" },
-            { text: "Innovative and edgy", archetype: "Disruptor" },
-            { text: "Empathetic and inclusive", archetype: "Connector" },
-            { text: "Purpose-driven and inspiring", archetype: "Visionary" },
-        ],
-    },
+  {
+    question: "What inspires how you lead?",
+    options: [
+      { text: "Trying new ways to solve problems", archetype: "Disruptor" },
+      { text: "Getting things done smoothly", archetype: "Operator" },
+      { text: "Sharing big dreams and ideas", archetype: "Visionary" },
+      { text: "Caring about people and teamwork", archetype: "Connector" },
+    ],
+  },
+  {
+    question: "How do you like working with others?",
+    options: [
+      { text: "Getting everyone excited about a goal", archetype: "Visionary" },
+      { text: "Listening and building connections", archetype: "Connector" },
+      { text: "Making clear steps and plans", archetype: "Operator" },
+      { text: "Fixing things that don’t work anymore", archetype: "Disruptor" },
+    ],
+  },
+  {
+    question: "What does success as a leader mean to you?",
+    options: [
+      { text: "When things are organized and run well", archetype: "Operator" },
+      { text: "When everyone feels supported", archetype: "Connector" },
+      { text: "When a bold idea changes everything", archetype: "Disruptor" },
+      { text: "When your big dream becomes real", archetype: "Visionary" },
+    ],
+  },
+  {
+    question: "What’s your best quality in personal branding?",
+    options: [
+      { text: "Having a clear goal", archetype: "Visionary" },
+      { text: "Being steady and dependable", archetype: "Operator" },
+      { text: "Being real and telling good stories", archetype: "Connector" },
+      { text: "Being bold and different", archetype: "Disruptor" },
+    ],
+  },
+  {
+    question: "How do others see your leadership?",
+    options: [
+      { text: "Organized and reliable", archetype: "Operator" },
+      { text: "Creative and brave", archetype: "Disruptor" },
+      { text: "Kind and caring", archetype: "Connector" },
+      { text: "Inspiring and full of purpose", archetype: "Visionary" },
+    ],
+  },
 ];
 
 const archetypeDescriptions = {
@@ -196,9 +196,9 @@ LinkedIn Bio: "${bio}"
                                         <div
                                             key={idx}
                                             onClick={() => recordAnswer(opt.archetype)}
-                                            className="cursor-pointer bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-100 text-purple-800 font-bold text-lg px-6 py-5 rounded-[2rem] shadow-lg border-4 border-pink-300 hover:border-yellow-300 transition-all duration-300 transform hover:scale-105 animate-floating-card min-h-[100px] h-[100px]"
+                                            className="cursor-pointer bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-100 text-purple-800 text-center font-bold text-lg px-6 py-5 rounded-[2rem] shadow-lg border-4 border-pink-300 hover:border-yellow-300 transition-all duration-300 transform hover:scale-105 animate-floating-card min-h-[100px] h-[100px]"
                                         >
-                                            🌟 {opt.text}
+                                             {opt.text}
                                         </div>
                                     ))}
                                 </div>

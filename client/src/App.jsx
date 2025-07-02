@@ -250,6 +250,13 @@ import BodySignalMatchup from "./components/Games for 9-10/SEL/Level-2/BodySigna
 import SmartGoalLab from "./components/Games for 9-10/SEL/Level-3/SmartGoalLab/SmartGoalLab";
 import HelpNetworkBuilder from "./components/Games for 9-10/SEL/Level-3/HelpNetworkBuilder/HelpNetworkBuilder";
 import InfluenceJournal from "./components/Games for 9-10/SEL/Level-3/InfluenceJournal/InfluenceJournal";
+import ThoughtReframer from "./components/Class 11-12/SEL/ThoughtReframerDrag/ThoughtReframerDrag";
+import BoundaryBuilder from "./components/Class 11-12/SEL/BoundaryBuilder/BoundaryBuilder";
+import BurnoutBarometer from "./components/Class 11-12/SEL/BurnoutBarometer/BurnoutBarometer";
+import FocusTracker from "./components/Class 11-12/SEL/FocusTracker/FocusTracker";
+import EthicalSimulator from "./components/Class 11-12/SEL/EthicalSimulator/EthicalSimulator";
+import LegacyBuilder from "./components/Class 11-12/SEL/LegacyBuilder/LegacyBuilder";
+import IdentityShifter from "./components/Class 11-12/SEL/IdentityShifter/IdentityShifter";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -907,6 +914,42 @@ function App() {
             />
 
             {/* Finish Games of Leadership Class 11-12 */}
+
+            {/* Games of SEL Class 11-12 */}
+            <Route
+              path="/ThoughtReframerDrag"
+              element={<ThoughtReframer />}
+            />
+
+            <Route
+              path="/BoundaryBuilder"
+              element={<BoundaryBuilder />}
+            />
+
+            <Route
+              path="/BurnoutBarometer"
+              element={<BurnoutBarometer />}
+            />
+            <Route
+              path="/FocusTracker"
+              element={<FocusTracker />}
+            />
+
+            <Route
+              path="/EthicalSimulator"
+              element={<EthicalSimulator />}
+            />
+
+            <Route
+              path="/LegacyBuilder"
+              element={<LegacyBuilder />}
+            />
+
+            <Route
+              path="/IdentityShifter"
+              element={<IdentityShifter />}
+            />
+            {/* Finish Games of SEL Class 11-12 */}
 
             {/* Other Routes */}
 

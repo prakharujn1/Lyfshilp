@@ -1,236 +1,226 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, Star, Lightbulb, PartyPopper } from "lucide-react";
 
-const scenarios = [
+const dilemmas = [
     {
-        title: "Friend vs. Team",
-        description:
-            "Your best friend asks you to lie about their contribution to a group project. The project deadline is tight, and your team is relying on everyone doing their part.",
-        options: [
-            "Do it for your friend. Loyalty first.",
-            "Talk to the friend and resolve it privately.",
-            "Raise it with the team for transparency.",
-        ],
+        id: 1,
+        scenario: "🎉 Your best friend invites you to a party during team practice. What do you do?",
+        options: ["Go to the party", "Go to practice", "Try to do both"],
     },
     {
-        title: "Deadline Conflict",
-        description:
-            "You’re leading a team. A member’s delay will push the deadline. Do you escalate or cover quietly?",
-        options: [
-            "Fix it yourself silently.",
-            "Talk to the team and find a workaround.",
-            "Inform your mentor transparently.",
-        ],
+        id: 2,
+        scenario: "🕒 You have two deadlines: a team task and a scholarship form. Choose one!",
+        options: ["Team task", "Scholarship", "Split time"],
     },
+    {
+        id: 3,
+        scenario: "📱 Your friend is texting you during an important class. What's your choice?",
+        options: ["Reply quickly", "Ignore till class ends", "Step out to reply"],
+    }
 ];
 
 const flashcards = [
     {
-        statement: "Everyone else would cover for their friend.",
-        flaw: "Bandwagon fallacy",
+        id: 1,
+        question: "🚀 If we don't launch today, we'll fail. So we must launch now.",
+        options: ["False choice", "Too emotional", "Quick guess"],
+        answer: "False choice"
     },
     {
-        statement: "If we escalate, the mentor will lose trust.",
-        flaw: "Appeal to fear",
-    },
+        id: 2,
+        question: "🙋‍♂️ Everyone is doing it, so it must be right.",
+        options: ["Follow the crowd", "Change topic", "Jump to conclusion"],
+        answer: "Follow the crowd"
+    }
 ];
 
-const fallacyOptions = [
-    "Bandwagon fallacy",
-    "Appeal to authority",
-    "Appeal to fear",
-    "False dilemma",
-];
-
-
-export default function StrategicFrameworkGame() {
+export default function FunDilemmaGame() {
     const [step, setStep] = useState(1);
-    const [scenarioIndex, setScenarioIndex] = useState(0);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [justification, setJustification] = useState("");
-    const [badge, setBadge] = useState(false);
-    const [feedback, setFeedback] = useState("");
-
-    const [index, setIndex] = useState(0);
-    const [flipped, setFlipped] = useState(false);
+    const [dilemmaIndex, setDilemmaIndex] = useState(0);
+    const [selected, setSelected] = useState({});
+    const [flashIndex, setFlashIndex] = useState(0);
+    const [flashAnswers, setFlashAnswers] = useState({});
+    const [justifications, setJustifications] = useState({});
     const [score, setScore] = useState(0);
-    const [showResult, setShowResult] = useState(false);
+    const [showJustify, setShowJustify] = useState(false);
+    const [currentAnswer, setCurrentAnswer] = useState("");
 
-    const handleFlip = () => setFlipped(!flipped);
-
-    const handleNext = (isCorrect) => {
-        if (isCorrect) setScore(score + 1);
-        if (index + 1 < flashcards.length) {
-            setIndex(index + 1);
-            setFlipped(false);
-        } else {
-            setShowResult(true);
-            onComplete();
-        }
+    const restartGame = () => {
+        setStep(1);
+        setDilemmaIndex(0);
+        setSelected({});
+        setFlashIndex(0);
+        setFlashAnswers({});
+        setJustifications({});
+        setScore(0);
+        setShowJustify(false);
+        setCurrentAnswer("");
     };
 
+    const handleDilemmaAnswer = (option) => {
+        setCurrentAnswer(option);
+        setShowJustify(true);
+    };
 
-    const handleJustificationSubmit = async () => {
-        if (justification.length < 10) return;
-        setBadge(true);
-        const res = await fetch(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY",
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [
-                        {
-                            parts: [
-                                {
-                                    text: `Give short, constructive AI feedback (max 2 lines) for the following justification: "${justification}". Focus on clarity, fairness, and strategic thinking.`,
-                                },
-                            ],
-                        },
-                    ],
-                }),
-            }
-        );
-        const data = await res.json();
-        const reply =
-            data?.candidates?.[0]?.content?.parts?.[0]?.text || "No feedback available.";
-        setFeedback(reply);
+    const submitJustification = () => {
+        const current = dilemmas[dilemmaIndex];
+        setSelected({ ...selected, [current.id]: currentAnswer });
+        setJustifications({ ...justifications, [current.id]: currentJustification });
+        setCurrentAnswer("");
+        setCurrentJustification("");
+        setShowJustify(false);
+        if (dilemmaIndex + 1 < dilemmas.length) setDilemmaIndex(dilemmaIndex + 1);
+        else setStep(2);
+    };
+
+    const [currentJustification, setCurrentJustification] = useState("");
+
+    const handleFlashNext = (option) => {
+        const current = flashcards[flashIndex];
+        setFlashAnswers({ ...flashAnswers, [current.id]: option });
+        if (option === current.answer) setScore(score + 1);
+        if (flashIndex + 1 < flashcards.length) setFlashIndex(flashIndex + 1);
+        else setStep(3);
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-slate-100 p-6 font-sans">
-            <motion.div
-                className="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-xl border"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <h1 className="text-3xl font-bold text-center text-indigo-700 mb-4">
-                    🧠 Strategic Dilemma Decoder
-                </h1>
+        <div className="max-w-5xl mx-auto my-10 p-10 sm:p-12 bg-gradient-to-br from-pink-100 via-yellow-50 to-purple-100 border-8 border-pink-200 rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.1)] text-gray-800 font-sans relative overflow-hidden ring-4 ring-purple-300">
+            <div className="absolute top-[-20px] left-[-20px] w-32 h-32 bg-yellow-300 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+            <div className="absolute bottom-[-20px] right-[-20px] w-32 h-32 bg-pink-300 rounded-full blur-2xl opacity-40 animate-spin-slow"></div>
+            <h1 className="text-5xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 text-center mb-8 flex items-center justify-center gap-3 animate-bounce pb-2">
+                <Sparkles className="text-yellow-400 w-8 h-8 animate-spin-slow" />
+                Strategic Fun Game
+                <Sparkles className="text-yellow-400 w-8 h-8 animate-spin-slow" />
+            </h1>
 
+            <AnimatePresence mode="wait">
                 {step === 1 && (
-                    <div>
-                        <h2 className="text-xl font-semibold mb-2">Real-Life Scenario</h2>
-                        <select
-                            className="border p-2 rounded-lg mb-4 w-full"
-                            value={scenarioIndex}
-                            onChange={(e) => setScenarioIndex(Number(e.target.value))}
-                        >
-                            {scenarios.map((s, i) => (
-                                <option value={i} key={i}>
-                                    {s.title}
-                                </option>
-                            ))}
-                        </select>
-                        <p className="mb-4 text-gray-700">{scenarios[scenarioIndex].description}</p>
-                        <div className="space-y-3">
-                            {scenarios[scenarioIndex].options.map((opt, idx) => (
-                                <label
-                                    key={idx}
-                                    className={`block border p-4 rounded-xl cursor-pointer ${selectedOption === idx ? "bg-blue-100 border-blue-500" : ""
-                                        }`}
+                    <motion.div
+                        key="step1"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -30 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className="bg-white/70 p-6 sm:p-8 rounded-3xl shadow-xl border-4 border-purple-200 backdrop-blur-md animate-fadeIn"
+                    >
+                        <h2 className="text-2xl sm:text-3xl font-bold text-purple-700 mb-4 flex items-center gap-2">
+                            🤔 Q{dilemmaIndex + 1}:
+                            <span className="text-yellow-500 animate-pulse">What would you do?</span>
+                        </h2>
+
+                        <p className="text-lg mb-5 text-gray-800 leading-relaxed">{dilemmas[dilemmaIndex].scenario}</p>
+
+                        {!showJustify ? (
+                            <div className="space-y-3">
+                                {dilemmas[dilemmaIndex].options.map((opt) => (
+                                    <button
+                                        key={opt}
+                                        onClick={() => handleDilemmaAnswer(opt)}
+                                        className="w-full p-4 rounded-full bg-gradient-to-r from-pink-200 via-yellow-100 to-purple-200 hover:from-purple-300 hover:to-pink-300 border-2 border-purple-300 text-lg font-semibold text-gray-800 shadow-lg transition-all duration-300 ease-in-out"
+                                    >
+                                        🌟 {opt}
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="mt-6 bg-pink-50 border border-pink-300 rounded-xl p-5 shadow-inner">
+                                <h3 className="text-md font-bold text-pink-700 mb-3">
+                                    💭 Why did you choose:
+                                    <span className="italic text-purple-600"> “{currentAnswer}”</span>?
+                                </h3>
+
+                                <textarea
+                                    value={currentJustification}
+                                    onChange={(e) => setCurrentJustification(e.target.value)}
+                                    placeholder="Write your smart reason here... ✨"
+                                    rows={4}
+                                    className="w-full p-4 border-2 border-purple-300 rounded-xl text-md shadow resize-none bg-white"
+                                />
+
+                                <button
+                                    onClick={submitJustification}
+                                    disabled={currentJustification.trim().length < 10}
+                                    className="mt-4 w-full py-3 rounded-full text-white text-lg font-bold shadow-lg transition-transform duration-300 bg-gradient-to-r from-purple-500 to-pink-500 hover:scale-105 disabled:opacity-50"
                                 >
-                                    <input
-                                        type="radio"
-                                        className="mr-2"
-                                        name="option"
-                                        onChange={() => setSelectedOption(idx)}
-                                    />
-                                    {opt}
-                                </label>
-                            ))}
-                        </div>
-                        <button
-                            onClick={() => setStep(2)}
-                            disabled={selectedOption === null}
-                            className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-full disabled:opacity-40"
-                        >
-                            Next: Flashcards
-                        </button>
-                    </div>
+                                    🚀 Next
+                                </button>
+                            </div>
+                        )}
+                    </motion.div>
                 )}
 
                 {step === 2 && (
-                    <div>
-                        <h2 className="text-xl font-semibold mb-4">🧠 Logical Fallacy Flashcards</h2>
-                        <div className="text-center mt-4">
-                            {!showResult ? (
-                                <motion.div
-                                    className="bg-yellow-50 p-6 rounded-3xl border shadow-xl max-w-xl mx-auto"
-                                    whileHover={{ scale: 1.02 }}
+                    <motion.div
+                        key="step2"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -30 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className="bg-white/80 backdrop-blur-md border-4 border-green-200 rounded-3xl p-6 sm:p-8 shadow-2xl animate-fadeIn"
+                    >
+                        <h2 className="text-2xl sm:text-3xl font-extrabold text-green-600 mb-4 flex items-center gap-2">
+                            🧠 Spot the Mistake!
+                            <span className="text-yellow-500 animate-bounce">⚡</span>
+                        </h2>
+
+                        <p className="text-lg sm:text-xl mb-6 text-gray-800 font-medium bg-yellow-100 border-l-4 border-yellow-400 p-4 rounded-lg shadow-inner">
+                            {flashcards[flashIndex].question}
+                        </p>
+
+                        <div className="space-y-3">
+                            {flashcards[flashIndex].options.map((opt) => (
+                                <button
+                                    key={opt}
+                                    onClick={() => handleFlashNext(opt)}
+                                    className="w-full py-3 px-4 rounded-full bg-gradient-to-r from-green-200 via-green-100 to-yellow-100 hover:from-green-300 hover:to-yellow-200 text-lg font-semibold text-gray-800 border-2 border-green-300 shadow-md transition-transform duration-300 hover:scale-105"
                                 >
-                                    <h2 className="text-lg font-bold mb-2">Flashcard {index + 1}</h2>
-                                    <div
-                                        className={`transition-transform duration-500 p-4 text-lg bg-white rounded-xl shadow ${flipped ? "rotate-y-180" : ""
-                                            }`}
-                                    >
-                                        {!flipped ? (
-                                            <>
-                                                <p className="italic">"{flashcards[index].statement}"</p>
-                                                <button
-                                                    onClick={handleFlip}
-                                                    className="mt-4 bg-purple-500 text-white px-4 py-2 rounded-full"
-                                                >
-                                                    Flip for Flaw
-                                                </button>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <p className="text-green-700 font-semibold">Flaw: {flashcards[index].flaw}</p>
-                                                <p className="text-sm mt-2 text-gray-600">{flashcards[index].explanation}</p>
-                                                <div className="mt-4 space-y-2">
-                                                    {fallacyOptions.map((option, i) => (
-                                                        <button
-                                                            key={i}
-                                                            onClick={() => handleNext(option === flashcards[index].flaw)}
-                                                            className="block w-full border px-4 py-2 rounded-xl bg-white hover:bg-blue-50"
-                                                        >
-                                                            {option}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ) : (
-                                <div className="text-center">
-                                    <h2 className="text-2xl font-bold text-green-600 mb-2">🎉 Great job!</h2>
-                                    <p className="text-lg">You scored {score} / {flashcards.length}</p>
-                                </div>
-                            )}
+                                    🧐 {opt}
+                                </button>
+                            ))}
                         </div>
-                    </div>
+                    </motion.div>
                 )}
 
-                {step === 3 && !badge && (
-                    <div>
-                        <h2 className="text-xl font-semibold mb-4">⚖️ Justify Your Final Decision</h2>
-                        <textarea
-                            className="w-full border rounded-xl p-4 mb-4"
-                            rows={5}
-                            placeholder="Explain how your decision balances logic and ethics..."
-                            value={justification}
-                            onChange={(e) => setJustification(e.target.value)}
-                        ></textarea>
+                {step === 3 && (
+                    <motion.div
+                        key="step3"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
+
                         <button
-                            onClick={handleJustificationSubmit}
-                            className="bg-green-600 text-white px-6 py-2 rounded-full"
+                            onClick={() => setStep(4)}
+                            className="mt-4 w-full py-3 rounded-full text-white text-lg font-semibold shadow-xl bg-gradient-to-r from-pink-400 to-purple-500"
                         >
-                            Submit Justification
+                            See Results
                         </button>
-                    </div>
+                    </motion.div>
                 )}
 
-                {badge && (
-                    <div className="text-center space-y-3">
-                        <h2 className="text-2xl font-bold text-green-700">🎖️ Badge Earned</h2>
-                        <p className="text-lg">You are a 🧠 Logic Leader — strategic, fair, and thoughtful.</p>
-                        {feedback && <p className="italic text-gray-700">💬 AI Feedback: {feedback}</p>}
-                    </div>
+                {step === 4 && (
+                    <motion.div
+                        key="step4"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center space-y-5"
+                    >
+                        <h2 className="text-3xl font-bold text-green-600 flex justify-center items-center gap-2">
+                            <PartyPopper className="text-green-500" /> Well Done!
+                        </h2>
+                        <p className="text-xl">🏅 You earned the <strong>Logic Leader</strong> badge!</p>
+
+                        <button
+                            onClick={restartGame}
+                            className="mt-6 bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2 px-6 rounded-full shadow-lg"
+                        >
+                            🔁 Play Again
+                        </button>
+                    </motion.div>
                 )}
-            </motion.div>
+            </AnimatePresence>
         </div>
     );
 }

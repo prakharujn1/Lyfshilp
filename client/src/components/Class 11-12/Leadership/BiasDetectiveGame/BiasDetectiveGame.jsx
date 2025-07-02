@@ -101,7 +101,7 @@ const BiasDetectiveGame = () => {
           className="text-center mb-6"
         >
           <motion.h1
-            className="text-5xl font-black bg-gradient-to-r from-blue-600 via-pink-500 to-purple-600 bg-clip-text text-transparent mb-4 drop-shadow-lg"
+            className="text-6xl font-black bg-gradient-to-r from-blue-600 via-pink-500 to-purple-600 bg-clip-text text-transparent mb-4 drop-shadow-lg"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut", repeat: Infinity, repeatType: "reverse" }}
@@ -109,8 +109,27 @@ const BiasDetectiveGame = () => {
             Bias Detective Mission
           </motion.h1>
 
+
           <DetectiveAnimation />
+
         </motion.div>
+        <motion.div
+          className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-2xl text-lg font-medium shadow mb-6"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="">
+            👀 <strong>Detect hidden bias:</strong> Look closely at each school story.
+            <br />
+            🧠 <strong>Think wisely:</strong> Pick the bias you see—like favoritism or groupthink.
+            <br />
+            💡 <strong>Learn the solution:</strong> See how to make things fair and kind.
+            <br />
+            📝 <strong>Your turn:</strong> Share your own smart idea to make the situation better!
+          </p>
+        </motion.div>
+
 
         <motion.div
           initial={{ x: -20, opacity: 0 }}
@@ -129,7 +148,7 @@ const BiasDetectiveGame = () => {
               ease: "easeInOut",
             }}
           >
-             {cases[current].title}
+            {cases[current].title}
           </motion.h2>
 
           <motion.p
