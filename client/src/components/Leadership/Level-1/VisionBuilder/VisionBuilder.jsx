@@ -43,7 +43,9 @@ const VisionBuilderGame = () => {
         {
           parts: [
             {
-              text: `You are a friendly, supportive teacher for students in Class 6–8. A student shared their vision and two SMART goals.
+              text: `You're a helpful and encouraging teacher for students in Class 6–8.
+
+A student shared their vision and two SMART goals:
 
 🌟 Vision: "${vision}"  
 🎯 Goal 1: "${goal1}"  
@@ -51,25 +53,23 @@ const VisionBuilderGame = () => {
 
 Please check:
 
-1️⃣ Is the vision clear and positive?  
-2️⃣ Are both goals SMART (Specific, Measurable, Achievable, Relevant, Time-bound)?  
-3️⃣ Do the goals show something the student can actually do (in their control)?
+1. Is the vision clear and positive?  
+2. Are both goals SMART (Specific, Measurable, Achievable, Relevant, Time-bound)?  
+3. Can the student actually do these goals themselves?
 
-🎓 Then give your kind feedback using simple words (2 short paragraphs max). Be friendly, helpful, and add emojis so it feels fun and warm!
-
-💡 Use this format:
+🎓 Your reply must be short and in this style:
 
 - If everything is good:  
-“Good job! 🎉 Your vision is awesome and your goals are SMART. 👍 You’ve shown great thinking. Keep it up! 💪🌱”
+"Awesome job! 🎉 Your vision and goals are SMART and inspiring. Keep going! 💪"
 
-- If something needs fixing:  
-“Needs improvement: 🤔 Let’s make your vision or goals even better! Try to:  
-• Make the goal more clear or specific ✏️  
-• Choose something realistic that you can really do 🧠  
-• Add a deadline or number to help measure it ⏰  
+- If something needs improvement:  
+Start with: "Try again! 🤔"  
+Then give a short hint for what to fix. For example:  
+• "Make your vision more specific and positive."  
+• "Goal 1 needs a number or time frame."  
+• "Goal 2 feels too broad — try something realistic and doable."
 
-You’ve got this! 💫 Let’s improve it together! 😊”
-`,
+Give at most **2 hints**, in short sentences. Use emojis and keep it encouraging! Never write more than 2 lines.`,
             },
           ],
         },

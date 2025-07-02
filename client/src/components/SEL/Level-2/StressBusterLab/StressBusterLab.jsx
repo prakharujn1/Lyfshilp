@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const tools = [
@@ -25,7 +25,7 @@ const StressBusterLab = () => {
 
     const audio = new Audio(
       tool.helpful
-        ? "/children-saying-yay-praise-and-worship-jesus-299607.mp3"
+        ? "/sonido-correcto-331225.mp3"
         : "https://www.myinstants.com/media/sounds/windows-error.mp3"
     );
     audio.play();
@@ -55,11 +55,20 @@ const StressBusterLab = () => {
     setScore(correct);
   };
 
+  useEffect(() => {
+    if (score >= 4) {
+      const audio = new Audio(
+        "/children-saying-yay-praise-and-worship-jesus-299607.mp3"
+      );
+      audio.play();
+    }
+  }, [score]);
+
   const getGifForScore = () => {
     if (score >= 4)
       return "https://media.tenor.com/CgjirlJs7xsAAAAM/nice-nooice.gif";
     if (score === 3)
-      return "https://media.tenor.com/lAweEGWPVBMAAAAM/yes-yay.gif";
+      return "https://media.tenor.com/IwHuU483A3MAAAA1/curb-your-enthusiasm-larry-david.webp";
     if (score === 2)
       return "https://media.tenor.com/UrIakXGExfUAAAAM/mr-bean.gif";
     return "https://media.tenor.com/LwQz3a4KDtcAAAAM/thumbs-down-bad-job.gif";
