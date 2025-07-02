@@ -257,6 +257,7 @@ import FocusTracker from "./components/Class 11-12/SEL/FocusTracker/FocusTracker
 import EthicalSimulator from "./components/Class 11-12/SEL/EthicalSimulator/EthicalSimulator";
 import LegacyBuilder from "./components/Class 11-12/SEL/LegacyBuilder/LegacyBuilder";
 import IdentityShifter from "./components/Class 11-12/SEL/IdentityShifter/IdentityShifter";
+import SocialMediaDetective from "./components/Class 11-12/Computers/Level1/SocialMediaDetective/SocialMediaDetective";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -950,6 +951,16 @@ function App() {
               element={<IdentityShifter />}
             />
             {/* Finish Games of SEL Class 11-12 */}
+
+            {/* Games of Computers Class 11-12 */}
+
+            {/* level1 */}
+            <Route
+              path="/SocialMediaDetective"
+              element={<SocialMediaDetective />}
+            />
+            
+            {/* Finish Games of Computers Class 11-12 */}
 
             {/* Other Routes */}
 

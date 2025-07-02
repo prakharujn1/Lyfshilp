@@ -7,7 +7,7 @@ const DMContext = createContext();
 
 export const DMProvider = ({ children }) => {
     const { token, user } = useAuth();
-    const server = "https://lyfshilp-api-58229779928.asia-south1.run.app";
+    const server = "https://edumaniax-api-343555083503.asia-south1.run.app";
 
     const [dmprogress, setdmProgress] = useState([]);
 
