@@ -36,7 +36,7 @@ const StepIndicator = ({ currentStep }) => {
             </div>
             <span
               className={`mt-2 text-sm font-semibold transition-colors duration-300 
-              ${isActive ? "text-pink-600" : "text-gray-500"}`}
+              ${isActive ? "text-orange-600" : "text-gray-500"}`}
             >
               {step.label}
             </span>
@@ -102,7 +102,7 @@ const InnovationLaunchpadGame = () => {
         {!submitted ? (
           <div>
             <StepIndicator currentStep={step} />
-            <h2 className="text-xl font-bold mb-4 text-pink-600">
+            <h2 className="text-xl font-bold mb-4 text-orange-600 text-center">
               Step {step + 1}: {steps[step]}
             </h2>
 
@@ -115,8 +115,8 @@ const InnovationLaunchpadGame = () => {
             >
               {step === 0 && (
                 <div className="space-y-6">
-                  <p className="text-lg font-semibold text-pink-600 flex items-center gap-2 animate-pulse">
-                    🧩 Choose a school problem you'd love to solve:
+                  <p className="text-2xl font-bold text-center text-yellow-500 bg-yellow-100 px-4 py-3 rounded-xl shadow animate-pulse flex items-center justify-center gap-3">
+                    🎒 Pick a school problem you want to fix!
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -150,8 +150,8 @@ const InnovationLaunchpadGame = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
                 >
-                  <label className="text-lg font-semibold text-purple-600 flex items-center gap-2 animate-pulse">
-                    🛠️ Describe your idea or prototype:
+                  <label className="text-2xl font-bold text-yellow-700 bg-yellow-100 px-4 py-3 rounded-xl shadow-md flex items-center justify-center gap-3 animate-pulse">
+                    💡 Share your awesome idea or prototype!
                   </label>
 
                   <motion.textarea
@@ -173,7 +173,7 @@ const InnovationLaunchpadGame = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
                 >
-                  <label className="text-lg font-semibold text-orange-600 flex items-center gap-2 animate-pulse">
+                  <label className="text-2xl font-bold text-orange-700 bg-orange-100 px-4 py-3 rounded-xl shadow-md flex items-center justify-center gap-3 animate-pulse">
                     🎬 Summarize your pitch (slide or video link):
                   </label>
 

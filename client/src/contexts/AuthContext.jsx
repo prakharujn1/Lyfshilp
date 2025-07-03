@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const server = "https://lyfshilp-api-58229779928.asia-south1.run.app";
+  const server = "https://edumaniax-api-343555083503.asia-south1.run.app";
 
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [user, setUser] = useState(

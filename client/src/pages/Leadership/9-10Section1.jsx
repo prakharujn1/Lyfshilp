@@ -133,6 +133,7 @@ const Module1LeadershipFoundations = ({ topicRefs }) => {
       className="mb-10"
     >
       {/* Hero Section */}
+      
       <div className="relative overflow-hidden bg-gradient-to-r from-green-700 via-emerald-700 to-teal-700 text-white">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28">

@@ -250,6 +250,17 @@ import BodySignalMatchup from "./components/Games for 9-10/SEL/Level-2/BodySigna
 import FinFestGame from "./components/Class 11-12/Finance/Game3";
 import StockTraderGame from "./components/Class 11-12/Finance/Game2";
 import InvestoQuestPro from "./components/Class 11-12/Finance/Game1";
+import SmartGoalLab from "./components/Games for 9-10/SEL/Level-3/SmartGoalLab/SmartGoalLab";
+import HelpNetworkBuilder from "./components/Games for 9-10/SEL/Level-3/HelpNetworkBuilder/HelpNetworkBuilder";
+import InfluenceJournal from "./components/Games for 9-10/SEL/Level-3/InfluenceJournal/InfluenceJournal";
+import ThoughtReframer from "./components/Class 11-12/SEL/ThoughtReframerDrag/ThoughtReframerDrag";
+import BoundaryBuilder from "./components/Class 11-12/SEL/BoundaryBuilder/BoundaryBuilder";
+import BurnoutBarometer from "./components/Class 11-12/SEL/BurnoutBarometer/BurnoutBarometer";
+import FocusTracker from "./components/Class 11-12/SEL/FocusTracker/FocusTracker";
+import EthicalSimulator from "./components/Class 11-12/SEL/EthicalSimulator/EthicalSimulator";
+import LegacyBuilder from "./components/Class 11-12/SEL/LegacyBuilder/LegacyBuilder";
+import IdentityShifter from "./components/Class 11-12/SEL/IdentityShifter/IdentityShifter";
+import SocialMediaDetective from "./components/Class 11-12/Computers/Level1/SocialMediaDetective/SocialMediaDetective";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -824,6 +835,13 @@ function App() {
               path="/body-signal-matchup"
               element={<BodySignalMatchup />}
             />
+            {/*Level 3 */}
+            <Route path="/smart-goal-lab" element={<SmartGoalLab />} />
+            <Route
+              path="/help-network-builder"
+              element={<HelpNetworkBuilder />}
+            />
+            <Route path="/influence-journal" element={<InfluenceJournal />} />
 
             {/*11-12 Finance games */}
             <Route path="/fin-fest-game" element={<FinFestGame />} />
@@ -906,6 +924,52 @@ function App() {
             />
 
             {/* Finish Games of Leadership Class 11-12 */}
+
+            {/* Games of SEL Class 11-12 */}
+            <Route
+              path="/ThoughtReframerDrag"
+              element={<ThoughtReframer />}
+            />
+
+            <Route
+              path="/BoundaryBuilder"
+              element={<BoundaryBuilder />}
+            />
+
+            <Route
+              path="/BurnoutBarometer"
+              element={<BurnoutBarometer />}
+            />
+            <Route
+              path="/FocusTracker"
+              element={<FocusTracker />}
+            />
+
+            <Route
+              path="/EthicalSimulator"
+              element={<EthicalSimulator />}
+            />
+
+            <Route
+              path="/LegacyBuilder"
+              element={<LegacyBuilder />}
+            />
+
+            <Route
+              path="/IdentityShifter"
+              element={<IdentityShifter />}
+            />
+            {/* Finish Games of SEL Class 11-12 */}
+
+            {/* Games of Computers Class 11-12 */}
+
+            {/* level1 */}
+            <Route
+              path="/SocialMediaDetective"
+              element={<SocialMediaDetective />}
+            />
+            
+            {/* Finish Games of Computers Class 11-12 */}
 
             {/* Other Routes */}
 

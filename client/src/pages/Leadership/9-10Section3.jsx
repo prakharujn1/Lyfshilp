@@ -129,10 +129,10 @@ const Module3Communication = ({ topicRefs }) => {
 
   return (
     <div
-      id="3"
+      id="m-3"
       ref={(el) => {
         if (topicRefs?.current) {
-          topicRefs.current["3"] = el;
+          topicRefs.current["m-3"] = el;
         }
       }}
       className="mb-10"
