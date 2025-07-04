@@ -261,6 +261,15 @@ import EthicalSimulator from "./components/Class 11-12/SEL/EthicalSimulator/Ethi
 import LegacyBuilder from "./components/Class 11-12/SEL/LegacyBuilder/LegacyBuilder";
 import IdentityShifter from "./components/Class 11-12/SEL/IdentityShifter/IdentityShifter";
 import SocialMediaDetective from "./components/Class 11-12/Computers/Level1/SocialMediaDetective/SocialMediaDetective";
+import AdSpotterGame from "./components/Class 11-12/DM/Level1/Adspotter";
+import AudienceMatchUpGame from "./components/Class 11-12/DM/Level1/AudienceMatchUpGame";
+import PersonaBuilderGame from "./components/Class 11-12/DM/Level1/PersonaBuilderGame";
+import CaptionClinicGame from "./components/Class 11-12/DM/Level2/CaptionClinicGame";
+import PlatformPickerGame from "./components/Class 11-12/DM/Level2/PlatformPickerGame";
+import CampaignPuzzleGame from "./components/Class 11-12/DM/Level2/CampaignPuzzleGame";
+import BoostOrPostGame from "./components/Class 11-12/DM/Level3/BoostOrPostGame";
+import CampaignBuilderGame from "./components/Class 11-12/DM/Level3/CampaignBuilderGame";
+import MetricMatchUpGame from "./components/Class 11-12/DM/Level3/MetricMatchUpGame";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -848,6 +857,39 @@ function App() {
             <Route path="/stock-trader-game" element={<StockTraderGame />} />
             <Route path="/invest-quest-pro" element={<InvestoQuestPro />} />
             {/* 11-12 Finance games */}
+
+             {/*11-12 DM games */}
+          {/*Level 1 games */}
+          <Route path="/ad-spotter-game" element={<AdSpotterGame />} />
+          <Route
+            path="/audience-match-up-game"
+            element={<AudienceMatchUpGame />}
+          />
+          <Route
+            path="/persona-builder-game"
+            element={<PersonaBuilderGame />}
+          />
+
+          {/*Level 2  games */}
+          <Route path="/caption-clinic-game" element={<CaptionClinicGame />} />
+          <Route
+            path="/platform-picker-game"
+            element={<PlatformPickerGame />}
+          />
+          <Route
+            path="/campaign-puzzle-game"
+            element={<CampaignPuzzleGame />}
+          />
+
+          {/*Level 3 games */}
+          <Route path="/boost-or-post-game" element={<BoostOrPostGame />} />
+          <Route
+            path="/campaign-builder-game"
+            element={<CampaignBuilderGame />}
+          />
+          <Route path="/metric-match-up-game" element={<MetricMatchUpGame />} />
+
+          {/*11-12 DM games finish*/}
 
             {/* Games of Communication Class 11-12 */}
 
