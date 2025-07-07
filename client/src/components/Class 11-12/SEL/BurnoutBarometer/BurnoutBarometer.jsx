@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
-
+  
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const categories = [

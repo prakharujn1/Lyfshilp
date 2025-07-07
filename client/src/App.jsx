@@ -1008,9 +1008,52 @@ function App() {
             {/* level1 */}
             <Route
               path="/SocialMediaDetective"
-              element={<SocialMediaDetective />}
+              element={<SocialMediaDetectiveSVG />}
+            />
+            <Route
+              path="/SmartGPSChallenge"
+              element={<SmartGPSChallenge />}
+            />
+            <Route
+              path="/EvolutionLabSimulator"
+              element={<EvolutionLabSimulator />}
+            />
+            <Route
+              path="/ChessMasterTrainer"
+              element={< ChessAITrainer />}
+            />
+            {/* level2 */}
+            <Route
+              path="/MedicalDiagnosisAssistant"
+              element={<MedicalDiagnosisAssistant/>}
+            />
+            <Route
+              path="/SmartEmailGuardian"
+              element={<SmartEmailGuardian/>}
+            />
+            <Route
+              path="/recommender"
+              element={<NetflixRecommendationGame/>}
+            />
+            <Route
+              path="/AutonomousCarVision"
+              element={<AutonomousCarVision/>}
+            />
+            {/* level3 */}
+            <Route
+              path="/ChatbotBuilder"
+              element={<ChatbotBuilder/>}
             />
             
+            <Route
+              path="/SchoolSocialMediaManager"
+              element={<SchoolSocialMediaManager/>}
+            />
+            <Route
+              path="/PersonalStudyBuddy"
+              element={<PersonalStudyBuddy/>}
+            />
+
             {/* Finish Games of Computers Class 11-12 */}
 
             {/* Other Routes */}
