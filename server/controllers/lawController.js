@@ -6,7 +6,7 @@ export const markChallengeComplete = async (req, res) => {
   const userId = req.user.id;
  
   try {
-    const progress = await prisma.financeChallenge.upsert({
+    const progress = await prisma.lawChallenge.upsert({
       where: {
         userId_userClass_moduleIndex_challengeIndex: {
           userId,
@@ -42,7 +42,7 @@ export const getUserProgress = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const progress = await prisma.financeChallenge.findMany({
+    const progress = await prisma.lawChallenge.findMany({
       where: { userId, completed: true },
     });
 

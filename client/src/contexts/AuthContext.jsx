@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -14,37 +14,43 @@ export function AuthProvider({ children }) {
   const [phonenumber, setPhonenumber] = useState("");
   const [role, setRole] = useState(localStorage.getItem("role") || "student");
 
-
   useEffect(() => {
-    if (token && !user) {
-      fetchMe(); // Only fetch if token exists and user is not yet set
-    }
+    if (token && !user) fetchMe();
   }, [token]);
 
-  // Save role to localStorage if it changes
   useEffect(() => {
-    if (role) {
-      localStorage.setItem("role", role);
-    } else {
-      localStorage.removeItem("role");
-    }
+    role
+      ? localStorage.setItem("role", role)
+      : localStorage.removeItem("role");
   }, [role]);
 
-  // Step 1 - Shared OTP send for both register & login
-  const sendOtp = async (phone) => {
+  // 🔹 Send OTP for Register
+  const sendOtpForRegister = async (phone) => {
     try {
-      const res = await axios.post(`${server}/send-otp`, { phonenumber: phone });
+      const res = await axios.post(`${server}/send-otp-register`, { phonenumber: phone });
       setPhonenumber(phone);
-      return { success: true, message: "OTP sent" };
+      toast.success("OTP sent for registration");
+      return { success: true };
     } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || "Failed to send OTP",
-      };
+      toast.error(err.response?.data?.message || "Failed to send OTP");
+      return { success: false, message: err.response?.data?.message || "Failed" };
     }
   };
 
-  // Step 2A - Verify OTP and Register
+  // 🔹 Send OTP for Login
+  const sendOtpForLogin = async (phone) => {
+    try {
+      const res = await axios.post(`${server}/send-otp-login`, { phonenumber: phone });
+      setPhonenumber(phone);
+      toast.success("OTP sent for login");
+      return { success: true };
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send OTP");
+      return { success: false, message: err.response?.data?.message || "Failed" };
+    }
+  };
+
+  // 🔹 Verify OTP and Register
   const verifyOtpAndRegister = async (formData, otp, navigate) => {
     try {
       const res = await axios.post(`${server}/verify-otp-register`, {
@@ -57,18 +63,16 @@ export function AuthProvider({ children }) {
       localStorage.setItem("user", JSON.stringify(user));
       setToken(token);
       setUser(user);
-      toast.success("Registered successfully ");
+      toast.success("Registered successfully");
       navigate("/dashboard");
       return { success: true };
     } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || "Registration failed",
-      };
+      toast.error(err.response?.data?.message || "Registration failed");
+      return { success: false, message: err.response?.data?.message || "Failed" };
     }
   };
 
-  // Step 2B - Verify OTP and Login
+  // 🔹 Verify OTP and Login
   const verifyOtpAndLogin = async (otp, navigate) => {
     try {
       const res = await axios.post(`${server}/verify-otp-login`, {
@@ -80,54 +84,45 @@ export function AuthProvider({ children }) {
       localStorage.setItem("user", JSON.stringify(user));
       setToken(token);
       setUser(user);
-      toast.success("Logged in successfully ");
+      toast.success("Logged in successfully");
       navigate("/dashboard");
       return { success: true };
     } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || "Login failed",
-      };
+      toast.error(err.response?.data?.message || "Login failed");
+      return { success: false, message: err.response?.data?.message || "Failed" };
     }
   };
 
-  // Fetch currently logged-in user using token
+  // 🔹 Fetch Logged-in User
   const fetchMe = async () => {
     if (!token) return;
     try {
       const res = await axios.get(`${server}/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       return { success: true };
     } catch (err) {
       console.error("Fetch /me failed:", err);
-      return {
-        success: false,
-        message: err.response?.data?.message || "Failed to fetch user",
-      };
+      return { success: false, message: err.response?.data?.message || "Fetch failed" };
     }
   };
 
-  // Logout
+  // 🔹 Logout
   const logout = (navigate) => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  localStorage.removeItem("role"); // Clear admin role
-  setToken("");
-  setUser(null);
-  setRole("student"); // Reset role to student or null as default
-  setPhonenumber("");
-  navigate("/login");
-};
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    setToken("");
+    setUser(null);
+    setRole("student");
+    setPhonenumber("");
+    navigate("/login");
+  };
 
-
-  // Admin login function
+  // 🔹 Admin login
   const loginAsAdmin = (username, password, navigate) => {
-    // Hardcoded credentials
     if (username === "admin" && password === "admin123") {
       setRole("admin");
       localStorage.setItem("role", "admin");
@@ -146,13 +141,14 @@ export function AuthProvider({ children }) {
         token,
         user,
         phonenumber,
-        sendOtp,
+        sendOtpForRegister,
+        sendOtpForLogin,
         verifyOtpAndRegister,
         verifyOtpAndLogin,
         fetchMe,
         logout,
         role,
-        loginAsAdmin
+        loginAsAdmin,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useFinance } from "../contexts/FinanceContext";
 import { useAuth } from "../contexts/AuthContext";
-
+ 
 const Curriculum = forwardRef((props, ref) => {
   const { progress } = useFinance();
   const [activeModule, setActiveModule] = useState(null);

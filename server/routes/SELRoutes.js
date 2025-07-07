@@ -3,11 +3,11 @@ import authenticateUser from "../middlewares/authMiddleware.js";
 import {
   markChallengeComplete,
   getUserProgress,
-} from "../controllers/finanaceController.js";
+} from "../controllers/SELController.js";
 
 const router = Router();
 
 router.post("/challenge-complete", authenticateUser, markChallengeComplete);
 router.get("/get-challenges", authenticateUser, getUserProgress);
-
+ 
 export default router;

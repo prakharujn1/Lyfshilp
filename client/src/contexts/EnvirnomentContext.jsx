@@ -3,25 +3,25 @@ import axios from "axios";
 import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
 
-const DMContext = createContext();
+const EnvirnomentContext = createContext();
 
-export const DMProvider = ({ children }) => {
+export const EnvirnomentProvider = ({ children }) => {
     const { token, user } = useAuth();
     const userClass = user?.userClass;
     const server = "https://edumaniax-api-343555083503.asia-south1.run.app";
 
-    const [dmprogress, setdmProgress] = useState([]);
+    const [progress, setProgress] = useState([]);
 
     // Fetch progress for logged-in user
-    const fetchDMChallenges = async () => {
+    const fetchEnvirnomentChallenges = async () => {
         if (!token) return;
         try {
-            const res = await axios.get(`${server}/digital-marketing/get-challenges`, {
+            const res = await axios.get(`${server}/envirnoment/get-challenges`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setdmProgress(res.data.progress || []);
+            setProgress(res.data.progress || []);
             return { success: true };
         } catch (err) {
             console.error("Error fetching progress:", err);
@@ -32,14 +32,13 @@ export const DMProvider = ({ children }) => {
         }
     };
 
-
     // Mark a challenge complete
-    const completeDMChallenge = async (moduleIndex, challengeIndex) => {
+    const completeEnvirnomentChallenge = async (moduleIndex, challengeIndex) => {
         if (!user) return;
         if (!userClass) return;
 
 
-        const isAlreadyCompleted = dmprogress?.some(
+        const isAlreadyCompleted = progress?.some(
             (entry) =>
                 entry.userClass === userClass &&
                 entry.moduleIndex === moduleIndex &&
@@ -52,7 +51,7 @@ export const DMProvider = ({ children }) => {
         }
         try {
             const res = await axios.post(
-                `${server}/digital-marketing/challenge-complete`,
+                `${server}/envirnoment/challenge-complete`,
                 { userClass, moduleIndex, challengeIndex },
                 {
                     headers: {
@@ -62,7 +61,7 @@ export const DMProvider = ({ children }) => {
             );
             // Optimistically update progress
             if (res.data?.progress) {
-                setdmProgress((prev) => [...prev, res.data.progress]);
+                setProgress((prev) => [...prev, res.data.progress]);
                 toast.success("Challenge completed!");
             }
 
@@ -76,29 +75,29 @@ export const DMProvider = ({ children }) => {
         }
     };
 
-
     useEffect(() => {
         if (token && user) {
-            fetchDMChallenges();
+            fetchEnvirnomentChallenges();
         }
     }, [token, user]);
 
     useEffect(() => {
         if (!user) {
-            setdmProgress([]); // 🔁 Reset progress when user logs out
+            setProgress([]); // 🔁 Reset progress when user logs out
         }
     }, [user]);
+
     return (
-        <DMContext.Provider
+        <EnvirnomentContext.Provider
             value={{
-                dmprogress,
-                fetchDMChallenges,
-                completeDMChallenge,
+                progress,
+                fetchEnvirnomentChallenges,
+                completeEnvirnomentChallenge,
             }}
         >
             {children}
-        </DMContext.Provider>
+        </EnvirnomentContext.Provider>
     );
 };
 
-export const useDM = () => useContext(DMContext);
+export const useEnvirnoment = () => useContext(EnvirnomentContext);

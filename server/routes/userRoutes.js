@@ -2,7 +2,8 @@
 
 import { Router } from "express";
 import {
-  sendOtp,
+  sendOtpForRegistration,
+  sendOtpForLogin,
   verifyOtpAndRegister,
   verifyOtpAndLogin,
   test,
@@ -12,9 +13,11 @@ import {
 const router = Router();
 
 router.get("/", test);
-router.post("/send-otp", sendOtp);
-router.post("/verify-otp-login", verifyOtpAndLogin);
+router.post("/send-otp-register", sendOtpForRegistration);
+router.post("/send-otp-login", sendOtpForLogin);
 router.post("/verify-otp-register", verifyOtpAndRegister);
+router.post("/verify-otp-login", verifyOtpAndLogin);
+
 router.get("/me", getMe);
 
 export default router;

@@ -7,7 +7,7 @@ import Spline from "@splinetool/react-spline";
 
 const Login = () => {
   const navigate = useNavigate();
-    const { sendOtp, verifyOtpAndLogin } = useAuth();
+    const { sendOtpForLogin, verifyOtpAndLogin } = useAuth();
   const [step, setStep] = useState(1);
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -21,7 +21,7 @@ const Login = () => {
     setError("");
   };
 
-  const handleSendOTP = async (e) => {
+  const handlesendOtpForLogin = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -38,7 +38,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-       const response = await sendOtp(phone);
+       const response = await sendOtpForLogin(phone);
       console.log("Login response from backend:", response);
       setOtpSent(true);
       setStep(2);
@@ -119,7 +119,7 @@ const Login = () => {
 
         <div className="p-6">
           {step === 1 ? (
-            <form onSubmit={handleSendOTP} className="space-y-4">
+            <form onSubmit={handlesendOtpForLogin} className="space-y-4">
               <div>
                 <label
                   htmlFor="phone"

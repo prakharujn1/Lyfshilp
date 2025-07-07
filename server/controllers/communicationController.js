@@ -4,11 +4,15 @@ const prisma = new PrismaClient();
 export const markChallengeComplete = async (req, res) => {
   const { userClass , moduleIndex, challengeIndex } = req.body;
   const userId = req.user.id;
- 
+
+   if (!userClass || moduleIndex === undefined || challengeIndex === undefined) {
+    return res.status(400).json({ success: false, message: "Missing required fields" });
+  }
+  
   try {
-    const progress = await prisma.financeChallenge.upsert({
+    const progress = await prisma.communicationChallenge.upsert({
       where: {
-        userId_userClass_moduleIndex_challengeIndex: {
+         userId_userClass_moduleIndex_challengeIndex: {
           userId,
           userClass,
           moduleIndex,
@@ -37,12 +41,12 @@ export const markChallengeComplete = async (req, res) => {
       .json({ success: false, error: "Failed to update progress" });
   }
 };
-
+ 
 export const getUserProgress = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const progress = await prisma.financeChallenge.findMany({
+    const progress = await prisma.communicationChallenge.findMany({
       where: { userId, completed: true },
     });
 

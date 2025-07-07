@@ -260,7 +260,6 @@ import FocusTracker from "./components/Class 11-12/SEL/FocusTracker/FocusTracker
 import EthicalSimulator from "./components/Class 11-12/SEL/EthicalSimulator/EthicalSimulator";
 import LegacyBuilder from "./components/Class 11-12/SEL/LegacyBuilder/LegacyBuilder";
 import IdentityShifter from "./components/Class 11-12/SEL/IdentityShifter/IdentityShifter";
-import SocialMediaDetective from "./components/Class 11-12/Computers/Level1/SocialMediaDetective/SocialMediaDetective";
 import AdSpotterGame from "./components/Class 11-12/DM/Level1/Adspotter";
 import AudienceMatchUpGame from "./components/Class 11-12/DM/Level1/AudienceMatchUpGame";
 import PersonaBuilderGame from "./components/Class 11-12/DM/Level1/PersonaBuilderGame";
@@ -270,6 +269,17 @@ import CampaignPuzzleGame from "./components/Class 11-12/DM/Level2/CampaignPuzzl
 import BoostOrPostGame from "./components/Class 11-12/DM/Level3/BoostOrPostGame";
 import CampaignBuilderGame from "./components/Class 11-12/DM/Level3/CampaignBuilderGame";
 import MetricMatchUpGame from "./components/Class 11-12/DM/Level3/MetricMatchUpGame";
+import SocialMediaDetective from "./components/Class 11-12/Computers/Level1/SocialMediaDetective/SocialMediaDetective";
+import SmartGPSChallenge from "./components/Class 11-12/Computers/Level1/SmartGPSChallenge/SmartGPSChallenge";
+import EvolutionLabSimulator from "./components/Class 11-12/Computers/Level1/EvolutionLabSimulator/EvolutionLabSimulator";
+import ChessMasterTrainer from "./components/Class 11-12/Computers/Level1/ChessMasterTrainer/ChessMasterTrainer";
+import MedicalDiagnosisAssistant from "./components/Class 11-12/Computers/Level2/MedicalDiagnosisAssistant/MedicalDiagnosisAssistant";
+import SmartEmailGuardian from "./components/Class 11-12/Computers/Level2/SmartEmailGuardian/SmartEmailGuardian";
+import NetflixRecommendationGame from "./components/Class 11-12/Computers/Level2/NetflixRecommender/NetflixRecommender";
+import AutonomousCarVision from "./components/Class 11-12/Computers/Level2/AutonomousCarVisionGame/AutonomousCarVisionGame";
+import CustomerServiceChatbotBuilder from "./components/Class 11-12/Computers/Level3/ChatbotBuilder/ChatbotBuilder";
+import SchoolSocialMediaManager from "./components/Class 11-12/Computers/Level3/SchoolSocialMediaManager/SchoolSocialMediaManager";
+import PersonalStudyBuddy from "./components/Class 11-12/Computers/Level3/PersonalStudyBuddy/PersonalStudyBuddy";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -1008,7 +1018,7 @@ function App() {
             {/* level1 */}
             <Route
               path="/SocialMediaDetective"
-              element={<SocialMediaDetectiveSVG />}
+              element={<SocialMediaDetective />}
             />
             <Route
               path="/SmartGPSChallenge"
@@ -1020,7 +1030,7 @@ function App() {
             />
             <Route
               path="/ChessMasterTrainer"
-              element={< ChessAITrainer />}
+              element={< ChessMasterTrainer />}
             />
             {/* level2 */}
             <Route
@@ -1042,7 +1052,7 @@ function App() {
             {/* level3 */}
             <Route
               path="/ChatbotBuilder"
-              element={<ChatbotBuilder/>}
+              element={<CustomerServiceChatbotBuilder/>}
             />
             
             <Route

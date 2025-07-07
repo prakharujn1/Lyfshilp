@@ -8,7 +8,7 @@ import Spline from "@splinetool/react-spline";
 const Register = () => {
   const navigate = useNavigate();
   const {
-    sendOtp,
+    sendOtpForRegister,
     verifyOtpAndRegister,
   } = useAuth();
   // flat formData
@@ -111,7 +111,7 @@ const Register = () => {
         age: parseInt(formData.age, 10), // ensure age is number
       };
       try {
-        const result = await sendOtp(updatedFormData.phonenumber);
+        const result = await sendOtpForRegister(updatedFormData.phonenumber);
         if (result.success) {
           console.log("OTP sent successfully");
           setOtpSent(true);

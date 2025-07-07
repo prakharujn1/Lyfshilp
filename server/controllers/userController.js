@@ -8,14 +8,39 @@ import axios from "axios";
 
 const prisma = new PrismaClient();
 
-// Send OTP for registration or login
-export const sendOtp = async (req, res) => {
+
+const sendOtpForRegistration = async (req, res) => {
   const { phonenumber } = req.body;
 
   if (!phonenumber) {
     return res.status(400).json({ message: "Phone number is required" });
   }
 
+  const existingUser = await prisma.user.findUnique({ where: { phonenumber } });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already exists. Please login." });
+  }
+
+  return sendOtpHelper(phonenumber, res);
+};
+
+const sendOtpForLogin = async (req, res) => {
+  const { phonenumber } = req.body;
+
+  if (!phonenumber) {
+    return res.status(400).json({ message: "Phone number is required" });
+  }
+
+  const existingUser = await prisma.user.findUnique({ where: { phonenumber } });
+  if (!existingUser) {
+    return res.status(404).json({ message: "User not found. Please register." });
+  }
+
+  return sendOtpHelper(phonenumber, res);
+};
+
+
+const sendOtpHelper = async (phonenumber, res) => {
   const otp = otpGenerator.generate(6, {
     upperCaseAlphabets: false,
     specialChars: false,
@@ -54,35 +79,17 @@ export const sendOtp = async (req, res) => {
     if (success) {
       return res.status(200).json({ message: "OTP sent successfully" });
     } else {
-      console.error(
-        "Unexpected success:false response from Edumarc API:",
-        response.data
-      );
-      return res
-        .status(500)
-        .json({ message: "Failed to send OTP", details: response.data });
+      console.error("Unexpected SMS response:", response.data);
+      return res.status(500).json({ message: "Failed to send OTP", details: response.data });
     }
   } catch (err) {
-    if (err.response) {
-      const { code, message, details } = err.response.data;
-      console.error("Edumarc API error:", {
-        code,
-        message,
-        details,
-      });
-      return res.status(500).json({
-        message: "OTP SMS failed",
-        error: { code, message, details },
-      });
-    }
-
-    console.error("Internal error while sending OTP:", err.message);
+    console.error("Error sending OTP:", err.message);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
 // Verify OTP and Register
-export const verifyOtpAndRegister = async (req, res) => {
+const verifyOtpAndRegister = async (req, res) => {
   const {
     phonenumber,
     otp,
@@ -149,7 +156,7 @@ export const verifyOtpAndRegister = async (req, res) => {
 };
 
 // Verify OTP and Login
-export const verifyOtpAndLogin = async (req, res) => {
+const verifyOtpAndLogin = async (req, res) => {
   const { phonenumber, otp } = req.body;
 
   if (!phonenumber || !otp) {
@@ -186,7 +193,7 @@ export const verifyOtpAndLogin = async (req, res) => {
   res.status(200).json({ success: true, message: "Logged in", token, user });
 };
 
-export const getMe = async (req, res) => {
+const getMe = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -227,6 +234,16 @@ export const getMe = async (req, res) => {
 };
 
 // Test Route
-export const test = async (req, res) => {
+const test = async (req, res) => {
   res.status(200).json({ success: true, message: "Welcome to EduManiax!" });
+};
+
+
+export {
+  sendOtpForRegistration,
+  sendOtpForLogin,
+  verifyOtpAndRegister,
+  verifyOtpAndLogin,
+  getMe,
+  test
 };

@@ -1,10 +1,10 @@
- import { Router } from "express";
+import { Router } from "express";
 import authenticateUser from "../middlewares/authMiddleware.js";
 import {
   markChallengeComplete,
   getUserProgress,
-} from "../controllers/finanaceController.js";
-
+} from "../controllers/communicationController.js"; 
+ 
 const router = Router();
 
 router.post("/challenge-complete", authenticateUser, markChallengeComplete);

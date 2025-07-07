@@ -2,30 +2,32 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const markChallengeComplete = async (req, res) => {
-  const { moduleIndex, challengeIndex } = req.body;
+  const { userClass, moduleIndex, challengeIndex } = req.body;
   const userId = req.user.id;
 
   try {
-    const progress = await prisma.DMChallenge.upsert({
-      where: {
-        userId_moduleIndex_challengeIndex: {
+    const progress = await prisma.dMChallenge.upsert({
+        where: {
+          userId_userClass_moduleIndex_challengeIndex: {
+            userId,
+            userClass,
+            moduleIndex,
+            challengeIndex,
+          },
+        },
+        update: {
+          completed: true,
+          completedAt: new Date(),
+        },
+        create: {
           userId,
+          userClass,
           moduleIndex,
           challengeIndex,
+          completed: true,
+          completedAt: new Date(),
         },
-      },
-      update: {
-        completed: true,
-        completedAt: new Date(),
-      },
-      create: {
-        userId,
-        moduleIndex,
-        challengeIndex,
-        completed: true,
-        completedAt: new Date(),
-      },
-    });
+      });
 
     res.json({ success: true, progress });
   } catch (err) {
@@ -40,7 +42,7 @@ export const getUserProgress = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const progress = await prisma.DMChallenge.findMany({
+    const progress = await prisma.dMChallenge.findMany({
       where: { userId, completed: true },
     });
 

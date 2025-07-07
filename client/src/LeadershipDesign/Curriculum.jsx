@@ -3,11 +3,11 @@ import { ChevronDown, ChevronUp, PlayCircle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useFinance } from "../contexts/FinanceContext";
+import { useLeadership } from "../contexts/LeadershipContext";
 import { useAuth } from "../contexts/AuthContext";
 
 const Curriculum = forwardRef((props, ref) => {
-  const { progress } = useFinance();
+  const { progress } = useLeadership();
   const [activeModule, setActiveModule] = useState(null);
   const { role } = useAuth();
 

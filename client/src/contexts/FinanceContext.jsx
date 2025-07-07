@@ -7,6 +7,7 @@ const FinanceContext = createContext();
 
 export const FinanceProvider = ({ children }) => {
     const { token, user } = useAuth();
+    const userClass = user?.userClass;
     const server = "https://edumaniax-api-343555083503.asia-south1.run.app";
 
     const [progress, setProgress] = useState([]);
@@ -34,9 +35,12 @@ export const FinanceProvider = ({ children }) => {
     // Mark a challenge complete
     const completeFinanceChallenge = async (moduleIndex, challengeIndex) => {
         if (!user) return;
+        if (!userClass) return;
+
 
         const isAlreadyCompleted = progress?.some(
             (entry) =>
+                entry.userClass === userClass &&
                 entry.moduleIndex === moduleIndex &&
                 entry.challengeIndex === challengeIndex &&
                 entry.completed
@@ -48,7 +52,7 @@ export const FinanceProvider = ({ children }) => {
         try {
             const res = await axios.post(
                 `${server}/finance/challenge-complete`,
-                { moduleIndex, challengeIndex },
+                { userClass, moduleIndex, challengeIndex },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
