@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { ArrowRight, MousePointerClick } from "lucide-react";
+import { useComputers } from "@/contexts/ComputersContext";
 
 
 const problems = [
@@ -39,6 +40,7 @@ const toolHelps = {
 };
 
 export default function AIProblemSolverGame() {
+    const { completeComputersChallenge } = useComputers();
     const [assignedTools, setAssignedTools] = useState({});
     const [howItHelps, setHowItHelps] = useState({});
     const [submitted, setSubmitted] = useState(false);
@@ -73,6 +75,7 @@ export default function AIProblemSolverGame() {
         const allHelpFilled = problems.every(p => howItHelps[p.id]?.trim().length > 0);
         if (allAssigned && allHelpFilled) {
             setSubmitted(true);
+            completeComputersChallenge(1, 2); // ✅ Mark task as complete
         } else {
             alert("Please assign a tool AND fill how it helps for every problem.");
         }

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 export default function LeadershipGame() {
+  const { completeCommunicationChallenge } = useCommunication();
   const [hasStarted, setHasStarted] = useState(false);
   const [step, setStep] = useState(1);
   const [timeLeft, setTimeLeft] = useState(8 * 60); // 8 minutes
@@ -122,6 +124,7 @@ Here is the student's message:
       if (score === 3) {
         setFeedback("✅ Well done—you inspired and directed at the same time!");
         setGameDone(true);
+        completeCommunicationChallenge(2,0); // Call the context function
       } else if (!direction) {
         setFeedback("⚠️ Consider making the next steps more specific in your message!");
       } else if (!acknowledgement) {
@@ -282,8 +285,8 @@ Here is the student's message:
                     key={t}
                     onClick={() => toggleTone(t)}
                     className={`px-5 py-2 rounded-full font-semibold transition border shadow-md tracking-wide ${selectedTones.includes(t)
-                        ? "bg-green-300 border-green-600 text-green-900"
-                        : "bg-yellow-100 hover:bg-yellow-200 border-yellow-400 text-yellow-900"
+                      ? "bg-green-300 border-green-600 text-green-900"
+                      : "bg-yellow-100 hover:bg-yellow-200 border-yellow-400 text-yellow-900"
                       }`}
                   >
                     {t}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -43,6 +44,7 @@ const scenarios = [
 ];
 
 const HelpNetworkBuilder = () => {
+  const { completeSELChallenge } = useSEL();
   const [stage, setStage] = useState("intro");
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -62,12 +64,14 @@ const HelpNetworkBuilder = () => {
     if (current < scenarios.length - 1) {
       setCurrent(current + 1);
     } else {
-      setStage("result");
       if (score >= 5) {
+        completeSELChallenge(2,1); // ✅ Mark SEL challenge complete
         confetti({ spread: 120, particleCount: 180, origin: { y: 0.6 } });
       }
+      setStage("result");
     }
   };
+
 
   const playAgain = () => {
     setStage("intro");
@@ -82,10 +86,10 @@ const HelpNetworkBuilder = () => {
     score >= 5
       ? "https://media.tenor.com/Ot91v2KkrNQAAAAm/its-a-good-job-jeeveshu-ahluwalia.webp"
       : score === 4
-      ? "https://media.tenor.com/sIzMTGPxIeMAAAA1/well-done.webp"
-      : score === 3
-      ? "https://media.tenor.com/7SMAiWi_FD4AAAA1/i-mean-its-alright.webp"
-      : "https://media.tenor.com/QnpesWUmGgwAAAA1/mem622x.webp";
+        ? "https://media.tenor.com/sIzMTGPxIeMAAAA1/well-done.webp"
+        : score === 3
+          ? "https://media.tenor.com/7SMAiWi_FD4AAAA1/i-mean-its-alright.webp"
+          : "https://media.tenor.com/QnpesWUmGgwAAAA1/mem622x.webp";
 
   return (
     <div className="p-6 space-y-6 max-w-xl mx-auto text-center">
@@ -122,11 +126,10 @@ const HelpNetworkBuilder = () => {
                 <button
                   key={opt}
                   onClick={() => handleSelect(opt)}
-                  className={`px-4 py-2 rounded border ${
-                    answers[current] === opt
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 hover:bg-gray-200"
-                  }`}
+                  className={`px-4 py-2 rounded border ${answers[current] === opt
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                    }`}
                 >
                   {opt}
                 </button>

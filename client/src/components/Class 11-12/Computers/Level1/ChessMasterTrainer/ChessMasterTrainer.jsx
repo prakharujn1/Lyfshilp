@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronDown, ChevronRight, Crown, Shield, Sword, Castle, Zap, Brain, Target, Trophy, Play, RotateCcw, Eye, EyeOff } from 'lucide-react';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const ChessMasterTrainer = () => {
   // Piece types for simplified 6x6 chess
@@ -60,6 +61,7 @@ const ChessMasterTrainer = () => {
     }
   ];
 
+  const { completeComputersChallenge } = useComputers();
   const [currentScenario, setCurrentScenario] = useState(0);
   const [board, setBoard] = useState(SCENARIOS[0].board);
   const [selectedSquare, setSelectedSquare] = useState(null);
@@ -69,6 +71,13 @@ const ChessMasterTrainer = () => {
   const [playerMove, setPlayerMove] = useState(null);
   const [score, setScore] = useState(0);
   const [completedScenarios, setCompletedScenarios] = useState([]);
+
+  useEffect(() => {
+    if (completedScenarios.length === SCENARIOS.length) {
+      completeComputersChallenge(0,3);
+    }
+  }, [completedScenarios]);
+
 
   // Minimax tree node structure
   const createTreeNode = (position, depth, isMaximizing, alpha = -Infinity, beta = Infinity, move = null) => {
@@ -104,21 +113,21 @@ const ChessMasterTrainer = () => {
   // Generate possible moves for a piece
   const generateMoves = (board, isWhite) => {
     const moves = [];
-    
+
     for (let row = 0; row < 6; row++) {
       for (let col = 0; col < 6; col++) {
         const piece = board[row][col];
         if (!piece) continue;
-        
+
         const isWhitePiece = piece === piece.toUpperCase();
         if (isWhitePiece !== isWhite) continue;
-        
+
         // Get all valid moves for this piece
         const validMoves = getValidMoves(board, row, col, piece.toUpperCase());
         moves.push(...validMoves);
       }
     }
-    
+
     return moves.slice(0, 6); // Limit moves for performance but allow more variety
   };
 
@@ -126,7 +135,7 @@ const ChessMasterTrainer = () => {
   const getValidMoves = (board, row, col, pieceType) => {
     const moves = [];
     const isWhite = board[row][col] === board[row][col].toUpperCase();
-    
+
     // Basic movement patterns
     const directions = {
       [PIECES.PAWN]: isWhite ? [[-1, 0]] : [[1, 0]], // Pawns move forward
@@ -138,19 +147,19 @@ const ChessMasterTrainer = () => {
     };
 
     const dirs = directions[pieceType] || [];
-    
+
     for (const [dx, dy] of dirs) {
       let newRow = row + dx;
       let newCol = col + dy;
-      
+
       // For sliding pieces (Queen, Rook, Bishop), continue in direction until blocked
       const isSliding = [PIECES.QUEEN, PIECES.ROOK, PIECES.BISHOP].includes(pieceType);
-      
+
       do {
         if (newRow < 0 || newRow >= 6 || newCol < 0 || newCol >= 6) break;
-        
+
         const targetPiece = board[newRow][newCol];
-        
+
         if (targetPiece) {
           // Can capture if it's opponent's piece
           const targetIsWhite = targetPiece === targetPiece.toUpperCase();
@@ -162,14 +171,14 @@ const ChessMasterTrainer = () => {
           // Empty square - can move here
           moves.push({ from: [row, col], to: [newRow, newCol] });
         }
-        
+
         if (!isSliding) break; // Non-sliding pieces only move one square
-        
+
         newRow += dx;
         newCol += dy;
       } while (true);
     }
-    
+
     return moves;
   };
 
@@ -178,10 +187,10 @@ const ChessMasterTrainer = () => {
     const newBoard = board.map(row => [...row]);
     const [fromRow, fromCol] = move.from;
     const [toRow, toCol] = move.to;
-    
+
     newBoard[toRow][toCol] = newBoard[fromRow][fromCol];
     newBoard[fromRow][fromCol] = null;
-    
+
     return newBoard;
   };
 
@@ -192,50 +201,50 @@ const ChessMasterTrainer = () => {
     }
 
     const moves = generateMoves(board, isMaximizing);
-    
+
     if (moves.length === 0) {
       return { value: evaluatePosition(board), move: null };
     }
 
     let bestMove = null;
-    
+
     if (isMaximizing) {
       let maxEval = -Infinity;
-      
+
       for (const move of moves) {
         const newBoard = makeMove(board, move);
         const eval_result = minimax(newBoard, depth - 1, false, alpha, beta, useAlphaBeta);
-        
+
         if (eval_result.value > maxEval) {
           maxEval = eval_result.value;
           bestMove = move;
         }
-        
+
         if (useAlphaBeta) {
           alpha = Math.max(alpha, eval_result.value);
           if (beta <= alpha) break; // Beta cutoff
         }
       }
-      
+
       return { value: maxEval, move: bestMove };
     } else {
       let minEval = Infinity;
-      
+
       for (const move of moves) {
         const newBoard = makeMove(board, move);
         const eval_result = minimax(newBoard, depth - 1, true, alpha, beta, useAlphaBeta);
-        
+
         if (eval_result.value < minEval) {
           minEval = eval_result.value;
           bestMove = move;
         }
-        
+
         if (useAlphaBeta) {
           beta = Math.min(beta, eval_result.value);
           if (beta <= alpha) break; // Alpha cutoff
         }
       }
-      
+
       return { value: minEval, move: bestMove };
     }
   };
@@ -243,79 +252,79 @@ const ChessMasterTrainer = () => {
   // Build minimax tree for visualization
   const buildMinimaxTree = (board, depth, isMaximizing) => {
     const root = createTreeNode(board, depth, isMaximizing);
-    
+
     if (depth === 0) {
       root.value = evaluatePosition(board);
       return root;
     }
-    
+
     const moves = generateMoves(board, isMaximizing);
-    
+
     for (const move of moves.slice(0, 3)) { // Limit for visualization
       const newBoard = makeMove(board, move);
       const childNode = buildMinimaxTree(newBoard, depth - 1, !isMaximizing);
       childNode.move = move;
       root.children.push(childNode);
     }
-    
+
     // Calculate minimax value
     if (isMaximizing) {
       root.value = Math.max(...root.children.map(child => child.value));
     } else {
       root.value = Math.min(...root.children.map(child => child.value));
     }
-    
+
     return root;
   };
 
   // Handle square click
   const handleSquareClick = (row, col) => {
     if (gameState !== 'playing') return;
-    
+
     if (selectedSquare) {
       const [fromRow, fromCol] = selectedSquare;
       if (row === fromRow && col === fromCol) {
         setSelectedSquare(null);
         return;
       }
-      
+
       // Check if this is a valid move
       const piece = board[fromRow][fromCol];
       if (!piece) {
         setSelectedSquare(null);
         return;
       }
-      
+
       const validMoves = getValidMoves(board, fromRow, fromCol, piece.toUpperCase());
-      const isValidMove = validMoves.some(move => 
+      const isValidMove = validMoves.some(move =>
         move.to[0] === row && move.to[1] === col
       );
-      
+
       if (!isValidMove) {
         setSelectedSquare(null);
         return;
       }
-      
+
       const move = { from: [fromRow, fromCol], to: [row, col] };
       setPlayerMove(move);
       setSelectedSquare(null);
-      
+
       // Check if this is the optimal move
       const scenario = SCENARIOS[currentScenario];
-      const isOptimal = move.from[0] === scenario.optimalMove.from[0] && 
-                       move.from[1] === scenario.optimalMove.from[1] &&
-                       move.to[0] === scenario.optimalMove.to[0] && 
-                       move.to[1] === scenario.optimalMove.to[1];
-      
+      const isOptimal = move.from[0] === scenario.optimalMove.from[0] &&
+        move.from[1] === scenario.optimalMove.from[1] &&
+        move.to[0] === scenario.optimalMove.to[0] &&
+        move.to[1] === scenario.optimalMove.to[1];
+
       if (isOptimal) {
         setScore(score + 100);
         setCompletedScenarios([...completedScenarios, currentScenario]);
-        
+
         // Update the board to show the move
         const newBoard = makeMove(board, move);
         setBoard(newBoard);
       }
-      
+
       setGameState('analyzing');
     } else {
       const piece = board[row][col];
@@ -356,14 +365,14 @@ const ChessMasterTrainer = () => {
   // Render chess piece
   const renderPiece = (piece) => {
     if (!piece) return null;
-    
+
     const pieceType = piece.toUpperCase();
     const isWhite = piece === piece.toUpperCase();
     const IconComponent = PIECE_ICONS[pieceType];
-    
+
     return (
-      <IconComponent 
-        size={20} 
+      <IconComponent
+        size={20}
         className={`${isWhite ? 'text-blue-600' : 'text-red-600'}`}
       />
     );
@@ -372,9 +381,9 @@ const ChessMasterTrainer = () => {
   // Render minimax tree node
   const TreeNode = ({ node, depth = 0 }) => {
     const [expanded, setExpanded] = useState(depth < 2);
-    
+
     if (!node) return null;
-    
+
     return (
       <div className="ml-4">
         <div className="flex items-center space-x-2 py-1">
@@ -386,25 +395,24 @@ const ChessMasterTrainer = () => {
               {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
             </button>
           )}
-          
-          <div className={`px-2 py-1 rounded text-sm ${
-            node.isMaximizing ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'
-          }`}>
+
+          <div className={`px-2 py-1 rounded text-sm ${node.isMaximizing ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'
+            }`}>
             {node.isMaximizing ? 'MAX' : 'MIN'}: {node.value}
           </div>
-          
+
           {node.move && (
             <div className="text-xs text-gray-600">
-              {String.fromCharCode(97 + node.move.from[1])}{6 - node.move.from[0]} → 
+              {String.fromCharCode(97 + node.move.from[1])}{6 - node.move.from[0]} →
               {String.fromCharCode(97 + node.move.to[1])}{6 - node.move.to[0]}
             </div>
           )}
-          
+
           {showAlphaBeta && node.pruned && (
             <div className="text-xs text-orange-600 font-semibold">PRUNED</div>
           )}
         </div>
-        
+
         {expanded && node.children.map((child, index) => (
           <TreeNode key={index} node={child} depth={depth + 1} />
         ))}

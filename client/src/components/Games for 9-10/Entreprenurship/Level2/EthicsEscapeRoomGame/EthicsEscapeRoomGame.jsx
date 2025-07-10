@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../../Level1/LeanMachineGame/Card";
 import { Button } from "../../Level1/LeanMachineGame/Button";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useWindowSize } from 'react-use';
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const rooms = ["Bias Buster", "Privacy Protector", "Inclusivity Integrator", "Accountability Audit"];
 
 export default function EthicsEscapeRoomGame() {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const { width, height } = useWindowSize();
   const [draggedItem, setDraggedItem] = useState("");
   const [currentRoom, setCurrentRoom] = useState(0);
@@ -15,6 +17,12 @@ export default function EthicsEscapeRoomGame() {
   const [answers, setAnswers] = useState({});
   const [feedback, setFeedback] = useState("");
   const [auditFeedback, setAuditFeedback] = useState("");
+
+  useEffect(() => {
+    if (currentRoom >= rooms.length) {
+      completeEntreprenerushipChallenge(1,1); // Mark challenge complete
+    }
+  }, [currentRoom]);
 
 
   const restartGame = () => {

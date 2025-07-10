@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Play, ThumbsUp, ThumbsDown, Users, Film, Target, TrendingUp } from 'lucide-react';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const NetflixRecommendationGame = () => {
+  const { completeComputersChallenge } = useComputers();
   const [currentUser, setCurrentUser] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [strategy, setStrategy] = useState('hybrid');
@@ -276,6 +278,12 @@ const NetflixRecommendationGame = () => {
       generateRecommendations();
     }
   }, [currentUser, strategy]);
+
+  useEffect(() => {
+  if (gameStats.satisfaction >= 80) {
+    completeComputersChallenge(1,2);
+  }
+}, [gameStats.satisfaction]);
 
   const renderMovieCard = (recommendation, index) => (
     <div key={index} className="bg-gray-800 rounded-lg p-4 mb-4 border-l-4 border-red-500">

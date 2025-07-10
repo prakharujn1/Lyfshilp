@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSEL } from "@/contexts/SELContext";
 
 const questions = [
   {
@@ -77,6 +78,7 @@ const results = [
 ];
 
 const KindnessClicks = () => {
+  const { completeSELChallenge } = useSEL();
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -132,6 +134,12 @@ const KindnessClicks = () => {
   };
 
   const result = results.find((r) => score >= r.min);
+
+  useEffect(() => {
+    if (showResult && score >= 8) {
+      completeSELChallenge(0,2);
+    }
+  }, [showResult, score]);
 
   return (
     <div className="min-h-screen bg-yellow-50 flex items-center justify-center p-4">

@@ -14,7 +14,7 @@ import {
   Bot,
   Sparkles,
 } from "lucide-react";
-
+import { useComputers } from "@/contexts/ComputersContext";
 import axios from "axios";
 
 function parsePossiblyStringifiedJSON(text) {
@@ -45,6 +45,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const JusticeForAll = () => {
+  const { completeComputersChallenge } = useComputers();
   const [currentChallenge, setCurrentChallenge] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -85,6 +86,13 @@ const JusticeForAll = () => {
   });
 
   const [showBadge, setShowBadge] = useState(null);
+
+  useEffect(() => {
+  if (showBadge === "ethics") {
+    completeComputersChallenge(2,0);
+  }
+}, [showBadge]);
+
 
   const updateChallenge1 = (id, field, value) => {
     setChallenge1Data((prev) => ({

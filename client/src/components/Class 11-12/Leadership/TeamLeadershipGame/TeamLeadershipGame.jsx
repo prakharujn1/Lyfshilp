@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, ClipboardList } from "lucide-react";
 import toast from "react-hot-toast";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const teammates = [
   { id: 1, name: "Arjun", primary: "Design", secondary: "Marketing", motivation: 7 },
@@ -20,10 +21,17 @@ const tasks = [
 ];
 
 export default function TeamLeadershipGame() {
+  const { completeLeadershipChallenge } = useLeadership();
   const [assignments, setAssignments] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [draggedTeammate, setDraggedTeammate] = useState(null);
+
+  useEffect(() => {
+    if (submitted && percent >= 75) {
+      completeLeadershipChallenge(1,2);
+    }
+  }, [submitted, percent]);
 
   const getAssignmentCount = (id) => {
     return Object.values(assignments).filter((val) => val === id).length;
@@ -166,25 +174,25 @@ export default function TeamLeadershipGame() {
 
 
                 <div className="bg-white p-5 rounded-3xl border-4 border-lime-300 shadow-xl">
-                 <motion.h3
-  initial={{ opacity: 0, y: -10 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  className="text-2xl font-extrabold text-green-600 mb-6 flex items-center justify-center gap-2 text-center"
->
-  <motion.span
-    animate={{ rotate: [0, -10, 10, -10, 0] }}
-    transition={{ repeat: Infinity, duration: 2 }}
-  >
-    🧩
-  </motion.span>
-  <motion.span
-    animate={{ y: [0, -3, 0] }}
-    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-  >
-    Assign Tasks
-  </motion.span>
-</motion.h3>
+                  <motion.h3
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-2xl font-extrabold text-green-600 mb-6 flex items-center justify-center gap-2 text-center"
+                  >
+                    <motion.span
+                      animate={{ rotate: [0, -10, 10, -10, 0] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                    >
+                      🧩
+                    </motion.span>
+                    <motion.span
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    >
+                      Assign Tasks
+                    </motion.span>
+                  </motion.h3>
 
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

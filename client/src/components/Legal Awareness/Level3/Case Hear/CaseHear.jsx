@@ -13,6 +13,7 @@ import {
   ChevronRight,
   RotateCcw,
 } from "lucide-react";
+import { useLaw } from "@/contexts/LawContext";
 
 const cases = [
   {
@@ -521,6 +522,7 @@ const FinalScore = ({ score, onRestart }) => {
 };
 
 export default function CaseHear() {
+  const { completeLawChallenge } = useLaw();
   const [gamePhase, setGamePhase] = useState("menu"); // menu, caseSelect, sideSelect, playing, result, final
   const [currentCase, setCurrentCase] = useState(0);
   const [selectedSide, setSelectedSide] = useState(null);
@@ -581,6 +583,7 @@ export default function CaseHear() {
       setSelectedSide(null);
       setGamePhase("sideSelect");
     } else {
+       completeLawChallenge(2,0);
       setGamePhase("final");
     }
   };

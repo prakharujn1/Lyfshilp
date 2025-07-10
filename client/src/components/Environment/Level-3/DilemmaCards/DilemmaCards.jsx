@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const dilemmas = [
   {
@@ -83,10 +84,18 @@ const getFeedbackText = (score) => {
 };
 
 const DilemmaCards = () => {
+    const { completeEnvirnomentChallenge } = useEnvirnoment();
+  
   const [index, setIndex] = useState(-1);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showConsequence, setShowConsequence] = useState(false);
+
+  useEffect(() => {
+  if (index >= dilemmas.length && score >= 9) {
+    completeEnvirnomentChallenge(2,2); // Challenge 3, Task 1 completed
+  }
+}, [index, score]);
 
   const handleChoice = (choiceIdx) => {
     const points = dilemmas[index].scores[choiceIdx];

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const emotionData = [
   {
@@ -59,6 +60,7 @@ function shuffleArray(array) {
 const gameEmotions = shuffleArray(emotionData).slice(0, 4);
 
 export default function FeelItFindItGame() {
+  const { completeCommunicationChallenge } = useCommunication();
   const [phase, setPhase] = useState(1); // 1: face-emotion, 2: emotion-situation, 3: reflection
   const [selectedFace, setSelectedFace] = useState(null);
   const [selectedEmotion, setSelectedEmotion] = useState(null);
@@ -184,6 +186,8 @@ export default function FeelItFindItGame() {
     const finalScore = calculateScore();
     setScore(finalScore);
     setGameComplete(true);
+    completeCommunicationChallenge(1,2);
+
   };
 
   const resetGame = () => {
@@ -247,13 +251,12 @@ export default function FeelItFindItGame() {
             {[1, 2, 3].map((p) => (
               <div
                 key={p}
-                className={`w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm lg:text-base font-bold transition-all duration-300 ${
-                  phase === p
+                className={`w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm lg:text-base font-bold transition-all duration-300 ${phase === p
                     ? "bg-yellow-400 text-gray-800 scale-110"
                     : phase > p
-                    ? "bg-green-400 text-white"
-                    : "bg-white/30 text-white"
-                }`}
+                      ? "bg-green-400 text-white"
+                      : "bg-white/30 text-white"
+                  }`}
               >
                 {phase > p ? "✓" : p}
               </div>
@@ -282,11 +285,10 @@ export default function FeelItFindItGame() {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: index * 0.1 }}
                     onClick={() => handleFaceSelect(face)}
-                    className={`cursor-pointer p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg transition-all duration-300 transform hover:scale-105 ${
-                      selectedFace?.id === face.id
+                    className={`cursor-pointer p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg transition-all duration-300 transform hover:scale-105 ${selectedFace?.id === face.id
                         ? "bg-yellow-400 text-gray-800 scale-105"
                         : "bg-white/80 hover:bg-white text-gray-800"
-                    }`}
+                      }`}
                   >
                     <div className="text-3xl sm:text-4xl lg:text-6xl mb-2">
                       {face.face}
@@ -335,9 +337,8 @@ export default function FeelItFindItGame() {
                       key={index}
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className={`p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg text-white font-bold text-sm sm:text-base lg:text-lg ${
-                        match.isCorrect ? "bg-green-500" : "bg-red-500"
-                      }`}
+                      className={`p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg text-white font-bold text-sm sm:text-base lg:text-lg ${match.isCorrect ? "bg-green-500" : "bg-red-500"
+                        }`}
                     >
                       <div className="text-2xl sm:text-3xl lg:text-4xl mb-2">
                         {match.face.face}
@@ -370,11 +371,10 @@ export default function FeelItFindItGame() {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: index * 0.1 }}
                     onClick={() => setSelectedEmotion(emotion)}
-                    className={`cursor-pointer p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg transition-all duration-300 transform hover:scale-105 ${
-                      selectedEmotion?.id === emotion.id
+                    className={`cursor-pointer p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg transition-all duration-300 transform hover:scale-105 ${selectedEmotion?.id === emotion.id
                         ? "bg-yellow-400 text-gray-800 scale-105"
                         : "bg-white/80 hover:bg-white text-gray-800"
-                    }`}
+                      }`}
                   >
                     <div className="text-2xl sm:text-3xl lg:text-4xl mb-2">
                       {emotion.face}
@@ -423,9 +423,8 @@ export default function FeelItFindItGame() {
                       key={index}
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl text-center shadow-lg text-white font-bold text-xs sm:text-sm lg:text-base ${
-                        match.isCorrect ? "bg-green-500" : "bg-red-500"
-                      }`}
+                      className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl text-center shadow-lg text-white font-bold text-xs sm:text-sm lg:text-base ${match.isCorrect ? "bg-green-500" : "bg-red-500"
+                        }`}
                     >
                       <div className="text-xl sm:text-2xl mb-1">
                         {match.emotion.face}

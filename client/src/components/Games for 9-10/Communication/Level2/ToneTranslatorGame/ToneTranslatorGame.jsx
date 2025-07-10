@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Meyda from "meyda";
-
+import { useCommunication } from "@/contexts/CommunicationContext";
 const samples = [
   { id: "s1", src: "./voices/excited.mp3", label: "🥳 Excited" },
   { id: "s2", src: "./voices/sarcastic.mp3", label: "😏 Sarcastic" },
@@ -19,6 +19,7 @@ const labels = [
 ];
 
 export default function ToneTranslatorGame() {
+  const { completeCommunicationChallenge } = useCommunication();
   const [drops, setDrops] = useState({});
   const [dragging, setDragging] = useState(null);
   const [score, setScore] = useState(null);
@@ -46,31 +47,31 @@ export default function ToneTranslatorGame() {
       source,
       bufferSize: 512,
       featureExtractors: ["rms", "spectralCentroid", "zcr", "mfcc"],
-        callback: (features) => {
-      let tone = "😊 Neutral";
-      let tip = "Try raising pitch slightly and adding warmth.";
+      callback: (features) => {
+        let tone = "😊 Neutral";
+        let tip = "Try raising pitch slightly and adding warmth.";
 
-      const rms = features.rms;
-      const zcr = features.zcr;
-      const centroid = features.spectralCentroid;
-      const mfcc0 = features.mfcc[0];
+        const rms = features.rms;
+        const zcr = features.zcr;
+        const centroid = features.spectralCentroid;
+        const mfcc0 = features.mfcc[0];
 
-      if (rms < 0.03 && zcr < 0.05 && centroid < 1500) {
-        tone = "😴 Bored";
-        tip = "Speak a bit louder and quicker!";
-      } else if (rms > 0.05 && zcr > 0.15 && centroid > 2500 && mfcc0 > -50) {
-        tone = "🥳 Excited";
-        tip = "Nice energy! Keep it up.";
-      } else if (mfcc0 < -100 && centroid > 2200) {
-        tone = "😠 Angry";
-        tip = "Try softening your tone and slowing down.";
-      } else if (rms > 0.03 && zcr > 0.08 && mfcc0 > -80 && centroid < 2000) {
-        tone = "😊 Polite";
-        tip = "Great! You're sounding calm and respectful.";
-      } else if (zcr > 0.2 && mfcc0 < -70 && centroid > 2000) {
-        tone = "😏 Sarcastic";
-        tip = "Sounds a bit sarcastic. Try being more genuine!";
-      }
+        if (rms < 0.03 && zcr < 0.05 && centroid < 1500) {
+          tone = "😴 Bored";
+          tip = "Speak a bit louder and quicker!";
+        } else if (rms > 0.05 && zcr > 0.15 && centroid > 2500 && mfcc0 > -50) {
+          tone = "🥳 Excited";
+          tip = "Nice energy! Keep it up.";
+        } else if (mfcc0 < -100 && centroid > 2200) {
+          tone = "😠 Angry";
+          tip = "Try softening your tone and slowing down.";
+        } else if (rms > 0.03 && zcr > 0.08 && mfcc0 > -80 && centroid < 2000) {
+          tone = "😊 Polite";
+          tip = "Great! You're sounding calm and respectful.";
+        } else if (zcr > 0.2 && mfcc0 < -70 && centroid > 2000) {
+          tone = "😏 Sarcastic";
+          tip = "Sounds a bit sarcastic. Try being more genuine!";
+        }
         setFeedback((f) => ({ ...f, [slot]: { tone, tip } }));
         analyzer.stop();
         source.stop();
@@ -143,6 +144,10 @@ export default function ToneTranslatorGame() {
     if (feedback["slot2"]?.tone === "😊 Polite") correct++;  // or any expected tone
 
     setScore(correct);
+
+    if (correct === 7) {
+      completeCommunicationChallenge(1,2); // ✅ Trigger on perfect score
+    }
   };
 
   const resetGame = () => {
@@ -230,7 +235,7 @@ export default function ToneTranslatorGame() {
         ))}
       </div>
 
-     
+
 
       <hr className="my-8 border-purple-300" />
 
@@ -274,7 +279,7 @@ export default function ToneTranslatorGame() {
         </div>
       ))}
 
-       <div className="text-center mb-8">
+      <div className="text-center mb-8">
         <button
           onClick={handleCheck}
           className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full mr-3"

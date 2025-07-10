@@ -3,7 +3,8 @@ import PlatformCard from "./PlatformCard";
 import { PlatformAnalysis } from "./PlatformAnalysis";
 import { WhatIfSimulator } from "./WhatIfSimulator";
 import { motion } from "framer-motion"; // Make sure to import motion
- import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import { useDM } from "@/contexts/DMContext";
 
 const initialData = [
   {
@@ -64,6 +65,10 @@ function getPerformanceSummary(platform) {
 }
 
 export default function AnalyticsDashboard() {
+  const { completeDMChallenge } = useDM();
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+
   const [platforms, setPlatforms] = useState(initialData);
   const [selected, setSelected] = useState(null);
   const [chartType, setChartType] = useState("bar");
@@ -186,6 +191,15 @@ export default function AnalyticsDashboard() {
       }
     }
 
+    if (!challengeCompleted && (
+      (performanceEmoji === "🔥" && label === "Great") ||
+      (performanceEmoji === "👍" && label === "Okay") ||
+      (performanceEmoji === "😴" && label === "Needs Work")
+    )) {
+      completeDMChallenge(2, 2);
+      setChallengeCompleted(true);
+    }
+
     setFeedbackMessage(message);
     // Message disappears after 3 seconds for better UX
     setTimeout(() => setFeedbackMessage(""), 3000);
@@ -303,7 +317,7 @@ export default function AnalyticsDashboard() {
             {/* Drag a flag to label section */}
             <div className="mt-6 bg-white bg-opacity-80 p-6 rounded-2xl shadow-md border border-gray-200">
               <p className="mb-3 text-lg font-semibold text-gray-700 text-center">
-                 Label this platform by dragging a flag:
+                Label this platform by dragging a flag:
               </p>
               <div className="flex gap-3 mb-4 justify-center">
                 {['Great', 'Okay', 'Needs Work'].map((label) => (

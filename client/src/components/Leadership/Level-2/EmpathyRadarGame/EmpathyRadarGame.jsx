@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const EmpathyRadarGame = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -13,6 +15,12 @@ const EmpathyRadarGame = () => {
   const [geminiSuggestion, setGeminiSuggestion] = useState("");
   const [attemptsLeft, setAttemptsLeft] = useState(3);
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (step === questions.length && score >= 5) {
+      completeLeadershipChallenge(1, 1); // Update challengeId and taskId as per your system
+    }
+  }, [step, score]);
 
   const questions = [
     {
@@ -240,10 +248,9 @@ Keep your reply short, simple, and kind with emojis if possible.`,
                   key={idx}
                   onClick={() => handleSelect(opt.correct, idx)}
                   className={`w-full py-2 px-4 rounded-lg border text-left transition-all
-                    ${
-                      selected === null
-                        ? "bg-white hover:bg-pink-100"
-                        : idx === selected
+                    ${selected === null
+                      ? "bg-white hover:bg-pink-100"
+                      : idx === selected
                         ? opt.correct
                           ? "bg-green-100 border-green-500"
                           : "bg-red-100 border-red-500"

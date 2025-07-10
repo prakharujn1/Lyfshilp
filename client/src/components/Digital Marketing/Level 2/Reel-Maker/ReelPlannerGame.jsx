@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
+import { useDM } from "@/contexts/DMContext";
 
 const musicOptions = [
   "🎆 Festive",
@@ -11,6 +12,10 @@ const musicOptions = [
 const emotionOptions = ["🥳 Excitement", "😍 Love", "😂 Fun", "😲 Surprise"];
 
 export default function ReelPlannerGame() {
+  const { completeDMChallenge } = useDM();
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+
   const [story, setStory] = useState(["", "", ""]);
   const [showExamples, setShowExamples] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState("");
@@ -79,6 +84,13 @@ export default function ReelPlannerGame() {
       return;
     }
     setLoading(true);
+
+    // ✅ Mark challenge complete once
+    if (!challengeCompleted) {
+      completeDMChallenge(1,1);
+      setChallengeCompleted(true);
+    }
+    
     setTimeout(() => {
       setLoading(false);
       setShowPreview(true);
@@ -194,11 +206,10 @@ export default function ReelPlannerGame() {
                 <button
                   key={music}
                   onClick={() => setSelectedMusic(music)}
-                  className={`p-4 floating-card ${floatClass} rounded-2xl text-xl font-semibold transition-all duration-300 shadow-md ${
-                    selectedMusic === music
-                      ? "bg-purple-500 text-white scale-105"
-                      : "bg-white text-purple-700 hover:bg-yellow-100"
-                  }`}
+                  className={`p-4 floating-card ${floatClass} rounded-2xl text-xl font-semibold transition-all duration-300 shadow-md ${selectedMusic === music
+                    ? "bg-purple-500 text-white scale-105"
+                    : "bg-white text-purple-700 hover:bg-yellow-100"
+                    }`}
                 >
                   {music}
                 </button>
@@ -231,11 +242,10 @@ export default function ReelPlannerGame() {
                 <button
                   key={emo}
                   onClick={() => setSelectedEmotion(emo)}
-                  className={`p-4 wiggleEmoji rounded-2xl   text-xl font-semibold transition-all duration-300 shadow-md ${
-                    selectedEmotion === emo
-                      ? "bg-green-400 text-white scale-105"
-                      : "bg-white text-purple-700 hover:bg-green-100"
-                  }`}
+                  className={`p-4 wiggleEmoji rounded-2xl   text-xl font-semibold transition-all duration-300 shadow-md ${selectedEmotion === emo
+                    ? "bg-green-400 text-white scale-105"
+                    : "bg-white text-purple-700 hover:bg-green-100"
+                    }`}
                 >
                   {emo}
                 </button>
@@ -247,9 +257,8 @@ export default function ReelPlannerGame() {
           <button
             disabled={!validClick()}
             onClick={handleClick}
-            className={`${
-              validClick() ? "cursor-pointer" : "cursor-not-allowed"
-            } p-4 bg-purple-500 hover:rotate-2 transition-all duration-150 rounded-2xl text-white text-xl `}
+            className={`${validClick() ? "cursor-pointer" : "cursor-not-allowed"
+              } p-4 bg-purple-500 hover:rotate-2 transition-all duration-150 rounded-2xl text-white text-xl `}
           >
             {` ${showPreview ? "Close Preview" : "Preview Your Reel Plan"}`}
           </button>

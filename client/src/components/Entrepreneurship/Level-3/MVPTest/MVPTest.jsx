@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const introGif =
   "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGw5Y3ZmeG9qcXpreXo5NXN5czBnYnhvcGd1b3g5NXhqdHV0NzA4ayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZJ6r7T0GWbfdyXgVYs/200w.webp";
@@ -10,6 +11,8 @@ const tryAgainGif =
   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmdleGF0ZWJvbGw5YXh1ZzFwbm1yY3VrYnprbWtqdGVxd282c2UyMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ji6zzUZwNIuLS/200.webp";
 
 const MVPTest = () => {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+
   const [step, setStep] = useState("intro");
   const { width, height } = useWindowSize();
   const [mockup, setMockup] = useState("");
@@ -21,6 +24,12 @@ const MVPTest = () => {
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+
+  useEffect(() => {
+  if (step === "result" && badgeEarned) {
+    completeEntreprenerushipChallenge(2,1); // Challenge 3, Task 5
+  }
+}, [step, badgeEarned]);
 
   const startGame = () => {
     setStep("form");

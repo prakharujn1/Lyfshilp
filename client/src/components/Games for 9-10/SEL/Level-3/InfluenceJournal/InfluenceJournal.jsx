@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
+import { useSEL } from "@/contexts/SELContext";
 
 const items = [
   {
@@ -89,6 +90,7 @@ Keep your answer short and supportive!`,
 };
 
 const InfluenceJournal = () => {
+  const { completeSELChallenge } = useSEL();
   const [step, setStep] = useState("intro");
   const [idx, setIdx] = useState(0);
   const [selections, setSelections] = useState({});
@@ -113,14 +115,19 @@ const InfluenceJournal = () => {
   };
 
   const finalize = () => {
-    if (score >= 4 && verifyMessage.startsWith("Good job")) {
-      confetti({ spread: 120, particleCount: 200, origin: { y: 0.6 } });
-      setFinalResult("win");
-    } else {
-      setFinalResult("lose");
-    }
-    setStep("result");
-  };
+  const passed = score >= 4 && verifyMessage.startsWith("Good job");
+
+  if (passed) {
+    completeSELChallenge(2,2); // ✅ Call here only if passed
+    confetti({ spread: 120, particleCount: 200, origin: { y: 0.6 } });
+    setFinalResult("win");
+  } else {
+    setFinalResult("lose");
+  }
+
+  setStep("result");
+};
+
 
   const reset = () => {
     setStep("intro");

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useSEL } from "@/contexts/SELContext";
 
 const questions = [
   {
@@ -41,12 +42,19 @@ const questions = [
 ];
 
 const MindBodyMatchUp = () => {
+  const { completeSELChallenge } = useSEL();
   const [started, setStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(90);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+  if (showResult && score >= 3) {
+    completeSELChallenge(1, 2);
+  }
+}, [showResult, score]);
 
   useEffect(() => {
     if (!started || showResult) return;
@@ -155,11 +163,11 @@ const MindBodyMatchUp = () => {
                   className={cn(
                     "px-4 py-2 rounded-lg font-semibold border",
                     selected === opt &&
-                      opt === questions[current].correct &&
-                      "bg-green-200 border-green-600",
+                    opt === questions[current].correct &&
+                    "bg-green-200 border-green-600",
                     selected === opt &&
-                      opt !== questions[current].correct &&
-                      "bg-red-200 border-red-600",
+                    opt !== questions[current].correct &&
+                    "bg-red-200 border-red-600",
                     !selected && "bg-gray-100 hover:bg-gray-200"
                   )}
                 >

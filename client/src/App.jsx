@@ -280,6 +280,18 @@ import AutonomousCarVision from "./components/Class 11-12/Computers/Level2/Auton
 import CustomerServiceChatbotBuilder from "./components/Class 11-12/Computers/Level3/ChatbotBuilder/ChatbotBuilder";
 import SchoolSocialMediaManager from "./components/Class 11-12/Computers/Level3/SchoolSocialMediaManager/SchoolSocialMediaManager";
 import PersonalStudyBuddy from "./components/Class 11-12/Computers/Level3/PersonalStudyBuddy/PersonalStudyBuddy";
+import RateTheIntelligenceGame from "./components/Games for 9-10/AI/Level2/RateTheIntelligenceGame/RateTheIntelligenceGame";
+import AIOopsGame from "./components/Games for 9-10/AI/Level2/AIMistakeDetectorGame/AIMistakeDetectorGame";
+import TrainAIModelGame from "./components/Games for 9-10/AI/Level2/TrainTheTrainerPlants/TrainTheTrainerPlants";
+import DecodetheMessage from "./components/Games for 9-10/Communication/Level1/DecodetheMessage/DecodetheMessage";
+import ListenerLensGame from "./components/Games for 9-10/Communication/Level1/ListenerLensGame/ListenerLensGame";
+import WhatWentWrongGame from "./components/Games for 9-10/Communication/Level1/WhatWentWrongGame/WhatWentWrongGame";
+import PitchPerfectGame from "./components/Games for 9-10/Communication/Level2/PitchPerfectGame/PitchPerfectGame";
+import DigitalDilemma from "./components/Games for 9-10/Communication/Level2/DigitalDilemma/DigitalDilemma";
+import ToneTranslatorGame from "./components/Games for 9-10/Communication/Level2/ToneTranslatorGame/ToneTranslatorGame";
+import ConflictCommanderGame from "./components/Games for 9-10/Communication/Level3/ConflictCommanderGame/ConflictCommanderGame";
+import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBigSpeech/TheBigSpeech";
+import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/InboxInsight/InboxInsight";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -619,6 +631,11 @@ function App() {
             <Route path="/conflict-quest" element={<ConflictQuest />} />
             <Route path="/mind-body-match-up" element={<MindBodyMatchUp />} />
             <Route path="/influence-explorer" element={<InfluenceExplorer />} />
+            {/* Level 3 */}
+            <Route path="/HelpHub" element={<HelpHub />} />
+            <Route path="/MissionGoalTracker" element={<MissionGoalTracker />} />
+            <Route path="/MyCircleMission" element={<MyCircleMission />} />
+            
 
             {/* Social Learning Notes */}
             <Route
@@ -761,16 +778,21 @@ function App() {
 
             {/* Games of AI Class 9-10 */}
             {/* Level 1 */}
-
-            <Route path="/smart-city-game" element={<SmartCityGame />} />
             <Route path="/spy-the-smart-tech" element={<SpyTheSmartTech />} />
             <Route path="/which-ai-does-what" element={<WhichAIDoesWhat />} />
+            <Route path="/smart-city-game" element={<SmartCityGame />} />
 
             {/* Level 2 */}
+            <Route path="/TrainAIModelGame" element={<TrainAIModelGame />} />
+            <Route path="/AIOopsGame" element={<AIOopsGame />} />
+            <Route path="/RateTheIntelligenceGame" element={<RateTheIntelligenceGame />} />
 
             {/* Level 3 */}
-            <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/justice-for-all" element={<JusticeForAll />} />
+            <Route path="/design-a-bot" element={<DesignAbot />} />
+            <Route path="/FutureMeInAI" element={<FutureMeInAI />} />
+            <Route path="/ThinkBeforeYouTechGame" element={<ThinkBeforeYouTechGame />} />
+
 
             {/* Finish Games of AI Class 9-10 */}
 
@@ -1048,6 +1070,180 @@ function App() {
             />
 
             {/* Finish Games of Computers Class 11-12 */}
+
+            {/* Games of Enviroment Class 11-12 */}
+
+            {/* level1 */}
+
+            <Route
+              path="/CarbonCycleVault"
+              element={<CarbonCycleVault />}
+            />
+            <Route
+              path="/NitrogenReactor"
+              element={<NitrogenReactor />}
+            />
+            <Route
+              path="/PhosphorusLockdown"
+              element={<PhosphorusLockdown />}
+            />
+            <Route
+              path="/WaterGridCrisis"
+              element={<WaterGridCrisis />}
+            />
+
+            {/* level2 */}
+
+            <Route
+              path="/UrbanFloodFlashpoint"
+              element={<UrbanFloodFlashpoint />}
+            />
+
+            <Route
+              path="/DayZero"
+              element={<DayZero />}
+            />
+
+            {/* level3 */}
+            <Route
+              path="/UreaAddiction"
+              element={<UreaAddiction />}
+            />
+            <Route
+              path="/PeakPhosphorusPanic"
+              element={<PeakPhosphorusPanic />}
+            />
+
+            {/* Finish Games of Enviroment Class 11-12 */}
+
+
+            {/* Games of Legal awareness Class 11-12 */}
+            {/* level1 */}
+            <Route
+              path="/TortLawGame1"
+              element={<TortLawGame1 />}
+            />
+            <Route
+              path="/TortLawGame2"
+              element={<TortLawGame2 />}
+            />
+            <Route
+              path="/TortLawGame3"
+              element={<TortLawGame3 />}
+            />
+            {/* level2 */}
+            <Route
+              path="/CrimeCivilGame"
+              element={<CrimeCivilGame />}
+            />
+
+            {/* level3 */}
+            <Route
+              path="/LandmarkCasesGame"
+              element={<LandmarkCasesGame />}
+            />
+            <Route
+              path="/LandmarkCasesResult"
+              element={<LandmarkCasesResult />}
+            />
+            <Route
+              path="/LegalConceptsGame"
+              element={<LegalConceptsGame />}
+            />
+            <Route
+              path="/LegalConceptsResult"
+              element={<LegalConceptsResult />}
+            />
+
+            {/* Finish Games of Legal awareness Class 11-12 */}
+
+             {/* Games of Communication Class 9-10 */}
+
+            {/* Level 1 */}
+            <Route path="/DecodetheMessage" element={<DecodetheMessage />} />
+
+            <Route
+              path="/ListenerLensGame"
+              element={<ListenerLensGame />}
+            />
+
+            <Route path="/WhatWentWrongGame" element={<WhatWentWrongGame />} />
+
+            {/* Level 2 */}
+            <Route path="/PitchPerfectGame" element={<PitchPerfectGame />} />
+
+            <Route
+              path="/DigitalDilemma"
+              element={<DigitalDilemma />}
+            />
+
+            <Route path="/ToneTranslatorGame" element={<ToneTranslatorGame />} />
+
+            {/* Level 3 */}
+            <Route path="/ConflictCommanderGame" element={<ConflictCommanderGame />} />
+
+            <Route path="/TheBigSpeech" element={<TheBigSpeech />} />
+
+            <Route path="/InboxInsightGame" element={<InboxInsightGame />} />
+
+            {/* Finish Games of Communication Class 9-10 */}
+
+
+            {/* Games of Enviroment Class 9-10 */}
+            {/* level1 */}
+            <Route
+              path="/CauseEffectGame"
+              element={<CauseEffectGame />}
+            />
+            <Route
+              path="/FeedbackLoopGame"
+              element={<FeedbackLoopGame />}
+            />
+
+            {/* level2 */}
+            <Route
+              path="/MeasureCompareQuiz"
+              element={<MeasureCompareQuiz />}
+            />
+            <Route
+              path="/ExternalityDetectiveGame"
+              element={<ExternalityDetectiveGame />}
+            />
+            {/* level3 */}
+            <Route
+              path="/SustainabilityGames1"
+              element={<SustainabilityGames1 />}
+            />
+            <Route
+              path="/SustainabilityGames2"
+              element={<SustainabilityGames2 />}
+            />
+
+            {/* Finish Games of Enviroment Class 9-10*/}
+
+            {/* Games of legal awareness Class 9-10 */}
+            {/* level1 */}
+            <Route
+              path="/MatchTermsGame"
+              element={<MatchTermsGame />}
+            />
+            <Route
+              path="/match-terms-game-result"
+              element={<MatchTermsGameResult />}
+            />
+
+            {/* level2 */}
+            <Route
+              path="/JusticeThroneGame"
+              element={<JusticeThroneGame />}
+            />
+            {/* level3 */}
+            <Route
+              path="/LegalQuizQuestLevel3"
+              element={<LegalQuizQuestLevel3 />}
+            />
+
+            {/* Finish Games of legal awareness Class 9-10*/}
 
             {/* Other Routes */}
 

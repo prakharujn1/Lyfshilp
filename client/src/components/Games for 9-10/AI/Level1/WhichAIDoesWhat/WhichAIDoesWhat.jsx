@@ -16,8 +16,10 @@ import {
   Star,
   RotateCcw,
 } from "lucide-react";
+import { useComputers } from "@/contexts/ComputersContext";
 
 const WhichAIDoesWhat = () => {
+  const { completeComputersChallenge } = useComputers();
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [draggedItem, setDraggedItem] = useState(null);
@@ -112,9 +114,9 @@ const WhichAIDoesWhat = () => {
       [professionId]: (prev[professionId] || []).filter((id) => id !== toolId),
     }));
   };
-
   const checkAnswers = () => {
     setShowResults(true);
+    completeComputersChallenge(0,1); // ✅ Challenge marked complete here
   };
 
   const getScore = () => {
@@ -319,11 +321,10 @@ const WhichAIDoesWhat = () => {
             whileTap={{ scale: 0.95 }}
             onClick={checkAnswers}
             disabled={!allToolsAssigned}
-            className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${
-              allToolsAssigned
+            className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${allToolsAssigned
                 ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             🔍 Check My Matches!
           </motion.button>
@@ -380,11 +381,10 @@ const WhichAIDoesWhat = () => {
                         return (
                           <div
                             key={correctToolId}
-                            className={`flex items-center p-2 rounded-lg ${
-                              userMatched
+                            className={`flex items-center p-2 rounded-lg ${userMatched
                                 ? "bg-green-100 text-green-800"
                                 : "bg-red-100 text-red-800"
-                            }`}
+                              }`}
                           >
                             {userMatched ? (
                               <CheckCircle className="w-4 h-4 mr-2" />

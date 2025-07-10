@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -37,11 +38,18 @@ const scenarios = [
 ];
 
 const MoodMirror = () => {
+  const { completeSELChallenge } = useSEL();
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState(null);
+
+  useEffect(() => {
+    if (showResult && score >= 4) {
+      completeSELChallenge(0, 0);
+    }
+  }, [showResult, score]);
 
   const handleDrop = (emoji) => {
     if (selected) return;
@@ -120,14 +128,13 @@ const MoodMirror = () => {
                 key={idx}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleDrop(emoji)}
-                className={`text-4xl md:text-5xl p-4 rounded-full border-2 transition cursor-pointer ${
-                  selected === emoji &&
-                  scenarios[current].correct.includes(emoji)
+                className={`text-4xl md:text-5xl p-4 rounded-full border-2 transition cursor-pointer ${selected === emoji &&
+                    scenarios[current].correct.includes(emoji)
                     ? "border-green-500"
                     : selected === emoji
-                    ? "border-red-500"
-                    : "border-transparent hover:border-blue-300"
-                }`}
+                      ? "border-red-500"
+                      : "border-transparent hover:border-blue-300"
+                  }`}
               >
                 {emoji}
               </motion.div>

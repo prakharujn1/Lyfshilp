@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const aiTypes = [
   { id: 'rule', label: '📏Rule-based AI' },
@@ -25,6 +26,7 @@ const examples = [
 ];
 
 export default function MeetAITypeGame() {
+  const { completeComputersChallenge } = useComputers();
   const [assignments, setAssignments] = useState({});
   const [reflections, setReflections] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -53,7 +55,12 @@ export default function MeetAITypeGame() {
     setScore(correct);
     setSubmitted(true);
     toast.success(`🎯 You got ${correct} out of ${examples.length} correct!`);
+
+    if (correct === examples.length) {
+      completeComputersChallenge(0, 1);
+    }
   };
+
 
   const handleReset = () => {
     setAssignments({});
@@ -64,9 +71,9 @@ export default function MeetAITypeGame() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto bg-gradient-to-br from-pink-100 via-blue-100 to-yellow-100 min-h-screen rounded-xl">
-      <motion.h1 
-        initial={{ scale: 0.9 }} 
-        animate={{ scale: [1, 1.05, 1] }} 
+      <motion.h1
+        initial={{ scale: 0.9 }}
+        animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 1.5, repeat: Infinity }}
         className="text-3xl font-bold text-center text-blue-800 mb-6"
       >
@@ -130,7 +137,7 @@ export default function MeetAITypeGame() {
           <h2 className="text-xl font-bold mb-3 text-blue-700">🧠 Reflection Questions</h2>
           <div className="space-y-4">
             {[{ q: `What's the coolest AI type and why?`, name: 'q1' },
-              { q: `Design an AI friend: What would it do? What would it learn?`, name: 'q2' },
+            { q: `Design an AI friend: What would it do? What would it learn?`, name: 'q2' },
             ].map(({ q, name }) => (
               <div key={name}>
                 <label className="block font-medium text-gray-700 mb-1">{q}</label>
@@ -151,11 +158,10 @@ export default function MeetAITypeGame() {
         <motion.button
           disabled={!isFormComplete()}
           onClick={handleSubmit}
-          className={`block mx-auto px-6 py-2 rounded-full font-bold transition ${
-            isFormComplete()
+          className={`block mx-auto px-6 py-2 rounded-full font-bold transition ${isFormComplete()
               ? 'bg-green-600 text-white hover:bg-green-700'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
+            }`}
           whileTap={{ scale: 0.95 }}
           animate={{ rotate: isFormComplete() ? [0, 1, -1, 0] : 0 }}
           transition={{ duration: 0.4 }}

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { useSEL } from "@/contexts/SELContext";
 
 // ✅ Goal data
 const goals = [
@@ -102,6 +103,7 @@ const goals = [
 const buckets = ["S", "M", "A", "R", "T"];
 
 const MissionGoalTracker = () => {
+  const { completeSELChallenge } = useSEL();
   const [selectedGoal, setSelectedGoal] = useState(goals[0]);
   const [items, setItems] = useState(selectedGoal.steps);
   const [columns, setColumns] = useState(
@@ -110,6 +112,12 @@ const MissionGoalTracker = () => {
   const [attempts, setAttempts] = useState(0);
   const [resultMessage, setResultMessage] = useState("");
   const [showCorrect, setShowCorrect] = useState(false);
+
+  useEffect(() => {
+    if (resultMessage && isCorrect()) {
+      completeSELChallenge(2,0); // ✅ Adjust the parameters as needed
+    }
+  }, [resultMessage]);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -244,9 +252,8 @@ const MissionGoalTracker = () => {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className={`p-3 mb-2 rounded-md bg-blue-50 border border-blue-300 transition transform ${
-                          snapshot.isDragging ? "scale-105 shadow-lg" : ""
-                        }`}
+                        className={`p-3 mb-2 rounded-md bg-blue-50 border border-blue-300 transition transform ${snapshot.isDragging ? "scale-105 shadow-lg" : ""
+                          }`}
                       >
                         {item.text}
                       </div>
@@ -264,11 +271,10 @@ const MissionGoalTracker = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className={`bg-white p-4 rounded-xl shadow-md min-h-[200px] transition border-2 ${
-                    snapshot.isDraggingOver
+                  className={`bg-white p-4 rounded-xl shadow-md min-h-[200px] transition border-2 ${snapshot.isDraggingOver
                       ? "border-green-400"
                       : "border-transparent"
-                  }`}
+                    }`}
                 >
                   <h2 className="font-bold mb-2 text-green-800">{bucket}</h2>
                   {columns[bucket].map((item, index) => (
@@ -282,9 +288,8 @@ const MissionGoalTracker = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className={`p-3 mb-2 rounded-md bg-green-50 border border-green-300 transition transform ${
-                            snapshot.isDragging ? "scale-105 shadow-lg" : ""
-                          }`}
+                          className={`p-3 mb-2 rounded-md bg-green-50 border border-green-300 transition transform ${snapshot.isDragging ? "scale-105 shadow-lg" : ""
+                            }`}
                         >
                           {item.text}
                         </div>

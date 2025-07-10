@@ -1,5 +1,6 @@
 // src/ToneFixer.jsx
 import React, { useState } from "react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const rudeMessages = [
   {
@@ -34,6 +35,7 @@ const rudeMessages = [
 const toneTags = ["friendly", "playful", "curious"];
 
 const ToneFixer = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
@@ -62,6 +64,7 @@ const ToneFixer = () => {
   const nextQuestion = () => {
     if (questionIndex === rudeMessages.length - 1) {
       setGameFinished(true);
+      completeCommunicationChallenge(2, 0);
     } else {
       setQuestionIndex((prev) => prev + 1);
       setFeedback("");
@@ -106,11 +109,10 @@ const ToneFixer = () => {
             <button
               key={tone}
               onClick={() => setSelectedTone(tone)}
-              className={`px-3 py-1 rounded ${
-                selectedTone === tone
-                  ? "bg-blue-700 text-white"
-                  : "bg-blue-100 text-blue-800 hover:bg-blue-200"
-              }`}
+              className={`px-3 py-1 rounded ${selectedTone === tone
+                ? "bg-blue-700 text-white"
+                : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                }`}
             >
               {tone}
             </button>
@@ -143,11 +145,10 @@ const ToneFixer = () => {
               <button
                 key={emoji}
                 onClick={() => setSelectedEmoji(emoji)}
-                className={`text-2xl mr-2 ${
-                  selectedEmoji === emoji
-                    ? "ring-2 ring-yellow-400 rounded-full"
-                    : ""
-                }`}
+                className={`text-2xl mr-2 ${selectedEmoji === emoji
+                  ? "ring-2 ring-yellow-400 rounded-full"
+                  : ""
+                  }`}
               >
                 {emoji}
               </button>
@@ -198,9 +199,8 @@ const ToneFixer = () => {
 
           {feedback && (
             <div
-              className={`mt-4 p-4 rounded text-white ${
-                isCorrect ? "bg-green-500" : "bg-red-500"
-              }`}
+              className={`mt-4 p-4 rounded text-white ${isCorrect ? "bg-green-500" : "bg-red-500"
+                }`}
             >
               <p>{feedback}</p>
               <img

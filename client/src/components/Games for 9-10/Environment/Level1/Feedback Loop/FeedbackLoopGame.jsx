@@ -15,8 +15,10 @@ import clickSoundFile from "../../Sound/clickSoundFile.mp3";
 import clickSoundFileYay from "../../Sound/clickSoundFileYay.mp3";
 import clickSoundFileOops from "../../Sound/clickSoundFileOops.mp3";
 import confetti from "canvas-confetti";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const FeedbackLoopGame = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [currentPage, setCurrentPage] = useState("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -413,6 +415,7 @@ const FeedbackLoopGame = () => {
     if (score < 8 || !gameComplete) {
       return;
     }
+    completeEnvirnomentChallenge(0,1); // ✅ Add this line here
     const myCanvas = canvasRef.current;
     const myConfetti = confetti.create(myCanvas, {
       resize: true,
@@ -573,13 +576,12 @@ const FeedbackLoopGame = () => {
             />
             <div className="text-6xl md:text-8xl mb-6 animate-bounce">🏆</div>
             <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">
-              {`${
-                score < 7
+              {`${score < 7
                   ? "Keep Trying"
                   : score < 8
-                  ? "Well done"
-                  : "Outstanding, Champ"
-              }`}
+                    ? "Well done"
+                    : "Outstanding, Champ"
+                }`}
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 mb-6">
               You fixed {score} out of {questions.length} loops!
@@ -588,8 +590,8 @@ const FeedbackLoopGame = () => {
               {score === questions.length
                 ? "Perfect! You understand feedback systems completely! 🌟"
                 : score >= questions.length * 0.7
-                ? "Great job! You're getting the hang of feedback loops! 🔄"
-                : "Good effort! Environmental systems are complex - keep learning! 🌱"}
+                  ? "Great job! You're getting the hang of feedback loops! 🔄"
+                  : "Good effort! Environmental systems are complex - keep learning! 🌱"}
             </div>
             <button
               onClick={resetGame}
@@ -667,11 +669,9 @@ const FeedbackLoopGame = () => {
                   {currentQ.flowSteps.map((step, index) => (
                     <React.Fragment key={index}>
                       <div
-                        className={`bg-gradient-to-br ${
-                          step.color
-                        } rounded-2xl p-4 md:p-6 text-center shadow-lg transform hover:scale-105 transition-all duration-300 ${
-                          step.missing ? "animate-pulse" : ""
-                        }`}
+                        className={`bg-gradient-to-br ${step.color
+                          } rounded-2xl p-4 md:p-6 text-center shadow-lg transform hover:scale-105 transition-all duration-300 ${step.missing ? "animate-pulse" : ""
+                          }`}
                       >
                         <div className="text-3xl md:text-4xl mb-2">
                           {step.icon}
@@ -713,15 +713,13 @@ const FeedbackLoopGame = () => {
                     <button
                       key={index}
                       onClick={() => handleCardSelect(card)}
-                      className={`p-4 md:p-6 rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 ${
-                        selectedCard === card
+                      className={`p-4 md:p-6 rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 ${selectedCard === card
                           ? "bg-gradient-to-r from-green-400 to-blue-400 text-white shadow-lg scale-105"
                           : "bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-100 hover:to-purple-100 text-gray-700"
-                      } ${
-                        animateWrong && selectedCard === card
+                        } ${animateWrong && selectedCard === card
                           ? "animate-pulse bg-red-400"
                           : ""
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">🔗</span>

@@ -9,8 +9,11 @@ import {
   XCircle,
 } from "lucide-react";
 import confetti from "canvas-confetti";
+import { useDM } from "@/contexts/DMContext";
+
 
 const AdSpotterGame = () => {
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("start");
   const [selectedItems, setSelectedItems] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
@@ -115,6 +118,10 @@ const AdSpotterGame = () => {
 
     setScore(newScore);
     setStars(newStars);
+
+    // ✅ Mark the challenge as complete here
+    completeDMChallenge(0,0);
+
   };
 
   const submitAnswers = () => {
@@ -327,10 +334,9 @@ const AdSpotterGame = () => {
                     className={`
                       relative cursor-pointer p-4 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-105
                       bg-gradient-to-br ${item.bgColor}
-                      ${
-                        isSelected
-                          ? "ring-4 ring-yellow-400 ring-offset-2 scale-105"
-                          : "hover:shadow-xl"
+                      ${isSelected
+                        ? "ring-4 ring-yellow-400 ring-offset-2 scale-105"
+                        : "hover:shadow-xl"
                       }
                     `}
                   >
@@ -385,10 +391,9 @@ const AdSpotterGame = () => {
               disabled={selectedItems.length !== 3}
               className={`
                 font-bold py-3 px-8 rounded-full text-lg transform transition-all duration-300 shadow-xl
-                ${
-                  selectedItems.length === 3
-                    ? "bg-gradient-to-r from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600 hover:scale-110"
-                    : "bg-gray-400 text-gray-600 cursor-not-allowed"
+                ${selectedItems.length === 3
+                  ? "bg-gradient-to-r from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600 hover:scale-110"
+                  : "bg-gray-400 text-gray-600 cursor-not-allowed"
                 }
               `}
             >
@@ -412,11 +417,10 @@ const AdSpotterGame = () => {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-6 h-6 ${
-                      i < stars
+                    className={`w-6 h-6 ${i < stars
                         ? "text-yellow-400 fill-current"
                         : "text-gray-300"
-                    }`}
+                      }`}
                   />
                 ))}
               </div>

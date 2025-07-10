@@ -129,7 +129,7 @@ export default function LandmarkCasesGame() {
     setGameEnded(true);
     setLoading(true);
     const timer = setTimeout(() => {
-      navigate("/landmark-cases-result", {
+      navigate("/LandmarkCasesResult", {
         state: {
           score: matches.filter((m) => m.isCorrect).length,
           matches: matches,

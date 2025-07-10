@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { ShieldCheck } from "lucide-react";
+import { useSEL } from "@/contexts/SELContext";
+
 const responses = [
   {
     type: "Stay Quiet",
@@ -103,6 +105,7 @@ const getSuggestion = (score) => {
 };
 
 export default function BoundaryBuilder() {
+  const { completeSELChallenge } = useSEL();
   const [selected, setSelected] = useState(null);
 
   return (
@@ -211,7 +214,12 @@ export default function BoundaryBuilder() {
             <motion.button
               key={idx}
               disabled={selected !== null}
-              onClick={() => setSelected(idx)}
+              onClick={() => {
+                setSelected(idx);
+                if (responses[idx].score >= 9) {
+                  completeSELChallenge(0,1);
+                }
+              }}
               whileHover={{ scale: 1.06, rotate: [0, 1, -1, 0] }}
               whileTap={{ scale: 0.95 }}
               className={`relative group flex flex-col items-center justify-start text-center px-6 py-6 rounded-3xl border-4 shadow-xl h-52 w-full transition-all duration-300

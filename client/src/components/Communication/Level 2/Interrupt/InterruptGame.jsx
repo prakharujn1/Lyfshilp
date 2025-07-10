@@ -8,8 +8,10 @@ import {
   CheckCircle,
   Volume2,
 } from "lucide-react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const InterruptGame = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [gameState, setGameState] = useState("intro"); // intro, playing, paused, rewrite, result
   const [currentDialogue, setCurrentDialogue] = useState(0);
   const [score, setScore] = useState(0);
@@ -112,6 +114,7 @@ const InterruptGame = () => {
       setScore(score + 20);
       setBadges([...badges, "🤝"]);
       setGameState("result");
+      completeCommunicationChallenge(1, 1);
       setShowCelebration(true);
       setTimeout(() => setShowCelebration(false), 3000);
     }
@@ -229,11 +232,10 @@ const InterruptGame = () => {
               {dialogue.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`transition-all duration-500 ${
-                    index <= currentDialogue
+                  className={`transition-all duration-500 ${index <= currentDialogue
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-30 transform translate-y-4"
-                  }`}
+                    }`}
                 >
                   <div
                     onClick={() =>
@@ -241,17 +243,14 @@ const InterruptGame = () => {
                         ? handleDialogueClick(item)
                         : null
                     }
-                    className={`${
-                      item.color
-                    } rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 cursor-pointer transform transition-all duration-200 ${
-                      index === currentDialogue && gameState === "playing"
+                    className={`${item.color
+                      } rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 cursor-pointer transform transition-all duration-200 ${index === currentDialogue && gameState === "playing"
                         ? "hover:scale-102 hover:shadow-lg"
                         : ""
-                    } ${
-                      interruptionsFound.includes(item.id)
+                      } ${interruptionsFound.includes(item.id)
                         ? "ring-2 sm:ring-4 ring-red-400 bg-red-100"
                         : ""
-                    }`}
+                      }`}
                   >
                     <div className="flex items-start space-x-3 sm:space-x-4">
                       <div className="text-2xl sm:text-3xl">{item.avatar}</div>

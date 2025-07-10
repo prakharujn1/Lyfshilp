@@ -20,6 +20,7 @@ import {
   CheckSquare,
 } from "lucide-react";
 import axios from "axios";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -49,6 +50,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const StartupSimulationGame = () => {
+   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [currentStep, setCurrentStep] = useState(0);
   const [showInstructions, setShowInstructions] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -392,6 +394,7 @@ const StartupSimulationGame = () => {
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       console.log(parsed);
       setResult2(parsed);
+      completeEntreprenerushipChallenge(0,1);
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);

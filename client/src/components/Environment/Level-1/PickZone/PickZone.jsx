@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const questions = [
   {
@@ -53,11 +54,19 @@ const options = [
 ];
 
 const PickZone = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(120);
   const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+  if (showResult && score >= 5) {
+    completeEnvirnomentChallenge(0, 1); // Mark Challenge 2, Task 1 as completed
+  }
+}, [showResult, score]);
+
 
   useEffect(() => {
     if (started && timeLeft > 0) {

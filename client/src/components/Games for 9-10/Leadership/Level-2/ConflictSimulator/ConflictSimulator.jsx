@@ -3,7 +3,7 @@ import Confetti from "react-confetti";
 import { useEffect } from "react";
 import { useWindowSize } from "react-use";
 import { Link } from "react-router-dom";
-
+import { useLeadership } from "@/contexts/LeadershipContext";
 const scenarios = [
   {
     id: 1,
@@ -110,10 +110,17 @@ const completionGif =
   "https://media4.giphy.com/media/xTiTnvN3OZXKAQW6wU/giphy.webp";
 
 const ConflictSimulator = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
   const [score, setScore] = useState(0);
   const [selectedStyle, setSelectedStyle] = useState([]);
   const [showFeedback, setShowFeedback] = useState(null);
+
+  useEffect(() => {
+    if (step === scenarios.length) {
+      completeLeadershipChallenge(1,0);
+    }
+  }, [step]);
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,

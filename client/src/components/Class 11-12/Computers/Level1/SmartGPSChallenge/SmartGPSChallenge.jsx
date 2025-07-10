@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Navigation, MapPin, Clock, AlertTriangle, Heart, Car, Zap, Info, Play, RotateCcw } from 'lucide-react';
-
+import { useComputers } from "@/contexts/ComputersContext";
 const GRID_SIZE = 10;
 const CELL_SIZE = 50;
 
@@ -135,6 +135,7 @@ class AStarPathfinder {
 }
 
 const SmartGPSChallenge = () => {
+  const { completeComputersChallenge } = useComputers();
   const [grid, setGrid] = useState([]);
   const [ambulancePos, setAmbulancePos] = useState({ x: 0, y: 0 });
   const [emergencies, setEmergencies] = useState([]);
@@ -297,6 +298,7 @@ const SmartGPSChallenge = () => {
     } else {
       setGameState('completed');
       setScore(prev => prev + Math.max(50, emergencyScore));
+      completeComputersChallenge(0,1); // ✅ Call here
     }
   };
 

@@ -5,7 +5,8 @@ import Zone from './Zone';
 import Badge from './Badge';
 import toast from 'react-hot-toast';
 import ReflectionQuestions from './ReflectionQuestions';
-
+import { useComputers } from "@/contexts/ComputersContext";
+ 
 const allDevices = [
   // Home (AI)
   { id: 1, name: 'Smartphone', place: 'Home', smartHow: 'Voice assistant, facial recognition', level: 3 },
@@ -34,6 +35,7 @@ const allDevices = [
 ];
 
 export default function AIChallengeGame() {
+  const { completeComputersChallenge } = useComputers();
   const [room, setRoom] = useState('Home');
   const [chartItems, setChartItems] = useState([]);
   const [showBadge, setShowBadge] = useState(false);
@@ -62,6 +64,7 @@ export default function AIChallengeGame() {
   useEffect(() => {
     if (chartItems.length === 5) {
       setShowBadge(true);
+      completeComputersChallenge(0,0);
       setTimeout(() => setShowBadge(false), 4000);
     }
   }, [chartItems]);

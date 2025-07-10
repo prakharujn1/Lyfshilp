@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 // Reuse your same GIFs
 const introGif =
   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXNhdXM3cm4zMDYwajJqOWVhdTNxYmR4cG9oc2phazJ2aXJuc2FsNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yoJC2L06aZw6OoqtDG/200.webp";
@@ -18,6 +18,7 @@ const wrongGif =
   "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW4zcTBmZzBuc3Iwd3cyOGsxZHQ1eHlqZnlobWljZ29yMHZzbjdrdCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l0HlOvSxIqi0huNQ4/200.webp";
 
 const PhosphorusLockdown = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [page, setPage] = useState("intro");
   const [step, setStep] = useState(1);
 
@@ -106,11 +107,10 @@ const PhosphorusLockdown = () => {
                         q1Answer.includes(step) ? q1Answer : [...q1Answer, step]
                       )
                     }
-                    className={`px-4 py-2 rounded-full border ${
-                      q1Answer.includes(step)
+                    className={`px-4 py-2 rounded-full border ${q1Answer.includes(step)
                         ? "bg-green-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {step}
                   </button>
@@ -178,11 +178,10 @@ const PhosphorusLockdown = () => {
                       setQ2(opt);
                       setQ2Correct(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      q2 === opt
+                    className={`block w-full border px-4 py-2 rounded-full ${q2 === opt
                         ? "bg-green-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -241,11 +240,10 @@ const PhosphorusLockdown = () => {
                       setQ3(opt);
                       setQ3Correct(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      q3 === opt
+                    className={`block w-full border px-4 py-2 rounded-full ${q3 === opt
                         ? "bg-green-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -260,7 +258,10 @@ const PhosphorusLockdown = () => {
                     setQ3Correct(correct);
                     const allCorrect = q1Correct && q2Correct && correct;
                     setFinal(allCorrect);
-                    if (allCorrect) confetti();
+                    if (allCorrect) {
+                      confetti();
+                      completeEnvirnomentChallenge(0,2);
+                    }
                   }}
                   className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-blue-700 transition"
                 >

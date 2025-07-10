@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSEL } from "@/contexts/SELContext";
 
 const statements = [
   { text: "My friend's bad mood", type: "Concern" },
@@ -14,10 +15,17 @@ const statements = [
 ];
 
 const InfluenceExplorer = () => {
+  const { completeSELChallenge } = useSEL();
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState(null);
   const [finished, setFinished] = useState(false);
+
+  useEffect(() => {
+    if (finished && score >= 8) {
+      completeSELChallenge(1, 3); // Change values as needed
+    }
+  }, [finished, score]);
 
   const handleChoice = (choice) => {
     const correct = statements[current].type === choice;
@@ -83,28 +91,26 @@ const InfluenceExplorer = () => {
           <div className="flex justify-center gap-4">
             <button
               onClick={() => handleChoice("Influence")}
-              className={`px-6 py-3 rounded-xl font-bold text-white transition duration-300 ${
-                feedback === "correct" &&
+              className={`px-6 py-3 rounded-xl font-bold text-white transition duration-300 ${feedback === "correct" &&
                 statements[current].type === "Influence"
-                  ? "bg-green-500"
-                  : feedback === "wrong" &&
-                    statements[current].type !== "Influence"
+                ? "bg-green-500"
+                : feedback === "wrong" &&
+                  statements[current].type !== "Influence"
                   ? "bg-red-400"
                   : "bg-blue-500 hover:bg-blue-600"
-              }`}
+                }`}
             >
               Influence
             </button>
             <button
               onClick={() => handleChoice("Concern")}
-              className={`px-6 py-3 rounded-xl font-bold text-white transition duration-300 ${
-                feedback === "correct" && statements[current].type === "Concern"
-                  ? "bg-green-500"
-                  : feedback === "wrong" &&
-                    statements[current].type !== "Concern"
+              className={`px-6 py-3 rounded-xl font-bold text-white transition duration-300 ${feedback === "correct" && statements[current].type === "Concern"
+                ? "bg-green-500"
+                : feedback === "wrong" &&
+                  statements[current].type !== "Concern"
                   ? "bg-red-400"
                   : "bg-blue-500 hover:bg-blue-600"
-              }`}
+                }`}
             >
               Concern
             </button>

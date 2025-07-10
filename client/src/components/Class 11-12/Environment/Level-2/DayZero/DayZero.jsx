@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 const dragOptions = [
   "Water rationing schedules",
   "Rainwater harvesting campaigns",
@@ -95,6 +95,7 @@ const gifs = {
 };
 
 const DayZero = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [dragSelected, setDragSelected] = useState([]);
@@ -110,8 +111,8 @@ const DayZero = () => {
       prev.includes(option)
         ? prev.filter((o) => o !== option)
         : prev.length < 4
-        ? [...prev, option]
-        : prev
+          ? [...prev, option]
+          : prev
     );
   };
 
@@ -156,6 +157,13 @@ const DayZero = () => {
       setShowConfetti(false);
     }
   }, [step, allCorrect]);
+
+  useEffect(() => {
+    if (step === questions.length + 1 && allCorrect) {
+      completeEnvirnomentChallenge(1,1);
+    }
+  }, [step, allCorrect]);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-100 to-yellow-300 flex flex-col items-center justify-center p-6 text-center">
@@ -210,11 +218,10 @@ const DayZero = () => {
                       <button
                         key={idx}
                         onClick={() => handleDragSelect(opt)}
-                        className={`px-4 py-2 rounded-full border ${
-                          dragSelected.includes(opt)
+                        className={`px-4 py-2 rounded-full border ${dragSelected.includes(opt)
                             ? "bg-green-500 text-white"
                             : "hover:bg-green-100"
-                        }`}
+                          }`}
                       >
                         {opt}
                       </button>
@@ -223,11 +230,10 @@ const DayZero = () => {
                   <button
                     onClick={handleDragSubmit}
                     disabled={dragSelected.length !== 4}
-                    className={`mt-4 px-6 py-2 rounded-full text-white ${
-                      dragSelected.length === 4
+                    className={`mt-4 px-6 py-2 rounded-full text-white ${dragSelected.length === 4
                         ? "bg-green-600 hover:bg-green-700"
                         : "bg-gray-400 cursor-not-allowed"
-                    }`}
+                      }`}
                   >
                     Submit Selection
                   </button>

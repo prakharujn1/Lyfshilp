@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const decisionTreeSteps = [
     {
@@ -45,6 +46,7 @@ const etiquetteMatches = [
 ];
 
 export default function DigitalDilemmaGame() {
+    const { completeCommunicationChallenge } = useCommunication();
     const [started, setStarted] = useState(false);
     const [step, setStep] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState([]);
@@ -107,9 +109,15 @@ export default function DigitalDilemmaGame() {
             etiquetteMatches.find((item) => item.principle === principle && item.example === example)
         ).length === 3;
 
-        setSuccess(correctDecisionCount >= 2 && correctMatches);
+        const didSucceed = correctDecisionCount >= 2 && correctMatches;
+        setSuccess(didSucceed);
         setGameOver(true);
+
+        if (didSucceed) {
+            completeCommunicationChallenge(1,1); // ✅ Mark challenge as complete
+        }
     };
+
 
     const handleRestart = () => {
         setStarted(false);

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from "framer-motion";
+import { useComputers } from "@/contexts/ComputersContext";
 
 // Sample animal data (use your real ones)
 
@@ -26,12 +27,16 @@ const animals = [
 
 
 export default function TrainTheBrainGame() {
+  const { completeComputersChallenge } = useComputers();
   const [droppedAnimals, setDroppedAnimals] = useState([]);
   const [formData, setFormData] = useState({});
   const [showTable, setShowTable] = useState(false);
   const [questionsVisible, setQuestionsVisible] = useState(false);
   const [answers, setAnswers] = useState({ q1: '', q2: '', q3: '' });
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+
 
   const correctAnswers = {
     q1: 'Lots of diverse examples! More variety helps AI generalize better.',
@@ -78,31 +83,31 @@ export default function TrainTheBrainGame() {
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-gradient-to-br from-yellow-100 via-pink-100 to-blue-100 min-h-screen rounded-lg">
-      
-    <motion.h1
-      className="text-4xl sm:text-5xl font-extrabold text-center mb-6"
-      initial={{ y: -100, opacity: 0, scale: 0.5 }}
-      animate={{
-        y: [0, -10, 0],
-        opacity: 1,
-        scale: 1,
-      }}
-      transition={{
-        y: {
-          duration: 2,
-          repeat: Infinity,
-          repeatType: "mirror",
-          ease: "easeInOut",
-        },
-        opacity: { duration: 0.8 },
-        scale: { type: "spring", stiffness: 200, damping: 10, delay: 0.2 },
-      }}
-    >
-      🎮{" "}
-      <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400 bg-clip-text text-transparent">
-        Train the Brain
-      </span>
-    </motion.h1>
+
+      <motion.h1
+        className="text-4xl sm:text-5xl font-extrabold text-center mb-6"
+        initial={{ y: -100, opacity: 0, scale: 0.5 }}
+        animate={{
+          y: [0, -10, 0],
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          y: {
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          },
+          opacity: { duration: 0.8 },
+          scale: { type: "spring", stiffness: 200, damping: 10, delay: 0.2 },
+        }}
+      >
+        🎮{" "}
+        <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400 bg-clip-text text-transparent">
+          Train the Brain
+        </span>
+      </motion.h1>
       <p className="text-lg text-center text-gray-700 mb-6">
         🧠 Help train an AI to recognize animals by dragging them into the training area!
       </p>
@@ -173,8 +178,8 @@ export default function TrainTheBrainGame() {
           disabled={!isComplete()}
           onClick={() => setShowTable(true)}
           className={`block mx-auto mt-4 px-6 py-2 rounded-full font-bold text-white transition ${isComplete()
-              ? 'bg-green-600 hover:bg-green-700'
-              : 'bg-gray-400 cursor-not-allowed'
+            ? 'bg-green-600 hover:bg-green-700'
+            : 'bg-gray-400 cursor-not-allowed'
             }`}
         >
           📊 Show Training Summary
@@ -256,14 +261,21 @@ export default function TrainTheBrainGame() {
 
           <button
             disabled={!allQuestionsAnswered}
-            onClick={() => setShowCorrectAnswers(true)}
-            className={`mt-6 px-6 py-2 font-bold rounded-full text-white transition ${allQuestionsAnswered
+            onClick={() => {
+              setShowCorrectAnswers(true);
+              if (!challengeCompleted) {
+                completeComputersChallenge(1,0);
+                setChallengeCompleted(true); // prevent re-trigger
+              }
+            }}
+            className={`mt-6 px-6 py-2 font-bold rounded-full text-white transition ${allQuestionsAnswered && !challengeCompleted
                 ? 'bg-green-600 hover:bg-green-700'
                 : 'bg-gray-400 cursor-not-allowed'
               }`}
           >
             ✅ Submit Answers
           </button>
+
         </div>
       )}
 

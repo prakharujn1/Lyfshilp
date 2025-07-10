@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
-
+import { useLeadership } from "@/contexts/LeadershipContext";
 const teamMembers = [
   {
     id: 1,
@@ -40,6 +40,7 @@ const roles = [
 ];
 
 const TeamArchitectMission = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [assignments, setAssignments] = useState({});
   const [step, setStep] = useState("intro");
   const [result, setResult] = useState(null);
@@ -60,7 +61,10 @@ const TeamArchitectMission = () => {
       }
     }
     setResult(allCorrect ? "correct" : "incorrect");
-    if (allCorrect) confetti();
+    if (allCorrect) {
+      confetti();
+      completeLeadershipChallenge(2,1); // ✅ Mark challenge as complete
+    }
   };
 
   const handleReset = () => {

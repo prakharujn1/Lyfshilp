@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const ToneSimulatorGame = () => {
+    const { completeCommunicationChallenge } = useCommunication();
     const [step, setStep] = useState(0);
     const [response, setResponse] = useState("");
     const [feedback, setFeedback] = useState("");
@@ -87,6 +89,7 @@ const ToneSimulatorGame = () => {
             setTimeout(() => {
                 setFeedback("");
                 setStep(4);
+                completeCommunicationChallenge(0,2); // ✅ Add this line here
             }, 2000);
         } else {
             setFeedback("❌ Incorrect tone. Try again.");
@@ -113,34 +116,34 @@ const ToneSimulatorGame = () => {
     return (
         <div className="max-w-3xl mx-auto mt-6 p-6 bg-gradient-to-br from-white via-blue-50 to-purple-100 rounded-3xl shadow-2xl border border-purple-300 text-center space-y-4">
             <motion.h1
-  initial={{ opacity: 0, y: -30, scale: 0.95 }}
-  animate={{
-    opacity: 1,
-    y: 0,
-    scale: [1, 1.03, 1],
-    rotate: [0, 1, -1, 0],
-  }}
-  transition={{
-    duration: 2,
-    ease: "easeInOut",
-    repeat: Infinity,
-    repeatType: "loop",
-    times: [0, 0.3, 0.7, 1],
-  }}
-  className="text-center"
->
-  <span className="block text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 bg-clip-text text-transparent drop-shadow-lg tracking-tight">
-    🎤 Choose Your Voice
-  </span>
-  <motion.span
-    className="block text-base sm:text-lg font-medium text-purple-500 mt-2"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: [0, 1, 0.8, 1] }}
-    transition={{ delay: 0.6, duration: 2, repeat: Infinity }}
-  >
-    A Tone-Switching Challenge
-  </motion.span>
-</motion.h1>
+                initial={{ opacity: 0, y: -30, scale: 0.95 }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                    scale: [1, 1.03, 1],
+                    rotate: [0, 1, -1, 0],
+                }}
+                transition={{
+                    duration: 2,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    times: [0, 0.3, 0.7, 1],
+                }}
+                className="text-center"
+            >
+                <span className="block text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 bg-clip-text text-transparent drop-shadow-lg tracking-tight">
+                    🎤 Choose Your Voice
+                </span>
+                <motion.span
+                    className="block text-base sm:text-lg font-medium text-purple-500 mt-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 0.8, 1] }}
+                    transition={{ delay: 0.6, duration: 2, repeat: Infinity }}
+                >
+                    A Tone-Switching Challenge
+                </motion.span>
+            </motion.h1>
 
 
             <motion.div

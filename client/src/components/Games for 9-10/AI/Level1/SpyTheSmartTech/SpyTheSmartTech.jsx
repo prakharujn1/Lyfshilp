@@ -10,8 +10,10 @@ import {
   Thermometer,
   Battery,
 } from "lucide-react";
+import { useComputers } from "@/contexts/ComputersContext";
 
 const SpyTheSmartTech = () => {
+  const { completeComputersChallenge } = useComputers();
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [completedRows, setCompletedRows] = useState(new Set());
@@ -77,6 +79,10 @@ const SpyTheSmartTech = () => {
 
   const checkAnswers = () => {
     setShowResults(true);
+
+
+    // ✅ Mark challenge complete when answers are submitted
+    completeComputersChallenge(0,0);
   };
 
   const getScore = () => {
@@ -156,9 +162,8 @@ const SpyTheSmartTech = () => {
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className={`border-b-2 border-gray-100 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 ${
-                      completedRows.has(device.id) ? "bg-green-50" : ""
-                    }`}
+                    className={`border-b-2 border-gray-100 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 ${completedRows.has(device.id) ? "bg-green-50" : ""
+                      }`}
                   >
                     <td className="p-4">
                       <div className="flex items-center space-x-3">
@@ -187,13 +192,12 @@ const SpyTheSmartTech = () => {
                                 answers[device.id]?.reason
                               )
                             }
-                            className={`px-4 py-2 rounded-full font-bold transition-all duration-300 ${
-                              answers[device.id]?.answer === option
+                            className={`px-4 py-2 rounded-full font-bold transition-all duration-300 ${answers[device.id]?.answer === option
                                 ? option === "yes"
                                   ? "bg-green-500 text-white shadow-lg"
                                   : "bg-red-500 text-white shadow-lg"
                                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                            }`}
+                              }`}
                           >
                             {option === "yes" ? "✅ Yes" : "❌ No"}
                           </motion.button>
@@ -234,11 +238,10 @@ const SpyTheSmartTech = () => {
             whileTap={{ scale: 0.95 }}
             onClick={checkAnswers}
             disabled={!allAnswered}
-            className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${
-              allAnswered
+            className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${allAnswered
                 ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             🔍 Check My Answers!
           </motion.button>
@@ -273,11 +276,10 @@ const SpyTheSmartTech = () => {
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className={`p-4 rounded-xl ${
-                      answers[device.id]?.answer === device.correctAnswer
+                    className={`p-4 rounded-xl ${answers[device.id]?.answer === device.correctAnswer
                         ? "bg-green-100 border-2 border-green-400"
                         : "bg-red-100 border-2 border-red-400"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-bold text-lg flex items-center">

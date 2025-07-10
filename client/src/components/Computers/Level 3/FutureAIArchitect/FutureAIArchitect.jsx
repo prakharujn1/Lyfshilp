@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Poster from './Poster';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const loopAnim = {
   animate: { y: [0, -8, 0] },
@@ -43,6 +44,9 @@ const options = {
 };
 
 export default function FutureAIArchitect() {
+  const { completeComputersChallenge } = useComputers();
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+
   const [formData, setFormData] = useState({
     problem: '',
     name: '',
@@ -66,8 +70,15 @@ export default function FutureAIArchitect() {
   };
 
   const handleSubmit = () => {
-    if (Object.values(formData).every((v) => v !== '')) setSubmitted(true);
+    if (Object.values(formData).every((v) => v !== '')) {
+      setSubmitted(true);
+      if (!challengeCompleted) {
+        completeComputersChallenge(2,1);
+        setChallengeCompleted(true);
+      }
+    }
   };
+
 
   const renderOptions = (fieldKey) => (
     <motion.div className="flex gap-4 flex-wrap justify-center">

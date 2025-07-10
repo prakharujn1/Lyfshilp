@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Star, Award, RefreshCw, Volume2, CheckCircle } from "lucide-react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const NVCGame = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [gameState, setGameState] = useState("scenario");
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [score, setScore] = useState(0);
@@ -98,6 +100,7 @@ const NVCGame = () => {
       setScore(score + 20);
       setBadges([...badges, "☮️"]);
       setGameState("result");
+      completeCommunicationChallenge(1,0);
       setShowCelebration(true);
       setTimeout(() => setShowCelebration(false), 3000);
     }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
-
+import { useLeadership } from "@/contexts/LeadershipContext";
 const InnovationLaunchpad = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState("intro");
   const [idea, setIdea] = useState("");
   const [pilot, setPilot] = useState("");
@@ -92,6 +93,7 @@ Keep it upbeat and encouraging, like you're hyping up your junior!`,
       const total = scores.innovation + scores.impact + scores.feasibility;
 
       if (total >= 24) {
+        completeLeadershipChallenge(3,1); // ✅ Marks the challenge as completed
         setStep("success");
         startConfetti();
       } else {

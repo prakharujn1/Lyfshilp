@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Clock, Star, Trophy, RefreshCw, Play, Home } from "lucide-react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
+import { useLaw } from "@/contexts/LawContext";
 
 const CrimeCivilGame = () => {
+  const { completeLawChallenge } = useLaw();
   const [currentPage, setCurrentPage] = useState("home");
   const [currentChallenge, setCurrentChallenge] = useState(null);
   const [gameState, setGameState] = useState("waiting"); // waiting, playing, finished
@@ -16,6 +18,12 @@ const CrimeCivilGame = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [dropZoneHighlight, setDropZoneHighlight] = useState("");
   const timerRef = useRef(null);
+
+  useEffect(() => {
+  if (currentPage === "results") {
+    completeLawChallenge(1,0);
+  }
+}, [currentPage]);
 
   const scenarios = [
     {

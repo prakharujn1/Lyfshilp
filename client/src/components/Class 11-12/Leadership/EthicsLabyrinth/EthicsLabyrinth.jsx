@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, RefreshCcw } from "lucide-react";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const questions = [
   {
@@ -47,6 +48,7 @@ const questions = [
 
 
 const EthicsLabyrinth = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [currentQ, setCurrentQ] = useState(0);
   const [chosen, setChosen] = useState(null);
   const [score, setScore] = useState(0);
@@ -63,6 +65,13 @@ const EthicsLabyrinth = () => {
       return () => clearTimeout(timer);
     }
   }, [timeLeft, chosen, started]);
+
+  useEffect(() => {
+    if (showEnd && score === questions.length) {
+      completeLeadershipChallenge(1,1);
+    }
+  }, [showEnd, score]);
+
 
   const handleOptionClick = (option) => {
     setChosen(option);

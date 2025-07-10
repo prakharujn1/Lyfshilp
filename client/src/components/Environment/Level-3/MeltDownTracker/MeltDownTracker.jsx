@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const data = [
   {
@@ -70,11 +71,20 @@ const resultGifs = {
 };
 
 const MeltdownTracker = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(120);
+
+  useEffect(() => {
+    if ((timeLeft <= 0 || currentIndex >= data.length) && score >= 8) {
+      completeEnvirnomentChallenge(2, 1); // Challenge 2, Task 1 completed
+    }
+  }, [timeLeft, currentIndex, score]);
+
 
   useEffect(() => {
     if (timeLeft <= 0 || currentIndex >= data.length) return;
@@ -175,11 +185,10 @@ const MeltdownTracker = () => {
           <button
             key={opt}
             onClick={() => setSelected(opt)}
-            className={`px-4 py-2 rounded-xl border text-left ${
-              selected === opt
+            className={`px-4 py-2 rounded-xl border text-left ${selected === opt
                 ? "bg-blue-200 border-blue-600"
                 : "bg-white border-gray-300"
-            }`}
+              }`}
           >
             {opt}
           </button>

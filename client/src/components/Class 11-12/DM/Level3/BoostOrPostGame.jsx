@@ -11,8 +11,10 @@ import {
   Eye,
 } from "lucide-react";
 import confetti from "canvas-confetti";
+import { useDM } from "@/contexts/DMContext";
 
 const BoostOrPostGame = () => {
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro"); // intro, game, loading, result
   const [selectedOption, setSelectedOption] = useState(null);
   const [showResult, setShowResult] = useState(false);
@@ -90,6 +92,10 @@ const BoostOrPostGame = () => {
     setStars(option.stars);
     setCurrentPage("loading");
     setLoadingProgress(0);
+
+    if (option.isCorrect) {
+      completeDMChallenge(2,0); // ✅ Call when correct choice is made
+    }
   };
 
   const resetGame = () => {
@@ -104,9 +110,8 @@ const BoostOrPostGame = () => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-8 h-8 transition-all duration-300 ${
-          i < count ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-        }`}
+        className={`w-8 h-8 transition-all duration-300 ${i < count ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+          }`}
       />
     ));
   };
@@ -302,7 +307,7 @@ const BoostOrPostGame = () => {
   if (currentPage === "result") {
     return (
       <div className="min-h-screen w-[90%] mx-auto rounded-xl mt-5 mb-5 bg-gradient-to-br from-green-400 via-blue-400 to-purple-400 p-4">
-        
+
         <div className="max-w-2xl mx-auto">
           <div className="bg-white/95 backdrop-blur rounded-3xl p-8 text-center shadow-2xl">
             {/* Stars */}
@@ -314,8 +319,8 @@ const BoostOrPostGame = () => {
                 {stars === 5
                   ? "Outstanding! 🎉"
                   : stars === 3
-                  ? "Good Try! 👍"
-                  : "Keep Learning! 💪"}
+                    ? "Good Try! 👍"
+                    : "Keep Learning! 💪"}
               </h2>
             </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
-
+import { useLeadership } from "@/contexts/LeadershipContext";
 const stories = [
   {
     id: 1,
@@ -22,6 +22,7 @@ const stories = [
 const biasTypes = ["Favoritism", "Gender Bias", "Privilege Bias"];
 
 const BiasDetective = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState("intro");
   const [answers, setAnswers] = useState({});
   const [rewrites, setRewrites] = useState({});
@@ -164,6 +165,7 @@ Be positive, honest, and use language that clicks with teens.`,
 
       if (reply.toLowerCase().includes("nailed it")) {
         confetti();
+        completeLeadershipChallenge(3,0); // ✅ Mark challenge as complete
         setResult("correct");
         setStep("end");
       } else {
@@ -450,9 +452,8 @@ Be positive, honest, and use language that clicks with teens.`,
 
     return (
       <div
-        className={`text-center ${
-          success ? "bg-green-50" : "bg-red-50"
-        } min-h-screen flex flex-col justify-center items-center p-6`}
+        className={`text-center ${success ? "bg-green-50" : "bg-red-50"
+          } min-h-screen flex flex-col justify-center items-center p-6`}
       >
         <img
           src={

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-
+import { useSEL } from "@/contexts/SELContext";
 
 const dilemmas = [
   {
@@ -258,6 +258,7 @@ const dilemmas = [
 
 
 export default function EthicalSimulator() {
+  const { completeSELChallenge } = useSEL();
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
@@ -271,6 +272,9 @@ export default function EthicalSimulator() {
   };
 
   const nextScenario = () => {
+    if (step + 1 === dilemmas.length) {
+      completeSELChallenge(1,1); // ✅ Challenge complete
+    }
     setStep(step + 1);
     setSelected(null);
   };

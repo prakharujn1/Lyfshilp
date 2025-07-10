@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import { useComputers } from "@/contexts/ComputersContext";
 
 const careers = [
   { title: "🤖 AI Engineer", description: "Builds smart machines and algorithms" },
@@ -14,6 +15,9 @@ const interestEmojis = [
 ];
 
 export default function AICareerExplorerGame() {
+  const { completeComputersChallenge } = useComputers();
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+
   const [careerData, setCareerData] = useState(
     careers.map((c) => ({ ...c, skills: "", aiHelps: "", interest: "" }))
   );
@@ -55,8 +59,14 @@ export default function AICareerExplorerGame() {
       return;
     }
 
+    if (!challengeCompleted) {
+      completeComputersChallenge(2,2);
+      setChallengeCompleted(true);
+    }
+
     setStep(2);
   };
+
 
   const getRecommendedCareer = () => {
     let maxInterest = -1;
@@ -203,7 +213,7 @@ export default function AICareerExplorerGame() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            🏅 Your Golden Career Match:<br/> {getRecommendedCareer()} ✨
+            🏅 Your Golden Career Match:<br /> {getRecommendedCareer()} ✨
           </motion.p>
 
           <div className="text-5xl mb-3 animate-pulse">🏆</div>

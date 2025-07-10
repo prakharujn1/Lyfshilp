@@ -4,6 +4,7 @@ import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 import { Activity, BarChart3 } from "lucide-react";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -43,6 +44,7 @@ const marketEvents = [
 const supportCostMap = { Low: 0, Medium: 1000, High: 2000 };
 
 const SimulatedMarketGame = () => {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [round, setRound] = useState(1);
   const [price, setPrice] = useState(150);
   const [marketing, setMarketing] = useState(1000);
@@ -116,8 +118,12 @@ const SimulatedMarketGame = () => {
 
       setResults(prev => [...prev, result]);
 
-      if (round === 3) setFinal(true);
-      else setRound(prev => prev + 1);
+      if (round === 3) {
+        completeEntreprenerushipChallenge(1,1); // ✅ Mark challenge complete
+        setFinal(true);
+      } else {
+        setRound(prev => prev + 1);
+      }
     } catch (error) {
       console.error("Simulation error:", error);
       setErrorMsg("❌ An error occurred during the simulation.");

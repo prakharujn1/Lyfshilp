@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import axios from "axios";
+import { useDM } from "@/contexts/DMContext";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -42,6 +43,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const CampaignBuilderGame = () => {
+  const {completeDMChallenge} = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
 
   const [campaignData, setCampaignData] = useState({
@@ -142,20 +144,27 @@ const CampaignBuilderGame = () => {
 
   // Loading animation
   useEffect(() => {
-    if (currentPage === "loading") {
-      const interval = setInterval(() => {
-        setLoadingProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setTimeout(() => setCurrentPage("result"), 500);
-            return 100;
-          }
-          return prev + 2;
-        });
-      }, 60);
-      return () => clearInterval(interval);
-    }
-  }, [currentPage]);
+  if (currentPage === "loading") {
+    const interval = setInterval(() => {
+      setLoadingProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+
+          // ✅ Call completion function after delay and before switching page
+          setTimeout(() => {
+            completeDMChallenge(2,2); // 🎉 Award the challenge here
+            setCurrentPage("result");
+          }, 500);
+
+          return 100;
+        }
+        return prev + 2;
+      });
+    }, 60);
+    return () => clearInterval(interval);
+  }
+}, [currentPage]);
+
 
   const handleInputChange = (field, value) => {
     setCampaignData((prev) => ({

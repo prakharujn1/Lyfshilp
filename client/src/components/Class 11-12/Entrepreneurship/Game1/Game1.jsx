@@ -9,6 +9,7 @@ import {
   Rocket,
 } from "lucide-react";
 import axios from "axios";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -38,6 +39,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const ProblemSolutionGame = () => {
+   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [currentStep, setCurrentStep] = useState(0);
   const [problems, setProblems] = useState(["", "", ""]);
   const [aiIdeas, setAiIdeas] = useState([
@@ -186,6 +188,9 @@ Constraints -
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       console.log(parsed);
       setResult(parsed);
+
+      completeEntreprenerushipChallenge(0,0);
+
       setCurrentStep(3);
     } catch (err) {
       setError("Error fetching AI response");

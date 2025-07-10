@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const VisionBuilderGame = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [screen, setScreen] = useState("intro");
   const [vision, setVision] = useState("");
   const [goal1, setGoal1] = useState("");
@@ -31,6 +33,12 @@ const VisionBuilderGame = () => {
         spread: 90,
         origin: { y: 0.6 },
       });
+    }
+  }, [screen, isCorrect]);
+
+  useEffect(() => {
+    if (screen === "result" && isCorrect) {
+      completeLeadershipChallenge(0,1); // Update with correct challengeId and taskId
     }
   }, [screen, isCorrect]);
 

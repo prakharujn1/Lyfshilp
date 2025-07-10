@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const sdgs = [
   { id: 1, title: "No Poverty", icon: "🌍" },
@@ -23,6 +24,7 @@ const sdgs = [
 ];
 
 export default function SDGStartupQuest() {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [step, setStep] = useState(1);
   const [selectedSDGs, setSelectedSDGs] = useState([]);
   const [problem, setProblem] = useState("");
@@ -223,7 +225,10 @@ export default function SDGStartupQuest() {
               ✏️ Edit Again
             </button>
             <button
-              onClick={() => setSubmitted(true)}
+              onClick={() => {
+                setSubmitted(true);
+                completeEntreprenerushipChallenge(1,2); // ✅ Marks the challenge complete
+              }}
               className="bg-green-600 text-white px-6 py-2 rounded-full text-lg font-extrabold shadow-lg animate-bounce"
             >
               🎖️ Submit & Celebrate!

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import SmoothieAvatar from "./SmoothieAnimation";
+import { useDM } from "@/contexts/DMContext";
 
 const captions = {
   "Mango Madness": [
@@ -32,6 +33,10 @@ const text =
 const appearingText = text.split(" ");
 
 export default function CaptionCraze() {
+  const { completeDMChallenge } = useDM();
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+
   const [selectedSmoothie, setSelectedSmoothie] = useState("Mango Madness");
   const [userCaption, setUserCaption] = useState("");
   const [showExamples, setShowExamples] = useState(false);
@@ -40,8 +45,13 @@ export default function CaptionCraze() {
   const handleSubmit = () => {
     if (userCaption.trim() !== "") {
       setSubmitted(true);
+      if (!challengeCompleted) {
+        completeDMChallenge(1,0);
+        setChallengeCompleted(true);
+      }
     }
   };
+
 
   return (
     <div className="w-[100%] mx-auto py-5 px-5 min-h-screen">
@@ -75,11 +85,10 @@ export default function CaptionCraze() {
                   <button
                     key={smoothie}
                     onClick={() => setSelectedSmoothie(smoothie)}
-                    className={`px-6 py-2 rounded-full font-semibold text-lg shadow-lg hover:scale-105 transition-all duration-300 ${
-                      selectedSmoothie === smoothie
-                        ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
-                        : "bg-white text-purple-600"
-                    }`}
+                    className={`px-6 py-2 rounded-full font-semibold text-lg shadow-lg hover:scale-105 transition-all duration-300 ${selectedSmoothie === smoothie
+                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                      : "bg-white text-purple-600"
+                      }`}
                   >
                     {smoothie}
                   </button>
@@ -104,19 +113,19 @@ export default function CaptionCraze() {
             </button>
 
             {
-            showExamples && (
-              <div className="grid gap-4 w-full max-w-lg mb-6">
-                { 
-                captions[selectedSmoothie].map((caption, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-2xl bg-white border text-lg border-purple-300 shadow hover:bg-yellow-100 transition-all duration-300"
-                  >
-                    {caption}
-                  </div>
-                ))}
-              </div>
-            )}
+              showExamples && (
+                <div className="grid gap-4 w-full max-w-lg mb-6">
+                  {
+                    captions[selectedSmoothie].map((caption, idx) => (
+                      <div
+                        key={idx}
+                        className="p-4 rounded-2xl bg-white border text-lg border-purple-300 shadow hover:bg-yellow-100 transition-all duration-300"
+                      >
+                        {caption}
+                      </div>
+                    ))}
+                </div>
+              )}
 
             <button
               onClick={handleSubmit}
@@ -135,7 +144,7 @@ export default function CaptionCraze() {
             </div>
 
             <div className="text-5xl mt-10 mb-4 animate-bounce">
-              { smoothieEmojis[selectedSmoothie]}
+              {smoothieEmojis[selectedSmoothie]}
             </div>
 
             <motion.h2

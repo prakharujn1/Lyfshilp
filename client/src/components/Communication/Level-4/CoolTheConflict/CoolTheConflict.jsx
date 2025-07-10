@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const dialogues = [
   {
@@ -60,10 +61,17 @@ const resolutionEndings = [
 ];
 
 const CoolTheConflict = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [swaps, setSwaps] = useState({});
   const [step, setStep] = useState("dialogue");
   const [selectedEndings, setSelectedEndings] = useState([]);
   const [isCorrectResolution, setIsCorrectResolution] = useState(null);
+
+  useEffect(() => {
+    if (step === "result" && isCorrectResolution === true) {
+      completeCommunicationChallenge(3, 2);
+    }
+  }, [step, isCorrectResolution]);
 
   const handleSwap = (lineIdx, wordIdx) => {
     setSwaps((prev) => ({
@@ -125,11 +133,10 @@ const CoolTheConflict = () => {
                     <span
                       key={key}
                       onClick={() => handleSwap(i, j)}
-                      className={`cursor-pointer px-2 py-1 rounded-md mx-1 font-semibold transition-colors duration-200 ${
-                        swapped
+                      className={`cursor-pointer px-2 py-1 rounded-md mx-1 font-semibold transition-colors duration-200 ${swapped
                           ? "bg-green-200 text-green-800"
                           : "bg-red-200 text-red-800"
-                      }`}
+                        }`}
                     >
                       {swapped ? item.replacement : item.word}
                     </span>
@@ -190,11 +197,10 @@ const CoolTheConflict = () => {
               <div
                 key={index}
                 onClick={() => handleResolutionClick(index)}
-                className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                  selectedEndings.includes(index)
+                className={`p-3 rounded-xl border cursor-pointer transition-all ${selectedEndings.includes(index)
                     ? "bg-green-200 border-green-500"
                     : "bg-white border-gray-300"
-                }`}
+                  }`}
               >
                 {ending.text}
               </div>
@@ -202,11 +208,10 @@ const CoolTheConflict = () => {
           </div>
           <button
             onClick={handleResolutionSubmit}
-            className={`mt-6 px-6 py-2 text-white rounded-lg ${
-              selectedEndings.length === 2
+            className={`mt-6 px-6 py-2 text-white rounded-lg ${selectedEndings.length === 2
                 ? "bg-purple-600 hover:bg-purple-700"
                 : "bg-gray-400 cursor-not-allowed"
-            }`}
+              }`}
             disabled={selectedEndings.length !== 2}
           >
             Submit Resolution

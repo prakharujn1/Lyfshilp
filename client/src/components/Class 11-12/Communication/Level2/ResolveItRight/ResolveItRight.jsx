@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 const APIKEY = import.meta.env.VITE_API_KEY;
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const sentenceStarters = [
     { text: "I feel like…", isCorrect: true },
@@ -21,6 +22,7 @@ const tones = [
 ];
 
 export default function ResolveItRight() {
+    const { completeCommunicationChallenge } = useCommunication();
     const [step, setStep] = useState(1);
     const [starter, setStarter] = useState(null);
     const [ending, setEnding] = useState(null);
@@ -126,7 +128,11 @@ Just the JSON.
                     : "🔁 Try avoiding blaming language. Use ‘I’ statements instead."
             );
 
-            if (passed) setGameDone(true);
+            if (passed) {
+                setGameDone(true);
+                completeCommunicationChallenge(1,2); // ✅ Notify context on success
+            }
+
         } catch (e) {
             console.error("Gemini error:", e);
             setFeedback("❌ Error evaluating. Try again.");

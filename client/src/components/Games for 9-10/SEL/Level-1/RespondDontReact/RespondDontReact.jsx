@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -120,6 +121,7 @@ const wrongGif =
   "https://media.tenor.com/pOU53oV_1KEAAAA1/you-are-wrong-your-thoughts-are-wrong.webp";
 
 const RespondDontReact = () => {
+  const { completeSELChallenge } = useSEL();
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
   const [outcome, setOutcome] = useState("");
@@ -149,8 +151,12 @@ const RespondDontReact = () => {
     } else {
       setShowResult(true);
       setShowConfetti(score >= 3);
+      if (score >= 3) {
+        completeSELChallenge(0,1); // ✅ Challenge marked complete here
+      }
     }
   };
+
 
   const restartGame = () => {
     setShowIntro(true);

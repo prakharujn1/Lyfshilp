@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight, CheckCircle } from "lucide-react";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const introGifs = [
   "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2VkaTg2cmpmNGZpMjVwM3RqZDU2aDBjeGl6NWM5cDMxbzlzOHN2MiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j2wu51IWlQzEYxnocJ/200.webp",
@@ -20,6 +21,7 @@ const correctSequence = [
 ];
 
 const CarbonCycleVault = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [page, setPage] = useState("intro");
 
   const [sequence, setSequence] = useState([
@@ -80,6 +82,7 @@ const CarbonCycleVault = () => {
   const handleSubmit = () => {
     const correct = checkAnswers();
     setResult(correct);
+    if (correct) completeEnvirnomentChallenge(0,0);
   };
 
   const resetGame = () => {
@@ -177,11 +180,10 @@ const CarbonCycleVault = () => {
                 <button
                   key={opt}
                   onClick={() => toggleMcq(opt)}
-                  className={`border px-4 py-2 rounded-full ${
-                    mcqAnswer.includes(opt)
+                  className={`border px-4 py-2 rounded-full ${mcqAnswer.includes(opt)
                       ? "bg-green-600 text-white"
                       : "bg-gray-100 hover:bg-gray-200"
-                  }`}
+                    }`}
                 >
                   {opt}
                 </button>

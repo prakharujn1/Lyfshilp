@@ -2,14 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
+import { useDM } from "@/contexts/DMContext";
 
 const AdCampaignComplete = () => {
+  const { completeDMChallenge } = useDM();
+
+  useEffect(() => {
+    completeDMChallenge(2,0);
+  }, []);
+
   const canvasRef = useRef(null);
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handlePlayAgain = () => {
     setTimeout(() => {
-     navigate("/ad-campaigner-game")
+      navigate("/ad-campaigner-game")
     }, 500)
   }
 

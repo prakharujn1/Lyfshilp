@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 // Reuse your GIFs:
 const introGif =
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmxwY2didGF4ZTZpZnByYmVkNXo5ZmZjM3lmMjVhbmx6eXJlYmYyMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jOmQmJkjcvB3Bc8CRb/200.webp";
@@ -18,6 +18,7 @@ const wrongGif =
   "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXplbml5ejhiMjNieHBnNHdkYXZ4czVkeDVnNWJ6OHlzbjAwbnJwNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3s298sv3aevOC4fktQ/200.webp";
 
 const WaterGridCrisis = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [page, setPage] = useState("intro");
   const [step, setStep] = useState(1);
 
@@ -98,11 +99,10 @@ const WaterGridCrisis = () => {
                       setQ1(opt);
                       setQ1Correct(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      q1 === opt
+                    className={`block w-full border px-4 py-2 rounded-full ${q1 === opt
                         ? "bg-blue-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -166,11 +166,10 @@ const WaterGridCrisis = () => {
                       }
                       setQ2Correct(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      q2.includes(opt)
+                    className={`block w-full border px-4 py-2 rounded-full ${q2.includes(opt)
                         ? "bg-blue-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -235,11 +234,10 @@ const WaterGridCrisis = () => {
                       }
                       setQ3Correct(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      q3.includes(opt)
+                    className={`block w-full border px-4 py-2 rounded-full ${q3.includes(opt)
                         ? "bg-blue-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -316,11 +314,10 @@ const WaterGridCrisis = () => {
                       setRiddle(opt);
                       setRiddleCorrect(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      riddle === opt
+                    className={`block w-full border px-4 py-2 rounded-full ${riddle === opt
                         ? "bg-blue-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -335,7 +332,10 @@ const WaterGridCrisis = () => {
                     const allCorrect =
                       q1Correct && q2Correct && q3Correct && correct;
                     setFinal(allCorrect);
-                    if (allCorrect) confetti();
+                    if (allCorrect) {
+                      confetti();
+                      completeEnvirnomentChallenge(0,3);
+                    }
                   }}
                   className="mt-6 bg-green-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-green-700 transition"
                 >

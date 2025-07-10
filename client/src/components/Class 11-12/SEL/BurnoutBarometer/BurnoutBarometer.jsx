@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-  
+import { useSEL } from "@/contexts/SELContext";
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const categories = [
@@ -37,6 +37,7 @@ const parsePossiblyStringifiedJSON = (str) => {
 };
 
 export default function BurnoutBarometer() {
+  const { completeSELChallenge } = useSEL();
   const [values, setValues] = useState({
     energy: 50,
     motivation: 50,
@@ -104,6 +105,8 @@ No explanation or extra text. Only JSON.
       setFeedback(parsed.feedback);
       setSelfCarePlans(parsed.selfCarePlans);
       setShowReport(true);
+      // ✅ Mark SEL challenge complete here
+      completeSELChallenge(0, 2);
     } catch (e) {
       console.error("Error generating feedback", e);
       setError("Error generating feedback. Try again later.");

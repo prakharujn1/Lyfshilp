@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const randomBotDesigns = [
   { name: 'Round Head Bot', icon: '🤖' },
@@ -33,6 +34,7 @@ const animatedBotVariants = {
 };
 
 const BuildABotChallenge = () => {
+  const { completeComputersChallenge } = useComputers();
   // Step control: 1 = design, 2 = details, 3 = result
   const [step, setStep] = useState(1);
 
@@ -91,6 +93,12 @@ const BuildABotChallenge = () => {
     });
     setStep(1);
   };
+
+  useEffect(() => {
+    if (step === 3) {
+      completeComputersChallenge(0, 2); // Challenge 2, Task 1 complete
+    }
+  }, [step]);
 
   return (
     <div className="p-6 bg-gradient-to-br from-yellow-100 to-pink-100 min-h-screen flex flex-col items-center">

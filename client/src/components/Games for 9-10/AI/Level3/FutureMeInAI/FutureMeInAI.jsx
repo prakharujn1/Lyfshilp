@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import Confetti from "react-confetti";
+import { useComputers } from "@/contexts/ComputersContext";
+
 const careers = [
     {
         emoji: "📊",
@@ -32,6 +34,7 @@ const careers = [
 const interestEmojis = ["😴", "😐", "🙂", "😊", "😃", "😄", "😁", "😆", "🤩", "🚀"];
 
 export default function FutureMeInAI() {
+    const { completeComputersChallenge } = useComputers();
     const [careerData, setCareerData] = useState(
         careers.map((c) => ({ ...c, interest: "" }))
     );
@@ -40,6 +43,12 @@ export default function FutureMeInAI() {
         skillsToLearn: "",
     });
     const [step, setStep] = useState(1);
+
+    useEffect(() => {
+        if (step === 2) {
+            completeComputersChallenge(2,2);
+        }
+    }, [step]);
 
     const handleInterestChange = (index, value) => {
         const updated = [...careerData];

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const ethicsScenarios = [
   {
@@ -38,6 +39,7 @@ const scalingOptions = [
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 export default function PitchArenaGame() {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [answers, setAnswers] = useState({});
   const [scalingMap, setScalingMap] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -124,6 +126,7 @@ ${growthText}
 
       if (parsed) {
         setReview(parsed);
+        completeEntreprenerushipChallenge(0,2); // ✅ Call it here!
       } else {
         setReview({ Feedback: "⚠️ Could not parse AI response." });
       }

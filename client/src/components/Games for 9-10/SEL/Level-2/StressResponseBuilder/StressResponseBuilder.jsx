@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CheckCircle, XCircle } from "lucide-react";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom"; // Only needed if using React Router
+import { useSEL } from "@/contexts/SELContext";
 
 const options = [
   { id: 1, text: "Sleep 7 hours", isHelpful: true },
@@ -14,6 +15,7 @@ const options = [
 ];
 
 const StressResponseBuilder = () => {
+  const { completeSELChallenge } = useSEL();
   const [stage, setStage] = useState("intro"); // intro, game, result
   const [selected, setSelected] = useState([]);
   const [submitted, setSubmitted] = useState(false);
@@ -37,8 +39,10 @@ const StressResponseBuilder = () => {
     const correctCount = selected.filter((o) => o.isHelpful).length;
     if (correctCount === 4) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      completeSELChallenge(1,0); // ✅ Mark SEL challenge complete
     }
   };
+
 
   const handleReset = () => {
     setSelected([]);
@@ -138,15 +142,13 @@ const StressResponseBuilder = () => {
               onClick={() => handleSelect(option)}
               className={`p-4 rounded-xl border text-left transition-all duration-200
                 ${selectedStatus ? "bg-blue-100 border-blue-500" : "bg-white"}
-                ${
-                  submitted && status === "correct"
-                    ? "border-green-500 shadow-md bg-green-100"
-                    : ""
+                ${submitted && status === "correct"
+                  ? "border-green-500 shadow-md bg-green-100"
+                  : ""
                 }
-                ${
-                  submitted && status === "wrong"
-                    ? "border-red-300 opacity-50"
-                    : ""
+                ${submitted && status === "wrong"
+                  ? "border-red-300 opacity-50"
+                  : ""
                 }
               `}
             >

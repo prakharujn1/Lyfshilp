@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-
+import { useCommunication } from "@/contexts/CommunicationContext";
 const sampleReplies = [
   "That must be frustrating. I hear you.",
   "Want to talk more about it?",
@@ -15,6 +15,7 @@ const badPhrases = [
 ];
 
 const ListenerLensGame = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [userResponse, setUserResponse] = useState('');
   const [feedback, setFeedback] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -52,7 +53,12 @@ const ListenerLensGame = () => {
     const toneFeedback = checkTone(userResponse);
     setFeedback(toneFeedback);
     setSubmitted(true);
+
+    if (toneFeedback.includes("Great job showing empathy")) {
+      completeCommunicationChallenge(0,1);
+    }
   };
+
 
   const handlePlayAgain = () => {
     setUserResponse('');

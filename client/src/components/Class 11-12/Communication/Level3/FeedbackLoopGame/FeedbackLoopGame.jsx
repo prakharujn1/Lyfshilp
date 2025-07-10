@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const FeedbackLoop = () => {
+    const { completeCommunicationChallenge } = useCommunication();
     const [step, setStep] = useState(1);
     const [hasStarted, setHasStarted] = useState(false);
     const [timeLeft, setTimeLeft] = useState(480); // 8 minutes
@@ -109,6 +111,7 @@ Here is the student's feedback message:
             if (score === 3) {
                 setFeedback("✅ You gave feedback like a leader—honest, helpful, and respectful.");
                 setGameDone(true);
+                completeCommunicationChallenge(2,2); // ✅ Call it here
             } else if (!praise) {
                 setFeedback("🧠 Include at least one specific praise point before suggesting changes. Revise your message and try again.");
             } else if (!suggestion) {

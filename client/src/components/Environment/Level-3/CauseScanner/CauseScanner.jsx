@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const statements = [
   {
@@ -61,12 +62,20 @@ const resultGifs = {
 };
 
 const CauseScanner = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState(10);
   const [questionKey, setQuestionKey] = useState(0);
+
+  useEffect(() => {
+    if (showResult && score >= 6) {
+      completeEnvirnomentChallenge(2,0); // Challenge 1, Task 1 completed
+    }
+  }, [showResult, score]);
 
   useEffect(() => {
     if (!started || showResult) return;

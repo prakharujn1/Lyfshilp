@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-
+import { useComputers } from "@/contexts/ComputersContext";
 const plants = [
     {
         id: "rose",
@@ -29,11 +29,18 @@ const testImages = [
 ];
 
 export default function TrainAIModelGame() {
+    const { completeComputersChallenge } = useComputers();
     const [trainingData, setTrainingData] = useState({});
     const [step, setStep] = useState(1);
     const [dragged, setDragged] = useState(false);
     const [showResults, setShowResults] = useState(false);
     const dropZoneRef = useRef(null);
+
+    useEffect(() => {
+        if (showResults) {
+            completeComputersChallenge(1,0);
+        }
+    }, [showResults]);
 
     const handleTrainingChoice = (plantId, quality) => {
         setTrainingData((prev) => ({ ...prev, [plantId]: quality }));

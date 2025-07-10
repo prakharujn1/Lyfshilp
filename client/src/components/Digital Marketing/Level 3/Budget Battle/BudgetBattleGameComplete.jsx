@@ -2,8 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
+import { useDM } from "@/contexts/DMContext";
 
 const BudgetBattleGameComplete = () => {
+  const { completeDMChallenge } = useDM();
+
+  useEffect(() => {
+    completeDMChallenge(2,1);
+  }, []);
+
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 

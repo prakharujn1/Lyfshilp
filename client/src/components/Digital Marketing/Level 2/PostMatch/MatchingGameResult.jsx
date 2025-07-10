@@ -1,9 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
+import { useDM } from "@/contexts/DMContext";
+
 
 const MatchingGameResult = () => {
+  const { completeDMChallenge } = useDM();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    completeDMChallenge(1,2);
+  }, []);
+
 
   const location = useLocation();
   console.log(location);

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
-
+import { useLaw } from "@/contexts/LawContext";
 const options = [
   { id: "o1", label: "The mental intention to commit a crime" },
   { id: "o2", label: "Produce the body; protect against unlawful detention" },
@@ -21,6 +21,7 @@ const correctMatches = {
 };
 
 const LegalConceptsResult = () => {
+  const { completeLawChallenge } = useLaw();
   const navigate = useNavigate();
   const location = useLocation();
   console.log(location);
@@ -52,6 +53,8 @@ const LegalConceptsResult = () => {
   };
 
   useEffect(() => {
+    completeLawChallenge(2,0);
+
     const myCanvas = canvasRef.current;
     const myConfetti = confetti.create(myCanvas, {
       resize: true,

@@ -16,8 +16,9 @@ import {
 import jsPDF from "jspdf";
 import { pdf } from "@react-pdf/renderer";
 import Game2PDF from "./Game2PDF";
-
+import { useFinance } from "@/contexts/FinanceContext";  
 const MiniMarketMaster = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
   const [gameData, setGameData] = useState({
     cash: 50000,
@@ -256,6 +257,7 @@ const MiniMarketMaster = () => {
 
     const nextDay = () => {
       if (gameData.day >= 10) {
+        completeFinanceChallenge(0,1); // ✅ Marks the challenge as complete
         setCurrentPage("results");
         return;
       }

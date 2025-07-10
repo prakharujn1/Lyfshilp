@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Wand2, BrainCircuit } from "lucide-react"
 const APIKEY = import.meta.env.VITE_API_KEY;
+import { useSEL } from "@/contexts/SELContext";
 
 export default function ThoughtReframer() {
+    const { completeSELChallenge } = useSEL();
     const [thoughts, setThoughts] = useState(["", "", ""]);
     const [reframes, setReframes] = useState(["", "", ""]);
     const [loading, setLoading] = useState(false);
@@ -49,6 +51,7 @@ export default function ThoughtReframer() {
             })
         );
         setReframes(newReframes);
+        completeSELChallenge(0,0); // ✅ Mark SEL challenge complete here
         setLoading(false);
     };
 

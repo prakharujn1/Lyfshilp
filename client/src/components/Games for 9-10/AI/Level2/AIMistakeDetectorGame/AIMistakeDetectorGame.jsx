@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import { Sparkles, AlertTriangle, Bot } from "lucide-react";
 import Confetti from "react-confetti";
-
+import { useComputers } from "@/contexts/ComputersContext";
 
 
 const scenarios = [
@@ -51,10 +51,18 @@ const choices = [
 ];
 
 export default function AIOopsGame() {
+    const { completeComputersChallenge } = useComputers();
     const [step, setStep] = useState(0);
     const [answers, setAnswers] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const [selected, setSelected] = useState(null);
+
+    useEffect(() => {
+        if (showResult) {
+            completeComputersChallenge(1,1);
+        }
+    }, [showResult]);
+
 
     const handleAnswer = (symbol) => {
         setSelected(symbol);

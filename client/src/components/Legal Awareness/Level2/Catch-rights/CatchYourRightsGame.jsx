@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Heart, Star, Zap, Trophy, RotateCcw, Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLaw } from "@/contexts/LawContext";
 
 // Confetti component
 const Confetti = ({ isActive }) => {
@@ -88,6 +89,7 @@ const Confetti = ({ isActive }) => {
 };
 
 const CatchYourRightsGame = () => {
+  const { completeLawChallenge } = useLaw();
   const [gameState, setGameState] = useState("menu"); // menu, playing, paused, gameOver, completed
   const [level, setLevel] = useState(1);
   const [score, setScore] = useState(0);
@@ -214,12 +216,12 @@ const CatchYourRightsGame = () => {
       screenWidth < 480
         ? 150
         : screenWidth < 640
-        ? 170
-        : screenWidth < 768
-        ? 200
-        : screenWidth < 1024
-        ? 240
-        : 250;
+          ? 170
+          : screenWidth < 768
+            ? 200
+            : screenWidth < 1024
+              ? 240
+              : 250;
 
     const newItem = {
       id: Date.now() + Math.random(),
@@ -365,6 +367,7 @@ const CatchYourRightsGame = () => {
     const targetCount = level === 1 ? 10 : 15;
     if (isCorrect && correctlySorted + 1 >= targetCount) {
       setGameState("completed");
+        completeLawChallenge(1,1);
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 5000);
     }
@@ -396,6 +399,7 @@ const CatchYourRightsGame = () => {
         const targetCount = level === 1 ? 10 : 15;
         if (correctlySorted + 1 >= targetCount) {
           setGameState("completed");
+          completeLawChallenge(1, 1);
           setShowConfetti(true);
           setTimeout(() => setShowConfetti(false), 5000);
         }
@@ -539,11 +543,10 @@ const CatchYourRightsGame = () => {
                     {[...Array(3)].map((_, i) => (
                       <Heart
                         key={i}
-                        className={`${
-                          i < lives
-                            ? "text-red-500 fill-current"
-                            : "text-gray-400"
-                        }`}
+                        className={`${i < lives
+                          ? "text-red-500 fill-current"
+                          : "text-gray-400"
+                          }`}
                         size={20}
                       />
                     ))}
@@ -580,11 +583,10 @@ const CatchYourRightsGame = () => {
               <button
                 onClick={() => usePowerUp("slowTime")}
                 disabled={powerUps.slowTime <= 0}
-                className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm lg:text-lg font-bold transition-all ${
-                  powerUps.slowTime > 0
-                    ? "bg-blue-500 text-white hover:bg-blue-600 transform hover:scale-105"
-                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
-                }`}
+                className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm lg:text-lg font-bold transition-all ${powerUps.slowTime > 0
+                  ? "bg-blue-500 text-white hover:bg-blue-600 transform hover:scale-105"
+                  : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                  }`}
               >
                 <Zap size={16} />
                 Slow Time ({powerUps.slowTime})
@@ -592,11 +594,10 @@ const CatchYourRightsGame = () => {
               <button
                 onClick={() => usePowerUp("autoSort")}
                 disabled={powerUps.autoSort <= 0}
-                className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm lg:text-lg font-bold transition-all ${
-                  powerUps.autoSort > 0
-                    ? "bg-green-500 text-white hover:bg-green-600 transform hover:scale-105"
-                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
-                }`}
+                className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm lg:text-lg font-bold transition-all ${powerUps.autoSort > 0
+                  ? "bg-green-500 text-white hover:bg-green-600 transform hover:scale-105"
+                  : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                  }`}
               >
                 <Star size={16} />
                 Auto-Sort ({powerUps.autoSort})
@@ -613,9 +614,8 @@ const CatchYourRightsGame = () => {
                   key={item.id}
                   draggable
                   onDragStart={(e) => handleDragStart(e, item)}
-                  className={`absolute bg-white/90 backdrop-blur-sm p-3 md:p-4 rounded-xl shadow-lg cursor-move transform hover:scale-105 transition-all border-4  border-sky-300 ${
-                    slowTimeActive ? "animate-pulse" : ""
-                  }`}
+                  className={`absolute bg-white/90 backdrop-blur-sm p-3 md:p-4 rounded-xl shadow-lg cursor-move transform hover:scale-105 transition-all border-4  border-sky-300 ${slowTimeActive ? "animate-pulse" : ""
+                    }`}
                   style={{
                     left: `${item.x}px`, // Prevent overflow
 

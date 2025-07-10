@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
-
+import { useLeadership } from "@/contexts/LeadershipContext";
 const EQTracker = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
   const [moods, setMoods] = useState(["", "", ""]);
   const [reflection, setReflection] = useState({
@@ -13,6 +14,12 @@ const EQTracker = () => {
   const [quizAnswer, setQuizAnswer] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+  if (step === 3 && isSuccess) {
+    completeLeadershipChallenge(1,1);
+  }
+}, [step, isSuccess]);
 
   const handleMoodChange = (index, value) => {
     const updated = [...moods];

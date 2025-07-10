@@ -21,6 +21,7 @@ import {
 import { motion } from "framer-motion";
 import ThinkingEmoji from "@/components/ThinkingEmoji";
 import MoneyAnimation from "@/components/Money";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const totalBudget = 100000;
 const categories = ["Product Dev", "Marketing", "Operations", "Team"];
@@ -50,6 +51,7 @@ const dilemmas = [
 ];
 
 export default function StartupFinanceFunGame() {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [allocations, setAllocations] = useState({});
   const [spent, setSpent] = useState(0);
   const [step, setStep] = useState("instructions");
@@ -118,7 +120,14 @@ export default function StartupFinanceFunGame() {
       },
     ]);
 
-    setDilemmaIndex((prev) => prev + 1);
+    setDilemmaIndex((prev) => {
+      const nextIndex = prev + 1;
+      // ✅ Award badge only once when last dilemma is completed
+      if (nextIndex === dilemmas.length) {
+        completeEntreprenerushipChallenge(1,2);
+      }
+      return nextIndex;
+    });
   };
 
   const currentDilemma = dilemmas[dilemmaIndex];
@@ -317,7 +326,7 @@ export default function StartupFinanceFunGame() {
           transition={{ duration: 0.5 }}
           className="mt-2"
         >
-            <motion.h1
+          <motion.h1
             className="text-6xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-500 to-yellow-300 drop-shadow-lg mb-2 pb-2"
             initial={{ y: 0, opacity: 0.8 }}
             animate={{
@@ -387,7 +396,7 @@ export default function StartupFinanceFunGame() {
           exit={{ scale: 0.8, opacity: 0 }}
           className="text-center px-2 pt-2 pb-6"
         >
-            <motion.h1
+          <motion.h1
             className="text-6xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-500 to-yellow-300 drop-shadow-lg mb-2 pb-2"
             initial={{ y: 0, opacity: 0.8 }}
             animate={{

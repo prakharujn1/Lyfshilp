@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const introGif =
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHFwbnNuZmo0Z3prNDFiczgwdjYwdTFnbWg3dGdweHI5dGE3bzlnYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xT39Db8zIOODTppk08/giphy.webp";
 
 const ClimatePledge = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [pledge, setPledge] = useState({
     school: "",
     home: "",
@@ -34,6 +37,13 @@ const ClimatePledge = () => {
   const [view, setView] = useState("intro"); // "intro", "game", "result"
 
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (view === "result" && score >= 5) {
+      completeEnvirnomentChallenge(1, 2); // Challenge 3, Task 1 completed
+    }
+  }, [view, score]);
+
 
   useEffect(() => {
     if (view === "game" && timeLeft > 0 && !submitted) {
@@ -310,12 +320,12 @@ const ClimatePledge = () => {
                   {field === "school"
                     ? "1️⃣ One change at school:"
                     : field === "home"
-                    ? "2️⃣ One change at home:"
-                    : field === "energy"
-                    ? "3️⃣ One energy-saving habit:"
-                    : field === "waste"
-                    ? "4️⃣ One waste-reducing habit:"
-                    : "5️⃣ One awareness action:"}
+                      ? "2️⃣ One change at home:"
+                      : field === "energy"
+                        ? "3️⃣ One energy-saving habit:"
+                        : field === "waste"
+                          ? "4️⃣ One waste-reducing habit:"
+                          : "5️⃣ One awareness action:"}
                 </label>
                 <input
                   type="text"
@@ -327,21 +337,20 @@ const ClimatePledge = () => {
                     field === "school"
                       ? "E.g., Organize a tree planting event"
                       : field === "home"
-                      ? "E.g., Start composting food waste"
-                      : field === "energy"
-                      ? "E.g., Switch off lights when not in use"
-                      : field === "waste"
-                      ? "E.g., Carry reusable bags for shopping"
-                      : "E.g., Share climate facts on school bulletin"
+                        ? "E.g., Start composting food waste"
+                        : field === "energy"
+                          ? "E.g., Switch off lights when not in use"
+                          : field === "waste"
+                            ? "E.g., Carry reusable bags for shopping"
+                            : "E.g., Share climate facts on school bulletin"
                   }
                 />
                 {feedback[field] && (
                   <p
-                    className={`mt-1 text-sm ${
-                      feedback[field].includes("✅")
+                    className={`mt-1 text-sm ${feedback[field].includes("✅")
                         ? "text-green-600"
                         : "text-red-600"
-                    }`}
+                      }`}
                   >
                     {feedback[field]}
                   </p>

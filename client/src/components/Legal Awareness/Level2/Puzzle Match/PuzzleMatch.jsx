@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Trophy, Clock, Star, RotateCcw, Info } from "lucide-react";
+import { useLaw } from "@/contexts/LawContext";
 
 // Confetti component
 const Confetti = ({ isActive }) => {
@@ -189,6 +190,7 @@ const shuffleArray = (array) => {
 };
 
 const PuzzleMatch = () => {
+  const { completeLawChallenge } = useLaw();
   const [terms, setTerms] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
   const [spin, setSpin] = useState(false);
@@ -230,6 +232,7 @@ const PuzzleMatch = () => {
       const bonusPoints = timeLeft * 10;
       setScore((prev) => prev + bonusPoints);
       setGameState("completed");
+      completeLawChallenge(1,0);
     }
   }, [matches, timeLeft]);
 

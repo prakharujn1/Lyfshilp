@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { toast } from "react-hot-toast";
+import { useComputers } from "@/contexts/ComputersContext";
 
 const scenarios = [
     { id: 1, title: "🧑‍🏫 AI that recognizes faces for school security" },
@@ -24,6 +25,7 @@ const comicOptions = {
 };
 
 export default function AIEthicsDetective() {
+    const { completeComputersChallenge } = useComputers();
     const [step, setStep] = useState(1);
     const [draggedId, setDraggedId] = useState(null);
     const [judgments, setJudgments] = useState({});
@@ -33,6 +35,8 @@ export default function AIEthicsDetective() {
         q2: "",
         q3: "",
     });
+    const [challengeCompleted, setChallengeCompleted] = useState(false);
+
 
     const handleDrop = (label) => {
         if (draggedId !== null) {
@@ -282,7 +286,13 @@ export default function AIEthicsDetective() {
 
                     {allDeepAnswered && (
                         <button
-                            onClick={() => setStep(4)}
+                            onClick={() => {
+                                if (!challengeCompleted) {
+                                    completeComputersChallenge(2,0);
+                                    setChallengeCompleted(true);
+                                }
+                                setStep(4);
+                            }}
                             className="mt-6 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full text-lg transition hover:scale-105"
                         >
                             🏁 See Your Badge!

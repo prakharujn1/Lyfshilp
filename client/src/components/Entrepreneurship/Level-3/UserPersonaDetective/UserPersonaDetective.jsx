@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const introGif =
   "https://media.tenor.com/-yxM2tVxRlkAAAA1/let%27s-start-lets-start.webp";
@@ -8,6 +9,8 @@ const tryAgainGif =
   "https://media.tenor.com/BTeSyQlKLfwAAAA1/try-one-more-time-alex.webp";
 
 const UserPersonaDetective = () => {
+    const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+  
   const [step, setStep] = useState("intro");
   const [persona, setPersona] = useState("");
   const [problem, setProblem] = useState("");
@@ -17,6 +20,12 @@ const UserPersonaDetective = () => {
   const [feedback, setFeedback] = useState("");
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [uplift, setUplift] = useState(false);
+
+  useEffect(() => {
+  if (step === "result" && badgeEarned) {
+    completeEntreprenerushipChallenge(2,0); // Challenge 1, Task 5
+  }
+}, [step, badgeEarned]);
 
   const startGame = () => {
     setStep("form");

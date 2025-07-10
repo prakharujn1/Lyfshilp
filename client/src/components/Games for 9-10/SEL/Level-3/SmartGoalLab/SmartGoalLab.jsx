@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
+import { useSEL } from "@/contexts/SELContext";
 
 const sampleGoals = {
   "Start a podcast": [
@@ -48,6 +49,7 @@ const scenarioGifs = [
 ];
 
 const SmartGoalLab = () => {
+  const { completeSELChallenge } = useSEL();
   const [step, setStep] = useState("intro");
   const [goal, setGoal] = useState(null);
   const [notes, setNotes] = useState([]);
@@ -102,6 +104,7 @@ const SmartGoalLab = () => {
     setStep("result");
 
     if (allCorrect) {
+      completeSELChallenge(2,0);
       confetti({ spread: 300, particleCount: 250, origin: { y: 0.6 } });
     }
   };

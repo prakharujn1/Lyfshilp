@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Star, Lightbulb, PartyPopper } from "lucide-react";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const dilemmas = [
     {
@@ -36,6 +37,7 @@ const flashcards = [
 ];
 
 export default function FunDilemmaGame() {
+    const { completeLeadershipChallenge } = useLeadership();
     const [step, setStep] = useState(1);
     const [dilemmaIndex, setDilemmaIndex] = useState(0);
     const [selected, setSelected] = useState({});
@@ -45,6 +47,12 @@ export default function FunDilemmaGame() {
     const [score, setScore] = useState(0);
     const [showJustify, setShowJustify] = useState(false);
     const [currentAnswer, setCurrentAnswer] = useState("");
+
+    useEffect(() => {
+        if (step === 4 && score >= flashcards.length) {
+            completeLeadershipChallenge(0,1);
+        }
+    }, [step, score]);
 
     const restartGame = () => {
         setStep(1);

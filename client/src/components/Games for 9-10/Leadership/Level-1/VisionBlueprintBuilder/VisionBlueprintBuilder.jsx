@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const VisionBlueprintBuilder = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
   const [vision, setVision] = useState({ want: "", care: "", help: "" });
   const [smartGoals, setSmartGoals] = useState(["", ""]);
@@ -12,6 +14,12 @@ const VisionBlueprintBuilder = () => {
   const [submitted, setSubmitted] = useState(false);
   const { width, height } = useWindowSize();
   const [isSuccess, setIsSuccess] = useState(null);
+
+  useEffect(() => {
+  if (submitted && isSuccess) {
+    completeLeadershipChallenge(0,1);
+  }
+}, [submitted, isSuccess]);
 
   const handleVerify = async () => {
     const text = `SMART Goals: ${smartGoals.join(
@@ -227,9 +235,8 @@ Let’s keep it simple, cool, and motivating! 😎`,
         <div className="space-y-4">
           {isSuccess ? <Confetti width={width} height={height} /> : null}
           <h2
-            className={`text-2xl font-bold ${
-              isSuccess ? "text-green-600" : "text-red-600"
-            }`}
+            className={`text-2xl font-bold ${isSuccess ? "text-green-600" : "text-red-600"
+              }`}
           >
             {isSuccess
               ? "🌟 Vision Architect Badge Earned!"

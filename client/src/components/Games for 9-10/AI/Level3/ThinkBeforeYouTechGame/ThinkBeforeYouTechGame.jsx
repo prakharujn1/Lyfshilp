@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useComputers } from "@/contexts/ComputersContext";
 
 const questions = [
     {
@@ -30,40 +31,41 @@ const questions = [
 ];
 
 const reflectionOptions = [
-  {
-    good: "learn and understand better",
-    bad: "all the work for me",
-    isCorrect: true,
-  },
-  {
-    good: "get organized and plan",
-    bad: "my homework without me learning",
-    isCorrect: true,
-  },
-  {
-    good: "think through problems",
-    bad: "everything without asking me",
-    isCorrect: true,
-  },
-  {
-    good: "come up with my own ideas",
-    bad: "copy answers for me",
-    isCorrect: true,
-  },
-  {
-    good: "ask smart questions",
-    bad: "give me full answers",
-    isCorrect: false,
-  },
+    {
+        good: "learn and understand better",
+        bad: "all the work for me",
+        isCorrect: true,
+    },
+    {
+        good: "get organized and plan",
+        bad: "my homework without me learning",
+        isCorrect: true,
+    },
+    {
+        good: "think through problems",
+        bad: "everything without asking me",
+        isCorrect: true,
+    },
+    {
+        good: "come up with my own ideas",
+        bad: "copy answers for me",
+        isCorrect: true,
+    },
+    {
+        good: "ask smart questions",
+        bad: "give me full answers",
+        isCorrect: false,
+    },
 ];
 
 const correctReflection = {
-  good: "learn and understand better",
-  bad: "all the work for me",
+    good: "learn and understand better",
+    bad: "all the work for me",
 };
 
 
 export default function ThinkBeforeYouTechGame() {
+    const { completeComputersChallenge } = useComputers();
     const [step, setStep] = useState(0);
     const [score, setScore] = useState(0);
     const [answers, setAnswers] = useState([]);
@@ -72,6 +74,14 @@ export default function ThinkBeforeYouTechGame() {
     const [selectedOption, setSelectedOption] = useState(null);
     const [showFeedback, setShowFeedback] = useState(false);
     const [isAnswered, setIsAnswered] = useState(false); // New state to track if a question has been answered
+    const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+    useEffect(() => {
+        if (showFeedback && selectedOption && !challengeCompleted) {
+            completeComputersChallenge(2,3);
+            setChallengeCompleted(true);
+        }
+    }, [showFeedback, selectedOption, challengeCompleted]);
 
     const avatars = ["🦄", "🧚‍♀️", "🐵", "🤖", "🐯", "🦸‍♂️"];
     const avatar = avatars[step % avatars.length];
@@ -162,9 +172,8 @@ export default function ThinkBeforeYouTechGame() {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleAnswer("✔")}
                             disabled={isAnswered} // Disable button when answered
-                            className={`bg-green-200 text-5xl px-8 py-4 rounded-full border-4 border-green-500 shadow-md ${
-                                isAnswered ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                            className={`bg-green-200 text-5xl px-8 py-4 rounded-full border-4 border-green-500 shadow-md ${isAnswered ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
                         >
                             ✔️
                         </motion.button>
@@ -173,9 +182,8 @@ export default function ThinkBeforeYouTechGame() {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleAnswer("✘")}
                             disabled={isAnswered} // Disable button when answered
-                            className={`bg-red-200 text-5xl px-8 py-4 rounded-full border-4 border-red-500 shadow-md ${
-                                isAnswered ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                            className={`bg-red-200 text-5xl px-8 py-4 rounded-full border-4 border-red-500 shadow-md ${isAnswered ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
                         >
                             ✖️
                         </motion.button>
@@ -249,7 +257,7 @@ export default function ThinkBeforeYouTechGame() {
                         {showFeedback && selectedOption && (
                             <div className="mt-4 text-lg font-bold text-center">
                                 {selectedOption?.good === correctReflection.good &&
-                                selectedOption?.bad === correctReflection.bad ? (
+                                    selectedOption?.bad === correctReflection.bad ? (
                                     <div className="text-green-700">
                                         ✅ Great job! You chose a responsible way to use AI! 🎉
                                     </div>
@@ -286,11 +294,10 @@ export default function ThinkBeforeYouTechGame() {
                                 {answers.map((ans, idx) => (
                                     <div
                                         key={idx}
-                                        className={`mb-6 p-5 rounded-xl border-4 ${
-                                            ans.isCorrect
+                                        className={`mb-6 p-5 rounded-xl border-4 ${ans.isCorrect
                                                 ? "border-green-400 bg-green-50"
                                                 : "border-red-400 bg-red-50"
-                                        } shadow-lg`}
+                                            } shadow-lg`}
                                     >
                                         <p className="text-2xl font-bold text-purple-800 mb-2">
                                             {idx + 1}. {ans.scenario}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const questions = [
   {
@@ -80,6 +81,8 @@ const questions = [
 ];
 
 export default function GreenBudgetGame() {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [step, setStep] = useState("intro");
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState([]);
@@ -91,6 +94,12 @@ export default function GreenBudgetGame() {
 
   const [gifUrl, setGifUrl] = useState("");
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (step === "end" && score >= 12) {
+      completeEnvirnomentChallenge(1, 0); // Mark Challenge 4, Task 1 as completed
+    }
+  }, [step, score]);
 
   useEffect(() => {
     if (step === "playing" && timeLeft > 0) {
@@ -218,11 +227,10 @@ export default function GreenBudgetGame() {
                 key={item.name}
                 onClick={() => toggleItem(item)}
                 className={`border p-2 rounded 
-                ${
-                  selected.find((i) => i.name === item.name)
+                ${selected.find((i) => i.name === item.name)
                     ? "bg-green-200"
                     : "bg-gray-100"
-                }
+                  }
                 `}
               >
                 {item.name} (₹{item.cost})
@@ -277,10 +285,10 @@ export default function GreenBudgetGame() {
               score === 15
                 ? "https://media1.giphy.com/media/8g8doOiC4thWcHRC4x/giphy.webp"
                 : score >= 12
-                ? "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2NoN3FlaTAzNmYzcWpveW5hMHJ1cGZwN3ptam1rbmIwaXllOW82aSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/5pUHtgG70JjO9YHZPD/giphy.webp"
-                : score >= 10
-                ? "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDVqMHc2M3NoMHd6bnJ5OWVvbWFlNmhzeHA2OWwxMGpybjVhcnUwMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H5s8aCSbI7NRyWC9Wu/giphy.webp"
-                : "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3ZndmZ2d2dyb2lyaDVwdWt3NnNtZDN3ZXo1YXRobGdweTBvc3hnZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/VLzEYLMhEAlUydp4uW/giphy.webp"
+                  ? "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2NoN3FlaTAzNmYzcWpveW5hMHJ1cGZwN3ptam1rbmIwaXllOW82aSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/5pUHtgG70JjO9YHZPD/giphy.webp"
+                  : score >= 10
+                    ? "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDVqMHc2M3NoMHd6bnJ5OWVvbWFlNmhzeHA2OWwxMGpybjVhcnUwMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H5s8aCSbI7NRyWC9Wu/giphy.webp"
+                    : "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3ZndmZ2d2dyb2lyaDVwdWt3NnNtZDN3ZXo1YXRobGdweTBvc3hnZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/VLzEYLMhEAlUydp4uW/giphy.webp"
             }
             alt="Final Result GIF"
             className="mx-auto mb-4 w-48"

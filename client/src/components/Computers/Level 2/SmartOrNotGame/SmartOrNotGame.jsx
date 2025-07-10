@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
+import { useComputers } from "@/contexts/ComputersContext";
 
 const tasks = [
     {
@@ -52,7 +53,7 @@ const difficultyDescriptions = [
 ];
 
 export default function SmartOrNotGame() {
-
+    const { completeComputersChallenge } = useComputers();
     const [current, setCurrent] = useState(0);
     const [responses, setResponses] = useState([]);
     const [showSummary, setShowSummary] = useState(false);
@@ -238,9 +239,10 @@ export default function SmartOrNotGame() {
 
                             {!reflection.submitted ? (
                                 <button
-                                    onClick={() =>
-                                        setReflection({ ...reflection, submitted: true })
-                                    }
+                                    onClick={() => {
+                                        setReflection({ ...reflection, submitted: true });
+                                        completeComputersChallenge(1,1); // ✅ Mark task as complete
+                                    }}
                                     className="mt-6 bg-pink-500 hover:bg-pink-600 text-white text-xl px-6 py-3 rounded-full shadow-md transition transform hover:scale-105"
                                 >
                                     ✅ Submit Reflection

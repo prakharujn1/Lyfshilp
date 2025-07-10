@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { RotateCcw } from "lucide-react";
 import DetectiveAnimation from "@/components/Detective"; // Ensure this is a fun animated component!
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const cases = [
   {
@@ -34,11 +35,18 @@ const cases = [
 ];
 
 const BiasDetectiveGame = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState("");
   const [customSolution, setCustomSolution] = useState("");
   const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+    if (current === cases.length) {
+      completeLeadershipChallenge(2,0);
+    }
+  }, [current]);
 
   const handleCheck = () => {
     if (selected === cases[current].correctBias) setScore(score + 1);

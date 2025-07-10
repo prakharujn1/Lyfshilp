@@ -2,10 +2,16 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Trophy, Star, Sparkles, Zap, Heart } from "lucide-react"; // or your preferred icons
 import { motion } from "framer-motion";
+import { useDM } from "@/contexts/DMContext";
 
-const BrandVoiceResult = () => {
+const BrandVoiceResult = () => { 
+  const { completeDMChallenge } = useDM();
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    completeDMChallenge(0,2); // call it safely
+  }, []);
 
   const {
     scores = {},
@@ -117,13 +123,12 @@ const BrandVoiceResult = () => {
                   >
                     <span className="text-gray-700 font-medium text-sm sm:text-base flex items-center gap-2">
                       <div
-                        className={`w-3 h-3 rounded-full ${
-                          platform.id === "instagram"
+                        className={`w-3 h-3 rounded-full ${platform.id === "instagram"
                             ? "bg-pink-400"
                             : platform.id === "tiktok"
-                            ? "bg-purple-400"
-                            : "bg-blue-400"
-                        }`}
+                              ? "bg-purple-400"
+                              : "bg-blue-400"
+                          }`}
                       ></div>
                       {platform.name}:
                     </span>
@@ -172,11 +177,10 @@ const BrandVoiceResult = () => {
                     Total Score:
                   </span>
                   <span
-                    className={`text-xl sm:text-2xl ${
-                      passed
+                    className={`text-xl sm:text-2xl ${passed
                         ? "bg-gradient-to-r from-green-500 to-emerald-600"
                         : "bg-gradient-to-r from-orange-500 to-red-500"
-                    } bg-clip-text text-transparent animate-pulse`}
+                      } bg-clip-text text-transparent animate-pulse`}
                   >
                     {finalScore}/23 points
                   </span>

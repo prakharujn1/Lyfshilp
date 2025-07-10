@@ -9,8 +9,11 @@ import {
   RotateCcw,
   BookOpen,
 } from "lucide-react";
+import { useLaw } from "@/contexts/LawContext";
+
 
 const JusticeThroneGame = () => {
+  const { completeLawChallenge } = useLaw();
   const [currentPage, setCurrentPage] = useState("instructions"); // instructions, game, results
   const [currentScenario, setCurrentScenario] = useState(0);
   const [score, setScore] = useState(0);
@@ -19,6 +22,12 @@ const JusticeThroneGame = () => {
   const [showResult, setShowResult] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
   const [scenarioResults, setScenarioResults] = useState([]);
+ 
+  useEffect(() => {
+    if (currentPage === "results") {
+      completeLawChallenge(1,0);
+    }
+  }, [currentPage]);
 
   const scenarios = [
     {
@@ -331,11 +340,10 @@ const JusticeThroneGame = () => {
                     <button
                       key={court}
                       onClick={() => setSelectedCourt(court)}
-                      className={`p-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${
-                        isSelected
+                      className={`p-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${isSelected
                           ? `${char.bgColor} border-white shadow-lg scale-105`
                           : "bg-white/10 border-white/30 hover:bg-white/20"
-                      }`}
+                        }`}
                     >
                       <div
                         className={`inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r ${char.color} rounded-full mb-2`}
@@ -343,16 +351,14 @@ const JusticeThroneGame = () => {
                         <Icon className="w-5 h-5 text-white" />
                       </div>
                       <h4
-                        className={`font-bold text-sm md:text-base ${
-                          isSelected ? char.textColor : "text-white"
-                        }`}
+                        className={`font-bold text-sm md:text-base ${isSelected ? char.textColor : "text-white"
+                          }`}
                       >
                         {court}
                       </h4>
                       <p
-                        className={`text-xs ${
-                          isSelected ? char.textColor + "/80" : "text-white/70"
-                        }`}
+                        className={`text-xs ${isSelected ? char.textColor + "/80" : "text-white/70"
+                          }`}
                       >
                         "{char.title}"
                       </p>
@@ -375,11 +381,10 @@ const JusticeThroneGame = () => {
                     <button
                       key={article}
                       onClick={() => setSelectedArticle(article)}
-                      className={`p-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${
-                        isSelected
+                      className={`p-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${isSelected
                           ? "bg-pink-100 border-pink-400 text-pink-800 shadow-lg scale-105"
                           : "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                      }`}
+                        }`}
                     >
                       <div className="text-sm md:text-base font-semibold">
                         {article}
@@ -395,11 +400,10 @@ const JusticeThroneGame = () => {
               <button
                 onClick={handleSubmit}
                 disabled={!selectedCourt || !selectedArticle}
-                className={`py-3 px-8 rounded-full font-bold text-lg transition-all duration-300 transform ${
-                  selectedCourt && selectedArticle
+                className={`py-3 px-8 rounded-full font-bold text-lg transition-all duration-300 transform ${selectedCourt && selectedArticle
                     ? "bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white hover:scale-105 shadow-lg"
                     : "bg-gray-500 text-gray-300 cursor-not-allowed"
-                }`}
+                  }`}
               >
                 Submit Answer
               </button>
@@ -410,11 +414,10 @@ const JusticeThroneGame = () => {
             {/* Result Display */}
             <div className="text-center mb-6">
               <div
-                className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
-                  scenarioResults[scenarioResults.length - 1].points > 0
+                className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${scenarioResults[scenarioResults.length - 1].points > 0
                     ? "bg-green-400"
                     : "bg-red-400"
-                }`}
+                  }`}
               >
                 <Star className="w-8 h-8 text-white" />
               </div>
@@ -424,11 +427,10 @@ const JusticeThroneGame = () => {
                   : "😊 Keep Learning!"}
               </h2>
               <div
-                className={`text-xl font-bold ${
-                  scenarioResults[scenarioResults.length - 1].points > 0
+                className={`text-xl font-bold ${scenarioResults[scenarioResults.length - 1].points > 0
                     ? "text-green-400"
                     : "text-red-400"
-                }`}
+                  }`}
               >
                 {scenarioResults[scenarioResults.length - 1].points > 0
                   ? "+"
@@ -513,19 +515,18 @@ const JusticeThroneGame = () => {
           {/* Performance Message */}
           <div className="text-center mb-8">
             <div
-              className={`inline-block px-6 py-3 rounded-full text-lg font-bold ${
-                percentage >= 80
+              className={`inline-block px-6 py-3 rounded-full text-lg font-bold ${percentage >= 80
                   ? "bg-green-500 text-white"
                   : percentage >= 60
-                  ? "bg-yellow-500 text-white"
-                  : "bg-red-500 text-white"
-              }`}
+                    ? "bg-yellow-500 text-white"
+                    : "bg-red-500 text-white"
+                }`}
             >
               {percentage >= 80
                 ? "🏆 Justice Master!"
                 : percentage >= 60
-                ? "⚖️ Good Judge!"
-                : "📚 Keep Studying!"}
+                  ? "⚖️ Good Judge!"
+                  : "📚 Keep Studying!"}
             </div>
           </div>
 
@@ -538,20 +539,18 @@ const JusticeThroneGame = () => {
               {scenarioResults.map((result, index) => (
                 <div
                   key={index}
-                  className={`p-4 rounded-2xl border-2 ${
-                    result.points > 0
+                  className={`p-4 rounded-2xl border-2 ${result.points > 0
                       ? "bg-green-500/20 border-green-400"
                       : "bg-red-500/20 border-red-400"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-white font-semibold text-sm md:text-base">
                       Scenario {result.scenario}
                     </span>
                     <span
-                      className={`font-bold text-sm md:text-base ${
-                        result.points > 0 ? "text-green-400" : "text-red-400"
-                      }`}
+                      className={`font-bold text-sm md:text-base ${result.points > 0 ? "text-green-400" : "text-red-400"
+                        }`}
                     >
                       {result.points > 0 ? "+" : ""}
                       {result.points} pts

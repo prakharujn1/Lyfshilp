@@ -6,6 +6,7 @@ import Typewriter from "typewriter-effect";
 import { Heart, MessageCircle, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import Confetti from 'react-confetti';
+import { useDM } from "@/contexts/DMContext";
 
 const sections = [
     { label: "CTA", icon: <GiClick className="text-xl mr-2 animate-wiggle" />, color: "bg-green-200" },
@@ -24,6 +25,7 @@ const visualStyles = [
 ];
 
 export default function ReelArchitectGame() {
+    const {completeDMChallenge} = useDM();
     const [sequence, setSequence] = useState([]);
     const [feedback, setFeedback] = useState(null);
     const [style, setStyle] = useState(null);
@@ -102,6 +104,8 @@ export default function ReelArchitectGame() {
 
         setPoints(total);
         setStep(4);
+
+        completeDMChallenge(1,0);
     };
 
     const resetGame = () => {

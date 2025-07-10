@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from '@react-hook/window-size';
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 import { motion } from "framer-motion";
 
@@ -16,6 +17,7 @@ const KidButton = ({ text, icon, onClick, active }) => (
     </button>
 );
 const PRCrisisGame = () => {
+    const { completeCommunicationChallenge } = useCommunication();
     const { width, height } = useWindowSize();
     const [step, setStep] = useState(0);
     const [statement, setStatement] = useState("");
@@ -28,6 +30,7 @@ const PRCrisisGame = () => {
     const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 minutes
     const [gameDone, setGameDone] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
+
 
     useEffect(() => {
         const { reaction, tone, closing } = decisions;
@@ -45,6 +48,7 @@ const PRCrisisGame = () => {
             );
 
             if (passed) {
+                completeCommunicationChallenge(2, 1); // ✅ Call here
                 setTimeout(() => {
                     setFeedback("");
                     setStep(2); // Move to next game step

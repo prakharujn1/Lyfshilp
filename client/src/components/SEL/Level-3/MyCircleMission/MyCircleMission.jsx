@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
+import { useSEL } from "@/contexts/SELContext";
 
 const thoughtsData = [
   {
@@ -68,6 +69,7 @@ const thoughtsData = [
 ];
 
 const MyCircleMission = () => {
+  const { completeSELChallenge } = useSEL();
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [actionText, setActionText] = useState("");
@@ -89,6 +91,12 @@ const MyCircleMission = () => {
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (showResult && isWin) {
+      completeSELChallenge(2, 2); // Adjust challenge ID and task ID as needed
+    }
+  }, [showResult, isWin]);
 
   const correctCount = thoughtsData.filter(
     (t) => answers[t.id] === t.correctCircle

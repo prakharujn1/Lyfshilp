@@ -123,7 +123,7 @@ export default function LegalConceptsGame() {
     setGameEnded(true);
     setLoading(true);
     const timer = setTimeout(() => {
-      navigate("/legal-concepts-result", {
+      navigate("/LegalConceptsResult", {
         state: {
           score: matches.filter((m) => m.isCorrect).length,
           matches: matches,

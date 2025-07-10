@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Play, Pause, RotateCcw, Zap, Droplets, Bug, TrendingUp, Settings } from 'lucide-react';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const EvolutionLabSimulator = () => {
+  const { completeComputersChallenge } = useComputers();
   const [population, setPopulation] = useState([]);
   const [generation, setGeneration] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -35,7 +37,7 @@ const EvolutionLabSimulator = () => {
   // Calculate fitness based on environment with more realistic challenges
   const calculateFitness = (crop, environment) => {
     let fitness = 0;
-    
+
     switch (environment) {
       case 'drought':
         // Drought severely penalizes low drought resistance
@@ -55,18 +57,18 @@ const EvolutionLabSimulator = () => {
       default:
         // Normal environment requires balance - penalizes specialization
         const avgTrait = (crop.droughtResistance + crop.yieldCapacity + crop.pestResistance + crop.growthSpeed) / 4;
-        const variance = Math.pow(crop.droughtResistance - avgTrait, 2) + 
-                        Math.pow(crop.yieldCapacity - avgTrait, 2) + 
-                        Math.pow(crop.pestResistance - avgTrait, 2) + 
-                        Math.pow(crop.growthSpeed - avgTrait, 2);
+        const variance = Math.pow(crop.droughtResistance - avgTrait, 2) +
+          Math.pow(crop.yieldCapacity - avgTrait, 2) +
+          Math.pow(crop.pestResistance - avgTrait, 2) +
+          Math.pow(crop.growthSpeed - avgTrait, 2);
         const balancePenalty = Math.sqrt(variance) * 0.05;
         fitness = avgTrait - balancePenalty;
     }
-    
+
     // Add some randomness to simulate real-world unpredictability
     const randomFactor = (Math.random() - 0.5) * 5;
     fitness += randomFactor;
-    
+
     return Math.min(100, Math.max(0, fitness));
   };
 
@@ -74,15 +76,15 @@ const EvolutionLabSimulator = () => {
   const selectParent = (population) => {
     const tournamentSize = 5; // Increased from 3 to make selection more competitive
     const tournament = [];
-    
+
     for (let i = 0; i < tournamentSize; i++) {
       const randomIndex = Math.floor(Math.random() * population.length);
       tournament.push(population[randomIndex]);
     }
-    
+
     // Sort by fitness and add some randomness to selection
     tournament.sort((a, b) => b.fitness - a.fitness);
-    
+
     // 60% chance to pick best, 25% second best, 15% third best
     const rand = Math.random();
     if (rand < 0.6) return tournament[0];
@@ -94,7 +96,7 @@ const EvolutionLabSimulator = () => {
   const crossover = (parent1, parent2) => {
     const traits = ['droughtResistance', 'yieldCapacity', 'pestResistance', 'growthSpeed'];
     const child = {};
-    
+
     traits.forEach(trait => {
       // 70% chance for average of parents, 30% chance for random selection
       if (Math.random() < 0.7) {
@@ -105,7 +107,7 @@ const EvolutionLabSimulator = () => {
         child[trait] = Math.random() < 0.5 ? parent1[trait] : parent2[trait];
       }
     });
-    
+
     return child;
   };
 
@@ -114,9 +116,9 @@ const EvolutionLabSimulator = () => {
     const mutationRate = 0.15; // Increased mutation rate
     const mutationStrength = 8; // Reduced strength for smaller changes
     const traits = ['droughtResistance', 'yieldCapacity', 'pestResistance', 'growthSpeed'];
-    
+
     const mutatedCrop = { ...crop };
-    
+
     traits.forEach(trait => {
       if (Math.random() < mutationRate) {
         // Gaussian mutation for more realistic changes
@@ -124,13 +126,13 @@ const EvolutionLabSimulator = () => {
         mutatedCrop[trait] = Math.max(0, Math.min(100, mutatedCrop[trait] + change));
       }
     });
-    
+
     // Occasionally introduce beneficial mutations
     if (Math.random() < 0.05) {
       const randomTrait = traits[Math.floor(Math.random() * traits.length)];
       mutatedCrop[randomTrait] = Math.min(100, mutatedCrop[randomTrait] + Math.random() * 15);
     }
-    
+
     return mutatedCrop;
   };
 
@@ -141,6 +143,7 @@ const EvolutionLabSimulator = () => {
     // Stop if reached max generations
     if (generation >= maxGenerations) {
       setIsRunning(false);
+      completeComputersChallenge(0,2); // ✅ Challenge completed due to generation limit
       return;
     }
 
@@ -153,10 +156,10 @@ const EvolutionLabSimulator = () => {
     // Record generation statistics
     const avgFitness = evaluatedPopulation.reduce((sum, crop) => sum + crop.fitness, 0) / evaluatedPopulation.length;
     const maxFitness = Math.max(...evaluatedPopulation.map(crop => crop.fitness));
-    
-    setGenerationHistory(prev => [...prev, { 
-      generation: generation + 1, 
-      avgFitness, 
+
+    setGenerationHistory(prev => [...prev, {
+      generation: generation + 1,
+      avgFitness,
       maxFitness,
       environment: currentEnvironment
     }]);
@@ -164,26 +167,27 @@ const EvolutionLabSimulator = () => {
     // Stop if victory condition is met (made more challenging)
     if (avgFitness >= 85 && maxFitness >= 90) {
       setIsRunning(false);
+      completeComputersChallenge(0,2); // ✅ Challenge completed due to success
     }
 
     // Create new generation
     const newPopulation = [];
-    
+
     for (let i = 0; i < 20; i++) {
       const parent1 = selectParent(evaluatedPopulation);
       const parent2 = selectParent(evaluatedPopulation);
-      
+
       let child = crossover(parent1, parent2);
       child = mutate(child);
       child.id = i;
       child.age = 0;
-      
+
       newPopulation.push(child);
     }
 
     setPopulation(newPopulation);
     setGeneration(prev => prev + 1);
-    
+
     // Change environment every 5 generations (increased from 3)
     if ((generation + 1) % 5 === 0) {
       const environments = ['normal', 'drought', 'pest', 'market'];
@@ -230,10 +234,10 @@ const EvolutionLabSimulator = () => {
     return 'bg-red-500';
   };
 
-  const currentAvgFitness = population.length > 0 ? 
+  const currentAvgFitness = population.length > 0 ?
     population.reduce((sum, crop) => sum + calculateFitness(crop, currentEnvironment), 0) / population.length : 0;
 
-  const victoryCondition = currentAvgFitness >= 85 && population.length > 0 && 
+  const victoryCondition = currentAvgFitness >= 85 && population.length > 0 &&
     Math.max(...population.map(crop => calculateFitness(crop, currentEnvironment))) >= 90;
   const isComplete = generation >= maxGenerations || victoryCondition;
 
@@ -249,7 +253,7 @@ const EvolutionLabSimulator = () => {
         {/* Instructions Panel */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">📋 How to Play & Instructions</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Game Controls */}
             <div>
@@ -318,14 +322,13 @@ const EvolutionLabSimulator = () => {
               <button
                 onClick={() => setIsRunning(!isRunning)}
                 disabled={isComplete}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  isRunning ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-green-500 hover:bg-green-600 text-white'
-                } disabled:bg-gray-300 disabled:cursor-not-allowed`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${isRunning ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-green-500 hover:bg-green-600 text-white'
+                  } disabled:bg-gray-300 disabled:cursor-not-allowed`}
               >
                 {isRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                 {isRunning ? 'Stop' : 'Start'} Evolution
               </button>
-              
+
               <button
                 onClick={evolveGeneration}
                 disabled={isRunning || isComplete}
@@ -334,7 +337,7 @@ const EvolutionLabSimulator = () => {
                 <Zap className="w-4 h-4" />
                 Next Generation
               </button>
-              
+
               <button
                 onClick={initializePopulation}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
@@ -343,7 +346,7 @@ const EvolutionLabSimulator = () => {
                 Reset
               </button>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setShowSettings(!showSettings)}
@@ -372,7 +375,7 @@ const EvolutionLabSimulator = () => {
                     <option value={200}>Very Fast (0.2s)</option>
                   </select>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <label className="text-sm font-medium">Max Generations:</label>
                   <select
@@ -398,13 +401,13 @@ const EvolutionLabSimulator = () => {
             <div className="text-sm text-gray-600">Generation</div>
             <div className="text-xs text-gray-500">Max: {maxGenerations}</div>
           </div>
-          
+
           <div className="bg-white rounded-xl p-4 shadow-lg">
             <div className="text-2xl font-bold text-blue-600">{currentAvgFitness.toFixed(1)}%</div>
             <div className="text-sm text-gray-600">Average Fitness</div>
             <div className="text-xs text-gray-500">Goal: 85% avg + 90% best</div>
           </div>
-          
+
           <div className={`rounded-xl p-4 shadow-lg border-2 ${getEnvironmentColor(currentEnvironment)}`}>
             <div className="flex items-center gap-2 mb-1">
               {getEnvironmentIcon(currentEnvironment)}
@@ -413,7 +416,7 @@ const EvolutionLabSimulator = () => {
             <div className="text-xs text-gray-600">Current Environment</div>
             <div className="text-xs text-gray-500">Changes every 3 gen</div>
           </div>
-          
+
           <div className={`rounded-xl p-4 shadow-lg ${victoryCondition ? 'bg-green-100 border-2 border-green-300' : 'bg-gray-100'}`}>
             <div className="text-2xl">{victoryCondition ? '🏆' : '🎯'}</div>
             <div className="text-sm text-gray-600">
@@ -444,9 +447,8 @@ const EvolutionLabSimulator = () => {
                 <div
                   key={crop.id}
                   onClick={() => setSelectedCrop(crop)}
-                  className={`relative w-12 h-12 rounded-lg cursor-pointer transition-all hover:scale-110 hover:shadow-lg ${getCropColor(fitness)} ${
-                    selectedCrop?.id === crop.id ? 'ring-2 ring-blue-500' : ''
-                  }`}
+                  className={`relative w-12 h-12 rounded-lg cursor-pointer transition-all hover:scale-110 hover:shadow-lg ${getCropColor(fitness)} ${selectedCrop?.id === crop.id ? 'ring-2 ring-blue-500' : ''
+                    }`}
                   title={`Crop ${index + 1} - Fitness: ${fitness.toFixed(1)}%`}
                 >
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -471,7 +473,7 @@ const EvolutionLabSimulator = () => {
                     {calculateFitness(selectedCrop, currentEnvironment).toFixed(1)}% Fitness
                   </div>
                 </div>
-                
+
                 <div className="space-y-3">
                   {[
                     { name: 'Drought Resistance', value: selectedCrop.droughtResistance, color: 'bg-orange-500', icon: '🌵' },
@@ -487,7 +489,7 @@ const EvolutionLabSimulator = () => {
                         <span className="text-sm font-bold">{trait.value.toFixed(1)}</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div 
+                        <div
                           className={`h-3 rounded-full ${trait.color} transition-all duration-300`}
                           style={{ width: `${trait.value}%` }}
                         />
@@ -524,13 +526,13 @@ const EvolutionLabSimulator = () => {
                         strokeWidth="1"
                       />
                     ))}
-                    
+
                     {/* Progress line */}
                     {generationHistory.map((point, index) => {
                       const x = (index / Math.max(generationHistory.length - 1, 1)) * 380 + 10;
                       const y = 130 - (point.avgFitness / 100) * 120;
                       const nextPoint = generationHistory[index + 1];
-                      
+
                       return (
                         <g key={index}>
                           {nextPoint && (
@@ -547,7 +549,7 @@ const EvolutionLabSimulator = () => {
                         </g>
                       );
                     })}
-                    
+
                     {/* Victory line */}
                     <line
                       x1="0"
@@ -560,7 +562,7 @@ const EvolutionLabSimulator = () => {
                     />
                   </svg>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="bg-blue-50 p-3 rounded-lg">
                     <div className="font-semibold text-blue-800">Current Generation</div>

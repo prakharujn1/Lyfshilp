@@ -1,8 +1,9 @@
 // Updated ListenUp with drag-and-drop support for emotions and behaviors
-import React, { useState, useRef } from "react";
-
+import React, { useState, useRef, useEffect } from "react";
+import { useCommunication } from "@/contexts/CommunicationContext";
+ 
 const audioData = [
-  {
+  { 
     src: "/audio1.mp3",
     emotions: ["😐", "😊", "😟"],
     correctEmotion: ["😐"],
@@ -93,7 +94,7 @@ const DropZone = ({ onDrop, label, acceptedType, droppedItem }) => {
   );
 };
 
-const AudioChallenge = ({ data, index }) => {
+const AudioChallenge = ({ data, index, onResult }) => {
   const [droppedEmotion, setDroppedEmotion] = useState(null);
   const [droppedBehavior, setDroppedBehavior] = useState(null);
   const [selectedMCQ, setSelectedMCQ] = useState(null);
@@ -176,7 +177,10 @@ const AudioChallenge = ({ data, index }) => {
       </div>
 
       <button
-        onClick={() => setSubmitted(true)}
+        onClick={() => {
+          setSubmitted(true);
+          if (onResult) onResult(isCorrect); // ✅ Notify parent
+        }}
         className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mt-3"
       >
         ✅ Submit
@@ -185,9 +189,8 @@ const AudioChallenge = ({ data, index }) => {
       {submitted && (
         <>
           <div
-            className={`mt-4 p-3 rounded-lg text-white font-semibold text-center ${
-              isCorrect ? "bg-green-600" : "bg-red-500"
-            }`}
+            className={`mt-4 p-3 rounded-lg text-white font-semibold text-center ${isCorrect ? "bg-green-600" : "bg-red-500"
+              }`}
           >
             {isCorrect
               ? "🎉 Correct! Great listening!"
@@ -212,13 +215,37 @@ const AudioChallenge = ({ data, index }) => {
 };
 
 const ListenUp = () => {
+  const { completeCommunicationChallenge } = useCommunication();
+  const [results, setResults] = useState(Array(audioData.length).fill(false));
+
+  useEffect(() => {
+    const allCorrect = results.every((r) => r === true);
+    if (allCorrect && results.length === audioData.length) {
+      completeCommunicationChallenge(0, 0); // ✅ Challenge complete!
+    }
+  }, [results]);
+
+  const handleResult = (index, isCorrect) => {
+    setResults((prev) => {
+      const updated = [...prev];
+      updated[index] = isCorrect;
+      return updated;
+    });
+  };
+
+
   return (
     <div className="py-8 px-4 bg-gray-50 min-h-screen space-y-10">
       <h1 className="text-3xl font-bold text-center mb-4">
         🎧 Listen Up! Challenge
       </h1>
       {audioData.map((clip, index) => (
-        <AudioChallenge key={index} data={clip} index={index} />
+        <AudioChallenge
+          key={index}
+          data={clip}
+          index={index}
+          onResult={(isCorrect) => handleResult(index, isCorrect)}
+        />
       ))}
     </div>
   );

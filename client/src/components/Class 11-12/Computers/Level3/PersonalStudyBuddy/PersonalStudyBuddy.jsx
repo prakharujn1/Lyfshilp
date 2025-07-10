@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Upload, Brain, Calendar, Trophy, BookOpen, Target, CheckCircle, Clock, Star, Award, Lightbulb, RefreshCw } from 'lucide-react';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const PersonalStudyBuddy = () => {
+  const { completeComputersChallenge } = useComputers();
   const [activeTab, setActiveTab] = useState('homework');
   const [uploadedImage, setUploadedImage] = useState(null);
   const [recognizedProblems, setRecognizedProblems] = useState([]);
@@ -20,6 +22,17 @@ const PersonalStudyBuddy = () => {
   });
   const [badges, setBadges] = useState(['First Problem Solved', 'Study Streak 3 Days']);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (
+      quizQuestions.length > 0 &&
+      currentQuizIndex === quizQuestions.length - 1 &&
+      showAnswer
+    ) {
+      completeComputersChallenge(2,2);
+    }
+  }, [quizQuestions, currentQuizIndex, showAnswer]);
+
 
   // Mock image recognition for math problems
   const recognizeMathProblem = (imageData) => {

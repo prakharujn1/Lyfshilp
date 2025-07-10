@@ -22,8 +22,9 @@ import {
   AlertTriangle,
   Gift,
 } from "lucide-react";
-
+import { useFinance } from "@/contexts/FinanceContext";  
 const FinFestGame = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
   const [gameState, setGameState] = useState({
     avatar: "",
@@ -414,6 +415,9 @@ const FinFestGame = () => {
         ),
       };
     });
+    if (gameState.currentMonth === gameState.totalMonths) {
+      completeFinanceChallenge(0,2);
+    }
   };
 
   const handleEventChoice = (accept) => {
@@ -651,9 +655,8 @@ const FinFestGame = () => {
               <div
                 key={avatar.id}
                 onClick={() => handleAvatarSelect(avatar)}
-                className={`bg-gradient-to-br ${avatar.color} ${
-                  gameState.avatar === avatar.id ? "ring-4 ring-white" : ""
-                } 
+                className={`bg-gradient-to-br ${avatar.color} ${gameState.avatar === avatar.id ? "ring-4 ring-white" : ""
+                  } 
                 rounded-2xl p-4 md:p-6 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl`}
               >
                 <div className="text-3xl md:text-4xl mb-2">{avatar.emoji}</div>
@@ -672,9 +675,8 @@ const FinFestGame = () => {
               <div
                 key={career.id}
                 onClick={() => handleCareerSelect(career)}
-                className={`bg-gradient-to-br ${career.color} ${
-                  gameState.career === career.id ? "ring-4 ring-white" : ""
-                } 
+                className={`bg-gradient-to-br ${career.color} ${gameState.career === career.id ? "ring-4 ring-white" : ""
+                  } 
                 rounded-2xl p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl`}
               >
                 <div className="flex items-center justify-between text-white">
@@ -760,9 +762,8 @@ const FinFestGame = () => {
                   Expenses: ₹{monthlyFlow.expenses.toLocaleString()}
                 </div>
                 <div
-                  className={`flex items-center justify-center text-xl ${
-                    monthlyFlow.savings >= 0 ? "text-green-400" : "text-red-400"
-                  }`}
+                  className={`flex items-center justify-center text-xl ${monthlyFlow.savings >= 0 ? "text-green-400" : "text-red-400"
+                    }`}
                 >
                   <DollarSign className="mr-2" />
                   {monthlyFlow.savings >= 0 ? "Saved" : "Deficit"}: ₹
@@ -834,13 +835,12 @@ const FinFestGame = () => {
               <div className="text-white text-lg">{gameState.stress}%</div>
               <div className="w-full bg-gray-600 rounded-full h-2 mt-2">
                 <div
-                  className={`h-2 rounded-full transition-all ${
-                    gameState.stress > 70
-                      ? "bg-red-500"
-                      : gameState.stress > 40
+                  className={`h-2 rounded-full transition-all ${gameState.stress > 70
+                    ? "bg-red-500"
+                    : gameState.stress > 40
                       ? "bg-yellow-500"
                       : "bg-green-500"
-                  }`}
+                    }`}
                   style={{ width: `${gameState.stress}%` }}
                 ></div>
               </div>
@@ -872,16 +872,14 @@ const FinFestGame = () => {
                 </div>
               </div>
               <div
-                className={`bg-gradient-to-br ${
-                  monthlySavings >= 0
-                    ? "from-green-500/20 to-emerald-600/20 border-green-500/20"
-                    : "from-red-500/20 to-pink-600/20 border-red-500/20"
-                } rounded-2xl p-4 border`}
+                className={`bg-gradient-to-br ${monthlySavings >= 0
+                  ? "from-green-500/20 to-emerald-600/20 border-green-500/20"
+                  : "from-red-500/20 to-pink-600/20 border-red-500/20"
+                  } rounded-2xl p-4 border`}
               >
                 <div
-                  className={`${
-                    monthlySavings >= 0 ? "text-green-300" : "text-red-300"
-                  } font-semibold flex items-center`}
+                  className={`${monthlySavings >= 0 ? "text-green-300" : "text-red-300"
+                    } font-semibold flex items-center`}
                 >
                   <DollarSign className="mr-2" size={16} />
                   {monthlySavings >= 0 ? "Savings" : "Deficit"}
@@ -904,22 +902,20 @@ const FinFestGame = () => {
               <div className="space-y-3">
                 <div
                   onClick={() => updateExpense("housing", "rent", 10000)}
-                  className={`p-4 rounded-2xl cursor-pointer transition-all ${
-                    gameState.expenses.housing.type === "rent"
-                      ? "bg-gradient-to-r from-blue-500 to-blue-600 ring-2 ring-blue-400"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}
+                  className={`p-4 rounded-2xl cursor-pointer transition-all ${gameState.expenses.housing.type === "rent"
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 ring-2 ring-blue-400"
+                    : "bg-white/10 hover:bg-white/20"
+                    }`}
                 >
                   <div className="text-white font-semibold">🏠 Rent</div>
                   <div className="text-white/80 text-sm">₹10,000/month</div>
                 </div>
                 <div
                   onClick={() => updateExpense("housing", "emi", 20000)}
-                  className={`p-4 rounded-2xl cursor-pointer transition-all ${
-                    gameState.expenses.housing.type === "emi"
-                      ? "bg-gradient-to-r from-blue-500 to-blue-600 ring-2 ring-blue-400"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}
+                  className={`p-4 rounded-2xl cursor-pointer transition-all ${gameState.expenses.housing.type === "emi"
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 ring-2 ring-blue-400"
+                    : "bg-white/10 hover:bg-white/20"
+                    }`}
                 >
                   <div className="text-white font-semibold">🏡 Home EMI</div>
                   <div className="text-white/80 text-sm">₹20,000/month</div>
@@ -936,11 +932,10 @@ const FinFestGame = () => {
               <div className="space-y-3">
                 <div
                   onClick={() => updateExpense("transport", "public", 0)}
-                  className={`p-4 rounded-2xl cursor-pointer transition-all ${
-                    gameState.expenses.transport.type === "public"
-                      ? "bg-gradient-to-r from-green-500 to-green-600 ring-2 ring-green-400"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}
+                  className={`p-4 rounded-2xl cursor-pointer transition-all ${gameState.expenses.transport.type === "public"
+                    ? "bg-gradient-to-r from-green-500 to-green-600 ring-2 ring-green-400"
+                    : "bg-white/10 hover:bg-white/20"
+                    }`}
                 >
                   <div className="text-white font-semibold">
                     🚌 Public Transport
@@ -949,22 +944,20 @@ const FinFestGame = () => {
                 </div>
                 <div
                   onClick={() => updateExpense("transport", "bike", 3000)}
-                  className={`p-4 rounded-2xl cursor-pointer transition-all ${
-                    gameState.expenses.transport.type === "bike"
-                      ? "bg-gradient-to-r from-orange-500 to-orange-600 ring-2 ring-orange-400"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}
+                  className={`p-4 rounded-2xl cursor-pointer transition-all ${gameState.expenses.transport.type === "bike"
+                    ? "bg-gradient-to-r from-orange-500 to-orange-600 ring-2 ring-orange-400"
+                    : "bg-white/10 hover:bg-white/20"
+                    }`}
                 >
                   <div className="text-white font-semibold">🏍️ Bike</div>
                   <div className="text-white/80 text-sm">₹3,000/month</div>
                 </div>
                 <div
                   onClick={() => updateExpense("transport", "car", 7000)}
-                  className={`p-4 rounded-2xl cursor-pointer transition-all ${
-                    gameState.expenses.transport.type === "car"
-                      ? "bg-gradient-to-r from-red-500 to-red-600 ring-2 ring-red-400"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}
+                  className={`p-4 rounded-2xl cursor-pointer transition-all ${gameState.expenses.transport.type === "car"
+                    ? "bg-gradient-to-r from-red-500 to-red-600 ring-2 ring-red-400"
+                    : "bg-white/10 hover:bg-white/20"
+                    }`}
                 >
                   <div className="text-white font-semibold">🚗 Car</div>
                   <div className="text-white/80 text-sm">₹7,000/month</div>
@@ -982,11 +975,10 @@ const FinFestGame = () => {
               </h3>
               <div
                 onClick={toggleInsurance}
-                className={`p-4 rounded-2xl cursor-pointer transition-all ${
-                  gameState.expenses.insurance.enabled
-                    ? "bg-gradient-to-r from-blue-500 to-blue-600 ring-2 ring-blue-400"
-                    : "bg-white/10 hover:bg-white/20"
-                }`}
+                className={`p-4 rounded-2xl cursor-pointer transition-all ${gameState.expenses.insurance.enabled
+                  ? "bg-gradient-to-r from-blue-500 to-blue-600 ring-2 ring-blue-400"
+                  : "bg-white/10 hover:bg-white/20"
+                  }`}
               >
                 <div className="text-white font-semibold">
                   {gameState.expenses.insurance.enabled ? "✅" : "❌"} Health &
@@ -1003,11 +995,10 @@ const FinFestGame = () => {
               </h3>
               <div
                 onClick={toggleSIP}
-                className={`p-4 rounded-2xl cursor-pointer transition-all ${
-                  gameState.expenses.sip.enabled
-                    ? "bg-gradient-to-r from-green-500 to-green-600 ring-2 ring-green-400"
-                    : "bg-white/10 hover:bg-white/20"
-                }`}
+                className={`p-4 rounded-2xl cursor-pointer transition-all ${gameState.expenses.sip.enabled
+                  ? "bg-gradient-to-r from-green-500 to-green-600 ring-2 ring-green-400"
+                  : "bg-white/10 hover:bg-white/20"
+                  }`}
               >
                 <div className="text-white font-semibold">
                   {gameState.expenses.sip.enabled ? "✅" : "❌"} Monthly SIP
@@ -1096,8 +1087,8 @@ const FinFestGame = () => {
       Math.min(
         100,
         (gameState.netWorth / 1000000) * 50 +
-          (gameState.creditScore / 900) * 30 +
-          ((100 - gameState.stress) / 100) * 20
+        (gameState.creditScore / 900) * 30 +
+        ((100 - gameState.stress) / 100) * 20
       )
     );
 
@@ -1123,10 +1114,10 @@ const FinFestGame = () => {
               {finalScore >= 80
                 ? "🏆 Financial Superstar!"
                 : finalScore >= 60
-                ? "⭐ Well Done!"
-                : finalScore >= 40
-                ? "👍 Good Effort!"
-                : "💪 Keep Learning!"}
+                  ? "⭐ Well Done!"
+                  : finalScore >= 40
+                    ? "👍 Good Effort!"
+                    : "💪 Keep Learning!"}
             </div>
           </div>
 
@@ -1202,11 +1193,10 @@ const FinFestGame = () => {
                 <div className="flex justify-between text-white border-t border-white/20 pt-2">
                   <span className="font-bold">Net Savings:</span>
                   <span
-                    className={`font-bold ${
-                      gameState.totalEarnings - gameState.totalExpenses >= 0
-                        ? "text-green-400"
-                        : "text-red-400"
-                    }`}
+                    className={`font-bold ${gameState.totalEarnings - gameState.totalExpenses >= 0
+                      ? "text-green-400"
+                      : "text-red-400"
+                      }`}
                   >
                     ₹
                     {(
@@ -1219,13 +1209,12 @@ const FinFestGame = () => {
                 <div className="flex justify-between text-white">
                   <span>Stress Level:</span>
                   <span
-                    className={`${
-                      gameState.stress > 70
-                        ? "text-red-400"
-                        : gameState.stress > 40
+                    className={`${gameState.stress > 70
+                      ? "text-red-400"
+                      : gameState.stress > 40
                         ? "text-yellow-400"
                         : "text-green-400"
-                    }`}
+                      }`}
                   >
                     {gameState.stress}%
                   </span>
@@ -1259,11 +1248,10 @@ const FinFestGame = () => {
                     {q.options.map((option, optIndex) => (
                       <div
                         key={optIndex}
-                        className={`p-3 rounded-lg cursor-pointer transition-all ${
-                          optIndex === q.correct
-                            ? "bg-green-500/30 border-2 border-green-400"
-                            : "bg-white/10 hover:bg-white/20"
-                        }`}
+                        className={`p-3 rounded-lg cursor-pointer transition-all ${optIndex === q.correct
+                          ? "bg-green-500/30 border-2 border-green-400"
+                          : "bg-white/10 hover:bg-white/20"
+                          }`}
                       >
                         <div className="text-white text-sm">{option}</div>
                       </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const allStatements = [
   {
@@ -58,6 +59,7 @@ const conversation = [
 ];
 
 const WindowSeatWarGame = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [available, setAvailable] = useState(allStatements);
   const [dropped, setDropped] = useState([]);
   const [message, setMessage] = useState("");
@@ -90,6 +92,7 @@ const WindowSeatWarGame = () => {
           "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmFiN2pmYXQwMnlhcWlyNjI1d2cxbzZvZHlkb2R5dmRzZ2x1NDNwayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H1NIKdfygAAMruqArl/200.webp"
         );
         setCompleted(true);
+        completeCommunicationChallenge(3,0);
       }
     } else {
       setMessage("❌ You're a conflict creator, not a resolver.");
@@ -116,16 +119,14 @@ const WindowSeatWarGame = () => {
         {conversation.map((msg, idx) => (
           <div
             key={idx}
-            className={`flex ${
-              msg.align === "right" ? "justify-end" : "justify-start"
-            }`}
+            className={`flex ${msg.align === "right" ? "justify-end" : "justify-start"
+              }`}
           >
             <div
-              className={`max-w-sm px-4 py-3 rounded-xl shadow ${
-                msg.align === "right"
+              className={`max-w-sm px-4 py-3 rounded-xl shadow ${msg.align === "right"
                   ? "bg-blue-200 text-right"
                   : "bg-pink-200 text-left"
-              }`}
+                }`}
             >
               <div className="text-sm font-semibold mb-1">
                 {msg.speaker} <span className="ml-1 text-xs">({msg.tone})</span>
@@ -184,9 +185,8 @@ const WindowSeatWarGame = () => {
             {dropped.map((s) => (
               <li
                 key={s.id}
-                className={`p-3 rounded-lg ${
-                  s.isCorrect ? "bg-green-200" : "bg-red-200"
-                }`}
+                className={`p-3 rounded-lg ${s.isCorrect ? "bg-green-200" : "bg-red-200"
+                  }`}
               >
                 {s.text}
               </li>

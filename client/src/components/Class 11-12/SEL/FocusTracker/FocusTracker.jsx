@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useSEL } from "@/contexts/SELContext";
 
 const allHours = [
   "12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
@@ -7,6 +8,7 @@ const allHours = [
 ];
 
 export default function FocusTracker() {
+  const { completeSELChallenge } = useSEL();
   const [step, setStep] = useState(1);
   const [wakeTime, setWakeTime] = useState("6 AM");
   const [sleepTime, setSleepTime] = useState("10 PM");
@@ -110,7 +112,10 @@ export default function FocusTracker() {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setStep(2)}
+                onClick={() => {
+                  completeSELChallenge(1,0); // ✅ Mark challenge as complete
+                  setStep(4);
+                }}
                 className="bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-300 text-white font-semibold py-3 px-10 rounded-full shadow-xl transition-all duration-300 tracking-wide"
               >
                 🚀 Let's Go!
@@ -172,8 +177,8 @@ export default function FocusTracker() {
                 onClick={() => setStep(3)}
                 disabled={tasks.length < 5}
                 className={`py-3 px-10 rounded-full text-lg font-bold shadow-xl transition-all ${tasks.length < 5
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-purple-500 hover:bg-purple-600 text-white hover:scale-105"
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-purple-500 hover:bg-purple-600 text-white hover:scale-105"
                   }`}
               >
                 🗓️ Next: Plan Your Day

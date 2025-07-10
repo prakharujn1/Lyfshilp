@@ -4,6 +4,7 @@ import LegacyPDF from "./LegacyPDF";
 import toast from "react-hot-toast";
 import { Sparkles, RefreshCcw, Star, Smile, Wand2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSEL } from "@/contexts/SELContext";
 
 const traits = ["Kindness", "Bravery", "Creativity", "Patience", "Honesty"];
 const values = ["Justice", "Freedom", "Equality", "Curiosity", "Love"];
@@ -16,6 +17,7 @@ const causes = [
 ];
 
 export default function LegacyBuilder() {
+  const { completeSELChallenge } = useSEL();
   const [selected, setSelected] = useState({
     traits: [],
     values: [],
@@ -167,6 +169,7 @@ export default function LegacyBuilder() {
               />
             }
             fileName="legacy-board.pdf"
+            onClick={() => completeSELChallenge(1,2)} // ✅ HERE
           >
             {({ loading }) => (
               <motion.button

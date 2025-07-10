@@ -12,8 +12,10 @@ import {
   Rocket,
 } from "lucide-react";
 import confetti from "canvas-confetti";
+import { useDM } from "@/contexts/DMContext";
 
 const CampaignPuzzleGame = () => {
+  const {completeDMChallenge} = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
   const [timeline, setTimeline] = useState([null, null, null]);
   const [availableTiles, setAvailableTiles] = useState([]);
@@ -173,7 +175,9 @@ const CampaignPuzzleGame = () => {
     setFeedback(feedbackMessage);
     setStars(starCount);
     setIsLoading(false);
+    
     setCurrentPage("results");
+    completeDMChallenge(1,2);
   };
 
   const resetGame = () => {

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { motion } from "framer-motion";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 const scenarios = [
   {
     id: 1,
@@ -80,6 +80,7 @@ const introGif =
 const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
 
 const PeakPhosphorusPanic = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [step, setStep] = useState("intro");
   const [availableScenarios, setAvailableScenarios] = useState(
     shuffle([...scenarios])
@@ -91,6 +92,12 @@ const PeakPhosphorusPanic = () => {
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (step === "result" && score === scenarios.length) {
+      completeEnvirnomentChallenge(2,1);
+    }
+  }, [step, score]);
 
   const spinWheel = () => {
     const next = availableScenarios[0];

@@ -4,6 +4,7 @@ import { Input } from "../../Level1/LeanMachineGame/Input";
 import { Textarea } from "../../Level1/LeanMachineGame/Textarea";
 import { motion } from "framer-motion";
 import DiceAnimation from "@/components/Dice";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -105,6 +106,7 @@ function extractJSON(str) {
 }
 
 export default function MarketPulseChallenge() {
+   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [flipped, setFlipped] = useState(false);
   const [idea, setIdea] = useState(ideas[0]);
   const [selectedIdea, setSelectedIdea] = useState("");
@@ -238,6 +240,7 @@ Evaluate the quality of the user’s decision.
           score: result.score,
           evaluation: result.evaluation || "No evaluation text provided."
         }));
+         completeEntreprenerushipChallenge(1,0); // ✅ Call here
       } else {
         setDecision(prev => ({ ...prev, score: 0, evaluation: "⚠️ Could not parse Gemini response." }));
       }

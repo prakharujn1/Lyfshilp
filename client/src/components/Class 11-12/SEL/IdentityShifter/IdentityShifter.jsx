@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
+import { useSEL } from "@/contexts/SELContext";
 
 // Expanded THEN vs NOW pairs
 const initialThen = [
@@ -26,6 +27,7 @@ const nowCards = [
 ];
 
 export default function IdentityShifter() {
+  const { completeSELChallenge } = useSEL();
   const [thenList, setThenList] = useState(initialThen);
   const [draggingId, setDraggingId] = useState(null);
   const [celebrate, setCelebrate] = useState(false);
@@ -40,7 +42,10 @@ export default function IdentityShifter() {
       setThenList(updated);
       setDraggingId(null);
       if (updated.every((item) => item.matched)) {
-        setTimeout(() => setCelebrate(true), 600);
+        setTimeout(() => {
+          setCelebrate(true);
+          completeSELChallenge(2,0); // ✅ Mark as complete
+        }, 600);
       }
     } else {
       toast.error("❌ Oops! That doesn't match. Try again!", {

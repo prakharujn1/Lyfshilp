@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
+import { useCommunication } from "@/contexts/CommunicationContext";
 const floatAnim = {
   animate: {
     y: [0, -8, 0],
@@ -14,11 +14,21 @@ const floatAnim = {
 
 
 const DigitalDilemma = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [rewrite, setRewrite] = useState("");
   const [emoji, setEmoji] = useState("None");
   const [clarification, setClarification] = useState("");
   const [score, setScore] = useState(null);
   const [feedback, setFeedback] = useState("");
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+  useEffect(() => {
+    if (score !== null && score >= 6 && !challengeCompleted) {
+      completeCommunicationChallenge(1,1);
+      setChallengeCompleted(true);
+    }
+  }, [score]);
+
 
   const handleSubmit = () => {
     let points = 0;
@@ -46,65 +56,65 @@ const DigitalDilemma = () => {
   };
 
   return (
-    <motion.div 
-  className="max-w-5xl mx-auto my-5 p-10 sm:p-12 bg-gradient-to-br from-pink-100 via-yellow-100 to-blue-100 rounded-3xl shadow-[0_10px_30px_rgba(255,173,210,0.4)] border-[6px] border-purple-300 transition-all duration-700"
-  initial={{ opacity: 0, y: 30 }} 
-  animate={{ opacity: 1, y: 0 }}
->
-        {/* Dancing Title */}
-    <motion.h2
-      className="text-4xl sm:text-5xl font-extrabold text-pink-600 mb-4 text-center"
-      initial={{ scale: 0.8, rotate: -3 }}
-      animate={{ scale: 1.05, rotate: [0, 3, -3, 0] }}
-      transition={{ repeat: Infinity, duration: 3 }}
+    <motion.div
+      className="max-w-5xl mx-auto my-5 p-10 sm:p-12 bg-gradient-to-br from-pink-100 via-yellow-100 to-blue-100 rounded-3xl shadow-[0_10px_30px_rgba(255,173,210,0.4)] border-[6px] border-purple-300 transition-all duration-700"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
     >
-      🎉 Digital Dilemma Challenge!
-    </motion.h2>
+      {/* Dancing Title */}
+      <motion.h2
+        className="text-4xl sm:text-5xl font-extrabold text-pink-600 mb-4 text-center"
+        initial={{ scale: 0.8, rotate: -3 }}
+        animate={{ scale: 1.05, rotate: [0, 3, -3, 0] }}
+        transition={{ repeat: Infinity, duration: 3 }}
+      >
+        🎉 Digital Dilemma Challenge!
+      </motion.h2>
 
-    {/* Wiggling Subheading */}
-    <motion.p
-      className="text-lg sm:text-xl text-purple-800 mb-6 text-center font-semibold"
-      variants={floatAnim}
-      animate="animate"
-    >
-      📱 Uh-oh! Your friend felt hurt by your message:<br />
-      <motion.span className="text-red-500 font-bold text-2xl inline-block mt-1 animate-pulse">"Whatever."</motion.span><br />
-      Can you fix it using kindness and emojis?
-    </motion.p>
+      {/* Wiggling Subheading */}
+      <motion.p
+        className="text-lg sm:text-xl text-purple-800 mb-6 text-center font-semibold"
+        variants={floatAnim}
+        animate="animate"
+      >
+        📱 Uh-oh! Your friend felt hurt by your message:<br />
+        <motion.span className="text-red-500 font-bold text-2xl inline-block mt-1 animate-pulse">"Whatever."</motion.span><br />
+        Can you fix it using kindness and emojis?
+      </motion.p>
 
-    {/* Rewrite */}
-    <label className="block mb-2 text-purple-800 font-bold tracking-wide">✍️ Rewrite the message using kind words:</label>
-    <motion.textarea
-      className="w-full p-3 rounded-xl border-4 border-purple-300 bg-white text-purple-900 shadow-lg mb-4 text-base"
-      whileFocus={{ scale: 1.02 }}
-      value={rewrite}
-      onChange={(e) => setRewrite(e.target.value)}
-      placeholder="Use kind words to rewrite the message..."
-    />
+      {/* Rewrite */}
+      <label className="block mb-2 text-purple-800 font-bold tracking-wide">✍️ Rewrite the message using kind words:</label>
+      <motion.textarea
+        className="w-full p-3 rounded-xl border-4 border-purple-300 bg-white text-purple-900 shadow-lg mb-4 text-base"
+        whileFocus={{ scale: 1.02 }}
+        value={rewrite}
+        onChange={(e) => setRewrite(e.target.value)}
+        placeholder="Use kind words to rewrite the message..."
+      />
 
-    {/* Emoji Picker */}
-    <label className="block mb-2 text-blue-700 font-bold tracking-wide">😀 Choose an emoji to help express your tone:</label>
-    <motion.select
-      className="w-full p-3 rounded-xl border-4 border-blue-300 bg-white text-blue-900 shadow-lg mb-4 text-base"
-      whileFocus={{ scale: 1.02 }}
-      value={emoji}
-      onChange={(e) => setEmoji(e.target.value)}
-    >
-      <option value="None">🚫 None</option>
-      <option value="🙁">🙁 Sad Face</option>
-      <option value="😊">😊 Smile</option>
-      <option value="❤️">❤️ Heart</option>
-    </motion.select>
+      {/* Emoji Picker */}
+      <label className="block mb-2 text-blue-700 font-bold tracking-wide">😀 Choose an emoji to help express your tone:</label>
+      <motion.select
+        className="w-full p-3 rounded-xl border-4 border-blue-300 bg-white text-blue-900 shadow-lg mb-4 text-base"
+        whileFocus={{ scale: 1.02 }}
+        value={emoji}
+        onChange={(e) => setEmoji(e.target.value)}
+      >
+        <option value="None">🚫 None</option>
+        <option value="🙁">🙁 Sad Face</option>
+        <option value="😊">😊 Smile</option>
+        <option value="❤️">❤️ Heart</option>
+      </motion.select>
 
-    {/* Clarification */}
-    <label className="block mb-2 text-green-700 font-bold tracking-wide">💬 Clarify what you meant in a kind way:</label>
-    <motion.textarea
-      className="w-full p-3 rounded-xl border-4 border-green-300 bg-white text-green-900 shadow-lg mb-6 text-base"
-      whileFocus={{ scale: 1.02 }}
-      value={clarification}
-      onChange={(e) => setClarification(e.target.value)}
-      placeholder="Add a short explanation or apology..."
-    />
+      {/* Clarification */}
+      <label className="block mb-2 text-green-700 font-bold tracking-wide">💬 Clarify what you meant in a kind way:</label>
+      <motion.textarea
+        className="w-full p-3 rounded-xl border-4 border-green-300 bg-white text-green-900 shadow-lg mb-6 text-base"
+        whileFocus={{ scale: 1.02 }}
+        value={clarification}
+        onChange={(e) => setClarification(e.target.value)}
+        placeholder="Add a short explanation or apology..."
+      />
 
       {!score && (
         <motion.button
@@ -118,9 +128,9 @@ const DigitalDilemma = () => {
 
       {score !== null && (
         <>
-          <motion.div 
+          <motion.div
             className="mt-6 p-4 bg-white rounded-2xl border-4 border-blue-300 text-center shadow-xl"
-            initial={{ scale: 0.9 }} 
+            initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
           >
             <h3 className="text-xl font-extrabold text-green-600 mb-2">🎯 Your Score: {score} / 7</h3>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const compliments = [
   {
@@ -54,6 +55,7 @@ const compliments = [
 ];
 
 const ComplimentQuest = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -69,6 +71,7 @@ const ComplimentQuest = () => {
       setTimeout(() => {
         if (current === compliments.length - 1) {
           setShowResult(true);
+          completeCommunicationChallenge(2, 2); // ✅ Add this line
         } else {
           setCurrent(current + 1);
           setSelected(null);
@@ -156,15 +159,14 @@ const ComplimentQuest = () => {
                 key={index}
                 onClick={() => handleOptionClick(index)}
                 disabled={selected !== null}
-                className={`w-full text-left p-4 rounded-lg border transition ${
-                  selected !== null
-                    ? isCorrect
-                      ? "bg-green-100 border-green-600 text-green-800 font-semibold"
-                      : isSelected
+                className={`w-full text-left p-4 rounded-lg border transition ${selected !== null
+                  ? isCorrect
+                    ? "bg-green-100 border-green-600 text-green-800 font-semibold"
+                    : isSelected
                       ? "bg-red-100 border-red-600 text-red-800 font-semibold"
                       : "bg-gray-100 border-gray-300 text-gray-700"
-                    : "bg-white hover:bg-pink-50 border-gray-300"
-                }`}
+                  : "bg-white hover:bg-pink-50 border-gray-300"
+                  }`}
               >
                 {option}
               </button>

@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const PitchChampion = () => {
+    const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+  
   // ✅ Add a page state: "intro" or "pitch"
   const [page, setPage] = useState("intro");
 
@@ -10,6 +13,12 @@ const PitchChampion = () => {
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+  if (submitted && verified) {
+    completeEntreprenerushipChallenge(1,1); // 🎯 Challenge 3, Task 4
+  }
+}, [submitted, verified]);
 
   const verifyPitchWithGemini = async () => {
     if (!pitch.trim()) {

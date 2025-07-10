@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const initialScenarios = [
   {
@@ -42,8 +43,18 @@ const initialScenarios = [
 const labels = ['📤 Sender', '📜 Message', '📡 Medium', '🎯 Receiver', '🔁 Feedback', '🤫 Non-verbal cue'];
 
 const DecodetheMessage = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [scenarios, setScenarios] = useState(initialScenarios);
   const [draggedLabel, setDraggedLabel] = useState(null);
+
+  useEffect(() => {
+    const allCorrect = scenarios.every(
+      (s) => s.userAnswer.replace(/^[^a-zA-Z]+/, '') === s.correctLabel
+    );
+    if (allCorrect) {
+      completeCommunicationChallenge(0,0);
+    }
+  }, [scenarios]);
 
   const handleReplay = () => {
     setScenarios(initialScenarios); // Reset all answers
@@ -179,8 +190,8 @@ const DecodetheMessage = () => {
                   </span>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${isCorrect(scenario)
-                        ? 'bg-green-200 text-green-800'
-                        : 'bg-red-200 text-red-800'
+                      ? 'bg-green-200 text-green-800'
+                      : 'bg-red-200 text-red-800'
                       }`}
                   >
                     Correct Answer: {scenario.correctLabel}

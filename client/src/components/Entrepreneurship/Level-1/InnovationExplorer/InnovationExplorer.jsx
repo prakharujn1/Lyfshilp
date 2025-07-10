@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+ 
 const initialFields = Array.from({ length: 5 }, (_, i) => ({
   problem: "",
   category: "",
@@ -32,12 +33,19 @@ Use simple words, emojis, and cheer them on! 🎈
 `;
 
 const InnovationExplorer = () => {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [step, setStep] = useState("intro");
   const [fields, setFields] = useState(initialFields);
   const [loading, setLoading] = useState(false);
   const [allReviewed, setAllReviewed] = useState(false);
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [allPerfect, setAllPerfect] = useState(false);
+
+  useEffect(() => {
+  if (allReviewed && badgeEarned) {
+    completeEntreprenerushipChallenge(0,0); // Use actual IDs if different
+  }
+}, [allReviewed, badgeEarned]);
 
   const handleChange = (index, field, value) => {
     const updated = [...fields];

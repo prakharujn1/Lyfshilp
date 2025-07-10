@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const correctAnswers = {
   1: {
@@ -40,6 +41,7 @@ const allOptions = [
 ];
 
 const PitchItGame = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [selected, setSelected] = useState([]);
   const [feedback, setFeedback] = useState(null);
   const [finalWin, setFinalWin] = useState(false);
@@ -98,6 +100,7 @@ const PitchItGame = () => {
           message:
             "🎉 You have now become a pro at pitching — congratulations!",
         });
+        completeCommunicationChallenge(3,1); // ✅ Mark Game 5 of Challenge 3 complete
       }
     }
   };
@@ -127,11 +130,10 @@ const PitchItGame = () => {
               whileTap={{ scale: 0.96 }}
               key={idx}
               onClick={() => toggleSelect(text)}
-              className={`p-4 rounded-xl border-2 shadow-sm transition-all text-left text-sm font-medium ${
-                isActive
-                  ? "bg-green-100 border-green-400"
-                  : "bg-white hover:bg-blue-50 border-gray-300"
-              }`}
+              className={`p-4 rounded-xl border-2 shadow-sm transition-all text-left text-sm font-medium ${isActive
+                ? "bg-green-100 border-green-400"
+                : "bg-white hover:bg-blue-50 border-gray-300"
+                }`}
             >
               {text}
             </motion.button>

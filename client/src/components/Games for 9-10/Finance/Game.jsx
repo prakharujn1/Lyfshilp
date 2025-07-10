@@ -18,8 +18,10 @@ import {
 import { jsPDF } from "jspdf";
 import { pdf } from "@react-pdf/renderer";
 import InvestmentGuidePDFGame1 from "./Game1PDF";
+import { useFinance } from "@/contexts/FinanceContext";  
 
 const WealthQuestGame = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
   const [portfolio, setPortfolio] = useState({
     fd: 0,
@@ -141,6 +143,7 @@ const WealthQuestGame = () => {
           totalReturn,
           cagr: cagr * 100,
         });
+        completeFinanceChallenge(0,0); // ✅ Marks the challenge as complete
         setCurrentPage("results");
       }
     }, 1500);

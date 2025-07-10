@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const scenarios = [
   {
@@ -33,6 +34,7 @@ const puzzleSteps = [
 ];
 
 const DecisionRoom = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const { width, height } = useWindowSize();
   const [screen, setScreen] = useState("intro");
   const [step, setStep] = useState(0);
@@ -42,6 +44,12 @@ const DecisionRoom = () => {
   const [puzzleProgress, setPuzzleProgress] = useState([]);
   const [puzzleSelected, setPuzzleSelected] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+
+  useEffect(() => {
+  if (gameOver && score === 6) {
+    completeLeadershipChallenge(2, 0); // Update challengeId/taskId if needed
+  }
+}, [gameOver, score]);
 
   const handleOptionClick = (isCorrect, i) => {
     setSelected(i);
@@ -132,12 +140,11 @@ const DecisionRoom = () => {
               <button
                 key={i}
                 className={`w-full px-4 py-2 rounded-xl transition border
-                  ${
-                    selected === i
-                      ? opt.isCorrect
-                        ? "bg-green-400"
-                        : "bg-red-400"
-                      : "bg-gray-100 hover:bg-gray-200"
+                  ${selected === i
+                    ? opt.isCorrect
+                      ? "bg-green-400"
+                      : "bg-red-400"
+                    : "bg-gray-100 hover:bg-gray-200"
                   }`}
                 onClick={() => handleOptionClick(opt.isCorrect, i)}
                 disabled={selected !== null}
@@ -168,10 +175,9 @@ const DecisionRoom = () => {
                 key={index}
                 onClick={() => handlePuzzleClick(stepText, index)}
                 className={`w-full py-2 px-4 rounded-xl transition
-                  ${
-                    puzzleSelected === index
-                      ? "bg-yellow-300"
-                      : "bg-blue-100 hover:bg-blue-200"
+                  ${puzzleSelected === index
+                    ? "bg-yellow-300"
+                    : "bg-blue-100 hover:bg-blue-200"
                   }`}
               >
                 {stepText}

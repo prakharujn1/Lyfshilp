@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const CommunicationLab = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [feedbackGif, setFeedbackGif] = useState(null);
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+  if (step === scenarios.length && score >= 5) {
+    completeLeadershipChallenge(1,0); // Update challengeId and taskId as needed
+  }
+}, [step, score]);
 
   const scenarios = [
     {
@@ -166,10 +174,9 @@ const CommunicationLab = () => {
                 key={idx}
                 onClick={() => handleSelect(opt.correct, idx)}
                 className={`w-full py-2 px-4 rounded-lg border text-left transition-all
-                  ${
-                    selected === null
-                      ? "bg-white hover:bg-blue-100"
-                      : idx === selected
+                  ${selected === null
+                    ? "bg-white hover:bg-blue-100"
+                    : idx === selected
                       ? opt.correct
                         ? "bg-green-100 border-green-500"
                         : "bg-red-100 border-red-500"

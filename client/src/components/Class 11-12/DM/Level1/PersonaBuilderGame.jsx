@@ -3,6 +3,7 @@ import { Star, Sparkles, User, Heart, Trophy, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { useDM } from "@/contexts/DMContext";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -32,6 +33,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const PersonaBuilderGame = () => {
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("start");
   const [formData, setFormData] = useState({
     name: "",
@@ -153,10 +155,13 @@ Form data provided by user : ${JSON.stringify(formData)}
       );
 
       const aiReply = response.data.candidates[0].content.parts[0].text;
-      console.log(aiReply);
+      // console.log(aiReply);
       const parsed = parsePossiblyStringifiedJSON(aiReply);
-      console.log(parsed);
+      // console.log(parsed);
       setResult(parsed);
+      if (parsed) {
+        completeDMChallenge(0,1);
+      }
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
@@ -305,11 +310,10 @@ Form data provided by user : ${JSON.stringify(formData)}
                   <button
                     key={interest.id}
                     onClick={() => handleInterestToggle(interest.id)}
-                    className={`p-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${
-                      formData.interests.includes(interest.id)
+                    className={`p-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${formData.interests.includes(interest.id)
                         ? "bg-gradient-to-r from-green-400 to-teal-500 text-white shadow-lg"
                         : "bg-white border-2 border-green-200 text-teal-700 hover:bg-green-100"
-                    }`}
+                      }`}
                   >
                     <div className="text-2xl mb-1">{interest.emoji}</div>
                     <div className="text-sm">{interest.label}</div>
@@ -367,11 +371,10 @@ Form data provided by user : ${JSON.stringify(formData)}
     const cards = [
       {
         title: "Your Persona",
-        content: `Meet ${formData.name}! A ${
-          formData.ageRange
-        }-year-old who loves ${formData.interests
-          .map((id) => interestOptions.find((opt) => opt.id === id)?.label)
-          .join(", ")} and spends time on ${formData.socialMedia}.`,
+        content: `Meet ${formData.name}! A ${formData.ageRange
+          }-year-old who loves ${formData.interests
+            .map((id) => interestOptions.find((opt) => opt.id === id)?.label)
+            .join(", ")} and spends time on ${formData.socialMedia}.`,
       },
       {
         title: "Feedback",
@@ -412,11 +415,10 @@ Form data provided by user : ${JSON.stringify(formData)}
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
-                      className={`w-10 h-10 ${
-                        star <= result?.score
+                      className={`w-10 h-10 ${star <= result?.score
                           ? "text-yellow-300 drop-shadow-[0_0_5px_gold]"
                           : "text-gray-300"
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
@@ -431,9 +433,8 @@ Form data provided by user : ${JSON.stringify(formData)}
               {cards.map((card, index) => (
                 <div key={index} className="h-64 perspective ">
                   <div
-                    className={`relative w-full  h-full transform transition-transform duration-700 preserve-3d ${
-                      flippedCards.includes(index) ? "rotate-y-180" : ""
-                    } cursor-pointer`}
+                    className={`relative w-full  h-full transform transition-transform duration-700 preserve-3d ${flippedCards.includes(index) ? "rotate-y-180" : ""
+                      } cursor-pointer`}
                     onClick={() => flipCard(index)}
                   >
                     {/* Front */}
@@ -459,8 +460,8 @@ Form data provided by user : ${JSON.stringify(formData)}
                           {card.title === "Your Persona"
                             ? card.content
                             : card.title === "Feedback"
-                            ? result?.feedback
-                            : result?.tip}
+                              ? result?.feedback
+                              : result?.tip}
                         </p>
                       </div>
                     </div>

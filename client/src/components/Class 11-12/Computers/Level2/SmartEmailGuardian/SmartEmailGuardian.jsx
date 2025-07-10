@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Mail, Shield, Brain, Target, Settings, Play, Pause, RotateCcw } from 'lucide-react';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const SmartEmailGuardian = () => {
+  const { completeComputersChallenge } = useComputers();
   const [trainingSamples, setTrainingSamples] = useState(50);
   const [epochs, setEpochs] = useState(20);
   const [currentEpoch, setCurrentEpoch] = useState(0);
@@ -191,6 +193,7 @@ const SmartEmailGuardian = () => {
     const testAccuracy = Math.min(baseTestAccuracy, 90 + (Math.random() * 7));
     
     if (testAccuracy >= 90) {
+       completeComputersChallenge(1,1); // <-- Call here
       setGamePhase('complete');
     }
   };

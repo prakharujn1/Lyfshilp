@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -50,11 +51,18 @@ const scenarios = [
 ];
 
 const ConflictQuest = () => {
+  const { completeSELChallenge } = useSEL();
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [selected, setSelected] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
+
+  useEffect(() => {
+    if (completed && score >= 3) {
+      completeSELChallenge(1, 1);
+    }
+  }, [completed, score]);
 
   const shuffled = scenarios.sort(() => 0.5 - Math.random()).slice(0, 3);
 

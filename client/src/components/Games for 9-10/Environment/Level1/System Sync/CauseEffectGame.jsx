@@ -17,8 +17,11 @@ import clickSoundFileOops from "../../Sound/clickSoundFileOops.mp3";
 
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+
 
 const CauseEffectGame = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [currentPage, setCurrentPage] = useState("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedEffect, setSelectedEffect] = useState(null);
@@ -216,6 +219,9 @@ const CauseEffectGame = () => {
     if (score < 5 || !gameComplete) {
       return;
     }
+
+    completeEnvirnomentChallenge(0,0); // ✅ Add this line here
+
     const myCanvas = canvasRef.current;
     const myConfetti = confetti.create(myCanvas, {
       resize: true,
@@ -370,17 +376,15 @@ const CauseEffectGame = () => {
               ref={canvasRef}
               className="absolute top-0 left-0 w-full h-full pointer-events-none"
             />
-            <div className="text-6xl md:text-8xl mb-6 animate-bounce">{`${
-              score < 4 ? "" : "🎉"
-            }`}</div>
+            <div className="text-6xl md:text-8xl mb-6 animate-bounce">{`${score < 4 ? "" : "🎉"
+              }`}</div>
             <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">
-              {`${
-                score < 4
+              {`${score < 4
                   ? "Keep Trying"
                   : score < 5
-                  ? "Well done"
-                  : "Outstanding, Champ"
-              }`}
+                    ? "Well done"
+                    : "Outstanding, Champ"
+                }`}
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 mb-6">
               You scored {score} out of {questions.length}!
@@ -389,8 +393,8 @@ const CauseEffectGame = () => {
               {score === questions.length
                 ? "Perfect! You're an Earth Systems Expert! 🌟"
                 : score >= questions.length * 0.7
-                ? "Excellent! You understand Earth's connections! 🌍"
-                : "Good effort! Keep learning about our amazing planet! 🌱"}
+                  ? "Excellent! You understand Earth's connections! 🌍"
+                  : "Good effort! Keep learning about our amazing planet! 🌱"}
             </div>
             <button
               onClick={resetGame}
@@ -460,15 +464,13 @@ const CauseEffectGame = () => {
                           handleEffectSelect(effect);
                           playClickSound(clickSoundRefPop);
                         }}
-                        className={`p-4 rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 ${
-                          selectedEffect === effect
+                        className={`p-4 rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 ${selectedEffect === effect
                             ? "bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-lg scale-105"
                             : "bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-100 hover:to-orange-100 text-gray-700"
-                        } ${
-                          animateWrong && selectedEffect === effect
+                          } ${animateWrong && selectedEffect === effect
                             ? "animate-pulse bg-red-400"
                             : ""
-                        }`}
+                          }`}
                       >
                         {effect}
                       </button>
@@ -488,17 +490,15 @@ const CauseEffectGame = () => {
                               handleSphereSelect(sphere);
                               playClickSound(clickSoundRefPop);
                             }}
-                            className={`p-4 rounded-2xl font-semibold text-center transition-all duration-300 transform hover:scale-105 flex flex-col items-center gap-2 ${
-                              selectedSphere === sphere
+                            className={`p-4 rounded-2xl font-semibold text-center transition-all duration-300 transform hover:scale-105 flex flex-col items-center gap-2 ${selectedSphere === sphere
                                 ? `bg-gradient-to-br ${getSphereColor(
-                                    sphere
-                                  )} text-white shadow-lg scale-105`
+                                  sphere
+                                )} text-white shadow-lg scale-105`
                                 : "bg-gradient-to-br from-gray-100 to-gray-200 hover:from-blue-100 hover:to-purple-100 text-gray-700"
-                            } ${
-                              animateWrong && selectedSphere === sphere
+                              } ${animateWrong && selectedSphere === sphere
                                 ? "animate-pulse bg-red-400"
                                 : ""
-                            }`}
+                              }`}
                           >
                             {getSphereIcon(sphere)}
                             <span className="text-sm md:text-base">
@@ -526,7 +526,7 @@ const CauseEffectGame = () => {
           ) : (
             <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
               {selectedEffect === currentQ.correctEffect &&
-              selectedSphere === currentQ.correctSphere ? (
+                selectedSphere === currentQ.correctSphere ? (
                 <div className="text-center">
                   <div className="text-6xl md:text-8xl mb-6 animate-bounce">
                     🎉

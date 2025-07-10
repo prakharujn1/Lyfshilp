@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, ShieldCheck } from "lucide-react";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -46,10 +47,17 @@ function parsePossiblyStringifiedJSON(text) {
 }
 
 export default function CommunicationCombatZone() {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(0);
   const [responses, setResponses] = useState({});
   const [feedback, setFeedback] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (feedback) {
+      completeLeadershipChallenge(0,2);
+    }
+  }, [feedback]);
 
   const handleSubmit = async () => {
     setLoading(true);

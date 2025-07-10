@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -83,6 +84,7 @@ const wrongGif =
   "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXZubHd6bDZpZzdkNnFienZkZGE0ZXZtOHhvZmljYjZ4bmFwcTdnZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZTra27awvhOMLfhcUH/giphy.webp";
 
 const ConflictChoices = () => {
+  const { completeSELChallenge } = useSEL();
   const [stage, setStage] = useState("intro");
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -110,6 +112,7 @@ const ConflictChoices = () => {
         setStage("result");
         if (score + (isCalm ? 1 : 0) >= 2) {
           confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+          completeSELChallenge(1,1); // ✅ Mark this SEL challenge as complete
         }
       }
     }, 2000);
@@ -207,9 +210,8 @@ const ConflictChoices = () => {
             key={idx}
             onClick={() => handleOptionClick(opt.isCalm, opt.feedback)}
             disabled={answered}
-            className={`block w-full px-4 py-2 rounded-xl border text-left transition ${
-              answered ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-100"
-            }`}
+            className={`block w-full px-4 py-2 rounded-xl border text-left transition ${answered ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-100"
+              }`}
           >
             {opt.text}
           </button>

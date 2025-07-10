@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
+import { useCommunication } from "@/contexts/CommunicationContext";
 export default function ConflictCommanderGame() {
+  const { completeCommunicationChallenge } = useCommunication();
   const [step, setStep] = useState(1);
   const [selected, setSelected] = useState({});
   const [result, setResult] = useState(null);
@@ -36,6 +37,7 @@ export default function ConflictCommanderGame() {
     if (empathy && assertive) {
       message = "🌈 Awesome! You showed both empathy and leadership!";
       emoji = "🎉";
+      completeCommunicationChallenge(2,0); // ✅ Call it here
     } else if (empathy) {
       message = "👍 You were kind, but could be more solution-focused!";
       emoji = "🙂";

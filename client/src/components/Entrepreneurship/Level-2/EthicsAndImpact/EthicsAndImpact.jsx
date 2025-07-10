@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+
 
 // GIFs
 const introGif = "https://media0.giphy.com/media/YHvI6fvc1bwfrP9alV/200w.webp";
@@ -6,6 +8,7 @@ const successGif = "https://media4.giphy.com/media/lC69bczh51rZldSyA5/200.webp";
 const failGif = "https://media3.giphy.com/media/5QW76Ww9bquHdg1fTv/100.webp";
 
 const EthicsAndImpact = () => {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [started, setStarted] = useState(false);
   const [risks, setRisks] = useState(["", "", ""]);
   const [solutions, setSolutions] = useState(["", "", ""]);
@@ -17,6 +20,12 @@ const EthicsAndImpact = () => {
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
+
+  useEffect(() => {
+  if (showSuccess) {
+    completeEntreprenerushipChallenge(1,0); // Replace with correct challenge ID
+  }
+}, [showSuccess]);
 
   // ✅ Gemini check with explicit instruction for positive wording
   const verifyInputsWithGemini = async () => {

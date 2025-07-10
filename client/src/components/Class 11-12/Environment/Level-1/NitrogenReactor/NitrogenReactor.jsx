@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 // Gifs
 const introGif =
   "https://media0.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3bGtqNWd1NWs4NXlmMnBtZmEzMnB2bWoxdThjNXN1enpybW83Z2JyZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/WUBGy9VpwjMd8g4fzM/200.webp";
@@ -12,6 +12,7 @@ const failGif =
   "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbG5pYTU0aXhidHgwa25leW1idXZydW1tMzZiYTFqczI0bXh2dG45ZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/li0dswKqIZNpm/200.webp";
 
 const NitrogenReactor = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [page, setPage] = useState("intro");
   const [step, setStep] = useState(1);
 
@@ -197,11 +198,10 @@ const NitrogenReactor = () => {
                       setQ2(opt);
                       setQ2Correct(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      q2 === opt
+                    className={`block w-full border px-4 py-2 rounded-full ${q2 === opt
                         ? "bg-green-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -266,11 +266,10 @@ const NitrogenReactor = () => {
                       setQ3(opt);
                       setQ3Correct(null);
                     }}
-                    className={`block w-full border px-4 py-2 rounded-full ${
-                      q3 === opt
+                    className={`block w-full border px-4 py-2 rounded-full ${q3 === opt
                         ? "bg-green-600 text-white"
                         : "bg-gray-100 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>
@@ -284,7 +283,10 @@ const NitrogenReactor = () => {
                     setQ3Correct(correct);
                     const allCorrect = q1Correct && q2Correct && correct;
                     setFinal(allCorrect);
-                    if (allCorrect) confetti();
+                    if (allCorrect) {
+                      confetti();
+                      completeEnvirnomentChallenge(0,1);
+                    }
                   }}
                   className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-blue-700 transition"
                 >

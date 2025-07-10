@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLeadership } from "@/contexts/LeadershipContext";
+
 
 // Dilemmas with GIFs
 const dilemmas = [
@@ -70,9 +72,17 @@ const quizzes = [
 ];
 
 const IntegrityQuest = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1); // -1 = intro
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+
+
+  useEffect(() => {
+  if (finished && score >= 5) {
+    completeLeadershipChallenge(3, 1);
+  }
+}, [finished, score]);
 
   const totalSteps = dilemmas.length + quizzes.length;
 

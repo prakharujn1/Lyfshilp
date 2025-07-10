@@ -7,16 +7,19 @@ import {
   Home,
   BookOpen,
   Clock,
-  Award,
+  Award, 
   ChevronRight,
   Zap,
   Shield,
 } from "lucide-react";
+import { useLaw } from "@/contexts/LawContext";
+
 
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 
 const LegalQuizQuestLevel3 = () => {
+  const { completeLawChallenge } = useLaw();
   const [currentPage, setCurrentPage] = useState("home");
   const [gameMode, setGameMode] = useState("challenge"); // 'normal' or 'challenge'
   const [selectedModule, setSelectedModule] = useState(null);
@@ -371,6 +374,8 @@ const LegalQuizQuestLevel3 = () => {
     };
 
     frame();
+
+    completeLawChallenge(2,0);
 
     // ✅ Cleanup function to stop the animation
     return () => {

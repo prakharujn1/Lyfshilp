@@ -15,6 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import axios from "axios";
+import { useComputers } from "@/contexts/ComputersContext";
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -44,6 +45,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const DesignAbot = () => {
+  const { completeComputersChallenge } = useComputers();
   const [currentChallenge, setCurrentChallenge] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -98,6 +100,12 @@ const DesignAbot = () => {
   });
 
   const [showBadge, setShowBadge] = useState(null);
+
+  useEffect(() => {
+    if (challenge2Data.completed) {
+      completeComputersChallenge(2,1);
+    }
+  }, [challenge2Data.completed]);
 
   const updateChallenge2 = (field, value) => {
     setChallenge2Data((prev) => ({
@@ -195,7 +203,7 @@ const DesignAbot = () => {
 
     setLoading(false);
   };
-  
+
 
   useEffect(() => {
     if (!result || !previewRef || !previewRef?.current) {
@@ -270,11 +278,10 @@ const DesignAbot = () => {
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setCurrentChallenge(2)}
-            className={`px-6 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
-              currentChallenge === 2
+            className={`px-6 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${currentChallenge === 2
                 ? "bg-white text-purple-600 shadow-lg"
                 : "bg-white/20 text-white hover:bg-white/30"
-            }`}
+              }`}
           >
             🤖 Challenge : Design-A-Bot
             {challenge2Data.completed && (

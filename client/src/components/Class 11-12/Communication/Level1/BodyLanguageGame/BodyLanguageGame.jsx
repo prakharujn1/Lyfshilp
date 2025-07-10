@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const candidates = [
   {
@@ -33,6 +34,7 @@ const labelOptions = [
 ];
 
 export default function BodyLanguageGame() {
+  const { completeCommunicationChallenge } = useCommunication();
   const [selections, setSelections] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState({});
@@ -76,6 +78,7 @@ export default function BodyLanguageGame() {
 
     if (allCorrect) {
       toast.success("🎉 Great job! You decoded all signals correctly!");
+      completeCommunicationChallenge(0,0); // ✅ Call it here
     }
   };
 

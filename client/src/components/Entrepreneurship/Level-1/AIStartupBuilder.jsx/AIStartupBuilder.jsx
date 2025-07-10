@@ -1,8 +1,9 @@
 // components/AIStartupBuilder.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+  
 const initialState = {
   name: "",
   description: "",
@@ -37,9 +38,16 @@ const kidFriendlyTypes = [
 ];
 
 const AIStartupBuilder = () => {
+    const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [step, setStep] = useState("intro");
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+  if (form.review.startsWith("Looks awesome") && form.submitted) {
+    completeEntreprenerushipChallenge(0,1); // Update ID as needed
+  }
+}, [form.review, form.submitted]);
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));

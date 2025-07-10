@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
+import { useSEL } from "@/contexts/SELContext";
 
 const signals = [
   { id: "1", text: "Tense jaw", match: "Frustration" },
@@ -53,9 +54,8 @@ const DroppableEmotion = ({ emotion, matchedSignal }) => {
   return (
     <div
       ref={setNodeRef}
-      className={`p-4 rounded-xl border-2 h-20 flex items-center justify-center text-center transition ${
-        isOver ? "bg-blue-100 border-blue-400" : "bg-gray-100"
-      }`}
+      className={`p-4 rounded-xl border-2 h-20 flex items-center justify-center text-center transition ${isOver ? "bg-blue-100 border-blue-400" : "bg-gray-100"
+        }`}
     >
       {matchedSignal ? matchedSignal.text : <span>{emotion}</span>}
     </div>
@@ -63,6 +63,7 @@ const DroppableEmotion = ({ emotion, matchedSignal }) => {
 };
 
 const BodySignalMatchup = () => {
+  const { completeSELChallenge } = useSEL();
   const [matches, setMatches] = useState({});
   const [timeLeft, setTimeLeft] = useState(90);
   const [gameOver, setGameOver] = useState(false);
@@ -79,6 +80,8 @@ const BodySignalMatchup = () => {
       setGameOver(true);
     }
   }, [timeLeft, gameOver, win, step]);
+
+
 
   const handleDragStart = (event) => {
     const signal = signals.find((s) => s.id === event.active.id);
@@ -104,6 +107,7 @@ const BodySignalMatchup = () => {
       setWin(true);
       setGameOver(true);
       fireConfetti();
+      completeSELChallenge(1,2);
     }
   }, [matches]);
 

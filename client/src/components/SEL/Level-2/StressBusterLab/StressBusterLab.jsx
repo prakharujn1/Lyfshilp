@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useSEL } from "@/contexts/SELContext";
 
 const tools = [
   { label: "Deep breaths", helpful: true },
@@ -13,6 +14,7 @@ const tools = [
 ];
 
 const StressBusterLab = () => {
+  const { completeSELChallenge } = useSEL();
   const [dropItems, setDropItems] = useState([]);
   const [feedback, setFeedback] = useState({});
   const [score, setScore] = useState(null);
@@ -63,6 +65,13 @@ const StressBusterLab = () => {
       audio.play();
     }
   }, [score]);
+
+  useEffect(() => {
+    if (score >= 4) {
+      completeSELChallenge(1, 0);
+    }
+  }, [score]);
+
 
   const getGifForScore = () => {
     if (score >= 4)

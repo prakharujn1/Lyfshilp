@@ -12,6 +12,8 @@ import {
   Award,
   Target,
 } from "lucide-react";
+import { useLaw } from "@/contexts/LawContext";
+
 
 const questions = [
   // Challenge 1
@@ -274,9 +276,8 @@ const GameHeader = ({ score, currentLevel, timeLeft, gamePhase }) => (
               Level {currentLevel}/3
             </div>
             <div
-              className={`bg-white/20 px-3 py-2 rounded-full text-sm flex items-center gap-1 ${
-                timeLeft <= 5 ? "animate-pulse bg-red-500/30" : ""
-              }`}
+              className={`bg-white/20 px-3 py-2 rounded-full text-sm flex items-center gap-1 ${timeLeft <= 5 ? "animate-pulse bg-red-500/30" : ""
+                }`}
             >
               <Timer className="w-4 h-4" />
               {timeLeft}s
@@ -333,13 +334,12 @@ const MazeMap = ({ currentQuestion, completedQuestions, currentLevel }) => {
       <div key={level} className="mb-12">
         <div className="text-center mb-4">
           <h3
-            className={`text-lg font-bold ${
-              level === 1
-                ? "text-green-600"
-                : level === 2
+            className={`text-lg font-bold ${level === 1
+              ? "text-green-600"
+              : level === 2
                 ? "text-purple-600"
                 : "text-red-600"
-            }`}
+              }`}
           >
             Challenge {level}
           </h3>
@@ -353,9 +353,8 @@ const MazeMap = ({ currentQuestion, completedQuestions, currentLevel }) => {
               <div key={question.id} className="relative  space-y-5">
                 <div className=" flex items-center justify-center">
                   <div
-                    className={`w-12 min-h-12  rounded-full ${nodeColor} flex items-center justify-center text-white font-bold shadow-lg transform transition-all duration-300 ${
-                      status === "current" ? "scale-110" : "hover:scale-105"
-                    }`}
+                    className={`w-12 min-h-12  rounded-full ${nodeColor} flex items-center justify-center text-white font-bold shadow-lg transform transition-all duration-300 ${status === "current" ? "scale-110" : "hover:scale-105"
+                      }`}
                   >
                     {status === "completed" ? (
                       <CheckCircle className="w-6 h-6 text-center" />
@@ -366,11 +365,10 @@ const MazeMap = ({ currentQuestion, completedQuestions, currentLevel }) => {
                 </div>
                 <div className="text-xs  text-center w-20">
                   <div
-                    className={`${
-                      status === "current"
-                        ? "font-bold text-blue-600"
-                        : "text-gray-600 mt-6"
-                    }`}
+                    className={`${status === "current"
+                      ? "font-bold text-blue-600"
+                      : "text-gray-600 mt-6"
+                      }`}
                   >
                     {question.category}
                   </div>
@@ -461,13 +459,12 @@ const QuestionCard = ({
 
           <div className="w-full bg-violet-100 rounded-full h-2 mb-4">
             <div
-              className={`h-full rounded-full transition-all duration-1000 ease-linear ${
-                timeLeft > 10
-                  ? "bg-lime-400"
-                  : timeLeft > 5
+              className={`h-full rounded-full transition-all duration-1000 ease-linear ${timeLeft > 10
+                ? "bg-lime-400"
+                : timeLeft > 5
                   ? "bg-orange-300"
                   : "bg-pink-400"
-              }`}
+                }`}
               style={{ width: `${(timeLeft / 15) * 100}%` }}
             />
           </div>
@@ -485,15 +482,14 @@ const QuestionCard = ({
             >
               <div className="flex items-center gap-3">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
-                    showResult && index === question.correct
-                      ? "bg-lime-400 text-white"
-                      : showResult &&
-                        selectedAnswer === index &&
-                        index !== question.correct
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${showResult && index === question.correct
+                    ? "bg-lime-400 text-white"
+                    : showResult &&
+                      selectedAnswer === index &&
+                      index !== question.correct
                       ? "bg-pink-300 text-white"
                       : "bg-blue-100 text-blue-600"
-                  }`}
+                    }`}
                 >
                   {String.fromCharCode(65 + index)}
                 </div>
@@ -513,11 +509,10 @@ const QuestionCard = ({
 
         {showResult && (
           <div
-            className={`mt-6 p-4 rounded-lg ${
-              selectedAnswer === question.correct
-                ? "bg-lime-50 border-2 border-lime-200"
-                : "bg-orange-50 border-2 border-orange-200"
-            }`}
+            className={`mt-6 p-4 rounded-lg ${selectedAnswer === question.correct
+              ? "bg-lime-50 border-2 border-lime-200"
+              : "bg-orange-50 border-2 border-orange-200"
+              }`}
           >
             <div className="flex items-center gap-2 mb-2">
               {selectedAnswer === question.correct ? (
@@ -550,6 +545,13 @@ const QuestionCard = ({
 const CompletionScreen = ({ score, totalQuestions, timeBonus, onRestart }) => {
   const maxScore = totalQuestions * 10 + timeBonus;
   const percentage = (score / maxScore) * 100;
+
+  useEffect(() => {
+    if (percentage >= 90) {
+      completeLawChallenge(3, 0);  
+    }
+  }, [percentage]);
+
   console.log(score, totalQuestions, timeBonus);
 
   const getBadge = () => {
@@ -602,12 +604,12 @@ const CompletionScreen = ({ score, totalQuestions, timeBonus, onRestart }) => {
           {percentage >= 90
             ? "Outstanding!"
             : percentage >= 80
-            ? "Great Job!"
-            : percentage >= 70
-            ? "Well Done!"
-            : percentage >= 60
-            ? "Nice Try!"
-            : "Keep Learning!"}
+              ? "Great Job!"
+              : percentage >= 70
+                ? "Well Done!"
+                : percentage >= 60
+                  ? "Nice Try!"
+                  : "Keep Learning!"}
         </h2>
         <h3 className="text-xl mb-6">{badge.title}</h3>
 
@@ -639,12 +641,12 @@ const CompletionScreen = ({ score, totalQuestions, timeBonus, onRestart }) => {
           {percentage >= 90
             ? "🎉 You’ve aced the Law Labyrinth with flying colors!"
             : percentage >= 80
-            ? "🚀 You’re almost a legal legend!"
-            : percentage >= 70
-            ? "✨ Solid effort in mastering key laws!"
-            : percentage >= 60
-            ? "📘 You’ve made good progress. Keep it up!"
-            : "🧠 Keep exploring and learning. You’ll get there!"}
+              ? "🚀 You’re almost a legal legend!"
+              : percentage >= 70
+                ? "✨ Solid effort in mastering key laws!"
+                : percentage >= 60
+                  ? "📘 You’ve made good progress. Keep it up!"
+                  : "🧠 Keep exploring and learning. You’ll get there!"}
         </div>
         <p className="text-gray-600">
           {percentage >= 70
@@ -665,6 +667,7 @@ const CompletionScreen = ({ score, totalQuestions, timeBonus, onRestart }) => {
 };
 
 export default function MazeOfChoices() {
+  const { completeLawChallenge } = useLaw();
   const [gamePhase, setGamePhase] = useState("menu"); // menu, playing, completed
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [failedQuestions, setFailedQuestions] = useState([]);

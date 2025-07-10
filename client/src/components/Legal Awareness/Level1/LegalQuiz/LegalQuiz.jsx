@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { CheckCircle, XCircle, Trophy, Star, Medal } from "lucide-react";
+import { useLaw } from "@/contexts/LawContext";
+import { useEffect } from "react";
+
 
 const LegalQuiz = () => {
+  const { completeLawChallenge } = useLaw();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -133,10 +137,17 @@ const LegalQuiz = () => {
     setGameComplete(false);
     setConfirmedAnswer(false);
   };
+ 
+  useEffect(() => {
+    if (gameComplete) {
+      completeLawChallenge(0,0);
+    }
+  }, [gameComplete]);
 
   if (gameComplete) {
     const badge = getBadge(score);
     const BadgeIcon = badge.icon;
+
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 p-4 flex items-center justify-center">
@@ -280,11 +291,10 @@ const LegalQuiz = () => {
           {/* Feedback */}
           {showFeedback && (
             <div
-              className={`p-3 sm:p-4 rounded-lg sm:rounded-xl mb-4 sm:mb-6 animate-fadeIn ${
-                selectedAnswer === currentQ.correct
-                  ? "bg-green-100 border-2 border-green-300"
-                  : "bg-red-100 border-2 border-red-300"
-              }`}
+              className={`p-3 sm:p-4 rounded-lg sm:rounded-xl mb-4 sm:mb-6 animate-fadeIn ${selectedAnswer === currentQ.correct
+                ? "bg-green-100 border-2 border-green-300"
+                : "bg-red-100 border-2 border-red-300"
+                }`}
             >
               <div className="flex items-center mb-2">
                 {selectedAnswer === currentQ.correct ? (
@@ -315,11 +325,10 @@ const LegalQuiz = () => {
               <button
                 onClick={handleConfirmAnswer}
                 disabled={selectedAnswer === null}
-                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base md:text-lg transition-all duration-200 transform hover:scale-105 ${
-                  selectedAnswer !== null
-                    ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg hover:from-green-600 hover:to-blue-600"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base md:text-lg transition-all duration-200 transform hover:scale-105 ${selectedAnswer !== null
+                  ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg hover:from-green-600 hover:to-blue-600"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
               >
                 ✅ Confirm Answer
               </button>

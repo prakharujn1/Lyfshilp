@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Lightbulb, Rocket, Smile, Video, RotateCcw } from "lucide-react";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const steps = ["Problem", "Prototype", "Pitch"];
 
@@ -53,11 +54,19 @@ const StepIndicator = ({ currentStep }) => {
 };
 
 const InnovationLaunchpadGame = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(0);
   const [selectedProblem, setSelectedProblem] = useState("");
   const [prototypeIdea, setPrototypeIdea] = useState("");
   const [pitchSummary, setPitchSummary] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (submitted) {
+      completeLeadershipChallenge(2,1);
+    }
+  }, [submitted]);
+
 
   const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));

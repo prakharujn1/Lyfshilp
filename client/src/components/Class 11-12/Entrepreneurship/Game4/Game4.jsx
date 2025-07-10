@@ -4,6 +4,7 @@ import PitchPDF from './PitchPDF'; // path to your PDF component
 import { motion } from 'framer-motion';
 import Confetti from 'react-confetti';
 import { useWindowSize } from '@react-hook/window-size';
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const initialDeck = {
   slide1: { problem: '', audience: '' },
@@ -13,6 +14,7 @@ const initialDeck = {
 };
 
 export default function PitchArenaPro() {
+   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [showBadge, setShowBadge] = useState(false);
   const { width, height } = useWindowSize();
   const [step, setStep] = useState(1);
@@ -27,10 +29,12 @@ export default function PitchArenaPro() {
   };
 
   const handleStep3Submit = () => {
-    alert('🎉 Pitch submitted! Badge Unlocked: 💼 Boardroom Ready');
-    setShowPDF(true);
-    setShowBadge(true);
-  };
+  alert('🎉 Pitch submitted! Badge Unlocked: 💼 Boardroom Ready');
+  setShowPDF(true);
+  setShowBadge(true);
+  completeEntreprenerushipChallenge(1,0); // ✅ Add this line
+};
+
 
   const handleRestart = () => {
     setStep(1);

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -41,6 +42,7 @@ const strengths = [
 ];
 
 const SpotTheStrength = () => {
+  const { completeSELChallenge } = useSEL();
   const [matches, setMatches] = useState({});
   const [draggedItem, setDraggedItem] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -59,8 +61,12 @@ const SpotTheStrength = () => {
     });
     setScore(correct);
     setSubmitted(true);
-    if (correct >= 5) setShowConfetti(true);
+    if (correct >= 5) {
+      setShowConfetti(true);
+      completeSELChallenge(0,2); // ✅ Mark challenge as complete
+    }
   };
+
 
   const restartGame = () => {
     setMatches({});

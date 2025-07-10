@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 const questions = [
   {
     id: 1,
@@ -85,6 +85,7 @@ const gifs = {
 };
 
 const UrbanFloodFlashpoint = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [multiSelect, setMultiSelect] = useState([]);
@@ -103,6 +104,12 @@ const UrbanFloodFlashpoint = () => {
       setShowConfetti(true);
     }
   }, [step, allCorrect, questions.length]);
+
+  useEffect(() => {
+    if (step === questions.length + 1 && allCorrect) {
+      completeEnvirnomentChallenge(1,0);
+    }
+  }, [step, allCorrect]);
 
   const handleSelect = (index) => {
     if (current.type === "multiple") {
@@ -181,11 +188,10 @@ const UrbanFloodFlashpoint = () => {
                   <button
                     key={idx}
                     onClick={() => handleSelect(idx)}
-                    className={`px-4 py-2 rounded-full border ${
-                      current.type === "multiple" && multiSelect.includes(idx)
+                    className={`px-4 py-2 rounded-full border ${current.type === "multiple" && multiSelect.includes(idx)
                         ? "bg-blue-500 text-white"
                         : "hover:bg-blue-100"
-                    }`}
+                      }`}
                   >
                     {opt}
                   </button>

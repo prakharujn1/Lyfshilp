@@ -7,6 +7,7 @@ import { Input } from './Input';
 import { Textarea } from './TextArea';
 import { Sparkles, ChevronDown, Radar, MousePointerClick, UserRound } from "lucide-react";
 import toast from 'react-hot-toast';
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 
 // const painPoints = [
@@ -74,6 +75,7 @@ const scamperOptions = {
 
 
 export default function StartupQuest() {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [selectedTheme, setSelectedTheme] = useState("");
   const [draggedPain, setDraggedPain] = useState([]);
   const [persona, setPersona] = useState({ age: '', goals: '', frustrations: '' });
@@ -117,6 +119,8 @@ export default function StartupQuest() {
       toast.error("❗ Please complete all activities before continuing.");
       return;
     }
+    // ✅ Mark challenge as completed
+    completeEntreprenerushipChallenge(0,0);
     setShowSummary(true);
   };
   if (showSummary) {
@@ -169,17 +173,17 @@ export default function StartupQuest() {
           <p className="text-xl leading-relaxed">{generatePersonaSummary()}</p>
         </motion.div>
 
-       {/* SCAMPER Ideas */}
-<div className="bg-gradient-to-br from-yellow-100 via-white to-pink-100 p-6 rounded-3xl shadow-lg max-w-2xl mx-auto border border-yellow-300">
-  <h3 className="text-orange-500 font-bold text-2xl mb-4">💡 SCAMPER-Inspired Innovations</h3>
-  <ul className="list-disc list-inside space-y-2 text-left text-purple-800">
-    {scamperPrompts.map(prompt => (
-      <li key={prompt}>
-        <strong className="text-pink-600">{prompt}</strong>: {ideas[prompt] || "—"}
-      </li>
-    ))}
-  </ul>
-</div>
+        {/* SCAMPER Ideas */}
+        <div className="bg-gradient-to-br from-yellow-100 via-white to-pink-100 p-6 rounded-3xl shadow-lg max-w-2xl mx-auto border border-yellow-300">
+          <h3 className="text-orange-500 font-bold text-2xl mb-4">💡 SCAMPER-Inspired Innovations</h3>
+          <ul className="list-disc list-inside space-y-2 text-left text-purple-800">
+            {scamperPrompts.map(prompt => (
+              <li key={prompt}>
+                <strong className="text-pink-600">{prompt}</strong>: {ideas[prompt] || "—"}
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* Final Pitch */}
         <div className="mt-8 bg-purple-100/70 border-2 border-purple-300 p-6 rounded-3xl max-w-2xl mx-auto shadow-md backdrop-blur-sm">

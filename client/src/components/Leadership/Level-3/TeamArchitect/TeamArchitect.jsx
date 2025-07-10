@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const characters = [
   { name: "Aisha", skill: "good speaker", correctRole: "Team Spokesperson" },
@@ -64,6 +65,7 @@ const mcqs = [
 ];
 
 const TeamArchitect = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const { width, height } = useWindowSize();
   const [screen, setScreen] = useState("intro");
   const [assignments, setAssignments] = useState({});
@@ -71,6 +73,12 @@ const TeamArchitect = () => {
   const [score, setScore] = useState(0);
   const [mcqIndex, setMcqIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
+
+  useEffect(() => {
+    if (screen === "result" && score >= 5) {
+      completeLeadershipChallenge(2, 1); // Replace with correct challenge/task IDs
+    }
+  }, [screen, score]);
 
   const handleDrop = (characterName) => {
     if (draggingRole) {
@@ -214,13 +222,12 @@ const TeamArchitect = () => {
               <button
                 key={i}
                 onClick={() => handleOptionClick(i)}
-                className={`w-full px-4 py-2 rounded-xl border transition text-left ${
-                  selectedOption === i
-                    ? i === mcqs[mcqIndex].answer
-                      ? "bg-green-400 text-white"
-                      : "bg-red-400 text-white"
-                    : "bg-gray-100 hover:bg-gray-200"
-                }`}
+                className={`w-full px-4 py-2 rounded-xl border transition text-left ${selectedOption === i
+                  ? i === mcqs[mcqIndex].answer
+                    ? "bg-green-400 text-white"
+                    : "bg-red-400 text-white"
+                  : "bg-gray-100 hover:bg-gray-200"
+                  }`}
                 disabled={selectedOption !== null}
               >
                 {opt}

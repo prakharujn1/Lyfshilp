@@ -1,6 +1,7 @@
 // PersuasionGame.jsx
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"; // npm install framer-motion
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const PersuasionGame = () => {
   const data = {
@@ -25,7 +26,7 @@ const PersuasionGame = () => {
       slogan: "Sweat Today, Succeed Tomorrow!",
     },
   };
-
+  const { completeCommunicationChallenge } = useCommunication();
   const [step, setStep] = useState(1);
   const [selectedOpening, setSelectedOpening] = useState(null);
   const [selectedReasons, setSelectedReasons] = useState([]);
@@ -38,8 +39,8 @@ const PersuasionGame = () => {
       prev.includes(reason)
         ? prev.filter((r) => r !== reason)
         : prev.length < 2
-        ? [...prev, reason]
-        : prev
+          ? [...prev, reason]
+          : prev
     );
   };
 
@@ -51,7 +52,10 @@ const PersuasionGame = () => {
 
   const handleSubmit = () => {
     setSubmitted(true);
-    if (isCorrect) setScore((prev) => prev + 1);
+    if (isCorrect) {
+      setScore((prev) => prev + 1);
+      completeCommunicationChallenge(0, 2); // 🟢 Challenge completed
+    }
     const audio = new Audio(
       isCorrect
         ? "https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.wav"
@@ -59,6 +63,7 @@ const PersuasionGame = () => {
     );
     audio.play();
   };
+
 
   const resetGame = () => {
     setStep(1);
@@ -79,11 +84,10 @@ const PersuasionGame = () => {
           {[1, 2, 3, 4].map((n) => (
             <div
               key={n}
-              className={`h-2 flex-1 mx-1 rounded-full ${
-                step === n || (submitted && n === 4)
-                  ? "bg-green-500"
-                  : "bg-gray-300"
-              }`}
+              className={`h-2 flex-1 mx-1 rounded-full ${step === n || (submitted && n === 4)
+                ? "bg-green-500"
+                : "bg-gray-300"
+                }`}
             ></div>
           ))}
         </div>
@@ -109,11 +113,10 @@ const PersuasionGame = () => {
                           setSelectedOpening(opt);
                           setStep(2);
                         }}
-                        className={`px-4 py-2 border rounded transition ${
-                          selectedOpening === opt
-                            ? "bg-blue-300 font-bold"
-                            : "bg-white hover:bg-blue-100"
-                        }`}
+                        className={`px-4 py-2 border rounded transition ${selectedOpening === opt
+                          ? "bg-blue-300 font-bold"
+                          : "bg-white hover:bg-blue-100"
+                          }`}
                       >
                         {opt}
                       </button>
@@ -135,11 +138,10 @@ const PersuasionGame = () => {
                       <button
                         key={reason}
                         onClick={() => handleReasonClick(reason)}
-                        className={`px-4 py-2 border rounded transition ${
-                          selectedReasons.includes(reason)
-                            ? "bg-green-300 font-bold"
-                            : "bg-white hover:bg-green-100"
-                        }`}
+                        className={`px-4 py-2 border rounded transition ${selectedReasons.includes(reason)
+                          ? "bg-green-300 font-bold"
+                          : "bg-white hover:bg-green-100"
+                          }`}
                       >
                         {reason}
                       </button>
@@ -169,11 +171,10 @@ const PersuasionGame = () => {
                       <button
                         key={slogan}
                         onClick={() => setSelectedSlogan(slogan)}
-                        className={`px-4 py-2 border rounded transition ${
-                          selectedSlogan === slogan
-                            ? "bg-purple-300 font-bold"
-                            : "bg-white hover:bg-purple-100"
-                        }`}
+                        className={`px-4 py-2 border rounded transition ${selectedSlogan === slogan
+                          ? "bg-purple-300 font-bold"
+                          : "bg-white hover:bg-purple-100"
+                          }`}
                       >
                         {slogan}
                       </button>
@@ -198,9 +199,8 @@ const PersuasionGame = () => {
               exit={{ opacity: 0 }}
             >
               <div
-                className={`p-3 rounded-lg text-white font-semibold text-center ${
-                  isCorrect ? "bg-green-600" : "bg-red-500"
-                }`}
+                className={`p-3 rounded-lg text-white font-semibold text-center ${isCorrect ? "bg-green-600" : "bg-red-500"
+                  }`}
               >
                 {isCorrect
                   ? "🎉 Congrats! You are good at persuading!"

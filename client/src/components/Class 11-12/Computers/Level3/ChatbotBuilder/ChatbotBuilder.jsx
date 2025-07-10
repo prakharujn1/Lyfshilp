@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, Brain, Target, Trophy, Users, TrendingUp, Settings, Play, Bot, User, CheckCircle, AlertCircle, Clock, Star } from 'lucide-react';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const CustomerServiceChatbotBuilder = () => {
+    const { completeComputersChallenge } = useComputers();
     const [gameState, setGameState] = useState('training'); // training, testing, results
     const [botTraining, setBotTraining] = useState({
         orderStatus: 0,
@@ -25,6 +27,13 @@ const CustomerServiceChatbotBuilder = () => {
         totalScenarios: 10,
         currentLevel: 1
     });
+
+    useEffect(() => {
+        if (isVictoryAchieved(2,0)) {
+            completeComputersChallenge();
+        }
+    }, [metrics]); // Only runs when metrics update
+
 
     // Training data and scenarios
     const trainingExamples = {
@@ -356,7 +365,7 @@ const CustomerServiceChatbotBuilder = () => {
                                     <MessageSquare className="text-blue-600" />
                                     Customer Conversation
                                 </h2>
-                                
+
                                 <p className="text-sm text-gray-600 mb-2">
                                     🧠 Use the scenario below to test your chatbot. Try different messages to handle the customer's issue clearly and kindly. The more you chat, the better the system can measure how well your bot performs in terms of satisfaction, resolution rate, relevance, and conversation completion. Your goal is to make the bot more reliable!
                                 </p>

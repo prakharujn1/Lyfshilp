@@ -10,8 +10,10 @@ import {
 } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import confetti from "canvas-confetti";
+import { useDM } from "@/contexts/DMContext";
 
 const CaptionClinicGame = () => {
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
   const [highlightedParts, setHighlightedParts] = useState([]);
   const [newCaption, setNewCaption] = useState("");
@@ -121,6 +123,8 @@ const CaptionClinicGame = () => {
       starCount = 5;
       setCelebrationMode(true);
       setTimeout(() => setCelebrationMode(false), 2000);
+
+      completeDMChallenge(1,0); // 👈 Add this here
     } else if (totalScore === 2) {
       feedbackMessage =
         "You're on the right track! Try being more specific and punchy.";
@@ -284,22 +288,20 @@ const CaptionClinicGame = () => {
 
                 <div className="text-lg leading-relaxed">
                   <span
-                    className={`px-2 py-1 rounded-lg cursor-pointer transition-all duration-300 ${
-                      highlightedParts.includes("hook")
+                    className={`px-2 py-1 rounded-lg cursor-pointer transition-all duration-300 ${highlightedParts.includes("hook")
                         ? "bg-red-300"
                         : "hover:bg-red-100"
-                    }`}
+                      }`}
                     onClick={() => toggleHighlight("hook")}
                   >
                     Buy our new energy drink now
                   </span>
                   <span>. </span>
                   <span
-                    className={`px-2 py-1 rounded-lg cursor-pointer transition-all duration-300 ${
-                      highlightedParts.includes("benefit")
+                    className={`px-2 py-1 rounded-lg cursor-pointer transition-all duration-300 ${highlightedParts.includes("benefit")
                         ? "bg-yellow-300"
                         : "hover:bg-yellow-100"
-                    }`}
+                      }`}
                     onClick={() => toggleHighlight("benefit")}
                   >
                     It's very good for concentration
@@ -380,20 +382,18 @@ const CaptionClinicGame = () => {
         {showResults && (
           <div
             ref={resultRef}
-            className={`bg-white rounded-3xl shadow-2xl p-6 md:p-8 transform transition-all duration-500 ${
-              celebrationMode ? "animate-bounce" : ""
-            }`}
+            className={`bg-white rounded-3xl shadow-2xl p-6 md:p-8 transform transition-all duration-500 ${celebrationMode ? "animate-bounce" : ""
+              }`}
           >
             <div className="text-center">
               <div className="flex justify-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-8 h-8 mx-1 ${
-                      i < stars
+                    className={`w-8 h-8 mx-1 ${i < stars
                         ? "text-yellow-400 fill-current"
                         : "text-gray-300"
-                    } transition-all duration-300`}
+                      } transition-all duration-300`}
                   />
                 ))}
               </div>

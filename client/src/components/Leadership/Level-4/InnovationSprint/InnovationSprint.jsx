@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const InnovationSprint = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1); // -1: intro, 0: form, 1: result
   const [what, setWhat] = useState("");
   const [why, setWhy] = useState("");
@@ -92,7 +94,7 @@ const InnovationSprint = () => {
       setVerifyMessage(reply);
       setIsApproved(
         reply.toLowerCase().includes("good job") ||
-          reply.toLowerCase().includes("awesome")
+        reply.toLowerCase().includes("awesome")
       );
       setStep(1);
 
@@ -100,6 +102,8 @@ const InnovationSprint = () => {
         reply.toLowerCase().includes("good job") ||
         reply.toLowerCase().includes("awesome")
       ) {
+        setIsApproved(true);
+        completeLeadershipChallenge(3,0); // Replace with your actual challenge and task ID
         // ✅ Trigger confetti immediately:
         confetti({
           particleCount: 150,

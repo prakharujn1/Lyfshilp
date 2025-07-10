@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
-
+import { useLeadership } from "@/contexts/LeadershipContext";
 const EthicalLogicMaze = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState("intro");
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [alert, setAlert] = useState("");
   const [reflection, setReflection] = useState("");
   const [showBadge, setShowBadge] = useState(false);
+
+  useEffect(() => {
+    if (step === "final" && showBadge) {
+      completeLeadershipChallenge(2,0);
+    }
+  }, [step, showBadge]);
 
   const triggerConfetti = () => {
     confetti({ spread: 200, particleCount: 150, origin: { y: 0.6 } });

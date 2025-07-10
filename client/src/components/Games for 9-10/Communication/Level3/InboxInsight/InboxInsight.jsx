@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useCommunication } from "@/contexts/CommunicationContext";
 const EMAILS = [
     {
         id: 1,
@@ -20,6 +20,7 @@ const EMAILS = [
 ];
 
 export default function InboxInsightGame() {
+    const { completeCommunicationChallenge } = useCommunication();
     const [responses, setResponses] = useState(
         EMAILS.map(() => ({ subject: "", greeting: "", body: "", closing: "" }))
     );
@@ -81,7 +82,12 @@ ${promptText}`;
 
             let text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
             text = text.replace(/```json|```/g, "").trim();
-            setFeedback(JSON.parse(text));
+            const parsedFeedback = JSON.parse(text);
+            setFeedback(parsedFeedback);
+
+            if (parsedFeedback.avatarType === "congratulatory") {
+                completeCommunicationChallenge(2,2);
+            }
         } catch (err) {
             console.error("Gemini API Error:", err);
             setFeedback({

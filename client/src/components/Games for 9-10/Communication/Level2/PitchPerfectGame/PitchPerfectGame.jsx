@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import toast from "react-hot-toast";
-
+import { useCommunication } from "@/contexts/CommunicationContext";
 const originalCards = [
     { id: 1, text: "We’ve studied how similar clubs in 3 other schools succeeded with this idea.", type: "Logos" },
     { id: 2, text: "This project will help students feel more involved and boost morale.", type: "Pathos" },
@@ -43,16 +43,28 @@ const zoneNames = ["Introduction", "Main Argument", "Final Appeal"];
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const PitchPerfectGame = () => {
+    const { completeCommunicationChallenge } = useCommunication();
     const [cardBank, setCardBank] = useState([]);
     const [zones, setZones] = useState([null, null, null]);
     const [custom, setCustom] = useState(["", "", ""]);
     const [score, setScore] = useState(null);
     const [feedback, setFeedback] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [challengeCompleted, setChallengeCompleted] = useState(false);
+
 
     useEffect(() => {
         setCardBank(shuffleArray(originalCards));
     }, []);
+
+    useEffect(() => {
+        if (finalScore !== null && finalScore >= 8 && !challengeCompleted) {
+            completeCommunicationChallenge(1,0);
+            setChallengeCompleted(true);
+        }
+    }, [finalScore]);
+
+
 
     const onDrop = (zoneIndex, card) => {
         if (zones[zoneIndex]) return;
@@ -332,6 +344,7 @@ Constraints:
                             (() => {
                                 const customPts = parseInt(feedback.customPitchScore?.split("/")[0]) || 0;
                                 const total = score + customPts;
+                                setFinalScore(total);
                                 const { label, message } = getFinalFeedback(total);
                                 return (
                                     <motion.div

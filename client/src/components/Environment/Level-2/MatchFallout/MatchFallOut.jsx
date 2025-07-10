@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const introGif =
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHFwbnNuZmo0Z3prNDFiczgwdjYwdTFnbWg3dGdweHI5dGE3bzlnYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xT39Db8zIOODTppk08/giphy.webp";
@@ -70,6 +71,8 @@ function Droppable({ id, children }) {
 }
 
 export default function MatchFallOut() {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [unassigned, setUnassigned] = useState(shuffle(initialActions));
   const [fallouts, setFallouts] = useState(
     shuffle(initialActions.map((a) => a.match))
@@ -78,6 +81,12 @@ export default function MatchFallOut() {
   const [view, setView] = useState("intro");
   const [score, setScore] = useState(null);
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (view === "result" && score >= 8) {
+      completeEnvirnomentChallenge(1, 1); // Mark Challenge 2, Task 1 as completed
+    }
+  }, [view, score]);
 
   const handleDragEnd = ({ active, over }) => {
     if (!over) return;

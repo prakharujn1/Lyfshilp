@@ -1,12 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Meyda from "meyda";
 import axios from "axios";
 import SpeakingAnimation from "@/components/SpeakingAnimation";
-
+import { useCommunication } from "@/contexts/CommunicationContext";
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 export default function TheBigSpeech() {
+  const { completeCommunicationChallenge } = useCommunication();
   const [step, setStep] = useState(1);
   const [cause, setCause] = useState("");
   const [hook, setHook] = useState("");
@@ -24,6 +25,12 @@ export default function TheBigSpeech() {
   const audioCtxRef = useRef(null);
   const sourceRef = useRef(null);
   const analyzerRef = useRef(null);
+
+  useEffect(() => {
+  if (totalScore >= 7) {
+    completeCommunicationChallenge(2,1);
+  }
+}, [totalScore]);
 
   // Step 1: Text Analysis (Gemini)
   const handleTextSubmit = async () => {

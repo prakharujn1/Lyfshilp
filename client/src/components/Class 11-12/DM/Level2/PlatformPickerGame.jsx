@@ -11,8 +11,10 @@ import {
   X,
 } from "lucide-react";
 import confetti from "canvas-confetti";
+import { useDM } from "@/contexts/DMContext";
 
 const PlatformPickerGame = () => {
+  const {completeDMChallenge} = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
   const [selections, setSelections] = useState({});
   const [feedback, setFeedback] = useState("");
@@ -131,6 +133,8 @@ const PlatformPickerGame = () => {
       starCount = 5;
       setCelebrationMode(true);
       setTimeout(() => setCelebrationMode(false), 4000);
+
+        completeDMChallenge(1,1);
     } else if (correctCount === 2) {
       feedbackMessage =
         "Nice work! Think more about where your audience *actually hangs out*. 🤔";

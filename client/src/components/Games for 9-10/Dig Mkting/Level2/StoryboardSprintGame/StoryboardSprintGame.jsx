@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
+import { useDM } from "@/contexts/DMContext";
 
 
 const initialFrames = [
@@ -36,6 +37,7 @@ const toneStyles = {
 const correctOrder = ["cover", "tip1", "tip2", "cta"];
 
 export default function StoryboardSprintGame() {
+    const { completeDMChallenge } = useDM();
     const [frames, setFrames] = useState(["", "", "", ""]);
     const [dragged, setDragged] = useState(null);
     const [aesthetic, setAesthetic] = useState("");
@@ -44,6 +46,12 @@ export default function StoryboardSprintGame() {
     const [points, setPoints] = useState(0);
     const [step, setStep] = useState(1);
     const [currentSlide, setCurrentSlide] = useState(0);
+
+    useEffect(() => {
+        if (step === 4 && points >= 7) {
+            completeDMChallenge(1,1);
+        }
+    }, [step, points]);
 
     useEffect(() => {
         if (step !== 3) return;
@@ -78,7 +86,7 @@ export default function StoryboardSprintGame() {
         return headings.cta?.toLowerCase().includes("save") || headings.cta?.toLowerCase().includes("try") ? 1 : 0;
     };
 
- 
+
     const checkHeadingsScore = () => {
         let score = 0;
         if (headings.cover?.trim()) score += 1; // Cover title
@@ -408,7 +416,7 @@ export default function StoryboardSprintGame() {
 
                     <p className="text-green-700 font-semibold mb-2">
                         {points >= 7 ? "✅ Great job! You passed the challenge!" : "🔄 Try again to pass the 7+ mark!"}
-                        
+
                     </p>
 
                     <div className="text-left mt-4 text-sm bg-purple-50 p-4 rounded-lg border border-purple-300">

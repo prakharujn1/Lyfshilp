@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
-
+import { useLeadership } from "@/contexts/LeadershipContext";
 const scenarios = [
   { id: 1, text: "Peer mentoring a shy classmate", correct: "Servant" },
   {
@@ -51,6 +51,7 @@ const isMeaningfulText = (text) => {
 };
 
 const LeadershipIdentityMixer = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
   const [matches, setMatches] = useState({});
   const [dominantStyle, setDominantStyle] = useState("");
@@ -60,6 +61,12 @@ const LeadershipIdentityMixer = () => {
   const { width, height } = useWindowSize();
   const [styleWarning, setStyleWarning] = useState("");
   const [valueWarning, setValueWarning] = useState("");
+
+  useEffect(() => {
+  if (submitted && isAllCorrect) {
+    completeLeadershipChallenge(0,0);
+  }
+}, [submitted, isAllCorrect]);
 
   const handleMatch = (id, style) => {
     setMatches((prev) => ({ ...prev, [id]: style }));

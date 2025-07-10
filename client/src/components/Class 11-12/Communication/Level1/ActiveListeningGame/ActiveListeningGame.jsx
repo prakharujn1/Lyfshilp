@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Confetti from "react-confetti";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -31,6 +32,7 @@ const concernKeywords = [
 ];
 
 export default function ActiveListeningGame() {
+    const { completeCommunicationChallenge } = useCommunication();
     const [step, setStep] = useState(1);
     const [concerns, setConcerns] = useState("");
     const [selectedEmotions, setSelectedEmotions] = useState([]);
@@ -157,6 +159,7 @@ Here is the student’s response:
 
             if (score === 3) {
                 setFeedback("🎉 Great job listening actively!");
+                completeCommunicationChallenge(0,1);
                 setShowConfetti(true);
                 setStep(5);
             } else if (!empathy) {

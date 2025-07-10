@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -41,6 +42,7 @@ const scenarios = [
 ];
 
 const EmotionDecoder = () => {
+  const { completeSELChallenge } = useSEL();
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
   const [input, setInput] = useState("");
@@ -150,8 +152,12 @@ const EmotionDecoder = () => {
   useEffect(() => {
     if (current >= scenarios.length) {
       setShowConfetti(score >= 4);
+      if (score >= 4) {
+        completeSELChallenge(0,0); // ✅ Mark challenge complete
+      }
     }
   }, [current, score]);
+
 
   const renderEndScreen = () => {
     let gif = "";

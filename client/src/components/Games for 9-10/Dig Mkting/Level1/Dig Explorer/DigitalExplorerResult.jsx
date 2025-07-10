@@ -12,12 +12,14 @@ import {
   Play,
   Edit3,
 } from "lucide-react";
+import { useDM } from "@/contexts/DMContext";
 
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const DigitalExplorerResult = () => {
+  const { completeDMChallenge } = useDM();
   const location = useLocation();
   const scores = location.state ? location.state : {};
 
@@ -44,6 +46,12 @@ const DigitalExplorerResult = () => {
   };
 
   const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (passed) {
+      completeDMChallenge(0,0);
+    }
+  }, [passed]); 
 
   useEffect(() => {
     const myCanvas = canvasRef.current;
@@ -122,9 +130,8 @@ const DigitalExplorerResult = () => {
         </div>
 
         <div
-          className={`text-md md:text-xl font-semibold mb-6 ${
-            passed ? "text-green-700" : "text-red-500"
-          }`}
+          className={`text-md md:text-xl font-semibold mb-6 ${passed ? "text-green-700" : "text-red-500"
+            }`}
         >
           {passed
             ? "✅ Pass Score: 7 — Well Done!"

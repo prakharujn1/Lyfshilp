@@ -13,6 +13,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+
 
 const puzzles = [
   {
@@ -82,9 +84,11 @@ function SortableItem({ id }) {
       {id}
     </li>
   );
-}
+} 
 
 const ChainReaction = () => {
+    const { completeEnvirnomentChallenge } = useEnvirnoment();
+  
   const [showStart, setShowStart] = useState(true);
   const [current, setCurrent] = useState(0);
   const [userOrder, setUserOrder] = useState([]);
@@ -93,6 +97,12 @@ const ChainReaction = () => {
   const [timeLeft, setTimeLeft] = useState(60);
 
   const sensors = useSensors(useSensor(PointerSensor));
+
+  useEffect(() => {
+  if (showResult && score >= 20) {
+    completeEnvirnomentChallenge(0,2); // Mark Challenge 3, Task 1 as completed
+  }
+}, [showResult, score]);
 
   useEffect(() => {
     if (!showStart && !showResult && timeLeft > 0) {

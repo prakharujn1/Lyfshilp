@@ -11,8 +11,10 @@ import {
   Store,
   MapPin,
 } from "lucide-react";
+import { useComputers } from "@/contexts/ComputersContext";
 
 const SmartCityGame = () => {
+  const { completeComputersChallenge } = useComputers();
   const [cityZones, setCityZones] = useState({
     schools: [],
     roads: [],
@@ -193,6 +195,9 @@ const SmartCityGame = () => {
 
   const checkAnswers = () => {
     setShowResults(true);
+
+    // ✅ Mark the challenge as complete
+    completeComputersChallenge(0,2);
   };
 
   const getScore = () => {
@@ -399,11 +404,10 @@ const SmartCityGame = () => {
             whileTap={{ scale: 0.95 }}
             onClick={checkAnswers}
             disabled={!allSolutionsPlaced}
-            className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${
-              allSolutionsPlaced
+            className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${allSolutionsPlaced
                 ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             🏙️ Check My Smart City!
           </motion.button>
@@ -457,11 +461,10 @@ const SmartCityGame = () => {
                         return (
                           <div
                             key={correctSolutionId}
-                            className={`flex items-center p-2 rounded-lg ${
-                              userPlaced
+                            className={`flex items-center p-2 rounded-lg ${userPlaced
                                 ? "bg-green-100 text-green-800"
                                 : "bg-red-100 text-red-800"
-                            }`}
+                              }`}
                           >
                             {userPlaced ? (
                               <CheckCircle className="w-4 h-4 mr-2" />

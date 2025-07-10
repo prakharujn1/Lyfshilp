@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
+import { useLaw } from "@/contexts/LawContext";
 
 const options = [
-  {
+  { 
     id: "o1",
     label: "The supreme legal document of India created after independence.",
   },
@@ -65,6 +66,7 @@ const correctMatches = {
 };
 
 const MatchTermsGameResult = () => {
+  const { completeLawChallenge } = useLaw();
   const navigate = useNavigate();
   const location = useLocation();
   console.log(location);
@@ -133,6 +135,8 @@ const MatchTermsGameResult = () => {
     };
 
     frame();
+
+    completeLawChallenge(0,0);
 
     // ✅ Cleanup function to stop the animation
     return () => {

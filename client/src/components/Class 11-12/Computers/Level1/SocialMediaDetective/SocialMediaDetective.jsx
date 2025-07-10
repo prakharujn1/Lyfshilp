@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-
+import { useComputers } from "@/contexts/ComputersContext";
 const directions = [
   [-1, 0],
   [0, 1],
@@ -95,6 +95,7 @@ function dfs(grid, start) {
 }
 
 export default function SocialMediaDetective() {
+  const { completeComputersChallenge } = useComputers();
   const [showGame, setShowGame] = useState(false);
   const [grid, setGrid] = useState([]);
   const [visitedOrder, setVisitedOrder] = useState([]);
@@ -179,6 +180,11 @@ export default function SocialMediaDetective() {
     const isCorrect = start.row === row && start.col === col;
     setResult(isCorrect);
     setShowInput(false);
+
+
+    if (isCorrect) {
+      completeComputersChallenge(0,0); // ✅ Call here when guess is correct
+    }
   };
 
 

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const introGif =
   "https://media.tenor.com/ykI_6DBK2yYAAAA1/benjammins-you-go-girl.webp";
@@ -45,10 +46,17 @@ const mcqs = [
 ];
 
 export default function LeaderTypeMatch() {
+  const { completeLeadershipChallenge } = useLeadership();
   const [stage, setStage] = useState("intro");
   const [dragData, setDragData] = useState([]);
   const [mcqAnswers, setMcqAnswers] = useState({});
   const [score, setScore] = useState(0);
+
+  useEffect(() => {
+  if (stage === "result" && score >= 5) {
+    completeLeadershipChallenge(0,0); // Update with actual challengeId and taskId
+  }
+}, [stage, score]);
 
   const startGame = () => {
     setStage("drag");

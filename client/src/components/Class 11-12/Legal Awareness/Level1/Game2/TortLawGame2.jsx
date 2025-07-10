@@ -10,7 +10,7 @@ import {
   Heart,
   Gavel,
 } from "lucide-react";
-
+import { useLaw } from "@/contexts/LawContext";
 import { motion } from "framer-motion";
 
 import clickSoundFile from "../../../Sound/clickSoundFile.mp3";
@@ -19,6 +19,7 @@ import clickSoundFileOops from "../../../Sound/clickSoundFileOops.mp3";
 import confetti from "canvas-confetti";
 
 const TortLawGame2 = () => {
+  const { completeLawChallenge } = useLaw();
   const [currentPage, setCurrentPage] = useState("home");
   const [currentChallenge, setCurrentChallenge] = useState(1);
   const [selectedCase, setSelectedCase] = useState(null); // This state isn't directly used for case display, currentQuestionIndex is. Consider if you need it.
@@ -173,6 +174,7 @@ const TortLawGame2 = () => {
       setSelectedAnswer(null); // Reset selected answer for the next question
     } else {
       // Challenge completed
+      completeLawChallenge(0,1); // ✅ Call it here
       setCompletedChallenges((prev) => [...prev, currentChallenge]);
       setCurrentPage("results");
     }
@@ -588,7 +590,7 @@ const TortLawGame2 = () => {
       className="w-[90%] mx-auto p-5 h-screen"
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
-      <div className="w-full h-full rounded-2xl relative shadow-2xl flex flex-col justify-center items-center bg-gradient-to-br bg-gradient-to-br from-pink-200 to-yellow-100 text-center p-6">
+      <div className="w-full h-full rounded-2xl relative shadow-2xl flex flex-col justify-center items-center bg-gradient-to-br from-pink-200 to-yellow-100 text-center p-6">
         <canvas
           ref={canvasRef}
           className="absolute top-0 left-0 w-full h-full pointer-events-none z-10"

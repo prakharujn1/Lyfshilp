@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useSEL } from "@/contexts/SELContext";
 
-const scenarios = [
+const scenarios = [ 
   {
     id: 1,
     title: "The Lunch Table Drama",
@@ -61,12 +62,19 @@ const scenarios = [
 ];
 
 const FriendshipFixer = () => {
+  const { completeSELChallenge } = useSEL();
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState(null);
   const [feedbackText, setFeedbackText] = useState("");
+
+  useEffect(() => {
+  if (showResult && score >= 3) {
+    completeSELChallenge(0,1);
+  }
+}, [showResult, score]);
 
   const handleOptionClick = (option) => {
     if (selected !== null) return;

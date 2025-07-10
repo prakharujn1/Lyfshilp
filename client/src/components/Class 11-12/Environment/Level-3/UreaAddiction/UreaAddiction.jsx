@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 const introGif =
   "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWQ4b3VmcHNpcmRpZ2YzeDQxY3F1bjR3N2E1Y2RiMnBpOTk1cDg5aCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/9AaNbSShRHQQfosEOm/200.webp";
 const correctGif =
@@ -135,9 +135,8 @@ const OptionCard = ({ front, back, isCorrect, onFlip, flipped, disabled }) => (
       {front}
     </div>
     <div
-      className={`absolute inset-0 ${
-        isCorrect ? "bg-green-100" : "bg-red-100"
-      } border border-gray-300 flex items-center justify-center text-center px-4 py-2 text-sm sm:text-base font-semibold rounded-xl shadow-md`}
+      className={`absolute inset-0 ${isCorrect ? "bg-green-100" : "bg-red-100"
+        } border border-gray-300 flex items-center justify-center text-center px-4 py-2 text-sm sm:text-base font-semibold rounded-xl shadow-md`}
       style={{
         transform: "rotateY(180deg)",
         WebkitBackfaceVisibility: "hidden",
@@ -150,6 +149,7 @@ const OptionCard = ({ front, back, isCorrect, onFlip, flipped, disabled }) => (
 );
 
 const UreaAddiction = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [step, setStep] = useState("intro"); // "intro", "game", "end"
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flippedIndex, setFlippedIndex] = useState(null);
@@ -157,6 +157,13 @@ const UreaAddiction = () => {
   const [score, setScore] = useState(0);
   const [lastCorrect, setLastCorrect] = useState(null);
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    const allCorrect = score === cards.length && currentIndex >= cards.length;
+    if (allCorrect) {
+      completeEnvirnomentChallenge(2,0);
+    }
+  }, [score, currentIndex]);
 
   const currentCard = cards[currentIndex];
 

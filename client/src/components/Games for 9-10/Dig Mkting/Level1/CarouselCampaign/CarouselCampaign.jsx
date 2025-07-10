@@ -13,8 +13,10 @@ import clickSoundFile from "./clickSoundFile.mp3";
 import clickSoundFileYay from "./clickSoundFileYay.mp3";
 import clickSoundFileOops from "./clickSoundFileOops.mp3";
 import { motion } from "framer-motion";
+import { useDM } from "@/contexts/DMContext";
 
 const CarouselCampaign = () => {
+  const { completeDMChallenge } = useDM();
   const [currentStep, setCurrentStep] = useState(1);
   const [frames, setFrames] = useState([null, null, null, null]);
   const [usedFrames, setUsedFrames] = useState([]);
@@ -265,6 +267,12 @@ const CarouselCampaign = () => {
     if (isPassed) playClickSound(clickSoundRefYay);
     else {
       playClickSound(clickSoundRefOops);
+    } 
+  }, [showResults, isPassed]);
+
+  useEffect(() => {
+    if (showResults && isPassed) {
+      completeDMChallenge(0,1);
     }
   }, [showResults, isPassed]);
 
@@ -347,13 +355,11 @@ const CarouselCampaign = () => {
                             onDragStart={(e) =>
                               !isUsed && handleDragStart(e, frame)
                             }
-                            className={`${
-                              frame.color
-                            } floating-card ${floatClass} p-2 md:p-4 rounded-2xl transform transition-all duration-200 ${
-                              isUsed
+                            className={`${frame.color
+                              } floating-card ${floatClass} p-2 md:p-4 rounded-2xl transform transition-all duration-200 ${isUsed
                                 ? "opacity-30 cursor-not-allowed grayscale"
                                 : "cursor-move hover:scale-105 hover:shadow-lg"
-                            }`}
+                              }`}
                           >
                             <div className="text-xl md:text-3xl mb-2">
                               {frame.icon}
@@ -488,13 +494,11 @@ const CarouselCampaign = () => {
                               setSelectedTheme(theme);
                               playClickSound(clickSoundRefPop);
                             }}
-                            className={`${
-                              theme.colors
-                            } floating-card ${floatClass} p-6 rounded-2xl transform hover:scale-105 transition-all duration-200 ${
-                              selectedTheme?.id === theme.id
+                            className={`${theme.colors
+                              } floating-card ${floatClass} p-6 rounded-2xl transform hover:scale-105 transition-all duration-200 ${selectedTheme?.id === theme.id
                                 ? "ring-4 ring-purple-500 shadow-lg"
                                 : "hover:shadow-md"
-                            }`}
+                              }`}
                           >
                             <div className="text-4xl mb-2">{theme.preview}</div>
                             <h4 className="font-bold text-gray-800">
@@ -521,11 +525,10 @@ const CarouselCampaign = () => {
                               setSelectedTone(tone);
                               playClickSound(clickSoundRefPop);
                             }}
-                            className={`bg-gradient-to-br floating-card ${floatClass} from-indigo-100 to-purple-100 p-6 rounded-2xl transform hover:scale-105 transition-all duration-200 ${
-                              selectedTone?.id === tone.id
+                            className={`bg-gradient-to-br floating-card ${floatClass} from-indigo-100 to-purple-100 p-6 rounded-2xl transform hover:scale-105 transition-all duration-200 ${selectedTone?.id === tone.id
                                 ? "ring-4 ring-indigo-500 shadow-lg"
                                 : "hover:shadow-md"
-                            }`}
+                              }`}
                           >
                             <div className="text-3xl mb-2">{tone.icon}</div>
                             <h4 className="font-bold text-gray-800">
@@ -682,9 +685,8 @@ const CarouselCampaign = () => {
 
             <div className="mb-8">
               <div
-                className={`text-7xl mb-4 ${
-                  isPassed ? "animate-bounce" : "animate-pulse"
-                }`}
+                className={`text-7xl mb-4 ${isPassed ? "animate-bounce" : "animate-pulse"
+                  }`}
               >
                 {isPassed ? "🎉" : "🔍"}
               </div>
@@ -722,11 +724,10 @@ const CarouselCampaign = () => {
                   {[...Array(3)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-6 h-6 ${
-                        i < scores.carouselBuild
+                      className={`w-6 h-6 ${i < scores.carouselBuild
                           ? "text-yellow-400 fill-current"
                           : "text-gray-300"
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
@@ -744,11 +745,10 @@ const CarouselCampaign = () => {
                   {[...Array(3)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-6 h-6 ${
-                        i < scores.toneMatch
+                      className={`w-6 h-6 ${i < scores.toneMatch
                           ? "text-yellow-400 fill-current"
                           : "text-gray-300"
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
@@ -766,11 +766,10 @@ const CarouselCampaign = () => {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${
-                        i < scores.headings
+                      className={`w-5 h-5 ${i < scores.headings
                           ? "text-yellow-400 fill-current"
                           : "text-gray-300"
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
@@ -779,19 +778,17 @@ const CarouselCampaign = () => {
 
             {/* 🎯 Final Score */}
             <div
-              className={`p-6 rounded-2xl border-4 text-center mb-10 ${
-                isPassed
+              className={`p-6 rounded-2xl border-4 text-center mb-10 ${isPassed
                   ? "bg-gradient-to-r from-green-100 to-emerald-200 border-green-400"
                   : "bg-gradient-to-r from-orange-100 to-yellow-200 border-orange-400"
-              }`}
+                }`}
             >
               <h3 className="text-2xl font-bold text-gray-800 mb-1">
                 🎯 Total Score
               </h3>
               <div
-                className={`text-5xl font-extrabold ${
-                  isPassed ? "text-green-600" : "text-orange-600"
-                }`}
+                className={`text-5xl font-extrabold ${isPassed ? "text-green-600" : "text-orange-600"
+                  }`}
               >
                 {totalScore}/11
               </div>

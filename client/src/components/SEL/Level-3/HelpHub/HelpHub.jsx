@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
+import { useSEL } from "@/contexts/SELContext";
 
 const scenarios = [
   {
@@ -81,10 +82,17 @@ const scenarios = [
 ];
 
 export default function HelpHub() {
+  const { completeSELChallenge } = useSEL();
   const [answers, setAnswers] = useState(Array(scenarios.length).fill(null));
   const [showResult, setShowResult] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (showResult && score >= 5) {
+      completeSELChallenge(2,1); // You can customize these parameters
+    }
+  }, [showResult, score]);
 
   const handleSelect = (optionIndex) => {
     const newAnswers = [...answers];
@@ -157,15 +165,14 @@ export default function HelpHub() {
               <button
                 key={idx}
                 onClick={() => handleSelect(idx)}
-                className={`w-full text-left px-4 py-2 rounded border transition-all duration-300 ${
-                  answers[currentIndex] !== null
-                    ? idx === scenarios[currentIndex].correct
-                      ? "bg-green-100 border-green-400"
-                      : idx === answers[currentIndex]
+                className={`w-full text-left px-4 py-2 rounded border transition-all duration-300 ${answers[currentIndex] !== null
+                  ? idx === scenarios[currentIndex].correct
+                    ? "bg-green-100 border-green-400"
+                    : idx === answers[currentIndex]
                       ? "bg-red-100 border-red-400"
                       : "bg-white border-gray-300"
-                    : "bg-white border-gray-300 hover:bg-blue-50 active:scale-95"
-                }`}
+                  : "bg-white border-gray-300 hover:bg-blue-50 active:scale-95"
+                  }`}
                 disabled={answers[currentIndex] !== null}
               >
                 {String.fromCharCode(65 + idx)}) {opt}
@@ -174,11 +181,10 @@ export default function HelpHub() {
           </div>
           {answers[currentIndex] !== null && (
             <p
-              className={`mt-2 font-medium transition-opacity duration-500 ${
-                answers[currentIndex] === scenarios[currentIndex].correct
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
+              className={`mt-2 font-medium transition-opacity duration-500 ${answers[currentIndex] === scenarios[currentIndex].correct
+                ? "text-green-600"
+                : "text-red-600"
+                }`}
             >
               {answers[currentIndex] === scenarios[currentIndex].correct
                 ? "✅ Correct! "

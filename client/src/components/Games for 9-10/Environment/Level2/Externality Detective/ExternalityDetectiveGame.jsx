@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Trophy, Star, RotateCcw, Home, Clock, Target } from "lucide-react";
 import confetti from "canvas-confetti";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const ExternalityDetectiveGame = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [currentPage, setCurrentPage] = useState("start");
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState([]);
@@ -218,6 +220,9 @@ const ExternalityDetectiveGame = () => {
     if (!isWinner || currentPage !== "result") {
       return;
     }
+
+    completeEnvirnomentChallenge(1,1);
+
 
     // Use the default confetti (full screen)
     const end = Date.now() + 3 * 1000;

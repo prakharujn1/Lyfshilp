@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useComputers } from "@/contexts/ComputersContext";
+
 const symptoms = ["fever", "cough", "chestPain", "breathing", "fatigue"];
 const coughTypes = ["none", "dry", "wet"];
 const fatigueLevels = ["low", "medium", "high"];
@@ -70,6 +72,7 @@ function TreeDiagram({ path }) {
 }
 
 export default function MedicalDiagnosisAssistant() {
+  const { completeComputersChallenge } = useComputers();
   const [trainingData, setTrainingData] = useState([]);
   const [testingData, setTestingData] = useState([]);
   const [accuracy, setAccuracy] = useState(null);
@@ -115,7 +118,14 @@ export default function MedicalDiagnosisAssistant() {
 
       if (predicted === p.diagnosis) correct++;
     });
-    setAccuracy(((correct / testingData.length) * 100).toFixed(2));
+
+    const acc = ((correct / testingData.length) * 100).toFixed(2);
+    setAccuracy(acc);
+
+    // ✅ Trigger challenge completion if accuracy is high enough
+    if (acc >= 85) {
+      completeComputersChallenge(1,0); // <-- here is the correct call
+    }
   };
 
   const currentSubset = filterDataByPath(trainingData, treePath);

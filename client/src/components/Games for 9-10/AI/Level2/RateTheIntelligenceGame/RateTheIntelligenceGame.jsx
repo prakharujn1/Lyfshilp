@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
-
+import { useComputers } from "@/contexts/ComputersContext";
 
 const aiTools = [
   { name: "Calculator", image: "./calculator.jpg" },
@@ -12,11 +12,18 @@ const aiTools = [
 ];
 
 export default function RateTheIntelligenceGame() {
+  const { completeComputersChallenge } = useComputers();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [stars, setStars] = useState(0);
   const [reason, setReason] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+useEffect(() => {
+  if (submitted) {
+    completeComputersChallenge(1,2);
+  }
+}, [submitted]);
 
   const handleRestart = () => {
     setStars(0);

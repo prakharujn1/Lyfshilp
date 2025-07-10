@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const cardData = {
     intro: [
@@ -64,6 +65,7 @@ const DraggableCard = ({ card }) => {
 };
 
 export default function PersuadeWithPurpose() {
+    const { completeCommunicationChallenge } = useCommunication();
     const [selectedCards, setSelectedCards] = useState({ intro: [], body: [], conclusion: [] });
     const [submitted, setSubmitted] = useState(false);
     const [feedback, setFeedback] = useState("");
@@ -136,6 +138,7 @@ export default function PersuadeWithPurpose() {
         if (isBalanced) {
             setIsSuccess(true);
             setFeedback("✅ Great balance of Ethos, Pathos, and Logos in your pitch!");
+             completeCommunicationChallenge(1,0); // ✅ Mark challenge as completed
         } else {
             setFeedback("🧠 Try balancing emotion with logic and credibility to strengthen your pitch.");
         }

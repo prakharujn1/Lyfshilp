@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { useCommunication } from "@/contexts/CommunicationContext";
 
 const moodEmojis = {
   Happy: "😃",
@@ -30,6 +31,7 @@ const moodGIFs = {
 };
 
 const SayItLikeUMeanItGame = () => {
+  const { completeCommunicationChallenge } = useCommunication();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -63,6 +65,9 @@ const SayItLikeUMeanItGame = () => {
     setTimeout(() => {
       if (currentIndex === sentenceData.length - 1) {
         setShowResult(true);
+        if (score + (correct ? 1 : 0) >= 3) {
+          completeCommunicationChallenge(0, 1); // ✅ Mark challenge complete
+        }
       } else {
         setCurrentIndex((prev) => prev + 1);
         setFeedbackGif(null);

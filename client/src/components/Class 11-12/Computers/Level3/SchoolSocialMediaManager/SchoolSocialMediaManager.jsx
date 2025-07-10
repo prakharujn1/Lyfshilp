@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Star, Trophy, Calendar, Bell, Users, Book, Award, MessageCircle, ThumbsUp, Share2 } from 'lucide-react';
+import { useComputers } from "@/contexts/ComputersContext";
 
 const SchoolSocialMediaManager = () => {
+    const { completeComputersChallenge } = useComputers();
     const [approvedPosts, setApprovedPosts] = useState([]);
     const [currentPost, setCurrentPost] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('academic');
@@ -127,6 +129,13 @@ const SchoolSocialMediaManager = () => {
 
     const isGameWon = approvedPosts.filter(post => post.approved).length >= 10;
 
+    useEffect(() => {
+        if (isGameWon) {
+            completeComputersChallenge(2,1);
+        }
+    }, [isGameWon]);
+
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-4">
             <div className="max-w-6xl mx-auto">
@@ -153,7 +162,7 @@ const SchoolSocialMediaManager = () => {
                                 You’re the school’s social media manager. Your mission is to create <span className="font-bold text-indigo-900">10 impressive posts</span> that spark excitement and show great communication skills.
                             </p>
                             <p className="text-blue-700 text-sm font-semibold bg-blue-100 px-3 py-2 rounded-lg border border-blue-300 mb-3">
-                                ✅ Target: <span className="font-bold">Get 10 posts approved by teachers</span> 
+                                ✅ Target: <span className="font-bold">Get 10 posts approved by teachers</span>
                             </p>
                             <ul className="text-sm text-gray-700 space-y-1 list-disc pl-5">
                                 <li>Impress teachers with clear, well-structured posts ⭐</li>

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { useDM } from "@/contexts/DMContext";
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -23,7 +24,8 @@ const scenarios = [
 ];
 
 const BrandVoiceChallenge = () => {
-   const getInitialState = () => ({
+    const { completeDMChallenge } = useDM();
+    const getInitialState = () => ({
         selectedPlatform: null,
         responses: {},
         submitted: false,
@@ -36,6 +38,12 @@ const BrandVoiceChallenge = () => {
     });
 
     const [state, setState] = useState(getInitialState());
+
+    useEffect(() => {
+        if (finalStep && result?.finalBreakdown?.overallTotal >= finalPassingScore) {
+            completeDMChallenge(1,2);
+        }
+    }, [finalStep, result]);
 
     // Destructure state for easier access
     const {
@@ -70,7 +78,7 @@ const BrandVoiceChallenge = () => {
     };
 
 
-     
+
     const extractJSON = (str) => {
         const match = str.match(/{[\s\S]*?}/);
         if (!match) {
@@ -542,7 +550,7 @@ ONLY return the JSON.
                                 {/* Animated Emojis */}
                                 <motion.div className="absolute text-2xl left-4 top-3" animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 2 }}>✨</motion.div>
                                 <motion.div className="absolute text-2xl right-6 bottom-2" animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 2 }}>😍</motion.div>
-                                
+
                                 {/* Caption Text on Top */}
                                 <p className="text-pink-600 font-bold text-md z-10">✨ GlowPop ✨</p>
                                 <p className="text-md font-medium mt-2 z-10">
@@ -647,7 +655,7 @@ ONLY return the JSON.
                     )}
 
                     {/* Restart Button */}
-                     <div className="text-center mt-4">
+                    <div className="text-center mt-4">
                         <button
                             onClick={resetGame} // Call the resetGame function here
                             className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full shadow-lg transition transform hover:scale-105"

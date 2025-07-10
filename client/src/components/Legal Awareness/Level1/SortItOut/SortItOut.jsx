@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Shuffle, Trophy, Star, Clock, RotateCcw } from "lucide-react";
+import { useLaw } from "@/contexts/LawContext";
 
 const SortItOut = () => {
+  const { completeLawChallenge } = useLaw();
   const [statements, setStatements] = useState([]);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(120);
@@ -149,6 +151,7 @@ const SortItOut = () => {
     if (completedInTime) {
       setScore((prev) => prev + 5);
       setFeedback("🎉 Amazing! Bonus points for finishing in time!");
+      completeLawChallenge(0,1);
     } else {
       setFeedback(`⏰ Time's up! ${score > 15 ? "Good effort" : ""}`);
     }

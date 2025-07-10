@@ -15,8 +15,10 @@ import {
   Zap,
   Heart,
 } from "lucide-react";
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const EthicsFirewallGame = () => {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [currentPage, setCurrentPage] = useState("instructions");
   const [selectedFlags, setSelectedFlags] = useState([]);
   const [matrixResponses, setMatrixResponses] = useState({});
@@ -179,6 +181,10 @@ The app tracks users' location, heart rate, sleep patterns, and workout data. Re
     setMatrixScore(matrixPoints);
     const finalScore = score + matrixPoints;
     setTotalScore(finalScore);
+
+    // ✅ Call the challenge completion function here
+    completeEntreprenerushipChallenge(0,2);
+
     setGameCompleted(true);
     setCurrentPage("completion");
   };
@@ -354,19 +360,18 @@ The app tracks users' location, heart rate, sleep patterns, and workout data. Re
                 <div
                   key={flag.id}
                   onClick={() => !showFeedback && handleFlagToggle(flag.id)}
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
-                    showResult
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${showResult
                       ? isSelected && isCorrect
                         ? "bg-green-100 border-green-500 text-green-800"
                         : isSelected && !isCorrect
-                        ? "bg-red-100 border-red-500 text-red-800"
-                        : isCorrect
-                        ? "bg-blue-100 border-blue-500 text-blue-800"
-                        : "bg-gray-100 border-gray-300 text-gray-600"
+                          ? "bg-red-100 border-red-500 text-red-800"
+                          : isCorrect
+                            ? "bg-blue-100 border-blue-500 text-blue-800"
+                            : "bg-gray-100 border-gray-300 text-gray-600"
                       : isSelected
-                      ? "bg-purple-100 border-purple-500 text-purple-800"
-                      : "bg-white border-gray-300 text-gray-700 hover:border-purple-400"
-                  }`}
+                        ? "bg-purple-100 border-purple-500 text-purple-800"
+                        : "bg-white border-gray-300 text-gray-700 hover:border-purple-400"
+                    }`}
                 >
                   <div className="flex items-center">
                     <span className="text-2xl mr-3">{flag.icon}</span>
@@ -417,11 +422,10 @@ The app tracks users' location, heart rate, sleep patterns, and workout data. Re
               <button
                 onClick={checkFlags}
                 disabled={selectedFlags.length !== 4}
-                className={`flex-1 py-3 px-6 rounded-xl font-bold transition-all duration-300 flex items-center justify-center ${
-                  selectedFlags.length === 4
+                className={`flex-1 py-3 px-6 rounded-xl font-bold transition-all duration-300 flex items-center justify-center ${selectedFlags.length === 4
                     ? "bg-gradient-to-r from-red-600 to-pink-600 text-white hover:from-red-700 hover:to-pink-700 transform hover:scale-105"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                  }`}
               >
                 Check My Answers ({selectedFlags.length}/4)
               </button>
@@ -542,11 +546,10 @@ The app tracks users' location, heart rate, sleep patterns, and workout data. Re
             <button
               onClick={completeGame}
               disabled={Object.keys(matrixResponses).length < 8}
-              className={`flex-1 py-3 px-6 rounded-xl font-bold transition-all duration-300 flex items-center justify-center ${
-                Object.keys(matrixResponses).length >= 8
+              className={`flex-1 py-3 px-6 rounded-xl font-bold transition-all duration-300 flex items-center justify-center ${Object.keys(matrixResponses).length >= 8
                   ? "bg-gradient-to-r from-green-600 to-blue-600 text-white hover:from-green-700 hover:to-blue-700 transform hover:scale-105"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+                }`}
             >
               Complete Mission! <Award className="ml-2 w-5 h-5" />
             </button>
@@ -689,11 +692,10 @@ The app tracks users' location, heart rate, sleep patterns, and workout data. Re
                         ) => (
                           <div
                             key={idx}
-                            className={`p-3 rounded-xl ${
-                              isCorrect
+                            className={`p-3 rounded-xl ${isCorrect
                                 ? "bg-green-200 border-2 border-green-400"
                                 : "bg-yellow-200 border-2 border-yellow-400"
-                            }`}
+                              }`}
                           >
                             <div className="flex items-center justify-between">
                               <div>
@@ -732,8 +734,8 @@ The app tracks users' location, heart rate, sleep patterns, and workout data. Re
                 {totalScore >= 10
                   ? "🎯 You've mastered the art of ethical thinking! You're a superhero of fairness!"
                   : totalScore >= 6
-                  ? "🚀 You're doing great! Keep going and you'll be an ethics master soon!"
-                  : "🌱 You're on your way! Keep practicing and your powers will grow!"}
+                    ? "🚀 You're doing great! Keep going and you'll be an ethics master soon!"
+                    : "🌱 You're on your way! Keep practicing and your powers will grow!"}
               </p>
             </div>
           </div>

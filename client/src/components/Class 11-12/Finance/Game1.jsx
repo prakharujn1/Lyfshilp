@@ -5,7 +5,7 @@ import {
   DollarSign,
   PieChart,
   BarChart3,
-  Trophy,
+  Trophy, 
   Star,
   RefreshCw,
   Play,
@@ -16,7 +16,6 @@ import {
   Zap,
   Activity,
 } from "lucide-react";
-
 import {
   LineChart,
   Line,
@@ -27,8 +26,10 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useFinance } from "@/contexts/FinanceContext";  
 
 const InvestoQuestPro = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -279,6 +280,7 @@ const InvestoQuestPro = () => {
 
     setIsLoading(false);
     setCurrentPage("results");
+    completeFinanceChallenge(0,0); // ✅ Mark challenge as complete
   };
 
   useEffect(() => {

@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+ 
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { useDM } from "@/contexts/DMContext";
-
+ 
 const adTypes = ["Video", "Post", "Banner", "Popup", "Other"];
 
 const AdDetectiveGamePage = () => {

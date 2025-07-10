@@ -21,8 +21,11 @@ import clickSoundFileYay from "../../Sound/clickSoundFileYay.mp3";
 import clickSoundFileOops from "../../Sound/clickSoundFileOops.mp3";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+
 
 const SustainabilityGames2 = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [currentPage, setCurrentPage] = useState("home");
   const [currentGame, setCurrentGame] = useState("infrastructure");
   const [score, setScore] = useState(0);
@@ -266,6 +269,8 @@ const SustainabilityGames2 = () => {
     if (score < 5 || !gameCompleted) {
       return;
     }
+     
+    completeEnvirnomentChallenge(2,1);  
 
     // Use the default confetti (full screen)
     const end = Date.now() + 3 * 1000;
@@ -351,20 +356,18 @@ const SustainabilityGames2 = () => {
     const instructions = gameInstructions[currentGame];
     return (
       <div
-        className={`min-h-screen p-4 flex items-center justify-center ${
-          currentGame === "infrastructure"
+        className={`min-h-screen p-4 flex items-center justify-center ${currentGame === "infrastructure"
             ? "bg-gradient-to-br from-green-400 via-teal-500 to-blue-600"
             : "bg-gradient-to-br from-purple-500 via-pink-500 to-red-500"
-        }`}
+          }`}
       >
         <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto border-4 border-white/50">
           <div className="text-center mb-6">
             <div
-              className={`inline-block p-4 rounded-full mb-4 ${
-                currentGame === "infrastructure"
+              className={`inline-block p-4 rounded-full mb-4 ${currentGame === "infrastructure"
                   ? "bg-green-500"
                   : "bg-purple-500"
-              }`}
+                }`}
             >
               {currentGame === "infrastructure" ? (
                 <Building className="w-12 h-12 text-white" />
@@ -388,11 +391,10 @@ const SustainabilityGames2 = () => {
               {instructions.rules.map((rule, index) => (
                 <div key={index} className="flex items-start space-x-3">
                   <div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold ${
-                      currentGame === "infrastructure"
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold ${currentGame === "infrastructure"
                         ? "bg-green-500"
                         : "bg-purple-500"
-                    }`}
+                      }`}
                   >
                     {index + 1}
                   </div>
@@ -411,11 +413,10 @@ const SustainabilityGames2 = () => {
             </button>
             <button
               onClick={startQuestions}
-              className={`px-8 py-3 rounded-full font-bold text-white transition-all duration-300 transform hover:scale-105 ${
-                currentGame === "infrastructure"
+              className={`px-8 py-3 rounded-full font-bold text-white transition-all duration-300 transform hover:scale-105 ${currentGame === "infrastructure"
                   ? "bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600"
                   : "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-              }`}
+                }`}
             >
               Start Playing! 🎮
             </button>
@@ -480,11 +481,10 @@ const SustainabilityGames2 = () => {
                 {Array.from({ length: 5 }, (_, i) => (
                   <Star
                     key={i}
-                    className={`w-6 h-6 ${
-                      i < Math.floor(percentage / 20)
+                    className={`w-6 h-6 ${i < Math.floor(percentage / 20)
                         ? "text-yellow-500 fill-current"
                         : "text-gray-300"
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -504,8 +504,8 @@ const SustainabilityGames2 = () => {
               {score === questions.length
                 ? "Perfect! You're a true Eco Champion! 🌱"
                 : score >= questions.length * 0.7
-                ? "Excellent work! You're learning fast! 🚀"
-                : "Keep practicing to become an expert! 💪"}
+                  ? "Excellent work! You're learning fast! 🚀"
+                  : "Keep practicing to become an expert! 💪"}
             </motion.p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -536,11 +536,10 @@ const SustainabilityGames2 = () => {
 
     return (
       <div
-        className={`min-h-screen p-4 ${
-          currentGame === "infrastructure"
+        className={`min-h-screen p-4 ${currentGame === "infrastructure"
             ? "bg-gradient-to-br from-green-400 via-teal-500 to-blue-600"
             : "bg-gradient-to-br from-purple-500 via-pink-500 to-red-500"
-        }`}
+          }`}
       >
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -570,11 +569,10 @@ const SustainabilityGames2 = () => {
           <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-6 sm:p-8 mb-6 border-4 border-white/50">
             <div className="text-center mb-6">
               <div
-                className={`inline-block p-4 rounded-full mb-4 ${
-                  currentGame === "infrastructure"
+                className={`inline-block p-4 rounded-full mb-4 ${currentGame === "infrastructure"
                     ? "bg-green-100"
                     : "bg-purple-100"
-                }`}
+                  }`}
               >
                 {currentQuestion.icon}
               </div>
@@ -595,25 +593,23 @@ const SustainabilityGames2 = () => {
                   key={index}
                   onClick={() => !showResult && handleAnswer(index)}
                   disabled={showResult}
-                  className={`p-4 sm:p-6 rounded-2xl border-3 font-bold text-sm sm:text-base transition-all duration-300 transform hover:scale-105 text-left ${
-                    showResult
+                  className={`p-4 sm:p-6 rounded-2xl border-3 font-bold text-sm sm:text-base transition-all duration-300 transform hover:scale-105 text-left ${showResult
                       ? index === currentQuestion.correct
                         ? "bg-green-500 text-white border-green-600 animate-pulse"
                         : selectedAnswer === index
-                        ? "bg-red-500 text-white border-red-600"
-                        : "bg-gray-200 text-gray-500 border-gray-300"
+                          ? "bg-red-500 text-white border-red-600"
+                          : "bg-gray-200 text-gray-500 border-gray-300"
                       : currentGame === "infrastructure"
-                      ? "bg-green-100 hover:bg-green-200 border-green-300 text-green-800"
-                      : "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-800"
-                  }`}
+                        ? "bg-green-100 hover:bg-green-200 border-green-300 text-green-800"
+                        : "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-800"
+                    }`}
                 >
                   <div className="flex items-center">
                     <div
-                      className={`w-8 h-8 rounded-full mr-4 flex items-center justify-center font-bold text-white ${
-                        currentGame === "infrastructure"
+                      className={`w-8 h-8 rounded-full mr-4 flex items-center justify-center font-bold text-white ${currentGame === "infrastructure"
                           ? "bg-green-500"
                           : "bg-purple-500"
-                      }`}
+                        }`}
                     >
                       {String.fromCharCode(65 + index)}
                     </div>
@@ -628,11 +624,10 @@ const SustainabilityGames2 = () => {
           {showResult && (
             <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
               <div
-                className={`bg-white rounded-3xl p-6 sm:p-8 max-w-md mx-auto text-center transform animate-bounce ${
-                  isCorrect
+                className={`bg-white rounded-3xl p-6 sm:p-8 max-w-md mx-auto text-center transform animate-bounce ${isCorrect
                     ? "border-4 border-green-500"
                     : "border-4 border-red-500"
-                }`}
+                  }`}
               >
                 <div className="mb-4">
                   {isCorrect ? (
@@ -642,9 +637,8 @@ const SustainabilityGames2 = () => {
                   )}
                 </div>
                 <h3
-                  className={`text-2xl font-bold mb-4 ${
-                    isCorrect ? "text-green-600" : "text-red-600"
-                  }`}
+                  className={`text-2xl font-bold mb-4 ${isCorrect ? "text-green-600" : "text-red-600"
+                    }`}
                 >
                   {isCorrect ? "🎉 Correct!" : "😔 Oops!"}
                 </h3>

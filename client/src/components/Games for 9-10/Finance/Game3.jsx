@@ -19,8 +19,10 @@ import { toast, ToastContainer } from "react-toastify";
 import jsPDF from "jspdf";
 import InvestmentGuidePDF from "./Game3PDF";
 import { pdf } from "@react-pdf/renderer";
+import { useFinance } from "@/contexts/FinanceContext";  
 
 const BudgetBossGame = () => {
+  const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
   const [currentMonth, setCurrentMonth] = useState(1);
   const [totalIncome] = useState(2000);
@@ -251,6 +253,7 @@ const BudgetBossGame = () => {
 
     if (currentMonth === 3) {
       setGameComplete(true);
+      completeFinanceChallenge(0,2); // ✅ Marks the challenge as complete
       setCurrentPage("results");
     } else {
       setCurrentMonth(currentMonth + 1);

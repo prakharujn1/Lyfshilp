@@ -5,8 +5,10 @@ import clickSoundFileYay from "../../Sound/clickSoundFileYay.mp3";
 import clickSoundFileOops from "../../Sound/clickSoundFileOops.mp3";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const MeasureCompareQuiz = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [currentPage, setCurrentPage] = useState("home");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
@@ -204,6 +206,9 @@ const MeasureCompareQuiz = () => {
     if (score < 5 || currentPage !== "final") {
       return;
     }
+
+    completeEnvirnomentChallenge(1,0); // <-- Add this here
+
 
     // Use the default confetti (full screen)
     const end = Date.now() + 3 * 1000;

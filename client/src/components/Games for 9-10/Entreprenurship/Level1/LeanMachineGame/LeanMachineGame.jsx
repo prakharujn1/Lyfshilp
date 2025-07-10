@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
 import AIHomeworkAnimation from '@/components/AIHomework';
+import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
 
 const canvasSections = [
   "Problem", "Solution", "Key Metrics", "Unique Value Proposition",
@@ -87,6 +88,7 @@ const challengeCards = [
 ];
 
 export default function LeanMachineGame() {
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const { width, height } = useWindowSize();
   const [canvasData, setCanvasData] = useState({});
   const [draggingText, setDraggingText] = useState("");
@@ -185,43 +187,44 @@ export default function LeanMachineGame() {
     } else if (!allQuizDone) {
       toast.error("🎯 Finish all Market Challenge questions.");
     } else {
+      completeEntreprenerushipChallenge(0,1);
       setGameFinished(true);
     }
   };
 
   if (gameFinished) {
-  return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-green-100 via-yellow-50 to-white px-4 text-center animate-fade-in">
-      <Confetti width={width} height={height} recycle={false} numberOfPieces={600} />
-      
-      <div className="bg-white/90 backdrop-blur-md shadow-2xl border-4 border-green-300 rounded-3xl p-10 max-w-2xl w-full transition-all duration-500 scale-100 hover:scale-[1.02]">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-green-700 drop-shadow mb-2 tracking-tight">
-          🚀 Mission Complete!
-        </h2>
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-green-100 via-yellow-50 to-white px-4 text-center animate-fade-in">
+        <Confetti width={width} height={height} recycle={false} numberOfPieces={600} />
 
-        <p className="text-lg sm:text-xl text-gray-800 font-medium mb-2 leading-relaxed">
-          You've officially built your own <span className="text-purple-600 font-semibold">AI Homework Hero</span>!  
-          🌟 Your creative founder journey was bold, smart, and unforgettable.
-        </p>
+        <div className="bg-white/90 backdrop-blur-md shadow-2xl border-4 border-green-300 rounded-3xl p-10 max-w-2xl w-full transition-all duration-500 scale-100 hover:scale-[1.02]">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-green-700 drop-shadow mb-2 tracking-tight">
+            🚀 Mission Complete!
+          </h2>
 
-        <div className="mb-3">
-          <AIHomeworkAnimation />
+          <p className="text-lg sm:text-xl text-gray-800 font-medium mb-2 leading-relaxed">
+            You've officially built your own <span className="text-purple-600 font-semibold">AI Homework Hero</span>!
+            🌟 Your creative founder journey was bold, smart, and unforgettable.
+          </p>
+
+          <div className="mb-3">
+            <AIHomeworkAnimation />
+          </div>
+
+          <p className="text-md text-gray-700 italic mb-3">
+            🎯 Keep solving, keep building — the next big idea might be just one click away!
+          </p>
+
+          <button
+            onClick={handleRestart}
+            className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full hover:scale-105 transition-all duration-300 font-semibold text-lg shadow-lg"
+          >
+            🔁 Play Again
+          </button>
         </div>
-
-        <p className="text-md text-gray-700 italic mb-3">
-          🎯 Keep solving, keep building — the next big idea might be just one click away!
-        </p>
-
-        <button
-          onClick={handleRestart}
-          className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full hover:scale-105 transition-all duration-300 font-semibold text-lg shadow-lg"
-        >
-          🔁 Play Again  
-        </button>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 
 

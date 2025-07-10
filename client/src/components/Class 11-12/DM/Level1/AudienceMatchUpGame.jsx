@@ -10,8 +10,10 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
+import { useDM } from "@/contexts/DMContext";
 
 const AudienceMatchUpGame = () => {
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("start");
   const [matches, setMatches] = useState({});
   const [score, setScore] = useState(0);
@@ -19,6 +21,12 @@ const AudienceMatchUpGame = () => {
   const [gameComplete, setGameComplete] = useState(false);
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverTarget, setDragOverTarget] = useState(null);
+
+  useEffect(() => {
+    if (currentPage === "result") {
+      completeDMChallenge(0, 2);
+    }
+  }, [currentPage]);
 
   const brands = [
     {
@@ -127,24 +135,21 @@ const AudienceMatchUpGame = () => {
         feedbackArray.push({
           brand: brand.name,
           correct: true,
-          message: `Spot on! ${
-            brand.name
-          } is perfect for ${audience.name.toLowerCase()}. ${
-            brand.name === "ZenBuds"
+          message: `Spot on! ${brand.name
+            } is perfect for ${audience.name.toLowerCase()}. ${brand.name === "ZenBuds"
               ? "Students need focus in noisy places!"
               : brand.name === "ChillTales"
-              ? "Kids love bedtime stories!"
-              : "Fitness enthusiasts need protein!"
-          }`,
+                ? "Kids love bedtime stories!"
+                : "Fitness enthusiasts need protein!"
+            }`,
         });
       } else {
         const wrongAudience = audiences.find((a) => a.id === matchedAudience);
         feedbackArray.push({
           brand: brand.name,
           correct: false,
-          message: `Hmm... ${brand.name} with ${
-            wrongAudience ? wrongAudience.name.toLowerCase() : "no one"
-          }? Think about who would actually *use* ${brand.description.toLowerCase()}!`,
+          message: `Hmm... ${brand.name} with ${wrongAudience ? wrongAudience.name.toLowerCase() : "no one"
+            }? Think about who would actually *use* ${brand.description.toLowerCase()}!`,
         });
       }
     });
@@ -361,11 +366,9 @@ const AudienceMatchUpGame = () => {
                     onDragOver={(e) => handleDragOver(e, audience.id)}
                     onDragLeave={handleDragLeave}
                     onDrop={(e) => handleDrop(e, audience.id)}
-                    className={`bg-gradient-to-r ${
-                      audience.color
-                    } rounded-3xl p-6 min-h-[220px] shadow-2xl transition duration-300 ease-in-out ${
-                      isDropTarget ? "scale-105 ring-4 ring-white/60" : ""
-                    }`}
+                    className={`bg-gradient-to-r ${audience.color
+                      } rounded-3xl p-6 min-h-[220px] shadow-2xl transition duration-300 ease-in-out ${isDropTarget ? "scale-105 ring-4 ring-white/60" : ""
+                      }`}
                   >
                     <div className="text-center text-white">
                       <div className="text-5xl mb-4">{audience.icon}</div>
@@ -378,11 +381,10 @@ const AudienceMatchUpGame = () => {
 
                       {/* Drop Zone */}
                       <div
-                        className={`border-2 border-dashed rounded-xl p-4 min-h-[80px] flex items-center justify-center transition duration-200 ${
-                          isDropTarget
+                        className={`border-2 border-dashed rounded-xl p-4 min-h-[80px] flex items-center justify-center transition duration-200 ${isDropTarget
                             ? "bg-white/40 border-white"
                             : "bg-white/10 border-white/40"
-                        }`}
+                          }`}
                       >
                         {matchedBrand ? (
                           <div
@@ -462,8 +464,8 @@ const AudienceMatchUpGame = () => {
               {score === 5
                 ? "Marketing Genius!"
                 : score === 3
-                ? "Great Job!"
-                : "Keep Learning!"}
+                  ? "Great Job!"
+                  : "Keep Learning!"}
             </motion.h2>
 
             {/* Star Rating */}
@@ -471,11 +473,10 @@ const AudienceMatchUpGame = () => {
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
-                  className={`w-8 h-8 sm:w-10 sm:h-10 ${
-                    star <= score
+                  className={`w-8 h-8 sm:w-10 sm:h-10 ${star <= score
                       ? "text-yellow-400 fill-yellow-400"
                       : "text-gray-300"
-                  } animate-pulse`}
+                    } animate-pulse`}
                   style={{ animationDelay: `${star * 0.1}s` }}
                 />
               ))}
@@ -485,8 +486,8 @@ const AudienceMatchUpGame = () => {
               {score === 5
                 ? "Perfect matches! You understand your audiences!"
                 : score === 3
-                ? "Almost there! You're getting the hang of it!"
-                : "Every expert was once a beginner!"}
+                  ? "Almost there! You're getting the hang of it!"
+                  : "Every expert was once a beginner!"}
             </p>
           </div>
 
@@ -498,11 +499,10 @@ const AudienceMatchUpGame = () => {
             {feedback.map((item, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-2xl border-2 ${
-                  item.correct
+                className={`p-4 rounded-2xl border-2 ${item.correct
                     ? "bg-green-50 border-green-300 text-green-800"
                     : "bg-red-50 border-red-300 text-red-800"
-                } transform hover:scale-105 transition-all duration-300`}
+                  } transform hover:scale-105 transition-all duration-300`}
               >
                 <div className="flex items-start gap-3">
                   {item.correct ? (
@@ -529,8 +529,8 @@ const AudienceMatchUpGame = () => {
               {score === 5
                 ? "You've mastered audience targeting! Great marketers always think: 'Who has this problem, and how can my product solve it?'"
                 : score === 3
-                ? "You're on the right track! Remember: the best products solve real problems for specific people."
-                : "Keep practicing! Think about WHO would actually USE the product in their daily life."}
+                  ? "You're on the right track! Remember: the best products solve real problems for specific people."
+                  : "Keep practicing! Think about WHO would actually USE the product in their daily life."}
             </p>
           </div>
 

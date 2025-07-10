@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, RefreshCcw, Loader } from "lucide-react";
+import { useLeadership } from "@/contexts/LeadershipContext";
 
 const emojiOptions = ["😄", "🙂", "😐", "😟", "😢"];
 const strategies = ["Pause", "Rethink", "Reframe", "Deep Breathing"];
@@ -25,6 +26,7 @@ function parsePossiblyStringifiedJSON(text) {
 }
 
 const EQGame = () => {
+  const { completeLeadershipChallenge } = useLeadership();
   const [moodTracker, setMoodTracker] = useState(["", "", ""]);
   const [reflection, setReflection] = useState("");
   const [selectedStrategy, setSelectedStrategy] = useState("");
@@ -32,6 +34,12 @@ const EQGame = () => {
   const [started, setStarted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState(null);
+
+  useEffect(() => {
+    if (stage === 4 && aiFeedback) {
+      completeLeadershipChallenge(1,0);
+    }
+  }, [stage, aiFeedback]);
 
   const handleMoodChange = (index, emoji) => {
     const updated = [...moodTracker];

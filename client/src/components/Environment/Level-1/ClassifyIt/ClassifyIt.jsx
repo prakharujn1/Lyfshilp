@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
 
 const data = [
   {
@@ -71,11 +72,19 @@ const categories = [
 ];
 
 const ClassifyIt = () => {
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [started, setStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+    if (showResult && score >= 16) {
+      completeEnvirnomentChallenge(0,0); // Mark Challenge 1, Task 1 as completed
+    }
+  }, [showResult, score]);
 
   useEffect(() => {
     if (started && timeLeft > 0) {
