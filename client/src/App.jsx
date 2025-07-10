@@ -382,6 +382,7 @@ function App() {
             <Route path="/finance/notes/section-4" element={<Section4 />} />
             <Route path="/finance/notes/section-5" element={<Section5 />} />
             <Route path="/finance/notes/section-6" element={<Section6 />} />
+            {/* Finance Management Games 6th-8th */}
             <Route path="/pick-a-bank" element={<PickABank />} />
             <Route path="/budget-activity" element={<BudgetActivity />} />
             <Route path="/budget-builder" element={<BudgetBuilder />} />
@@ -868,38 +869,44 @@ function App() {
             <Route path="/invest-quest-pro" element={<InvestoQuestPro />} />
             {/* 11-12 Finance games */}
 
-             {/*11-12 DM games */}
-          {/*Level 1 games */}
-          <Route path="/ad-spotter-game" element={<AdSpotterGame />} />
-          <Route
-            path="/audience-match-up-game"
-            element={<AudienceMatchUpGame />}
-          />
-          <Route
-            path="/persona-builder-game"
-            element={<PersonaBuilderGame />}
-          />
+            {/*11-12 DM games */}
+            {/*Level 1 games */}
+            <Route path="/ad-spotter-game" element={<AdSpotterGame />} />
+            <Route
+              path="/audience-match-up-game"
+              element={<AudienceMatchUpGame />}
+            />
+            <Route
+              path="/persona-builder-game"
+              element={<PersonaBuilderGame />}
+            />
 
-          {/*Level 2  games */}
-          <Route path="/caption-clinic-game" element={<CaptionClinicGame />} />
-          <Route
-            path="/platform-picker-game"
-            element={<PlatformPickerGame />}
-          />
-          <Route
-            path="/campaign-puzzle-game"
-            element={<CampaignPuzzleGame />}
-          />
+            {/*Level 2  games */}
+            <Route
+              path="/caption-clinic-game"
+              element={<CaptionClinicGame />}
+            />
+            <Route
+              path="/platform-picker-game"
+              element={<PlatformPickerGame />}
+            />
+            <Route
+              path="/campaign-puzzle-game"
+              element={<CampaignPuzzleGame />}
+            />
 
-          {/*Level 3 games */}
-          <Route path="/boost-or-post-game" element={<BoostOrPostGame />} />
-          <Route
-            path="/campaign-builder-game"
-            element={<CampaignBuilderGame />}
-          />
-          <Route path="/metric-match-up-game" element={<MetricMatchUpGame />} />
+            {/*Level 3 games */}
+            <Route path="/boost-or-post-game" element={<BoostOrPostGame />} />
+            <Route
+              path="/campaign-builder-game"
+              element={<CampaignBuilderGame />}
+            />
+            <Route
+              path="/metric-match-up-game"
+              element={<MetricMatchUpGame />}
+            />
 
-          {/*11-12 DM games finish*/}
+            {/*11-12 DM games finish*/}
 
             {/* Games of Communication Class 11-12 */}
 
@@ -978,39 +985,18 @@ function App() {
             {/* Finish Games of Leadership Class 11-12 */}
 
             {/* Games of SEL Class 11-12 */}
-            <Route
-              path="/ThoughtReframerDrag"
-              element={<ThoughtReframer />}
-            />
+            <Route path="/ThoughtReframerDrag" element={<ThoughtReframer />} />
 
-            <Route
-              path="/BoundaryBuilder"
-              element={<BoundaryBuilder />}
-            />
+            <Route path="/BoundaryBuilder" element={<BoundaryBuilder />} />
 
-            <Route
-              path="/BurnoutBarometer"
-              element={<BurnoutBarometer />}
-            />
-            <Route
-              path="/FocusTracker"
-              element={<FocusTracker />}
-            />
+            <Route path="/BurnoutBarometer" element={<BurnoutBarometer />} />
+            <Route path="/FocusTracker" element={<FocusTracker />} />
 
-            <Route
-              path="/EthicalSimulator"
-              element={<EthicalSimulator />}
-            />
+            <Route path="/EthicalSimulator" element={<EthicalSimulator />} />
 
-            <Route
-              path="/LegacyBuilder"
-              element={<LegacyBuilder />}
-            />
+            <Route path="/LegacyBuilder" element={<LegacyBuilder />} />
 
-            <Route
-              path="/IdentityShifter"
-              element={<IdentityShifter />}
-            />
+            <Route path="/IdentityShifter" element={<IdentityShifter />} />
             {/* Finish Games of SEL Class 11-12 */}
 
             {/* Games of Computers Class 11-12 */}
@@ -1020,48 +1006,45 @@ function App() {
               path="/SocialMediaDetective"
               element={<SocialMediaDetective />}
             />
-            <Route
-              path="/SmartGPSChallenge"
-              element={<SmartGPSChallenge />}
-            />
+            <Route path="/SmartGPSChallenge" element={<SmartGPSChallenge />} />
             <Route
               path="/EvolutionLabSimulator"
               element={<EvolutionLabSimulator />}
             />
             <Route
               path="/ChessMasterTrainer"
-              element={< ChessMasterTrainer />}
+              element={<ChessMasterTrainer />}
             />
             {/* level2 */}
             <Route
               path="/MedicalDiagnosisAssistant"
-              element={<MedicalDiagnosisAssistant/>}
+              element={<MedicalDiagnosisAssistant />}
             />
             <Route
               path="/SmartEmailGuardian"
-              element={<SmartEmailGuardian/>}
+              element={<SmartEmailGuardian />}
             />
             <Route
               path="/recommender"
-              element={<NetflixRecommendationGame/>}
+              element={<NetflixRecommendationGame />}
             />
             <Route
               path="/AutonomousCarVision"
-              element={<AutonomousCarVision/>}
+              element={<AutonomousCarVision />}
             />
             {/* level3 */}
             <Route
               path="/ChatbotBuilder"
-              element={<CustomerServiceChatbotBuilder/>}
+              element={<CustomerServiceChatbotBuilder />}
             />
-            
+
             <Route
               path="/SchoolSocialMediaManager"
-              element={<SchoolSocialMediaManager/>}
+              element={<SchoolSocialMediaManager />}
             />
             <Route
               path="/PersonalStudyBuddy"
-              element={<PersonalStudyBuddy/>}
+              element={<PersonalStudyBuddy />}
             />
 
             {/* Finish Games of Computers Class 11-12 */}
