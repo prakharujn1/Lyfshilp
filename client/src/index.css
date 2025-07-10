@@ -20,7 +20,8 @@
 }
 
 @keyframes bounce-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -31,9 +32,9 @@
   animation: bounce-slow 3s ease-in-out infinite;
 }
 
-
 @keyframes bounce-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -43,7 +44,6 @@
 .animate-bounce-slow {
   animation: bounce-slow 2.5s ease-in-out infinite;
 }
-
 
 @keyframes float1 {
   0%,
@@ -91,8 +91,6 @@
   animation-iteration-count: infinite;
 }
 
-
-
 .float1 {
   animation-name: float1;
 }
@@ -120,7 +118,7 @@
   }
 }
 
-.wiggleEmoji{
+.wiggleEmoji {
   animation-name: wiggle;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;

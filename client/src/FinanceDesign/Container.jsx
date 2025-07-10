@@ -74,13 +74,16 @@ const Container = () => {
 
     if (activeTab === "Levels") {
       return (
-        <div className="text-center py-10 text-gray-700">
-          <h2 className="text-2xl font-bold mb-4">Levels</h2>
-          <p>
-            Here you'll explore the different levels of our finance games with
-            increasing difficulty and deeper concepts.
-          </p>
-        </div>
+        <>
+          <div className="text-center py-10 text-gray-700">
+            <h2 className="text-2xl font-bold mb-4">Levels</h2>
+            <p>
+              Here you'll explore the different levels of our finance games with
+              increasing difficulty and deeper concepts.
+            </p>
+          </div>
+          <CTA />
+        </>
       );
     }
 
@@ -111,7 +114,7 @@ const Container = () => {
               className={`py-2 px-4 rounded-t-md font-semibold transition-all duration-150 ease-in-out ${
                 activeTab === tab
                   ? "bg-white text-black border-b-2 border-green-600"
-                  : "bg-[#3F9400] text-white"
+                  : "bg-gray-100 text-black"
               }`}
             >
               {tab}
