@@ -42,15 +42,14 @@ const Hero = () => {
         </div>
 
         {/* Right Section with glow behind children image */}
-        <div className="relative w-full max-w-sm md:max-w-md mt-10 md:mt-0 z-20">
+        <div className="relative w-full max-w-sm md:max-w-md mt-10 md:mt-0 z-20 md:ml-8 md:self-end">
           {/* Soft white glow behind image */}
           <div className="absolute inset-0 z-0 blur-2xl opacity-30 scale-110 bg-white rounded-full pointer-events-none" />
-
           {/* Children Image */}
           <img
             src="/imageForDesign/chidrenImage.png"
             alt="Kids playing financial game"
-            className="w-full relative z-10"
+            className="w-full relative z-10 transform translate-y-6 md:translate-y-12"
           />
         </div>
       </div>
