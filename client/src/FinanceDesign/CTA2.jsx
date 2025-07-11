@@ -39,7 +39,7 @@ const CTA2 = () => {
           </div>
 
           <Link to="/login">
-            <button className="bg-[#068F36] -mt-2 hover:bg-green-700 text-white font-semibold px-4 py-2 md:px-6 md:py-3 rounded-md shadow-md transition text-sm md:text-base">
+            <button className="bg-[#068F36] -mt-2 hover:bg-green-700 text-white font-semibold px-4 py-2 md:px-6 md:py-3 rounded-md shadow-md transition text-base md:text-lg">
               Book your trial now! - It's Free
             </button>
           </Link>
