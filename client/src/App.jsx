@@ -620,12 +620,15 @@ function App() {
                   element={<InfluenceExplorer />}
                 />
                 {/* Level 3 */}
-                <Route path="/HelpHub" element={<HelpHub />} />
+                <Route path="/help-hub" element={<HelpHub />} />
                 <Route
-                  path="/MissionGoalTracker"
+                  path="/mission-goal-tracker"
                   element={<MissionGoalTracker />}
                 />
-                <Route path="/MyCircleMission" element={<MyCircleMission />} />
+                <Route
+                  path="/my-circle-mission"
+                  element={<MyCircleMission />}
+                />
 
                 {/* Social Learning Notes */}
                 <Route

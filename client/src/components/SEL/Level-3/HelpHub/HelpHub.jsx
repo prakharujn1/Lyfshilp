@@ -88,9 +88,15 @@ export default function HelpHub() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { width, height } = useWindowSize();
 
+  const checkScore = () => {
+    return answers.filter((ans, i) => ans === scenarios[i].correct).length;
+  };
+
+  const score = checkScore();
+
   useEffect(() => {
     if (showResult && score >= 5) {
-      completeSELChallenge(2,1); // You can customize these parameters
+      completeSELChallenge(2, 1); // You can customize these parameters
     }
   }, [showResult, score]);
 
@@ -98,10 +104,6 @@ export default function HelpHub() {
     const newAnswers = [...answers];
     newAnswers[currentIndex] = optionIndex;
     setAnswers(newAnswers);
-  };
-
-  const checkScore = () => {
-    return answers.filter((ans, i) => ans === scenarios[i].correct).length;
   };
 
   const getResultGIF = (score) => {
@@ -131,7 +133,6 @@ export default function HelpHub() {
     setCurrentIndex(0);
   };
 
-  const score = checkScore();
   const result = getResultGIF(score);
   const progress =
     (answers.filter((a) => a !== null).length / scenarios.length) * 100;
@@ -165,14 +166,15 @@ export default function HelpHub() {
               <button
                 key={idx}
                 onClick={() => handleSelect(idx)}
-                className={`w-full text-left px-4 py-2 rounded border transition-all duration-300 ${answers[currentIndex] !== null
-                  ? idx === scenarios[currentIndex].correct
-                    ? "bg-green-100 border-green-400"
-                    : idx === answers[currentIndex]
+                className={`w-full text-left px-4 py-2 rounded border transition-all duration-300 ${
+                  answers[currentIndex] !== null
+                    ? idx === scenarios[currentIndex].correct
+                      ? "bg-green-100 border-green-400"
+                      : idx === answers[currentIndex]
                       ? "bg-red-100 border-red-400"
                       : "bg-white border-gray-300"
-                  : "bg-white border-gray-300 hover:bg-blue-50 active:scale-95"
-                  }`}
+                    : "bg-white border-gray-300 hover:bg-blue-50 active:scale-95"
+                }`}
                 disabled={answers[currentIndex] !== null}
               >
                 {String.fromCharCode(65 + idx)}) {opt}
@@ -181,10 +183,11 @@ export default function HelpHub() {
           </div>
           {answers[currentIndex] !== null && (
             <p
-              className={`mt-2 font-medium transition-opacity duration-500 ${answers[currentIndex] === scenarios[currentIndex].correct
-                ? "text-green-600"
-                : "text-red-600"
-                }`}
+              className={`mt-2 font-medium transition-opacity duration-500 ${
+                answers[currentIndex] === scenarios[currentIndex].correct
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
             >
               {answers[currentIndex] === scenarios[currentIndex].correct
                 ? "✅ Correct! "

@@ -92,17 +92,17 @@ const MyCircleMission = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (showResult && isWin) {
-      completeSELChallenge(2, 2); // Adjust challenge ID and task ID as needed
-    }
-  }, [showResult, isWin]);
-
   const correctCount = thoughtsData.filter(
     (t) => answers[t.id] === t.correctCircle
   ).length;
 
   const isWin = correctCount >= 7 && actionText.trim().length > 10;
+
+  useEffect(() => {
+    if (showResult && isWin) {
+      completeSELChallenge(2, 2); // Adjust challenge ID and task ID as needed
+    }
+  }, [showResult, isWin, completeSELChallenge]);
 
   const handleReset = () => {
     setAnswers({});
