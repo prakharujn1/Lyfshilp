@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -291,48 +291,20 @@ import ConflictCommanderGame from "./components/Games for 9-10/Communication/Lev
 import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBigSpeech/TheBigSpeech";
 import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/InboxInsight/InboxInsight";
 import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign";
+import VideoAudioSyncIntro from "./components/VideoAudioSyncIntro";
 
 function App() {
-  const [playVideo, setPlayVideo] = useState(false);
-  const [videoEnded, setVideoEnded] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
-  const handleVideoEnd = () => {
-    setVideoEnded(true);
+  const handleIntroComplete = () => {
+    setShowIntro(false);
   };
 
-  // useEffect(() => {
-  //   const isFirstVisit = sessionStorage.getItem("visited");
-  //   if (isFirstVisit) {
-  //     setShowVideo(false); // skip intro if already visited
-  //   } else {
-  //     sessionStorage.setItem("visited", "true");
-  //   }
-  // }, []);
-
   return (
-    <div className="w-full h-full">
-      {!playVideo && !videoEnded && (
-        <div className="w-full h-screen flex flex-col items-center justify-center bg-black text-white">
-          <button
-            onClick={() => setPlayVideo(true)}
-            className="bg-blue-600 px-6 py-3 rounded-lg text-xl hover:bg-blue-700 transition"
-          >
-            ▶️ Enter Site
-          </button>
-        </div>
-      )}
-      {playVideo && !videoEnded && (
-        <video
-          src="/animations/Edumaniax Flash Screen 3.mp4"
-          autoPlay
-          onEnded={handleVideoEnd}
-          className="w-full h-screen object-cover"
-          controls={false}
-          playsInline
-        />
-      )}
-
-      {videoEnded && (
+    <div className="w-full h-screen">
+      {showIntro ? (
+        <VideoAudioSyncIntro onIntroComplete={handleIntroComplete} />
+      ) : (
         <Router>
           <ScrollToTop />
           <div className="flex flex-col min-h-screen">
