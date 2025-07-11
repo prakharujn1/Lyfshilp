@@ -132,9 +132,8 @@ import JusticeForAll from "./components/Games for 9-10/AI/Level3/JusticeForAll/J
 import DesignAbot from "./components/Games for 9-10/AI/Level3/DesignAbot/DesignAbot";
 import BrandVoiceResult from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceResult";
 import BrandVoiceGame from "./components/Games for 9-10/Dig Mkting/Level1/BrandVoice/BrandVoiceGame";
-import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign CarouselCampaign";
-import DigitalExplorerResult from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorerResult DigitalExplorerResult";
 import DigitalExplorer from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorer";
+import DigitalExplorerResult from "./components/Games for 9-10/Dig Mkting/Level1/Dig Explorer/DigitalExplorerResult";
 
 import FutureMeInAI from "./components/Games for 9-10/AI/Level3/FutureMeInAI/FutureMeInAI";
 import ThinkBeforeYouTechGame from "./components/Games for 9-10/AI/Level3/ThinkBeforeYouTechGame/ThinkBeforeYouTechGame";
@@ -292,6 +291,7 @@ import ToneTranslatorGame from "./components/Games for 9-10/Communication/Level2
 import ConflictCommanderGame from "./components/Games for 9-10/Communication/Level3/ConflictCommanderGame/ConflictCommanderGame";
 import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBigSpeech/TheBigSpeech";
 import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/InboxInsight/InboxInsight";
+import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign";
 
 function App() {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -633,9 +633,11 @@ function App() {
             <Route path="/influence-explorer" element={<InfluenceExplorer />} />
             {/* Level 3 */}
             <Route path="/HelpHub" element={<HelpHub />} />
-            <Route path="/MissionGoalTracker" element={<MissionGoalTracker />} />
+            <Route
+              path="/MissionGoalTracker"
+              element={<MissionGoalTracker />}
+            />
             <Route path="/MyCircleMission" element={<MyCircleMission />} />
-            
 
             {/* Social Learning Notes */}
             <Route
@@ -785,14 +787,19 @@ function App() {
             {/* Level 2 */}
             <Route path="/TrainAIModelGame" element={<TrainAIModelGame />} />
             <Route path="/AIOopsGame" element={<AIOopsGame />} />
-            <Route path="/RateTheIntelligenceGame" element={<RateTheIntelligenceGame />} />
+            <Route
+              path="/RateTheIntelligenceGame"
+              element={<RateTheIntelligenceGame />}
+            />
 
             {/* Level 3 */}
             <Route path="/justice-for-all" element={<JusticeForAll />} />
             <Route path="/design-a-bot" element={<DesignAbot />} />
             <Route path="/FutureMeInAI" element={<FutureMeInAI />} />
-            <Route path="/ThinkBeforeYouTechGame" element={<ThinkBeforeYouTechGame />} />
-
+            <Route
+              path="/ThinkBeforeYouTechGame"
+              element={<ThinkBeforeYouTechGame />}
+            />
 
             {/* Finish Games of AI Class 9-10 */}
 
@@ -1075,22 +1082,13 @@ function App() {
 
             {/* level1 */}
 
-            <Route
-              path="/CarbonCycleVault"
-              element={<CarbonCycleVault />}
-            />
-            <Route
-              path="/NitrogenReactor"
-              element={<NitrogenReactor />}
-            />
+            <Route path="/CarbonCycleVault" element={<CarbonCycleVault />} />
+            <Route path="/NitrogenReactor" element={<NitrogenReactor />} />
             <Route
               path="/PhosphorusLockdown"
               element={<PhosphorusLockdown />}
             />
-            <Route
-              path="/WaterGridCrisis"
-              element={<WaterGridCrisis />}
-            />
+            <Route path="/WaterGridCrisis" element={<WaterGridCrisis />} />
 
             {/* level2 */}
 
@@ -1099,16 +1097,10 @@ function App() {
               element={<UrbanFloodFlashpoint />}
             />
 
-            <Route
-              path="/DayZero"
-              element={<DayZero />}
-            />
+            <Route path="/DayZero" element={<DayZero />} />
 
             {/* level3 */}
-            <Route
-              path="/UreaAddiction"
-              element={<UreaAddiction />}
-            />
+            <Route path="/UreaAddiction" element={<UreaAddiction />} />
             <Route
               path="/PeakPhosphorusPanic"
               element={<PeakPhosphorusPanic />}
@@ -1116,40 +1108,21 @@ function App() {
 
             {/* Finish Games of Enviroment Class 11-12 */}
 
-
             {/* Games of Legal awareness Class 11-12 */}
             {/* level1 */}
-            <Route
-              path="/TortLawGame1"
-              element={<TortLawGame1 />}
-            />
-            <Route
-              path="/TortLawGame2"
-              element={<TortLawGame2 />}
-            />
-            <Route
-              path="/TortLawGame3"
-              element={<TortLawGame3 />}
-            />
+            <Route path="/TortLawGame1" element={<TortLawGame1 />} />
+            <Route path="/TortLawGame2" element={<TortLawGame2 />} />
+            <Route path="/TortLawGame3" element={<TortLawGame3 />} />
             {/* level2 */}
-            <Route
-              path="/CrimeCivilGame"
-              element={<CrimeCivilGame />}
-            />
+            <Route path="/CrimeCivilGame" element={<CrimeCivilGame />} />
 
             {/* level3 */}
-            <Route
-              path="/LandmarkCasesGame"
-              element={<LandmarkCasesGame />}
-            />
+            <Route path="/LandmarkCasesGame" element={<LandmarkCasesGame />} />
             <Route
               path="/LandmarkCasesResult"
               element={<LandmarkCasesResult />}
             />
-            <Route
-              path="/LegalConceptsGame"
-              element={<LegalConceptsGame />}
-            />
+            <Route path="/LegalConceptsGame" element={<LegalConceptsGame />} />
             <Route
               path="/LegalConceptsResult"
               element={<LegalConceptsResult />}
@@ -1157,30 +1130,30 @@ function App() {
 
             {/* Finish Games of Legal awareness Class 11-12 */}
 
-             {/* Games of Communication Class 9-10 */}
+            {/* Games of Communication Class 9-10 */}
 
             {/* Level 1 */}
             <Route path="/DecodetheMessage" element={<DecodetheMessage />} />
 
-            <Route
-              path="/ListenerLensGame"
-              element={<ListenerLensGame />}
-            />
+            <Route path="/ListenerLensGame" element={<ListenerLensGame />} />
 
             <Route path="/WhatWentWrongGame" element={<WhatWentWrongGame />} />
 
             {/* Level 2 */}
             <Route path="/PitchPerfectGame" element={<PitchPerfectGame />} />
 
+            <Route path="/DigitalDilemma" element={<DigitalDilemma />} />
+
             <Route
-              path="/DigitalDilemma"
-              element={<DigitalDilemma />}
+              path="/ToneTranslatorGame"
+              element={<ToneTranslatorGame />}
             />
 
-            <Route path="/ToneTranslatorGame" element={<ToneTranslatorGame />} />
-
             {/* Level 3 */}
-            <Route path="/ConflictCommanderGame" element={<ConflictCommanderGame />} />
+            <Route
+              path="/ConflictCommanderGame"
+              element={<ConflictCommanderGame />}
+            />
 
             <Route path="/TheBigSpeech" element={<TheBigSpeech />} />
 
@@ -1188,17 +1161,10 @@ function App() {
 
             {/* Finish Games of Communication Class 9-10 */}
 
-
             {/* Games of Enviroment Class 9-10 */}
             {/* level1 */}
-            <Route
-              path="/CauseEffectGame"
-              element={<CauseEffectGame />}
-            />
-            <Route
-              path="/FeedbackLoopGame"
-              element={<FeedbackLoopGame />}
-            />
+            <Route path="/CauseEffectGame" element={<CauseEffectGame />} />
+            <Route path="/FeedbackLoopGame" element={<FeedbackLoopGame />} />
 
             {/* level2 */}
             <Route
@@ -1223,20 +1189,14 @@ function App() {
 
             {/* Games of legal awareness Class 9-10 */}
             {/* level1 */}
-            <Route
-              path="/MatchTermsGame"
-              element={<MatchTermsGame />}
-            />
+            <Route path="/MatchTermsGame" element={<MatchTermsGame />} />
             <Route
               path="/match-terms-game-result"
               element={<MatchTermsGameResult />}
             />
 
             {/* level2 */}
-            <Route
-              path="/JusticeThroneGame"
-              element={<JusticeThroneGame />}
-            />
+            <Route path="/JusticeThroneGame" element={<JusticeThroneGame />} />
             {/* level3 */}
             <Route
               path="/LegalQuizQuestLevel3"

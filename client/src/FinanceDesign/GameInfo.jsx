@@ -8,7 +8,7 @@ const GameInfo = () => {
   };
 
   return (
-    <div className="mt-16 max-w-6xl mx-auto px-4 md:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-10">
       {/* Heading */}
       <div className="mb-10">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
