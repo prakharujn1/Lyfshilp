@@ -869,7 +869,7 @@ function App() {
                 />
 
                 {/* Finish Games of Dig Mkting Class 9-10 */}
-
+ 
                 {/* 9-10 Finance games */}
                 <Route path="/budget-boss-game" element={<BudgetBossGame />} />
                 <Route
@@ -945,7 +945,7 @@ function App() {
                   path="/influence-journal"
                   element={<InfluenceJournal />}
                 />
-
+ 
                 {/*11-12 Finance games */}
                 <Route path="/fin-fest-game" element={<FinFestGame />} />
                 <Route

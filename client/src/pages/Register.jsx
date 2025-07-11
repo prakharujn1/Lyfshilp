@@ -289,6 +289,10 @@ const Register = () => {
                   <option value="6th">6th</option>
                   <option value="7th">7th</option>
                   <option value="8th">8th</option>
+                  <option value="6th">9th</option>
+                  <option value="7th">10th</option>
+                  <option value="8th">11th</option>
+                  <option value="8th">12th</option>
                 </select>
                 {errors.userClass && (
                   <p className="mt-1 text-sm text-red-600">{errors.userClass}</p>
@@ -533,7 +537,7 @@ const Register = () => {
       </div>
       {/* Spline Model */}
       <div className="w-full max-w-md lg:max-w-lg h-80 lg:h-[500px] rounded-2xl shadow-lg backdrop-blur-md bg-white/20 overflow-hidden">
-        <Spline scene="https://prod.spline.design/gu3sKHlo2-Mmh2CM/scene.splinecode" />
+        {/* <Spline scene="https://prod.spline.design/gu3sKHlo2-Mmh2CM/scene.splinecode" /> */}
       </div>
     </div>
   );

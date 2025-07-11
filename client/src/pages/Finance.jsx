@@ -3,7 +3,7 @@ import Container from "@/FinanceDesign/Container";
 const Finance = () => {
   return (
     <div>
-      <Hero />
+      <Hero /> 
       <Container />
     </div>
   );

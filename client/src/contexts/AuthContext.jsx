@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
     try {
       const res = await axios.post(`${server}/send-otp-login`, { phonenumber: phone });
       setPhonenumber(phone);
-      toast.success("OTP sent for login");
+      toast.success("OTP sent for login"); 
       return { success: true };
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to send OTP");
@@ -85,6 +85,7 @@ export function AuthProvider({ children }) {
       setToken(token);
       setUser(user);
       toast.success("Logged in successfully");
+      console.log("Redirecting...")
       navigate("/dashboard");
       return { success: true };
     } catch (err) {

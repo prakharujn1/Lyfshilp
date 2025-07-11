@@ -3,7 +3,7 @@ dotenv.config();
 
 import { PrismaClient } from "@prisma/client";
 import otpGenerator from "otp-generator";
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"; 
 import axios from "axios";
 
 const prisma = new PrismaClient();

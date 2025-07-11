@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { useFinance } from "../contexts/FinanceContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const difficultyMap = {
   0: {
@@ -27,21 +29,39 @@ const difficultyMap = {
 };
 
 const LevelsDisplay = ({ modules }) => {
-  const [completed, setCompleted] = useState({});
+  const { progress } = useFinance();
+  const { role } = useAuth();
   const [expanded, setExpanded] = useState({});
-
-  useEffect(() => {
-    const stored = localStorage.getItem("completedChallenges");
-    if (stored) {
-      setCompleted(JSON.parse(stored));
-    }
-  }, []);
 
   const toggleExpand = (index) => {
     setExpanded((prev) => ({
       ...prev,
       [index]: !prev[index],
     }));
+  };
+
+  // 🔐 Helper functions
+  const isChallengeCompleted = (moduleIndex, challengeIndex) => {
+    return progress.some(
+      (p) =>
+        p.moduleIndex === moduleIndex &&
+        p.challengeIndex === challengeIndex &&
+        p.completed
+    );
+  };
+
+  const isChallengeUnlocked = (moduleIndex, challengeIndex) => {
+    if (moduleIndex === 0 && challengeIndex === 0) return true;
+
+    if (challengeIndex > 0) {
+      return isChallengeCompleted(moduleIndex, challengeIndex - 1);
+    }
+
+    const prevModule = modules[moduleIndex - 1];
+    if (!prevModule) return false;
+
+    const lastChallengeIndex = prevModule.challenges.length - 1;
+    return isChallengeCompleted(moduleIndex - 1, lastChallengeIndex);
   };
 
   return (
@@ -57,13 +77,7 @@ const LevelsDisplay = ({ modules }) => {
           >
             {/* Left Color Strip */}
             <div
-              className={`absolute top-0 left-0 h-full w-2 rounded-l-xl ${
-                index === 0
-                  ? "bg-[#10903E]"
-                  : index === 1
-                  ? "bg-yellow-400"
-                  : "bg-red-400"
-              }`}
+              className={`absolute top-0 left-0 h-full w-2 rounded-l-xl ${difficulty.color}`}
             ></div>
 
             {/* Header + Toggle */}
@@ -72,7 +86,6 @@ const LevelsDisplay = ({ modules }) => {
               onClick={() => toggleExpand(index)}
             >
               <div className="flex items-start gap-4">
-                {/* Mascot Image */}
                 <img
                   src={difficulty.mascot}
                   alt="Mascot"
@@ -82,11 +95,7 @@ const LevelsDisplay = ({ modules }) => {
                   <h3 className="text-lg font-bold">{module.title}</h3>
                   <p className="text-sm text-gray-600">{module.description}</p>
                   <div className="flex gap-2 text-xs mt-1 text-gray-500 items-center">
-                    <img
-                      src={difficulty.icon}
-                      alt="Difficulty"
-                      className="h-5"
-                    />
+                    <img src={difficulty.icon} alt="Difficulty" className="h-5" />
                     <img src={difficulty.role} alt="Role" className="h-5" />
                   </div>
                 </div>
@@ -106,7 +115,11 @@ const LevelsDisplay = ({ modules }) => {
               <ul className="mt-4 space-y-3 transition-all duration-300 ease-in-out">
                 {module.challenges.map((challenge, i) => {
                   const isUnlocked =
-                    (index === 0 && i === 0) || completed[challenge.path];
+                    role === "admin" ||
+                    isChallengeUnlocked(index, i) ||
+                    isChallengeCompleted(index, i);
+
+                  const isCompleted = isChallengeCompleted(index, i);
 
                   return (
                     <li
@@ -124,9 +137,10 @@ const LevelsDisplay = ({ modules }) => {
                           className="w-6 h-6 mt-1"
                         />
                         <div>
-                          <p className="font-medium">{`Challenge ${i + 1}: ${
-                            challenge.title
-                          }`}</p>
+                          <p className="font-medium">
+                            {` Challenge ${i + 1
+                              }: ${challenge.title}`}
+                          </p>
                           <p className="text-sm text-gray-600">
                             {challenge.description}
                           </p>

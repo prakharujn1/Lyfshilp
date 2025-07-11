@@ -3,6 +3,7 @@ import CTA from "./CTA";
 import GameInfo from "./GameInfo";
 import CTA2 from "./CTA2";
 import LevelsDisplay from "./LevelsDisplay";
+import { useAuth } from "@/contexts/AuthContext";
 
 const features = [
   {
@@ -35,7 +36,7 @@ const features = [
   },
 ];
 
-const modules = [
+const modulesfor6to8 = [
   {
     title: "LEVEL 1: The Budgeter",
     description: "Mission: “Survive the Month Without Going Broke”",
@@ -122,10 +123,89 @@ const modules = [
   },
 ];
 
+const modulesfor9to10 = [
+  {
+    title: "LEVEL 1: Financial Explorer",
+    description: "Mission: 'Become a Budgeting Pro in a Simulated Marketplace'",
+    challenges: [
+      {
+        title: "Mini Market Master",
+        description: "Objective: Learn how to budget and make smart spending choices in a simulated market.",
+        duration: "45 min",
+        path: "/mini-market-master",
+      },
+      {
+        title: "Wealth Quest",
+        description: "Objective: Explore basic banking concepts, savings, and interest through interactive challenges.",
+        duration: "50 min",
+        path: "/wealth-quest-game",
+      },
+      {
+        title: "Budget Boss",
+        description: "Objective: Master monthly budget planning and learn how to balance expenses and savings.",
+        duration: "50 min",
+        path: "/budget-boss-game",
+      },
+    ],
+  }
+];
+
+const modulesfor11to12 = [
+  {
+    title: "LEVEL 1: Future Finance Leader",
+    description: "Mission: 'Build Real Financial Skills for Adulting'",
+    challenges: [
+      {
+        title: "InvestoQuest Pro",
+        description: "Objective: Dive into investments, returns, and risk to plan a solid investment strategy.",
+        duration: "45 min",
+        path: "/invest-quest-pro",
+      },
+      {
+        title: "Stock Trader",
+        description: "Objective: Simulate stock market trading to understand buying, selling, and market trends.",
+        duration: "50 min",
+        path: "/stock-trader-game",
+      },
+      {
+        title: "FinFest: Life Simulation Challenge",
+        description: "Objective: Navigate real-life financial scenarios and make decisions on spending, saving, and investing.",
+        duration: "45 min",
+        path: "/fin-fest-game",
+      },
+    ],
+  }
+];
+
+
+
 const tabs = ["Overview Of Game", "Levels", "Skills you will Learn"];
 
 const Container = () => {
   const [activeTab, setActiveTab] = useState("Overview Of Game");
+  const { user, role } = useAuth();
+
+  let modules = [];
+
+  if (role === "admin") {
+    modules = [
+      { group: "Class 6 to 8", levels: modulesfor6to8 },
+      { group: "Class 9 to 10", levels: modulesfor9to10 },
+      { group: "Class 11 to 12", levels: modulesfor11to12 },
+    ];
+  } else if (!user) {
+    modules = modulesfor9to10;
+  } else {
+    const userClass = user.userClass;
+    if (["6th", "7th", "8th"].includes(userClass)) {
+      modules = modulesfor6to8;
+    } else if (["9th", "10th"].includes(userClass)) {
+      modules = modulesfor9to10;
+    } else if (["11th", "12th"].includes(userClass)) {
+      modules = modulesfor11to12;
+    }
+  }
+
 
   const renderTabContent = () => {
     if (activeTab === "Overview Of Game") {
@@ -162,12 +242,28 @@ const Container = () => {
     }
 
     if (activeTab === "Levels") {
-      return (
-        <>
-          <LevelsDisplay modules={modules} />
-          <CTA2 />
-        </>
-      );
+      if (role === "admin") {
+        return (
+          <>
+            {modules.map((group, i) => (
+              <div key={i} className="mb-10">
+                <h2 className="text-xl font-bold mb-4 text-green-700">
+                  {group.group}
+                </h2>
+                <LevelsDisplay modules={group.levels} />
+              </div>
+            ))}
+            <CTA2 />
+          </>
+        );
+      } else {
+        return (
+          <>
+            <LevelsDisplay modules={modules} />
+            <CTA2 />
+          </>
+        );
+      }
     }
 
     if (activeTab === "Skills you will Learn") {
@@ -185,6 +281,7 @@ const Container = () => {
     return null;
   };
 
+
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -194,11 +291,10 @@ const Container = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`py-2 px-4 rounded-t-md font-semibold transition-all duration-150 ease-in-out ${
-                activeTab === tab
-                  ? "bg-white text-black border-b-2 border-green-600"
-                  : "bg-gray-100 text-black"
-              }`}
+              className={`py-2 px-4 rounded-t-md font-semibold transition-all duration-150 ease-in-out ${activeTab === tab
+                ? "bg-white text-black border-b-2 border-green-600"
+                : "bg-gray-100 text-black"
+                }`}
             >
               {tab}
             </button>
