@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import CTA from "./CTA";
 import GameInfo from "./GameInfo";
+import CTA2 from "./CTA2";
+import LevelsDisplay from "./LevelsDisplay";
 
 const features = [
   {
@@ -30,6 +32,93 @@ const features = [
       "Students can play the fun games of different levels to learn about finance",
     image: "/imageForDesign/lifetime.png",
     bg: "bg-[#C8E7FF]",
+  },
+];
+
+const modules = [
+  {
+    title: "LEVEL 1: The Budgeter",
+    description: "Mission: “Survive the Month Without Going Broke”",
+    challenges: [
+      {
+        title: "Weekly Budget Builder (Drag-and-Drop Game)",
+        description: "Objective: Teach budgeting and prioritization.",
+        duration: "45 min",
+        path: "/budget-builder",
+      },
+      {
+        title: "“Pick Your Bank” Simulator",
+        description: "Objective: Introduce banking basics.",
+        duration: "50 min",
+        path: "/pick-a-bank",
+      },
+      {
+        title: "Overspend Trap (Quiz Game)",
+        description: "Objective: Scenario-based decision making.",
+        duration: "45 min",
+        path: "/overspend-trap",
+      },
+      {
+        title: "Boss-Level Task: “My Real-Life Budget”",
+        description: "Objective: Create a one-month budget for yourself.",
+        duration: "55 min",
+        path: "/budget-activity",
+      },
+    ],
+  },
+  {
+    title: "LEVEL 2: The Smart Spender",
+    description: "Mission: “Buy That Dream Phone Without Getting Tricked”",
+    challenges: [
+      {
+        title: "Credit Card Crash Course (Simulator)",
+        description: "Objective: Explain credit, interest, and EMI traps.",
+        duration: "50 min",
+        path: "/credit-card-simulator",
+      },
+      {
+        title: " EMI vs Lump Sum (Choice-Based Game)",
+        description: "Objective: Understand the cost of payment methods.",
+        duration: "50 min",
+        path: "/emi-vs-lumpsum",
+      },
+      {
+        title: " Wants vs Needs Sorting",
+        description: "Objective: Game format decision-making activity.",
+        duration: "45 min",
+        path: "/challenge3",
+      },
+      {
+        title: "Boss-Level Task: “My Purchase Plan”",
+        description: "Objective: Plan a smart purchase over 3 months.",
+        duration: "55 min",
+        path: "/my_purchase_plan",
+      },
+    ],
+  },
+  {
+    title: "LEVEL 3: The Rookie Investor",
+    description: "Mission: “Make Your First ₹10,000 Grow”",
+    challenges: [
+      {
+        title: " “News Flash!” Market Events",
+        description: "Objective: React to market changes in real time.",
+        duration: "50 min",
+        path: "/newsflash",
+      },
+      {
+        title: "Risk-O-Meter Game",
+        description: "Objective: Identify risk appetite.",
+        duration: "45 min",
+        path: "/riskometer",
+      },
+      {
+        title: "Boss-Level Task: “Build & Present Your Portfolio”",
+        description: "Objective: Create a mock investment plan.",
+        duration: "55 min",
+        path: "/investment-simulator",
+      },
+    ],
   },
 ];
 
@@ -75,14 +164,8 @@ const Container = () => {
     if (activeTab === "Levels") {
       return (
         <>
-          <div className="text-center py-10 text-gray-700">
-            <h2 className="text-2xl font-bold mb-4">Levels</h2>
-            <p>
-              Here you'll explore the different levels of our finance games with
-              increasing difficulty and deeper concepts.
-            </p>
-          </div>
-          <CTA />
+          <LevelsDisplay modules={modules} />
+          <CTA2 />
         </>
       );
     }
