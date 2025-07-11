@@ -44,25 +44,25 @@ const modules = [
         title: "Weekly Budget Builder (Drag-and-Drop Game)",
         description: "Objective: Teach budgeting and prioritization.",
         duration: "45 min",
-        path: "/budget-builder",
+        path: "/budget-builder", // ✅
       },
       {
         title: "“Pick Your Bank” Simulator",
         description: "Objective: Introduce banking basics.",
         duration: "50 min",
-        path: "/pick-a-bank",
+        path: "/pick-a-bank", // ✅
       },
       {
         title: "Overspend Trap (Quiz Game)",
         description: "Objective: Scenario-based decision making.",
         duration: "45 min",
-        path: "/overspend-trap",
+        path: "/overspend-trap", // ✅
       },
       {
         title: "Boss-Level Task: “My Real-Life Budget”",
         description: "Objective: Create a one-month budget for yourself.",
         duration: "55 min",
-        path: "/budget-activity",
+        path: "/budget-activity", // ✅
       },
     ],
   },
@@ -74,25 +74,25 @@ const modules = [
         title: "Credit Card Crash Course (Simulator)",
         description: "Objective: Explain credit, interest, and EMI traps.",
         duration: "50 min",
-        path: "/credit-card-simulator",
+        path: "/credit-card-simulator", // ✅
       },
       {
-        title: " EMI vs Lump Sum (Choice-Based Game)",
+        title: "EMI vs Lump Sum (Choice-Based Game)",
         description: "Objective: Understand the cost of payment methods.",
         duration: "50 min",
-        path: "/emi-vs-lumpsum",
+        path: "/emi-vs-lumpsum", // ✅
       },
       {
-        title: " Wants vs Needs Sorting",
+        title: "Wants vs Needs Sorting",
         description: "Objective: Game format decision-making activity.",
         duration: "45 min",
-        path: "/challenge3",
+        path: "/challenge3", // ✅
       },
       {
         title: "Boss-Level Task: “My Purchase Plan”",
         description: "Objective: Plan a smart purchase over 3 months.",
         duration: "55 min",
-        path: "/my_purchase_plan",
+        path: "/my_purchase_plan", // ✅
       },
     ],
   },
@@ -101,22 +101,22 @@ const modules = [
     description: "Mission: “Make Your First ₹10,000 Grow”",
     challenges: [
       {
-        title: " “News Flash!” Market Events",
+        title: "“News Flash!” Market Events",
         description: "Objective: React to market changes in real time.",
         duration: "50 min",
-        path: "/newsflash",
+        path: "/newsflash", // ✅
       },
       {
         title: "Risk-O-Meter Game",
         description: "Objective: Identify risk appetite.",
         duration: "45 min",
-        path: "/riskometer",
+        path: "/riskometer", // ✅
       },
       {
         title: "Boss-Level Task: “Build & Present Your Portfolio”",
         description: "Objective: Create a mock investment plan.",
         duration: "55 min",
-        path: "/investment-simulator",
+        path: "/investment-simulator", // ✅
       },
     ],
   },

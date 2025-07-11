@@ -323,7 +323,7 @@ function App() {
       )}
       {playVideo && !videoEnded && (
         <video
-          src="/animations/Edumaniax Flash Screen 2.mp4"
+          src="/animations/Edumaniax Flash Screen 3.mp4"
           autoPlay
           onEnded={handleVideoEnd}
           className="w-full h-screen object-cover"
