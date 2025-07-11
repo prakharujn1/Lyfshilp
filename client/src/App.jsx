@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -293,10 +293,33 @@ import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/I
 import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign";
 import VideoAudioSyncIntro from "./components/VideoAudioSyncIntro";
 
+const INTRO_EXPIRY_HOURS = 0.5; // Change this to 1 for 1 hour, 0.1 for 6 minutes, etc.
+
 function App() {
   const [showIntro, setShowIntro] = useState(true);
 
+  useEffect(() => {
+    const introSeenAt = localStorage.getItem("introSeenAt");
+
+    if (!introSeenAt) {
+      // First visit ever
+      setShowIntro(true);
+    } else {
+      const seenTime = new Date(parseInt(introSeenAt));
+      const now = new Date();
+      const hoursPassed = (now - seenTime) / (1000 * 60 * 60);
+
+      if (hoursPassed >= INTRO_EXPIRY_HOURS) {
+        // Time expired — show intro again
+        setShowIntro(true);
+      } else {
+        setShowIntro(false);
+      }
+    }
+  }, []);
+
   const handleIntroComplete = () => {
+    localStorage.setItem("introSeenAt", Date.now().toString());
     setShowIntro(false);
   };
 

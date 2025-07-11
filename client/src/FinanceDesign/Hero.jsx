@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -21,22 +22,27 @@ const Hero = () => {
         {/* Left Section */}
         <div className="max-w-xl space-y-4">
           <nav className="text-sm mb-4">
-            <div className="bg-black/20 mb-10 text-white px-3 py-2 rounded-lg flex items-center space-x-2 inline-flex">
-              <span className="flex items-center gap-2">
+            <div className="bg-black/20 mb-10 text-white px-4 py-2 rounded-lg inline-flex items-center space-x-2">
+              <Link
+                to="/"
+                className="flex items-center gap-1 text-white hover:underline"
+              >
                 <img
                   src="/imageForDesign/home.png"
                   alt="Home Icon"
                   className="w-4 h-4"
                 />
-                Home
-              </span>
+                <span>Home</span>
+              </Link>
 
               <span className="text-white/60">&gt;</span>
-              <span>Courses</span>
+              <span className="text-white">Courses</span>
+
               <span className="text-white/60">&gt;</span>
-              <span>Finance</span>
+              <span className="text-white">Finance</span>
+
               <span className="text-white/60">&gt;</span>
-              <span className="font-semibold">Gaming Lessons</span>
+              <span className="font-semibold text-white">Gaming Lessons</span>
             </div>
           </nav>
 
