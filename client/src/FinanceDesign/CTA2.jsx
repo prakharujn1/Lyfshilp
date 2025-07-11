@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CTA2 = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mt-16 mx-auto px-4 py-10">
       {/* Parent container now has relative */}
       <div className="relative bg-[#FFD86B] rounded-2xl p-4 md:p-6 lg:p-10 flex flex-col-reverse md:flex-row items-center justify-between gap-4 md:gap-6">
         {/* Left: Text Section */}

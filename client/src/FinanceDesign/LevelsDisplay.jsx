@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const difficultyMap = {
   0: {
@@ -25,6 +26,15 @@ const difficultyMap = {
 };
 
 const LevelsDisplay = ({ modules }) => {
+  const [completed, setCompleted] = useState({});
+
+  useEffect(() => {
+    const stored = localStorage.getItem("completedChallenges");
+    if (stored) {
+      setCompleted(JSON.parse(stored));
+    }
+  }, []);
+
   return (
     <div className="space-y-6">
       {modules.map((module, index) => {
@@ -59,44 +69,56 @@ const LevelsDisplay = ({ modules }) => {
             </div>
 
             <ul className="mt-4 space-y-3">
-              {module.challenges.map((challenge, i) => (
-                <li
-                  key={i}
-                  className="border rounded-md px-4 py-3 flex items-center justify-between gap-4"
-                >
-                  <div className="flex items-start gap-3">
-                    <img
-                      src={
-                        index === 0 && i === 0
-                          ? "/imageForDesign/play-button.png"
-                          : "/imageForDesign/red-lock.png"
-                      }
-                      alt="icon"
-                      className="w-6 h-6 mt-1"
-                    />
-                    <div>
-                      <p className="font-medium">{`Challenge ${i + 1}: ${
-                        challenge.title
-                      }`}</p>
-                      <p className="text-sm text-gray-600">
-                        {challenge.description}
-                      </p>
-                    </div>
-                  </div>
+              {module.challenges.map((challenge, i) => {
+                // ✅ Challenge is unlocked if it's the first challenge or already completed
+                const isUnlocked =
+                  (index === 0 && i === 0) || completed[challenge.path];
 
-                  <button className="shrink-0">
-                    <img
-                      src={
-                        index === 0 && i === 0
-                          ? "/imageForDesign/start-now.png"
-                          : "/imageForDesign/unlock-now-button.png"
-                      }
-                      alt="action"
-                      className="w-[100px]"
-                    />
-                  </button>
-                </li>
-              ))}
+                return (
+                  <li
+                    key={i}
+                    className="border rounded-md px-4 py-3 flex items-center justify-between gap-4"
+                  >
+                    {/* Icon + Challenge Info */}
+                    <div className="flex items-start gap-3">
+                      <img
+                        src={
+                          isUnlocked
+                            ? "/imageForDesign/play-button.png"
+                            : "/imageForDesign/red-lock.png"
+                        }
+                        alt="icon"
+                        className="w-6 h-6 mt-1"
+                      />
+                      <div>
+                        <p className="font-medium">{`Challenge ${i + 1}: ${
+                          challenge.title
+                        }`}</p>
+                        <p className="text-sm text-gray-600">
+                          {challenge.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Right-side Button */}
+                    {isUnlocked ? (
+                      <Link to={challenge.path}>
+                        <img
+                          src="/imageForDesign/start-now.png"
+                          alt="Start"
+                          className="w-[100px]"
+                        />
+                      </Link>
+                    ) : (
+                      <img
+                        src="/imageForDesign/unlock-now-button.png"
+                        alt="Locked"
+                        className="w-[100px]"
+                      />
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         );
