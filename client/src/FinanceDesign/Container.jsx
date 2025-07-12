@@ -4,6 +4,7 @@ import GameInfo from "./GameInfo";
 import CTA2 from "./CTA2";
 import CTA3 from "./CTA3";
 import LevelsDisplay from "./LevelsDisplay";
+import { useAuth } from "@/contexts/AuthContext";
 
 const features = [
   {
