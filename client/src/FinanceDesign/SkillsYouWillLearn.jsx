@@ -30,13 +30,13 @@ const skills = [
 
 const SkillsYouWillLearn = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12">
+    <div className="py-12">
       {/* ✅ Skills Cards Section */}
       <div className="grid md:grid-cols-2 gap-y-6 gap-x-8">
         {skills.map((skill, index) => (
           <div
             key={index}
-            className="flex rounded-2xl overflow-hidden shadow-sm border bg-white"
+            className="flex rounded-2xl overflow-hidden shadow-sm border bg-white transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"
           >
             <div className="w-[80px] bg-[#C9FFA2] flex items-center justify-center">
               <img
@@ -55,36 +55,29 @@ const SkillsYouWillLearn = () => {
         ))}
       </div>
 
-      {/* ✅ Why Learn With Us Section - Only Images */}
-      <section className="mt-18 relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F9FAFB] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8 items-start">
+      {/* ✅ Why Learn With Us Section */}
+      <section className="bg-[#F9FAFB] mt-18 py-20 w-screen relative left-1/2 -translate-x-1/2">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-start gap-6">
             {/* Left - Feature Images */}
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src="/imageForDesign/CommunityDriven.png"
-                alt="Community Driven"
-                className="rounded-xl w-full"
-              />
-              <img
-                src="/imageForDesign/StepByStepGuidance.png"
-                alt="Step by Step Guidance"
-                className="rounded-xl w-full"
-              />
-              <img
-                src="/imageForDesign/PracticalRealWorldFocus.png"
-                alt="Practical Real World Focus"
-                className="rounded-xl w-full"
-              />
-              <img
-                src="/imageForDesign/IndustryLevelCertification.png"
-                alt="Industry Level Certification"
-                className="rounded-xl w-full"
-              />
+            <div className="grid grid-cols-2 gap-4 w-full max-w-md">
+              {[
+                "CommunityDriven",
+                "StepByStepGuidance",
+                "PracticalRealWorldFocus",
+                "IndustryLevelCertification",
+              ].map((img, i) => (
+                <img
+                  key={i}
+                  src={`/imageForDesign/${img}.png`}
+                  alt={img}
+                  className="rounded-xl w-full transition-transform duration-300 ease-in-out hover:scale-[1.03]"
+                />
+              ))}
             </div>
 
-            {/* Right - Heading + Video (unchanged layout) */}
-            <div className="flex flex-col justify-start h-full">
+            {/* Right - Heading + Video */}
+            <div className="flex flex-col justify-start w-full max-w-[600px]">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                   Why learn with us?
@@ -94,13 +87,13 @@ const SkillsYouWillLearn = () => {
                   independence.
                 </p>
               </div>
-              <div className="mt-6 rounded-xl overflow-hidden shadow-md h-[540px]">
+              <div className="mt-6 rounded-xl overflow-hidden shadow-md h-[220px] sm:h-[280px] md:h-[460px]">
                 <video
                   className="w-full h-full object-cover rounded-xl"
                   poster="/imageForDesign/video-poster.png"
                   controls
                 >
-                  <source src="/videos/why-learn.mp4" type="video/mp4" />
+                  <source src="/Bb-Video.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
