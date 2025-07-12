@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const skills = [
   {
@@ -29,6 +29,30 @@ const skills = [
 ];
 
 const SkillsYouWillLearn = () => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.5 } // Adjust visibility ratio if needed
+    );
+
+    if (videoRef.current) observer.observe(videoRef.current);
+
+    return () => {
+      if (videoRef.current) observer.unobserve(videoRef.current);
+    };
+  }, []);
+
   return (
     <div className="py-12">
       {/* ✅ Skills Cards Section */}
@@ -76,8 +100,8 @@ const SkillsYouWillLearn = () => {
               ))}
             </div>
 
-            {/* Right - Heading + Video */}
-            <div className="flex flex-col justify-start w-full max-w-[600px]">
+            {/* Right - Heading + Auto-scroll Video */}
+            <div className="flex flex-col justify-start w-full max-w-[750px]">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                   Why learn with us?
@@ -89,9 +113,12 @@ const SkillsYouWillLearn = () => {
               </div>
               <div className="mt-6 rounded-xl overflow-hidden shadow-md h-[220px] sm:h-[280px] md:h-[460px]">
                 <video
+                  ref={videoRef}
                   className="w-full h-full object-cover rounded-xl"
                   poster="/imageForDesign/video-poster.png"
+                  muted
                   controls
+                  controlsList="nofullscreen nodownload noplaybackrate"
                 >
                   <source src="/Bb-Video.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
