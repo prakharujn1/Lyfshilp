@@ -4,11 +4,6 @@ import GameInfo from "./GameInfo";
 import CTA2 from "./CTA2";
 import CTA3 from "./CTA3";
 import LevelsDisplay from "./LevelsDisplay";
-<<<<<<< HEAD
-import SkillsYouWillLearn from "./SkillsYouWillLearn";
-=======
-import { useAuth } from "@/contexts/AuthContext";
->>>>>>> 012d5f43d7300c20dc97c3e643fcf833201fd404
 
 const features = [
   {
@@ -135,24 +130,27 @@ const modulesfor9to10 = [
     challenges: [
       {
         title: "Mini Market Master",
-        description: "Objective: Learn how to budget and make smart spending choices in a simulated market.",
+        description:
+          "Objective: Learn how to budget and make smart spending choices in a simulated market.",
         duration: "45 min",
         path: "/mini-market-master",
       },
       {
         title: "Wealth Quest",
-        description: "Objective: Explore basic banking concepts, savings, and interest through interactive challenges.",
+        description:
+          "Objective: Explore basic banking concepts, savings, and interest through interactive challenges.",
         duration: "50 min",
         path: "/wealth-quest-game",
       },
       {
         title: "Budget Boss",
-        description: "Objective: Master monthly budget planning and learn how to balance expenses and savings.",
+        description:
+          "Objective: Master monthly budget planning and learn how to balance expenses and savings.",
         duration: "50 min",
         path: "/budget-boss-game",
       },
     ],
-  }
+  },
 ];
 
 const modulesfor11to12 = [
@@ -162,27 +160,28 @@ const modulesfor11to12 = [
     challenges: [
       {
         title: "InvestoQuest Pro",
-        description: "Objective: Dive into investments, returns, and risk to plan a solid investment strategy.",
+        description:
+          "Objective: Dive into investments, returns, and risk to plan a solid investment strategy.",
         duration: "45 min",
         path: "/invest-quest-pro",
       },
       {
         title: "Stock Trader",
-        description: "Objective: Simulate stock market trading to understand buying, selling, and market trends.",
+        description:
+          "Objective: Simulate stock market trading to understand buying, selling, and market trends.",
         duration: "50 min",
         path: "/stock-trader-game",
       },
       {
         title: "FinFest: Life Simulation Challenge",
-        description: "Objective: Navigate real-life financial scenarios and make decisions on spending, saving, and investing.",
+        description:
+          "Objective: Navigate real-life financial scenarios and make decisions on spending, saving, and investing.",
         duration: "45 min",
         path: "/fin-fest-game",
       },
     ],
-  }
+  },
 ];
-
-
 
 const tabs = ["Overview Of Game", "Levels", "Skills you will Learn"];
 
@@ -210,7 +209,6 @@ const Container = () => {
       modules = modulesfor11to12;
     }
   }
-
 
   const renderTabContent = () => {
     if (activeTab === "Overview Of Game") {
@@ -283,7 +281,6 @@ const Container = () => {
     return null;
   };
 
-
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -293,10 +290,11 @@ const Container = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`py-2 px-4 rounded-t-md font-semibold transition-all duration-150 ease-in-out ${activeTab === tab
-                ? "bg-white text-black border-b-2 border-green-600"
-                : "bg-gray-100 text-black"
-                }`}
+              className={`py-2 px-4 rounded-t-md font-semibold transition-all duration-150 ease-in-out ${
+                activeTab === tab
+                  ? "bg-white text-black border-b-2 border-green-600"
+                  : "bg-gray-100 text-black"
+              }`}
             >
               {tab}
             </button>
