@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import CTA from "./CTA";
 import GameInfo from "./GameInfo";
 import CTA2 from "./CTA2";
+import CTA3 from "./CTA3";
 import LevelsDisplay from "./LevelsDisplay";
+import SkillsYouWillLearn from "./SkillsYouWillLearn";
 
 const features = [
   {
@@ -172,13 +174,10 @@ const Container = () => {
 
     if (activeTab === "Skills you will Learn") {
       return (
-        <div className="text-center py-10 text-gray-700">
-          <h2 className="text-2xl font-bold mb-4">Skills You Will Learn</h2>
-          <p>
-            Understand budgeting, saving, investing, decision-making, and
-            financial planning through engaging gameplay.
-          </p>
-        </div>
+        <>
+          <SkillsYouWillLearn />
+          <CTA3 />
+        </>
       );
     }
 
