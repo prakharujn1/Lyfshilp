@@ -7,7 +7,7 @@ import Spline from "@splinetool/react-spline";
 
 const Login = () => {
   const navigate = useNavigate();
-    const { sendOtpForLogin, verifyOtpAndLogin } = useAuth();
+  const { sendOtpForLogin, verifyOtpAndLogin } = useAuth();
   const [step, setStep] = useState(1);
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -38,7 +38,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-       const response = await sendOtpForLogin(phone);
+      const response = await sendOtpForLogin(phone);
       console.log("Login response from backend:", response);
       setOtpSent(true);
       setStep(2);
@@ -85,12 +85,12 @@ const Login = () => {
 
     setLoading(true);
 
-     try {
+    try {
       const result = await verifyOtpAndLogin(otp, navigate);
       if (result.success) {
-        
+
         // alert("Logged in successfully ✅"); // 🎉 Show success
-        navigate("/dashboard");  
+        navigate("/dashboard");
       } else {
         setError(result.message || "Invalid OTP. Please try again.");
         setOtpInputs(["", "", "", "", "", ""]);
@@ -133,9 +133,8 @@ const Login = () => {
                   value={phone}
                   onChange={handlePhoneChange}
                   placeholder="Enter your 10-digit number"
-                  className={`mt-1 block w-full rounded-md border ${
-                    error ? "border-red-500" : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                  className={`mt-1 block w-full rounded-md border ${error ? "border-red-500" : "border-gray-300"
+                    } px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
                 />
                 {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
               </div>
@@ -143,11 +142,10 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 ${
-                  loading
+                className={`w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 ${loading
                     ? "opacity-70 cursor-not-allowed"
                     : "hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                }`}
+                  }`}
               >
                 {loading ? "Sending..." : "Send OTP"}
                 {!loading && <ArrowRight size={16} className="ml-2" />}
@@ -205,11 +203,10 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading || otp.length !== 6}
-                className={`w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 ${
-                  loading || otp.length !== 6
+                className={`w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 ${loading || otp.length !== 6
                     ? "opacity-70 cursor-not-allowed"
                     : "hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                }`}
+                  }`}
               >
                 {loading ? "Verifying..." : "Verify OTP"}
               </button>
@@ -219,7 +216,7 @@ const Login = () => {
       </div>
 
       <div className="w-full max-w-md lg:max-w-lg h-80 lg:h-[500px] rounded-2xl shadow-lg backdrop-blur-md bg-white/20 overflow-hidden">
-        <Spline scene="https://prod.spline.design/gu3sKHlo2-Mmh2CM/scene.splinecode" />
+        {/* <Spline scene="https://prod.spline.design/gu3sKHlo2-Mmh2CM/scene.splinecode" /> */}
       </div>
     </div>
   );

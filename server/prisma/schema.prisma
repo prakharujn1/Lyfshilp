@@ -28,7 +28,17 @@ model User {
   environmentChallenges     EnvironmentChallenge[]
   lawChallenges             LawChallenge[]
   leadershipChallenges      LeadershipChallenge[]
-  selChallenges             SELChallenge[]       
+  selChallenges             SELChallenge[]  
+
+  financePerformance         FinancePerformance?
+  computersPerformance       ComputersPerformance?
+  dmPerformance              DMPerformance?
+  selPerformance             SELPerformance?
+  leadershipPerformance      LeadershipPerformance?
+  entrepreneurshipPerformance EntrepreneurshipPerformance?
+  lawPerformance             LawPerformance?
+  communicationPerformance   CommunicationPerformance?
+  environmentPerformance     EnvironmentPerformance?     
 }
 
 model OtpVerification {
@@ -162,4 +172,130 @@ model SELChallenge {
   user           User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, userClass, moduleIndex, challengeIndex])
+}
+
+
+model FinancePerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float     
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+
+model ComputersPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+
+model DMPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+
+model SELPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+
+model LeadershipPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+
+model EntrepreneurshipPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+
+model LawPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+model CommunicationPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
+}
+
+model EnvironmentPerformance {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  score                    Int
+  accuracy                 Float    // percentage (e.g., 92.5)
+  studyTimeMinutes         Int
+  consistencyDaysPerWeek   Int
+  avgResponseTimeSec       Float
+  updatedAt                DateTime @updatedAt
+  createdAt                DateTime @default(now())
+
+  user                     User     @relation(fields: [userId], references: [id])
 }
