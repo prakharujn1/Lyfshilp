@@ -194,7 +194,7 @@ const Container = () => {
       { group: "Class 11 to 12", levels: modulesfor11to12 },
     ];
   } else if (!user) {
-    modules = modulesfor9to10;
+    modules = modulesfor6to8;
   } else {
     const userClass = user.userClass;
     if (["6th", "7th", "8th"].includes(userClass)) {
