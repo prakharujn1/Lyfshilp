@@ -7,23 +7,44 @@ import { useAuth } from "../contexts/AuthContext";
 const difficultyMap = {
   0: {
     label: "Beginner",
-    color: "bg-green-500",
+    color: "bg-[#DCFCE7]",
+    stripColor: "bg-[#16A34A]", // ✅ Vibrant green for left strip
+    textColor: "text-[#016630]",
     icon: "/imageForDesign/Beginner.png",
-    role: "/imageForDesign/Explorer.png",
+    role: {
+      label: "Explorer",
+      bg: "bg-pink-100",
+      textColor: "text-[#CC348D]",
+      icon: "/imageForDesign/Explorer.png",
+    },
     mascot: "/imageForDesign/level-1.png",
   },
   1: {
     label: "Intermediate",
-    color: "bg-yellow-400",
+    color: "bg-[#9C73001A]",
+    stripColor: "bg-[#EAB308]", // ✅ Vibrant yellow
+    textColor: "text-yellow-900",
     icon: "/imageForDesign/Intermediate.png",
-    role: "/imageForDesign/Builder.png",
+    role: {
+      label: "Builder",
+      bg: "bg-[#CC348D1A]",
+      textColor: "text-[#CC348D]",
+      icon: "/imageForDesign/Builder.png",
+    },
     mascot: "/imageForDesign/level-2.png",
   },
   2: {
     label: "Advance",
-    color: "bg-red-400",
+    color: "bg-[#BC08081A]",
+    stripColor: "bg-[#DC2626]", // ✅ Vibrant red
+    textColor: "text-[#BC0808]",
     icon: "/imageForDesign/Advance.png",
-    role: "/imageForDesign/Hero.png",
+    role: {
+      label: "Hero",
+      bg: "bg-[#CC348D1A]",
+      textColor: "text-[#CC348D]",
+      icon: "/imageForDesign/Hero.png",
+    },
     mascot: "/imageForDesign/level-3.png",
   },
 };
@@ -75,9 +96,9 @@ const LevelsDisplay = ({ modules }) => {
             key={index}
             className="relative rounded-xl border shadow-sm p-4 pl-5 overflow-hidden bg-white"
           >
-            {/* Left Color Strip */}
+            {/* ✅ Left Color Strip using vibrant color */}
             <div
-              className={`absolute top-0 left-0 h-full w-2 rounded-l-xl ${difficulty.color}`}
+              className={`absolute top-0 left-0 h-full w-2 rounded-l-xl ${difficulty.stripColor}`}
             ></div>
 
             {/* Header + Toggle */}
@@ -94,9 +115,32 @@ const LevelsDisplay = ({ modules }) => {
                 <div>
                   <h3 className="text-lg font-bold">{module.title}</h3>
                   <p className="text-sm text-gray-600">{module.description}</p>
-                  <div className="flex gap-2 text-xs mt-1 text-gray-500 items-center">
-                    <img src={difficulty.icon} alt="Difficulty" className="h-5" />
-                    <img src={difficulty.role} alt="Role" className="h-5" />
+
+                  {/* ✅ Updated Badges */}
+                  <div className="flex gap-2 mt-1 items-center flex-wrap text-xs font-medium">
+                    {/* Difficulty Tag */}
+                    <div
+                      className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${difficulty.color} ${difficulty.textColor}`}
+                    >
+                      <img
+                        src={difficulty.icon}
+                        alt="Difficulty"
+                        className="h-4 w-4"
+                      />
+                      <span>{difficulty.label}</span>
+                    </div>
+
+                    {/* Role Tag */}
+                    <div
+                      className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${difficulty.role.textColor} ${difficulty.role.bg}`}
+                    >
+                      <img
+                        src={difficulty.role.icon}
+                        alt={difficulty.role.label}
+                        className="h-4 w-4"
+                      />
+                      <span>{difficulty.role.label}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -138,8 +182,7 @@ const LevelsDisplay = ({ modules }) => {
                         />
                         <div>
                           <p className="font-medium">
-                            {` Challenge ${i + 1
-                              }: ${challenge.title}`}
+                            {` Challenge ${i + 1}: ${challenge.title}`}
                           </p>
                           <p className="text-sm text-gray-600">
                             {challenge.description}

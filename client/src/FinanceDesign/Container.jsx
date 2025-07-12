@@ -220,7 +220,7 @@ const Container = () => {
             {features.map((item, index) => (
               <div
                 key={index}
-                className="rounded-xl overflow-visible shadow-md bg-white border border-gray-100 relative"
+                className="rounded-xl overflow-visible shadow-md bg-white border border-gray-100 relative transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
               >
                 <div
                   className={`relative ${item.bg} h-32 flex justify-center items-end overflow-visible rounded-t-xl`}
@@ -240,6 +240,7 @@ const Container = () => {
               </div>
             ))}
           </div>
+
           <GameInfo />
           <CTA />
         </>
