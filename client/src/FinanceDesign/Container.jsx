@@ -41,7 +41,7 @@ const features = [
 const modulesfor6to8 = [
   {
     title: "LEVEL 1: The Budgeter",
-    description: "Mission: “Survive the Month Without Going Broke”",
+    description: "Mission: Survive the Month Without Going Broke",
     challenges: [
       {
         title: "Weekly Budget Builder (Drag-and-Drop Game)",
@@ -71,7 +71,7 @@ const modulesfor6to8 = [
   },
   {
     title: "LEVEL 2: The Smart Spender",
-    description: "Mission: “Buy That Dream Phone Without Getting Tricked”",
+    description: "Mission: Buy That Dream Phone Without Getting Tricked",
     challenges: [
       {
         title: "Credit Card Crash Course (Simulator)",
@@ -101,7 +101,7 @@ const modulesfor6to8 = [
   },
   {
     title: "LEVEL 3: The Rookie Investor",
-    description: "Mission: “Make Your First ₹10,000 Grow”",
+    description: "Mission: Make Your First ₹10,000 Grow",
     challenges: [
       {
         title: "“News Flash!” Market Events",
@@ -128,7 +128,7 @@ const modulesfor6to8 = [
 const modulesfor9to10 = [
   {
     title: "LEVEL 1: Financial Explorer",
-    description: "Mission: 'Become a Budgeting Pro in a Simulated Marketplace'",
+    description: "Mission: Become a Budgeting Pro in a Simulated Marketplace",
     challenges: [
       {
         title: "Mini Market Master",
@@ -158,7 +158,7 @@ const modulesfor9to10 = [
 const modulesfor11to12 = [
   {
     title: "LEVEL 1: Future Finance Leader",
-    description: "Mission: 'Build Real Financial Skills for Adulting'",
+    description: "Mission: Build Real Financial Skills for Adulting",
     challenges: [
       {
         title: "InvestoQuest Pro",
