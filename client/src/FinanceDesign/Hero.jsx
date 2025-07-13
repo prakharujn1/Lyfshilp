@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <section
-      className="text-white py-12 md:py-12 pb-0 relative overflow-hidden"
+      className="-mt-10 text-white py-12 md:py-12 pb-0 relative overflow-hidden"
       style={{
         background: "linear-gradient(to bottom, #3F9400 0%, #2C6601 100%)",
       }}
@@ -21,7 +21,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between relative z-10">
         {/* Left Section */}
         <div className="max-w-xl space-y-4 mb-10 md:mb-0">
-          <nav className="text-sm mb-4">
+          <nav className="text-sm mt-10 -ml-2">
             <div className="bg-black/20 mb-10 text-white px-4 py-2 rounded-lg inline-flex items-center space-x-2">
               <Link
                 to="/"
