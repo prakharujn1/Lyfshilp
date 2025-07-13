@@ -10,7 +10,7 @@ const difficultyMap = {
     color: "bg-[#DCFCE7]",
     stripColor: "bg-[#16A34A]", // ✅ Vibrant green for left strip
     textColor: "text-[#016630]",
-    icon: "/imageForDesign/Beginner.png",
+    icon: "/imageForDesign/Be.svg",
     role: {
       label: "Explorer",
       bg: "bg-pink-100",

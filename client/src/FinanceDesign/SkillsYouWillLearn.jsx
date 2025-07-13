@@ -84,88 +84,54 @@ const SkillsYouWillLearn = () => {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-start gap-6">
             {/* Left - Feature Images */}
-            <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-              {/* Card 1 */}
-              <div
-                className="bg-[#352A81] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
-"
-              >
-                <div className="flex justify-center mb-3">
-                  <img
-                    src="/imageForDesign/CommunityDriven.png"
-                    alt="Community Driven"
-                    className="w-28 h-28"
-                  />
-                </div>
-                <h3 className="text-lg font-semibold">
-                  Community-Driven Learning
-                </h3>
-                <p className="text-sm mt-1">
-                  Join a community of like-minded learners and financial experts
-                  to accelerate your growth.
-                </p>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md mx-auto">
+              {[
+                {
+                  title: "Community-Driven Learning",
+                  desc: "Join a community of like-minded learners and financial experts to accelerate your growth.",
+                  bg: "#352A81",
+                  img: "/imageForDesign/25.png",
+                },
+                {
+                  title: "Step by Step Guidance",
+                  desc: "Follow our structured learning paths from basic concepts to advanced financial strategies.",
+                  bg: "#E11D48",
+                  img: "/imageForDesign/27.png",
+                },
+                {
+                  title: "Practical, Real World Focus",
+                  desc: "Our curriculum bridges theory and practice with real-world applications and case studies.",
+                  bg: "#2542AA",
+                  img: "/imageForDesign/26.png",
+                },
+                {
+                  title: "Industry-Level Certification",
+                  desc: "Earn certificates that showcase your financial knowledge and expertise to employers.",
+                  bg: "#B81563",
+                  img: "/imageForDesign/28.png",
+                },
+              ].map((card, index) => (
+                <div
+                  key={index}
+                  className="border border-gray-100 shadow-md rounded-xl overflow-visible transform transition-transform duration-300 hover:scale-105 hover:shadow-xl text-white"
+                  style={{ backgroundColor: card.bg }}
+                >
+                  {/* Image floating */}
+                  <div className="relative h-28 flex justify-center items-end overflow-visible">
+                    <img
+                      src={card.img}
+                      alt={card.title}
+                      className="w-[200px] h-[250px] object-contain absolute -top-8 z-10 drop-shadow-xl"
+                    />
+                  </div>
 
-              {/* Card 2 */}
-              <div
-                className="bg-[#E11D48] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
-"
-              >
-                <div className="flex justify-center mb-3">
-                  <img
-                    src="/imageForDesign/StepByStepGuidance.png"
-                    alt="Step by Step Guidance"
-                    className="w-28 h-28"
-                  />
+                  {/* Text content */}
+                  <div className="pt-16 pb-4 px-3 text-center">
+                    <h3 className="font-semibold text-base">{card.title}</h3>
+                    <p className="text-sm mt-1 leading-snug">{card.desc}</p>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold">Step by Step Guidance</h3>
-                <p className="text-sm mt-1">
-                  Follow our structured learning paths from basic concepts to
-                  advanced financial strategies.
-                </p>
-              </div>
-
-              {/* Card 3 */}
-              <div
-                className="bg-[#2542AA] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
-"
-              >
-                <div className="flex justify-center mb-3">
-                  <img
-                    src="/imageForDesign/PracticalRealWorldFocus.png"
-                    alt="Practical Real World Focus"
-                    className="w-28 h-28"
-                  />
-                </div>
-                <h3 className="text-lg font-semibold">
-                  Practical, Real World Focus
-                </h3>
-                <p className="text-sm mt-1">
-                  Our curriculum bridges theory and practice with real-world
-                  applications and case studies.
-                </p>
-              </div>
-
-              {/* Card 4 */}
-              <div
-                className="bg-[#B81563] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
-"
-              >
-                <div className="flex justify-center mb-3">
-                  <img
-                    src="/imageForDesign/IndustryLevelCertification.png"
-                    alt="Industry Level Certification"
-                    className="w-28 h-28"
-                  />
-                </div>
-                <h3 className="text-lg font-semibold">
-                  Industry-Level Certification
-                </h3>
-                <p className="text-sm mt-1">
-                  Earn certificates that showcase your financial knowledge and
-                  expertise to employers.
-                </p>
-              </div>
+              ))}
             </div>
 
             {/* Right - Heading + Auto-scroll Video */}
