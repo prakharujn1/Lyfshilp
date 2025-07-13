@@ -114,10 +114,12 @@ const LevelsDisplay = ({ modules }) => {
                 />
                 <div>
                   <h3 className="text-lg font-bold">{module.title}</h3>
-                  <p className="text-sm text-gray-600">{module.description}</p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {module.description}
+                  </p>
 
                   {/* ✅ Updated Badges */}
-                  <div className="flex gap-2 mt-1 items-center flex-wrap text-xs font-medium">
+                  <div className="flex gap-3 mt-3 items-center flex-wrap text-xs font-medium">
                     {/* Difficulty Tag */}
                     <div
                       className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${difficulty.color} ${difficulty.textColor}`}

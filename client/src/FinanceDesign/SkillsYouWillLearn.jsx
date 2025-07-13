@@ -85,19 +85,75 @@ const SkillsYouWillLearn = () => {
           <div className="flex flex-col md:flex-row md:items-start gap-6">
             {/* Left - Feature Images */}
             <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-              {[
-                "CommunityDriven",
-                "StepByStepGuidance",
-                "PracticalRealWorldFocus",
-                "IndustryLevelCertification",
-              ].map((img, i) => (
-                <img
-                  key={i}
-                  src={`/imageForDesign/${img}.png`}
-                  alt={img}
-                  className="rounded-xl w-full transition-transform duration-300 ease-in-out hover:scale-[1.03]"
-                />
-              ))}
+              {/* Card 1 */}
+              <div className="bg-[#352A81] text-white p-5 rounded-xl">
+                <div className="flex justify-center mb-3">
+                  <img
+                    src="/imageForDesign/CommunityDriven.png"
+                    alt="Community Driven"
+                    className="w-28 h-28"
+                  />
+                </div>
+                <h3 className="text-lg font-semibold">
+                  Community-Driven Learning
+                </h3>
+                <p className="text-sm mt-1">
+                  Join a community of like-minded learners and financial experts
+                  to accelerate your growth.
+                </p>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-[#E11D48] text-white p-5 rounded-xl">
+                <div className="flex justify-center mb-3">
+                  <img
+                    src="/imageForDesign/StepByStepGuidance.png"
+                    alt="Step by Step Guidance"
+                    className="w-28 h-28"
+                  />
+                </div>
+                <h3 className="text-lg font-semibold">Step by Step Guidance</h3>
+                <p className="text-sm mt-1">
+                  Follow our structured learning paths from basic concepts to
+                  advanced financial strategies.
+                </p>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-[#2542AA] text-white p-5 rounded-xl">
+                <div className="flex justify-center mb-3">
+                  <img
+                    src="/imageForDesign/PracticalRealWorldFocus.png"
+                    alt="Practical Real World Focus"
+                    className="w-28 h-28"
+                  />
+                </div>
+                <h3 className="text-lg font-semibold">
+                  Practical, Real World Focus
+                </h3>
+                <p className="text-sm mt-1">
+                  Our curriculum bridges theory and practice with real-world
+                  applications and case studies.
+                </p>
+              </div>
+
+              {/* Card 4 */}
+              <div className="bg-[#B81563] text-white p-5 rounded-xl">
+                <div className="flex justify-center mb-3">
+                  <img
+                    src="/imageForDesign/IndustryLevelCertification.png"
+                    alt="Industry Level Certification"
+                    className="w-28 h-28"
+                  />
+                </div>
+                <h3 className="text-lg font-semibold">
+                  Industry-Level Certification
+                </h3>
+                <p className="text-sm mt-1">
+                  Earn certificates that showcase your financial knowledge and
+                  expertise to employers.
+                </p>
+              </div>
             </div>
 
             {/* Right - Heading + Auto-scroll Video */}
@@ -111,7 +167,7 @@ const SkillsYouWillLearn = () => {
                   independence.
                 </p>
               </div>
-              <div className="mt-6 rounded-xl overflow-hidden shadow-md h-[220px] sm:h-[280px] md:h-[460px]">
+              <div className="mt-6 rounded-xl overflow-hidden shadow-md h-[220px] sm:h-[280px] md:h-[530px]">
                 <video
                   ref={videoRef}
                   className="w-full h-full object-cover rounded-xl"

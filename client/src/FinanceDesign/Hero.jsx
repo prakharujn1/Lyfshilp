@@ -20,7 +20,7 @@ const Hero = () => {
 
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between relative z-10">
         {/* Left Section */}
-        <div className="max-w-xl space-y-4">
+        <div className="max-w-xl space-y-4 mb-10 md:mb-0">
           <nav className="text-sm mb-4">
             <div className="bg-black/20 mb-10 text-white px-4 py-2 rounded-lg inline-flex items-center space-x-2">
               <Link
@@ -36,13 +36,17 @@ const Hero = () => {
               </Link>
 
               <span className="text-white/60">&gt;</span>
-              <span className="text-white">Courses</span>
+              <Link to="/courses">
+                <span className="text-white">Courses</span>
+              </Link>
 
               <span className="text-white/60">&gt;</span>
               <span className="text-white">Finance</span>
 
               <span className="text-white/60">&gt;</span>
-              <span className="font-semibold text-white">Gaming Lessons</span>
+              <span className="font-semibold text-white whitespace-nowrap">
+                Gaming Lessons
+              </span>
             </div>
           </nav>
 
@@ -67,12 +71,12 @@ const Hero = () => {
 
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
             <span className="block md:inline sigmar-font">Master Your</span>{" "}
-            <span className="text-white sigmar-font inline-flex items-center gap-1 flex-wrap">
-              <span className="tracking-tight">Financial Future</span>
+            <span className="sigmar-font inline-flex items-center gap-0 whitespace-nowrap">
+              Financial Future
               <img
                 src="/imageForDesign/Levelup-2-unscreen.gif"
                 alt="Level up animation"
-                className="h-[1.8em] md:h-[2em] w-auto inline-block -ml-4 md:-ml-5"
+                className="h-[1.5em] sm:h-[1.7em] w-auto align-middle m-0 p-0"
               />
             </span>
           </h1>
@@ -94,6 +98,7 @@ const Hero = () => {
             src="/imageForDesign/chidrenImage.png"
             alt="Kids playing financial game"
             className="w-full relative z-10 transform translate-y-0 md:translate-y-12"
+            style={{ marginTop: "1rem" }} // or use Tailwind: mt-4
           />
         </div>
       </div>

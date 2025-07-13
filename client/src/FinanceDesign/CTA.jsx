@@ -32,10 +32,10 @@ const CTA = () => {
       <div className="hidden md:flex relative bg-[#FFD86B] rounded-2xl p-10 flex-row items-center justify-between gap-6">
         {/* 📝 Left: Text */}
         <div className="w-1/2 text-left">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 mb-3 md:mb-4">
             Want to play all the levels?
           </h2>
-          <p className="text-gray-800 text-base">
+          <p className="text-gray-800 text-base mt-12">
             Our creativity tools, interactive story-based lessons, and fun
             characters are designed to spark curiosity and motivate students to
             learn fundamental finance concepts. With every lesson, they'll take
