@@ -86,7 +86,10 @@ const SkillsYouWillLearn = () => {
             {/* Left - Feature Images */}
             <div className="grid grid-cols-2 gap-4 w-full max-w-md">
               {/* Card 1 */}
-              <div className="bg-[#352A81] text-white p-5 rounded-xl">
+              <div
+                className="bg-[#352A81] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
+"
+              >
                 <div className="flex justify-center mb-3">
                   <img
                     src="/imageForDesign/CommunityDriven.png"
@@ -104,7 +107,10 @@ const SkillsYouWillLearn = () => {
               </div>
 
               {/* Card 2 */}
-              <div className="bg-[#E11D48] text-white p-5 rounded-xl">
+              <div
+                className="bg-[#E11D48] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
+"
+              >
                 <div className="flex justify-center mb-3">
                   <img
                     src="/imageForDesign/StepByStepGuidance.png"
@@ -120,7 +126,10 @@ const SkillsYouWillLearn = () => {
               </div>
 
               {/* Card 3 */}
-              <div className="bg-[#2542AA] text-white p-5 rounded-xl">
+              <div
+                className="bg-[#2542AA] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
+"
+              >
                 <div className="flex justify-center mb-3">
                   <img
                     src="/imageForDesign/PracticalRealWorldFocus.png"
@@ -138,7 +147,10 @@ const SkillsYouWillLearn = () => {
               </div>
 
               {/* Card 4 */}
-              <div className="bg-[#B81563] text-white p-5 rounded-xl">
+              <div
+                className="bg-[#B81563] text-white p-5 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:brightness-110
+"
+              >
                 <div className="flex justify-center mb-3">
                   <img
                     src="/imageForDesign/IndustryLevelCertification.png"
