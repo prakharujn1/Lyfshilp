@@ -198,7 +198,7 @@ const LevelsDisplay = ({ modules }) => {
                       {isUnlocked ? (
                         <Link to={challenge.path}>
                           <button
-                            className={`${buttonBaseClasses} bg-green-600 text-white`}
+                            className={`${buttonBaseClasses} bg-[#10903E] text-white hover:bg-[#0a7d35] hover:scale-[1.02] hover:shadow-md active:scale-[0.98] transition-transform duration-200`}
                           >
                             <img
                               src="/imageForDesign/start.svg"
@@ -211,7 +211,7 @@ const LevelsDisplay = ({ modules }) => {
                       ) : (
                         <button
                           disabled
-                          className={`${buttonBaseClasses} bg-[#A86A00] text-white`}
+                          className={`${buttonBaseClasses} bg-[#BB8B00] text-white opacity-100 cursor-not-allowed`}
                         >
                           <img
                             src="/imageForDesign/unlock.svg"
