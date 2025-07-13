@@ -145,7 +145,7 @@ const SkillsYouWillLearn = () => {
                   independence.
                 </p>
               </div>
-              <div className="mt-6 rounded-xl overflow-hidden shadow-md h-[220px] sm:h-[280px] md:h-[530px]">
+              <div className="mt-6 rounded-xl overflow-hidden shadow-md h-[220px] sm:h-[280px] md:h-[550px]">
                 <video
                   ref={videoRef}
                   className="w-full h-full object-cover rounded-xl"

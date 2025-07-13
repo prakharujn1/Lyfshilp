@@ -11,9 +11,10 @@ const CTA3 = () => {
           alt="Magic Hat"
           className="w-36 mb-4"
         />
-        <h2 className="text-2xl font-bold text-gray-900 mb-3">
+        <h2 className="text-[1.5rem] font-extrabold text-gray-900 mb-3 text-center">
           Want to play all the levels?
         </h2>
+
         <p className="text-gray-800 text-sm mb-4">
           Our creativity tools, interactive story-based lessons, and fun
           characters are designed to spark curiosity and motivate students to

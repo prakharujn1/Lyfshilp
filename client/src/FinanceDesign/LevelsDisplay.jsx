@@ -53,6 +53,9 @@ const LevelsDisplay = ({ modules }) => {
   const { progress } = useFinance();
   const { role } = useAuth();
   const [expanded, setExpanded] = useState({});
+  // Add this above your return (or in your globals if preferred)
+  const buttonBaseClasses =
+    "btn-standard flex items-center justify-center gap-2 px-4 py-2 w-[120px] h-[40px] rounded-md text-sm font-semibold shadow transition duration-200";
 
   const toggleExpand = (index) => {
     setExpanded((prev) => ({
@@ -194,18 +197,29 @@ const LevelsDisplay = ({ modules }) => {
 
                       {isUnlocked ? (
                         <Link to={challenge.path}>
-                          <img
-                            src="/imageForDesign/start-now.png"
-                            alt="Start"
-                            className="w-[100px]"
-                          />
+                          <button
+                            className={`${buttonBaseClasses} bg-green-600 text-white`}
+                          >
+                            <img
+                              src="/imageForDesign/start.svg"
+                              alt="Start Icon"
+                              className="w-4 h-4"
+                            />
+                            <span className="whitespace-nowrap">Start Now</span>
+                          </button>
                         </Link>
                       ) : (
-                        <img
-                          src="/imageForDesign/unlock-now-button.png"
-                          alt="Locked"
-                          className="w-[100px]"
-                        />
+                        <button
+                          disabled
+                          className={`${buttonBaseClasses} bg-[#A86A00] text-white`}
+                        >
+                          <img
+                            src="/imageForDesign/unlock.svg"
+                            alt="Unlock Icon"
+                            className="w-4 h-4"
+                          />
+                          <span className="whitespace-nowrap">Unlock Now</span>
+                        </button>
                       )}
                     </li>
                   );
