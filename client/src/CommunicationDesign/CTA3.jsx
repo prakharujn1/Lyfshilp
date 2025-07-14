@@ -18,9 +18,10 @@ const CTA3 = () => {
         <p className="text-gray-800 text-sm mb-4">
           Our creativity tools, interactive story-based lessons, and fun
           characters are designed to spark curiosity and motivate students to
-          learn fundamental finance concepts. With every lesson, they'll take
-          their first big steps toward mastering money management—without even
-          realizing they're learning!
+          build strong communication skills. With every lesson, they’ll take
+          their first big steps toward speaking clearly, listening actively, and
+          expressing themselves with confidence—without even realizing they’re
+          learning!
         </p>
         <Link to="/login">
           <button className="bg-[#068F36] hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md shadow-md transition text-base">
@@ -39,9 +40,10 @@ const CTA3 = () => {
           <p className="text-gray-800 text-base mt-12">
             Our creativity tools, interactive story-based lessons, and fun
             characters are designed to spark curiosity and motivate students to
-            learn fundamental finance concepts. With every lesson, they'll take
-            their first big steps toward mastering money management—without even
-            realizing they're learning!
+            build strong communication skills. With every lesson, they’ll take
+            their first big steps toward speaking clearly, listening actively,
+            and expressing themselves with confidence—without even realizing
+            they’re learning!
           </p>
         </div>
 
