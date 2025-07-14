@@ -2,6 +2,10 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+       fontFamily: {
+  sigmar: ['"Sigmar One"', 'cursive'],
+},
+
       animation: {
         aurora: "aurora 10s ease-in-out infinite",
         shake: "shake 0.4s ease-in-out", // 👈 add this
