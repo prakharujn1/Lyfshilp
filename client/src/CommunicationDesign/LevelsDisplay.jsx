@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import { useFinance } from "../contexts/FinanceContext";
+import { useCommunication } from "@/contexts/CommunicationContext";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -66,7 +66,7 @@ const difficultyMap = {
 
 const LevelsDisplay = ({ modules }) => {
   const navigate = useNavigate();
-  const { progress } = useFinance();
+  const { progress } = useCommunication();
   const { role, user } = useAuth();
   const [expanded, setExpanded] = useState({});
   // Add this above your return (or in your globals if preferred)
