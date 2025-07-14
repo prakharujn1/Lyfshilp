@@ -63,29 +63,26 @@ const ProgressCardComponent = () => {
   };
 
   return (
-    <div className=" mx-auto p-4 w-[80%] bg-white rounded-md pt-10 shadow-lg">
+    <div className="mx-auto p-2 sm:p-4 w-full bg-white rounded-md pt-4 sm:pt-10 shadow-lg">
       {/* Progress Bar */}
-      <div className="mb-4">
-        <div className="w-full bg-gray-200 rounded-full h-3">
+      <div className="mb-2 sm:mb-4">
+        <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3">
           <div
-            className="bg-gradient-to-r from-blue-500 to-pink-500 h-3 rounded-full transition-all duration-500"
+            className="bg-gradient-to-r from-blue-500 to-pink-500 h-2 sm:h-3 rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
       {/* Play Button Container */}
-      <div className="relative mb-8">
+      <div className="relative mb-4 sm:mb-8">
         <button
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 text-sm"
+          className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg transition-all duration-300 text-xs sm:text-sm"
           onMouseEnter={handleButtonHover}
           onMouseLeave={handleButtonLeave}
         >
           ✨ Let's Play
         </button>
-
-        {/* Arrow */}
-        
       </div>
     </div>
   );
@@ -137,7 +134,7 @@ const BitcoinCard = ({ bitcoinImages }) => {
   }, [isHovered, bitcoinImages]);
 
   return (
-    <div className="relative w-full h-60">
+    <div className="relative w-full h-40 sm:h-60">
       <motion.div
         className="absolute inset-0 bg-white rounded-lg overflow-hidden cursor-pointer shadow-lg"
         onMouseEnter={() => setIsHovered(true)}
@@ -335,6 +332,7 @@ const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   // Bitcoin images array (replace with your actual image paths)
   const bitcoinImages = [
@@ -415,22 +413,89 @@ const Home = () => {
     },
   ];
 
-  const courses = Array(8)
-    .fill({
+ const courses = [
+    {
       title: "Fundamentals of Finance",
-      description:
-        "Master money management, budgeting, saving, and smart investing to build a strong financial...",
-      rating: 4.8,
+      description: "Learn the basics of budgeting, saving, and financial planning for a secure future.",
+      rating: 4.7,
       level: "Beginner",
       duration: "6 weeks",
       students: "2,847",
       category: "Finance",
-    })
-    .map((course, index) => ({
-      ...course,
-      level:
-        index === 1 ? "Advance" : index === 2 ? "Intermediate" : "Beginner",
-    }));
+      image: "https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Computers",
+      description: "Understand computer fundamentals, hardware, software, and digital literacy essentials.",
+      rating: 4.6,
+      level: "Intermediate",
+      duration: "5 weeks",
+      students: "3,215",
+      category: "Technology",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Fundamentals of Law",
+      description: "Gain a foundational understanding of legal principles, rights, and responsibilities.",
+      rating: 4.8,
+      level: "Advanced",
+      duration: "7 weeks",
+      students: "1,932",
+      category: "Legal",
+      image: "https://images.unsplash.com/photo-1593115057322-e94b77572f20?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0",
+    },
+    {
+      title: "Communication Skills",
+      description: "Enhance your verbal, non-verbal, and written communication for personal and professional success.",
+      rating: 4.9,
+      level: "Beginner",
+      duration: "4 weeks",
+      students: "4,102",
+      category: "Soft Skills",
+      image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&auto=format&fit=crop&q=60",
+    },
+    {
+      title: "Entrepreneurship",
+      description: "Learn how to start, manage, and grow a successful business from scratch.",
+      rating: 4.7,
+      level: "Intermediate",
+      duration: "6 weeks",
+      students: "2,658",
+      category: "Business",
+      image: "https://images.unsplash.com/photo-1507099985932-87a4520ed1d5?w=600&auto=format&fit=crop&q=60",
+    },
+    {
+      title: "Digital Marketing",
+      description: "Explore SEO, social media, and online advertising to grow brands digitally.",
+      rating: 4.6,
+      level: "Advanced",
+      duration: "5 weeks",
+      students: "3,876",
+      category: "Marketing",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Leadership & Adaptability",
+      description: "Develop leadership skills and learn to thrive in changing environments.",
+      rating: 4.8,
+      level: "Beginner",
+      duration: "6 weeks",
+      students: "2,491",
+      category: "Leadership",
+      image: "https://images.unsplash.com/photo-1709715357520-5e1047a2b691?w=600&auto=format&fit=crop&q=60",
+    },
+    {
+      title: "Environmental",
+      description: "Understand environmental issues and sustainable practices for a better future.",
+      rating: 4.7,
+      level: "Intermediate",
+      duration: "6 weeks",
+      students: "1,743",
+      category: "Environment",
+      image: "https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=800&q=80",
+    },
+  
+  ];
 
   const categories = [
     "All",
@@ -517,40 +582,61 @@ const Home = () => {
 
   if (!imagesLoaded) {
     return (
-      <div className="relative w-[340px] h-[210px] bg-gray-100 rounded-lg flex items-center justify-center">
+      <div className="relative w-full h-[210px] bg-gray-100 rounded-lg flex items-center justify-center">
         <div className="text-gray-500">Loading images...</div>
       </div>
     );
   }
 
+
+  const filteredCourses = activeCategory === "All" 
+    ? courses 
+    : courses.filter(course => course.category === activeCategory);
+
+  // Helper function to get level icon
+  const getLevelIcon = (level) => {
+    switch (level) {
+      case "Beginner":
+        return "/beginner.png";
+      case "Intermediate":
+        return "/intermediate.png";
+      case "Advanced":
+        return "/advance.png";
+      default:
+        return "/beginner.png";
+    }
+  };
+
+
   return (
     <div className="min-h-screen -mt-8 bg-white overflow-x-hidden">
       {/* Hero Section */}
-
-      <section className="relative h-[90vh] w-full p-0 m-0">
-        <div className="w-full relative h-full bg-[url('/heroBG.jpg')] bg-cover bg-center bg-no-repeat  ">
-          <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center">
+      <section className="relative h-[60vh] sm:h-[70vh] lg:h-[100vh] w-full p-0 -mt-8">
+        <div className="w-full relative h-full bg-[url('/heroBG.jpg')] bg-cover bg-center bg-no-repeat">
+          <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center px-4 sm:px-6">
             {/* Trust Badge */}
-            <div className="mb-5 pt-5 mt-8">
-              <div className="bg-black/20 backdrop-blur-sm rounded-full px-3 py-1  border border-white/20">
-                <span className="text-white text-sm flex items-center gap-2">
+            <div className="mb-3 sm:mb-5 pt-3 sm:pt-5 mt-4 sm:mt-8">
+              <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 mt-14 sm:mt-8 border border-white/20">
+                <span className="text-white text-xs sm:text-sm flex items-center gap-2">
                   ⭐ Loved by 1K+ users worldwide
                 </span>
               </div>
             </div>
 
             {/* Main Heading */}
-            <div className="mb-3">
-              <h1 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold leading-tight ">
+            <div className="mb-2 sm:mb-3">
+              <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
+              style={{ fontFamily: '"Sigmar One", cursive' }}>
                 Master AI, Finance, Law,
               </h1>
-              <h1 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold leading-tight ">
-                and More- Fun Way <span className="text-red-400">🔥</span>
+              <h1 className="text-white flex text-xl ml-8 sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
+              style={{ fontFamily: '"Sigmar One", cursive' }}>
+                and More- Fun Way <div className="w-15 h-15"><img src="/Fire.gif" alt="fire" /></div>
               </h1>
             </div>
 
             {/* Subtitle */}
-            <p className="text-white/90 text-base md:text-lg max-w-4xl mx-60 mb-8 leading-tight">
+            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-4xl mx-4 sm:mx-20 lg:mx-60 mb-4 sm:mb-8 leading-tight">
               Explore Artificial Intelligence, Machine Learning, Communication,
               Coding, and more through interactive games, real-world challenges,
               and bite-sized notes — all designed for curious minds from Grade 6
@@ -558,19 +644,20 @@ const Home = () => {
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-16">
-              <button className="bg-white text-green-600 font-semibold px-8 py-4 rounded-lg  hover:bg-transparent hover:border-2 hover:text-white hover:border-white transition duration-300 cursor-pointer text-lg">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-16 w-full sm:w-auto px-4 sm:px-0">
+              <button className="bg-white text-green-600 font-semibold px-4 sm:px-8 py-2 sm:py-3 rounded-lg   transition duration-300 cursor-pointer text-sm sm:text-lg">
                 Get Started Free
               </button>
-              <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-green-600 cursor-pointer transition duration-300 text-lg flex items-center justify-center gap-2">
+              <button className="border-2 border-white text-white font-semibold px-4 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-white hover:text-green-600 cursor-pointer transition duration-300 text-sm sm:text-lg flex items-center justify-center gap-2">
                 Book a trial
               </button>
             </div>
           </div>
+          
           {/* Hero Illustration */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 px-4 py-2 max-w-2xl mx-auto">
             {/* Main characters illustration */}
-            <div className="relative h-[500px] w-[500px] overflow-hidden">
+            <div className="relative h-[200px] w-[200px] sm:h-[350px] sm:w-[350px] lg:h-[500px] lg:w-[500px] overflow-hidden">
               <img
                 src="/heroIMG.png"
                 alt="Full"
@@ -582,30 +669,30 @@ const Home = () => {
       </section>
 
       {/* Why You'll Love It Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-start mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-black">
+      <section className="py-10 sm:py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col lg:flex-row justify-between items-start mb-8 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4 lg:mb-0">
               Why you'll love it
             </h2>
-            <p className="text-gray-900 font-medium text-lg max-w-xs text-right">
+            <p className="text-gray-900 font-medium text-base sm:text-lg max-w-xs text-left lg:text-right">
               Designed to make your learning fun
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-1 h-90 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Feature 1 - Notes */}
             <motion.div
-              className="bg-[#C3E2FF] rounded-2xl p-6 h-90 overflow-hidden "
+              className="bg-[#C3E2FF] rounded-2xl p-4 sm:p-6 min-h-[300px] sm:h-90 overflow-hidden"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-lg font-bold text-black mb-3">
+              <h3 className="text-base sm:text-lg font-bold text-black mb-2 sm:mb-3">
                 Get the special Curated Notes
               </h3>
-              <p className="text-gray-700 mb-6 text-sm">
+              <p className="text-gray-700 mb-4 sm:mb-6 text-sm">
                 Choose from 100+ expert-made topic notes. Read it while doing
                 fun activities
               </p>
@@ -614,11 +701,10 @@ const Home = () => {
               <div className="p-0 m-0">
                 <BitcoinCard bitcoinImages={bitcoinImages} />
               </div>
-              
             </motion.div>
 
             {/* Feature 2 - Learn anywhere */}
-            <motion.div
+           <motion.div
               className="bg-[url('/F2.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-6 h-full flex flex-col"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -653,16 +739,16 @@ const Home = () => {
 
             {/* Feature 3 - Connect & learn */}
             <motion.div
-              className="bg-[url('/F3.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-6 h-full"
+              className="bg-[url('/F3.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-4 sm:p-6 min-h-[300px] h-full"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h3 className="text-lg font-bold text-black mb-3">
+              <h3 className="text-base sm:text-lg font-bold text-black mb-2 sm:mb-3">
                 Connect & learn together
               </h3>
-              <p className="text-gray-700 mb-6 text-sm">
+              <p className="text-gray-700 mb-4 sm:mb-6 text-sm">
                 Students and teachers, both can learn together without any
                 hussle, at their on ease
               </p>
@@ -672,10 +758,10 @@ const Home = () => {
             </motion.div>
           </div>
 
-          <div className="grid mt-5 grid-cols-1  md:grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid mt-4 sm:mt-5 grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Feature 4 - Games */}
             <motion.div
-              className="bg-[url('/F4.png')] bg-cover bg-center bg-no-repeat rounded-2xl relative w-[110%] p-6 h-100 "
+              className="bg-[url('/F4.png')] bg-cover bg-center bg-no-repeat rounded-2xl relative w-full p-4 sm:p-6 min-h-[250px] sm:h-100"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -703,41 +789,41 @@ const Home = () => {
 
             {/* Feature 5 - Skills */}
             <motion.div
-              className="bg-[url('/F5.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-6 h-100 w-[90%] ml-15 md:col-span-1 lg:col-span-1"
+              className="bg-[url('/F5.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-4 sm:p-6 min-h-[250px] sm:h-100 w-full"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h3 className="text-lg font-bold text-black mb-3">
+              <h3 className="text-base sm:text-lg font-bold text-black mb-2 sm:mb-3">
                 Learn any of trending skill, with fun
               </h3>
-              <p className="text-gray-700 mb-6 text-sm">
+              <p className="text-gray-700 mb-4 sm:mb-6 text-sm">
                 You can learn subjects like AI, Law, Science etc. while having
                 fun and playing simple games
               </p>
               <div className="flex-1 flex items-center justify-center">
-                <div className="grid mt-10 grid-cols-5 gap-5 group">
+                <div className="grid mt-4 sm:mt-10 grid-cols-5 gap-2 sm:gap-5 group">
                   {/* 5 child divs, each has two <img> tags */}
-                  <div className="w-12 h-12 mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-10">
-                    <img src="/Link1.png" />
-                    <img src="/Link2.png" />
+                  <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
+                    <img src="/Link1.png" className="w-full h-auto" alt="Link 1" />
+                    <img src="/Link2.png" className="w-full h-auto" alt="Link 2" />
                   </div>
-                  <div className="w-12 h-12 transition-transform duration-300 ease-in-out group-hover:translate-y-10">
-                    <img src="/Link3.png" />
-                    <img src="/Link4.png" />
+                  <div className="w-9 sm:w-15 h-9 sm:h-15 transition-transform duration-300 ease-in-out group-hover:translate-y-4 sm:group-hover:translate-y-10">
+                    <img src="/Link3.png" className="w-full h-auto" alt="Link 3" />
+                    <img src="/Link4.png" className="w-full h-auto" alt="Link 4" />
                   </div>
-                  <div className="w-12 h-12 mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-10">
-                    <img src="/Link5.png" />
-                    <img src="/Link6.png" />
+                  <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
+                    <img src="/Link5.png" className="w-full h-auto" alt="Link 5" />
+                    <img src="/Link6.png" className="w-full h-auto" alt="Link 6" />
                   </div>
-                  <div className="w-12 h-12 transition-transform duration-300 ease-in-out group-hover:translate-y-10">
-                    <img src="/Link7.png" />
-                    <img src="/Link8.png" />
+                  <div className="w-9 sm:w-15 h-9 sm:h-15 transition-transform duration-300 ease-in-out group-hover:translate-y-4 sm:group-hover:translate-y-10">
+                    <img src="/Link7.png" className="w-full h-auto" alt="Link 7" />
+                    <img src="/Link8.png" className="w-full h-auto" alt="Link 8" />
                   </div>
-                  <div className="w-12 h-12 mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-10">
-                    <img src="/Link9.png" />
-                    <img src="/Link10.png" />
+                  <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
+                    <img src="/Link9.png" className="w-full h-auto" alt="Link 9" />
+                    <img src="/Link10.png" className="w-full h-auto" alt="Link 10" />
                   </div>
                 </div>
               </div>
@@ -747,26 +833,25 @@ const Home = () => {
       </section>
 
       {/* Success Stats Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
-            <div>
-              <div className="bg-green-500  rounded-tl-4xl rounded-bl-4xl text-center h-[430px] w-[550px] relative overflow-hidden">
+      <section className="py-10 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
+            <div className="order-1 lg:order-1">
+              <div className="bg-green-500 rounded-2xl lg:rounded-tl-4xl lg:rounded-bl-4xl text-center h-[300px] sm:h-[430px] w-full lg:w-[550px] relative overflow-hidden">
                 {/* Character illustration */}
-
                 <div className="relative w-full pt-5 -mb-10 h-full z-10">
                   <img
                     src="/5.gif"
                     alt="Full"
-                    className="absolute inset-0 w-full  h-[-50%] object-cover"
+                    className="absolute inset-0 w-full h-[-50%] object-cover"
                   />
                 </div>
               </div>
             </div>
 
-            <div className=" h-full w-full flex flex-col justify-between">
+            <div className="order-2 lg:order-2 h-full w-full flex flex-col justify-between space-y-6 lg:space-y-0">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-black mb-8 leading-tight">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-4 sm:mb-8 leading-tight">
                   Join thousands of curious minds from top schools and
                   institutions using Edumaniax to -
                   <span className="text-green-600">
@@ -777,28 +862,28 @@ const Home = () => {
               </div>
 
               <div className="bg-gray-200 rounded-2xl p-4">
-                <div className="grid grid-cols-3 divide-x divide-gray-400">
-                  <div className="text-center pr-6">
-                    <div className="text-4xl font-bold text-green-600 mb-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
+                  <div className="text-center sm:pr-6">
+                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
                       50+
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-xs sm:text-sm text-gray-600">
                       Partners School overall India
                     </div>
                   </div>
-                  <div className="text-center px-6">
-                    <div className="text-4xl font-bold text-green-600 mb-2">
+                  <div className="text-center sm:px-6">
+                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
                       12K+
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-xs sm:text-sm text-gray-600">
                       Students across the globe
                     </div>
                   </div>
-                  <div className="text-center pl-6">
-                    <div className="text-4xl font-bold text-green-600 mb-2">
+                  <div className="text-center sm:pl-6">
+                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
                       20+
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-xs sm:text-sm text-gray-600">
                       Trending topics from different categories
                     </div>
                   </div>
@@ -810,128 +895,135 @@ const Home = () => {
       </section>
 
       {/* Courses Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
-            Courses, curated with love
-          </h2>
+      <section className="py-10 sm:py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
+          Courses, curated with love
+        </h2>
 
-          {/* Category Filters */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {categories.map((category, index) => (
-              <button
-                key={category}
-                className={`px-4 py-2 text-xs rounded-full font-medium transition duration-300 ${
-                  index === 0
-                    ? "bg-green-600 text-white"
-                    : " bg-gray-200 text-gray-600 hover:bg-gray-300"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-
-          {/* Course Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-0">
-            {courses.map((course, index) => (
-              <motion.div
-                key={index}
-                className="bg-white rounded-2xl w-74  overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.05 }}
-              >
-                <div className="relative h-40 bg-gray-900">
-                  {/* Finance chart background */}
-                  <div className="absolute inset-0 opacity-80">
-                    <svg className="w-full h-full" viewBox="0 0 300 200"></svg>
-                  </div>
-
-                  {/* Category tag */}
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700 flex text-xs items-center gap-1">
-                      💰 {course.category}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-4">
-                  <div className="flex justify-between">
-                    <div>
-                      <h4 className="text-base font-bold text-black mb-2">
-                        {course.title}
-                      </h4>
-                    </div>
-                    <div className="flex items-center gap-1 mb-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">
-                        {course.rating}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="text-gray-600 text-xs mb-4 line-clamp-2">
-                    {course.description}
-                  </p>
-
-                  <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
-                    <span
-                      className={`px-2 py-1 rounded text-xs font-medium ${
-                        course.level === "Beginner"
-                          ? "bg-green-100 text-green-600"
-                          : course.level === "Intermediate"
-                          ? "bg-yellow-100 text-yellow-600"
-                          : "bg-red-100 text-red-600"
-                      }`}
-                    >
-                      {course.level}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      🕒 {course.duration}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      👥 {course.students}
-                    </span>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button className="flex-1 bg-green-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2">
-                      🎮 Let's Play &gt;
-                    </button>
-                    <button className="bg-orange-400 text-white font-medium py-2 px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-sm">
-                      📝 Notes
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <div className="w-full h-full flex justify-center items-center">
-            <button className="border-3 border-green-600 text-green-600 mt-8 mb-10 font-medium px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300">
-              View More..
+        {/* Category Filters */}
+        <div className="flex flex-wrap gap-2 mb-4 overflow-x-auto pb-2">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-3 sm:px-4 py-2 text-xs whitespace-nowrap rounded-full font-medium transition duration-300 ${
+                category === activeCategory
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+              }`}
+            >
+              {category}
             </button>
-          </div>
+          ))}
         </div>
-      </section>
+
+        {/* Course Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-0">
+          {filteredCourses.map((course, index) => (
+            <motion.div
+              key={`${course.title}-${index}`}
+              className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.05 }}
+            >
+              <div className="relative h-32 sm:h-40 bg-gray-900">
+                {/* Course-specific background image */}
+                <div className="absolute inset-0">
+                  <img
+                    src={course.image}
+                    alt={course.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black opacity-40"></div>
+                </div>
+
+                {/* Category tag */}
+                <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
+                  <span className="bg-white px-2 sm:px-3 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
+                     {course.category}
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-3 sm:p-4">
+                <div className="flex justify-between">
+                  <div className="flex-1">
+                    <h4 className="text-sm sm:text-base font-bold text-black mb-2 line-clamp-2">
+                      {course.title}
+                    </h4>
+                  </div>
+                  <div className="flex items-center gap-1 mb-1 ml-2">
+                    <Star className="w-3 sm:w-4 h-3 sm:h-4 fill-yellow-400 text-yellow-400" />
+                    <span className="text-xs sm:text-sm font-medium">
+                      {course.rating}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-gray-600 text-xs mb-3 sm:mb-4 line-clamp-2">
+                  {course.description}
+                </p>
+
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-ex text-gray-500">
+                  <div
+                    className={`px-2 py-1 rounded flex items-center gap-1 text-xs font-medium ${
+                      course.level === "Beginner"
+                        ? "bg-green-100 text-green-600"
+                        : course.level === "Intermediate"
+                        ? "bg-yellow-100 text-yellow-600"
+                        : "bg-red-100 text-red-600"
+                    }`}
+                  >
+                    <img src={getLevelIcon(course.level)} alt={course.level} className="w-3 h-3" />
+                    {course.level}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span><img src="/time.png" alt="" /></span> {course.duration}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span><img src="/people.png" alt="" /></span>  {course.students}
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <button className="flex-1 bg-green-600 text-white font-medium py-2 px-2 sm:px-4 rounded-lg hover:bg-green-700 transition duration-300 text-xs sm:text-sm flex items-center justify-center gap-1 sm:gap-2">
+                    <span><img src="/game.png" alt="" /></span>  Let's Play &gt;
+                  </button>
+                  <button className="bg-orange-400 flex items-center text-white font-medium py-2 px-2 sm:px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-xs sm:text-xs">
+                    <span className="w-5 h-5 mr-1"><img src="/notes.png" alt="" /></span>  Notes
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="w-full h-full flex justify-center items-center">
+          <button className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
+            View More..
+          </button>
+        </div>
+      </div>
+    </section>
 
       {/* Testimonials Section */}
-      <section className="h-[90vh]">
-        <div className="w-full h-full  bg-[url('/Testimonial.png')] bg-cover bg-center bg-no-repeat ">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 place-items-center h-screen">
-              <div className="mr-5">
-                <p className="text-2xl text-gray-700 mb-8 leading-relaxed font-medium italic">
+      <section className="h-auto lg:h-[90vh] py-10 lg:py-0">
+        <div className="w-full h-full bg-[url('/Testimonial.png')] bg-cover sm:bg-contain bg-center bg-no-repeat">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 place-items-center h-auto lg:h-screen py-10 lg:py-0">
+              <div className="order-1 lg:order-1 mr-0 lg:mr-5">
+                <p className="text-lg sm:text-2xl text-gray-700 mb-6 sm:mb-8 leading-relaxed font-medium italic">
                   {currentTestimonial.quote}
                 </p>
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-xl font-bold text-black">
+                    <h4 className="text-lg sm:text-xl font-bold text-black">
                       {currentTestimonial.name}
                     </h4>
-                    <p className="text-gray-600">{currentTestimonial.title}</p>
+                    <p className="text-gray-600 text-sm sm:text-base">{currentTestimonial.title}</p>
                   </div>
 
                   <div className="flex gap-2">
@@ -939,26 +1031,26 @@ const Home = () => {
                       onClick={prevTestimonial}
                       className="p-2 rounded-full bg-white hover:bg-gray-100 transition duration-300"
                     >
-                      <ChevronLeft className="w-5 h-5" />
+                      <ChevronLeft className="w-4 sm:w-5 h-4 sm:h-5" />
                     </button>
                     <button
                       onClick={nextTestimonial}
                       className="p-2 rounded-full bg-white hover:bg-gray-100 transition duration-300"
                     >
-                      <ChevronRight className="w-5 h-5" />
+                      <ChevronRight className="w-4 sm:w-5 h-4 sm:h-5" />
                     </button>
                   </div>
                 </div>
               </div>
 
-              <div className="flex ml-10 justify-center">
+              <div className="order-2 lg:order-2 flex justify-center ml-0 lg:ml-10">
                 <div className="relative z-10">
-                  <div className="w-80 h-80 lg:w-96 lg:h-126  relative overflow-hidden">
+                  <div className="w-70 h-70 -mb-10 sm:w-90 sm:h-90 lg:w-119 lg:h-130 lg:-mb-16 relative overflow-hidden">
                     <img
                       key={`img-${currentIndex}`}
                       src={currentTestimonial.image}
                       alt={currentTestimonial.name}
-                      className="w-full h-full object-contain  rounded-lg shadow-2xl animate-fadeIn"
+                      className="w-full h-full object-contain rounded-lg shadow-2xl animate-fadeIn"
                       onError={(e) => {
                         // Fallback to placeholder if image fails to load
                         e.target.src = `data:image/svg+xml;base64,${btoa(`
@@ -980,25 +1072,25 @@ const Home = () => {
       </section>
 
       {/* Student Feedback Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
+      <section className="py-10 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
             Hear it from the desks
           </h2>
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-16">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-8 sm:mb-16">
             that matter most
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {/* Note 1 - Purple */}
             <div className="transform rotate-1">
-              <div className="bg-purple-300 p-6 rounded-lg shadow-lg relative">
-                <div className="bg-yellow-200 px-3 py-1 rounded mb-4 inline-block text-sm font-medium">
+              <div className="bg-purple-300 p-4 sm:p-6 rounded-lg shadow-lg relative">
+                <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
                   London
                 </div>
-                <div className="h-40 overflow-hidden">
+                <div className="h-32 sm:h-40 overflow-hidden">
                   <p
-                    className="text-black text-left text-sm leading-relaxed"
+                    className="text-black text-left text-xs sm:text-sm leading-relaxed"
                     style={{ fontFamily: "Comic Sans MS, cursive" }}
                   >
                     I like this type of quiz because it Shows us "the answer"
@@ -1008,19 +1100,19 @@ const Home = () => {
                   </p>
                 </div>
                 {/* Tape effect */}
-                <div className="absolute -top-2 left-8 w-12 h-6 bg-yellow-100 opacity-80 rounded transform -rotate-12"></div>
+                <div className="absolute -top-2 left-4 sm:left-8 w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform -rotate-12"></div>
               </div>
             </div>
 
             {/* Note 2 - Blue */}
             <div className="transform -rotate-1">
-              <div className="bg-blue-200 p-6 rounded-lg shadow-lg relative">
-                <div className="bg-yellow-200 px-3 py-1 rounded mb-4 inline-block text-sm font-medium">
+              <div className="bg-blue-200 p-4 sm:p-6 rounded-lg shadow-lg relative">
+                <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
                   {/* Empty header like in design */}
                 </div>
-                <div className="h-40 overflow-hidden">
+                <div className="h-32 sm:h-40 overflow-hidden">
                   <p
-                    className="text-black text-left text-sm leading-relaxed"
+                    className="text-black text-left text-xs sm:text-sm leading-relaxed"
                     style={{ fontFamily: "Comic Sans MS, cursive" }}
                   >
                     I think the school should purchase wayground because it
@@ -1028,31 +1120,31 @@ const Home = () => {
                     lets you have more tips and I like it because I was able to
                     rush me if I'm stuck on a question.
                   </p>
-                  <p className="text-right mt-4 font-bold text-black">
+                  <p className="text-right mt-2 sm:mt-4 font-bold text-black text-xs sm:text-sm">
                     Charlotte
                   </p>
                 </div>
                 {/* Tape effect */}
-                <div className="absolute -top-2 right-8 w-12 h-6 bg-yellow-100 opacity-80 rounded transform rotate-12"></div>
+                <div className="absolute -top-2 right-4 sm:right-8 w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform rotate-12"></div>
               </div>
             </div>
 
             {/* Note 3 - Yellow */}
             <div className="transform rotate-1">
-              <div className="bg-yellow-200 p-6 rounded-lg shadow-lg relative">
-                <div className="bg-green-200 px-3 py-1 rounded mb-4 inline-block text-sm font-medium">
+              <div className="bg-yellow-200 p-4 sm:p-6 rounded-lg shadow-lg relative">
+                <div className="bg-green-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
                   Reni
                 </div>
-                <div className="h-40 overflow-hidden">
+                <div className="h-32 sm:h-40 overflow-hidden">
                   <p
-                    className="text-black text-left text-sm leading-relaxed"
+                    className="text-black text-left text-xs sm:text-sm leading-relaxed"
                     style={{ fontFamily: "Comic Sans MS, cursive" }}
                   >
                     I think it has a lots of help you can do some gra
                   </p>
                 </div>
                 {/* Tape effect */}
-                <div className="absolute -top-2 left-12 w-12 h-6 bg-yellow-100 opacity-80 rounded transform -rotate-6"></div>
+                <div className="absolute -top-2 left-6 sm:left-12 w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform -rotate-6"></div>
               </div>
             </div>
           </div>
@@ -1060,23 +1152,23 @@ const Home = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 mb-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
+      <section className="py-10 sm:py-20 mb-60 sm:mb-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
             Frequently Asked
           </h2>
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
             Questions
           </h2>
-          <p className="text-gray-600 text-lg mb-16">
+          <p className="text-gray-600 text-sm sm:text-lg mb-8 sm:mb-16">
             Everything you need to know before getting started
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}
-                className={`${faq.bgColor} rounded-2xl p-6 cursor-pointer transition duration-300 hover:shadow-lg`}
+                className={`${faq.bgColor} rounded-2xl p-4 sm:p-6 cursor-pointer transition duration-300 hover:shadow-lg`}
                 onClick={() => toggleFAQ(index)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1084,12 +1176,12 @@ const Home = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-bold text-black text-left">
+                  <h3 className="text-sm sm:text-lg font-bold text-black text-left flex-1 pr-2">
                     {faq.question}
                   </h3>
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                  <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
                     <ChevronDown
-                      className={`w-4 h-4 text-green-600 transition-transform duration-300 ${
+                      className={`w-3 sm:w-4 h-3 sm:h-4 text-green-600 transition-transform duration-300 ${
                         openFAQ === index ? "transform rotate-180" : ""
                       }`}
                     />
@@ -1097,7 +1189,7 @@ const Home = () => {
                 </div>
                 {openFAQ === index && (
                   <motion.p
-                    className="text-black mt-4 text-left"
+                    className="text-black mt-3 sm:mt-4 text-left text-sm"
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     transition={{ duration: 0.3 }}
