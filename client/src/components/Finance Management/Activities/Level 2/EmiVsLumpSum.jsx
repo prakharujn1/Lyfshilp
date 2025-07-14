@@ -9,6 +9,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useFinance } from "../../../../contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -50,6 +52,10 @@ const EmiVsLumpSum = () => {
 
   const lumpSumTotal = 4000 * 3; // ₹12,000
   const emiTotal = 4500 + 3000 * 3; // ₹13,500
+
+  // for performance
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const data = [
     { name: "Lump Sum", cost: lumpSumTotal, extra: 0 },
@@ -96,7 +102,17 @@ feedback : "Your feedback"
       console.log(parsed);
       setFeedback(parsed.feedback);
 
-      if (hasselectedA && hasselectedB) completeFinanceChallenge(1, 1); //mark challenge completed
+      if (hasselectedA && hasselectedB) {
+        completeFinanceChallenge(1, 1);
+
+        const totalTimeSec = (Date.now() - startTime) / 1000;
+        updateFinancePerformance({
+          completed: true,
+          avgResponseTimeSec: totalTimeSec / 2,
+          studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        });
+      }
+
     } catch (err) {
       setError("Error fetching feedback. Try again later");
       console.log(err);
@@ -133,11 +149,10 @@ feedback : "Your feedback"
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
               <button
                 aria-pressed={selectedOption === "A"}
-                className={`p-5 rounded-lg shadow-md transition-all ${
-                  selectedOption === "A"
-                    ? "bg-green-100 border-2 border-green-600"
-                    : "bg-white hover:bg-green-50"
-                }`}
+                className={`p-5 rounded-lg shadow-md transition-all ${selectedOption === "A"
+                  ? "bg-green-100 border-2 border-green-600"
+                  : "bg-white hover:bg-green-50"
+                  }`}
                 onClick={() => setSelectedOption("A")}
               >
                 <h2 className="text-lg font-semibold text-green-800 mb-2">
@@ -154,11 +169,10 @@ feedback : "Your feedback"
 
               <button
                 aria-pressed={selectedOption === "B"}
-                className={`p-5 rounded-lg shadow-md transition-all ${
-                  selectedOption === "B"
-                    ? "bg-blue-100 border-2 border-blue-600"
-                    : "bg-white hover:bg-blue-50"
-                }`}
+                className={`p-5 rounded-lg shadow-md transition-all ${selectedOption === "B"
+                  ? "bg-blue-100 border-2 border-blue-600"
+                  : "bg-white hover:bg-blue-50"
+                  }`}
                 onClick={() => setSelectedOption("B")}
               >
                 <h2 className="text-lg font-semibold text-blue-800 mb-2">
@@ -190,11 +204,10 @@ feedback : "Your feedback"
               />
               <button
                 disabled={notAllowed()}
-                className={`mt-4 ${
-                  notAllowed()
-                    ? "cursor-not-allowed opacity-50"
-                    : "cursor-pointer"
-                } bg-yellow-400 text-yellow-900 px-4 py-2 rounded shadow hover:bg-yellow-500 transition-all`}
+                className={`mt-4 ${notAllowed()
+                  ? "cursor-not-allowed opacity-50"
+                  : "cursor-pointer"
+                  } bg-yellow-400 text-yellow-900 px-4 py-2 rounded shadow hover:bg-yellow-500 transition-all`}
                 onClick={handleSubmit}
               >
                 Submit

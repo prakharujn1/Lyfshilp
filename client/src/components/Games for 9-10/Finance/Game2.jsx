@@ -16,7 +16,10 @@ import {
 import jsPDF from "jspdf";
 import { pdf } from "@react-pdf/renderer";
 import Game2PDF from "./Game2PDF";
-import { useFinance } from "@/contexts/FinanceContext";  
+import { useFinance } from "@/contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
+
 const MiniMarketMaster = () => {
   const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
@@ -27,6 +30,10 @@ const MiniMarketMaster = () => {
     totalValue: 50000,
     transactions: [],
   });
+
+  // for performance tracking
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const companies = [
     {
@@ -191,11 +198,11 @@ const MiniMarketMaster = () => {
         prevStocks.map((stock) =>
           stock.id === randomNews.company
             ? {
-                ...stock,
-                currentPrice: Math.round(
-                  stock.currentPrice * (1 + randomNews.impact / 100)
-                ),
-              }
+              ...stock,
+              currentPrice: Math.round(
+                stock.currentPrice * (1 + randomNews.impact / 100)
+              ),
+            }
             : stock
         )
       );
@@ -257,7 +264,18 @@ const MiniMarketMaster = () => {
 
     const nextDay = () => {
       if (gameData.day >= 10) {
-        completeFinanceChallenge(0,1); // ✅ Marks the challenge as complete
+        completeFinanceChallenge(0, 1); // ✅ Marks the challenge as complete
+
+         // for performance
+        const totalTime = (Date.now() - startTime) / 1000; // in seconds
+        const studyTimeMinutes = Math.ceil(totalTime / 60);
+
+        updateFinancePerformance({
+          avgResponseTimeSec: totalTime,
+          studyTimeMinutes,
+          completed: true,
+        });
+        
         setCurrentPage("results");
         return;
       }
@@ -337,11 +355,9 @@ const MiniMarketMaster = () => {
           {stocks.map((stock) => (
             <div
               key={stock.id}
-              className={`bg-gradient-to-br ${
-                stock.color
-              } rounded-2xl p-4 text-white cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl ${
-                selectedStock === stock.id ? "ring-4 ring-yellow-400" : ""
-              }`}
+              className={`bg-gradient-to-br ${stock.color
+                } rounded-2xl p-4 text-white cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl ${selectedStock === stock.id ? "ring-4 ring-yellow-400" : ""
+                }`}
               onClick={() => setSelectedStock(stock.id)}
             >
               <div className="text-4xl mb-2 text-center">{stock.icon}</div>
@@ -391,21 +407,19 @@ const MiniMarketMaster = () => {
                 <div className="flex bg-gray-100 rounded-lg p-1">
                   <button
                     onClick={() => setTradeType("buy")}
-                    className={`px-4 py-2 rounded-md font-semibold transition-all ${
-                      tradeType === "buy"
+                    className={`px-4 py-2 rounded-md font-semibold transition-all ${tradeType === "buy"
                         ? "bg-green-500 text-white"
                         : "text-gray-600 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     Buy
                   </button>
                   <button
                     onClick={() => setTradeType("sell")}
-                    className={`px-4 py-2 rounded-md font-semibold transition-all ${
-                      tradeType === "sell"
+                    className={`px-4 py-2 rounded-md font-semibold transition-all ${tradeType === "sell"
                         ? "bg-red-500 text-white"
                         : "text-gray-600 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     Sell
                   </button>
@@ -491,7 +505,7 @@ const MiniMarketMaster = () => {
       return badges;
     };
 
-   const handleDownload = async () => {
+    const handleDownload = async () => {
       const blob = await pdf(<Game2PDF />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -537,11 +551,10 @@ const MiniMarketMaster = () => {
               </div>
 
               <div
-                className={`bg-gradient-to-r ${
-                  isProfit
+                className={`bg-gradient-to-r ${isProfit
                     ? "from-yellow-400 to-orange-500"
                     : "from-gray-400 to-gray-600"
-                } text-white p-6 rounded-2xl text-center`}
+                  } text-white p-6 rounded-2xl text-center`}
               >
                 <Trophy className="mx-auto mb-2 text-3xl" />
                 <h3 className="text-lg font-semibold">Total Profit/Loss</h3>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const emotionData = [
   {
@@ -76,6 +77,9 @@ export default function FeelItFindItGame() {
   const [reflectionAnswers, setReflectionAnswers] = useState({});
   const [gameComplete, setGameComplete] = useState(false);
   const [score, setScore] = useState(0);
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleFaceSelect = (face) => {
     setSelectedFace(face);
@@ -186,7 +190,21 @@ export default function FeelItFindItGame() {
     const finalScore = calculateScore();
     setScore(finalScore);
     setGameComplete(true);
-    completeCommunicationChallenge(1,2);
+    completeCommunicationChallenge(1, 2);
+    
+    //for performance
+    const endTime = Date.now();
+    const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+    const accuracy = (finalScore / (gameEmotions.length * 2)) * 100;
+    const scaledScore = Math.round((finalScore / (gameEmotions.length * 2)) * 10 * 10) / 10;
+
+    updateCommunicationPerformance({
+      completed: true,
+      studyTimeMinutes,
+      score: scaledScore,
+      accuracy,
+    });
+
 
   };
 
@@ -252,10 +270,10 @@ export default function FeelItFindItGame() {
               <div
                 key={p}
                 className={`w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm lg:text-base font-bold transition-all duration-300 ${phase === p
-                    ? "bg-yellow-400 text-gray-800 scale-110"
-                    : phase > p
-                      ? "bg-green-400 text-white"
-                      : "bg-white/30 text-white"
+                  ? "bg-yellow-400 text-gray-800 scale-110"
+                  : phase > p
+                    ? "bg-green-400 text-white"
+                    : "bg-white/30 text-white"
                   }`}
               >
                 {phase > p ? "✓" : p}
@@ -286,8 +304,8 @@ export default function FeelItFindItGame() {
                     transition={{ delay: index * 0.1 }}
                     onClick={() => handleFaceSelect(face)}
                     className={`cursor-pointer p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg transition-all duration-300 transform hover:scale-105 ${selectedFace?.id === face.id
-                        ? "bg-yellow-400 text-gray-800 scale-105"
-                        : "bg-white/80 hover:bg-white text-gray-800"
+                      ? "bg-yellow-400 text-gray-800 scale-105"
+                      : "bg-white/80 hover:bg-white text-gray-800"
                       }`}
                   >
                     <div className="text-3xl sm:text-4xl lg:text-6xl mb-2">
@@ -372,8 +390,8 @@ export default function FeelItFindItGame() {
                     transition={{ delay: index * 0.1 }}
                     onClick={() => setSelectedEmotion(emotion)}
                     className={`cursor-pointer p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl text-center shadow-lg transition-all duration-300 transform hover:scale-105 ${selectedEmotion?.id === emotion.id
-                        ? "bg-yellow-400 text-gray-800 scale-105"
-                        : "bg-white/80 hover:bg-white text-gray-800"
+                      ? "bg-yellow-400 text-gray-800 scale-105"
+                      : "bg-white/80 hover:bg-white text-gray-800"
                       }`}
                   >
                     <div className="text-2xl sm:text-3xl lg:text-4xl mb-2">

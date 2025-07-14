@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const correctAnswers = {
   1: {
@@ -45,6 +46,10 @@ const PitchItGame = () => {
   const [selected, setSelected] = useState([]);
   const [feedback, setFeedback] = useState(null);
   const [finalWin, setFinalWin] = useState(false);
+
+  //for performance
+const { updateCommunicationPerformance } = usePerformance();
+const [startTime] = useState(Date.now());
 
   const isCorrect = (text) =>
     Object.values(correctAnswers).some((a) => a.text === text);

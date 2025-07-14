@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { useFinance } from "../contexts/FinanceContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const difficultyMap = {
   0: {
@@ -50,8 +51,9 @@ const difficultyMap = {
 };
 
 const LevelsDisplay = ({ modules }) => {
+  const navigate = useNavigate();
   const { progress } = useFinance();
-  const { role } = useAuth();
+  const { user, role } = useAuth();
   const [expanded, setExpanded] = useState({});
   // Add this above your return (or in your globals if preferred)
   const buttonBaseClasses =
@@ -196,28 +198,33 @@ const LevelsDisplay = ({ modules }) => {
                       </div>
 
                       {isUnlocked ? (
-                        <Link to={challenge.path}>
-                          <button
-                            className={`${buttonBaseClasses} bg-[#10903E] text-white hover:bg-[#0a7d35] hover:scale-[1.02] hover:shadow-md active:scale-[0.98] transition-transform duration-200`}
-                          >
-                            <img
-                              src="/imageForDesign/start.svg"
-                              alt="Start Icon"
-                              className="w-4 h-4"
-                            />
-                            <span className="whitespace-nowrap">Start Now</span>
-                          </button>
-                        </Link>
+                        <button
+                          onClick={() => {
+                            if (!user) navigate("/login");
+                            else navigate(challenge.path);
+                          }}
+                          className={`${buttonBaseClasses} bg-[#10903E] text-white hover:bg-[#0a7d35] hover:scale-[1.02] hover:shadow-md active:scale-[0.98] transition-transform duration-200`}
+                        >
+                          <img src="/imageForDesign/start.svg" alt="Start Icon" className="w-4 h-4" />
+                          <span className="whitespace-nowrap">Start Now</span>
+                        </button>
+                      ) : role === "admin" ? (
+                        <button
+                          onClick={() => {
+                            if (!user) navigate("/login");
+                            else navigate(challenge.path);
+                          }}
+                          className={`${buttonBaseClasses} bg-[#10903E] text-white hover:bg-[#0a7d35] hover:scale-[1.02] hover:shadow-md active:scale-[0.98] transition-transform duration-200`}
+                        >
+                          <img src="/imageForDesign/start.svg" alt="Start Icon" className="w-4 h-4" />
+                          <span className="whitespace-nowrap">Start Now</span>
+                        </button>
                       ) : (
                         <button
-                          disabled
-                          className={`${buttonBaseClasses} bg-[#BB8B00] text-white opacity-100 cursor-not-allowed`}
+                          onClick={() => navigate("/payment-required")}
+                          className={`${buttonBaseClasses} bg-[#BB8B00] text-white`}
                         >
-                          <img
-                            src="/imageForDesign/unlock.svg"
-                            alt="Unlock Icon"
-                            className="w-4 h-4"
-                          />
+                          <img src="/imageForDesign/unlock.svg" alt="Unlock Icon" className="w-4 h-4" />
                           <span className="whitespace-nowrap">Unlock Now</span>
                         </button>
                       )}

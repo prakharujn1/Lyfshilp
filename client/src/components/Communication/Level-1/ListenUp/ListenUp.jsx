@@ -1,9 +1,10 @@
 // Updated ListenUp with drag-and-drop support for emotions and behaviors
 import React, { useState, useRef, useEffect } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
- 
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const audioData = [
-  { 
+  {
     src: "/audio1.mp3",
     emotions: ["😐", "😊", "😟"],
     correctEmotion: ["😐"],
@@ -217,13 +218,38 @@ const AudioChallenge = ({ data, index, onResult }) => {
 const ListenUp = () => {
   const { completeCommunicationChallenge } = useCommunication();
   const [results, setResults] = useState(Array(audioData.length).fill(false));
+  // ✅ for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
-  useEffect(() => {
-    const allCorrect = results.every((r) => r === true);
-    if (allCorrect && results.length === audioData.length) {
-      completeCommunicationChallenge(0, 0); // ✅ Challenge complete!
+
+   useEffect(() => {
+  const allAttempted = results.every((r) => r !== null);
+  if (allAttempted) {
+    const endTime = Date.now();
+    const studyTimeMinutes = Math.max(
+      1,
+      Math.round((endTime - startTime) / 60000)
+    );
+
+    const correctAnswers = results.filter(Boolean).length;
+    const total = results.length;
+
+    const accuracy = (correctAnswers / total) * 100;
+    const score = Math.round((correctAnswers / total) * 10 * 10) / 10; // scale to 10, round to 1 decimal
+
+    updateCommunicationPerformance({
+      completed: true,
+      studyTimeMinutes,
+      score,
+      accuracy,
+    });
+
+    if (correctAnswers === total) {
+      completeCommunicationChallenge(0, 0);
     }
-  }, [results]);
+  }
+}, [results]);
 
   const handleResult = (index, isCorrect) => {
     setResults((prev) => {

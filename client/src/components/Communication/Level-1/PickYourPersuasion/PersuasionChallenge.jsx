@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"; // npm install framer-motion
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const PersuasionGame = () => {
   const data = {
@@ -33,6 +34,9 @@ const PersuasionGame = () => {
   const [selectedSlogan, setSelectedSlogan] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
+  // ✅ for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleReasonClick = (reason) => {
     setSelectedReasons((prev) =>
@@ -43,26 +47,59 @@ const PersuasionGame = () => {
           : prev
     );
   };
+  //for performance
+  const calculateScore = () => {
+    let score = 0;
 
-  const isCorrect =
-    selectedOpening === data.correctCombo.opening &&
-    selectedReasons.includes(data.correctCombo.reasons[0]) &&
-    selectedReasons.includes(data.correctCombo.reasons[1]) &&
-    selectedSlogan === data.correctCombo.slogan;
+    if (selectedOpening === data.correctCombo.opening) {
+      score += 3;
+    }
 
+    const correctReasons = data.correctCombo.reasons;
+    correctReasons.forEach((reason) => {
+      if (selectedReasons.includes(reason)) {
+        score += 2.5;
+      }
+    });
+
+    if (selectedSlogan === data.correctCombo.slogan) {
+      score += 2;
+    }
+
+    return Math.round(score * 10) / 10; // round to 1 decimal
+  };
+
+  //for performance
   const handleSubmit = () => {
     setSubmitted(true);
-    if (isCorrect) {
-      setScore((prev) => prev + 1);
-      completeCommunicationChallenge(0, 2); // 🟢 Challenge completed
+
+    const finalScore = calculateScore(); // out of 10
+    const accuracy = (finalScore / 10) * 100;
+
+    const endTime = Date.now();
+    const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+
+    updateCommunicationPerformance({
+      completed: true,
+      studyTimeMinutes,
+      score: finalScore,
+      accuracy,
+    });
+
+    setScore(finalScore);
+
+    if (finalScore === 10) {
+      completeCommunicationChallenge(0, 2); // Only if fully correct
     }
+
     const audio = new Audio(
-      isCorrect
+      finalScore === 10
         ? "https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.wav"
         : "https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.wav"
     );
     audio.play();
   };
+
 
 
   const resetGame = () => {

@@ -1,6 +1,7 @@
 // src/ToneFixer.jsx
 import React, { useState } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const rudeMessages = [
   {
@@ -45,6 +46,10 @@ const ToneFixer = () => {
   const [score, setScore] = useState(0);
   const [gameFinished, setGameFinished] = useState(false);
   const [selectedTone, setSelectedTone] = useState(null);
+
+  //for performance
+const { updateCommunicationPerformance } = usePerformance();
+const [startTime] = useState(Date.now());
 
   const currentQuestion = rudeMessages[questionIndex];
 

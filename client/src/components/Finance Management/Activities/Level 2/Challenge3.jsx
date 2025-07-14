@@ -2,6 +2,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Lottie from "lottie-react";
 import { useFinance } from "../../../../contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 // Lottie animations
 import superheroAnimation from "../../../../lotties/superhero.json";
@@ -62,6 +64,10 @@ const Challenge3 = () => {
   const [feedbackLog, setFeedbackLog] = useState([]);
   const [lastFeedback, setLastFeedback] = useState("");
   const [currentAction, setCurrentAction] = useState("");
+
+  const { updateFinancePerformance } = usePerformance(); // for performance
+  const [startTime] = useState(Date.now()); // for performance
+
 
   const getTotalSpent = () =>
     [...sortedItems.needNow].reduce((sum, item) => sum + item.price, 0);
@@ -124,9 +130,18 @@ const Challenge3 = () => {
 
   if (step >= items.length) {
     const overspent = getTotalSpent() > Number(expenseLimit);
-    {
-      !overspent && completeFinanceChallenge(1, 2);
-    } //mark challenge completed
+    if (!overspent) {
+      completeFinanceChallenge(1, 2); // mark challenge completed
+
+      // for performance
+      const totalTimeSec = (Date.now() - startTime) / 1000;
+      updateFinancePerformance({
+        avgResponseTimeSec: totalTimeSec / items.length,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: true,
+      });
+    }
+
     return (
       <motion.div
         className="max-w-full sm:max-w-3xl mx-auto mt-6 px-4 py-6 bg-white rounded-xl shadow-xl"
@@ -140,9 +155,8 @@ const Challenge3 = () => {
           🧾 Total Spent: ₹{getTotalSpent()} / ₹{expenseLimit}
         </p>
         <p
-          className={`text-center font-bold ${
-            overspent ? "text-red-500" : "text-green-500"
-          }`}
+          className={`text-center font-bold ${overspent ? "text-red-500" : "text-green-500"
+            }`}
         >
           {overspent
             ? "❌ You overspent. Try skipping more next time!"

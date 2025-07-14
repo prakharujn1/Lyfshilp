@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaChartLine, FaChartBar, FaCoins } from "react-icons/fa";
 import PieChart from "../../../charts/PieChart";
 import { useFinance } from "../../../../contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 const getRandom = (max, min) => Math.random() * (max - min) + min;
 
@@ -63,6 +65,11 @@ export default function NewsFlash() {
   const [message, setMessage] = useState("");
   const [appliedEffects, setAppliedEffects] = useState(new Set());
 
+  //for performance
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+
   const applyEffect = (item) => {
     // Generate effect dynamically based on the item's effectType
     let effect;
@@ -101,6 +108,13 @@ export default function NewsFlash() {
         updatedSet.has("mutualFunds")
       ) {
         completeFinanceChallenge(2, 0); //mark challenge completed 
+        //for performance
+        const totalTimeSec = (Date.now() - startTime) / 1000;
+        updateFinancePerformance({
+          avgResponseTimeSec: totalTimeSec / 3,
+          studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+          completed: true,
+        });
       }
 
       return updatedSet; // ✅ this is essential

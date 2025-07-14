@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const dialogues = [
   {
@@ -66,6 +67,10 @@ const CoolTheConflict = () => {
   const [step, setStep] = useState("dialogue");
   const [selectedEndings, setSelectedEndings] = useState([]);
   const [isCorrectResolution, setIsCorrectResolution] = useState(null);
+
+//for performance
+const { updateCommunicationPerformance } = usePerformance();
+const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if (step === "result" && isCorrectResolution === true) {

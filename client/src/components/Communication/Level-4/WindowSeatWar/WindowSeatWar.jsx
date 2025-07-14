@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const allStatements = [
   {
@@ -65,6 +66,10 @@ const WindowSeatWarGame = () => {
   const [message, setMessage] = useState("");
   const [completed, setCompleted] = useState(false);
   const [gifUrl, setGifUrl] = useState("");
+
+  //for performance
+const { updateCommunicationPerformance } = usePerformance();
+const [startTime] = useState(Date.now());
 
   const handleDrop = (statement) => {
     if (dropped.find((item) => item.id === statement.id)) return;

@@ -2,9 +2,12 @@ import { useState } from "react";
 import BarChart from "../../../charts/BarChart";
 import PieChart from "../../../charts/PieChart";
 import { useFinance } from "../../../../contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
 
 const InvestmentSimulator = () => {
   const { completeFinanceChallenge } = useFinance();
+  const { updateFinancePerformance } = usePerformance(); // for performance
+  const [startTime] = useState(Date.now()); // for performance
   const [allocations, setAllocations] = useState({
     fixedDeposits: 0,
     gold: 0,
@@ -64,7 +67,7 @@ const InvestmentSimulator = () => {
         name: "Fixed Deposits",
         value: Math.round(
           amount(allocations.fixedDeposits) *
-            Math.pow(1 + rate.fixedDeposits, years)
+          Math.pow(1 + rate.fixedDeposits, years)
         ),
       },
       {
@@ -77,7 +80,7 @@ const InvestmentSimulator = () => {
         name: "Mutual Funds",
         value: Math.round(
           amount(allocations.mutualFunds) *
-            Math.pow(1 + rate.mutualFunds, years)
+          Math.pow(1 + rate.mutualFunds, years)
         ),
       },
       {
@@ -118,6 +121,14 @@ const InvestmentSimulator = () => {
     ]);
     // ✅ Mark challenge as complete
     completeFinanceChallenge(2, 2);
+
+    // for performance
+    const totalTimeSec = (Date.now() - startTime) / 1000;
+    updateFinancePerformance({
+      avgResponseTimeSec: totalTimeSec, // using full time as it's one-shot
+      studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+      completed: true,
+    });
   };
 
   return (

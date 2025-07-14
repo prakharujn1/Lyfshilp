@@ -17,6 +17,8 @@ import SurpriseAvatar from "./SurpriseAvatar.jsx";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -47,6 +49,10 @@ const APIKEY = import.meta.env.VITE_API_KEY;
 
 const BudgetBuilder = () => {
   const { completeFinanceChallenge } = useFinance();
+
+  //for performance
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime, setStartTime] = useState(Date.now());
 
   const initialExpenses = [
     {
@@ -370,11 +376,21 @@ Constraints -
       setResult(parsed);
       setFeedbackAvatarType(parsed.avatarType);
 
-      // ✅ Extract the numeric score safely from "X/10"
+      // ✅ For performance
       const scoreNumber = parseInt(parsed.spendingScore?.split("/")[0]);
 
+      const totalTime = (Date.now() - startTime) / 1000;
+      const studyTimeMinutes = Math.ceil(totalTime / 60);
+
+      updateFinancePerformance({
+        score: scoreNumber, // Already scaled out of 10
+        avgResponseTimeSec: totalTime,
+        studyTimeMinutes,
+        completed: true,
+      });
+
       if (!isNaN(scoreNumber) && scoreNumber >= 8) {
-        completeFinanceChallenge(0, 0);
+        completeFinanceChallenge(0, 0);// mark completed 
       }
     } catch (err) {
       setError("Error fetching AI response");

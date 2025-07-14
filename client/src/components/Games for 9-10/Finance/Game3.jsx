@@ -19,7 +19,8 @@ import { toast, ToastContainer } from "react-toastify";
 import jsPDF from "jspdf";
 import InvestmentGuidePDF from "./Game3PDF";
 import { pdf } from "@react-pdf/renderer";
-import { useFinance } from "@/contexts/FinanceContext";  
+import { useFinance } from "@/contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance 
 
 const BudgetBossGame = () => {
   const { completeFinanceChallenge } = useFinance();
@@ -42,6 +43,10 @@ const BudgetBossGame = () => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizScore, setQuizScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
+
+  // for performance tracking
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const surpriseEventPool = [
     {
@@ -252,8 +257,20 @@ const BudgetBossGame = () => {
     setMonthlyBudgets([...monthlyBudgets, monthData]);
 
     if (currentMonth === 3) {
+      // for performance
+      const finalScore = Math.round(calculateScore() / 10); // ✅ scale to 0–10 and round
+      const totalTime = (Date.now() - startTime) / 1000; // in seconds
+      const studyTimeMinutes = Math.ceil(totalTime / 60);
+
+      updateFinancePerformance({
+        score: finalScore,
+        avgResponseTimeSec: totalTime,
+        studyTimeMinutes,
+        completed: true,
+      });
+
+      completeFinanceChallenge(0, 2); // ✅ Marks the challenge as complete
       setGameComplete(true);
-      completeFinanceChallenge(0,2); // ✅ Marks the challenge as complete
       setCurrentPage("results");
     } else {
       setCurrentMonth(currentMonth + 1);
@@ -384,11 +401,10 @@ const BudgetBossGame = () => {
                   Monthly Income: ₹{totalIncome}
                   {currentEvent && (
                     <span
-                      className={`ml-2 px-2 py-1 rounded text-xs ${
-                        currentEvent.type === "income"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
+                      className={`ml-2 px-2 py-1 rounded text-xs ${currentEvent.type === "income"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                        }`}
                     >
                       {currentEvent.type === "income" ? "+" : ""}₹
                       {currentEvent.amount}
@@ -474,7 +490,7 @@ const BudgetBossGame = () => {
                           width: `${Math.min(
                             (currentBudget.needs[category.id] /
                               category.recommended) *
-                              100,
+                            100,
                             100
                           )}%`,
                         }}
@@ -524,7 +540,7 @@ const BudgetBossGame = () => {
                           width: `${Math.min(
                             (currentBudget.wants[category.id] /
                               category.recommended) *
-                              100,
+                            100,
                             100
                           )}%`,
                         }}
@@ -597,11 +613,10 @@ const BudgetBossGame = () => {
             </h3>
             <p className="text-base sm:text-lg mb-4">{currentEvent.text}</p>
             <div
-              className={`text-2xl sm:text-3xl font-bold mb-6 ${
-                currentEvent.type === "income"
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
+              className={`text-2xl sm:text-3xl font-bold mb-6 ${currentEvent.type === "income"
+                ? "text-green-600"
+                : "text-red-600"
+                }`}
             >
               {currentEvent.type === "income" ? "+" : ""}₹{currentEvent.amount}
             </div>
@@ -721,11 +736,10 @@ const BudgetBossGame = () => {
                     <div className="text-xs sm:text-sm">
                       {month.surpriseEvent && (
                         <span
-                          className={`px-2 rounded-xl  ${
-                            month.surpriseEvent.type === "income"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
+                          className={`px-2 rounded-xl  ${month.surpriseEvent.type === "income"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                            }`}
                         >
                           {month.surpriseEvent.text}
                         </span>

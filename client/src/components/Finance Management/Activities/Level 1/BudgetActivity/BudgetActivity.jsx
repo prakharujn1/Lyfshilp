@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import Avatar from "./Avatar";
 import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -45,6 +47,11 @@ const BudgetActivity = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [loading, setLoading] = useState(false);
   const [feedbackAvatarType, setFeedbackAvatarType] = useState("disappointing");
+
+  //for performance 
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const feedbackMap = {
     Sad: "💸 Save some! Don't be a Spendthrift",
     Happy: "🌟 Good savings!",
@@ -149,6 +156,28 @@ Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       setFeedback(parsed.feedback);
       setRemark(parsed.remark);
+
+      // For performance
+      const scoreMap = {
+        "Spendthrift": 2,
+        "Poor budgeting": 4,
+        "Not bad": 6,
+        "Impressive": 7,
+        "Smart": 8,
+        "Great": 9,
+        "Excellent": 10,
+        "Miser": 3
+      };
+      const score = scoreMap[parsed.remark] ?? 5;
+      const totalTime = (Date.now() - startTime) / 1000; // seconds
+      const studyTimeMinutes = Math.ceil(totalTime / 60);
+      updateFinancePerformance({
+        score, // out of 10
+        avgResponseTimeSec: totalTime,
+        studyTimeMinutes,
+        completed: true,
+      });
+
 
       if (/Excellent|Great|Smart/i.test(parsed.remark)) {
         setShowConfetti(true);
@@ -306,8 +335,8 @@ Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive
                       e.target.checked
                         ? setSelectedStrategies((prev) => [...prev, option])
                         : setSelectedStrategies((prev) =>
-                            prev.filter((item) => item !== option)
-                          )
+                          prev.filter((item) => item !== option)
+                        )
                     }
                     className="mr-3 h-5 w-5 text-purple-500"
                   />

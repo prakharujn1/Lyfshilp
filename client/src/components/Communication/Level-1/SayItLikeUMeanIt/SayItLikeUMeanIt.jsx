@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const moodEmojis = {
   Happy: "😃",
@@ -65,9 +66,23 @@ const SayItLikeUMeanItGame = () => {
     setTimeout(() => {
       if (currentIndex === sentenceData.length - 1) {
         setShowResult(true);
-        if (score + (correct ? 1 : 0) >= 3) {
-          completeCommunicationChallenge(0, 1); // ✅ Mark challenge complete
+
+        const endTime = Date.now();
+        const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+        const accuracy = (score + (correct ? 1 : 0)) / sentenceData.length * 100;
+        const scaledScore = Math.round(((score + (correct ? 1 : 0)) / sentenceData.length) * 10 * 10) / 10;
+
+        updateCommunicationPerformance({
+          completed: true,
+          studyTimeMinutes,
+          score: scaledScore,
+          accuracy,
+        });
+
+        if ((score + (correct ? 1 : 0)) >= 3) {
+          completeCommunicationChallenge(0, 1); // Mark as complete
         }
+
       } else {
         setCurrentIndex((prev) => prev + 1);
         setFeedbackGif(null);

@@ -20,6 +20,7 @@ import thinkingBoy from "../../../../lotties/thingking-boy.json";
 import celebrationGirl from "../../../../lotties/celebration-girl.json";
 import shoppingBag from "../../../../lotties/shopping-bag.json";
 import { useFinance } from "../../../../contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -35,6 +36,10 @@ const My_Purchase_Plan = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // for performance
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const parsePossiblyStringifiedJSON = (text) => {
     try {
@@ -64,16 +69,14 @@ const My_Purchase_Plan = () => {
 I want to buy "${product}" priced approximately at ₹${price}.
 Please help with:
 1. Break down a ${months}-month saving plan showing savings for each month.
-${
-  emiAvailable
-    ? `2. Suggest an EMI plan with ${interestRate}% monthly interest for ${months} months.`
-    : "2. EMI is not available."
-}
-${
-  discountAvailable
-    ? `3. Show the discounted price if there's a ${discountPercent}% discount.`
-    : "3. Discount is not available."
-}
+${emiAvailable
+        ? `2. Suggest an EMI plan with ${interestRate}% monthly interest for ${months} months.`
+        : "2. EMI is not available."
+      }
+${discountAvailable
+        ? `3. Show the discounted price if there's a ${discountPercent}% discount.`
+        : "3. Discount is not available."
+      }
 4. Suggest 5 alternatives: all cheaper.
 ### FINAL INSTRUCTION ###
 Return ONLY raw JSON (no markdown or text).
@@ -101,6 +104,15 @@ Format:
       console.log(parsed);
 
       completeFinanceChallenge(1, 3); //mark challenge completed
+      //for performance
+      const totalTime = (Date.now() - startTime) / 1000;
+      const studyTimeMinutes = Math.ceil(totalTime / 60);
+      
+      updateFinancePerformance({
+        avgResponseTimeSec: totalTime,
+        studyTimeMinutes,
+        completed: true,
+      });
     } catch (err) {
       console.error(err);
       setError("Error generating plan. Try again.");

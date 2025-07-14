@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import BankCard from "./BankCard";
 import { useFinance } from "../../../../../contexts/FinanceContext.jsx";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -227,6 +229,10 @@ export default function PickABank() {
   const [feedback, setFeedback] = useState("");
   const [loadingFeedback, setLoadingFeedback] = useState(false);
 
+  //for Performance
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -242,6 +248,21 @@ export default function PickABank() {
     console.log(feedbackText);
 
     setFeedback(feedbackText);
+    //for Performance
+    const totalTime = (Date.now() - startTime) / 1000; // in seconds
+    const studyTimeMinutes = Math.ceil(totalTime / 60);
+
+    // Simple score logic: Bank A (best balance) gets 10, B gets 7, C gets 5
+    const scoreMap = { A: 10, B: 7, C: 5 };
+    const score = scoreMap[selectedBank.id] ?? 6;
+
+    updateFinancePerformance({
+      score,
+      avgResponseTimeSec: totalTime,
+      studyTimeMinutes,
+      completed: true,
+    });
+
     setTimeout(() => {
       setLoadingFeedback(false);
     }, 1500);
@@ -369,11 +390,10 @@ export default function PickABank() {
                 <button
                   type="submit"
                   disabled={notAllowed()}
-                  className={`w-full bg-indigo-500 text-white py-3 px-6 rounded-xl text-xl font-bold transition-all duration-300 ${
-                    notAllowed()
-                      ? "cursor-not-allowed opacity-50"
-                      : "hover:bg-indigo-600 hover:scale-105"
-                  }`}
+                  className={`w-full bg-indigo-500 text-white py-3 px-6 rounded-xl text-xl font-bold transition-all duration-300 ${notAllowed()
+                    ? "cursor-not-allowed opacity-50"
+                    : "hover:bg-indigo-600 hover:scale-105"
+                    }`}
                 >
                   🚀 Submit for Feedback
                 </button>

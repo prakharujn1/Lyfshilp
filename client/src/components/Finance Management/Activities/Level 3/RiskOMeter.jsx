@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { GiMoneyStack, GiReceiveMoney, GiChart } from "react-icons/gi";
 import { BackgroundBeamsWithCollision } from "../../../../../StyleComponents/BackGroundWithBeams";
-import { useFinance } from "../../../../contexts/FinanceContext";
+import { useFinance } from "@/contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+ 
 
 const questions = [
   {
@@ -66,7 +68,19 @@ export default function RiskOMeter() {
   const [showResult, setShowResult] = useState(false);
   const [animate, setAnimate] = useState(false);
 
+  //for performance
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime, setStartTime] = useState(Date.now());
+  const [responseTimes, setResponseTimes] = useState([]);
+
+
   const handleAnswer = (score) => {
+    // for performance
+    const now = Date.now();
+    const responseTime = (now - startTime) / 1000;
+    setResponseTimes((prev) => [...prev, responseTime]);
+
+
     const newScore = totalScore + score;
     if (currentQ + 1 < questions.length) {
       setCurrentQ(currentQ + 1);
@@ -75,10 +89,23 @@ export default function RiskOMeter() {
       setTotalScore(newScore);
       setShowResult(true);
       setAnimate(true);
+
+      //for performance
+      const totalTime = [...responseTimes, responseTime].reduce((a, b) => a + b, 0);
+      const avgResponseTime = totalTime / questions.length;
+      const scaledScore = Math.round((newScore / 9) * 10);
+      updateFinancePerformance({
+        score: scaledScore,
+        avgResponseTimeSec: avgResponseTime,
+        studyTimeMinutes: Math.ceil(totalTime / 60),
+        completed: true,
+      });
+      // mark challenge completed
+      completeFinanceChallenge(2, 1);
+
       setTimeout(() => {
         setAnimate(false);
       }, 2500);
-      completeFinanceChallenge(2, 1); // mark challenge completed
     }
   };
 
@@ -109,13 +136,12 @@ export default function RiskOMeter() {
 
           {/* Result or Questions */}
           {showResult ? (
-              <div
-              className={`text-center px-4 py-6 rounded-xl shadow-xl bg-white/70 backdrop-blur-md border-4 border-dashed border-purple-200 ${
-                animate ? "animate-bounce" : "animate-none"
-              }`}
+            <div
+              className={`text-center px-4 py-6 rounded-xl shadow-xl bg-white/70 backdrop-blur-md border-4 border-dashed border-purple-200 ${animate ? "animate-bounce" : "animate-none"
+                }`}
             >
               <p className="text-3xl font-extrabold text-purple-800 mb-2 tracking-wide">✨ Your Risk Profile ✨</p>
-                <p className="mt-1 mb-4 text-lg text-pink-800 font-semibold italic bg-gradient-to-r from-pink-100 to-yellow-100 px-4 py-2 rounded-xl shadow-md inline-block animate-fade-in">
+              <p className="mt-1 mb-4 text-lg text-pink-800 font-semibold italic bg-gradient-to-r from-pink-100 to-yellow-100 px-4 py-2 rounded-xl shadow-md inline-block animate-fade-in">
                 🌟This profile shows how brave you are with your treasures🌟
               </p>
               <p className={`text-5xl mt-2 ${riskProfile.color} drop-shadow-lg`}>{riskProfile.label}</p>
@@ -124,8 +150,8 @@ export default function RiskOMeter() {
                 alt={riskProfile.label}
                 className="w-44 h-44 mx-auto mt-6 rounded-full border-4 border-purple-300 shadow-2xl ring-2 ring-offset-2 ring-purple-400"
               />
-             
-                <p className="mt-6 text-base font-semibold text-gray-800 leading-relaxed bg-gradient-to-br from-white via-rose-50 to-amber-100 p-5 rounded-2xl shadow-2xl border-4 border-dashed border-pink-300 hover:border-rose-500 hover:shadow-pink-200 hover:ring-2 hover:ring-amber-300 backdrop-blur-md animate-slide-up transition-transform transform hover:scale-105">
+
+              <p className="mt-6 text-base font-semibold text-gray-800 leading-relaxed bg-gradient-to-br from-white via-rose-50 to-amber-100 p-5 rounded-2xl shadow-2xl border-4 border-dashed border-pink-300 hover:border-rose-500 hover:shadow-pink-200 hover:ring-2 hover:ring-amber-300 backdrop-blur-md animate-slide-up transition-transform transform hover:scale-105">
                 ✨ {riskProfile.description} ✨
               </p>
 

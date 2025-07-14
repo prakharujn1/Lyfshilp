@@ -18,7 +18,9 @@ import {
 import { jsPDF } from "jspdf";
 import { pdf } from "@react-pdf/renderer";
 import InvestmentGuidePDFGame1 from "./Game1PDF";
-import { useFinance } from "@/contexts/FinanceContext";  
+import { useFinance } from "@/contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 const WealthQuestGame = () => {
   const { completeFinanceChallenge } = useFinance();
@@ -33,6 +35,10 @@ const WealthQuestGame = () => {
   const [simulationResults, setSimulationResults] = useState(null);
   const [currentYear, setCurrentYear] = useState(0);
   const [isSimulating, setIsSimulating] = useState(false);
+
+  // for performance tracking
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const totalBudget = 10000;
   const allocatedAmount = Object.values(portfolio).reduce(
@@ -143,7 +149,18 @@ const WealthQuestGame = () => {
           totalReturn,
           cagr: cagr * 100,
         });
-        completeFinanceChallenge(0,0); // ✅ Marks the challenge as complete
+
+        // for performance
+        const totalTime = (Date.now() - startTime) / 1000; // in seconds
+        const studyTimeMinutes = Math.ceil(totalTime / 60);
+
+        updateFinancePerformance({
+          avgResponseTimeSec: totalTime,
+          studyTimeMinutes,
+          completed: true,
+        });
+
+        completeFinanceChallenge(0, 0); // ✅ Marks the challenge as complete
         setCurrentPage("results");
       }
     }, 1500);
@@ -352,11 +369,10 @@ const WealthQuestGame = () => {
             <button
               onClick={runSimulation}
               disabled={allocatedAmount !== totalBudget}
-              className={`font-bold py-3 px-8 rounded-full transition-all duration-300 flex items-center gap-2 ${
-                allocatedAmount === totalBudget
-                  ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white hover:scale-105 shadow-lg"
-                  : "bg-gray-400 text-gray-200 cursor-not-allowed"
-              }`}
+              className={`font-bold py-3 px-8 rounded-full transition-all duration-300 flex items-center gap-2 ${allocatedAmount === totalBudget
+                ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white hover:scale-105 shadow-lg"
+                : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                }`}
             >
               <TrendingUp size={20} />
               Start 5-Year Journey
@@ -439,9 +455,8 @@ const WealthQuestGame = () => {
                             {investmentOptions[key].name}
                           </span>
                           <span
-                            className={`text-2xl font-bold ${
-                              growth >= 0 ? "text-green-300" : "text-red-300"
-                            }`}
+                            className={`text-2xl font-bold ${growth >= 0 ? "text-green-300" : "text-red-300"
+                              }`}
                           >
                             {growth >= 0 ? "+" : ""}
                             {growth.toFixed(1)}%
@@ -551,13 +566,12 @@ const WealthQuestGame = () => {
               {[1, 2, 3, 4, 5].map((year) => (
                 <div
                   key={year}
-                  className={`w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold transition-all duration-500 ${
-                    year <= currentYear
-                      ? "bg-green-500 text-white scale-110"
-                      : year === currentYear + 1
+                  className={`w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold transition-all duration-500 ${year <= currentYear
+                    ? "bg-green-500 text-white scale-110"
+                    : year === currentYear + 1
                       ? "bg-yellow-500 text-white animate-pulse"
                       : "bg-white/30 text-white/60"
-                  }`}
+                    }`}
                 >
                   {year}
                 </div>

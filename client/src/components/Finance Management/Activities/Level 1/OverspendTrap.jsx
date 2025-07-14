@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useFinance } from "../../../../contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -38,6 +39,10 @@ export default function OverspendTrap() {
   const [feedback, setFeedback] = useState("");
   const [error, setError] = useState("");
   const feedbackRef = useRef(null);
+
+  //for Performance
+  const { updateFinancePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const problem =
     "Your friend just spent ₹1,200 on concert tickets and now can not pay for school trip fees. What would you do?";
@@ -91,6 +96,16 @@ Example format:
       console.log(parsed);
       setFeedback(parsed.feedback);
 
+      //for performance
+      const totalTime = (Date.now() - startTime) / 1000; // in seconds
+      const studyTimeMinutes = Math.ceil(totalTime / 60);
+      updateFinancePerformance({
+        avgResponseTimeSec: totalTime,
+        studyTimeMinutes,
+        completed: true,
+      });
+
+
       completeFinanceChallenge(0, 2); //MARK CHALLENGE COMPLETED
     } catch (e) {
       console.error("Error generating feedback", e);
@@ -127,11 +142,10 @@ Example format:
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               key={index}
-              className={`block p-4 rounded-2xl border-2 text-lg font-semibold transition-all duration-200 shadow-md ${
-                selectedOption === option
-                  ? "bg-green-200 border-green-500 text-green-900"
-                  : "bg-white border-gray-300 text-gray-700"
-              }`}
+              className={`block p-4 rounded-2xl border-2 text-lg font-semibold transition-all duration-200 shadow-md ${selectedOption === option
+                ? "bg-green-200 border-green-500 text-green-900"
+                : "bg-white border-gray-300 text-gray-700"
+                }`}
             >
               <input
                 type="radio"
@@ -161,11 +175,10 @@ Example format:
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSubmit}
                 disabled={!selectedOption}
-                className={`text-xl font-bold rounded-full px-6 py-3 transition-all duration-200 ${
-                  selectedOption
-                    ? "bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                className={`text-xl font-bold rounded-full px-6 py-3 transition-all duration-200 ${selectedOption
+                  ? "bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
               >
                 Show Me the Feedback!
               </motion.button>

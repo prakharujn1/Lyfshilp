@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Star, Award, RefreshCw, Volume2, CheckCircle } from "lucide-react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const NVCGame = () => {
   const { completeCommunicationChallenge } = useCommunication();
@@ -15,6 +16,10 @@ const NVCGame = () => {
     solution: "",
   });
   const [showCelebration, setShowCelebration] = useState(false);
+
+  //for performance
+const { updateCommunicationPerformance } = usePerformance();
+const [startTime] = useState(Date.now());
 
   const scenario = {
     text: "Your friend grabbed the sketch pen while you were using it.",

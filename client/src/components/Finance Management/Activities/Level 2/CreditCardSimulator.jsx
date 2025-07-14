@@ -19,6 +19,8 @@ import dancingLeft from "../../../../lotties/danceLeft.json";
 import dancingRight from "../../../../lotties/danceRight.json";
 import sparkle from "../../../../lotties/sparkle.json";
 import { useFinance } from "../../../../contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 
 const items = [
   { name: "📱 Smartphone", cost: 9000 },
@@ -51,6 +53,10 @@ export default function CreditCardSimulator() {
   const [emiAmount, setEmiAmount] = useState(0);
   const [remainingPrincipal, setRemainingPrincipal] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
+
+  const { updateFinancePerformance } = usePerformance(); // for performance
+  const [startTime] = useState(Date.now()); // for performance
+
 
   const triggerSparkle = () => {
     setShowSparkle(true);
@@ -132,14 +138,22 @@ export default function CreditCardSimulator() {
   const totalPaid = userPayments.reduce((sum, p) => sum + p.payment, 0);
   const chartData = selectedItem
     ? [
-        { name: "Item Price", amount: selectedItem.cost },
-        { name: "Total Paid", amount: totalPaid },
-      ]
+      { name: "Item Price", amount: selectedItem.cost },
+      { name: "Total Paid", amount: totalPaid },
+    ]
     : [];
 
   useEffect(() => {
     if (hasTriedEmi && hasTriedMin) {
       completeFinanceChallenge(1, 0); // mark challenge completed
+
+      // for performance
+      const totalTimeSec = (Date.now() - startTime) / 1000;
+      updateFinancePerformance({
+        avgResponseTimeSec: totalTimeSec / (totalMonths * 2), // 6 months * 2 methods
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: true,
+      });
     }
   }, [hasTriedEmi, hasTriedMin]);
 

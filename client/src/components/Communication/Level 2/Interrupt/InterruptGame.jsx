@@ -9,6 +9,7 @@ import {
   Volume2,
 } from "lucide-react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const InterruptGame = () => {
   const { completeCommunicationChallenge } = useCommunication();
@@ -21,6 +22,10 @@ const InterruptGame = () => {
   const [interruptionsFound, setInterruptionsFound] = useState([]);
   const [showCelebration, setShowCelebration] = useState(false);
   const [selectedRewrite, setSelectedRewrite] = useState("");
+
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const dialogue = [
     {
@@ -233,8 +238,8 @@ const InterruptGame = () => {
                 <div
                   key={item.id}
                   className={`transition-all duration-500 ${index <= currentDialogue
-                      ? "opacity-100 transform translate-y-0"
-                      : "opacity-30 transform translate-y-4"
+                    ? "opacity-100 transform translate-y-0"
+                    : "opacity-30 transform translate-y-4"
                     }`}
                 >
                   <div

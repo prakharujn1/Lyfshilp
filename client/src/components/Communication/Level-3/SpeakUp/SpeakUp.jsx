@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const scenarios = [
   {
@@ -46,6 +47,9 @@ const SpeakUpGame = () => {
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
+  //for performance
+const { updateCommunicationPerformance } = usePerformance();
+const [startTime] = useState(Date.now());
 
   const handleOptionClick = (index) => {
     if (selected !== null) return;

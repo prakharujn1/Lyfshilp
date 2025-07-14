@@ -292,6 +292,7 @@ import TheBigSpeech from "./components/Games for 9-10/Communication/Level3/TheBi
 import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/InboxInsight/InboxInsight";
 import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign";
 import VideoAudioSyncIntro from "./components/VideoAudioSyncIntro";
+import PaymentRequired from "./pages/PaymentRequired";
 
 const INTRO_EXPIRY_HOURS = 0.5; // Change this to 1 for 1 hour, 0.1 for 6 minutes, etc.
 
@@ -1326,7 +1327,7 @@ function App() {
                 {/* Finish Games of legal awareness Class 9-10*/}
 
                 {/* Other Routes */}
-
+                <Route path="/payment-required" element={<PaymentRequired />} />
                 <Route path="/faq's" element={<FAQ />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/refund-policy" element={<RefundPolicy />} />
