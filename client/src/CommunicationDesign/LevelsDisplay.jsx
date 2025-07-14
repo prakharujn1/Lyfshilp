@@ -49,15 +49,15 @@ const difficultyMap = {
   },
   3: {
     label: "Pro",
-    color: "bg-[#E0E7FF]", // Distinct soft indigo background
+    color: "bg-[#FF3D3A1A]", // Distinct soft indigo background
     stripColor: "bg-[#4338CA]", // Rich indigo strip
-    textColor: "text-[#3730A3]",
-    icon: "/imageForDesign/Advance.png", // Add this icon
+    textColor: "text-[#BC0808]",
+    icon: "/imageForDesign/Pro.png", // Add this icon
     role: {
       label: "Champ",
-      bg: "bg-[#EDE9FE]", // Lavender-like soft role background
-      textColor: "text-[#7C3AED]", // Violet text
-      icon: "/imageForDesign/Hero.png", // Add this icon
+      bg: "bg-[#CC348D1A]", // Lavender-like soft role background
+      textColor: "text-[#CC348D]", // Violet text
+      icon: "/imageForDesign/Master.png", // Add this icon
     },
     mascot: "/imageForDesign/level-4.png",
   },
