@@ -9,30 +9,30 @@ import GameInfo from "./GamInfo"; // Importing the GameInfo component
 
 const features = [
   {
-    title: "3 Comprehensive Levels",
+    title: "4 Comprehensive Levels",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Master communication step-by-step — from basic listening to persuasive speaking — with interactive challenges across 4 skill levels.",
     image: "/imageForDesign/level.png",
     bg: "bg-[#BFF080]",
   },
   {
     title: "Practical Exercises",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Practice real-life conversations, conflict resolution, and active listening through role-play games and scenario-based tasks.",
     image: "/imageForDesign/practical.png",
     bg: "bg-[#FFE1C6]",
   },
   {
     title: "Expert Guidance",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Learn tips and tricks from communication coaches through built-in feedback, strategies, and example dialogues.",
     image: "/imageForDesign/expert.png",
     bg: "bg-[#F9CFFF]",
   },
   {
     title: "Lifetime Access",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Revisit communication techniques anytime with lifetime access to all modules, new games, and updated content.",
     image: "/imageForDesign/lifetime.png",
     bg: "bg-[#C8E7FF]",
   },
