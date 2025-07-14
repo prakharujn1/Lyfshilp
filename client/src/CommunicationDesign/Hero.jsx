@@ -1,101 +1,114 @@
 import React from "react";
-import { TrendingUp, BarChart2, PieChart, DollarSign } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const Hero = ({ scrollToCurriculum }) => {
+const Hero = () => {
   return (
-    <div className="relative text-gray-100 overflow-hidden">
-      {/* ...background pattern remains... */}
+    <section
+      className="-mt-10 text-white py-12 md:py-12 pb-0 relative overflow-hidden"
+      style={{
+        background: "linear-gradient(to bottom, #3F9400 0%, #2C6601 100%)",
+      }}
+    >
+      {/* Vector background on the right side - now visible on all screens */}
+      <div className="absolute top-0 right-0 w-1/2 h-full">
+        <img
+          src="/imageForDesign/Vector.png"
+          alt="Vector background"
+          className="absolute inset-0 w-full h-full object-cover object-left"
+        />
+      </div>
 
-      <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight text-black">
-              Master Your Communication Future
-            </h1>
-            <p className="text-3xl md:text-xl mb-8 text-black">
-              Comprehensive financial education designed for real-world success.
-              Learn to save, invest, and build wealth with confidence.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-              <button
-                onClick={scrollToCurriculum}
-                className="px-6 py-3 bg-yellow-500 text-gray-900 font-semibold rounded-md hover:bg-yellow-600 transition duration-300 transform hover:-translate-y-1"
+      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between relative z-10">
+        {/* Left Section */}
+        <div className="max-w-xl space-y-4 mb-10 md:mb-0">
+          <nav className="text-sm mt-10 -ml-2">
+            <div className="bg-black/20 mb-10 text-white px-4 py-2 rounded-lg inline-flex items-center space-x-2">
+              <Link
+                to="/"
+                className="flex items-center gap-1 text-white hover:underline"
               >
-                Start Learning Now
-              </button>
-            </div>
-          </div>
+                <img
+                  src="/imageForDesign/home.png"
+                  alt="Home Icon"
+                  className="w-4 h-4"
+                />
+                <span>Home</span>
+              </Link>
 
-          <div className="hidden md:block">
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gray-800 rounded-lg blur-xl opacity-60"></div>
-              <div className="relative bg-gray-800 p-6 rounded-lg">
-                <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-5">
-                  <h3 className="text-xl font-semibold mb-4 text-yellow-400">
-                    Featured Course
-                  </h3>
-                  <h4 className="text-2xl font-bold mb-2 text-white">
-                    Financial Freedom Masterclass
-                  </h4>
-                  <p className="text-gray-300 mb-4">
-                    Learn the proven system to build wealth and achieve
-                    financial independence.
-                  </p>
-                  <div className="space-y-3 mb-6">
-                    {[
-                      "3 comprehensive levels",
-                      "Practical exercises & challenges",
-                      "Expert instructor guidance",
-                      "Lifetime access to updates",
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-start">
-                        <div className="flex-shrink-0 h-5 w-5 rounded-full bg-yellow-500 flex items-center justify-center mt-1">
-                          <span className="text-gray-900 text-xs">✓</span>
-                        </div>
-                        <p className="ml-3 text-sm text-gray-200">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <span className="text-white/60">&gt;</span>
+              <Link to="/courses">
+                <span className="text-white">Courses</span>
+              </Link>
+
+              <span className="text-white/60">&gt;</span>
+              <span className="text-white">Communications</span>
+
+              <span className="text-white/60">&gt;</span>
+              <span className="font-semibold text-white whitespace-nowrap">
+                Gaming Lessons
+              </span>
             </div>
-          </div>
+          </nav>
+
+          <p className="uppercase tracking-wider text-sm font-semibold text-white flex items-center gap-1">
+            Finance Fundamentals: Levels
+            <img
+              src="/imageForDesign/1image.png"
+              alt="Level 1"
+              className="h-4 w-auto"
+            />
+            <img
+              src="/imageForDesign/2image.png"
+              alt="Level 2"
+              className="h-4 w-auto"
+            />
+            <img
+              src="/imageForDesign/3image.png"
+              alt="Level 3"
+              className="h-4 w-auto"
+            />
+            <img
+              src="/imageForDesign/4image.png"
+              alt="Level 3"
+              className="h-4 w-auto"
+            />
+          </p>
+
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+            <span className="block md:inline sigmar-font">Master Your</span>{" "}
+            <span className="sigmar-font inline-flex items-center gap-0 whitespace-nowrap">
+              Communication Skills
+              <img
+                src="/imageForDesign/Levelup-2-unscreen.gif"
+                alt="Level up animation"
+                className="h-[1.5em] sm:h-[1.7em] w-auto align-middle m-0 p-0"
+              />
+            </span>
+          </h1>
+
+          <p className="text-white text-base md:text-lg mt-2 leading-relaxed">
+            <span>
+              Comprehensive communication education for real-world success.
+              Learn to express ideas clearly, listen actively, and build
+              meaningful connections with confidence.
+            </span>
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
-          {[
-            {
-              icon: DollarSign,
-              text: "5,000+ Students",
-              desc: "Have completed our courses",
-            },
-            {
-              icon: TrendingUp,
-              text: "94% Success Rate",
-              desc: "For financial goal achievement",
-            },
-            {
-              icon: BarChart2,
-              text: "25+ Expert Instructors",
-              desc: "With real-world experience",
-            },
-            {
-              icon: PieChart,
-              text: "Lifetime Access",
-              desc: "To all course materials",
-            },
-          ].map((item, i) => (
-            <div key={i} className="bg-gray-800 p-4 rounded-lg text-center">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-yellow-600/20 text-yellow-400 mb-3">
-                <item.icon size={24} />
-              </div>
-              <h3 className="text-lg font-semibold text-white">{item.text}</h3>
-              <p className="text-sm text-gray-400">{item.desc}</p>
-            </div>
-          ))}
+        {/* Right Section with glow behind children image */}
+        <div className="relative w-full max-w-sm md:max-w-md mt-10 md:mt-0 z-20 md:ml-8 md:self-end self-end mx-auto md:mx-0">
+          {/* Soft white glow behind image */}
+          <div className="absolute inset-0 z-0 blur-2xl opacity-30 scale-110 bg-white rounded-full pointer-events-none" />
+          {/* Children Image */}
+          <img
+            src="/imageForDesign/chidrenImage.png"
+            alt="Kids playing financial game"
+            className="w-full relative z-10 transform translate-y-0 md:translate-y-12"
+            style={{ marginTop: "1rem" }} // or use Tailwind: mt-4
+          />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
