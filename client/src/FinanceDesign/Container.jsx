@@ -11,28 +11,28 @@ const features = [
   {
     title: "3 Comprehensive Levels",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Explore beginner to advanced financial topics through gamified challenges designed for every stage of learning.",
     image: "/imageForDesign/level.png",
     bg: "bg-[#BFF080]",
   },
   {
     title: "Practical Exercises",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Apply concepts like budgeting, saving, and investing through interactive simulations and real-life case studies.",
     image: "/imageForDesign/practical.png",
     bg: "bg-[#FFE1C6]",
   },
   {
     title: "Expert Guidance",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Gain insights from finance professionals through tips, mini-lectures, and scenario-based advice built into each level.",
     image: "/imageForDesign/expert.png",
     bg: "bg-[#F9CFFF]",
   },
   {
     title: "Lifetime Access",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Revisit lessons anytime with lifetime access to all modules, updates, and future finance games.",
     image: "/imageForDesign/lifetime.png",
     bg: "bg-[#C8E7FF]",
   },

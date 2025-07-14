@@ -11,28 +11,28 @@ const features = [
   {
     title: "3 Comprehensive Levels",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Unlock core to advanced concepts — from coding logic to AI algorithms — through fun, game-based learning across 3 skill tiers.",
     image: "/imageForDesign/level.png",
     bg: "bg-[#BFF080]",
   },
   {
     title: "Practical Exercises",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Build your own algorithms, debug code, and simulate real-world AI tasks with hands-on coding challenges and logic puzzles.",
     image: "/imageForDesign/practical.png",
     bg: "bg-[#FFE1C6]",
   },
   {
     title: "Expert Guidance",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Get tips from AI and tech experts via in-game mentorship, walkthroughs, and smart hints to boost your problem-solving skills.",
     image: "/imageForDesign/expert.png",
     bg: "bg-[#F9CFFF]",
   },
   {
     title: "Lifetime Access",
     description:
-      "Students can play the fun games of different levels to learn about finance",
+      "Explore coding and AI at your own pace with unlimited lifetime access to all modules, new challenges, and future tech updates.",
     image: "/imageForDesign/lifetime.png",
     bg: "bg-[#C8E7FF]",
   },
