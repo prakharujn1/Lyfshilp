@@ -294,6 +294,12 @@ import InboxInsightGame from "./components/Games for 9-10/Communication/Level3/I
 import CarouselCampaign from "./components/Games for 9-10/Dig Mkting/Level1/CarouselCampaign/CarouselCampaign";
 import VideoAudioSyncIntro from "./components/VideoAudioSyncIntro";
 import PaymentRequired from "./pages/PaymentRequired";
+import LeanMachineGame from "./components/Games for 9-10/Entreprenurship/Level1/LeanMachineGame/LeanMachineGame";
+import PitchArenaGame from "./components/Games for 9-10/Entreprenurship/Level1/PitchArenaGame/PitchArenaGame";
+import StartupQuest from "./components/Games for 9-10/Entreprenurship/Level1/StartupQuest/StartupQuest";
+import EthicsEscapeRoomGame from "./components/Games for 9-10/Entreprenurship/Level2/EthicsEscapeRoomGame/EthicsEscapeRoomGame";
+import MarketPulseChallenge from "./components/Games for 9-10/Entreprenurship/Level2/MarketPulseChallenge/MarketPulseChallenge";
+import StartupFinanceFunGame from "./components/Games for 9-10/Entreprenurship/Level2/StartupFinanceLabGame/StartupFinanceLabGame";
 
 const INTRO_EXPIRY_HOURS = 0.5; // Change this to 1 for 1 hour, 0.1 for 6 minutes, etc.
 
@@ -831,6 +837,31 @@ function App() {
                 />
 
                 {/* Finish Games of AI Class 9-10 */}
+
+                
+                {/* Games of entrepreneurship Class 9-10 */}
+                {/* Level 1 */}
+                <Route
+                  path="/LeanMachineGame"
+                  element={<LeanMachineGame />}
+                />
+                <Route
+                  path="/PitchArenaGame"
+                  element={<PitchArenaGame />}
+                />
+                <Route path="/StartupQuest" element={<StartupQuest />} />
+
+                {/* Level 2 */}
+                <Route
+                  path="/EthicsEscapeRoomGame"
+                  element={<EthicsEscapeRoomGame />}
+                />
+                <Route path="/MarketPulseChallenge" element={<MarketPulseChallenge />} />
+                <Route
+                  path="/StartupFinanceFunGame"
+                  element={<StartupFinanceFunGame />}
+                />
+                {/* Finish Games of entrepreneurship Class 9-10 */}
 
                 {/* Games of Dig Mkting Class 9-10 */}
                 {/* Level 1 */}
