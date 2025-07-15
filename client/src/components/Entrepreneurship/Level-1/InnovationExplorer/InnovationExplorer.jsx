@@ -1,9 +1,9 @@
 // components/InnovationExplorer.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
- 
+
 const initialFields = Array.from({ length: 5 }, (_, i) => ({
   problem: "",
   category: "",
@@ -42,10 +42,10 @@ const InnovationExplorer = () => {
   const [allPerfect, setAllPerfect] = useState(false);
 
   useEffect(() => {
-  if (allReviewed && badgeEarned) {
-    completeEntreprenerushipChallenge(0,0); // Use actual IDs if different
-  }
-}, [allReviewed, badgeEarned]);
+    if (allReviewed && badgeEarned) {
+      completeEntreprenerushipChallenge(0, 0); // Use actual IDs if different
+    }
+  }, [allReviewed, badgeEarned]);
 
   const handleChange = (index, field, value) => {
     const updated = [...fields];

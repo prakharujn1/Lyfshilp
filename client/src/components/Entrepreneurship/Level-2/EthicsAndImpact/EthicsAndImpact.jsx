@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
-
 
 // GIFs
 const introGif = "https://media0.giphy.com/media/YHvI6fvc1bwfrP9alV/200w.webp";
@@ -22,10 +21,10 @@ const EthicsAndImpact = () => {
   const [showFail, setShowFail] = useState(false);
 
   useEffect(() => {
-  if (showSuccess) {
-    completeEntreprenerushipChallenge(1,0); // Replace with correct challenge ID
-  }
-}, [showSuccess]);
+    if (showSuccess) {
+      completeEntreprenerushipChallenge(1, 0); // Replace with correct challenge ID
+    }
+  }, [showSuccess]);
 
   // ✅ Gemini check with explicit instruction for positive wording
   const verifyInputsWithGemini = async () => {
