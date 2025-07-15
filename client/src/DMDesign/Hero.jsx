@@ -41,7 +41,7 @@ const Hero = () => {
               </Link>
 
               <span className="text-white/60">&gt;</span>
-              <span className="text-white">Communications</span>
+              <span className="text-white">Digital Marketing</span>
 
               <span className="text-white/60">&gt;</span>
               <span className="font-semibold text-white whitespace-nowrap">
@@ -51,7 +51,7 @@ const Hero = () => {
           </nav>
 
           <p className="uppercase tracking-wider text-sm font-semibold text-white flex items-center gap-1">
-            Communication Fundamentals: Levels
+            Digital Marketing Fundamentals: Levels
             <img
               src="/imageForDesign/1image.png"
               alt="Level 1"
@@ -67,17 +67,12 @@ const Hero = () => {
               alt="Level 3"
               className="h-4 w-auto"
             />
-            <img
-              src="/imageForDesign/4image.png"
-              alt="Level 3"
-              className="h-4 w-auto"
-            />
           </p>
 
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
             <span className="block md:inline sigmar-font">Master Your</span>{" "}
             <span className="sigmar-font inline-flex items-center gap-0 whitespace-nowrap">
-              Communication Skills
+              Digital Marketing Skills
               <img
                 src="/imageForDesign/Levelup-2-unscreen.gif"
                 alt="Level up animation"
@@ -88,9 +83,9 @@ const Hero = () => {
 
           <p className="text-white text-base md:text-lg mt-2 leading-relaxed">
             <span>
-              Comprehensive communication education for real-world success.
-              Learn to express ideas clearly, listen actively, and build
-              meaningful connections with confidence.
+              Comprehensive digital marketing education for real-world impact.
+              Learn to master SEO, social media, and data-driven campaigns — and
+              shape your brand’s future with confidence.
             </span>
           </p>
         </div>
