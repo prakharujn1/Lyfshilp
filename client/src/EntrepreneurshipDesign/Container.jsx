@@ -40,84 +40,65 @@ const features = [
 
 const modulesfor6to8 = [
   {
-    title: "LEVEL 1: Digital Explorer",
+    title: "LEVEL 1: Innovator Explorer",
     description:
-      "Mission: Discover what digital marketing is and how brands connect with people online",
+      "Mission: Discover how entrepreneurs identify and solve real-world problems using creativity and purpose",
     challenges: [
       {
-        title: "Ad Detective (Exploration Game)",
-        description: "Objective: Spot 5 types of digital marketing around you.",
+        title: "Innovation Explorer (Discovery Game)",
+        description:
+          "Objective: Spot daily problems and brainstorm bold solutions.",
         duration: "45 min",
-        path: "/intro-ad-detective-game", // ✅
+        path: "/innovation-explorer",
       },
       {
-        title: "Brand Explorer (Interactive Activity)",
+        title: "AI Startup Builder (Venture Creator)",
         description:
-          "Objective: Analyze how 3 favorite brands express their identity online.",
-        duration: "50 min",
-        path: "/brand-explorer-intro", // ✅
-      },
-      {
-        title: "Build-A-Brand (Creative Challenge)",
-        description:
-          "Objective: Create your own fun brand with a logo, personality, and slogan.",
-        duration: "55 min",
-        path: "/brand-creator-game", // ✅
+          "Objective: Design a meaningful AI business that solves a real need.",
+        duration: "45 min",
+        path: "/ai-startup-builder",
       },
     ],
   },
   {
-    title: "LEVEL 2: Content Commander",
+    title: "LEVEL 2: Ethical Pitch Champion",
     description:
-      "Mission: Learn how content is used to attract and engage audiences",
+      "Mission: Make responsible choices while building AI ventures that are fair, safe, and inclusive",
     challenges: [
       {
-        title: "Caption Craze (Writing Game)",
+        title: "Ethics & Impact (Decision Game)",
         description:
-          "Objective: Write fun, catchy captions for a smoothie brand.",
-        duration: "45 min",
-        path: "/caption-craze", // ✅
+          "Objective: Explore fairness, bias, and safety in AI solutions.",
+        duration: "50 min",
+        path: "/ethics-and-impact",
       },
       {
-        title: "Reel It In! (Video Ad Planner)",
+        title: "Pitch Champion (Presentation Challenge)",
         description:
-          "Objective: Plan a 15-second reel ad for a chocolate brand.",
+          "Objective: Create and deliver a powerful pitch for your AI venture.",
         duration: "50 min",
-        path: "/reel-planner-game", // ✅
-      },
-      {
-        title: "Post Match (Matching Game)",
-        description:
-          "Objective: Match content types to brands and suggest one idea.",
-        duration: "50 min",
-        path: "/matching-game", // ✅
+        path: "/pitch-champion",
       },
     ],
   },
   {
-    title: "LEVEL 3: Campaign Captain",
+    title: "LEVEL 3: MVP Strategist",
     description:
-      "Mission: Plan and launch a digital ad campaign for a fun cap brand",
+      "Mission: Understand your users, test your ideas, and improve your product like a real startup founder",
     challenges: [
       {
-        title: "Campaign Planner (Strategy Game)",
+        title: "User Persona Detective (Empathy Game)",
         description:
-          "Objective: Define your audience, platforms, slogan, and strategy.",
-        duration: "55 min",
-        path: "/campaign-planner", // ✅
+          "Objective: Create user profiles and explore their needs and goals.",
+        duration: "50 min",
+        path: "/user-persona-detective",
       },
       {
-        title: "Budget Battle (Simulation Game)",
+        title: "MVP Test (Startup Simulation)",
         description:
-          "Objective: Spend ₹500 across platforms and justify your strategy.",
+          "Objective: Test your idea, gather feedback, and make it better.",
         duration: "50 min",
-        path: "/budget-battle", // ✅
-      },
-      {
-        title: "Analytics Adventure (Data Game)",
-        description: "Objective: Analyze campaign performance using mock data.",
-        duration: "50 min",
-        path: "/analytics-adventure", // ✅
+        path: "/mvp-test",
       },
     ],
   },
@@ -196,86 +177,65 @@ const modulesfor9to10 = [
 
 const modulesfor11to12 = [
   {
-    title: "LEVEL 1: Digital Detective",
+    title: "LEVEL 1: Idea Innovator",
     description:
-      "Theme: Crack the Code of Who, What & Where – Understand digital marketing basics and identify the right audience.",
+      "Theme: Spot real problems, generate AI solutions, and build your first business pitch.",
     challenges: [
       {
-        title: "Ad Spotter – Find the Hidden Campaigns",
+        title: "Problem-to-Solution Relay",
         description:
-          "Objective: Identify hidden marketing messages in common digital content.",
-        duration: "12–15 min",
-        path: "/ad-spotter-game",
-      },
-      {
-        title: "Persona Builder – Know Your People",
-        description:
-          "Objective: Create a basic customer persona using age, interest, and platform data.",
-        duration: "12–15 min",
-        path: "/persona-builder-game",
-      },
-      {
-        title: "Audience Match-Up – Who Buys What?",
-        description:
-          "Objective: Match product types with the most likely target audience.",
-        duration: "12–15 min",
-        path: "/audience-match-up-game",
+          "Objective: Spot 3 real-life problems, suggest AI-powered solutions, and write a mini business pitch.",
+        duration: "45–50 min",
+        path: "/problem-solution-game",
       },
     ],
   },
   {
-    title: "LEVEL 2: Content Creator",
+    title: "LEVEL 2: Startup Strategist",
     description:
-      "Theme: Create the Scroll-Stopping Strategy – Craft compelling content, choose smart platforms, and plan basic campaigns.",
+      "Theme: Simulate your own AI startup — define your product, pricing, positioning, and pitch like a pro.",
     challenges: [
       {
-        title: "Caption Clinic – Make It Clickworthy",
+        title: "Startup Simulation Sprint",
         description:
-          "Objective: Improve weak captions with better hooks, benefits, and CTAs.",
-        duration: "15–18 min",
-        path: "/caption-clinic-game",
-      },
-      {
-        title: "Platform Picker – Right Post, Right Place",
-        description:
-          "Objective: Match content formats with the most suitable platforms.",
-        duration: "15–18 min",
-        path: "/platform-picker-game",
-      },
-      {
-        title: "Campaign Puzzle – Connect the Pieces",
-        description:
-          "Objective: Sequence a 3-step campaign from awareness to action.",
-        duration: "15–18 min",
-        path: "/campaign-puzzle-game",
+          "Objective: Define your product, revenue model, positioning, and create a strong value proposition.",
+        duration: "50–55 min",
+        path: "/startup-simulation-game",
       },
     ],
   },
   {
-    title: "LEVEL 3: Marketing Master",
+    title: "LEVEL 3: Responsible Founder",
     description:
-      "Theme: Launch. Track. Optimize. – Simulate campaign decisions, analyze dashboards, and build your final pitch.",
+      "Theme: Make smart, ethical choices for your AI startup and protect your users through thoughtful design.",
     challenges: [
       {
-        title: "Boost or Post – Make the Right Move",
+        title: "Ethics Firewall",
         description:
-          "Objective: Decide when to boost content or improve it based on performance.",
-        duration: "15–18 min",
-        path: "/boost-or-post-game",
+          "Objective: Spot red flags in a startup scenario and build an ethical response matrix.",
+        duration: "45–50 min",
+        path: "/ethics-firewall-game",
+      },
+    ],
+  },
+  {
+    title: "LEVEL 4: Market Commander",
+    description:
+      "Theme: Compete in a virtual market — manage pricing, branding, and customer satisfaction to grow your startup.",
+    challenges: [
+      {
+        title: "Simulated Market War",
+        description:
+          "Objective: Balance pricing, marketing, and service to outperform rivals over 3 simulated rounds.",
+        duration: "60 min",
+        path: "/SimulatedMarketGame",
       },
       {
-        title: "Metric Match-Up – Read the Dashboard",
+        title: "Pitch Arena Pro",
         description:
-          "Objective: Analyze ad performance metrics to decide which campaign worked best.",
-        duration: "15–18 min",
-        path: "/metric-match-up-game",
-      },
-      {
-        title: "Final Campaign Builder – Your Digital Pitch",
-        description:
-          "Objective: Plan a complete campaign from target audience to hook, CTA, and goals.",
-        duration: "18–20 min",
-        path: "/campaign-builder-game",
+          "Objective: Build a 4-slide pitch deck and deliver a confident 90-second pitch for the virtual boardroom.",
+        duration: "55–60 min",
+        path: "/PitchArenaPro",
       },
     ],
   },
