@@ -51,7 +51,7 @@ const Hero = () => {
           </nav>
 
           <p className="uppercase tracking-wider text-sm font-semibold text-white flex items-center gap-1">
-            Finance Fundamentals: Levels
+            Computer Fundamentals: Levels
             <img
               src="/imageForDesign/1image.png"
               alt="Level 1"

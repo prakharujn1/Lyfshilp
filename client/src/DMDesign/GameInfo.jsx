@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const GameInfo = () => {
-  const [selectedImage, setSelectedImage] = useState("/compGameInfo/ss1.png");
+  const [selectedImage, setSelectedImage] = useState("/DMGameInfo/ss1.png");
 
   const handleThumbnailClick = (imgPath) => {
     setSelectedImage(imgPath);
@@ -16,8 +16,9 @@ const GameInfo = () => {
         </h2>
         <p className="text-gray-600 max-w-2xl text-sm md:text-base">
           With creative tools, AI-powered challenges, and story-driven lessons,
-          students explore computer science while mastering skills like coding,
-          problem-solving, and building smart, ethical tech solutions.
+          students explore digital marketing while mastering skills like
+          branding, campaign strategy, data analysis, and creating impactful,
+          ethical content.
         </p>
       </div>
 
@@ -33,7 +34,7 @@ const GameInfo = () => {
       {/* Thumbnails */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 px-2">
         {[1, 2, 3, 4, 5, 6].map((num) => {
-          const imgPath = `/compGameInfo/ss${num}.png`;
+          const imgPath = `/DMGameInfo/ss${num}.png`;
           const isSelected = selectedImage === imgPath;
 
           return (
