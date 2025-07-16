@@ -1085,9 +1085,9 @@ const Home = () => {
             {/* Note 1 - Purple */}
             <div className="transform rotate-1">
               <div className="bg-purple-300 p-4 sm:p-6 rounded-lg shadow-lg relative">
-                <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
+                {/* <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
                   London
-                </div>
+                </div> */}
                 <div className="h-32 sm:h-40 overflow-hidden">
                   <p
                     className="text-black text-left text-xs sm:text-sm leading-relaxed"
@@ -1107,9 +1107,9 @@ const Home = () => {
             {/* Note 2 - Blue */}
             <div className="transform -rotate-1">
               <div className="bg-blue-200 p-4 sm:p-6 rounded-lg shadow-lg relative">
-                <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
-                  {/* Empty header like in design */}
-                </div>
+                {/* <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
+                  
+                </div> */}
                 <div className="h-32 sm:h-40 overflow-hidden">
                   <p
                     className="text-black text-left text-xs sm:text-sm leading-relaxed"
@@ -1132,9 +1132,9 @@ const Home = () => {
             {/* Note 3 - Yellow */}
             <div className="transform rotate-1">
               <div className="bg-yellow-200 p-4 sm:p-6 rounded-lg shadow-lg relative">
-                <div className="bg-green-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
+                {/* <div className="bg-green-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
                   Reni
-                </div>
+                </div> */}
                 <div className="h-32 sm:h-40 overflow-hidden">
                   <p
                     className="text-black text-left text-xs sm:text-sm leading-relaxed"
