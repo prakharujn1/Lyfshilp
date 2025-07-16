@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useLeadership } from "@/contexts/LeadershipContext";
@@ -248,9 +248,10 @@ Keep your reply short, simple, and kind with emojis if possible.`,
                   key={idx}
                   onClick={() => handleSelect(opt.correct, idx)}
                   className={`w-full py-2 px-4 rounded-lg border text-left transition-all
-                    ${selected === null
-                      ? "bg-white hover:bg-pink-100"
-                      : idx === selected
+                    ${
+                      selected === null
+                        ? "bg-white hover:bg-pink-100"
+                        : idx === selected
                         ? opt.correct
                           ? "bg-green-100 border-green-500"
                           : "bg-red-100 border-red-500"
