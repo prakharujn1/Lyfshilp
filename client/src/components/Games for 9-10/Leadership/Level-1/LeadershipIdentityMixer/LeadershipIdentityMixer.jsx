@@ -62,11 +62,17 @@ const LeadershipIdentityMixer = () => {
   const [styleWarning, setStyleWarning] = useState("");
   const [valueWarning, setValueWarning] = useState("");
 
+  const isAllCorrect =
+    scenarios.every((s) => matches[s.id] === s.correct) &&
+    isValidLeadershipStyle(dominantStyle) &&
+    crisisChoice.trim() !== "" &&
+    values.trim() !== "";
+
   useEffect(() => {
-  if (submitted && isAllCorrect) {
-    completeLeadershipChallenge(0,0);
-  }
-}, [submitted, isAllCorrect]);
+    if (submitted && isAllCorrect) {
+      completeLeadershipChallenge(0, 0);
+    }
+  }, [submitted, isAllCorrect]);
 
   const handleMatch = (id, style) => {
     setMatches((prev) => ({ ...prev, [id]: style }));
@@ -94,12 +100,6 @@ const LeadershipIdentityMixer = () => {
     }
     return incorrect;
   };
-
-  const isAllCorrect =
-    scenarios.every((s) => matches[s.id] === s.correct) &&
-    isValidLeadershipStyle(dominantStyle) &&
-    crisisChoice.trim() !== "" &&
-    values.trim() !== "";
 
   const handleSubmit = () => {
     setSubmitted(true);
