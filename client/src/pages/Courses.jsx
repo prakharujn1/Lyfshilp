@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,7 +13,8 @@ import {
   Play,
   ChevronRight,
   Filter,
-  Search
+  Search,
+  ChevronDown
 } from "lucide-react";
 
 const courses = [
@@ -30,12 +31,12 @@ const courses = [
     students: 2847,
     rating: 4.8,
     progress: 0,
-    color: "emerald",
-    icon: "💰"
+    color: "emerald"
+    
   },
   {
     id: 2,
-    title: "Computer Science ",
+    title: "Computer Science",
     description: "Dive into programming, algorithms, and software development with hands-on projects and real-world applications.",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     notesLink: "/computer/notes",
@@ -46,8 +47,7 @@ const courses = [
     students: 3521,
     rating: 4.9,
     progress: 0,
-    color: "blue",
-    icon: "💻"
+    color: "blue"
   },
   {
     id: 3,
@@ -62,8 +62,7 @@ const courses = [
     students: 1923,
     rating: 4.7,
     progress: 0,
-    color: "purple",
-    icon: "⚖️"
+    color: "purple"
   },
   {
     id: 4,
@@ -78,8 +77,7 @@ const courses = [
     students: 4156,
     rating: 4.8,
     progress: 0,
-    color: "orange",
-    icon: "🗣️"
+    color: "orange"
   },
   {
     id: 5,
@@ -94,8 +92,7 @@ const courses = [
     students: 2634,
     rating: 4.9,
     progress: 0,
-    color: "red",
-    icon: "🚀"
+    color: "red"
   },
   {
     id: 6,
@@ -110,8 +107,7 @@ const courses = [
     students: 3782,
     rating: 4.8,
     progress: 0,
-    color: "pink",
-    icon: "📱"
+    color: "pink"
   },
   {
     id: 7,
@@ -126,8 +122,7 @@ const courses = [
     students: 2145,
     rating: 4.7,
     progress: 0,
-    color: "indigo",
-    icon: "👑"
+    color: "indigo"
   },
   {
     id: 8,
@@ -142,8 +137,7 @@ const courses = [
     students: 1876,
     rating: 4.6,
     progress: 0,
-    color: "green",
-    icon: "🌱"
+    color: "green"
   },
   {
     id: 9,
@@ -158,8 +152,7 @@ const courses = [
     students: 3456,
     rating: 4.9,
     progress: 0,
-    color: "teal",
-    icon: "🧘"
+    color: "teal"
   }
 ];
 
@@ -169,26 +162,29 @@ const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
 const CourseCard = ({ course, index }) => {
   const [isHovered, setIsHovered] = useState(false);
   
-  const colorClasses = {
-    emerald: "from-emerald-400 to-teal-500",
-    blue: "from-blue-400 to-cyan-500",
-    purple: "from-purple-400 to-pink-500",
-    orange: "from-orange-400 to-red-500",
-    red: "from-red-400 to-pink-500",
-    pink: "from-pink-400 to-rose-500",
-    indigo: "from-indigo-400 to-purple-500",
-    green: "from-green-400 to-emerald-500",
-    teal: "from-teal-400 to-cyan-500"
+  // Helper function to get level icon
+  const getLevelIcon = (level) => {
+    switch (level) {
+      case "Beginner":
+        return "/beginner.png";
+      case "Intermediate":
+        return "/intermediate.png";
+      case "Advanced":
+        return "/advance.png";
+      default:
+        return "/beginner.png";
+    }
   };
 
   const difficultyColors = {
-    Beginner: "bg-green-100 text-green-800",
-    Intermediate: "bg-yellow-100 text-yellow-800",
-    Advanced: "bg-red-100 text-red-800"
+    Beginner: "bg-green-100 text-green-600",
+    Intermediate: "bg-yellow-100 text-yellow-600",
+    Advanced: "bg-red-100 text-red-600"
   };
 
   return (
     <motion.div
+      className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
@@ -203,119 +199,98 @@ const CourseCard = ({ course, index }) => {
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
     >
-      {/* Gradient overlay on hover */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered ? 0.05 : 0 }}
-        transition={{ duration: 0.3 }}
-        className={`absolute inset-0 bg-gradient-to-br ${colorClasses[course.color]} z-10 pointer-events-none`}
-      />
-      
-      {/* Course Image */}
-      <div className="relative h-56 overflow-hidden">
-        <motion.img
-          src={course.image}
-          alt={course.title}
-          className="w-full h-full object-cover"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.4 }}
-        />
-        
+      <div className="relative h-48  bg-gray-900">
+        {/* Course-specific background image */}
+        <div className="absolute inset-0">
+          <motion.img
+            src={course.image}
+            alt={course.title}
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.4 }}
+          />
+          <div className="absolute inset-0 bg-black opacity-40"></div>
+        </div>
+
         {/* Category Badge */}
-        <div className="absolute top-4 left-4 z-20">
-          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm text-gray-700`}>
-            <span className="text-sm">{course.icon}</span>
+        <div className="absolute top-3 left-3 z-20">
+          <span className="bg-white px-3 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
+            
             {course.category}
           </span>
         </div>
 
         {/* Difficulty Badge */}
-        <div className="absolute top-4 right-4 z-20">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${difficultyColors[course.difficulty]}`}>
+        <div className="absolute top-3 right-3 z-20">
+          <span className={`px-2 py-1 rounded-md text-xs font-medium ${difficultyColors[course.difficulty]}`}>
             {course.difficulty}
           </span>
         </div>
-
-        {/* Hover Play Button */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: isHovered ? 1 : 0,
-            scale: isHovered ? 1 : 0.8
-          }}
-          transition={{ duration: 0.2 }}
-          className="absolute inset-0 flex items-center justify-center z-20"
-        >
-          <div className="bg-white/20 backdrop-blur-md rounded-full p-4">
-            <Play className="w-8 h-8 text-white" fill="currentColor" />
-          </div>
-        </motion.div>
       </div>
 
-      {/* Course Content */}
-      <div className="p-6 relative z-10">
-        <div className="flex items-start justify-between mb-3">
-          <h3 className="text-xl font-bold text-gray-900 group-hover:text-gray-700 transition-colors duration-300">
-            {course.title}
-          </h3>
-          <div className="flex items-center gap-1 text-yellow-500">
-            <Star className="w-4 h-4 fill-current" />
-            <span className="text-sm font-medium text-gray-600">{course.rating}</span>
+      <div className="p-4">
+        <div className="flex justify-between">
+          <div className="flex-1 w-[80%]">
+            <h4 className="text-lg font-bold  text-black mb-2 truncate group-hover:text-gray-700 transition-colors duration-300">
+              {course.title}
+            </h4>
+          </div>
+          <div className="flex items-center gap-1 mb-1 ml-2">
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <span className="text-sm font-medium text-gray-600">
+              {course.rating}
+            </span>
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
           {course.description}
         </p>
 
-        {/* Course Stats */}
-        <div className="flex items-center gap-4 mb-6 text-xs text-gray-500">
+        <div className="flex flex-wrap items-center gap-4 mb-4 text-xs text-gray-500">
+          <div
+            className={`px-2 py-1 rounded flex items-center gap-1 text-xs font-medium ${difficultyColors[course.difficulty]}`}
+          >
+            <img src={getLevelIcon(course.difficulty)} alt={course.difficulty} className="w-3 h-3" />
+            {course.difficulty}
+          </div>
           <div className="flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5" />
+            <img src="/time.png" alt="Duration" className="w-3.5 h-3.5" />
             <span>{course.duration}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Users className="w-3.5 h-3.5" />
+            <img src="/people.png" alt="Students" className="w-3.5 h-3.5" />
             <span>{course.students.toLocaleString()}</span>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <Link
-            to={course.notesLink}
-            className="flex-1 group/btn"
+            to={course.gamesLink}
+            className="flex-1"
           >
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-4 rounded-xl font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 group-hover/btn:shadow-lg"
+              className="w-full bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
             >
-              <BookOpen className="w-4 h-4" />
-              View Notes
-              <motion.div
-                initial={{ x: 0 }}
-                whileHover={{ x: 3 }}
-                transition={{ duration: 0.2 }}
-              >
-                <ChevronRight className="w-4 h-4" />
-              </motion.div>
+              <img src="/game.png" alt="Game" className="w-4 h-4" />
+              Let's Play &gt;
             </motion.button>
           </Link>
           
           <Link
-            to={course.gamesLink}
-            className="group/btn"
+            to={course.notesLink}
+            className=""
           >
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`bg-gradient-to-r ${colorClasses[course.color]} text-white py-3 px-6 rounded-xl font-medium text-sm transition-all duration-300 flex items-center gap-2 shadow-md hover:shadow-lg`}
+              className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
             >
-              <Gamepad2 className="w-4 h-4" />
-              Play
+              <img src="/notes.png" alt="Notes" className="w-4 h-4 mr-1" />
+              Notes
             </motion.button>
           </Link>
         </div>
@@ -331,20 +306,70 @@ const FilterButton = ({ active, onClick, children }) => (
     onClick={onClick}
     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
       active 
-        ? 'bg-gray-900 text-white shadow-lg' 
-        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        ? 'bg-green-600 text-white shadow-lg' 
+        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
     }`}
   >
     {children}
   </motion.button>
 );
 
+const MobileFilterDropdown = ({ 
+  title, 
+  options, 
+  selectedValue, 
+  onSelect, 
+  isOpen, 
+  onToggle 
+}) => {
+  return (
+    <div className="relative">
+      <motion.button
+        whileTap={{ scale: 0.98 }}
+        onClick={onToggle}
+        className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg px-4 py-3 text-left text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+      >
+        <span>{title}: {selectedValue}</span>
+        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </motion.button>
+      
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="absolute top-full left-0 right-0 z-50 bg-white border border-gray-200 rounded-lg mt-2 shadow-lg max-h-60 overflow-y-auto"
+        >
+          {options.map((option) => (
+            <button
+              key={option}
+              onClick={() => {
+                onSelect(option);
+                onToggle();
+              }}
+              className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-50 transition-colors ${
+                selectedValue === option 
+                  ? 'bg-green-50 text-green-700 font-medium' 
+                  : 'text-gray-700'
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
 const Courses = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [difficultyDropdownOpen, setDifficultyDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const coursesRef = useRef(null);
 
   const filteredCourses = courses.filter(course => {
     const matchesCategory = selectedCategory === "All" || course.category === selectedCategory;
@@ -355,13 +380,34 @@ const Courses = () => {
     return matchesCategory && matchesDifficulty && matchesSearch;
   });
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter' && searchTerm && coursesRef.current) {
+      coursesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.dropdown-container')) {
+        setCategoryDropdownOpen(false);
+        setDifficultyDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="h-[90vh] relative overflow-hidden bg-gradient-to-r from-[#1e2b16] via-[#2f4f2f] to-[#1a2e1a]">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iYSIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVHJhbnNmb3JtPSJyb3RhdGUoNDUpIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjAyIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+')] opacity-10"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-6 py-20">
+      <div className="h-[100vh] w-full -mt-15 bg-[url('/coursesBG.png')] object-contain bg-cover bg-center bg-no-repeat">
+        <div className="relative max-w-6xl mx-auto px-6 py-20  flex justify-center min-h-screen">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -372,21 +418,21 @@ const Courses = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6"
+              className="inline-flex items-center sm:mt-10 gap-2 bg-black backdrop-blur-sm rounded-full px-2 py-1 mb-6"
             >
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
-              <span className="text-sm text-white/90">Transform Your Future</span>
+              <span className="text-xs sm:text-sm  text-white">🎯 Transform your future right now</span>
             </motion.div>
             
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-[26px] md:text-5xl  text-white mb-3 leading-tight"
+            style={{ fontFamily: '"Sigmar One", cursive' }}>
               Master New Skills
               <br />
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                Shape Tomorrow
+              <span className="text-white">
+                Shape Tomorrow 👌
               </span>
             </h1>
             
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
+            <p className="text-sm md:text-xl text-white/90 max-w-2xl mx-auto mb-12 font-inter leading-relaxed">
               Discover world-class courses designed to unlock your potential. Interactive learning meets gamified experiences.
             </p>
 
@@ -395,16 +441,17 @@ const Courses = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="max-w-md mx-auto mb-8"
+              className="max-w-md mx-auto mb-12"
             >
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search courses..."
+                  placeholder="Search courses... (Press Enter to jump to results)"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300"
+                  onChange={handleSearch}
+                  onKeyDown={handleSearchKeyDown}
+                  className="w-full pl-12 pr-4 py-4 bg-[#074a19] backdrop-blur-sm border border-white/30 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                 />
               </div>
             </motion.div>
@@ -414,19 +461,19 @@ const Courses = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex justify-center gap-8 text-center"
+              className="flex flex-wrap justify-center gap-3 md:gap-8"
             >
-              <div>
-                <div className="text-2xl font-bold text-white">{courses.length}+</div>
-                <div className="text-sm text-gray-400">Expert Courses</div>
+              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_10px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-6 py-3 text-center">
+                <div className="sm:text-3xl text-2xl font-bold text-white mb-1">10+</div>
+                <div className="text-sm text-white/80">Expert Courses</div>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-white">25K+</div>
-                <div className="text-sm text-gray-400">Active Learners</div>
+              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_10px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-6 py-3 text-center">
+                <div className="sm:text-3xl text-2xl font-bold text-white mb-1">25K+</div>
+                <div className="text-sm text-white/80">Active Learners</div>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-white">4.8⭐</div>
-                <div className="text-sm text-gray-400">Average Rating</div>
+              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_10px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-8 py-3 text-center">
+                <div className="sm:text-3xl text-2xl font-bold text-white mb-1">4.6⭐</div>
+                <div className="text-sm text-white/80">Avg Rating</div>
               </div>
             </motion.div>
           </motion.div>
@@ -434,86 +481,85 @@ const Courses = () => {
       </div>
 
       {/* Filters Section */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-gray-200">
+      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-200 pt-7 ">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-xl text-gray-700 hover:bg-gray-200 transition-colors duration-300"
-            >
-              <Filter className="w-4 h-4" />
-              Filters
-            </motion.button>
-
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Filter className="w-5 h-5 text-gray-600" />
+              <span className="text-sm font-medium text-gray-700">Filters</span>
+            </div>
             <div className="text-sm text-gray-600">
               {filteredCourses.length} course{filteredCourses.length !== 1 ? 's' : ''} found
             </div>
           </div>
 
-          <motion.div
-            initial={false}
-            animate={{ 
-              height: showFilters ? "auto" : 0,
-              opacity: showFilters ? 1 : 0
-            }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="pt-4 space-y-4">
-              {/* Category Filters */}
-              <div>
-                <h3 className="text-sm font-medium text-gray-700 mb-2">Category</h3>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map(category => (
-                    <FilterButton
-                      key={category}
-                      active={selectedCategory === category}
-                      onClick={() => setSelectedCategory(category)}
-                    >
-                      {category}
-                    </FilterButton>
-                  ))}
-                </div>
-              </div>
-
-              {/* Difficulty Filters */}
-              <div>
-                <h3 className="text-sm font-medium text-gray-700 mb-2">Difficulty</h3>
-                <div className="flex flex-wrap gap-2">
-                  {difficulties.map(difficulty => (
-                    <FilterButton
-                      key={difficulty}
-                      active={selectedDifficulty === difficulty}
-                      onClick={() => setSelectedDifficulty(difficulty)}
-                    >
-                      {difficulty}
-                    </FilterButton>
-                  ))}
-                </div>
+          {/* Desktop Filters */}
+          <div className="hidden md:block space-y-4">
+            {/* Category Filters */}
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-3">Category</h3>
+              <div className="flex flex-wrap gap-2">
+                {categories.map(category => (
+                  <FilterButton
+                    key={category}
+                    active={selectedCategory === category}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </FilterButton>
+                ))}
               </div>
             </div>
-          </motion.div>
+
+            {/* Difficulty Filters */}
+            <div>
+              <h3 className="text-sm font-medium text-gray-700 mb-3">Difficulty</h3>
+              <div className="flex flex-wrap gap-2">
+                {difficulties.map(difficulty => (
+                  <FilterButton
+                    key={difficulty}
+                    active={selectedDifficulty === difficulty}
+                    onClick={() => setSelectedDifficulty(difficulty)}
+                  >
+                    {difficulty}
+                  </FilterButton>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Filters */}
+          <div className="md:hidden space-y-3 dropdown-container">
+            <MobileFilterDropdown
+              title="Category"
+              options={categories}
+              selectedValue={selectedCategory}
+              onSelect={setSelectedCategory}
+              isOpen={categoryDropdownOpen}
+              onToggle={() => {
+                setCategoryDropdownOpen(!categoryDropdownOpen);
+                setDifficultyDropdownOpen(false);
+              }}
+            />
+            
+            <MobileFilterDropdown
+              title="Difficulty"
+              options={difficulties}
+              selectedValue={selectedDifficulty}
+              onSelect={setSelectedDifficulty}
+              isOpen={difficultyDropdownOpen}
+              onToggle={() => {
+                setDifficultyDropdownOpen(!difficultyDropdownOpen);
+                setCategoryDropdownOpen(false);
+              }}
+            />
+          </div>
         </div>
       </div>
 
       {/* Courses Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
-        >
-          {filteredCourses.map((course, index) => (
-            <CourseCard
-              key={course.id}
-              course={course}
-              index={index}
-            />
-          ))}
-        </motion.div>
-
-        {filteredCourses.length === 0 && (
+      <div ref={coursesRef} className="max-w-7xl mx-auto px-6 py-12 pb-28 mb-80">
+        {filteredCourses.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -523,34 +569,21 @@ const Courses = () => {
             <h3 className="text-xl font-semibold text-gray-700 mb-2">No courses found</h3>
             <p className="text-gray-500">Try adjusting your search or filters</p>
           </motion.div>
+        ) : (
+          <motion.div
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
+            {filteredCourses.map((course, index) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+                index={index}
+              />
+            ))}
+          </motion.div>
         )}
       </div>
-
-      {/* CTA Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="text-black py-16"
-      >
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Start Your Learning Journey?
-          </h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Join thousands of learners who are already transforming their careers
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
-             onClick={() => navigate("/register")}
-          >
-            Get Started Today
-          </motion.button>
-        </div>
-      </motion.div>
     </div>
   );
 };
