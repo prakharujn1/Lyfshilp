@@ -106,70 +106,65 @@ const modulesfor6to8 = [
 
 const modulesfor9to10 = [
   {
-    title: "LEVEL 1: Digital Explorer",
-    description: "Focus: Strategy, audience personas & social media planning",
-    challenges: [
-      {
-        title: "Persona Puzzle — Simulation Edition",
-        description:
-          "Objective: Match personas, run campaign flow, and write a creative reel for GlowPop.",
-        duration: "12–15 min",
-        path: "/digital-explorer",
-      },
-      {
-        title: "Platform Picker – Strategy Lab",
-        description:
-          "Objective: Align campaign goals with platforms and choose effective content strategies.",
-        duration: "12–15 min",
-        path: "/carousel-campaign",
-      },
-      {
-        title: "Audience Decoder – Targeting Tactics",
-        description:
-          "Objective: Segment audiences, build a targeting strategy, and craft short ad copy.",
-        duration: "12–15 min",
-        path: "/brand-voice",
-      },
-    ],
-  },
-  {
-    title: "LEVEL 2: Content Commander",
-    description: "Focus: Content creation, storytelling & brand voice",
-    challenges: [
-      {
-        title: "Reel Architect – Build to Hook",
-        description:
-          "Objective: Build a 15-sec Reel with correct sequence, visuals and captions.",
-        duration: "15–18 min",
-        path: "/reel-architect",
-      },
-      {
-        title: "Storyboard Sprint – Carousel Campaign",
-        description:
-          "Objective: Create an Instagram carousel campaign and match tone to brand.",
-        duration: "15–18 min",
-        path: "/StoryboardSprintGame",
-      },
-      {
-        title: "Brand Voice Challenge – AI Chat Sim",
-        description:
-          "Objective: Respond to customers on different platforms and maintain brand voice.",
-        duration: "15–18 min",
-        path: "/BrandVoiceChallengeGame",
-      },
-    ],
-  },
-  {
-    title: "LEVEL 3: Campaign Captain – Instagram Ad Lab",
+    title: "LEVEL 1: Startup Explorer",
     description:
-      "Focus: Build ad creatives, set targeting & budget, analyze and optimize performance",
+      "Focus: Discovering real-world problems, building personas, and generating startup ideas",
     challenges: [
       {
-        title: "Campaign Captain – Instagram Ad Lab",
+        title: "Startup Quest – From Idea to Impact",
         description:
-          "Objective: End-to-end campaign simulation: ad creation, targeting, budgeting, and dashboard optimization.",
+          "Objective: Choose a theme, define a problem, build a user persona, and brainstorm startup ideas.",
+        duration: "15–20 min",
+        path: "/StartupQuest",
+      },
+    ],
+  },
+  {
+    title: "LEVEL 2: Startup Strategist",
+    description:
+      "Focus: Business modeling, lean prototyping, ethics, and market validation",
+    challenges: [
+      {
+        title: "Build Your Lean Machine",
+        description:
+          "Objective: Create a business model, build a prototype, and plan your GTM strategy.",
+        duration: "15–20 min",
+        path: "/LeanMachineGame",
+      },
+      {
+        title: "Market Pulse Challenge – Validate or Pivot!",
+        description:
+          "Objective: Test your idea with a landing page simulator and simulated market response.",
+        duration: "12–15 min",
+        path: "/MarketPulseChallenge",
+      },
+      {
+        title: "Ethics Escape Room – Startup Dilemma",
+        description:
+          "Objective: Solve dilemmas around data, inclusion, and privacy to unlock the startup escape room.",
+        duration: "15–18 min",
+        path: "/EthicsEscapeRoomGame",
+      },
+    ],
+  },
+  {
+    title: "LEVEL 3: Startup Leader",
+    description:
+      "Focus: Pitching, scaling strategy, and startup finance simulations",
+    challenges: [
+      {
+        title: "The Pitch Arena",
+        description:
+          "Objective: Create your pitch, respond to ethical challenges, and review peers’ strategies.",
         duration: "18–20 min",
-        path: "/CampaignCaptainGame",
+        path: "/PitchArenaGame",
+      },
+      {
+        title: "Startup Finance Lab – Budget Like a Boss",
+        description:
+          "Objective: Simulate budgeting, runway calculation, fundraising planning, and investor pitch logic.",
+        duration: "18–20 min",
+        path: "/StartupFinanceFunGame",
       },
     ],
   },
