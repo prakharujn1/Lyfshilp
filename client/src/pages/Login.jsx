@@ -267,7 +267,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={loading || otp.length !== 6}
-                  className="roboto-font w-full bg-[#068F36] hover:bg-green-700 text-white font-semibold py-2 rounded transition"
+                  className="roboto-font w-full bg-[#068F36] hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition"
                 >
                   {loading ? "Verifying..." : "Verify OTP"}
                 </button>
