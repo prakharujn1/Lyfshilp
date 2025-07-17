@@ -142,9 +142,11 @@ const Login = () => {
 
         <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-y-auto max-h-full px-6 pt-8 pb-6 mt-12 lg:mt-0">
           <div className="w-full">
-            <h2 className="text-5xl sigmar-font font-bold text-green-800 mb-2">
-              Login To Learn!
-            </h2>
+            {step === 1 && (
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl sigmar-font font-bold text-[#006724] mb-2 text-center">
+                Login To Learn!
+              </h2>
+            )}
 
             {step === 1 && (
               <p className="text-sm text-gray-600 mt-6">
@@ -189,7 +191,7 @@ const Login = () => {
                       onChange={handlePhoneChange}
                       onFocus={() => setIsFocused(true)}
                       onBlur={() => setIsFocused(false)}
-                      className="w-full outline-none text-gray-800 placeholder-transparent pt-1"
+                      className="w-full outline-none text-gray-800 placeholder-transparent"
                       placeholder="Phone Number"
                     />
                   </div>
@@ -214,7 +216,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-green-700 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition"
+                  className="roboto-font w-full bg-[#068F36] hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition"
                 >
                   {loading ? "Sending..." : "Log In"}
                 </button>
@@ -232,7 +234,7 @@ const Login = () => {
             ) : (
               <form onSubmit={handleVerifyOTP} className="space-y-4">
                 <div className="text-center">
-                  <div className="flex justify-center mt-4">
+                  <div className="flex justify-center">
                     <KeyRound size={28} className="text-green-600" />
                   </div>
                   <h2 className="text-lg font-semibold text-gray-900 mt-2">
@@ -265,7 +267,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={loading || otp.length !== 6}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded transition"
+                  className="roboto-font w-full bg-[#068F36] hover:bg-green-700 text-white font-semibold py-2 rounded transition"
                 >
                   {loading ? "Verifying..." : "Verify OTP"}
                 </button>
