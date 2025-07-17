@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 
 // Dilemmas with GIFs
@@ -76,13 +77,28 @@ const IntegrityQuest = () => {
   const [step, setStep] = useState(-1); // -1 = intro
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
   if (finished && score >= 5) {
     completeLeadershipChallenge(3, 1);
   }
+
+  if (finished) {
+    const totalTimeMs = Date.now() - startTime;
+
+    updateLeadershipPerformance({
+      score: Math.round((score / 6) * 100),
+      accuracy: parseFloat(((score / 6) * 100).toFixed(2)),
+      avgResponseTimeSec: parseFloat((totalTimeMs / 6000).toFixed(2)), // 6 questions
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: score >= 5,
+    });
+  }
 }, [finished, score]);
+
 
   const totalSteps = dilemmas.length + quizzes.length;
 

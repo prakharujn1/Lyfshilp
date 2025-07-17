@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const initialFields = Array.from({ length: 5 }, (_, i) => ({
   problem: "",
@@ -40,6 +41,9 @@ const InnovationExplorer = () => {
   const [allReviewed, setAllReviewed] = useState(false);
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [allPerfect, setAllPerfect] = useState(false);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if (allReviewed && badgeEarned) {
@@ -76,8 +80,7 @@ const InnovationExplorer = () => {
         const prompt = getGeminiReviewPrompt(entry);
         try {
           const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${
-              import.meta.env.VITE_API_KEY
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_API_KEY
             }`,
             {
               method: "POST",
@@ -113,6 +116,21 @@ const InnovationExplorer = () => {
     setBadgeEarned(goodCount >= 3);
     setAllPerfect(goodCount === 5);
     setLoading(false);
+
+    // ✅ Performance tracking
+    const endTime = Date.now();
+    const timeTakenSec = (endTime - startTime) / 1000;
+    const timeTakenMin = Math.round(timeTakenSec / 60);
+    const score = Math.round((goodCount / 5) * 10);
+    const accuracy = (goodCount / 5) * 100;
+
+    updateEntreprenerushipPerformance({
+      score,
+      accuracy,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: timeTakenMin,
+      completed: true,
+    });
   };
 
   return (

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const musicOptions = [
   "🎆 Festive",
@@ -24,7 +25,9 @@ export default function ReelPlannerGame() {
   const [loading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const previewRef = useRef(null);
-
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const validClick = () => {
     if (
       story.every((part) => part) &&
@@ -87,10 +90,10 @@ export default function ReelPlannerGame() {
 
     // ✅ Mark challenge complete once
     if (!challengeCompleted) {
-      completeDMChallenge(1,1);
+      completeDMChallenge(1, 1);
       setChallengeCompleted(true);
     }
-    
+
     setTimeout(() => {
       setLoading(false);
       setShowPreview(true);
@@ -118,6 +121,19 @@ export default function ReelPlannerGame() {
 
     previewRef?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [showPreview, previewRef]);
+
+  useEffect(() => {
+    if (!showPreview || !validClick() || challengeCompleted) return;
+
+    const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+    updateDMPerformance({
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+      completed: true,
+    });
+  }, [showPreview]);
+
 
   return (
     <div className="w-[100%] p-5 min-h-screen ">

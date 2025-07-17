@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
 
@@ -43,7 +43,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const CampaignBuilderGame = () => {
-  const {completeDMChallenge} = useDM();
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
 
   const [campaignData, setCampaignData] = useState({
@@ -63,6 +63,9 @@ const CampaignBuilderGame = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   // Game data
   const gameOptions = {
@@ -144,26 +147,39 @@ const CampaignBuilderGame = () => {
 
   // Loading animation
   useEffect(() => {
-  if (currentPage === "loading") {
-    const interval = setInterval(() => {
-      setLoadingProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
+    if (currentPage === "loading") {
+      const interval = setInterval(() => {
+        setLoadingProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              completeDMChallenge(2, 2);
 
-          // ✅ Call completion function after delay and before switching page
-          setTimeout(() => {
-            completeDMChallenge(2,2); // 🎉 Award the challenge here
-            setCurrentPage("result");
-          }, 500);
+              const endTime = Date.now();
+              const responseTimeSec = Math.round((endTime - startTime) / 1000);
+              const studyTimeMinutes = Math.ceil(responseTimeSec / 60);
 
-          return 100;
-        }
-        return prev + 2;
-      });
-    }, 60);
-    return () => clearInterval(interval);
-  }
-}, [currentPage]);
+              const score = Math.round((completedFields / 8) * 10);
+              const accuracy = Math.round((completedFields / 8) * 100);
+
+              updateDMPerformance({
+                score,
+                accuracy,
+                avgResponseTimeSec: responseTimeSec,
+                studyTimeMinutes,
+                completed: true,
+              });
+
+              setCurrentPage("result");
+            }, 500);
+            return 100;
+          }
+          return prev + 2;
+        });
+      }, 60);
+      return () => clearInterval(interval);
+    }
+  }, [currentPage]);
 
 
   const handleInputChange = (field, value) => {
@@ -216,8 +232,8 @@ the Digital Marketing Campaign Challenge!
 Campaign: GlowFuel Skincare Brand
 Target: ${campaignData.targetAudience}
 Platforms: ${campaignData.platforms
-      .map((id) => gameOptions.platforms.find((p) => p.id === id)?.name)
-      .join(", ")}
+        .map((id) => gameOptions.platforms.find((p) => p.id === id)?.name)
+        .join(", ")}
 Goal: ${campaignData.mainGoal}
 
 You are now officially a Digital Marketing Strategist!
@@ -462,11 +478,10 @@ feedback : ## Max 40 words
                   <button
                     key={platform.id}
                     onClick={() => handlePlatformToggle(platform.id)}
-                    className={`p-4 rounded-2xl border-2 transition-all duration-300 ${
-                      campaignData.platforms.includes(platform.id)
-                        ? `bg-gradient-to-r ${platform.color} text-white border-transparent transform scale-105`
-                        : "border-gray-200 hover:border-gray-300 hover:scale-105"
-                    }`}
+                    className={`p-4 rounded-2xl border-2 transition-all duration-300 ${campaignData.platforms.includes(platform.id)
+                      ? `bg-gradient-to-r ${platform.color} text-white border-transparent transform scale-105`
+                      : "border-gray-200 hover:border-gray-300 hover:scale-105"
+                      }`}
                   >
                     <div className="text-3xl mb-2">{platform.icon}</div>
                     <div className="font-semibold">{platform.name}</div>
@@ -581,11 +596,10 @@ feedback : ## Max 40 words
                 handleSubmit2();
               }}
               disabled={completedFields !== 8}
-              className={`font-bold py-4 px-8 rounded-full text-xl transform transition-all duration-300 shadow-lg ${
-                completedFields === 8
-                  ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white hover:scale-110 hover:shadow-xl"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              className={`font-bold py-4 px-8 rounded-full text-xl transform transition-all duration-300 shadow-lg ${completedFields === 8
+                ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white hover:scale-110 hover:shadow-xl"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
             >
               {completedFields === 8
                 ? "🚀 Launch Campaign"

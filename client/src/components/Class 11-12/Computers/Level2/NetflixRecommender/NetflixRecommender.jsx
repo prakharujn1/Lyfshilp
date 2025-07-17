@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Play, ThumbsUp, ThumbsDown, Users, Film, Target, TrendingUp } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const NetflixRecommendationGame = () => {
   const { completeComputersChallenge } = useComputers();
@@ -15,6 +16,25 @@ const NetflixRecommendationGame = () => {
     successfulRecommendations: 0
   });
   const [selectedScenario, setSelectedScenario] = useState('normal');
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (gameStats.totalRecommendations > 0) {
+      const endTime = Date.now();
+      const avgResponseTimeSec = ((endTime - startTime) / 1000) / gameStats.totalRecommendations;
+      const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+      updateComputersPerformance({
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: gameStats.satisfaction >= 80,
+      });
+    }
+  }, [gameStats.satisfaction >= 80]);
+
 
   // Sample movie database
   const movies = [
@@ -86,15 +106,15 @@ const NetflixRecommendationGame = () => {
   const collaborativeFiltering = (user) => {
     const userRatings = user.ratings;
     const recommendations = [];
-    
+
     // Find similar users based on rating similarity
     const similarUsers = Object.values(userProfiles).filter(u => u.id !== user.id);
-    
+
     similarUsers.forEach(similarUser => {
-      const commonMovies = Object.keys(userRatings).filter(movieId => 
+      const commonMovies = Object.keys(userRatings).filter(movieId =>
         similarUser.ratings[movieId] !== undefined
       );
-      
+
       if (commonMovies.length > 0) {
         // Calculate similarity score
         let similarity = 0;
@@ -102,7 +122,7 @@ const NetflixRecommendationGame = () => {
           similarity += Math.abs(userRatings[movieId] - similarUser.ratings[movieId]);
         });
         similarity = 1 / (1 + similarity / commonMovies.length);
-        
+
         // Recommend movies that similar users liked
         Object.keys(similarUser.ratings).forEach(movieId => {
           if (!userRatings[movieId] && similarUser.ratings[movieId] >= 4) {
@@ -118,7 +138,7 @@ const NetflixRecommendationGame = () => {
         });
       }
     });
-    
+
     return recommendations.sort((a, b) => b.score - a.score).slice(0, 5);
   };
 
@@ -126,16 +146,16 @@ const NetflixRecommendationGame = () => {
   const contentBasedFiltering = (user) => {
     const userRatings = user.ratings;
     const recommendations = [];
-    
+
     // Analyze user preferences
     const likedMovies = Object.keys(userRatings)
       .filter(movieId => userRatings[movieId] >= 4)
       .map(movieId => movies.find(m => m.id === parseInt(movieId)));
-    
+
     const preferredGenres = {};
     const preferredDirectors = {};
     const preferredActors = {};
-    
+
     likedMovies.forEach(movie => {
       movie.genre.forEach(genre => {
         preferredGenres[genre] = (preferredGenres[genre] || 0) + 1;
@@ -145,34 +165,34 @@ const NetflixRecommendationGame = () => {
         preferredActors[actor] = (preferredActors[actor] || 0) + 1;
       });
     });
-    
+
     // Find movies with similar features
     movies.forEach(movie => {
       if (!userRatings[movie.id]) {
         let score = 0;
-        
+
         // Genre similarity
         movie.genre.forEach(genre => {
           if (preferredGenres[genre]) {
             score += preferredGenres[genre] * 0.4;
           }
         });
-        
+
         // Director similarity
         if (preferredDirectors[movie.director]) {
           score += preferredDirectors[movie.director] * 0.3;
         }
-        
+
         // Actor similarity
         movie.actors.forEach(actor => {
           if (preferredActors[actor]) {
             score += preferredActors[actor] * 0.2;
           }
         });
-        
+
         // Rating boost
         score += movie.rating * 0.1;
-        
+
         if (score > 0) {
           recommendations.push({
             movie,
@@ -182,7 +202,7 @@ const NetflixRecommendationGame = () => {
         }
       }
     });
-    
+
     return recommendations.sort((a, b) => b.score - a.score).slice(0, 5);
   };
 
@@ -190,10 +210,10 @@ const NetflixRecommendationGame = () => {
   const hybridFiltering = (user) => {
     const collabRecs = collaborativeFiltering(user);
     const contentRecs = contentBasedFiltering(user);
-    
+
     // Combine and weight recommendations
     const combined = {};
-    
+
     collabRecs.forEach(rec => {
       combined[rec.movie.id] = {
         movie: rec.movie,
@@ -201,7 +221,7 @@ const NetflixRecommendationGame = () => {
         reason: `Collaborative: ${rec.reason}`
       };
     });
-    
+
     contentRecs.forEach(rec => {
       if (combined[rec.movie.id]) {
         combined[rec.movie.id].score += rec.score * 0.4;
@@ -214,14 +234,14 @@ const NetflixRecommendationGame = () => {
         };
       }
     });
-    
+
     return Object.values(combined).sort((a, b) => b.score - a.score).slice(0, 5);
   };
 
   // Generate recommendations based on selected strategy
   const generateRecommendations = () => {
     if (!currentUser) return;
-    
+
     let recs = [];
     switch (strategy) {
       case 'collaborative':
@@ -234,7 +254,7 @@ const NetflixRecommendationGame = () => {
         recs = hybridFiltering(currentUser);
         break;
     }
-    
+
     setRecommendations(recs);
     setGameStats(prev => ({
       ...prev,
@@ -248,14 +268,14 @@ const NetflixRecommendationGame = () => {
       const newSuccessful = liked ? prev.successfulRecommendations + 1 : prev.successfulRecommendations;
       const newSatisfaction = Math.round((newSuccessful / prev.totalRecommendations) * 100);
       const newClickThrough = Math.round((newSuccessful / prev.totalRecommendations) * 100);
-      
+
       // Calculate diversity based on genre variety
       const genres = new Set();
       recommendations.forEach(rec => {
         rec.movie.genre.forEach(genre => genres.add(genre));
       });
       const newDiversity = Math.round((genres.size / 8) * 100); // 8 total genres
-      
+
       return {
         ...prev,
         successfulRecommendations: newSuccessful,
@@ -280,10 +300,10 @@ const NetflixRecommendationGame = () => {
   }, [currentUser, strategy]);
 
   useEffect(() => {
-  if (gameStats.satisfaction >= 80) {
-    completeComputersChallenge(1,2);
-  }
-}, [gameStats.satisfaction]);
+    if (gameStats.satisfaction >= 80) {
+      completeComputersChallenge(1, 2);
+    }
+  }, [gameStats.satisfaction]);
 
   const renderMovieCard = (recommendation, index) => (
     <div key={index} className="bg-gray-800 rounded-lg p-4 mb-4 border-l-4 border-red-500">
@@ -380,7 +400,7 @@ const NetflixRecommendationGame = () => {
                 <li>• <strong>Hybrid:</strong> "Best of both worlds..."</li>
               </ul>
             </div>
-            
+
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-white flex items-center">
                 <span className="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3">3</span>
@@ -454,11 +474,10 @@ const NetflixRecommendationGame = () => {
                 <button
                   key={key}
                   onClick={() => selectUser(key)}
-                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                    currentUser?.id === user.id
-                      ? 'border-red-500 bg-red-900/20'
-                      : 'border-gray-600 bg-gray-800 hover:border-red-400'
-                  }`}
+                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${currentUser?.id === user.id
+                    ? 'border-red-500 bg-red-900/20'
+                    : 'border-gray-600 bg-gray-800 hover:border-red-400'
+                    }`}
                 >
                   <h3 className="font-semibold text-white">{user.name}</h3>
                   <p className="text-gray-400 text-sm">{user.favoriteGenres.join(', ')}</p>
@@ -479,11 +498,10 @@ const NetflixRecommendationGame = () => {
                   <button
                     key={key}
                     onClick={() => setStrategy(key)}
-                    className={`w-full flex items-center p-3 rounded-lg border-2 transition-all ${
-                      strategy === key
-                        ? 'border-red-500 bg-red-900/20'
-                        : 'border-gray-600 bg-gray-800 hover:border-red-400'
-                    }`}
+                    className={`w-full flex items-center p-3 rounded-lg border-2 transition-all ${strategy === key
+                      ? 'border-red-500 bg-red-900/20'
+                      : 'border-gray-600 bg-gray-800 hover:border-red-400'
+                      }`}
                   >
                     <Icon className="mr-3" size={20} />
                     <span>{label}</span>
@@ -543,7 +561,7 @@ const NetflixRecommendationGame = () => {
                 <h3 className="font-semibold text-white">Collaborative Filtering</h3>
               </div>
               <p className="text-gray-300 text-sm mb-3">
-                Finds users with similar taste and recommends movies they liked. 
+                Finds users with similar taste and recommends movies they liked.
                 Works well for popular content but struggles with new users.
               </p>
               <div className="text-xs text-gray-400">
@@ -561,7 +579,7 @@ const NetflixRecommendationGame = () => {
                 <h3 className="font-semibold text-white">Content-Based Filtering</h3>
               </div>
               <p className="text-gray-300 text-sm mb-3">
-                Analyzes movie features (genre, director, actors) to find similar content. 
+                Analyzes movie features (genre, director, actors) to find similar content.
                 Great for new users but can create filter bubbles.
               </p>
               <div className="text-xs text-gray-400">
@@ -579,7 +597,7 @@ const NetflixRecommendationGame = () => {
                 <h3 className="font-semibold text-white">Hybrid Approach</h3>
               </div>
               <p className="text-gray-300 text-sm mb-3">
-                Combines both methods for better accuracy and diversity. 
+                Combines both methods for better accuracy and diversity.
                 Handles cold start problems and provides balanced recommendations.
               </p>
               <div className="text-xs text-gray-400">

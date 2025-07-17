@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const introGif =
   "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGw5Y3ZmeG9qcXpreXo5NXN5czBnYnhvcGd1b3g5NXhqdHV0NzA4ayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZJ6r7T0GWbfdyXgVYs/200w.webp";
@@ -24,12 +25,15 @@ const MVPTest = () => {
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-  if (step === "result" && badgeEarned) {
-    completeEntreprenerushipChallenge(2,1); // Challenge 3, Task 5
-  }
-}, [step, badgeEarned]);
+    if (step === "result" && badgeEarned) {
+      completeEntreprenerushipChallenge(2, 1); // Challenge 3, Task 5
+    }
+  }, [step, badgeEarned]);
 
   const startGame = () => {
     setStep("form");
@@ -184,6 +188,16 @@ const MVPTest = () => {
       setBadgeEarned(true);
     }
     setStep("result");
+
+    // ⬇️ Performance update logic
+    const endTime = Date.now();
+    const timeTakenSec = (endTime - startTime) / 1000;
+    const timeTakenMin = Math.round(timeTakenSec / 60);
+    updateEntreprenerushipPerformance({
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: timeTakenMin,
+      completed: true,
+    });
   };
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const symptoms = ["fever", "cough", "chestPain", "breathing", "fatigue"];
 const coughTypes = ["none", "dry", "wet"];
@@ -79,7 +80,9 @@ export default function MedicalDiagnosisAssistant() {
   const [treePath, setTreePath] = useState([]);
   const [started, setStarted] = useState(false);
 
-
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     const patients = generatePatients(100);
@@ -122,9 +125,22 @@ export default function MedicalDiagnosisAssistant() {
     const acc = ((correct / testingData.length) * 100).toFixed(2);
     setAccuracy(acc);
 
+    // ✅ Score out of 10
+    const scoreOutOf10 = parseFloat(((correct / testingData.length) * 10).toFixed(2));
+    const avgResponseTimeSec = parseFloat(((Date.now() - startTime) / 1000 / testingData.length).toFixed(2));
+    const studyTimeMinutes = parseFloat(((Date.now() - startTime) / 1000 / 60).toFixed(1));
+
+    updateComputersPerformance({
+      score: scoreOutOf10,
+      accuracy: parseFloat(acc),
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: acc >= 85, // completed if passed
+    });
+
     // ✅ Trigger challenge completion if accuracy is high enough
     if (acc >= 85) {
-      completeComputersChallenge(1,0); // <-- here is the correct call
+      completeComputersChallenge(1, 0); // <-- here is the correct call
     }
   };
 

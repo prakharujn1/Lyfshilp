@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const questions = [
   {
@@ -61,11 +62,15 @@ const PickZone = () => {
   const [timeLeft, setTimeLeft] = useState(120);
   const [showResult, setShowResult] = useState(false);
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
-  if (showResult && score >= 5) {
-    completeEnvirnomentChallenge(0, 1); // Mark Challenge 2, Task 1 as completed
-  }
-}, [showResult, score]);
+    if (showResult && score >= 5) {
+      completeEnvirnomentChallenge(0, 1); // Mark Challenge 2, Task 1 as completed
+    }
+  }, [showResult, score]);
 
 
   useEffect(() => {
@@ -90,12 +95,27 @@ const PickZone = () => {
   };
 
   const handleAnswer = (option) => {
-    if (option === questions[current].answer) {
-      setScore((prev) => prev + 1);
-    }
+    const isCorrect = option === questions[current].answer;
+    const newScore = isCorrect ? score + 1 : score;
+
     if (current < questions.length - 1) {
+      setScore(newScore);
       setCurrent((prev) => prev + 1);
     } else {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / questions.length;
+      const scaledScore = Number(((newScore / 6) * 10).toFixed(2));
+
+      updateEnvirnomentPerformance({
+        score: scaledScore,
+        accuracy: (newScore / 6) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: true,
+      });
+
+      setScore(newScore);
       setShowResult(true);
     }
   };

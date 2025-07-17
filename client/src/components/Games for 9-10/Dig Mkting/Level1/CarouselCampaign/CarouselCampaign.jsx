@@ -14,6 +14,8 @@ import clickSoundFileYay from "./clickSoundFileYay.mp3";
 import clickSoundFileOops from "./clickSoundFileOops.mp3";
 import { motion } from "framer-motion";
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 
 const CarouselCampaign = () => {
   const { completeDMChallenge } = useDM();
@@ -35,6 +37,10 @@ const CarouselCampaign = () => {
   });
   const [showResults, setShowResults] = useState(false);
   const [draggedItem, setDraggedItem] = useState(null);
+
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const frameTypes = [
     {
@@ -267,14 +273,34 @@ const CarouselCampaign = () => {
     if (isPassed) playClickSound(clickSoundRefYay);
     else {
       playClickSound(clickSoundRefOops);
-    } 
+    }
   }, [showResults, isPassed]);
 
   useEffect(() => {
     if (showResults && isPassed) {
-      completeDMChallenge(0,1);
+      completeDMChallenge(0, 1);
+
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const accuracy = parseFloat(((totalScore / 11) * 100).toFixed(2));
+      const avgResponseTimeSec = parseFloat((totalTimeSec / 3).toFixed(2));
+      const studyTimeMinutes = parseFloat((totalTimeSec / 60).toFixed(2));
+
+      const scaledScore = Math.round((totalScore / 11) * 100);
+      const scaledStudyTime = Math.min(Math.round(studyTimeMinutes * 10), 100);
+
+      const payload = {
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes: scaledStudyTime,
+        completed: true,
+      };
+
+      updateDMPerformance(payload);
     }
   }, [showResults, isPassed]);
+
 
   const compatibilityMatrix = {
     pastel: {
@@ -526,8 +552,8 @@ const CarouselCampaign = () => {
                               playClickSound(clickSoundRefPop);
                             }}
                             className={`bg-gradient-to-br floating-card ${floatClass} from-indigo-100 to-purple-100 p-6 rounded-2xl transform hover:scale-105 transition-all duration-200 ${selectedTone?.id === tone.id
-                                ? "ring-4 ring-indigo-500 shadow-lg"
-                                : "hover:shadow-md"
+                              ? "ring-4 ring-indigo-500 shadow-lg"
+                              : "hover:shadow-md"
                               }`}
                           >
                             <div className="text-3xl mb-2">{tone.icon}</div>
@@ -725,8 +751,8 @@ const CarouselCampaign = () => {
                     <Star
                       key={i}
                       className={`w-6 h-6 ${i < scores.carouselBuild
-                          ? "text-yellow-400 fill-current"
-                          : "text-gray-300"
+                        ? "text-yellow-400 fill-current"
+                        : "text-gray-300"
                         }`}
                     />
                   ))}
@@ -746,8 +772,8 @@ const CarouselCampaign = () => {
                     <Star
                       key={i}
                       className={`w-6 h-6 ${i < scores.toneMatch
-                          ? "text-yellow-400 fill-current"
-                          : "text-gray-300"
+                        ? "text-yellow-400 fill-current"
+                        : "text-gray-300"
                         }`}
                     />
                   ))}
@@ -767,8 +793,8 @@ const CarouselCampaign = () => {
                     <Star
                       key={i}
                       className={`w-5 h-5 ${i < scores.headings
-                          ? "text-yellow-400 fill-current"
-                          : "text-gray-300"
+                        ? "text-yellow-400 fill-current"
+                        : "text-gray-300"
                         }`}
                     />
                   ))}
@@ -779,8 +805,8 @@ const CarouselCampaign = () => {
             {/* 🎯 Final Score */}
             <div
               className={`p-6 rounded-2xl border-4 text-center mb-10 ${isPassed
-                  ? "bg-gradient-to-r from-green-100 to-emerald-200 border-green-400"
-                  : "bg-gradient-to-r from-orange-100 to-yellow-200 border-orange-400"
+                ? "bg-gradient-to-r from-green-100 to-emerald-200 border-green-400"
+                : "bg-gradient-to-r from-orange-100 to-yellow-200 border-orange-400"
                 }`}
             >
               <h3 className="text-2xl font-bold text-gray-800 mb-1">

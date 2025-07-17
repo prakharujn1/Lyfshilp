@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const VisionBlueprintBuilder = () => {
   const { completeLeadershipChallenge } = useLeadership();
@@ -14,12 +15,34 @@ const VisionBlueprintBuilder = () => {
   const [submitted, setSubmitted] = useState(false);
   const { width, height } = useWindowSize();
   const [isSuccess, setIsSuccess] = useState(null);
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  
+  useEffect(() => {
+    if (submitted && isSuccess) {
+      completeLeadershipChallenge(0, 1);
+    }
+  }, [submitted, isSuccess]);
 
   useEffect(() => {
-  if (submitted && isSuccess) {
-    completeLeadershipChallenge(0,1);
-  }
-}, [submitted, isSuccess]);
+    if (!submitted) return;
+
+    const totalTimeMs = Date.now() - startTime;
+
+    const totalSteps = 2; // Step 0: Vision + Step 1: SMART+ER goals
+    const score = isSuccess ? 10 : 5; // Full score if verified successful, else half
+    const accuracy = score * 10;
+
+    updateLeadershipPerformance({
+      score, // out of 10
+      accuracy, // out of 100
+      avgResponseTimeSec: parseFloat((totalTimeMs / (totalSteps * 1000)).toFixed(2)),
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: isSuccess,
+    });
+  }, [submitted, isSuccess]);
+
 
   const handleVerify = async () => {
     const text = `SMART Goals: ${smartGoals.join(

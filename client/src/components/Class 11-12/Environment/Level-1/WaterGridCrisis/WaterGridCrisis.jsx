@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 // Reuse your GIFs:
 const introGif =
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmxwY2didGF4ZTZpZnByYmVkNXo5ZmZjM3lmMjVhbmx6eXJlYmYyMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jOmQmJkjcvB3Bc8CRb/200.webp";
@@ -39,6 +41,10 @@ const WaterGridCrisis = () => {
   const [riddleCorrect, setRiddleCorrect] = useState(null);
 
   const [final, setFinal] = useState(null);
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+   
 
   const resetGame = () => {
     setStep(1);
@@ -100,8 +106,8 @@ const WaterGridCrisis = () => {
                       setQ1Correct(null);
                     }}
                     className={`block w-full border px-4 py-2 rounded-full ${q1 === opt
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                       }`}
                   >
                     {opt}
@@ -167,8 +173,8 @@ const WaterGridCrisis = () => {
                       setQ2Correct(null);
                     }}
                     className={`block w-full border px-4 py-2 rounded-full ${q2.includes(opt)
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                       }`}
                   >
                     {opt}
@@ -235,8 +241,8 @@ const WaterGridCrisis = () => {
                       setQ3Correct(null);
                     }}
                     className={`block w-full border px-4 py-2 rounded-full ${q3.includes(opt)
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                       }`}
                   >
                     {opt}
@@ -315,8 +321,8 @@ const WaterGridCrisis = () => {
                       setRiddleCorrect(null);
                     }}
                     className={`block w-full border px-4 py-2 rounded-full ${riddle === opt
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                       }`}
                   >
                     {opt}
@@ -329,13 +335,28 @@ const WaterGridCrisis = () => {
                   onClick={() => {
                     const correct = riddle === "Biogeochemical Cycle";
                     setRiddleCorrect(correct);
-                    const allCorrect =
-                      q1Correct && q2Correct && q3Correct && correct;
+
+                    const correctCount =
+                      (q1Correct ? 1 : 0) +
+                      (q2Correct ? 1 : 0) +
+                      (q3Correct ? 1 : 0) +
+                      (correct ? 1 : 0);
+
+                    const allCorrect = correctCount === 4;
                     setFinal(allCorrect);
+
                     if (allCorrect) {
                       confetti();
-                      completeEnvirnomentChallenge(0,3);
+                      completeEnvirnomentChallenge(0, 3);
                     }
+                    const totalTimeMs = Date.now() - startTime;
+                    updateEnvirnomentPerformance({
+                      score: Math.round((correctCount / 4) * 10 ), // scaled out of 10
+                      accuracy: parseFloat(((correctCount / 4) * 100).toFixed(2)), // %
+                      avgResponseTimeSec: parseFloat((totalTimeMs / 4000).toFixed(2)), // 4 questions
+                      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+                      completed: allCorrect,
+                    });
                   }}
                   className="mt-6 bg-green-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-green-700 transition"
                 >

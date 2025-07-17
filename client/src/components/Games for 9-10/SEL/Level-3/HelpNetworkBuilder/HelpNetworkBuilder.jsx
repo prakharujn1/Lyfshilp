@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
 import { useSEL } from "@/contexts/SELContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const scenarios = [
   {
@@ -50,6 +51,9 @@ const HelpNetworkBuilder = () => {
   const [answers, setAnswers] = useState({});
   const [feedback, setFeedback] = useState(null);
   const [score, setScore] = useState(0);
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleSelect = (opt) => {
     if (answers[current] != null) return;
@@ -60,17 +64,33 @@ const HelpNetworkBuilder = () => {
   };
 
   const nextQuestion = () => {
-    setFeedback(null);
-    if (current < scenarios.length - 1) {
-      setCurrent(current + 1);
-    } else {
-      if (score >= 5) {
-        completeSELChallenge(2,1); // ✅ Mark SEL challenge complete
-        confetti({ spread: 120, particleCount: 180, origin: { y: 0.6 } });
-      }
-      setStage("result");
+  setFeedback(null);
+
+  if (current < scenarios.length - 1) {
+    setCurrent(current + 1);
+  } else {
+    const endTime = Date.now();
+    const durationSec = Math.round((endTime - startTime) / 1000);
+    const accuracy = Math.round((score / scenarios.length) * 100);
+    const avgResponseTimeSec = durationSec / scenarios.length;
+    const roundedScore = Math.round((score / scenarios.length) * 10);
+
+    if (score >= 5) {
+      completeSELChallenge(2, 1);
+      confetti({ spread: 120, particleCount: 180, origin: { y: 0.6 } });
     }
-  };
+
+    updateSELPerformance({
+      score: roundedScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes: Math.ceil(durationSec / 60),
+      completed: score >= 5,
+    });
+
+    setStage("result");
+  }
+};
 
 
   const playAgain = () => {

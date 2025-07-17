@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const questions = [
   {
     text: "Helping pick up books",
@@ -85,7 +85,9 @@ const KindnessClicks = () => {
   const [showResult, setShowResult] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackCorrect, setFeedbackCorrect] = useState(false);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const yay = new Audio(
     "/children-saying-yay-praise-and-worship-jesus-299607.mp3"
   );
@@ -136,10 +138,26 @@ const KindnessClicks = () => {
   const result = results.find((r) => score >= r.min);
 
   useEffect(() => {
-    if (showResult && score >= 8) {
-      completeSELChallenge(0,2);
+    if (showResult) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+      const accuracy = (score / questions.length) * 100;
+      const avgResponseTimeSec = totalSeconds / questions.length;
+
+      updateSELPerformance({
+        score: score * 1, // out of 10
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: score >= 8,
+      });
+
+      if (score >= 8) {
+        completeSELChallenge(0, 2);
+      }
     }
-  }, [showResult, score]);
+  }, [showResult]);
+
 
   return (
     <div className="min-h-screen bg-yellow-50 flex items-center justify-center p-4">

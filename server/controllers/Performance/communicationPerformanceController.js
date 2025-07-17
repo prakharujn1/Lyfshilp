@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 export const updateCommunicationPerformance = async (req, res) => {
   const {
     userId,
-    score, 
-    accuracy, 
+    score,
+    accuracy,
     avgResponseTimeSec,
     studyTimeMinutes,
     completed, // true if user completed the game
@@ -59,8 +59,15 @@ export const updateCommunicationPerformance = async (req, res) => {
 
     // Optional fields
     if (typeof avgResponseTimeSec === 'number') {
-      updateData.avgResponseTimeSec = avgResponseTimeSec;
+      const prevCompleted = existing?.completedGamesCount || 0;
+      const prevAvgTime = existing?.avgResponseTimeSec || 0;
+
+      const newAvgTime =
+        (prevAvgTime * prevCompleted + avgResponseTimeSec) / (prevCompleted + 1);
+
+      updateData.avgResponseTimeSec = newAvgTime;
     }
+
 
     if (typeof studyTimeMinutes === 'number') {
       updateData.studyTimeMinutes = (existing?.studyTimeMinutes || 0) + studyTimeMinutes;

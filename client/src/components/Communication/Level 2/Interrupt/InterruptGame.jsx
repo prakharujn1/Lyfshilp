@@ -121,6 +121,17 @@ const InterruptGame = () => {
       setGameState("result");
       completeCommunicationChallenge(1, 1);
       setShowCelebration(true);
+
+      // 🟢 Performance Tracking
+      const endTime = Date.now();
+      const durationSec = (endTime - startTime) / 1000;
+      const payload = {
+        score: Math.min(Math.round((score + 20) / 10), 10), // out of 10
+        studyTimeMinutes: durationSec / 60,
+        completed: true,
+      };
+      updateCommunicationPerformance(payload);
+
       setTimeout(() => setShowCelebration(false), 3000);
     }
   };

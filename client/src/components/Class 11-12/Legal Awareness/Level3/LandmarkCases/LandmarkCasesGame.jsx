@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { easeInOut, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const brands = [
   { id: "b1", name: "Kesavananda Bharati v. State of Kerala" },
   { id: "b2", name: "Maneka Gandhi v. Union of India" },
@@ -62,6 +62,10 @@ export default function LandmarkCasesGame() {
   const [gameEnded, setGameEnded] = useState(false);
   const navigate = useNavigate();
 
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   // Timer effect
   useEffect(() => {
     if (timeLeft <= 0 || gameEnded) return;
@@ -79,6 +83,27 @@ export default function LandmarkCasesGame() {
 
     return () => clearInterval(timer);
   }, [timeLeft, gameEnded]);
+
+  useEffect(() => {
+    if (!gameEnded) return;
+
+    const endTime = Date.now();
+    const totalQuestions = availBrands.length;
+    const correctAnswers = matches.filter((m) => m.isCorrect).length;
+    const scaledScore = (correctAnswers / totalQuestions) * 10; // score out of 10
+    const accuracy = Math.round((correctAnswers / totalQuestions) * 100); // %
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+    updateLawPerformance({
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
+  }, [gameEnded]);
+
 
   const handleTimeUp = () => {
     if (gameEnded) return;
@@ -199,11 +224,10 @@ export default function LandmarkCasesGame() {
                   key={brand.id}
                   onClick={() => !gameEnded && setSelectedBrand(brand)}
                   className={`floating-card ${floatClass} cursor-pointer p-3 md:p-4 rounded-xl mb-4 shadow-md text-center text-sm md:text-base font-medium
-                ${
-                  selectedBrand?.id === brand.id
-                    ? "bg-blue-300 text-white"
-                    : "bg-blue-100 hover:bg-blue-200"
-                } ${gameEnded ? "opacity-50 cursor-not-allowed" : ""}`}
+                ${selectedBrand?.id === brand.id
+                      ? "bg-blue-300 text-white"
+                      : "bg-blue-100 hover:bg-blue-200"
+                    } ${gameEnded ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   {brand.name}
                 </div>
@@ -222,9 +246,8 @@ export default function LandmarkCasesGame() {
                 <div
                   key={option.id}
                   onClick={() => !gameEnded && handleOptionSelect(option)}
-                  className={`floating-card ${floatClass} cursor-pointer p-3 md:p-4 rounded-xl mb-4 bg-pink-100 hover:bg-pink-200 text-sm md:text-base shadow-md text-center font-medium ${
-                    gameEnded ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`floating-card ${floatClass} cursor-pointer p-3 md:p-4 rounded-xl mb-4 bg-pink-100 hover:bg-pink-200 text-sm md:text-base shadow-md text-center font-medium ${gameEnded ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                 >
                   {option.label}
                 </div>

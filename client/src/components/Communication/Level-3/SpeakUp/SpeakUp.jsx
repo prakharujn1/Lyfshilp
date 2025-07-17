@@ -48,8 +48,8 @@ const SpeakUpGame = () => {
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
   //for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleOptionClick = (index) => {
     if (selected !== null) return;
@@ -60,9 +60,24 @@ const [startTime] = useState(Date.now());
     setTimeout(() => {
       setTimeout(() => {
         if (current === scenarios.length - 1) {
+          const finalScore = score + (index === scenarios[current].correctIndex ? 1 : 0);
+          setScore(finalScore);
           setShowResult(true);
-          completeCommunicationChallenge(2,1); // ✅ Add this line
-        } else {
+          completeCommunicationChallenge(2, 1);
+
+          // ⏱️ Calculate performance
+          const endTime = Date.now();
+          const durationSec = (endTime - startTime) / 1000;
+          const accuracy = finalScore / scenarios.length;
+
+          updateCommunicationPerformance({
+            score: Math.round(accuracy * 10),       // out of 10
+            accuracy: Math.round(accuracy * 100),   // %
+            studyTimeMinutes: durationSec / 60,
+            completed: true
+          });
+        }
+        else {
           setCurrent(current + 1);
           setSelected(null);
         }
@@ -149,12 +164,12 @@ const [startTime] = useState(Date.now());
                 onClick={() => handleOptionClick(index)}
                 disabled={selected !== null}
                 className={`w-full text-left p-4 rounded-lg border transition ${selected !== null
-                    ? isCorrect
-                      ? "bg-green-100 border-green-600 text-green-800 font-semibold"
-                      : isSelected
-                        ? "bg-red-100 border-red-600 text-red-800 font-semibold"
-                        : "bg-gray-100 border-gray-300 text-gray-700"
-                    : "bg-white hover:bg-blue-50 border-gray-300"
+                  ? isCorrect
+                    ? "bg-green-100 border-green-600 text-green-800 font-semibold"
+                    : isSelected
+                      ? "bg-red-100 border-red-600 text-red-800 font-semibold"
+                      : "bg-gray-100 border-gray-300 text-gray-700"
+                  : "bg-white hover:bg-blue-50 border-gray-300"
                   }`}
               >
                 {option}

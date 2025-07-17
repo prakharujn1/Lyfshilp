@@ -14,6 +14,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 
 const puzzles = [
@@ -84,25 +85,28 @@ function SortableItem({ id }) {
       {id}
     </li>
   );
-} 
+}
 
 const ChainReaction = () => {
-    const { completeEnvirnomentChallenge } = useEnvirnoment();
-  
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [showStart, setShowStart] = useState(true);
   const [current, setCurrent] = useState(0);
   const [userOrder, setUserOrder] = useState([]);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const sensors = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {
-  if (showResult && score >= 20) {
-    completeEnvirnomentChallenge(0,2); // Mark Challenge 3, Task 1 as completed
-  }
-}, [showResult, score]);
+    if (showResult && score >= 20) {
+      completeEnvirnomentChallenge(0, 2); // Mark Challenge 3, Task 1 as completed
+    }
+  }, [showResult, score]);
 
   useEffect(() => {
     if (!showStart && !showResult && timeLeft > 0) {
@@ -145,9 +149,24 @@ const ChainReaction = () => {
       setUserOrder(shuffle([...puzzles[next].correctOrder]));
       setTimeLeft(60);
     } else {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / puzzles.length;
+
+      const scaledScore = Number(((score / 25) * 10).toFixed(2));
+
+      updateEnvirnomentPerformance({
+        score: scaledScore,
+        accuracy: (score / 25) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: true,
+      });
+
       setShowResult(true);
     }
   };
+
 
   const getResultFeedback = (score) => {
     if (score === 25) {

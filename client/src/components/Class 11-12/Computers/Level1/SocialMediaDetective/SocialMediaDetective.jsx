@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const directions = [
   [-1, 0],
   [0, 1],
@@ -111,6 +112,10 @@ export default function SocialMediaDetective() {
   const [gridKey, setGridKey] = useState(0); // for forcing remount
   const animationCancelledRef = useRef(false);
 
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
 
   useEffect(() => {
     resetGame();
@@ -183,7 +188,17 @@ export default function SocialMediaDetective() {
 
 
     if (isCorrect) {
-      completeComputersChallenge(0,0); // ✅ Call here when guess is correct
+      completeComputersChallenge(0, 0); // 🔐 Mark challenge as complete
+
+      // 🧠 Update performance
+      const endTime = Date.now();
+      const totalTimeSec = ((endTime - startTime) / 1000).toFixed(2);
+
+      updateComputersPerformance({
+        avgResponseTimeSec: parseFloat((totalTimeSec / stats.nodes).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeSec / 60).toFixed(2)),
+        completed: true,
+      });
     }
   };
 

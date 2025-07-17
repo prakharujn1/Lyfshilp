@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const cardData = {
     intro: [
@@ -72,6 +73,9 @@ export default function PersuadeWithPurpose() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
     const [timeLeft, setTimeLeft] = useState(480); // 8 minutes
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
     useEffect(() => {
         if (!hasStarted) return;
@@ -135,14 +139,29 @@ export default function PersuadeWithPurpose() {
             Object.values(conclusion).filter(Boolean).length >= 2;
 
         setSubmitted(true);
+        setIsSuccess(isBalanced);
+
         if (isBalanced) {
-            setIsSuccess(true);
             setFeedback("✅ Great balance of Ethos, Pathos, and Logos in your pitch!");
-             completeCommunicationChallenge(1,0); // ✅ Mark challenge as completed
+            completeCommunicationChallenge(1, 0); // mark challenge complete
         } else {
             setFeedback("🧠 Try balancing emotion with logic and credibility to strengthen your pitch.");
         }
+
+        // ✅ Performance tracking
+        const endTime = Date.now();
+        const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+        const accuracy = isBalanced ? 100 : 50; // Simplified logic
+        const score = isBalanced ? 10 : 5;
+
+        updateCommunicationPerformance({
+            completed: isBalanced,
+            studyTimeMinutes,
+            score,
+            accuracy,
+        });
     };
+
 
     if (isSuccess) {
         return (

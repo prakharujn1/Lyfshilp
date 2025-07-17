@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const scenarios = [
   {
     scenario:
@@ -57,12 +57,29 @@ const ConflictQuest = () => {
   const [completed, setCompleted] = useState(false);
   const [selected, setSelected] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-    if (completed && score >= 3) {
-      completeSELChallenge(1, 1);
+    if (completed) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+      const scaledScore = Math.round((score / 3) * 10); // 3 questions
+
+      updateSELPerformance({
+        score: scaledScore,
+        accuracy: (score / 3) * 100,
+        avgResponseTimeSec: totalSeconds / 3,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: score >= 3,
+      });
+
+      if (score >= 3) {
+        completeSELChallenge(1, 1);
+      }
     }
-  }, [completed, score]);
+  }, [completed]);
+
 
   const shuffled = scenarios.sort(() => 0.5 - Math.random()).slice(0, 3);
 

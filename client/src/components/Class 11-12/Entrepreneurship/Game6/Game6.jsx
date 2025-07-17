@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const sdgs = [
   { id: 1, title: "No Poverty", icon: "🌍" },
@@ -31,7 +32,9 @@ export default function SDGStartupQuest() {
   const [change, setChange] = useState("");
   const [beneficiary, setBeneficiary] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const toggleSDG = (id) => {
     if (selectedSDGs.includes(id)) {
       setSelectedSDGs(selectedSDGs.filter((s) => s !== id));
@@ -226,8 +229,22 @@ export default function SDGStartupQuest() {
             </button>
             <button
               onClick={() => {
+                const endTime = Date.now();
+                const timeSpent = Math.floor((endTime - startTime) / 1000); // in seconds
+
+                const completed = true;
+
+                // Mark challenge complete
+                completeEntreprenerushipChallenge(1, 2);
+
+                // Update performance
+                updateEntreprenerushipPerformance({
+                  avgResponseTimeSec: timeSpent,
+                  studyTimeMinutes: Math.ceil(timeSpent / 60),
+                  completed,
+                });
+
                 setSubmitted(true);
-                completeEntreprenerushipChallenge(1,2); // ✅ Marks the challenge complete
               }}
               className="bg-green-600 text-white px-6 py-2 rounded-full text-lg font-extrabold shadow-lg animate-bounce"
             >

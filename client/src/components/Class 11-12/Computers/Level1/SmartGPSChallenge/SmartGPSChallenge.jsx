@@ -3,6 +3,7 @@ import { Navigation, MapPin, Clock, AlertTriangle, Heart, Car, Zap, Info, Play, 
 import { useComputers } from "@/contexts/ComputersContext";
 const GRID_SIZE = 10;
 const CELL_SIZE = 50;
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 // Emergency types with different priorities and requirements
 const EMERGENCY_TYPES = {
@@ -92,7 +93,7 @@ class AStarPathfinder {
 
     while (this.openSet.length > 0) {
       // Find node with lowest f score
-      let current = this.openSet.reduce((min, node) => 
+      let current = this.openSet.reduce((min, node) =>
         node.f < min.f ? node : min
       );
 
@@ -148,6 +149,10 @@ const SmartGPSChallenge = () => {
   const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
 
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   // Initialize game grid
   const initializeGrid = useCallback(() => {
     const newGrid = [];
@@ -161,7 +166,7 @@ const SmartGPSChallenge = () => {
         else if (random < 0.7) trafficType = 'LIGHT';
         else if (random < 0.9) trafficType = 'HEAVY';
         else trafficType = 'BLOCKED';
-        
+
         row.push({
           x,
           y,
@@ -180,7 +185,7 @@ const SmartGPSChallenge = () => {
     // Place hospital at bottom-right
     newGrid[GRID_SIZE - 1][GRID_SIZE - 1].isHospital = true;
     newGrid[GRID_SIZE - 1][GRID_SIZE - 1].traffic = 'CLEAR';
-    
+
     // Ensure ambulance starting position is clear
     newGrid[0][0].traffic = 'CLEAR';
 
@@ -195,13 +200,13 @@ const SmartGPSChallenge = () => {
     for (let i = 0; i < 3; i++) {
       const type = emergencyTypes[i];
       let x, y;
-      
+
       // Ensure emergencies are not placed at start or hospital
       do {
         x = Math.floor(Math.random() * (GRID_SIZE - 2)) + 1;
         y = Math.floor(Math.random() * (GRID_SIZE - 2)) + 1;
       } while ((x === 0 && y === 0) || (x === GRID_SIZE - 1 && y === GRID_SIZE - 1));
-      
+
       newEmergencies.push({
         id: i,
         type,
@@ -219,7 +224,7 @@ const SmartGPSChallenge = () => {
   useEffect(() => {
     const newGrid = initializeGrid();
     const newEmergencies = generateEmergencies();
-    
+
     setGrid(newGrid);
     setEmergencies(newEmergencies);
     setCurrentEmergency(newEmergencies[0]);
@@ -231,7 +236,7 @@ const SmartGPSChallenge = () => {
     if (!currentEmergency || !grid.length) return;
 
     // Reset grid pathfinding values
-    const resetGrid = grid.map(row => 
+    const resetGrid = grid.map(row =>
       row.map(cell => ({
         ...cell,
         g: Infinity,
@@ -278,27 +283,44 @@ const SmartGPSChallenge = () => {
     const pathLength = path.length;
     const timeBonus = Math.max(0, 100 - timeElapsed);
     const emergencyScore = currentEmergency.baseScore + timeBonus - (pathLength * 2);
-    
+
     const nextEmergency = emergencies.find(e => !e.completed && e.id !== currentEmergency.id);
-    
+
     if (nextEmergency) {
       setCurrentEmergency(nextEmergency);
       setAmbulancePos({ x: currentEmergency.x, y: currentEmergency.y });
-      
+
       // Mark current emergency as completed
-      setEmergencies(prev => 
-        prev.map(e => 
+      setEmergencies(prev =>
+        prev.map(e =>
           e.id === currentEmergency.id ? { ...e, completed: true } : e
         )
       );
-      
+
       setScore(prev => prev + Math.max(50, emergencyScore));
       setPath([]);
       setPathSteps([]);
     } else {
       setGameState('completed');
-      setScore(prev => prev + Math.max(50, emergencyScore));
-      completeComputersChallenge(0,1); // ✅ Call here
+      const finalScore = score + Math.max(50, emergencyScore);
+      setScore(finalScore);
+      completeComputersChallenge(0, 1); // mark as completed
+
+      // ⏱️ Calculate final metrics
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+      const accuracy = Math.min(100, (finalScore / 600) * 100); // assuming 600 is max score
+      const scaledScore = Math.min(10, (finalScore / 600) * 10); // assuming 600 is max score
+      const avgResponseTimeSec = timeTakenSec / emergencies.length;
+      const studyTimeMinutes = Math.floor(timeTakenSec / 60);
+
+      // 📈 Update performance
+      updateComputersPerformance({
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+      });
     }
   };
 
@@ -306,7 +328,7 @@ const SmartGPSChallenge = () => {
   const resetGame = () => {
     const newGrid = initializeGrid();
     const newEmergencies = generateEmergencies();
-    
+
     setGrid(newGrid);
     setEmergencies(newEmergencies);
     setCurrentEmergency(newEmergencies[0]);
@@ -332,15 +354,15 @@ const SmartGPSChallenge = () => {
   // Get cell class based on state
   const getCellClass = (cell) => {
     let baseClass = 'w-12 h-12 border border-gray-400 relative flex items-center justify-center text-xs font-bold transition-all duration-200';
-    
+
     // Traffic condition background
     baseClass += ` ${TRAFFIC_CONDITIONS[cell.traffic].color}`;
-    
+
     // Path highlighting
     if (path.some(p => p.x === cell.x && p.y === cell.y)) {
       baseClass += ' ring-2 ring-blue-500 ring-opacity-80';
     }
-    
+
     return baseClass;
   };
 
@@ -364,13 +386,13 @@ const SmartGPSChallenge = () => {
               <Info className="w-6 h-6" />
               How to Play
             </h2>
-            
+
             <div className="space-y-4 text-sm">
               <div>
                 <h3 className="font-semibold text-lg mb-2">🎯 Objective</h3>
                 <p>You are an emergency dispatcher controlling an ambulance. Use the A* pathfinding algorithm to navigate through traffic and reach all emergencies in order of priority.</p>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold text-lg mb-2">🚨 Emergency Types</h3>
                 <ul className="space-y-1 ml-4">
@@ -379,7 +401,7 @@ const SmartGPSChallenge = () => {
                   <li>• <strong>Natural Disaster (Orange):</strong> Lower priority - 175 base points</li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold text-lg mb-2">🚦 Traffic Conditions</h3>
                 <ul className="space-y-1 ml-4">
@@ -389,7 +411,7 @@ const SmartGPSChallenge = () => {
                   <li>• <strong>Blocked (Red):</strong> Impassable (∞ cost)</li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold text-lg mb-2">🎮 How to Play</h3>
                 <ol className="space-y-1 ml-4 list-decimal">
@@ -399,7 +421,7 @@ const SmartGPSChallenge = () => {
                   <li>Repeat for all emergencies to complete the game</li>
                 </ol>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold text-lg mb-2">🏆 Scoring</h3>
                 <ul className="space-y-1 ml-4">
@@ -409,7 +431,7 @@ const SmartGPSChallenge = () => {
                   <li>• Minimum 50 points per emergency</li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold text-lg mb-2">🤖 A* Algorithm</h3>
                 <p>The A* algorithm finds the optimal path by evaluating each cell using:</p>
@@ -420,7 +442,7 @@ const SmartGPSChallenge = () => {
                 </ul>
               </div>
             </div>
-            
+
             <button
               onClick={() => setShowInstructions(false)}
               className="w-full mt-6 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
@@ -460,14 +482,14 @@ const SmartGPSChallenge = () => {
                         <Navigation className="w-6 h-6 text-white" />
                       </div>
                     )}
-                    
+
                     {/* Hospital */}
                     {cell.isHospital && (
                       <div className="absolute inset-0 bg-green-600 rounded flex items-center justify-center">
                         <MapPin className="w-6 h-6 text-white" />
                       </div>
                     )}
-                    
+
                     {/* Emergency Sites */}
                     {emergencies.map(emergency => {
                       if (emergency.x === x && emergency.y === y) {
@@ -480,7 +502,7 @@ const SmartGPSChallenge = () => {
                       }
                       return null;
                     })}
-                    
+
                     {/* Path indicators */}
                     {path.some(p => p.x === x && p.y === y) && (
                       <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600 rounded-full"></div>
@@ -500,7 +522,7 @@ const SmartGPSChallenge = () => {
                   Start A* Pathfinding
                 </button>
               )}
-              
+
               {gameState === 'playing' && (
                 <>
                   {path.length === 0 ? (
@@ -521,7 +543,7 @@ const SmartGPSChallenge = () => {
                   )}
                 </>
               )}
-              
+
               {gameState === 'completed' && (
                 <button
                   onClick={resetGame}
@@ -531,7 +553,7 @@ const SmartGPSChallenge = () => {
                   New Game
                 </button>
               )}
-              
+
               <button
                 onClick={() => setShowAlgorithmInfo(!showAlgorithmInfo)}
                 className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors flex items-center gap-2"
@@ -539,7 +561,7 @@ const SmartGPSChallenge = () => {
                 <Info className="w-4 h-4" />
                 {showAlgorithmInfo ? 'Hide' : 'Show'} Algorithm Info
               </button>
-              
+
               <button
                 onClick={() => setShowInstructions(true)}
                 className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors"
@@ -555,7 +577,7 @@ const SmartGPSChallenge = () => {
           {/* Game Status */}
           <div className="bg-white rounded-lg shadow-lg p-4">
             <h3 className="text-lg font-semibold mb-2">Game Status</h3>
-                          <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>State:</span>
                 <span className="font-medium capitalize">{gameState}</span>
@@ -638,7 +660,7 @@ const SmartGPSChallenge = () => {
                 <p><strong>g(n):</strong> Actual cost from start</p>
                 <p><strong>h(n):</strong> Heuristic estimate to goal</p>
                 <p><strong>f(n):</strong> Total estimated cost</p>
-                
+
                 {pathSteps.length > 0 && (
                   <div className="mt-3">
                     <h4 className="font-semibold">Path Steps:</h4>

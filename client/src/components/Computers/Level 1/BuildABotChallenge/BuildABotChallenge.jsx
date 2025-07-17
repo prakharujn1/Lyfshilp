@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const randomBotDesigns = [
   { name: 'Round Head Bot', icon: '🤖' },
   { name: 'UFO Drone Bot', icon: '🛸' },
@@ -47,6 +47,11 @@ const BuildABotChallenge = () => {
     power: '',
     design: null,
   });
+
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleDesignSelect = (design) => {
     setFormData(prev => ({ ...prev, design }));
@@ -95,10 +100,21 @@ const BuildABotChallenge = () => {
   };
 
   useEffect(() => {
-    if (step === 3) {
-      completeComputersChallenge(0, 2); // Challenge 2, Task 1 complete
-    }
-  }, [step]);
+  if (step === 3) {
+    completeComputersChallenge(0, 2); // Challenge 2, Task 1 complete
+
+    const endTime = Date.now();
+    const totalSeconds = Math.round((endTime - startTime) / 1000);
+   
+
+    updateComputersPerformance({
+      avgResponseTimeSec: totalSeconds / 6, // 6 fields filled
+      studyTimeMinutes: Math.ceil(totalSeconds / 60),
+      completed: true,
+    });
+  }
+}, [step]);
+
 
   return (
     <div className="p-6 bg-gradient-to-br from-yellow-100 to-pink-100 min-h-screen flex flex-col items-center">

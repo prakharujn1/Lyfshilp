@@ -4,7 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 import { ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 // Expanded THEN vs NOW pairs
 const initialThen = [
   { id: 1, text: "Used to give up easily", matched: false },
@@ -31,6 +31,22 @@ export default function IdentityShifter() {
   const [thenList, setThenList] = useState(initialThen);
   const [draggingId, setDraggingId] = useState(null);
   const [celebrate, setCelebrate] = useState(false);
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (celebrate) {
+      const endTime = Date.now();
+      const durationSec = Math.round((endTime - startTime) / 1000);
+
+      updateSELPerformance({
+        avgResponseTimeSec: durationSec,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: true,
+      });
+    }
+  }, [celebrate]);
 
   const onDragStart = (id) => setDraggingId(id);
 
@@ -44,7 +60,7 @@ export default function IdentityShifter() {
       if (updated.every((item) => item.matched)) {
         setTimeout(() => {
           setCelebrate(true);
-          completeSELChallenge(2,0); // ✅ Mark as complete
+          completeSELChallenge(2, 0); // ✅ Mark as complete
         }, 600);
       }
     } else {

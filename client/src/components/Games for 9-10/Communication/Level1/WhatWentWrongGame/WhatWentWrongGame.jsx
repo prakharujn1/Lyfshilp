@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const scenariosData = [
   {
     id: 1,
@@ -29,16 +31,35 @@ const WhatWentWrongGame = () => {
   const [selections, setSelections] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [challengeCompleted, setChallengeCompleted] = useState(false);
-
+  //for performance
   useEffect(() => {
     if (showResult && !challengeCompleted) {
-      const allCorrect = scenariosData.every((s) => isCorrect(s.id));
+      const total = scenariosData.length;
+      let correctCount = 0;
+
+      scenariosData.forEach((s) => {
+        if (isCorrect(s.id)) correctCount++;
+      });
+
+      const allCorrect = correctCount === total;
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+      updateCommunicationPerformance({
+        score: Math.round(correctCount * (10 / total)), // Score scaled to 10
+        accuracy: Math.round((correctCount / total) * 100),
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: allCorrect,
+      });
+
       if (allCorrect) {
-        completeCommunicationChallenge(0,2);
+        completeCommunicationChallenge(0, 2);
         setChallengeCompleted(true);
       }
     }
   }, [showResult]);
+
+
 
 
   const handleWordClick = (scenarioId, word) => {

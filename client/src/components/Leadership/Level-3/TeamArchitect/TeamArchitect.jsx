@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const characters = [
   { name: "Aisha", skill: "good speaker", correctRole: "Team Spokesperson" },
@@ -73,12 +74,28 @@ const TeamArchitect = () => {
   const [score, setScore] = useState(0);
   const [mcqIndex, setMcqIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-    if (screen === "result" && score >= 5) {
-      completeLeadershipChallenge(2, 1); // Replace with correct challenge/task IDs
+  if (screen === "result" ) {
+    const totalTimeMs = Date.now() - startTime;
+
+    updateLeadershipPerformance({
+      score: Math.round((score / 6) * 100),
+      accuracy: parseFloat(((score / 6) * 100).toFixed(2)),
+      avgResponseTimeSec: parseFloat((totalTimeMs / 6000).toFixed(2)),
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: score >= 5,
+    });
+
+    if (score >= 5) {
+      completeLeadershipChallenge(2, 1); // Update as needed
     }
-  }, [screen, score]);
+  }
+}, [screen, score]);
+
 
   const handleDrop = (characterName) => {
     if (draggingRole) {

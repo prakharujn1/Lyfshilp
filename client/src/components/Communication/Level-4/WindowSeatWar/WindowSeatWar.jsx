@@ -68,8 +68,21 @@ const WindowSeatWarGame = () => {
   const [gifUrl, setGifUrl] = useState("");
 
   //for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  const handleGameFinish = () => {
+    const endTime = Date.now();
+    const durationSec = (endTime - startTime) / 1000;
+
+    updateCommunicationPerformance({
+      score: 10,
+      accuracy: 100,
+      studyTimeMinutes: durationSec / 60,
+      completed: true,
+    });
+  };
+
 
   const handleDrop = (statement) => {
     if (dropped.find((item) => item.id === statement.id)) return;
@@ -97,7 +110,8 @@ const [startTime] = useState(Date.now());
           "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmFiN2pmYXQwMnlhcWlyNjI1d2cxbzZvZHlkb2R5dmRzZ2x1NDNwayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H1NIKdfygAAMruqArl/200.webp"
         );
         setCompleted(true);
-        completeCommunicationChallenge(3,0);
+        completeCommunicationChallenge(3, 0);
+        handleGameFinish(); // ✅ Log performance data
       }
     } else {
       setMessage("❌ You're a conflict creator, not a resolver.");
@@ -129,8 +143,8 @@ const [startTime] = useState(Date.now());
           >
             <div
               className={`max-w-sm px-4 py-3 rounded-xl shadow ${msg.align === "right"
-                  ? "bg-blue-200 text-right"
-                  : "bg-pink-200 text-left"
+                ? "bg-blue-200 text-right"
+                : "bg-pink-200 text-left"
                 }`}
             >
               <div className="text-sm font-semibold mb-1">

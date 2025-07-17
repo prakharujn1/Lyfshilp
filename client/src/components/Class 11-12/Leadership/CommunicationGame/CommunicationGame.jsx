@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, ShieldCheck } from "lucide-react";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -52,12 +53,26 @@ export default function CommunicationCombatZone() {
   const [responses, setResponses] = useState({});
   const [feedback, setFeedback] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (feedback) {
-      completeLeadershipChallenge(0,2);
+      completeLeadershipChallenge(0, 2);
+    }
+
+    if (feedback) {
+      const totalTimeMs = Date.now() - startTime;
+      updateLeadershipPerformance({
+
+        avgResponseTimeSec: parseFloat((totalTimeMs / (conversations.length * 1000)).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: true,
+      });
+
     }
   }, [feedback]);
+
 
   const handleSubmit = async () => {
     setLoading(true);

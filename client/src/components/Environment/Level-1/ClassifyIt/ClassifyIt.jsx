@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const data = [
   {
@@ -80,9 +81,13 @@ const ClassifyIt = () => {
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     if (showResult && score >= 16) {
-      completeEnvirnomentChallenge(0,0); // Mark Challenge 1, Task 1 as completed
+      completeEnvirnomentChallenge(0, 0); // Mark Challenge 1, Task 1 as completed
     }
   }, [showResult, score]);
 
@@ -108,11 +113,27 @@ const ClassifyIt = () => {
   };
 
   const handleAnswer = (selected) => {
-    const correct = data[currentIndex].answer === selected;
-    if (correct) setScore((prev) => prev + 2);
+    const isCorrect = data[currentIndex].answer === selected;
+    const newScore = isCorrect ? score + 2 : score;
+
     if (currentIndex < data.length - 1) {
+      setScore(newScore);
       setCurrentIndex((prev) => prev + 1);
     } else {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / data.length;
+      const scaledScore = Number(((newScore / 24) * 10).toFixed(2));
+
+      updateEnvirnomentPerformance({
+        score: scaledScore,
+        accuracy: (newScore / 24) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: true,
+      });
+
+      setScore(newScore);
       setShowResult(true);
     }
   };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const EQTracker = () => {
   const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
@@ -14,12 +15,37 @@ const EQTracker = () => {
   const [quizAnswer, setQuizAnswer] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  useEffect(() => {
+    if (step === 3 && isSuccess) {
+      completeLeadershipChallenge(1, 1);
+    }
+  }, [step, isSuccess]);
 
   useEffect(() => {
-  if (step === 3 && isSuccess) {
-    completeLeadershipChallenge(1,1);
-  }
-}, [step, isSuccess]);
+    if (step !== 3) return;
+
+    const totalTimeMs = Date.now() - startTime;
+
+    const totalScore = 3; // moods + reflection + quiz attempt
+    let earned = 0;
+    if (moods.every((m) => m)) earned += 1;
+    if (reflection.emotion && reflection.response && reflection.improvement) earned += 1;
+    if (quizAnswer) earned += 1;
+
+    const scaledScore = Math.round((earned / totalScore) * 10);
+
+    updateLeadershipPerformance({
+      score: scaledScore,
+      accuracy: scaledScore * 10,
+      avgResponseTimeSec: parseFloat((totalTimeMs / 3000).toFixed(2)), // 3 tasks
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: isSuccess, // only true if correct answer was chosen
+    });
+  }, [step]);
+
 
   const handleMoodChange = (index, value) => {
     const updated = [...moods];

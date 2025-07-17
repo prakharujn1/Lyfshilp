@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const decisionTreeSteps = [
     {
@@ -57,6 +58,10 @@ export default function DigitalDilemmaGame() {
     const [success, setSuccess] = useState(false);
     const [timeLeft, setTimeLeft] = useState(420); // 7 minutes
 
+    //for performance
+const { updateCommunicationPerformance } = usePerformance();
+const [startTime] = useState(Date.now());
+
     useEffect(() => {
         if (!started || gameOver) return;
         if (timeLeft === 0) {
@@ -101,22 +106,37 @@ export default function DigitalDilemmaGame() {
     };
 
     const evaluateGame = () => {
-        const correctDecisionCount = selectedAnswers.reduce(
-            (count, answer, idx) => (answer === decisionTreeSteps[idx].correct ? count + 1 : count),
-            0
-        );
-        const correctMatches = Object.entries(matches).filter(([principle, example]) =>
-            etiquetteMatches.find((item) => item.principle === principle && item.example === example)
-        ).length === 3;
+    const correctDecisionCount = selectedAnswers.reduce(
+        (count, answer, idx) => (answer === decisionTreeSteps[idx].correct ? count + 1 : count),
+        0
+    );
 
-        const didSucceed = correctDecisionCount >= 2 && correctMatches;
-        setSuccess(didSucceed);
-        setGameOver(true);
+    const correctMatches = Object.entries(matches).filter(([principle, example]) =>
+        etiquetteMatches.find((item) => item.principle === principle && item.example === example)
+    ).length === 3;
 
-        if (didSucceed) {
-            completeCommunicationChallenge(1,1); // ✅ Mark challenge as complete
-        }
-    };
+    const didSucceed = correctDecisionCount >= 2 && correctMatches;
+    setSuccess(didSucceed);
+    setGameOver(true);
+
+    const endTime = Date.now();
+    const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+    const accuracy = Math.round((correctDecisionCount / decisionTreeSteps.length) * 100);
+    const score = didSucceed ? 10 : 5;
+
+    if (didSucceed) {
+        completeCommunicationChallenge(1, 1);
+    }
+
+    // ✅ Update performance
+    updateCommunicationPerformance({
+        completed: didSucceed,
+        studyTimeMinutes,
+        score,
+        accuracy,
+    });
+};
+
 
 
     const handleRestart = () => {

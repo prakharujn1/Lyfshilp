@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const introGif =
   "https://media.tenor.com/ykI_6DBK2yYAAAA1/benjammins-you-go-girl.webp";
@@ -51,12 +52,29 @@ export default function LeaderTypeMatch() {
   const [dragData, setDragData] = useState([]);
   const [mcqAnswers, setMcqAnswers] = useState({});
   const [score, setScore] = useState(0);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-  if (stage === "result" && score >= 5) {
-    completeLeadershipChallenge(0,0); // Update with actual challengeId and taskId
-  }
-}, [stage, score]);
+    const totalTimeMs = Date.now() - startTime;
+
+    if (stage === "result") {
+      updateLeadershipPerformance({
+        score: Math.round((score / 6) * 10),
+        accuracy: parseFloat(((score / 6) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / 6 / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: score >= 5,
+      });
+
+      if (score >= 5) {
+        completeLeadershipChallenge(0, 0); // Use your real IDs
+      }
+
+
+    }
+  }, [stage, score]);
+
 
   const startGame = () => {
     setStage("drag");

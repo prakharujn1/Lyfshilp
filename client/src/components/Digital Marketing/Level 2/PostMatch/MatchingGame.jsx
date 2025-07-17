@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { easeInOut, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const brands = [
   { id: "b1", name: "Nike" },
@@ -94,6 +95,9 @@ export default function MatchingGame() {
   const [remainingOptions, setRemainingOptions] = useState(availOptions);
   const [matches, setMatches] = useState([]);
   const navigate = useNavigate();
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleOptionSelect = (option) => {
     if (!selectedBrand) return;
@@ -134,20 +138,33 @@ export default function MatchingGame() {
   }, []);
 
   useEffect(() => {
-    if (remainingBrands?.length > 0) {
-      return;
-    }
+    if (remainingBrands?.length > 0) return;
 
     setLoading(true);
     const timer = setTimeout(() => {
+      const total = matches.length;
+      const correct = matches.filter((m) => m.isCorrect).length;
+      const scaledScore = Math.round((correct / total) * 10); // scale out of 10
+      const accuracy = Math.round((correct / total) * 100);
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+      updateDMPerformance({
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: true,
+      });
+
       navigate("/matching-game-result", {
-        state: { score: matches.filter((m) => m.isCorrect).length },
+        state: { score: scaledScore },
       });
       setLoading(false);
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [remainingBrands, navigate]);
+  }, [remainingBrands]);
+
 
   if (loadingGame) {
     return (
@@ -193,11 +210,10 @@ export default function MatchingGame() {
                   key={brand.id}
                   onClick={() => setSelectedBrand(brand)}
                   className={`floating-card ${floatClass} cursor-pointer p-3 md:p-4 rounded-xl mb-4 shadow-md text-center text-sm md:text-base font-medium
-                ${
-                  selectedBrand?.id === brand.id
-                    ? "bg-blue-300 text-white"
-                    : "bg-blue-100 hover:bg-blue-200"
-                }`}
+                ${selectedBrand?.id === brand.id
+                      ? "bg-blue-300 text-white"
+                      : "bg-blue-100 hover:bg-blue-200"
+                    }`}
                 >
                   {brand.name}
                 </div>

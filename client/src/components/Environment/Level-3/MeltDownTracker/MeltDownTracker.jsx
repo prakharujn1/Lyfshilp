@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const data = [
   {
@@ -78,6 +79,9 @@ const MeltdownTracker = () => {
   const [selected, setSelected] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(120);
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if ((timeLeft <= 0 || currentIndex >= data.length) && score >= 8) {
@@ -91,6 +95,24 @@ const MeltdownTracker = () => {
     const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearTimeout(timer);
   }, [timeLeft, currentIndex]);
+
+  useEffect(() => {
+    if (timeLeft <= 0 || currentIndex >= data.length) {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / data.length;
+      const scaledScore = Number(((score / (data.length * 2)) * 10).toFixed(2));
+
+      updateEnvirnomentPerformance({
+        score: scaledScore,
+        accuracy: (score / (data.length * 2)) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: score >= 8,
+      });
+    }
+  }, [timeLeft, currentIndex]);
+
 
   const handleSubmit = () => {
     if (submitted) return;
@@ -186,8 +208,8 @@ const MeltdownTracker = () => {
             key={opt}
             onClick={() => setSelected(opt)}
             className={`px-4 py-2 rounded-xl border text-left ${selected === opt
-                ? "bg-blue-200 border-blue-600"
-                : "bg-white border-gray-300"
+              ? "bg-blue-200 border-blue-600"
+              : "bg-white border-gray-300"
               }`}
           >
             {opt}

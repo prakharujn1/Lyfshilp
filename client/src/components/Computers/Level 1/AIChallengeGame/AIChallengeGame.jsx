@@ -6,7 +6,8 @@ import Badge from './Badge';
 import toast from 'react-hot-toast';
 import ReflectionQuestions from './ReflectionQuestions';
 import { useComputers } from "@/contexts/ComputersContext";
- 
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const allDevices = [
   // Home (AI)
   { id: 1, name: 'Smartphone', place: 'Home', smartHow: 'Voice assistant, facial recognition', level: 3 },
@@ -40,6 +41,10 @@ export default function AIChallengeGame() {
   const [chartItems, setChartItems] = useState([]);
   const [showBadge, setShowBadge] = useState(false);
 
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const handleDrop = (deviceId) => {
     const device = allDevices.find(d => d.id === parseInt(deviceId));
     if (!device) return;
@@ -64,10 +69,21 @@ export default function AIChallengeGame() {
   useEffect(() => {
     if (chartItems.length === 5) {
       setShowBadge(true);
-      completeComputersChallenge(0,0);
+      completeComputersChallenge(0, 0);
+
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+
+      updateComputersPerformance({
+        avgResponseTimeSec: totalSeconds / 5,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: true,
+      });
+
       setTimeout(() => setShowBadge(false), 4000);
     }
   }, [chartItems]);
+
 
   const currentDevices = allDevices.filter(d => d.place === room);
 

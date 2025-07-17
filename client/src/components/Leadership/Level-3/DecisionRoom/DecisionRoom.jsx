@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const scenarios = [
   {
@@ -44,12 +45,28 @@ const DecisionRoom = () => {
   const [puzzleProgress, setPuzzleProgress] = useState([]);
   const [puzzleSelected, setPuzzleSelected] = useState(null);
   const [gameOver, setGameOver] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-  if (gameOver && score === 6) {
-    completeLeadershipChallenge(2, 0); // Update challengeId/taskId if needed
-  }
-}, [gameOver, score]);
+    if (gameOver) {
+      const totalTimeMs = Date.now() - startTime;
+
+      updateLeadershipPerformance({
+        score: Math.round((score / 6) * 100),
+        accuracy: parseFloat(((score / 6) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / 6000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: score === 6,
+      });
+
+      if (score === 6) {
+        completeLeadershipChallenge(2, 0);
+      }
+
+    }
+  }, [gameOver, score]);
+
 
   const handleOptionClick = (isCorrect, i) => {
     setSelected(i);

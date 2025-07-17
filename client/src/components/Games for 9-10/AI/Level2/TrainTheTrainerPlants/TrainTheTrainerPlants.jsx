@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const plants = [
     {
         id: "rose",
@@ -36,11 +37,39 @@ export default function TrainAIModelGame() {
     const [showResults, setShowResults] = useState(false);
     const dropZoneRef = useRef(null);
 
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
     useEffect(() => {
         if (showResults) {
-            completeComputersChallenge(1,0);
+            completeComputersChallenge(1, 0);
+
+            const endTime = Date.now();
+            const total = testImages.length;
+            let correct = 0;
+
+            for (const test of testImages) {
+                if (predictPlant(test.actual) === test.actual) {
+                    correct++;
+                }
+            }
+
+            const score = Math.round((correct / total) * 10);
+            const accuracy = Math.round((correct / total) * 100);
+            const avgResponseTimeSec = ((endTime - startTime) / 1000) / total;
+            const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+            updateComputersPerformance({
+                score,
+                accuracy,
+                avgResponseTimeSec,
+                studyTimeMinutes,
+                completed: true,
+            });
         }
     }, [showResults]);
+
 
     const handleTrainingChoice = (plantId, quality) => {
         setTrainingData((prev) => ({ ...prev, [plantId]: quality }));

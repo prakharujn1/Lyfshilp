@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Poster from './Poster';
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const loopAnim = {
   animate: { y: [0, -8, 0] },
@@ -47,6 +48,10 @@ export default function FutureAIArchitect() {
   const { completeComputersChallenge } = useComputers();
   const [challengeCompleted, setChallengeCompleted] = useState(false);
 
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const [formData, setFormData] = useState({
     problem: '',
     name: '',
@@ -70,15 +75,28 @@ export default function FutureAIArchitect() {
   };
 
   const handleSubmit = () => {
-    if (Object.values(formData).every((v) => v !== '')) {
-      setSubmitted(true);
-      if (!challengeCompleted) {
-        completeComputersChallenge(2,1);
-        setChallengeCompleted(true);
-      }
-    }
-  };
+  if (Object.values(formData).every((v) => v !== '')) {
+    setSubmitted(true);
 
+    // ✅ Challenge completion only once
+    if (!challengeCompleted) {
+      completeComputersChallenge(2, 1);
+      setChallengeCompleted(true);
+    }
+
+    // ✅ Always update performance
+    const endTime = Date.now();
+    const totalPrompts = 6; // 6 fields selected
+    const avgResponseTimeSec = ((endTime - startTime) / 1000) / totalPrompts;
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+    updateComputersPerformance({
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
+  }
+};
 
   const renderOptions = (fieldKey) => (
     <motion.div className="flex gap-4 flex-wrap justify-center">

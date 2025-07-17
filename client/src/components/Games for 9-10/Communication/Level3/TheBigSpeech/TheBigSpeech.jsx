@@ -4,6 +4,7 @@ import Meyda from "meyda";
 import axios from "axios";
 import SpeakingAnimation from "@/components/SpeakingAnimation";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 export default function TheBigSpeech() {
@@ -20,6 +21,9 @@ export default function TheBigSpeech() {
   const [score2, setScore2] = useState(0);
   const [totalScore, setTotalScore] = useState(null);
   const [loading, setLoading] = useState(false);
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const videoRef = useRef();
   const audioCtxRef = useRef(null);
@@ -27,10 +31,10 @@ export default function TheBigSpeech() {
   const analyzerRef = useRef(null);
 
   useEffect(() => {
-  if (totalScore >= 7) {
-    completeCommunicationChallenge(2,1);
-  }
-}, [totalScore]);
+    if (totalScore >= 7) {
+      completeCommunicationChallenge(2, 1);
+    }
+  }, [totalScore]);
 
   // Step 1: Text Analysis (Gemini)
   const handleTextSubmit = async () => {
@@ -145,10 +149,21 @@ Give 2–3 specific improvement tips (max 20 words each).Respond in JSON like: {
   };
 
   const finalize = () => {
-    const total = feedback1.structure + feedback1.clarity + feedback1.tone + score2;
-    setTotalScore(total);
-    setStep(4);
-  };
+  const total = feedback1.structure + feedback1.clarity + feedback1.tone + score2;
+  setTotalScore(total);
+  setStep(4);
+
+  const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+  updateCommunicationPerformance({
+    score: total,
+    accuracy: (total / 10) * 100,
+    avgResponseTimeSec: timeTakenSec,
+    studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+    completed: total >= 7, // Mark completed if good score
+  });
+};
+
 
   const restart = () => {
     setCause("");

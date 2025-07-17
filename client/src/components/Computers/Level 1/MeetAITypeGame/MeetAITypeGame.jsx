@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const aiTypes = [
   { id: 'rule', label: '📏Rule-based AI' },
   { id: 'learning', label: '📚Learning AI' },
@@ -32,6 +32,12 @@ export default function MeetAITypeGame() {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+
   const handleDrop = (e, typeId) => {
     e.preventDefault();
     const exampleId = e.dataTransfer.getData('text/plain');
@@ -56,10 +62,25 @@ export default function MeetAITypeGame() {
     setSubmitted(true);
     toast.success(`🎯 You got ${correct} out of ${examples.length} correct!`);
 
+    const endTime = Date.now();
+    const totalSeconds = Math.round((endTime - startTime) / 1000);
+    const accuracy = (correct / examples.length) * 100;
+    const avgResponseTimeSec = totalSeconds / examples.length;
+    const studyTimeMinutes = Math.ceil(totalSeconds / 60);
+
+    updateComputersPerformance({
+      score: (correct / examples.length) * 10,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: correct === examples.length,
+    });
+
     if (correct === examples.length) {
-      completeComputersChallenge(0, 1);
+      completeComputersChallenge(0, 1); // Challenge 1, Task 2 complete
     }
   };
+
 
 
   const handleReset = () => {
@@ -159,8 +180,8 @@ export default function MeetAITypeGame() {
           disabled={!isFormComplete()}
           onClick={handleSubmit}
           className={`block mx-auto px-6 py-2 rounded-full font-bold transition ${isFormComplete()
-              ? 'bg-green-600 text-white hover:bg-green-700'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            ? 'bg-green-600 text-white hover:bg-green-700'
+            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           whileTap={{ scale: 0.95 }}
           animate={{ rotate: isFormComplete() ? [0, 1, -1, 0] : 0 }}

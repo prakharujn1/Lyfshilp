@@ -13,6 +13,7 @@ import {
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const BrandVoiceGame = () => {
   const [currentStep, setCurrentStep] = useState("intro");
@@ -24,7 +25,9 @@ const BrandVoiceGame = () => {
   const [totalScore, setTotalScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [animations, setAnimations] = useState({});
-
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const platforms = [
     {
       id: "instagram",
@@ -199,11 +202,23 @@ const BrandVoiceGame = () => {
     setTotalScore(final);
     setShowResults(true);
     setCurrentStep("results");
-    const passed = final >= 7;
 
-    console.log("Hi");
+    const passed = final >= 7;
+    const endTime = Date.now();
+    const durationInMinutes = Math.floor((endTime - startTime) / 60000); // rounded study time
+    const avgResponseTimeSec = Math.round((endTime - startTime) / 1000 / 4); // assume 3 responses + 1 caption
+
+    // ✅ Performance tracking
+    updateDMPerformance({
+      score: Math.round((final / 23) * 10), 
+      accuracy: ((final / 23) * 100).toFixed(2), // total max score = 15 + 3 + 5 = 23
+      avgResponseTimeSec,
+      studyTimeMinutes: durationInMinutes,
+      completed: true,
+    });
+
+    // Navigate to result page
     setTimeout(() => {
-      console.log("Hi 2");
       navigate("/brand-voice-result", {
         state: {
           finalScore: final,
@@ -217,6 +232,7 @@ const BrandVoiceGame = () => {
       });
     }, 500);
   };
+
 
   const resetGame = () => {
     setCurrentStep("intro");
@@ -384,13 +400,11 @@ const BrandVoiceGame = () => {
                 return (
                   <div key={platform.id} className="relative">
                     <div
-                      className={`${
-                        platform.bgColor
-                      } rounded-3xl p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl ${
-                        selectedPlatform === platform.id
+                      className={`${platform.bgColor
+                        } rounded-3xl p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl ${selectedPlatform === platform.id
                           ? "ring-4 ring-white"
                           : ""
-                      }`}
+                        }`}
                       onClick={() => setSelectedPlatform(platform.id)}
                     >
                       <div className="flex items-center justify-center mb-4">
@@ -516,13 +530,11 @@ const BrandVoiceGame = () => {
                   {vibes.map((vibe) => (
                     <div
                       key={vibe.id}
-                      className={`bg-gradient-to-r ${
-                        vibe.color
-                      } rounded-2xl p-4 cursor-pointer transform hover:scale-105 transition-all duration-300 ${
-                        selectedVibe === vibe.id
+                      className={`bg-gradient-to-r ${vibe.color
+                        } rounded-2xl p-4 cursor-pointer transform hover:scale-105 transition-all duration-300 ${selectedVibe === vibe.id
                           ? "ring-4 ring-white shadow-2xl"
                           : "shadow-lg"
-                      }`}
+                        }`}
                       onClick={() => setSelectedVibe(vibe.id)}
                     >
                       <div className="text-center text-white">
@@ -548,19 +560,18 @@ const BrandVoiceGame = () => {
                 />
                 <div className="mt-2 flex justify-between text-sm">
                   <span
-                    className={`${
-                      caption.length < 20
-                        ? "text-red-500"
-                        : caption.length > 150
+                    className={`${caption.length < 20
+                      ? "text-red-500"
+                      : caption.length > 150
                         ? "text-red-500"
                         : "text-green-600"
-                    }`}
+                      }`}
                   >
                     {caption.length < 20
                       ? `Need ${20 - caption.length} more characters`
                       : caption.length > 150
-                      ? `${caption.length - 150} characters over limit`
-                      : "Perfect length!"}
+                        ? `${caption.length - 150} characters over limit`
+                        : "Perfect length!"}
                   </span>
                   <span className="text-gray-500">
                     {caption.length}/150 characters

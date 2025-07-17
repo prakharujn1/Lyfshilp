@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
 
@@ -47,6 +47,9 @@ const PersonaBuilderGame = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const ageOptions = ["13-15", "16-18", "19-22", "23-25", "26-30", "31-35"];
 
@@ -158,10 +161,27 @@ Form data provided by user : ${JSON.stringify(formData)}
       // console.log(aiReply);
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       // console.log(parsed);
-      setResult(parsed);
+
+
+
       if (parsed) {
-        completeDMChallenge(0,1);
+        const scaledScore = parsed.score * 2; // Convert 1–5 to 2–10 scale
+        const endTime = Date.now();
+        const timeSpentSec = Math.floor((endTime - startTime) / 1000);
+
+        updateDMPerformance({
+          score: scaledScore,
+          accuracy: (parsed.score / 5) * 100, // Accuracy as %
+          avgResponseTimeSec: timeSpentSec, // or timeSpentSec / 1 if 1 input = 1 question
+          studyTimeMinutes: Math.ceil(timeSpentSec / 60),
+          completed: true,
+        });
+
+        completeDMChallenge(0, 1); // already present, keep it
       }
+
+      setResult(parsed);
+
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
@@ -311,8 +331,8 @@ Form data provided by user : ${JSON.stringify(formData)}
                     key={interest.id}
                     onClick={() => handleInterestToggle(interest.id)}
                     className={`p-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${formData.interests.includes(interest.id)
-                        ? "bg-gradient-to-r from-green-400 to-teal-500 text-white shadow-lg"
-                        : "bg-white border-2 border-green-200 text-teal-700 hover:bg-green-100"
+                      ? "bg-gradient-to-r from-green-400 to-teal-500 text-white shadow-lg"
+                      : "bg-white border-2 border-green-200 text-teal-700 hover:bg-green-100"
                       }`}
                   >
                     <div className="text-2xl mb-1">{interest.emoji}</div>
@@ -416,8 +436,8 @@ Form data provided by user : ${JSON.stringify(formData)}
                     <Star
                       key={star}
                       className={`w-10 h-10 ${star <= result?.score
-                          ? "text-yellow-300 drop-shadow-[0_0_5px_gold]"
-                          : "text-gray-300"
+                        ? "text-yellow-300 drop-shadow-[0_0_5px_gold]"
+                        : "text-gray-300"
                         }`}
                     />
                   ))}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from "framer-motion";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 // Sample animal data (use your real ones)
 
 const animals = [
@@ -35,6 +35,10 @@ export default function TrainTheBrainGame() {
   const [answers, setAnswers] = useState({ q1: '', q2: '', q3: '' });
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
 
 
@@ -258,14 +262,24 @@ export default function TrainTheBrainGame() {
               />
             </div>
           </div>
-
           <button
             disabled={!allQuestionsAnswered}
             onClick={() => {
               setShowCorrectAnswers(true);
               if (!challengeCompleted) {
-                completeComputersChallenge(1,0);
-                setChallengeCompleted(true); // prevent re-trigger
+                completeComputersChallenge(1, 0);
+                setChallengeCompleted(true);
+
+                // ⏱️ Performance Tracking
+                const endTime = Date.now();
+                const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+                const avgResponseTimeSec = ((endTime - startTime) / 1000) / 3;
+
+                updateComputersPerformance({
+                  avgResponseTimeSec,
+                  studyTimeMinutes,
+                  completed: true,
+                });
               }
             }}
             className={`mt-6 px-6 py-2 font-bold rounded-full text-white transition ${allQuestionsAnswered && !challengeCompleted
@@ -275,7 +289,6 @@ export default function TrainTheBrainGame() {
           >
             ✅ Submit Answers
           </button>
-
         </div>
       )}
 

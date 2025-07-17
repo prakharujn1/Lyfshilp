@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const BoostOrPostGame = () => {
   const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro"); // intro, game, loading, result
@@ -20,6 +20,9 @@ const BoostOrPostGame = () => {
   const [showResult, setShowResult] = useState(false);
   const [stars, setStars] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   // Game data
   const gameData = {
@@ -94,9 +97,23 @@ const BoostOrPostGame = () => {
     setLoadingProgress(0);
 
     if (option.isCorrect) {
-      completeDMChallenge(2,0); // ✅ Call when correct choice is made
+      completeDMChallenge(2, 0); // full completion only on correct
     }
+
+    const endTime = Date.now();
+    const timeTakenSec = Math.round((endTime - startTime) / 1000);
+    const score = option.stars;
+    const accuracy = option.isCorrect ? 100 : 33;
+
+    updateDMPerformance({
+      score,
+      accuracy,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.round(timeTakenSec / 60),
+      completed: option.isCorrect, // ✅ full only if correct
+    });
   };
+
 
   const resetGame = () => {
     setCurrentPage("intro");

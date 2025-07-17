@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Heart, Star, Zap, Trophy, RotateCcw, Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 // Confetti component
 const Confetti = ({ isActive }) => {
   const canvasRef = useRef(null);
@@ -107,6 +107,31 @@ const CatchYourRightsGame = () => {
   const gameAreaRef = useRef(null);
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
   const [isTabVisible, setIsTabVisible] = useState(true);
+
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (gameState === "completed" || gameState === "gameOver") {
+      const endTime = Date.now();
+      const timeSpentMillis = endTime - startTime;
+      const studyTimeMinutes = Math.round(timeSpentMillis / 60000);
+      const totalPlayed = level === 1 ? 10 : 15;
+      const avgResponseTimeSec =
+        correctlySorted > 0 ? timeSpentMillis / correctlySorted / 1000 : 0;
+
+      const scaledScore = Math.min(10, parseFloat(((score / (totalPlayed * 3)) * 10).toFixed(2)));
+
+      updateLawPerformance({
+        score: scaledScore,
+        avgResponseTimeSec: parseFloat(avgResponseTimeSec.toFixed(2)),
+        studyTimeMinutes,
+        completed: gameState === "completed",
+      });
+    }
+  }, [gameState]);
+
 
   const statements = {
     rights: [
@@ -367,7 +392,7 @@ const CatchYourRightsGame = () => {
     const targetCount = level === 1 ? 10 : 15;
     if (isCorrect && correctlySorted + 1 >= targetCount) {
       setGameState("completed");
-        completeLawChallenge(1,1);
+      completeLawChallenge(1, 1);
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 5000);
     }

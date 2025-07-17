@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const ethicsScenarios = [
   {
@@ -45,6 +46,9 @@ export default function PitchArenaGame() {
   const [loading, setLoading] = useState(false);
   const [review, setReview] = useState(null);
   const [ethicsAnswers, setEthicsAnswers] = useState({});
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const steps = [
     { label: " Problem", placeholder: "What problem are you solving?" },
@@ -126,8 +130,21 @@ ${growthText}
 
       if (parsed) {
         setReview(parsed);
-        completeEntreprenerushipChallenge(0,2); // ✅ Call it here!
-      } else {
+        completeEntreprenerushipChallenge(0, 2);
+
+        // ⏱️ Calculate metrics
+        const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+        const score = (parsed.Clarity + parsed.Originality + parsed.Impact + parsed.Design + parsed.Feasibility) * 2;
+        const studyTimeMinutes = Math.ceil(timeTakenSec / 60);
+
+        updateEntreprenerushipPerformance({
+          score,
+          avgResponseTimeSec: timeTakenSec,
+          studyTimeMinutes,
+          completed: true
+        });
+      }
+      else {
         setReview({ Feedback: "⚠️ Could not parse AI response." });
       }
     } catch (e) {

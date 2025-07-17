@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { useComputers } from "@/contexts/ComputersContext";
 import axios from "axios";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
 
@@ -87,11 +87,17 @@ const JusticeForAll = () => {
 
   const [showBadge, setShowBadge] = useState(null);
 
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+
   useEffect(() => {
-  if (showBadge === "ethics") {
-    completeComputersChallenge(2,0);
-  }
-}, [showBadge]);
+    if (showBadge === "ethics") {
+      completeComputersChallenge(2, 0);
+    }
+  }, [showBadge]);
 
 
   const updateChallenge1 = (id, field, value) => {
@@ -110,8 +116,19 @@ const JusticeForAll = () => {
     if (allFilled) {
       setChallenge1Data((prev) => ({ ...prev, completed: true }));
       setShowBadge("ethics");
+
+      const endTime = Date.now();
+      const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+      const avgResponseTimeSec = (endTime - startTime) / 1000;
+
+      updateComputersPerformance({
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+      });
     }
   };
+
 
   const validClick = () => {
     const allFilled = challenge1Data.scenarios.every(
@@ -246,11 +263,10 @@ const JusticeForAll = () => {
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setCurrentChallenge(1)}
-            className={`px-6 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
-              currentChallenge === 1
-                ? "bg-white text-purple-600 shadow-lg"
-                : "bg-white/20 text-white hover:bg-white/30"
-            }`}
+            className={`px-6 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${currentChallenge === 1
+              ? "bg-white text-purple-600 shadow-lg"
+              : "bg-white/20 text-white hover:bg-white/30"
+              }`}
           >
             ⚖️ Challenge : Justice for All
             {challenge1Data.completed && (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const scenarios = [
   {
     id: 1,
@@ -91,32 +91,52 @@ const ConflictChoices = () => {
   const [feedback, setFeedback] = useState(null);
   const [gif, setGif] = useState(null);
   const [answered, setAnswered] = useState(false);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  
   const startGame = () => {
     setStage("game");
   };
 
   const handleOptionClick = (isCalm, feedbackText) => {
-    setAnswered(true);
-    setGif(isCalm ? correctGif : wrongGif);
-    setFeedback(feedbackText);
-    if (isCalm) setScore((prev) => prev + 1);
+  setAnswered(true);
+  setGif(isCalm ? correctGif : wrongGif);
+  setFeedback(feedbackText);
+  if (isCalm) setScore((prev) => prev + 1);
 
-    setTimeout(() => {
-      setFeedback(null);
-      setGif(null);
-      setAnswered(false);
-      if (current < scenarios.length - 1) {
-        setCurrent((prev) => prev + 1);
-      } else {
-        setStage("result");
-        if (score + (isCalm ? 1 : 0) >= 2) {
-          confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
-          completeSELChallenge(1,1); // ✅ Mark this SEL challenge as complete
-        }
+  setTimeout(() => {
+    setFeedback(null);
+    setGif(null);
+    setAnswered(false);
+
+    const nextScore = score + (isCalm ? 1 : 0);
+    const endTime = Date.now();
+    const durationSec = Math.round((endTime - startTime) / 1000);
+    const accuracy = Math.round((nextScore / scenarios.length) * 100);
+    const avgResponseTimeSec = durationSec / scenarios.length;
+    const roundedScore = Math.round((nextScore / scenarios.length) * 10);
+
+    if (current < scenarios.length - 1) {
+      setCurrent((prev) => prev + 1);
+    } else {
+      setStage("result");
+
+      if (nextScore >= 2) {
+        confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+        completeSELChallenge(1, 1); // ✅ mark challenge complete
       }
-    }, 2000);
-  };
+
+      updateSELPerformance({
+        score: roundedScore, // score out of 10
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: nextScore >= 2,
+      });
+    }
+  }, 2000);
+};
 
   const resetGame = () => {
     setStage("game");

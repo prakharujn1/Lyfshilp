@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { ChromePicker } from "react-color";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 export default function BrandCreatorGame() {
   const { completeDMChallenge } = useDM();
@@ -16,6 +17,10 @@ export default function BrandCreatorGame() {
     emojiStyle: "",
     tone: "",
   });
+
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const checkSumbit = () => {
     let x = Object.entries(brand)
@@ -88,28 +93,29 @@ export default function BrandCreatorGame() {
     };
 
     const shoot = () => {
-      myConfetti({
-        ...defaults,
-        particleCount: 40,
-        scalar: 1.2,
-        shapes: ["star"],
-      });
-
-      myConfetti({
-        ...defaults,
-        particleCount: 30,
-        scalar: 0.75,
-        shapes: ["circle"],
-      });
+      myConfetti({ ...defaults, particleCount: 40, scalar: 1.2, shapes: ["star"] });
+      myConfetti({ ...defaults, particleCount: 30, scalar: 0.75, shapes: ["circle"] });
     };
+
+    // ✅ Mark challenge complete
     completeDMChallenge(0, 2);
 
+    // ✅ Update performance
+    const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+    updateDMPerformance({
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+      completed: true,
+    });
+
+    // 🎉 Confetti animation
     setTimeout(shoot, 0);
     setTimeout(shoot, 100);
     setTimeout(shoot, 300);
     setTimeout(shoot, 500);
     setTimeout(shoot, 700);
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-pink-100 p-4 md:p-8 font-sans">
@@ -248,9 +254,8 @@ export default function BrandCreatorGame() {
             {/* BUTTON */}
             <button
               disabled={checkSumbit()}
-              className={`w-full ${
-                checkSumbit() ? "cursor-not-allowed" : "cursor-pointer"
-              } bg-yellow-400 text-white font-bold py-3 rounded-xl hover:bg-yellow-500 transition`}
+              className={`w-full ${checkSumbit() ? "cursor-not-allowed" : "cursor-pointer"
+                } bg-yellow-400 text-white font-bold py-3 rounded-xl hover:bg-yellow-500 transition`}
               onClick={handleClick}
             >
               Finish & Celebrate!
@@ -260,10 +265,9 @@ export default function BrandCreatorGame() {
           {/* BRAND CARD */}
           <div
             ref={cardRef}
-            className={`mt-10 p-6 md:p-8 relative ${
-              !brand.color &&
+            className={`mt-10 p-6 md:p-8 relative ${!brand.color &&
               "bg-gradient-to-br from-yellow-200 via-pink-100 to-purple-200"
-            } rounded-3xl border-8 shadow-2xl transition-all duration-500 hover:shadow-pink-300`}
+              } rounded-3xl border-8 shadow-2xl transition-all duration-500 hover:shadow-pink-300`}
             style={{
               backgroundColor: brand.color,
               fontFamily: brand.font || "Comic Sans MS",
@@ -310,9 +314,8 @@ export default function BrandCreatorGame() {
                 <div>What we offer:</div>
                 <div>
                   <span
-                    className={`text-pink-600 ${
-                      brand.product && "bg-pink-100"
-                    } px-3 py-1 rounded-full wrap-break-word `}
+                    className={`text-pink-600 ${brand.product && "bg-pink-100"
+                      } px-3 py-1 rounded-full wrap-break-word `}
                   >
                     {brand.product}
                   </span>
@@ -323,9 +326,8 @@ export default function BrandCreatorGame() {
                 <div>We bring it for:</div>
                 <div>
                   <span
-                    className={`text-green-600 ${
-                      brand.audience && "bg-green-100"
-                    } px-3 py-1 rounded-full wrap-break-word`}
+                    className={`text-green-600 ${brand.audience && "bg-green-100"
+                      } px-3 py-1 rounded-full wrap-break-word`}
                   >
                     {brand.audience}
                   </span>
@@ -336,9 +338,8 @@ export default function BrandCreatorGame() {
                 <div>Tone:</div>
                 <div>
                   <span
-                    className={`text-purple-600 ${
-                      brand.tone && "bg-purple-100"
-                    } px-3 py-1 rounded-full wrap-break-word`}
+                    className={`text-purple-600 ${brand.tone && "bg-purple-100"
+                      } px-3 py-1 rounded-full wrap-break-word`}
                   >
                     {brand.tone}
                   </span>

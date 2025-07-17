@@ -4,7 +4,7 @@ import { CheckCircle } from "lucide-react";
 import { Sparkles, AlertTriangle, Bot } from "lucide-react";
 import Confetti from "react-confetti";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const scenarios = [
     {
@@ -57,11 +57,33 @@ export default function AIOopsGame() {
     const [showResult, setShowResult] = useState(false);
     const [selected, setSelected] = useState(null);
 
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
     useEffect(() => {
         if (showResult) {
-            completeComputersChallenge(1,1);
+            completeComputersChallenge(1, 1);
+
+            const endTime = Date.now();
+            const total = scenarios.length;
+            const correct = answers.filter((a) => a.isCorrect).length;
+
+            const scaledScore = Math.round((correct / total) * 10);
+            const accuracy = Math.round((correct / total) * 100);
+            const avgResponseTimeSec = ((endTime - startTime) / 1000) / total;
+            const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+            updateComputersPerformance({
+                score: scaledScore,
+                accuracy,
+                avgResponseTimeSec,
+                studyTimeMinutes,
+                completed: true,
+            });
         }
     }, [showResult]);
+
 
 
     const handleAnswer = (symbol) => {

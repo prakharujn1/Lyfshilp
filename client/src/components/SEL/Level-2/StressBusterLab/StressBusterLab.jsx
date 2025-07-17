@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const tools = [
   { label: "Deep breaths", helpful: true },
   { label: "Listen to music", helpful: true },
@@ -18,7 +18,9 @@ const StressBusterLab = () => {
   const [dropItems, setDropItems] = useState([]);
   const [feedback, setFeedback] = useState({});
   const [score, setScore] = useState(null);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const handleDrop = (e) => {
     const index = e.dataTransfer.getData("toolIndex");
     const tool = tools[index];
@@ -67,10 +69,25 @@ const StressBusterLab = () => {
   }, [score]);
 
   useEffect(() => {
-    if (score >= 4) {
-      completeSELChallenge(1, 0);
+    if (score !== null) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+      const scaledScore = Math.round((score / 5) * 10);
+
+      updateSELPerformance({
+        score: scaledScore,
+        accuracy: (score / 5) * 100,
+        avgResponseTimeSec: totalSeconds / 5,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: score >= 4,
+      });
+
+      if (score >= 4) {
+        completeSELChallenge(1, 0);
+      }
     }
   }, [score]);
+
 
 
   const getGifForScore = () => {

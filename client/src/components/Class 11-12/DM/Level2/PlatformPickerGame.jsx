@@ -12,9 +12,9 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const PlatformPickerGame = () => {
-  const {completeDMChallenge} = useDM();
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
   const [selections, setSelections] = useState({});
   const [feedback, setFeedback] = useState("");
@@ -22,6 +22,9 @@ const PlatformPickerGame = () => {
   const [showResults, setShowResults] = useState(false);
   const [celebrationMode, setCelebrationMode] = useState(false);
   const [draggedItem, setDraggedItem] = useState(null);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const contentCards = [
     {
@@ -133,8 +136,7 @@ const PlatformPickerGame = () => {
       starCount = 5;
       setCelebrationMode(true);
       setTimeout(() => setCelebrationMode(false), 4000);
-
-        completeDMChallenge(1,1);
+      completeDMChallenge(1, 1); // only for full completion
     } else if (correctCount === 2) {
       feedbackMessage =
         "Nice work! Think more about where your audience *actually hangs out*. 🤔";
@@ -147,7 +149,21 @@ const PlatformPickerGame = () => {
     setFeedback(feedbackMessage);
     setStars(starCount);
     setShowResults(true);
+
+    // ✅ Track performance (partial or full)
+    const endTime = Date.now();
+    const timeTakenSec = Math.round((endTime - startTime) / 1000);
+    const accuracy = Math.round((correctCount / 3) * 100);
+
+    updateDMPerformance({
+      score: (starCount / 5) * 10,
+      accuracy,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.round(timeTakenSec / 60),
+      completed: correctCount === 3,
+    });
   };
+
 
   const resetGame = () => {
     setSelections({});
@@ -161,52 +177,52 @@ const PlatformPickerGame = () => {
   const resultRef = useRef(null);
 
 
-useEffect(() => {
-  if (!showResults || !celebrationMode || !resultRef?.current) {
-    return;
-  }
-
-  // Use the default confetti (targets document.body) instead of custom canvas
-  const end = Date.now() + 3 * 1000;
-  const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
-
-  const frame = () => {
-    if (Date.now() > end) return;
-
-    // Center burst
-    confetti({
-      particleCount: 50,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors,
-    });
-
-    // Left side burst
-    confetti({
-      particleCount: 25,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0.1, y: 0.8 },
-      colors,
-    });
-
-    // Right side burst
-    confetti({
-      particleCount: 25,
-      angle: 120,
-      spread: 55,
-      origin: { x: 0.9, y: 0.8 },
-      colors,
-    });
-
-    // Only run once, not continuously
-    if (Date.now() < end - 2500) {
-      setTimeout(frame, 150);
+  useEffect(() => {
+    if (!showResults || !celebrationMode || !resultRef?.current) {
+      return;
     }
-  };
 
-  frame();
-}, [showResults, resultRef, celebrationMode]);
+    // Use the default confetti (targets document.body) instead of custom canvas
+    const end = Date.now() + 3 * 1000;
+    const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+
+    const frame = () => {
+      if (Date.now() > end) return;
+
+      // Center burst
+      confetti({
+        particleCount: 50,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors,
+      });
+
+      // Left side burst
+      confetti({
+        particleCount: 25,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0.1, y: 0.8 },
+        colors,
+      });
+
+      // Right side burst
+      confetti({
+        particleCount: 25,
+        angle: 120,
+        spread: 55,
+        origin: { x: 0.9, y: 0.8 },
+        colors,
+      });
+
+      // Only run once, not continuously
+      if (Date.now() < end - 2500) {
+        setTimeout(frame, 150);
+      }
+    };
+
+    frame();
+  }, [showResults, resultRef, celebrationMode]);
 
 
   useEffect(() => {
@@ -382,11 +398,10 @@ useEffect(() => {
                           onClick={() =>
                             handleSelection(content.id, platform.id)
                           }
-                          className={`px-4 py-2 rounded-lg text-md font-semibold transition-all duration-300 ${
-                            selections[content.id] === platform.id
-                              ? "bg-blue-500 text-white shadow-lg scale-105"
-                              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                          }`}
+                          className={`px-4 py-2 rounded-lg text-md font-semibold transition-all duration-300 ${selections[content.id] === platform.id
+                            ? "bg-blue-500 text-white shadow-lg scale-105"
+                            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                            }`}
                         >
                           {platform.icon} {platform.name}
                         </button>
@@ -401,11 +416,10 @@ useEffect(() => {
               <button
                 onClick={checkResults}
                 disabled={Object.keys(selections).length < 3}
-                className={`font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 flex items-center justify-center space-x-2 mx-auto ${
-                  Object.keys(selections).length < 3
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-green-400 to-blue-500 text-white hover:shadow-lg transform hover:scale-105"
-                }`}
+                className={`font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 flex items-center justify-center space-x-2 mx-auto ${Object.keys(selections).length < 3
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-gradient-to-r from-green-400 to-blue-500 text-white hover:shadow-lg transform hover:scale-105"
+                  }`}
               >
                 <CheckCircle size={24} />
                 <span>Check My Matches!</span>
@@ -423,20 +437,18 @@ useEffect(() => {
         {showResults && (
           <div
             ref={resultRef}
-            className={`bg-white rounded-3xl shadow-2xl p-6 md:p-8 transform transition-all duration-500 ${
-              celebrationMode ? "animate-bounce" : ""
-            }`}
+            className={`bg-white rounded-3xl shadow-2xl p-6 md:p-8 transform transition-all duration-500 ${celebrationMode ? "animate-bounce" : ""
+              }`}
           >
             <div className="text-center mb-6">
               <div className="flex justify-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-8 h-8 mx-1 ${
-                      i < stars
-                        ? "text-yellow-400 fill-current"
-                        : "text-gray-300"
-                    } transition-all duration-300`}
+                    className={`w-8 h-8 mx-1 ${i < stars
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300"
+                      } transition-all duration-300`}
                   />
                 ))}
               </div>
@@ -462,11 +474,10 @@ useEffect(() => {
                 return (
                   <div
                     key={content.id}
-                    className={`rounded-xl p-4 border-2 ${
-                      isCorrect
-                        ? "bg-green-50 border-green-200"
-                        : "bg-red-50 border-red-200"
-                    }`}
+                    className={`rounded-xl p-4 border-2 ${isCorrect
+                      ? "bg-green-50 border-green-200"
+                      : "bg-red-50 border-red-200"
+                      }`}
                   >
                     <div className="flex items-center space-x-2 mb-2">
                       {isCorrect ? (

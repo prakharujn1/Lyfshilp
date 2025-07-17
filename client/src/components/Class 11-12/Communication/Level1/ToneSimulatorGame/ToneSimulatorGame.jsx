@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const ToneSimulatorGame = () => {
     const { completeCommunicationChallenge } = useCommunication();
@@ -9,6 +10,9 @@ const ToneSimulatorGame = () => {
     const [feedback, setFeedback] = useState("");
     const [timeLeft, setTimeLeft] = useState(6 * 60);
     const [timeUp, setTimeUp] = useState(false);
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
     useEffect(() => {
         let timer;
@@ -89,13 +93,27 @@ const ToneSimulatorGame = () => {
             setTimeout(() => {
                 setFeedback("");
                 setStep(4);
-                completeCommunicationChallenge(0,2); // ✅ Add this line here
+                completeCommunicationChallenge(0, 2);
+
+                // ✅ Performance tracking
+                const endTime = Date.now();
+                const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+                const accuracy = 100;
+                const finalScore = 10;
+
+                updateCommunicationPerformance({
+                    completed: true,
+                    studyTimeMinutes,
+                    score: finalScore,
+                    accuracy,
+                });
             }, 2000);
         } else {
             setFeedback("❌ Incorrect tone. Try again.");
             setTimeout(() => setFeedback(""), 1000);
         }
     };
+
 
 
     if (timeUp) {

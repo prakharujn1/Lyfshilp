@@ -17,12 +17,17 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const WhichAIDoesWhat = () => {
   const { completeComputersChallenge } = useComputers();
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [draggedItem, setDraggedItem] = useState(null);
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const professions = [
     {
@@ -116,8 +121,26 @@ const WhichAIDoesWhat = () => {
   };
   const checkAnswers = () => {
     setShowResults(true);
-    completeComputersChallenge(0,1); // ✅ Challenge marked complete here
+    completeComputersChallenge(0, 1); // ✅ Mark challenge complete
+
+    // ✅ Performance tracking
+    const endTime = Date.now();
+    const { correct, total } = getScore();
+
+    const scaledScore = Math.round((correct / total) * 10); // Score out of 10
+    const accuracy = Math.round((correct / total) * 100); // Accuracy in %
+    const avgResponseTimeSec = ((endTime - startTime) / 1000) / Math.max(total, 1);
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+    updateComputersPerformance({
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
   };
+
 
   const getScore = () => {
     let totalCorrect = 0;
@@ -322,8 +345,8 @@ const WhichAIDoesWhat = () => {
             onClick={checkAnswers}
             disabled={!allToolsAssigned}
             className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${allToolsAssigned
-                ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
           >
             🔍 Check My Matches!
@@ -382,8 +405,8 @@ const WhichAIDoesWhat = () => {
                           <div
                             key={correctToolId}
                             className={`flex items-center p-2 rounded-lg ${userMatched
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
                               }`}
                           >
                             {userMatched ? (

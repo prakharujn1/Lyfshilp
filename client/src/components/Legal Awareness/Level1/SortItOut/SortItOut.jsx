@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Shuffle, Trophy, Star, Clock, RotateCcw } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const SortItOut = () => {
   const { completeLawChallenge } = useLaw();
   const [statements, setStatements] = useState([]);
@@ -19,6 +19,11 @@ const SortItOut = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [dragOverCategory, setDragOverCategory] = useState(null);
   const timerRef = useRef(null);
+
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
 
   const allStatements = [
     {
@@ -134,6 +139,27 @@ const SortItOut = () => {
   };
 
   useEffect(() => {
+  if (!gameComplete) return;
+
+  const endTime = Date.now();
+  const totalStatements = 9;
+  const correctAnswers = score / 3; // +3 for each correct answer
+  const scaledScore = (correctAnswers / totalStatements) * 10;
+  const accuracy = Math.round((correctAnswers / totalStatements) * 100);
+  const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalStatements));
+  const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+  updateLawPerformance({
+    score: scaledScore,
+    accuracy,
+    avgResponseTimeSec,
+    studyTimeMinutes,
+    completed: true
+  });
+}, [gameComplete]);
+
+
+  useEffect(() => {
     if (gameActive && timeLeft > 0) {
       timerRef.current = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
@@ -151,7 +177,7 @@ const SortItOut = () => {
     if (completedInTime) {
       setScore((prev) => prev + 5);
       setFeedback("🎉 Amazing! Bonus points for finishing in time!");
-      completeLawChallenge(0,1);
+      completeLawChallenge(0, 1);
     } else {
       setFeedback(`⏰ Time's up! ${score > 15 ? "Good effort" : ""}`);
     }
@@ -265,9 +291,8 @@ const SortItOut = () => {
               <div className="bg-white rounded-full px-3 sm:px-4 py-2 shadow-lg">
                 <Clock className="inline w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-blue-600" />
                 <span
-                  className={`font-bold text-sm sm:text-base ${
-                    timeLeft < 30 ? "text-red-600" : "text-blue-600"
-                  }`}
+                  className={`font-bold text-sm sm:text-base ${timeLeft < 30 ? "text-red-600" : "text-blue-600"
+                    }`}
                 >
                   {formatTime(timeLeft)}
                 </span>
@@ -376,13 +401,11 @@ const SortItOut = () => {
                     onDragLeave={handleDragLeave}
                     onDrop={(e) => handleDrop(e, key)}
                     className={`
-                      ${
-                        info.color
+                      ${info.color
                       } rounded-xl p-3 sm:p-4 min-h-[200px] sm:min-h-[300px] transition-all duration-300 shadow-lg
-                      ${
-                        dragOverCategory === key
-                          ? "scale-105 shadow-2xl ring-4 ring-white"
-                          : "hover:scale-102"
+                      ${dragOverCategory === key
+                        ? "scale-105 shadow-2xl ring-4 ring-white"
+                        : "hover:scale-102"
                       }
                     `}
                   >

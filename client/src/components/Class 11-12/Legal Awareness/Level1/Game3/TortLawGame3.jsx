@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
 import { motion } from "framer-motion";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 import clickSoundFile from "../../../Sound/clickSoundFile.mp3";
 import clickSoundFileYay from "../../../Sound/clickSoundFileYay.mp3";
@@ -31,6 +32,30 @@ const TortLawGame3 = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [completedChallenges, setCompletedChallenges] = useState([]);
+
+  useEffect(() => {
+  if (currentPage !== "results") return;
+
+  const endTime = Date.now();
+  const timeSpent = Math.round((endTime - startTime) / 60000); // in minutes
+  const totalQuestions = cases.length;
+  const scaledScore = (score / (totalQuestions * 10)) * 10; // scale to 10
+  const accuracy = Math.round((score / (totalQuestions * 10)) * 100); // scale to 100
+  const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+
+  updateLawPerformance({
+    score: scaledScore, // now out of 10
+    accuracy, // already out of 100
+    avgResponseTimeSec,
+    studyTimeMinutes: timeSpent,
+    completed: score >= 60,
+  });
+}, [currentPage]);
+
+
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const cases = [
     {
@@ -255,7 +280,7 @@ const TortLawGame3 = () => {
       });
     }, 250);
 
-    completeLawChallenge(0,2);
+    completeLawChallenge(0, 2);
 
 
     return () => {
@@ -447,14 +472,14 @@ const TortLawGame3 = () => {
                   }}
                   disabled={showFeedback}
                   className={`p-4 rounded-xl text-left font-semibold transition-all duration-300 transform hover:scale-105 border-2 ${showFeedback
-                      ? answer.id === correctAnswerId
-                        ? "bg-green-400 text-white border-green-600 shadow-lg"
-                        : answer.id === selectedAnswer
-                          ? "bg-red-400 text-white border-red-600 shadow-lg"
-                          : "bg-gray-200 text-gray-600"
-                      : selectedAnswer === answer.id
-                        ? "ring-4 ring-indigo-300 scale-105 " + answer.color
-                        : answer.color + " hover:shadow-xl"
+                    ? answer.id === correctAnswerId
+                      ? "bg-green-400 text-white border-green-600 shadow-lg"
+                      : answer.id === selectedAnswer
+                        ? "bg-red-400 text-white border-red-600 shadow-lg"
+                        : "bg-gray-200 text-gray-600"
+                    : selectedAnswer === answer.id
+                      ? "ring-4 ring-indigo-300 scale-105 " + answer.color
+                      : answer.color + " hover:shadow-xl"
                     }`}
                 >
                   <div className="font-semibold text-gray-800 mb-2">
@@ -481,8 +506,8 @@ const TortLawGame3 = () => {
                   onClick={handleAnswer}
                   disabled={!selectedAnswer}
                   className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform ${selectedAnswer
-                      ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 hover:scale-105"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 hover:scale-105"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                     }`}
                 >
                   Submit Answer
@@ -599,10 +624,10 @@ const TortLawGame3 = () => {
           className="text-2xl mb-8 z-20"
         >
           <h2>{`${score === 60
-              ? "Congratulations Champ"
-              : score === 50
-                ? "Well done"
-                : "You can do better"
+            ? "Congratulations Champ"
+            : score === 50
+              ? "Well done"
+              : "You can do better"
             }`}</h2>
         </motion.div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const stories = [
   {
     id: 1,
@@ -34,7 +35,9 @@ const BiasDetective = () => {
   const [biasIndex, setBiasIndex] = useState(0);
   const [biasReviewMistakes, setBiasReviewMistakes] = useState([]);
   const [currentBiasIndex, setCurrentBiasIndex] = useState(0);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const verifyRewritesWithGemini = async () => {
     const apiKey = import.meta.env.VITE_API_KEY;
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
@@ -145,6 +148,11 @@ const BiasDetective = () => {
 - If it’s strong, say: “🔥 Nailed it!” and explain why it’s great.
 - If it needs work, say: “👀 Needs more work” and suggest how to improve it.
 
+Also rate the following out of 10:
+Awareness: ?/10
+Action: ?/10
+Inclusivity: ?/10
+
 Be positive, honest, and use language that clicks with teens.`,
             },
           ],
@@ -163,9 +171,36 @@ Be positive, honest, and use language that clicks with teens.`,
       const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
       setVerifyMessage(reply);
 
-      if (reply.toLowerCase().includes("nailed it")) {
+      // 🔍 Extract scores from the feedback
+      const extractScore = (label) => {
+        const match = reply.match(new RegExp(`${label}:\\s*(\\d+)\\/10`, "i"));
+        return match ? parseInt(match[1]) : 0;
+      };
+
+      const awareness = extractScore("Awareness");
+      const action = extractScore("Action");
+      const inclusivity = extractScore("Inclusivity");
+
+      const total = awareness + action + inclusivity;
+      const scaledScore = Math.round(total / 30 * 10);
+      const accuracy = Math.round((total / 30) * 100);
+      const totalTimeMs = Date.now() - startTime;
+      const avgResponseTimeSec = parseFloat((totalTimeMs / 1000 / 3).toFixed(2));
+      const studyTimeMinutes = parseFloat((totalTimeMs / 60000).toFixed(2));
+      const completed = reply.toLowerCase().includes("nailed it");
+
+      // ✅ Update performance
+      updateLeadershipPerformance({
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed,
+      });
+
+      if (completed) {
         confetti();
-        completeLeadershipChallenge(3,0); // ✅ Mark challenge as complete
+        completeLeadershipChallenge(3, 0); // Mark as complete
         setResult("correct");
         setStep("end");
       } else {

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { ShieldCheck } from "lucide-react";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const responses = [
   {
     type: "Stay Quiet",
@@ -107,7 +107,9 @@ const getSuggestion = (score) => {
 export default function BoundaryBuilder() {
   const { completeSELChallenge } = useSEL();
   const [selected, setSelected] = useState(null);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-blue-100 p-6 font-sans">
       <motion.div
@@ -215,10 +217,23 @@ export default function BoundaryBuilder() {
               key={idx}
               disabled={selected !== null}
               onClick={() => {
+                const endTime = Date.now();
+                const durationSec = Math.round((endTime - startTime) / 1000);
+                const selectedScore = responses[idx].score;
+
                 setSelected(idx);
-                if (responses[idx].score >= 9) {
-                  completeSELChallenge(0,1);
+
+                if (selectedScore >= 9) {
+                  completeSELChallenge(0, 1);
                 }
+
+                updateSELPerformance({
+                  score: selectedScore,                     // Out of 10
+                  accuracy: Math.round((selectedScore / maxScore) * 100), // Scaled to 100
+                  avgResponseTimeSec: durationSec,
+                  studyTimeMinutes: Math.ceil(durationSec / 60),
+                  completed: selectedScore >= 9,
+                });
               }}
               whileHover={{ scale: 1.06, rotate: [0, 1, -1, 0] }}
               whileTap={{ scale: 0.95 }}

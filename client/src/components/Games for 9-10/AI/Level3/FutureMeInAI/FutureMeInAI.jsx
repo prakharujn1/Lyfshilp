@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import Confetti from "react-confetti";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const careers = [
     {
         emoji: "📊",
@@ -44,9 +44,13 @@ export default function FutureMeInAI() {
     });
     const [step, setStep] = useState(1);
 
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
     useEffect(() => {
         if (step === 2) {
-            completeComputersChallenge(2,2);
+            completeComputersChallenge(2, 2);
         }
     }, [step]);
 
@@ -71,8 +75,19 @@ export default function FutureMeInAI() {
             return;
         }
 
+        const endTime = Date.now();
+        const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+        const avgResponseTimeSec = (endTime - startTime) / 1000;
+
+        updateComputersPerformance({
+            avgResponseTimeSec,
+            studyTimeMinutes,
+            completed: true,
+        });
+
         setStep(2);
     };
+
 
     const bestCareer = () => {
         const interests = careerData.map((c) => Number(c.interest));

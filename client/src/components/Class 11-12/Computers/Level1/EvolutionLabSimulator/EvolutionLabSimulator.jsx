@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Play, Pause, RotateCcw, Zap, Droplets, Bug, TrendingUp, Settings } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const EvolutionLabSimulator = () => {
   const { completeComputersChallenge } = useComputers();
   const [population, setPopulation] = useState([]);
@@ -13,6 +13,10 @@ const EvolutionLabSimulator = () => {
   const [evolutionSpeed, setEvolutionSpeed] = useState(1000);
   const [maxGenerations, setMaxGenerations] = useState(100);
   const [showSettings, setShowSettings] = useState(false);
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   // Create initial population
   const createRandomCrop = (id) => ({
@@ -143,7 +147,7 @@ const EvolutionLabSimulator = () => {
     // Stop if reached max generations
     if (generation >= maxGenerations) {
       setIsRunning(false);
-      completeComputersChallenge(0,2); // ✅ Challenge completed due to generation limit
+      completeComputersChallenge(0, 2); // ✅ Challenge completed due to generation limit
       return;
     }
 
@@ -167,7 +171,7 @@ const EvolutionLabSimulator = () => {
     // Stop if victory condition is met (made more challenging)
     if (avgFitness >= 85 && maxFitness >= 90) {
       setIsRunning(false);
-      completeComputersChallenge(0,2); // ✅ Challenge completed due to success
+      completeComputersChallenge(0, 2); // ✅ Challenge completed due to success
     }
 
     // Create new generation

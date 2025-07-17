@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Star, Trophy, Calendar, Bell, Users, Book, Award, MessageCircle, ThumbsUp, Share2 } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const SchoolSocialMediaManager = () => {
     const { completeComputersChallenge } = useComputers();
@@ -19,6 +20,25 @@ const SchoolSocialMediaManager = () => {
         announcement: '',
         subject: ''
     });
+
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
+    useEffect(() => {
+        if (isGameWon) {
+            completeComputersChallenge(2, 1);
+
+            const endTime = Date.now();
+            const studyTimeMinutes = Math.floor((endTime - startTime) / 60000);
+
+            updateComputersPerformance({
+                avgResponseTimeSec: gameStats.avgResponseTimeSec || 0,
+                studyTimeMinutes,
+                completed: true
+            });
+        }
+    }, [isGameWon]);
 
     const categories = {
         academic: { icon: Book, color: 'bg-blue-500', label: 'Academic' },
@@ -131,7 +151,7 @@ const SchoolSocialMediaManager = () => {
 
     useEffect(() => {
         if (isGameWon) {
-            completeComputersChallenge(2,1);
+            completeComputersChallenge(2, 1);
         }
     }, [isGameWon]);
 

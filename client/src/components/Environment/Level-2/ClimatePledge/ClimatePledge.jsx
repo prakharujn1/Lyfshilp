@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const introGif =
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHFwbnNuZmo0Z3prNDFiczgwdjYwdTFnbWg3dGdweHI5dGE3bzlnYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xT39Db8zIOODTppk08/giphy.webp";
@@ -37,6 +38,10 @@ const ClimatePledge = () => {
   const [view, setView] = useState("intro"); // "intro", "game", "result"
 
   const { width, height } = useWindowSize();
+
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if (view === "result" && score >= 5) {
@@ -126,16 +131,13 @@ const ClimatePledge = () => {
     let goodCount = 0;
     let hasCreative = false;
 
-    // For each pledge point: verify with Gemini & decide correctness
     for (const [key, value] of Object.entries(pledge)) {
       if (!value.trim()) {
         newFeedback[key] = "⚠️ Please write something!";
         continue;
       }
 
-      // Call Gemini for this point:
       const geminiFeedback = await verifySingleWithGemini(value, bonus);
-
       newFeedback[key] = geminiFeedback;
 
       if (geminiFeedback.toLowerCase().includes("good job")) {
@@ -143,22 +145,36 @@ const ClimatePledge = () => {
         goodCount += 1;
       }
 
-      // Creative check (only if bonus is ticked)
       if (bonus && checkCreativity(value)) {
         hasCreative = true;
       }
     }
 
-    // Bonus: only if at least 3 points are actually GOOD and user checked bonus
     if (bonus && hasCreative && goodCount >= 3) {
       baseScore += 2;
     }
+
+    const endTime = Date.now();
+    const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+    const avgResponseTimeSec = totalTimeSec / 5;
+    const maxScore = bonus ? 7 : 5;
+    const scaledScore = Number(((baseScore / maxScore) * 10).toFixed(2));
+
+    // ✅ Update performance using baseScore
+    updateEnvirnomentPerformance({
+      score: scaledScore,
+      accuracy: (baseScore / maxScore) * 100,
+      avgResponseTimeSec,
+      studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+      completed: baseScore >= 5, // ✅ fixed to use baseScore
+    });
 
     setFeedback(newFeedback);
     setScore(baseScore);
     setSubmitted(true);
     setView("result");
   };
+
 
   const handlePlayAgain = () => {
     setPledge({
@@ -348,8 +364,8 @@ const ClimatePledge = () => {
                 {feedback[field] && (
                   <p
                     className={`mt-1 text-sm ${feedback[field].includes("✅")
-                        ? "text-green-600"
-                        : "text-red-600"
+                      ? "text-green-600"
+                      : "text-red-600"
                       }`}
                   >
                     {feedback[field]}

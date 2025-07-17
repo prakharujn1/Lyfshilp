@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -39,7 +40,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const ProblemSolutionGame = () => {
-   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [currentStep, setCurrentStep] = useState(0);
   const [problems, setProblems] = useState(["", "", ""]);
   const [aiIdeas, setAiIdeas] = useState([
@@ -54,6 +55,9 @@ const ProblemSolutionGame = () => {
     value: "",
   });
   const [showInstructions, setShowInstructions] = useState(true);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const problemExamples = [
     "Too much plastic waste at school",
@@ -184,21 +188,38 @@ Constraints -
       );
 
       const aiReply = response.data.candidates[0].content.parts[0].text;
-      console.log(aiReply);
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       console.log(parsed);
       setResult(parsed);
-
-      completeEntreprenerushipChallenge(0,0);
-
+      completeEntreprenerushipChallenge(0, 0);
       setCurrentStep(3);
+
+      // ✅ Calculate Performance
+      const endTime = Date.now();
+      const totalTimeMs = endTime - startTime;
+      const avgResponseTimeSec = Math.round(totalTimeMs / 1000 / 3); // 3 steps
+      const studyTimeMinutes = Math.floor(totalTimeMs / (1000 * 60));
+      const rawScore = calculateScore(); // out of 100
+      const scaledScore = Math.round((rawScore / 100) * 10); // out of 10
+      const accuracy = (scaledScore / 10) * 100;
+
+      // ✅ Send to performance tracker
+      await updateEntreprenerushipPerformance({
+        userId: localStorage.getItem("userId"),
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+      });
+
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
     }
 
     setLoading(false);
-  };
+  }
 
   if (showInstructions) {
     return (
@@ -348,11 +369,10 @@ Constraints -
               <button
                 onClick={() => setCurrentStep(1)}
                 disabled={!canProceed(0)}
-                className={`${
-                  canProceed(0)
-                    ? "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 hover:scale-105"
-                    : "bg-gray-400 cursor-not-allowed"
-                } text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transition-all duration-300`}
+                className={`${canProceed(0)
+                  ? "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 hover:scale-105"
+                  : "bg-gray-400 cursor-not-allowed"
+                  } text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transition-all duration-300`}
               >
                 Next: AI Solutions{" "}
                 <ChevronRight className="inline w-6 h-6 ml-2" />
@@ -457,11 +477,10 @@ Constraints -
               <button
                 onClick={() => setCurrentStep(2)}
                 disabled={!canProceed(1)}
-                className={`${
-                  canProceed(1)
-                    ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105"
-                    : "bg-gray-400 cursor-not-allowed"
-                } text-white font-bold py-4 md:px-4 lg:px-8 rounded-full text-sm md:text-lg shadow-lg transition-all duration-300`}
+                className={`${canProceed(1)
+                  ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105"
+                  : "bg-gray-400 cursor-not-allowed"
+                  } text-white font-bold py-4 md:px-4 lg:px-8 rounded-full text-sm md:text-lg shadow-lg transition-all duration-300`}
               >
                 Next: Business Pitch{" "}
                 <ChevronRight className="inline w-6 h-6 ml-2" />
@@ -592,11 +611,10 @@ Constraints -
                 <button
                   onClick={handleSubmit}
                   disabled={!canProceed(2)}
-                  className={`${
-                    canProceed(2)
-                      ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 hover:scale-105"
-                      : "bg-gray-400 cursor-not-allowed"
-                  } text-white font-bold py-4 px-4 lg:px-8 rounded-full text-sm md:text-lg shadow-lg transition-all duration-300`}
+                  className={`${canProceed(2)
+                    ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 hover:scale-105"
+                    : "bg-gray-400 cursor-not-allowed"
+                    } text-white font-bold py-4 px-4 lg:px-8 rounded-full text-sm md:text-lg shadow-lg transition-all duration-300`}
                 >
                   🎉 Complete & Get Badge!
                 </button>

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useWindowSize } from 'react-use';
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const rooms = ["Bias Buster", "Privacy Protector", "Inclusivity Integrator", "Accountability Audit"];
 
@@ -17,12 +18,25 @@ export default function EthicsEscapeRoomGame() {
   const [answers, setAnswers] = useState({});
   const [feedback, setFeedback] = useState("");
   const [auditFeedback, setAuditFeedback] = useState("");
-
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  
   useEffect(() => {
-    if (currentRoom >= rooms.length) {
-      completeEntreprenerushipChallenge(1,1); // Mark challenge complete
-    }
-  }, [currentRoom]);
+  if (currentRoom >= rooms.length) {
+    completeEntreprenerushipChallenge(1, 1); // Mark challenge complete
+
+    const endTime = Date.now();
+    const timeTakenSeconds = Math.floor((endTime - startTime) / 1000);
+
+    updateEntreprenerushipPerformance({
+      avgResponseTimeSec: timeTakenSeconds / rooms.length,
+      studyTimeMinutes: Math.round(timeTakenSeconds / 60),
+      completed: true,
+    });
+  }
+}, [currentRoom]);
+
 
 
   const restartGame = () => {

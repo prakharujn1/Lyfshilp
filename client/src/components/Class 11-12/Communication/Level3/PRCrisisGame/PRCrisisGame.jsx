@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from '@react-hook/window-size';
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 import { motion } from "framer-motion";
 
@@ -30,6 +31,9 @@ const PRCrisisGame = () => {
     const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 minutes
     const [gameDone, setGameDone] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
 
     useEffect(() => {
@@ -71,7 +75,6 @@ const PRCrisisGame = () => {
         const empathyWords = [
             "empathy", "understand", "feel", "aware", "sensitive", "respect", "inclusive", "concern", "care", "compassion", "valuing", "listening"
         ];
-
         const actionWords = [
             "step", "solution", "process", "review", "improve", "plan", "change", "will", "action", "actions", "strict",
             "address", "fix", "resolve", "ensure", "prevent", "revisit", "respond", "evaluate", "commit"
@@ -88,8 +91,25 @@ const PRCrisisGame = () => {
                 ? "✅ Great job! Your message shows responsibility, empathy, and next steps."
                 : "⚠️ Try again. Make sure your message includes: acknowledgement, empathy, and a plan of action."
         );
+
+        if (passed) {
+            const correctCount = 3;
+            const scaledScore = Math.round((correctCount / 3) * 10);
+            const accuracy = Math.round((correctCount / 3) * 100);
+            const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+            updateCommunicationPerformance({
+                score: scaledScore,
+                accuracy,
+                avgResponseTimeSec: timeTakenSec,
+                studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+                completed: true,
+            });
+        }
+
         setGameDone(passed);
     };
+
 
 
     const formatTime = (seconds) => {

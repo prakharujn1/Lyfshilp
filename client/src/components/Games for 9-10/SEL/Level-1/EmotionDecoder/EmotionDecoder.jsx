@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
 import { useSEL } from "@/contexts/SELContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const scenarios = [
   {
@@ -55,6 +56,10 @@ const EmotionDecoder = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState("");
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const startTimeRef = useRef(Date.now());
+
 
   const handleHint = () => {
     setShowHint(true);
@@ -149,14 +154,29 @@ const EmotionDecoder = () => {
     }
   };
 
+  
+
   useEffect(() => {
     if (current >= scenarios.length) {
       setShowConfetti(score >= 4);
+
       if (score >= 4) {
-        completeSELChallenge(0,0); // ✅ Mark challenge complete
+        completeSELChallenge(0, 0); // ✅ Mark challenge complete
       }
+
+      const endTime = Date.now();
+      const durationSec = Math.round((endTime - startTimeRef.current) / 1000);
+
+      updateSELPerformance({
+        score: Math.round((score / scenarios.length) * 10),
+        accuracy: Math.round((score / scenarios.length) * 100),
+        avgResponseTimeSec: durationSec / scenarios.length,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: score >= 4,
+      });
     }
   }, [current, score]);
+
 
 
   const renderEndScreen = () => {

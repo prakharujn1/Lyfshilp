@@ -5,6 +5,7 @@ import { Textarea } from "../../Level1/LeanMachineGame/Textarea";
 import { motion } from "framer-motion";
 import DiceAnimation from "@/components/Dice";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -106,7 +107,7 @@ function extractJSON(str) {
 }
 
 export default function MarketPulseChallenge() {
-   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [flipped, setFlipped] = useState(false);
   const [idea, setIdea] = useState(ideas[0]);
   const [selectedIdea, setSelectedIdea] = useState("");
@@ -116,6 +117,9 @@ export default function MarketPulseChallenge() {
   const [aiResult, setAiResult] = useState(null);
   const [decision, setDecision] = useState({ choice: '', reason: '' });
   const [loading, setLoading] = useState(false);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const spinIdea = () => {
     const random = ideas[Math.floor(Math.random() * ideas.length)];
@@ -235,13 +239,28 @@ Evaluate the quality of the user’s decision.
       const result = extractJSON(aiText);
 
       if (result?.score !== undefined) {
+        const endTime = Date.now();
+        const timeSpentMinutes = Math.floor((endTime - startTime) / 60000);
+
         setDecision(prev => ({
           ...prev,
           score: result.score,
           evaluation: result.evaluation || "No evaluation text provided."
         }));
-         completeEntreprenerushipChallenge(1,0); // ✅ Call here
-      } else {
+
+        // ✅ Save performance
+        updateEntreprenerushipPerformance({
+          score: result.score,
+          accuracy: result.score * 10, // Optional: scale accuracy
+          avgResponseTimeSec: 0, // Not applicable here
+          studyTimeMinutes: timeSpentMinutes,
+          completed: true
+        });
+
+        // ✅ Mark challenge as completed
+        completeEntreprenerushipChallenge(1, 0);
+      }
+      else {
         setDecision(prev => ({ ...prev, score: 0, evaluation: "⚠️ Could not parse Gemini response." }));
       }
     } catch (err) {

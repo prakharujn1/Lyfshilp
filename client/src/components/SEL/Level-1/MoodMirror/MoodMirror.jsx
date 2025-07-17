@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const scenarios = [
   {
     text: "You forgot your lunch.",
@@ -44,12 +44,31 @@ const MoodMirror = () => {
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState(null);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-    if (showResult && score >= 4) {
-      completeSELChallenge(0, 0);
+    if (showResult) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+      const scaledScore = Math.round((score / scenarios.length) * 10);
+      const accuracy = (score / scenarios.length) * 100;
+      const avgResponseTimeSec = totalSeconds / scenarios.length;
+
+      updateSELPerformance({
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: score >= 4,
+      });
+
+      if (score >= 4) {
+        completeSELChallenge(0, 0);
+      }
     }
-  }, [showResult, score]);
+  }, [showResult]);
+
 
   const handleDrop = (emoji) => {
     if (selected) return;
@@ -129,11 +148,11 @@ const MoodMirror = () => {
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleDrop(emoji)}
                 className={`text-4xl md:text-5xl p-4 rounded-full border-2 transition cursor-pointer ${selected === emoji &&
-                    scenarios[current].correct.includes(emoji)
-                    ? "border-green-500"
-                    : selected === emoji
-                      ? "border-red-500"
-                      : "border-transparent hover:border-blue-300"
+                  scenarios[current].correct.includes(emoji)
+                  ? "border-green-500"
+                  : selected === emoji
+                    ? "border-red-500"
+                    : "border-transparent hover:border-blue-300"
                   }`}
               >
                 {emoji}

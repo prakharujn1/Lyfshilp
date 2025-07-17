@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const statements = [
   {
@@ -70,12 +71,31 @@ const CauseScanner = () => {
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState(10);
   const [questionKey, setQuestionKey] = useState(0);
-
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (showResult && score >= 6) {
-      completeEnvirnomentChallenge(2,0); // Challenge 1, Task 1 completed
+      completeEnvirnomentChallenge(2, 0); // Challenge 1, Task 1 completed
     }
   }, [showResult, score]);
+
+  useEffect(() => {
+    if (showResult) {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / statements.length;
+      const scaledScore = Number(((score / statements.length) * 10).toFixed(2));
+
+      updateEnvirnomentPerformance({
+        score: scaledScore,
+        accuracy: (score / statements.length) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: score >= 6,
+      });
+    }
+  }, [showResult]);
 
   useEffect(() => {
     if (!started || showResult) return;

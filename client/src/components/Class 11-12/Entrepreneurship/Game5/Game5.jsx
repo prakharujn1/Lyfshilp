@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { Activity, BarChart3 } from "lucide-react";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -54,7 +55,9 @@ const SimulatedMarketGame = () => {
   const [final, setFinal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const restartGame = () => {
     setRound(1);
@@ -119,9 +122,19 @@ const SimulatedMarketGame = () => {
       setResults(prev => [...prev, result]);
 
       if (round === 3) {
-        completeEntreprenerushipChallenge(1,1); // ✅ Mark challenge complete
+        completeEntreprenerushipChallenge(1, 1);
+
+        const endTime = Date.now();
+        const timeSpent = Math.floor((endTime - startTime) / 1000);
+        updateEntreprenerushipPerformance({
+          avgResponseTimeSec: timeSpent,
+          studyTimeMinutes: Math.ceil(timeSpent / 60),
+          completed: true,
+        });
+
         setFinal(true);
-      } else {
+      }
+      else {
         setRound(prev => prev + 1);
       }
     } catch (error) {

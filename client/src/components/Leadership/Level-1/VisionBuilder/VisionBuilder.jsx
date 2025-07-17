@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const VisionBuilderGame = () => {
   const { completeLeadershipChallenge } = useLeadership();
@@ -13,7 +14,9 @@ const VisionBuilderGame = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [warning, setWarning] = useState("");
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const resetAll = () => {
     setScreen("intro");
     setVision("");
@@ -37,10 +40,23 @@ const VisionBuilderGame = () => {
   }, [screen, isCorrect]);
 
   useEffect(() => {
-    if (screen === "result" && isCorrect) {
-      completeLeadershipChallenge(0,1); // Update with correct challengeId and taskId
+    if (screen === "result") {
+      const totalTimeMs = Date.now() - startTime;
+
+      updateLeadershipPerformance({
+        score: isCorrect ? 10 : 4, // or adjust as per scale
+        accuracy: isCorrect ? 100 : 40,
+        avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: isCorrect,
+      });
+
+      if (isCorrect) {
+        completeLeadershipChallenge(0, 1); // correct challenge/task IDs
+      }
     }
   }, [screen, isCorrect]);
+
 
   const verifyActionWithGemini = async (text) => {
     const apiKey = import.meta.env.VITE_API_KEY;

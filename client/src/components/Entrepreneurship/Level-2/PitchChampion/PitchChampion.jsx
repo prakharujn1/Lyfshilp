@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const PitchChampion = () => {
-    const { completeEntreprenerushipChallenge } = useEntrepreneruship();
-  
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+
   // ✅ Add a page state: "intro" or "pitch"
   const [page, setPage] = useState("intro");
 
@@ -13,12 +14,15 @@ const PitchChampion = () => {
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-  if (submitted && verified) {
-    completeEntreprenerushipChallenge(1,1); // 🎯 Challenge 3, Task 4
-  }
-}, [submitted, verified]);
+    if (submitted && verified) {
+      completeEntreprenerushipChallenge(1, 1); // 🎯 Challenge 3, Task 4
+    }
+  }, [submitted, verified]);
 
   const verifyPitchWithGemini = async () => {
     if (!pitch.trim()) {
@@ -96,8 +100,20 @@ const PitchChampion = () => {
       alert("Please get AI verification first.");
       return;
     }
+
     setSubmitted(true);
+
+    const endTime = Date.now();
+    const timeTakenSec = (endTime - startTime) / 1000;
+    const timeTakenMin = Math.round(timeTakenSec / 60);
+
+    updateEntreprenerushipPerformance({
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: timeTakenMin,
+      completed: true,
+    });
   };
+
 
   const handleTryAgain = () => {
     setPitch("");
@@ -186,11 +202,10 @@ const PitchChampion = () => {
             <button
               onClick={handleSubmit}
               disabled={verified === null}
-              className={`px-4 py-2 rounded ${
-                verified === null
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-              }`}
+              className={`px-4 py-2 rounded ${verified === null
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+                }`}
             >
               🎉 Submit Pitch
             </button>

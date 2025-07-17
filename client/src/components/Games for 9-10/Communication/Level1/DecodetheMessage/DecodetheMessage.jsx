@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const initialScenarios = [
   {
@@ -46,15 +47,32 @@ const DecodetheMessage = () => {
   const { completeCommunicationChallenge } = useCommunication();
   const [scenarios, setScenarios] = useState(initialScenarios);
   const [draggedLabel, setDraggedLabel] = useState(null);
-
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     const allCorrect = scenarios.every(
       (s) => s.userAnswer.replace(/^[^a-zA-Z]+/, '') === s.correctLabel
     );
+
     if (allCorrect) {
-      completeCommunicationChallenge(0,0);
+      completeCommunicationChallenge(0, 0);
+
+      const correctCount = scenarios.length; // 5
+      const score = Math.round((correctCount / 5) * 10); // out of 10
+      const accuracy = Math.round((correctCount / 5) * 100); // out of 100
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+      updateCommunicationPerformance({
+        score,
+        accuracy,
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: true,
+      });
     }
   }, [scenarios]);
+
 
   const handleReplay = () => {
     setScenarios(initialScenarios); // Reset all answers

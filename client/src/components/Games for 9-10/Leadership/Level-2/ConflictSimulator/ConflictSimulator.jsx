@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useWindowSize } from "react-use";
 import { Link } from "react-router-dom";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const scenarios = [
   {
     id: 1,
@@ -115,12 +116,30 @@ const ConflictSimulator = () => {
   const [score, setScore] = useState(0);
   const [selectedStyle, setSelectedStyle] = useState([]);
   const [showFeedback, setShowFeedback] = useState(null);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (step === scenarios.length) {
-      completeLeadershipChallenge(1,0);
+      completeLeadershipChallenge(1, 0);
     }
   }, [step]);
+
+  useEffect(() => {
+    if (step !== scenarios.length) return;
+
+    const totalTimeMs = Date.now() - startTime;
+    const scaledScore = Math.round((score / 30) * 10); // score scaled out of 10
+
+    updateLeadershipPerformance({
+      score: scaledScore,
+      accuracy: scaledScore * 10, // out of 100
+      avgResponseTimeSec: parseFloat((totalTimeMs / (scenarios.length * 1000)).toFixed(2)),
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: true,
+    });
+  }, [step]);
+
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,

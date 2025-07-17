@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import Meyda from "meyda";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const samples = [
   { id: "s1", src: "./voices/excited.mp3", label: "🥳 Excited" },
   { id: "s2", src: "./voices/sarcastic.mp3", label: "😏 Sarcastic" },
@@ -30,10 +31,26 @@ export default function ToneTranslatorGame() {
   const [loadingSample, setLoadingSample] = useState(null);
   const [isRecording, setIsRecording] = useState({});
   const [toneScore, setToneScore] = useState(0); // state to track tone-based score
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (score !== null) {
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+      updateCommunicationPerformance({
+        score: Math.round((score / 7) * 10),
+        accuracy: Math.round((score / 7) * 100),
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: 1
+      });
+    }
+  }, [score]);
 
 
 
-  // 🎯 Tone analysis using Meyda
   // 🎯 Tone analysis using Meyda
   const analyzeTone = async (blob, slot) => {
     const arrayBuffer = await blob.arrayBuffer();
@@ -146,7 +163,7 @@ export default function ToneTranslatorGame() {
     setScore(correct);
 
     if (correct === 7) {
-      completeCommunicationChallenge(1,2); // ✅ Trigger on perfect score
+      completeCommunicationChallenge(1, 2); // ✅ Trigger on perfect score
     }
   };
 

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
 
@@ -51,6 +51,10 @@ const DesignAbot = () => {
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
   const previewRef = useRef(null);
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   console.log("Hi");
 
@@ -103,7 +107,7 @@ const DesignAbot = () => {
 
   useEffect(() => {
     if (challenge2Data.completed) {
-      completeComputersChallenge(2,1);
+      completeComputersChallenge(2, 1);
     }
   }, [challenge2Data.completed]);
 
@@ -135,6 +139,16 @@ const DesignAbot = () => {
     if (allFilled) {
       setChallenge2Data((prev) => ({ ...prev, completed: true }));
       setShowBadge("designer");
+
+      const endTime = Date.now();
+      const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+      const avgResponseTimeSec = ((endTime - startTime) / 1000); // whole task as one
+
+      updateComputersPerformance({
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+      });
     }
   };
 
@@ -279,8 +293,8 @@ const DesignAbot = () => {
             whileTap={{ scale: 0.95 }}
             onClick={() => setCurrentChallenge(2)}
             className={`px-6 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${currentChallenge === 2
-                ? "bg-white text-purple-600 shadow-lg"
-                : "bg-white/20 text-white hover:bg-white/30"
+              ? "bg-white text-purple-600 shadow-lg"
+              : "bg-white/20 text-white hover:bg-white/30"
               }`}
           >
             🤖 Challenge : Design-A-Bot

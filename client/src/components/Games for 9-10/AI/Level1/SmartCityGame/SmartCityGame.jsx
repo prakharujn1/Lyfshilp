@@ -12,7 +12,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const SmartCityGame = () => {
   const { completeComputersChallenge } = useComputers();
   const [cityZones, setCityZones] = useState({
@@ -23,6 +23,10 @@ const SmartCityGame = () => {
     shops: [],
   });
   const [showResults, setShowResults] = useState(false);
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const zones = [
     {
@@ -196,9 +200,26 @@ const SmartCityGame = () => {
   const checkAnswers = () => {
     setShowResults(true);
 
-    // ✅ Mark the challenge as complete
-    completeComputersChallenge(0,2);
+    // ✅ Mark challenge as complete (one-time)
+    completeComputersChallenge(0, 2);
+
+    // ✅ Performance Tracking
+    const endTime = Date.now();
+    const totalSolutionsPlaced = Object.values(cityZones).reduce(
+      (total, zone) => total + zone.length,
+      0
+    );
+    const avgResponseTimeSec =
+      ((endTime - startTime) / 1000) / Math.max(totalSolutionsPlaced, 1); // avoid division by 0
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+    updateComputersPerformance({
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
   };
+
 
   const getScore = () => {
     let totalCorrect = 0;
@@ -405,8 +426,8 @@ const SmartCityGame = () => {
             onClick={checkAnswers}
             disabled={!allSolutionsPlaced}
             className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${allSolutionsPlaced
-                ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
           >
             🏙️ Check My Smart City!
@@ -462,8 +483,8 @@ const SmartCityGame = () => {
                           <div
                             key={correctSolutionId}
                             className={`flex items-center p-2 rounded-lg ${userPlaced
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
                               }`}
                           >
                             {userPlaced ? (

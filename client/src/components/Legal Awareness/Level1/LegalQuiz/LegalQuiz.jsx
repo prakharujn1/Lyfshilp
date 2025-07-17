@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CheckCircle, XCircle, Trophy, Star, Medal } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
 import { useEffect } from "react";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const LegalQuiz = () => {
   const { completeLawChallenge } = useLaw();
@@ -12,6 +12,30 @@ const LegalQuiz = () => {
   const [score, setScore] = useState(0);
   const [gameComplete, setGameComplete] = useState(false);
   const [confirmedAnswer, setConfirmedAnswer] = useState(false);
+
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  useEffect(() => {
+    if (!gameComplete) return;
+
+    const endTime = Date.now();
+    const totalQuestions = questions.length;
+    const correctAnswers = score / 10;
+    const scaledScore = (correctAnswers / totalQuestions) * 10;
+    const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+    updateLawPerformance({
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true, // You can set your own pass criteria here
+    });
+  }, [gameComplete]);
+
 
   const questions = [
     {
@@ -137,10 +161,10 @@ const LegalQuiz = () => {
     setGameComplete(false);
     setConfirmedAnswer(false);
   };
- 
+
   useEffect(() => {
     if (gameComplete) {
-      completeLawChallenge(0,0);
+      completeLawChallenge(0, 0);
     }
   }, [gameComplete]);
 

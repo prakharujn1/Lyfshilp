@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const scenarios = [
   { id: 1, text: "Peer mentoring a shy classmate", correct: "Servant" },
   {
@@ -68,11 +69,36 @@ const LeadershipIdentityMixer = () => {
     crisisChoice.trim() !== "" &&
     values.trim() !== "";
 
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-    if (submitted && isAllCorrect) {
+    if (!submitted) return;
+
+    const totalTimeMs = Date.now() - startTime;
+
+    const totalScore = 4; // 3 scenario matches + dominant + crisis + values
+    let earned = 0;
+    if (scenarios.every((s) => matches[s.id] === s.correct)) earned += 1;
+    if (isValidLeadershipStyle(dominantStyle)) earned += 1;
+    if (crisisChoice.trim()) earned += 1;
+    if (values.trim()) earned += 1;
+
+    const scaledScore = Math.round((earned / totalScore) * 10);
+
+    updateLeadershipPerformance({
+      score: scaledScore,
+      accuracy: scaledScore * 10,
+      avgResponseTimeSec: parseFloat((totalTimeMs / 4000).toFixed(2)),
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: isAllCorrect
+    });
+
+    if (isAllCorrect) {
       completeLeadershipChallenge(0, 0);
     }
   }, [submitted, isAllCorrect]);
+
 
   const handleMatch = (id, style) => {
     setMatches((prev) => ({ ...prev, [id]: style }));

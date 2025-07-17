@@ -10,7 +10,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const JusticeThroneGame = () => {
   const { completeLawChallenge } = useLaw();
@@ -22,10 +22,35 @@ const JusticeThroneGame = () => {
   const [showResult, setShowResult] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
   const [scenarioResults, setScenarioResults] = useState([]);
- 
+
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+  if (currentPage !== "results") return;
+
+  const endTime = Date.now();
+  const totalQuestions = scenarioResults.length;
+  const correctAnswers = scenarioResults.filter((r) => r.points === 10).length;
+  const scaledScore = (correctAnswers / totalQuestions) * 10;
+  const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+  const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+  const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+  updateLawPerformance({
+     score: scaledScore,
+    accuracy,
+    avgResponseTimeSec,
+    studyTimeMinutes,
+    completed: true,
+  });
+}, [currentPage]);
+
+
   useEffect(() => {
     if (currentPage === "results") {
-      completeLawChallenge(1,0);
+      completeLawChallenge(1, 0);
     }
   }, [currentPage]);
 
@@ -341,8 +366,8 @@ const JusticeThroneGame = () => {
                       key={court}
                       onClick={() => setSelectedCourt(court)}
                       className={`p-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${isSelected
-                          ? `${char.bgColor} border-white shadow-lg scale-105`
-                          : "bg-white/10 border-white/30 hover:bg-white/20"
+                        ? `${char.bgColor} border-white shadow-lg scale-105`
+                        : "bg-white/10 border-white/30 hover:bg-white/20"
                         }`}
                     >
                       <div
@@ -382,8 +407,8 @@ const JusticeThroneGame = () => {
                       key={article}
                       onClick={() => setSelectedArticle(article)}
                       className={`p-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${isSelected
-                          ? "bg-pink-100 border-pink-400 text-pink-800 shadow-lg scale-105"
-                          : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                        ? "bg-pink-100 border-pink-400 text-pink-800 shadow-lg scale-105"
+                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
                         }`}
                     >
                       <div className="text-sm md:text-base font-semibold">
@@ -401,8 +426,8 @@ const JusticeThroneGame = () => {
                 onClick={handleSubmit}
                 disabled={!selectedCourt || !selectedArticle}
                 className={`py-3 px-8 rounded-full font-bold text-lg transition-all duration-300 transform ${selectedCourt && selectedArticle
-                    ? "bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white hover:scale-105 shadow-lg"
-                    : "bg-gray-500 text-gray-300 cursor-not-allowed"
+                  ? "bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white hover:scale-105 shadow-lg"
+                  : "bg-gray-500 text-gray-300 cursor-not-allowed"
                   }`}
               >
                 Submit Answer
@@ -415,8 +440,8 @@ const JusticeThroneGame = () => {
             <div className="text-center mb-6">
               <div
                 className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${scenarioResults[scenarioResults.length - 1].points > 0
-                    ? "bg-green-400"
-                    : "bg-red-400"
+                  ? "bg-green-400"
+                  : "bg-red-400"
                   }`}
               >
                 <Star className="w-8 h-8 text-white" />
@@ -428,8 +453,8 @@ const JusticeThroneGame = () => {
               </h2>
               <div
                 className={`text-xl font-bold ${scenarioResults[scenarioResults.length - 1].points > 0
-                    ? "text-green-400"
-                    : "text-red-400"
+                  ? "text-green-400"
+                  : "text-red-400"
                   }`}
               >
                 {scenarioResults[scenarioResults.length - 1].points > 0
@@ -516,10 +541,10 @@ const JusticeThroneGame = () => {
           <div className="text-center mb-8">
             <div
               className={`inline-block px-6 py-3 rounded-full text-lg font-bold ${percentage >= 80
-                  ? "bg-green-500 text-white"
-                  : percentage >= 60
-                    ? "bg-yellow-500 text-white"
-                    : "bg-red-500 text-white"
+                ? "bg-green-500 text-white"
+                : percentage >= 60
+                  ? "bg-yellow-500 text-white"
+                  : "bg-red-500 text-white"
                 }`}
             >
               {percentage >= 80
@@ -540,8 +565,8 @@ const JusticeThroneGame = () => {
                 <div
                   key={index}
                   className={`p-4 rounded-2xl border-2 ${result.points > 0
-                      ? "bg-green-500/20 border-green-400"
-                      : "bg-red-500/20 border-red-400"
+                    ? "bg-green-500/20 border-green-400"
+                    : "bg-red-500/20 border-red-400"
                     }`}
                 >
                   <div className="flex items-center justify-between mb-2">

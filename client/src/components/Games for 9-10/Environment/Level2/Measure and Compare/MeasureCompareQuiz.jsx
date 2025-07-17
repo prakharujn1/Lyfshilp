@@ -17,6 +17,9 @@ const MeasureCompareQuiz = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [showCelebration, setShowCelebration] = useState(false);
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const questions = [
     {
       id: 1,
@@ -207,7 +210,7 @@ const MeasureCompareQuiz = () => {
       return;
     }
 
-    completeEnvirnomentChallenge(1,0); // <-- Add this here
+    completeEnvirnomentChallenge(1, 0); // <-- Add this here
 
 
     // Use the default confetti (full screen)
@@ -248,6 +251,27 @@ const MeasureCompareQuiz = () => {
 
     frame();
   }, [score, currentPage]);
+
+  useEffect(() => {
+    if (currentPage !== "final") return;
+
+    const endTime = Date.now();
+    const timeTakenSec = Math.floor((endTime - startTime) / 1000);
+    const studyTimeMin = Math.ceil(timeTakenSec / 60);
+    const accuracy = score / questions.length;
+
+    // Scale score out of 10
+    const scaledScore = parseFloat(((score / questions.length) * 10).toFixed(2));
+
+    updateEnvirnomentPerformance({
+      score: scaledScore,
+      accuracy: parseFloat((accuracy * 100).toFixed(2)),
+      avgResponseTimeSec: parseFloat((timeTakenSec / questions.length).toFixed(2)),
+      studyTimeMinutes: studyTimeMin,
+      completed: score >= 5,
+    });
+  }, [currentPage]);
+
 
   const HomePage = () => (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-red-400 flex items-center justify-center p-4">
@@ -321,15 +345,14 @@ const MeasureCompareQuiz = () => {
                   key={index}
                   onClick={() => !showResult && handleAnswerSelect(option)}
                   disabled={showResult}
-                  className={`p-4 rounded-xl text-left font-semibold transition-all duration-300 transform hover:scale-105 border-2 ${
-                    showResult
-                      ? option === questions[currentQuestion].correct
-                        ? "bg-green-400 text-white border-green-600 shadow-lg"
-                        : option === selectedAnswer
+                  className={`p-4 rounded-xl text-left font-semibold transition-all duration-300 transform hover:scale-105 border-2 ${showResult
+                    ? option === questions[currentQuestion].correct
+                      ? "bg-green-400 text-white border-green-600 shadow-lg"
+                      : option === selectedAnswer
                         ? "bg-red-400 text-white border-red-600 shadow-lg"
                         : "bg-gray-200 text-gray-600"
-                      : "bg-gradient-to-br from-pink-100 to-yellow-100 hover:from-pink-200 hover:to-yellow-200 text-purple-700 hover:shadow-xl"
-                  }`}
+                    : "bg-gradient-to-br from-pink-100 to-yellow-100 hover:from-pink-200 hover:to-yellow-200 text-purple-700 hover:shadow-xl"
+                    }`}
                 >
                   {option}
                 </button>

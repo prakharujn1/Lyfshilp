@@ -29,6 +29,10 @@ const FeedbackLoopGame = () => {
   const [showCrash, setShowCrash] = useState(false);
   const [questions, setQuestions] = useState([]);
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const toShuffleQuestions = [
     {
       id: 1,
@@ -415,7 +419,7 @@ const FeedbackLoopGame = () => {
     if (score < 8 || !gameComplete) {
       return;
     }
-    completeEnvirnomentChallenge(0,1); // ✅ Add this line here
+    completeEnvirnomentChallenge(0, 1); // ✅ Add this line here
     const myCanvas = canvasRef.current;
     const myConfetti = confetti.create(myCanvas, {
       resize: true,
@@ -451,6 +455,24 @@ const FeedbackLoopGame = () => {
 
     frame();
   }, [score, gameComplete]);
+
+  useEffect(() => {
+    if (!gameComplete) return;
+
+    const studyTimeMinutes = Math.round((Date.now() - startTime) / 60000);
+    const avgResponseTimeSec = Math.round((Date.now() - startTime) / 1000 / questions.length); // simple average
+    const accuracy = (score / questions.length) * 100;
+    const scaledScore = (score / questions.length) * 10;
+
+    updateEnvirnomentPerformance({
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: score >= 8,
+    });
+  }, [gameComplete, score]);
+
 
   const WelcomePage = () => (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-600 flex items-center justify-center p-4">
@@ -577,10 +599,10 @@ const FeedbackLoopGame = () => {
             <div className="text-6xl md:text-8xl mb-6 animate-bounce">🏆</div>
             <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">
               {`${score < 7
-                  ? "Keep Trying"
-                  : score < 8
-                    ? "Well done"
-                    : "Outstanding, Champ"
+                ? "Keep Trying"
+                : score < 8
+                  ? "Well done"
+                  : "Outstanding, Champ"
                 }`}
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 mb-6">
@@ -714,8 +736,8 @@ const FeedbackLoopGame = () => {
                       key={index}
                       onClick={() => handleCardSelect(card)}
                       className={`p-4 md:p-6 rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 ${selectedCard === card
-                          ? "bg-gradient-to-r from-green-400 to-blue-400 text-white shadow-lg scale-105"
-                          : "bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-100 hover:to-purple-100 text-gray-700"
+                        ? "bg-gradient-to-r from-green-400 to-blue-400 text-white shadow-lg scale-105"
+                        : "bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-100 hover:to-purple-100 text-gray-700"
                         } ${animateWrong && selectedCard === card
                           ? "animate-pulse bg-red-400"
                           : ""

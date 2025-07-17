@@ -7,13 +7,13 @@ import { Heart, MessageCircle, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import Confetti from 'react-confetti';
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const sections = [
     { label: "CTA", icon: <GiClick className="text-xl mr-2 animate-wiggle" />, color: "bg-green-200" },
     { label: "Visual Demo", icon: <GiFilmSpool className="text-xl mr-2 animate-spin" />, color: "bg-blue-200" },
     { label: "Opening Hook", icon: <GiMagicPalm className="text-xl mr-2 animate-bounce" />, color: "bg-pink-200" },
     { label: "Voiceover/Script", icon: <GiMicrophone className="text-xl mr-2 animate-pulse" />, color: "bg-yellow-200" },
-
 ];
 
 const correctSequence = ["Opening Hook", "Visual Demo", "Voiceover/Script", "CTA"];
@@ -25,7 +25,7 @@ const visualStyles = [
 ];
 
 export default function ReelArchitectGame() {
-    const {completeDMChallenge} = useDM();
+    const { completeDMChallenge } = useDM();
     const [sequence, setSequence] = useState([]);
     const [feedback, setFeedback] = useState(null);
     const [style, setStyle] = useState(null);
@@ -34,7 +34,9 @@ export default function ReelArchitectGame() {
     const [caption, setCaption] = useState("");
     const [step, setStep] = useState(1);
     const [points, setPoints] = useState(0);
-    
+    //for performance
+    const { updateDMPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
     const handleDragStart = (e, index) => {
         e.dataTransfer.setData("dragIndex", index);
@@ -98,15 +100,33 @@ export default function ReelArchitectGame() {
             toast.error("Please enter a campaign name and select at least one hashtag!");
             return;
         }
+
         const stylePoints = checkStyle();
         const captionPoints = checkCaption();
-        const total = stylePoints + captionPoints + points;
+        const totalPoints = stylePoints + captionPoints + points; // max = 11
 
-        setPoints(total);
+        setPoints(totalPoints);
         setStep(4);
+        completeDMChallenge(1, 0);
 
-        completeDMChallenge(1,0);
+        // ⏱️ Performance Tracking
+        const endTime = Date.now();
+        const durationSec = Math.round((endTime - startTime) / 1000);
+        const durationMinutes = Math.round(durationSec / 60) || 1; // avoid zero
+
+        const scoreOutOf10 = Math.round((totalPoints / 11) * 10);
+        const accuracyOutOf100 = Math.round((totalPoints / 11) * 100);
+        const avgResponseTimeSec = Math.round(durationSec); // per point
+
+        updateDMPerformance({
+            score: scoreOutOf10,
+            accuracy: accuracyOutOf100,
+            avgResponseTimeSec,
+            studyTimeMinutes: durationMinutes,
+            completed: true,
+        });
     };
+
 
     const resetGame = () => {
         setSequence([]);

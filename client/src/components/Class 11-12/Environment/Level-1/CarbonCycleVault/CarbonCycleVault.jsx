@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const introGifs = [
   "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2VkaTg2cmpmNGZpMjVwM3RqZDU2aDBjeGl6NWM5cDMxbzlzOHN2MiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j2wu51IWlQzEYxnocJ/200.webp",
@@ -23,6 +24,9 @@ const correctSequence = [
 const CarbonCycleVault = () => {
   const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [page, setPage] = useState("intro");
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const [sequence, setSequence] = useState([
     "Respiration",
@@ -82,8 +86,23 @@ const CarbonCycleVault = () => {
   const handleSubmit = () => {
     const correct = checkAnswers();
     setResult(correct);
-    if (correct) completeEnvirnomentChallenge(0,0);
+
+    if (correct) {
+      completeEnvirnomentChallenge(0, 0);
+
+      const endTime = Date.now();
+      const totalTimeMs = endTime - startTime;
+
+      const payload = {
+        avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: true,
+      };
+
+      updateEnvirnomentPerformance(payload);
+    }
   };
+
 
   const resetGame = () => {
     setSequence([
@@ -181,8 +200,8 @@ const CarbonCycleVault = () => {
                   key={opt}
                   onClick={() => toggleMcq(opt)}
                   className={`border px-4 py-2 rounded-full ${mcqAnswer.includes(opt)
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-100 hover:bg-gray-200"
+                    ? "bg-green-600 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
                     }`}
                 >
                   {opt}

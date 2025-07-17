@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const originalCards = [
     { id: 1, text: "We’ve studied how similar clubs in 3 other schools succeeded with this idea.", type: "Logos" },
     { id: 2, text: "This project will help students feel more involved and boost morale.", type: "Pathos" },
@@ -53,16 +54,34 @@ const PitchPerfectGame = () => {
     const [challengeCompleted, setChallengeCompleted] = useState(false);
 
 
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+    const [finalScore, setFinalScore] = useState(null);
+
     useEffect(() => {
         setCardBank(shuffleArray(originalCards));
     }, []);
 
     useEffect(() => {
-        if (finalScore !== null && finalScore >= 8 && !challengeCompleted) {
-            completeCommunicationChallenge(1,0);
-            setChallengeCompleted(true);
+        if (finalScore !== null) {
+            const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+            updateCommunicationPerformance({
+                score: Math.round((finalScore / 20) * 10),
+                accuracy: Math.round((finalScore / 20) * 100),
+                avgResponseTimeSec: timeTakenSec,
+                studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+                completed: finalScore >= 15
+            });
+
+            if (finalScore >= 15 && !challengeCompleted) {
+                completeCommunicationChallenge(1, 0);
+                setChallengeCompleted(true);
+            }
         }
     }, [finalScore]);
+
 
 
 

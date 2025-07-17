@@ -3,7 +3,7 @@ import { Clock, Star, Trophy, RefreshCw, Play, Home } from "lucide-react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const CrimeCivilGame = () => {
   const { completeLawChallenge } = useLaw();
   const [currentPage, setCurrentPage] = useState("home");
@@ -19,11 +19,35 @@ const CrimeCivilGame = () => {
   const [dropZoneHighlight, setDropZoneHighlight] = useState("");
   const timerRef = useRef(null);
 
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
-  if (currentPage === "results") {
-    completeLawChallenge(1,0);
-  }
-}, [currentPage]);
+    if (currentPage === "results") {
+      completeLawChallenge(1, 0);
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (currentPage !== "results") return;
+
+    const endTime = Date.now();
+    const timeSpent = Math.round((endTime - startTime) / 60000); // in minutes
+    const totalQuestions = answers.length;
+    const scaledScore = (score / totalQuestions) * 10; // score out of 10
+    const accuracy = Math.round((score / totalQuestions) * 100); // out of 100
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+
+    updateLawPerformance({
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes: timeSpent,
+      completed: true
+    });
+  }, [currentPage]);
+
 
   const scenarios = [
     {
@@ -455,11 +479,10 @@ const CrimeCivilGame = () => {
           <div className="grid md:grid-cols-3 gap-4">
             {/* Crime Box */}
             <div
-              className={`bg-red-500 rounded-2xl p-6 text-white text-center min-h-40 flex flex-col justify-center transform transition-all duration-300 ${
-                dropZoneHighlight === "crime"
-                  ? "scale-110 bg-red-400 shadow-2xl"
-                  : "hover:scale-105"
-              }`}
+              className={`bg-red-500 rounded-2xl p-6 text-white text-center min-h-40 flex flex-col justify-center transform transition-all duration-300 ${dropZoneHighlight === "crime"
+                ? "scale-110 bg-red-400 shadow-2xl"
+                : "hover:scale-105"
+                }`}
               onDrop={(e) => handleDrop("crime", e)}
               onDragOver={handleDragOver}
               onDragEnter={() => handleDragEnter("crime")}
@@ -474,11 +497,10 @@ const CrimeCivilGame = () => {
 
             {/* Civil Box */}
             <div
-              className={`bg-blue-500 rounded-2xl p-6 text-white text-center min-h-40 flex flex-col justify-center transform transition-all duration-300 ${
-                dropZoneHighlight === "civil"
-                  ? "scale-110 bg-blue-400 shadow-2xl"
-                  : "hover:scale-105"
-              }`}
+              className={`bg-blue-500 rounded-2xl p-6 text-white text-center min-h-40 flex flex-col justify-center transform transition-all duration-300 ${dropZoneHighlight === "civil"
+                ? "scale-110 bg-blue-400 shadow-2xl"
+                : "hover:scale-105"
+                }`}
               onDrop={(e) => handleDrop("civil", e)}
               onDragOver={handleDragOver}
               onDragEnter={() => handleDragEnter("civil")}
@@ -495,11 +517,10 @@ const CrimeCivilGame = () => {
 
             {/* Both Box */}
             <div
-              className={`bg-green-500 rounded-2xl p-6 text-white text-center min-h-40 flex flex-col justify-center transform transition-all duration-300 ${
-                dropZoneHighlight === "both"
-                  ? "scale-110 bg-green-400 shadow-2xl"
-                  : "hover:scale-105"
-              }`}
+              className={`bg-green-500 rounded-2xl p-6 text-white text-center min-h-40 flex flex-col justify-center transform transition-all duration-300 ${dropZoneHighlight === "both"
+                ? "scale-110 bg-green-400 shadow-2xl"
+                : "hover:scale-105"
+                }`}
               onDrop={(e) => handleDrop("both", e)}
               onDragOver={handleDragOver}
               onDragEnter={() => handleDragEnter("both")}
@@ -571,13 +592,13 @@ const CrimeCivilGame = () => {
                 ? score === 5
                   ? "Congratulations Champ!"
                   : score === 4
-                  ? "Well done!"
-                  : "Keep practicing!"
+                    ? "Well done!"
+                    : "Keep practicing!"
                 : score === 10
-                ? "You're a Star!"
-                : score >= 8
-                ? "Well done!"
-                : "You can do better!"}
+                  ? "You're a Star!"
+                  : score >= 8
+                    ? "Well done!"
+                    : "You can do better!"}
             </motion.div>
 
             {/* Summary Box */}
@@ -614,11 +635,10 @@ const CrimeCivilGame = () => {
               {answers.map((answer, index) => (
                 <div
                   key={index}
-                  className={`p-4 rounded-xl border-2 transition-all duration-300 ${
-                    answer.correct
-                      ? "bg-green-100 border-green-500"
-                      : "bg-red-100 border-red-500"
-                  }`}
+                  className={`p-4 rounded-xl border-2 transition-all duration-300 ${answer.correct
+                    ? "bg-green-100 border-green-500"
+                    : "bg-red-100 border-red-500"
+                    }`}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">

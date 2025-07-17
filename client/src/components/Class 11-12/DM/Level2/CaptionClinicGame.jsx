@@ -11,7 +11,7 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const CaptionClinicGame = () => {
   const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
@@ -21,6 +21,9 @@ const CaptionClinicGame = () => {
   const [stars, setStars] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [celebrationMode, setCelebrationMode] = useState(false);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const originalCaption =
     "Buy our new energy drink now. It's very good for concentration.";
@@ -124,7 +127,7 @@ const CaptionClinicGame = () => {
       setCelebrationMode(true);
       setTimeout(() => setCelebrationMode(false), 2000);
 
-      completeDMChallenge(1,0); // 👈 Add this here
+      completeDMChallenge(1, 0); // 👈 Add this here
     } else if (totalScore === 2) {
       feedbackMessage =
         "You're on the right track! Try being more specific and punchy.";
@@ -134,6 +137,18 @@ const CaptionClinicGame = () => {
         "Think: What would *you* want to hear if you were tired during class?";
       starCount = 1;
     }
+
+    const timeTakenSec = Math.round((Date.now() - startTime) / 1000);
+    const scaledScore = (starCount / 5) * 10; // out of 10
+
+    updateDMPerformance({
+      score: scaledScore,
+      accuracy: (totalScore / 3) * 100, // percentage based on 3-point system
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.round(timeTakenSec / 60),
+      completed: totalScore === 3,
+    });
+
 
     setFeedback(feedbackMessage);
     setStars(starCount);
@@ -289,8 +304,8 @@ const CaptionClinicGame = () => {
                 <div className="text-lg leading-relaxed">
                   <span
                     className={`px-2 py-1 rounded-lg cursor-pointer transition-all duration-300 ${highlightedParts.includes("hook")
-                        ? "bg-red-300"
-                        : "hover:bg-red-100"
+                      ? "bg-red-300"
+                      : "hover:bg-red-100"
                       }`}
                     onClick={() => toggleHighlight("hook")}
                   >
@@ -299,8 +314,8 @@ const CaptionClinicGame = () => {
                   <span>. </span>
                   <span
                     className={`px-2 py-1 rounded-lg cursor-pointer transition-all duration-300 ${highlightedParts.includes("benefit")
-                        ? "bg-yellow-300"
-                        : "hover:bg-yellow-100"
+                      ? "bg-yellow-300"
+                      : "hover:bg-yellow-100"
                       }`}
                     onClick={() => toggleHighlight("benefit")}
                   >
@@ -391,8 +406,8 @@ const CaptionClinicGame = () => {
                   <Star
                     key={i}
                     className={`w-8 h-8 mx-1 ${i < stars
-                        ? "text-yellow-400 fill-current"
-                        : "text-gray-300"
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300"
                       } transition-all duration-300`}
                   />
                 ))}

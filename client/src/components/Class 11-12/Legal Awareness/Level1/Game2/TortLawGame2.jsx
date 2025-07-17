@@ -11,6 +11,7 @@ import {
   Gavel,
 } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 import { motion } from "framer-motion";
 
 import clickSoundFile from "../../../Sound/clickSoundFile.mp3";
@@ -32,6 +33,10 @@ const TortLawGame2 = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [completedChallenges, setCompletedChallenges] = useState([]);
+
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const cases = [
     {
@@ -174,7 +179,7 @@ const TortLawGame2 = () => {
       setSelectedAnswer(null); // Reset selected answer for the next question
     } else {
       // Challenge completed
-      completeLawChallenge(0,1); // ✅ Call it here
+      completeLawChallenge(0, 1); // ✅ Call it here
       setCompletedChallenges((prev) => [...prev, currentChallenge]);
       setCurrentPage("results");
     }
@@ -266,6 +271,31 @@ const TortLawGame2 = () => {
       clearInterval(interval);
     };
   }, [score, currentPage, canvasRef]);
+
+  useEffect(() => {
+  if (currentPage !== "results") return;
+
+  const totalQuestions =
+    Object.keys(challenges[currentChallenge]?.correctAnswers || {}).length;
+
+  if (totalQuestions === 0) return;
+
+  const challengeScore = challengeScores[currentChallenge];
+
+  const normalizedScore = (challengeScore / (totalQuestions * 10)) * 10; // out of 10
+  const accuracy = (challengeScore / (totalQuestions * 10)) * 100; // out of 100
+  const avgResponseTimeSec = (Date.now() - startTime) / 1000 / totalQuestions;
+  const studyTimeMinutes = (Date.now() - startTime) / 1000 / 60;
+
+  updateLawPerformance({
+    score: Number(normalizedScore.toFixed(2)),
+    accuracy: Number(accuracy.toFixed(2)),
+    avgResponseTimeSec: Number(avgResponseTimeSec.toFixed(2)),
+    studyTimeMinutes: Number(studyTimeMinutes.toFixed(2)),
+    completed: true,
+  });
+}, [currentPage]);
+
 
   const HomePage = () => (
     <div
@@ -414,9 +444,8 @@ const TortLawGame2 = () => {
               <div
                 className="bg-gradient-to-r from-green-300 to-teal-400 h-3 rounded-full transition-all duration-500"
                 style={{
-                  width: `${
-                    ((currentQuestionIndex + 1) / cases.length) * 100
-                  }%`,
+                  width: `${((currentQuestionIndex + 1) / cases.length) * 100
+                    }%`,
                 }}
               ></div>
             </div>
@@ -459,17 +488,16 @@ const TortLawGame2 = () => {
                     playClickSound(clickSoundRefPop);
                   }}
                   disabled={showFeedback}
-                  className={`p-4 rounded-xl text-left font-semibold transition-all duration-300 transform hover:scale-105 border-2 ${
-                    showFeedback
+                  className={`p-4 rounded-xl text-left font-semibold transition-all duration-300 transform hover:scale-105 border-2 ${showFeedback
                       ? answer.id === correctAnswerId
                         ? "bg-green-400 text-white border-green-600 shadow-lg"
                         : answer.id === selectedAnswer
-                        ? "bg-red-400 text-white border-red-600 shadow-lg"
-                        : "bg-gray-200 text-gray-600"
+                          ? "bg-red-400 text-white border-red-600 shadow-lg"
+                          : "bg-gray-200 text-gray-600"
                       : selectedAnswer === answer.id
-                      ? "ring-4 ring-indigo-300 scale-105 " + answer.color
-                      : answer.color + " hover:shadow-xl"
-                  }`}
+                        ? "ring-4 ring-indigo-300 scale-105 " + answer.color
+                        : answer.color + " hover:shadow-xl"
+                    }`}
                 >
                   <div className="font-semibold text-gray-800 mb-2">
                     {answer.id}.
@@ -479,8 +507,8 @@ const TortLawGame2 = () => {
                       showFeedback && answer.id === correctAnswerId
                         ? "text-white"
                         : showFeedback && answer.id === selectedAnswer
-                        ? "text-white"
-                        : "text-gray-700"
+                          ? "text-white"
+                          : "text-gray-700"
                     }
                   >
                     {answer.text}
@@ -494,11 +522,10 @@ const TortLawGame2 = () => {
                 <button
                   onClick={handleAnswer}
                   disabled={!selectedAnswer}
-                  className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform ${
-                    selectedAnswer
+                  className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform ${selectedAnswer
                       ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 hover:scale-105"
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
+                    }`}
                 >
                   Submit Answer
                 </button>
@@ -617,13 +644,12 @@ const TortLawGame2 = () => {
           }}
           className="text-2xl mb-8 z-20"
         >
-          <h2>{`${
-            score === 60
+          <h2>{`${score === 60
               ? "Congratulations Champ"
               : score === 50
-              ? "Well done"
-              : "You can do better"
-          }`}</h2>
+                ? "Well done"
+                : "You can do better"
+            }`}</h2>
         </motion.div>
 
         <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 z-20">
@@ -643,13 +669,13 @@ const TortLawGame2 = () => {
               <div className="text-3xl font-bold">
                 {challenges[currentChallenge].correctAnswers
                   ? Math.round(
-                      (challengeScores[currentChallenge] /
-                        (Object.keys(
-                          challenges[currentChallenge].correctAnswers
-                        ).length *
-                          10)) *
-                        100
-                    )
+                    (challengeScores[currentChallenge] /
+                      (Object.keys(
+                        challenges[currentChallenge].correctAnswers
+                      ).length *
+                        10)) *
+                    100
+                  )
                   : 0}
                 %
               </div>
