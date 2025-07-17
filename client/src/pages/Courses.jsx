@@ -2,19 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 
-import { 
-  BookOpen, 
-  Gamepad2, 
-  Clock, 
-  Users, 
-  Star, 
+import {
+  BookOpen,
+  Gamepad2,
+  Clock,
+  Users,
+  Star,
   TrendingUp,
   Award,
   Play,
   ChevronRight,
   Filter,
   Search,
-  ChevronDown
+  ChevronDown,
+  ArrowRight
 } from "lucide-react";
 
 const courses = [
@@ -32,7 +33,7 @@ const courses = [
     rating: 4.8,
     progress: 0,
     color: "emerald"
-    
+
   },
   {
     id: 2,
@@ -161,7 +162,7 @@ const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
 
 const CourseCard = ({ course, index }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   // Helper function to get level icon
   const getLevelIcon = (level) => {
     switch (level) {
@@ -188,12 +189,12 @@ const CourseCard = ({ course, index }) => {
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ 
-        duration: 0.6, 
+      transition={{
+        duration: 0.6,
         delay: index * 0.1,
         ease: [0.25, 0.46, 0.45, 0.94]
       }}
-      whileHover={{ 
+      whileHover={{
         y: -8,
         transition: { duration: 0.3, ease: "easeOut" }
       }}
@@ -216,20 +217,16 @@ const CourseCard = ({ course, index }) => {
         {/* Category Badge */}
         <div className="absolute top-3 left-3 z-20">
           <span className="bg-white px-3 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
-            
+
             {course.category}
           </span>
         </div>
 
-        {/* Difficulty Badge */}
-        <div className="absolute top-3 right-3 z-20">
-          <span className={`px-2 py-1 rounded-md text-xs font-medium ${difficultyColors[course.difficulty]}`}>
-            {course.difficulty}
-          </span>
-        </div>
+
+
       </div>
 
-      <div className="p-4">
+      <div className="p-2">
         <div className="flex justify-between">
           <div className="flex-1 w-[80%]">
             <h4 className="text-lg font-bold  text-black mb-2 truncate group-hover:text-gray-700 transition-colors duration-300">
@@ -248,18 +245,18 @@ const CourseCard = ({ course, index }) => {
           {course.description}
         </p>
 
-        <div className="flex flex-wrap items-center gap-4 mb-4 text-xs text-gray-500">
+        <div className="flex flex-wrap items-center gap-2 mb-4 text-xs text-gray-500">
           <div
-            className={`px-2 py-1 rounded flex items-center gap-1 text-xs font-medium ${difficultyColors[course.difficulty]}`}
+            className={`px-2 py-1  rounded flex items-center gap-1 text-xs font-medium ${difficultyColors[course.difficulty]}`}
           >
             <img src={getLevelIcon(course.difficulty)} alt={course.difficulty} className="w-3 h-3" />
             {course.difficulty}
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex text-xs items-center bg-gray-200 rounded-2xl py-[6px] px-3 gap-1">
             <img src="/time.png" alt="Duration" className="w-3.5 h-3.5" />
             <span>{course.duration}</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex text-xs  items-center bg-gray-200 rounded-2xl p-[5px] ] px-3  gap-1">
             <img src="/people.png" alt="Students" className="w-3.5 h-3.5" />
             <span>{course.students.toLocaleString()}</span>
           </div>
@@ -279,7 +276,7 @@ const CourseCard = ({ course, index }) => {
               Let's Play &gt;
             </motion.button>
           </Link>
-          
+
           <Link
             to={course.notesLink}
             className=""
@@ -304,23 +301,22 @@ const FilterButton = ({ active, onClick, children }) => (
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
     onClick={onClick}
-    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-      active 
-        ? 'bg-green-600 text-white shadow-lg' 
-        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-    }`}
+    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${active
+      ? 'bg-green-600 text-white shadow-lg'
+      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+      }`}
   >
     {children}
   </motion.button>
 );
 
-const MobileFilterDropdown = ({ 
-  title, 
-  options, 
-  selectedValue, 
-  onSelect, 
-  isOpen, 
-  onToggle 
+const MobileFilterDropdown = ({
+  title,
+  options,
+  selectedValue,
+  onSelect,
+  isOpen,
+  onToggle
 }) => {
   return (
     <div className="relative">
@@ -332,7 +328,7 @@ const MobileFilterDropdown = ({
         <span>{title}: {selectedValue}</span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </motion.button>
-      
+
       {isOpen && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -347,11 +343,10 @@ const MobileFilterDropdown = ({
                 onSelect(option);
                 onToggle();
               }}
-              className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-50 transition-colors ${
-                selectedValue === option 
-                  ? 'bg-green-50 text-green-700 font-medium' 
-                  : 'text-gray-700'
-              }`}
+              className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-50 transition-colors ${selectedValue === option
+                ? 'bg-green-50 text-green-700 font-medium'
+                : 'text-gray-700'
+                }`}
             >
               {option}
             </button>
@@ -370,13 +365,16 @@ const Courses = () => {
   const [difficultyDropdownOpen, setDifficultyDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const coursesRef = useRef(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [hasAutoExpanded, setHasAutoExpanded] = useState(false);
+  const filtersRef = useRef(null);
 
   const filteredCourses = courses.filter(course => {
     const matchesCategory = selectedCategory === "All" || course.category === selectedCategory;
     const matchesDifficulty = selectedDifficulty === "All" || course.difficulty === selectedDifficulty;
     const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         course.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
+      course.description.toLowerCase().includes(searchTerm.toLowerCase());
+
     return matchesCategory && matchesDifficulty && matchesSearch;
   });
 
@@ -403,6 +401,24 @@ const Courses = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!hasAutoExpanded && filtersRef.current) {
+        const filtersPosition = filtersRef.current.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        // Auto-expand when filters section comes into view
+        if (filtersPosition <= windowHeight * 0.8) {
+          setFiltersOpen(true);
+          setHasAutoExpanded(true);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasAutoExpanded]);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -418,20 +434,20 @@ const Courses = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center sm:mt-10 gap-2 bg-black backdrop-blur-sm rounded-full px-2 py-1 mb-6"
+              className="inline-flex items-center sm:mt-10 gap-2 bg-black backdrop-blur-sm rounded-full px-3 py-1 mb-6"
             >
-              <span className="text-xs sm:text-sm  text-white">🎯 Transform your future right now</span>
+              <span><img className="w-4 h-4" src="/upward.png" alt="" /></span><span className="text-xs sm:text-sm  text-white"> Transform your future right now</span>
             </motion.div>
-            
+
             <h1 className="text-[26px] md:text-5xl  text-white mb-3 leading-tight"
-            style={{ fontFamily: '"Sigmar One", cursive' }}>
+              style={{ fontFamily: '"Sigmar One", cursive' }}>
               Master New Skills
               <br />
-              <span className="text-white">
-                Shape Tomorrow 👌
-              </span>
+              <div className=" inline-flex text-white">
+                Shape Tomorrow <span><img className="sm:h-15 sm:w-15 w-8 h-8" src="/coursesGIF.gif" alt="courese" /></span>
+              </div>
             </h1>
-            
+
             <p className="text-sm md:text-xl text-white/90 max-w-2xl mx-auto mb-12 font-inter leading-relaxed">
               Discover world-class courses designed to unlock your potential. Interactive learning meets gamified experiences.
             </p>
@@ -444,14 +460,23 @@ const Courses = () => {
               className="max-w-md mx-auto mb-12"
             >
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <img
+                  src="/search.png"
+                  alt="Search"
+                  className="absolute text-white left-4 top-1/2 transform -translate-y-1/2 w-8 h-8 opacity-100 pointer-events-none z-10"
+                />
+                <img
+                  src="/rightArrow.png"
+                  alt="Arrow Right"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 w-8 h-8 opacity-80 pointer-events-none z-10"
+                />
                 <input
                   type="text"
-                  placeholder="Search courses... (Press Enter to jump to results)"
+                  placeholder={` Search courses... `}
                   value={searchTerm}
                   onChange={handleSearch}
                   onKeyDown={handleSearchKeyDown}
-                  className="w-full pl-12 pr-4 py-4 bg-[#074a19] backdrop-blur-sm border border-white/30 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
+                  className="w-full pl-12 pr-12 py-4 bg-[#074a19] backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                 />
               </div>
             </motion.div>
@@ -463,16 +488,16 @@ const Courses = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="flex flex-wrap justify-center gap-3 md:gap-8"
             >
-              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_10px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-6 py-3 text-center">
+              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_1px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-6 py-3 text-center">
                 <div className="sm:text-3xl text-2xl font-bold text-white mb-1">10+</div>
                 <div className="text-sm text-white/80">Expert Courses</div>
               </div>
-              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_10px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-6 py-3 text-center">
+              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_1px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-6 py-3 text-center">
                 <div className="sm:text-3xl text-2xl font-bold text-white mb-1">25K+</div>
                 <div className="text-sm text-white/80">Active Learners</div>
               </div>
-              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_10px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-8 py-3 text-center">
-                <div className="sm:text-3xl text-2xl font-bold text-white mb-1">4.6⭐</div>
+              <div className="bg-[#A5ED6E]/30 backdrop-blur-sm rounded-lg shadow-[4px_4px_1px_rgba(0,0,0,1)] sm:px-8 sm:py-3 px-8 py-3 text-center">
+                <div className="sm:text-3xl text-2xl font-bold text-white mb-1">4.6+</div>
                 <div className="text-sm text-white/80">Avg Rating</div>
               </div>
             </motion.div>
@@ -480,24 +505,56 @@ const Courses = () => {
         </div>
       </div>
 
-      {/* Filters Section */}
-      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-200 pt-7 ">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-600" />
-              <span className="text-sm font-medium text-gray-700">Filters</span>
-            </div>
-            <div className="text-sm text-gray-600">
-              {filteredCourses.length} course{filteredCourses.length !== 1 ? 's' : ''} found
-            </div>
-          </div>
-
-          {/* Desktop Filters */}
-          <div className="hidden md:block space-y-4">
-            {/* Category Filters */}
+      {/* Filters Section - Non-sticky with Dropdown */}
+      <div ref={filtersRef} className="max-w-7xl mx-auto px-6 py-6">
+        {/* Filters Toggle Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-4"
+        >
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm hover:shadow-md transition-all duration-300 group"
+          >
+            
+            <span><img className="w- h-6" src="/filter.png" alt="" /></span>
             <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Category</h3>
+              <span className="text-lg font-medium text-gray-700 group-hover:text-gray-900">
+                Filters
+              </span>
+            </div>
+
+
+
+          </motion.button>
+          <div className="ml-auto w-35 text-md -mt-10 text-gray-700 font-medium rounded-full px-3 py-1">
+            {filteredCourses.length} course{filteredCourses.length !== 1 ? 's' : ''} found
+          </div>
+        </motion.div>
+
+        {/* Filters Dropdown Content */}
+        <motion.div
+          initial={false}
+          animate={{
+            height: filtersOpen ? 'auto' : 0,
+            opacity: filtersOpen ? 1 : 0,
+            marginBottom: filtersOpen ? 24 : 0
+          }}
+          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="overflow-hidden"
+        >
+          <div className="bg-white  rounded-xl p-2 shadow-sm">
+            {/* Category Filters */}
+            <div className="mb-3">
+              <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                Category
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {categories.map(category => (
                   <FilterButton
@@ -513,7 +570,10 @@ const Courses = () => {
 
             {/* Difficulty Filters */}
             <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Difficulty</h3>
+              <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                Difficulty
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {difficulties.map(difficulty => (
                   <FilterButton
@@ -526,39 +586,32 @@ const Courses = () => {
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Mobile Filters */}
-          <div className="md:hidden space-y-3 dropdown-container">
-            <MobileFilterDropdown
-              title="Category"
-              options={categories}
-              selectedValue={selectedCategory}
-              onSelect={setSelectedCategory}
-              isOpen={categoryDropdownOpen}
-              onToggle={() => {
-                setCategoryDropdownOpen(!categoryDropdownOpen);
-                setDifficultyDropdownOpen(false);
-              }}
-            />
-            
-            <MobileFilterDropdown
-              title="Difficulty"
-              options={difficulties}
-              selectedValue={selectedDifficulty}
-              onSelect={setSelectedDifficulty}
-              isOpen={difficultyDropdownOpen}
-              onToggle={() => {
-                setDifficultyDropdownOpen(!difficultyDropdownOpen);
-                setCategoryDropdownOpen(false);
-              }}
-            />
+            {/* Clear Filters Button */}
+            {(selectedCategory !== "All" || selectedDifficulty !== "All") && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="pt-4 mt-4 border-t border-gray-100"
+              >
+                <button
+                  onClick={() => {
+                    setSelectedCategory("All");
+                    setSelectedDifficulty("All");
+                  }}
+                  className="text-sm text-gray-500 hover:text-gray-700 underline transition-colors"
+                >
+                  Clear all filters
+                </button>
+              </motion.div>
+            )}
           </div>
-        </div>
+        </motion.div>
       </div>
 
+
       {/* Courses Grid */}
-      <div ref={coursesRef} className="max-w-7xl mx-auto px-6 py-12 pb-28 mb-80">
+      <div ref={coursesRef} className="max-w-7xl mx-auto px-6 py-12 pb-28 sm:mb-8 mb-80">
         {filteredCourses.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -572,7 +625,7 @@ const Courses = () => {
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
             {filteredCourses.map((course, index) => (
               <CourseCard

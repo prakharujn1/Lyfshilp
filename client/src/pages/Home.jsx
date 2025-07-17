@@ -1,12 +1,44 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Star, ChevronDown } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
+
+// Custom hook for mobile detection
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+};
 
 // Progress Card Component
 const ProgressCardComponent = () => {
   const [progress, setProgress] = useState(35);
   const [arrowPosition, setArrowPosition] = useState("bottom");
   const [isAnimating, setIsAnimating] = useState(false);
+  const isMobile = useIsMobile();
+
+  // Auto-play on mobile
+  useEffect(() => {
+    let interval;
+    if (isMobile) {
+      interval = setInterval(() => {
+        handleButtonHover();
+      }, 4000);
+    }
+    return () => clearInterval(interval);
+  }, [isMobile]);
 
   const handleButtonHover = () => {
     if (isAnimating) return;
@@ -78,8 +110,8 @@ const ProgressCardComponent = () => {
       <div className="relative mb-4 sm:mb-8">
         <button
           className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg transition-all duration-300 text-xs sm:text-sm"
-          onMouseEnter={handleButtonHover}
-          onMouseLeave={handleButtonLeave}
+          onMouseEnter={isMobile ? undefined : handleButtonHover}
+          onMouseLeave={isMobile ? undefined : handleButtonLeave}
         >
           ✨ Let's Play
         </button>
@@ -93,6 +125,19 @@ const BitcoinCard = ({ bitcoinImages }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const isMobile = useIsMobile();
+
+  // Auto-play on mobile
+  useEffect(() => {
+    let interval;
+    if (isMobile) {
+      interval = setInterval(() => {
+        setIsHovered(true);
+        setTimeout(() => setIsHovered(false), 3000);
+      }, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [isMobile]);
 
   useEffect(() => {
     let timeouts = [];
@@ -137,8 +182,8 @@ const BitcoinCard = ({ bitcoinImages }) => {
     <div className="relative w-full h-40 sm:h-60">
       <motion.div
         className="absolute inset-0 bg-white rounded-lg overflow-hidden cursor-pointer shadow-lg"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={isMobile ? undefined : () => setIsHovered(true)}
+        onMouseLeave={isMobile ? undefined : () => setIsHovered(false)}
         initial={{ scale: 1, y: 0 }}
         animate={{
           scale: isHovered ? 1.05 : 1,
@@ -192,6 +237,19 @@ const BitcoinCard = ({ bitcoinImages }) => {
 const PeopleAvatars = ({ defaultImages }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showTeacher, setShowTeacher] = useState(false);
+  const isMobile = useIsMobile();
+
+  // Auto-play on mobile
+  useEffect(() => {
+    let interval;
+    if (isMobile) {
+      interval = setInterval(() => {
+        setIsHovered(true);
+        setTimeout(() => setIsHovered(false), 2000);
+      }, 4000);
+    }
+    return () => clearInterval(interval);
+  }, [isMobile]);
 
   useEffect(() => {
     setShowTeacher(isHovered);
@@ -231,8 +289,8 @@ const PeopleAvatars = ({ defaultImages }) => {
     <div className="relative h-full flex flex-col items-center">
       <div
         className="relative w-[340px] h-[210px] cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={isMobile ? undefined : () => setIsHovered(true)}
+        onMouseLeave={isMobile ? undefined : () => setIsHovered(false)}
       >
         {/* Chotu Label & Arrow */}
         <motion.div
@@ -327,12 +385,146 @@ const PeopleAvatars = ({ defaultImages }) => {
   );
 };
 
+// Student Feedback Carousel Component
+const StudentFeedbackCarousel = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel);
+    },
+    created() {
+      setLoaded(true);
+    },
+    slides: {
+      perView: 1,
+      spacing: 20,
+    },
+    breakpoints: {
+      "(min-width: 768px)": {
+        slides: {
+          perView: 2,
+          spacing: 20,
+        },
+      },
+      "(min-width: 1024px)": {
+        slides: {
+          perView: 3,
+          spacing: 30,
+        },
+      },
+    },
+  });
+
+  const feedbackCards = [
+    {
+      text: "I like this type of quiz because it Shows us \"the answer\" when we get wrong and we don't understand the answer at the end it give feedback, where can understand it more so on the test we can get a A or B because we learned by wayground.",
+      author: "",
+      bgColor: "bg-purple-300",
+      rotation: "rotate-1"
+    },
+    {
+      text: "I think the school should purchase wayground because it could help you learning. And if you get a question wrong it lets you have more tips and I like it because I was able to rush me if I'm stuck on a question.",
+      author: "Charlotte",
+      bgColor: "bg-blue-200",
+      rotation: "-rotate-1"
+    },
+    {
+      text: "I think it has a lots of help you can do some gra",
+      author: "",
+      bgColor: "bg-yellow-200",
+      rotation: "rotate-1"
+    },
+    {
+      text: "This platform made learning so much fun! The games are engaging and help me remember concepts better than traditional studying methods.",
+      author: "Alex",
+      bgColor: "bg-pink-200",
+      rotation: "-rotate-1"
+    },
+    {
+      text: "The interactive notes and quizzes helped me improve my grades significantly. I love how it explains concepts in simple terms.",
+      author: "Emma",
+      bgColor: "bg-green-100",
+      rotation: "rotate-1"
+    },
+    {
+      text: "Amazing way to learn! The combination of games and structured content makes studying enjoyable rather than a chore.",
+      author: "Ryan",
+      bgColor: "bg-purple-200",
+      rotation: "-rotate-1"
+    }
+  ];
+
+  return (
+    <div className="relative p-5 max-w-6xl mx-auto">
+      <div ref={sliderRef} className="keen-slider">
+        {feedbackCards.map((card, index) => (
+          <div key={index} className={`keen-slider__slide transform ${card.rotation}`}>
+            <div className={`${card.bgColor} p-8 sm:p-6 rounded-lg shadow-lg relative h-40 sm:h-48`}>
+              <div className="h-full overflow-hidden flex flex-col justify-between">
+                <p
+                  className="text-black text-left text-xs sm:text-sm leading-relaxed flex-1"
+                  style={{ fontFamily: "Comic Sans MS, cursive" }}
+                >
+                  {card.text}
+                </p>
+                {card.author && (
+                  <p className="text-right mt-2 font-bold text-black text-xs sm:text-sm">
+                    
+                  </p>
+                )}
+              </div>
+              {/* Tape effect */}
+              <div className={`absolute -top-2 ${index % 2 === 0 ? 'left-4 sm:left-8' : 'right-4 sm:right-8'} w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform ${index % 2 === 0 ? '-rotate-12' : 'rotate-12'}`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Navigation arrows */}
+      {loaded && instanceRef.current && (
+        <>
+          <button
+            onClick={() => instanceRef.current?.prev()}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-gray-100 p-2 rounded-full shadow-lg transition duration-300 z-10"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-600" />
+          </button>
+          <button
+            onClick={() => instanceRef.current?.next()}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-gray-100 p-2 rounded-full shadow-lg transition duration-300 z-10"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-600" />
+          </button>
+        </>
+      )}
+
+      {/* Dots indicator */}
+      {loaded && instanceRef.current && (
+        <div className="flex justify-center mt-4 space-x-2">
+          {Array.from({ length: feedbackCards.length - 2 }).map((_, idx) => (
+            <button
+              key={idx}
+              className={`w-2 h-2 rounded-full transition duration-300 ${
+                currentSlide === idx ? 'bg-green-600' : 'bg-gray-300'
+              }`}
+              onClick={() => instanceRef.current?.moveToIdx(idx)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Home = () => {
   const [openFAQ, setOpenFAQ] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
+  const navigate = useNavigate();
 
   // Bitcoin images array (replace with your actual image paths)
   const bitcoinImages = [
@@ -418,6 +610,8 @@ const Home = () => {
       title: "Fundamentals of Finance",
       description: "Learn the basics of budgeting, saving, and financial planning for a secure future.",
       rating: 4.7,
+      notesLink: "/finance/notes",
+    gamesLink: "/finance/games",
       level: "Beginner",
       duration: "6 weeks",
       students: "2,847",
@@ -428,6 +622,8 @@ const Home = () => {
       title: "Computers",
       description: "Understand computer fundamentals, hardware, software, and digital literacy essentials.",
       rating: 4.6,
+      notesLink: "/computer/notes",
+    gamesLink: "/computer/games",
       level: "Intermediate",
       duration: "5 weeks",
       students: "3,215",
@@ -438,6 +634,8 @@ const Home = () => {
       title: "Fundamentals of Law",
       description: "Gain a foundational understanding of legal principles, rights, and responsibilities.",
       rating: 4.8,
+      notesLink: "/law/notes",
+    gamesLink: "/law/games",
       level: "Advanced",
       duration: "7 weeks",
       students: "1,932",
@@ -448,6 +646,8 @@ const Home = () => {
       title: "Communication Skills",
       description: "Enhance your verbal, non-verbal, and written communication for personal and professional success.",
       rating: 4.9,
+      notesLink: "/communications/notes",
+    gamesLink: "/communications/games",
       level: "Beginner",
       duration: "4 weeks",
       students: "4,102",
@@ -458,6 +658,8 @@ const Home = () => {
       title: "Entrepreneurship",
       description: "Learn how to start, manage, and grow a successful business from scratch.",
       rating: 4.7,
+      notesLink: "/entreprenerurship/notes",
+    gamesLink: "/entreprenerurship/games",
       level: "Intermediate",
       duration: "6 weeks",
       students: "2,658",
@@ -468,6 +670,8 @@ const Home = () => {
       title: "Digital Marketing",
       description: "Explore SEO, social media, and online advertising to grow brands digitally.",
       rating: 4.6,
+      notesLink: "/digital-marketing/notes",
+    gamesLink: "/digital-marketing/games",
       level: "Advanced",
       duration: "5 weeks",
       students: "3,876",
@@ -478,6 +682,8 @@ const Home = () => {
       title: "Leadership & Adaptability",
       description: "Develop leadership skills and learn to thrive in changing environments.",
       rating: 4.8,
+      notesLink: "/leadership/notes",
+    gamesLink: "/leadership/games",
       level: "Beginner",
       duration: "6 weeks",
       students: "2,491",
@@ -488,6 +694,8 @@ const Home = () => {
       title: "Environmental",
       description: "Understand environmental issues and sustainable practices for a better future.",
       rating: 4.7,
+      notesLink: "/environmental/notes",
+    gamesLink: "/environmental/games",
       level: "Intermediate",
       duration: "6 weeks",
       students: "1,743",
@@ -515,25 +723,29 @@ const Home = () => {
       question: "What do I get with Premium?",
       answer:
         "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
-      bgColor: "bg-green-400",
+      QbgColor: "bg-green-400",
+      AbgColor: "bg-green-100"
     },
     {
       question: "What do I get with Premium?",
       answer:
         "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
-      bgColor: "bg-pink-300",
+      QbgColor: "bg-pink-300",
+      AbgColor: "bg-pink-100",
     },
     {
       question: "What do I get with Premium?",
       answer:
         "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
-      bgColor: "bg-blue-300",
+      QbgColor: "bg-blue-300",
+      AbgColor: "bg-blue-100",
     },
     {
       question: "What do I get with Premium?",
       answer:
         "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
-      bgColor: "bg-purple-300",
+      QbgColor: "bg-purple-300",
+      AbgColor: "bg-purple-100",
     },
   ];
 
@@ -611,7 +823,7 @@ const Home = () => {
   return (
     <div className="min-h-screen -mt-8 bg-white overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-[60vh] sm:h-[70vh] lg:h-[100vh] w-full p-0 -mt-8">
+      <section className="relative h-[100vh] sm:h-[70vh] lg:h-[100vh] w-full p-0 -mt-8">
         <div className="w-full relative h-full bg-[url('/heroBG.jpg')] bg-cover bg-center bg-no-repeat">
           <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center px-4 sm:px-6">
             {/* Trust Badge */}
@@ -631,7 +843,7 @@ const Home = () => {
               </h1>
               <h1 className="text-white flex text-xl ml-8 sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
               style={{ fontFamily: '"Sigmar One", cursive' }}>
-                and More- Fun Way <div className="w-15 h-15"><img src="/Fire.gif" alt="fire" /></div>
+                and More- Fun Way <div className=" sm:h-15 sm:w-15 "><img className="w-8 h-7 sm:h-15 sm:w-15" src="/Fire.gif" alt="fire" /></div>
               </h1>
             </div>
 
@@ -657,7 +869,7 @@ const Home = () => {
           {/* Hero Illustration */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 px-4 py-2 max-w-2xl mx-auto">
             {/* Main characters illustration */}
-            <div className="relative h-[200px] w-[200px] sm:h-[350px] sm:w-[350px] lg:h-[500px] lg:w-[500px] overflow-hidden">
+            <div className="relative h-[330px] w-[330px] sm:h-[350px] sm:w-[350px] lg:h-[500px] lg:w-[500px] overflow-hidden">
               <img
                 src="/heroIMG.png"
                 alt="Full"
@@ -779,8 +991,8 @@ const Home = () => {
               <div className=" ml-10 h-40">
                 
                 
-                <img className=" absolute h-[48%] -mb-4 mt-2 z-50 w-[57%]" src="/mid4.png" alt="mid" />
-              <div className="flex w-[70%] ml-13 absolute bottom-0 mb-5 left-0 h-28">
+                <img className=" absolute sm:h-[48%] h-[34%] -ml-6 sm:mt-4 z-50 sm:w-[57%]" src="/mid4.png" alt="mid" />
+              <div className="flex sm:w-[60%] w-[60%] ml-15 sm:ml-25 absolute bottom-0 mb-5 left-0 h-18 sm:h-28">
                 
                 <ProgressCardComponent />
               </div>
@@ -832,67 +1044,70 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Success Stats Section */}
-      <section className="py-10 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
-            <div className="order-1 lg:order-1">
-              <div className="bg-green-500 rounded-2xl lg:rounded-tl-4xl lg:rounded-bl-4xl text-center h-[300px] sm:h-[430px] w-full lg:w-[550px] relative overflow-hidden">
-                {/* Character illustration */}
-                <div className="relative w-full pt-5 -mb-10 h-full z-10">
-                  <img
-                    src="/5.gif"
-                    alt="Full"
-                    className="absolute inset-0 w-full h-[-50%] object-cover"
-                  />
-                </div>
+    {/* Success Stats Section */}
+<section className="py-10 sm:py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 items-center gap-8">
+      {/* Heading - order 1 on mobile, positioned in desktop grid */}
+      <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1 lg:self-start">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-4 sm:mb-8 leading-tight">
+          Join thousands of curious minds from top schools and
+          institutions using Edumaniax to -
+          <span className="text-green-600">
+            {" "}
+            make learning fun, engaging, and effective
+          </span>
+        </h2>
+      </div>
+
+      {/* Image - order 2 on mobile, spans both rows on desktop */}
+      <div className="order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2">
+        <div className="bg-green-500 rounded-2xl lg:rounded-tl-4xl lg:rounded-bl-4xl text-center h-[300px] sm:h-[430px] w-full lg:w-[550px] relative overflow-hidden">
+          {/* Character illustration */}
+          <div className="relative w-full pt-5 -mb-10 h-full z-10">
+            <img
+              src="/5.gif"
+              alt="Full"
+              className="absolute inset-0 w-full h-[-50%] object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Stats - order 3 on mobile, positioned in desktop grid */}
+      <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2 lg:self-end">
+        <div className="bg-gray-200 rounded-2xl p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
+            <div className="text-center sm:pr-6">
+              <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                50+
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600">
+                Partners School overall India
               </div>
             </div>
-
-            <div className="order-2 lg:order-2 h-full w-full flex flex-col justify-between space-y-6 lg:space-y-0">
-              <div>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-4 sm:mb-8 leading-tight">
-                  Join thousands of curious minds from top schools and
-                  institutions using Edumaniax to -
-                  <span className="text-green-600">
-                    {" "}
-                    make learning fun, engaging, and effective
-                  </span>
-                </h2>
+            <div className="text-center sm:px-6">
+              <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                12K+
               </div>
-
-              <div className="bg-gray-200 rounded-2xl p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
-                  <div className="text-center sm:pr-6">
-                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
-                      50+
-                    </div>
-                    <div className="text-xs sm:text-sm text-gray-600">
-                      Partners School overall India
-                    </div>
-                  </div>
-                  <div className="text-center sm:px-6">
-                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
-                      12K+
-                    </div>
-                    <div className="text-xs sm:text-sm text-gray-600">
-                      Students across the globe
-                    </div>
-                  </div>
-                  <div className="text-center sm:pl-6">
-                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
-                      20+
-                    </div>
-                    <div className="text-xs sm:text-sm text-gray-600">
-                      Trending topics from different categories
-                    </div>
-                  </div>
-                </div>
+              <div className="text-xs sm:text-sm text-gray-600">
+                Students across the globe
+              </div>
+            </div>
+            <div className="text-center sm:pl-6">
+              <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                20+
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600">
+                Trending topics from different categories
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Courses Section */}
       <section className="py-10 sm:py-20 bg-gray-50">
@@ -948,7 +1163,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="p-3 sm:p-4">
+              <div className="p-3 sm:p-3">
                 <div className="flex justify-between">
                   <div className="flex-1">
                     <h4 className="text-sm sm:text-base font-bold text-black mb-2 line-clamp-2">
@@ -967,7 +1182,7 @@ const Home = () => {
                   {course.description}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-ex text-gray-500">
+                <div className="flex flex-wrap items-center gap-1 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-ex text-gray-500">
                   <div
                     className={`px-2 py-1 rounded flex items-center gap-1 text-xs font-medium ${
                       course.level === "Beginner"
@@ -980,30 +1195,56 @@ const Home = () => {
                     <img src={getLevelIcon(course.level)} alt={course.level} className="w-3 h-3" />
                     {course.level}
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
                     <span><img src="/time.png" alt="" /></span> {course.duration}
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
                     <span><img src="/people.png" alt="" /></span>  {course.students}
                   </div>
                 </div>
 
                 <div className="flex gap-2">
-                  <button className="flex-1 bg-green-600 text-white font-medium py-2 px-2 sm:px-4 rounded-lg hover:bg-green-700 transition duration-300 text-xs sm:text-sm flex items-center justify-center gap-1 sm:gap-2">
-                    <span><img src="/game.png" alt="" /></span>  Let's Play &gt;
-                  </button>
-                  <button className="bg-orange-400 flex items-center text-white font-medium py-2 px-2 sm:px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-xs sm:text-xs">
-                    <span className="w-5 h-5 mr-1"><img src="/notes.png" alt="" /></span>  Notes
-                  </button>
-                </div>
+          <Link
+            to={course.gamesLink}
+            className="flex-1"
+          >
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
+            >
+              <img src="/game.png" alt="Game" className="w-4 h-4" />
+              Let's Play &gt;
+            </motion.button>
+          </Link>
+
+          <Link
+            to={course.notesLink}
+            className=""
+          >
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
+            >
+              <img src="/notes.png" alt="Notes" className="w-4 h-4 mr-1" />
+              Notes
+            </motion.button>
+          </Link>
+        </div>
               </div>
             </motion.div>
           ))}
         </div>
         <div className="w-full h-full flex justify-center items-center">
-          <button className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
+          <Link
+            to={"/courses"}
+            className=""
+          >
+          <button  className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
             View More..
           </button>
+          </Link>
         </div>
       </div>
     </section>
@@ -1071,7 +1312,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Student Feedback Section */}
+      {/* Student Feedback Section - CAROUSEL */}
       <section className="py-10 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
@@ -1081,78 +1322,12 @@ const Home = () => {
             that matter most
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-            {/* Note 1 - Purple */}
-            <div className="transform rotate-1">
-              <div className="bg-purple-300 p-4 sm:p-6 rounded-lg shadow-lg relative">
-                {/* <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
-                  London
-                </div> */}
-                <div className="h-32 sm:h-40 overflow-hidden">
-                  <p
-                    className="text-black text-left text-xs sm:text-sm leading-relaxed"
-                    style={{ fontFamily: "Comic Sans MS, cursive" }}
-                  >
-                    I like this type of quiz because it Shows us "the answer"
-                    when we get wrong and we don't understand the answer at the
-                    end it give feedback, where can understand it more so on the
-                    test we can get a A or B because we learned by wayground.
-                  </p>
-                </div>
-                {/* Tape effect */}
-                <div className="absolute -top-2 left-4 sm:left-8 w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform -rotate-12"></div>
-              </div>
-            </div>
-
-            {/* Note 2 - Blue */}
-            <div className="transform -rotate-1">
-              <div className="bg-blue-200 p-4 sm:p-6 rounded-lg shadow-lg relative">
-                {/* <div className="bg-yellow-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
-                  
-                </div> */}
-                <div className="h-32 sm:h-40 overflow-hidden">
-                  <p
-                    className="text-black text-left text-xs sm:text-sm leading-relaxed"
-                    style={{ fontFamily: "Comic Sans MS, cursive" }}
-                  >
-                    I think the school should purchase wayground because it
-                    could help you learning. And if you get a question wrong it
-                    lets you have more tips and I like it because I was able to
-                    rush me if I'm stuck on a question.
-                  </p>
-                  <p className="text-right mt-2 sm:mt-4 font-bold text-black text-xs sm:text-sm">
-                    Charlotte
-                  </p>
-                </div>
-                {/* Tape effect */}
-                <div className="absolute -top-2 right-4 sm:right-8 w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform rotate-12"></div>
-              </div>
-            </div>
-
-            {/* Note 3 - Yellow */}
-            <div className="transform rotate-1">
-              <div className="bg-yellow-200 p-4 sm:p-6 rounded-lg shadow-lg relative">
-                {/* <div className="bg-green-200 px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4 inline-block text-xs sm:text-sm font-medium">
-                  Reni
-                </div> */}
-                <div className="h-32 sm:h-40 overflow-hidden">
-                  <p
-                    className="text-black text-left text-xs sm:text-sm leading-relaxed"
-                    style={{ fontFamily: "Comic Sans MS, cursive" }}
-                  >
-                    I think it has a lots of help you can do some gra
-                  </p>
-                </div>
-                {/* Tape effect */}
-                <div className="absolute -top-2 left-6 sm:left-12 w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform -rotate-6"></div>
-              </div>
-            </div>
-          </div>
+          <StudentFeedbackCarousel />
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-10 sm:py-20 mb-60 sm:mb-20">
+      <section className="py-10 sm:py-20 mb-100 sm:mb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
             Frequently Asked
@@ -1164,24 +1339,24 @@ const Home = () => {
             Everything you need to know before getting started
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-2">
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}
-                className={`${faq.bgColor} rounded-2xl p-4 sm:p-6 cursor-pointer transition duration-300 hover:shadow-lg`}
+                className={` rounded-2xl p-4 sm:p-6 cursor-pointer transition duration-300 `}
                 onClick={() => toggleFAQ(index)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <div className="flex justify-between items-center">
-                  <h3 className="text-sm sm:text-lg font-bold text-black text-left flex-1 pr-2">
+                <div className={`flex ${faq.QbgColor} p-3 z-30 relative pb-4 rounded-2xl -mb-4 justify-between items-center`}>
+                  <h3 className={`text-sm  sm:text-lg font-bold text-black text-left flex-1 pr-2`}>
                     {faq.question}
                   </h3>
                   <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
                     <ChevronDown
-                      className={`w-3 sm:w-4 h-3 sm:h-4 text-green-600 transition-transform duration-300 ${
+                      className={`w-3 sm:w-4 h-3 sm:h-4 text-green-600  transition-transform duration-300 ${
                         openFAQ === index ? "transform rotate-180" : ""
                       }`}
                     />
@@ -1189,7 +1364,7 @@ const Home = () => {
                 </div>
                 {openFAQ === index && (
                   <motion.p
-                    className="text-black mt-3 sm:mt-4 text-left text-sm"
+                    className={`text-black ${faq.AbgColor} mt-3 sm:-mt-4 rounded-bl-2xl rounded-br-2xl pt-6 p-3  text-left text-sm`}
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     transition={{ duration: 0.3 }}
@@ -1200,6 +1375,11 @@ const Home = () => {
               </motion.div>
             ))}
           </div>
+          
+
+
+          
+
         </div>
       </section>
     </div>

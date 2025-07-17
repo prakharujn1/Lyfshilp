@@ -39,6 +39,7 @@
     "html2pdf.js": "^0.10.3",
     "js-cookie": "^3.0.5",
     "jspdf": "^3.0.1",
+    "keen-slider": "^6.8.6",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.511.0",
