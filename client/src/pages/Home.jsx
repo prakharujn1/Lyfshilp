@@ -823,9 +823,9 @@ const Home = () => {
   return (
     <div className="min-h-screen -mt-8 bg-white overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-[100vh] sm:h-[70vh] lg:h-[100vh] w-full p-0 -mt-8">
+      <section className="relative h-[90vh] sm:h-[70vh] lg:h-[100vh] w-full p-0 -mt-8">
         <div className="w-full relative h-full bg-[url('/heroBG.jpg')] bg-cover bg-center bg-no-repeat">
-          <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center px-4 sm:px-6">
+          <div className="relative z-10 max-w-7xl mx-auto flex mt-5 flex-col items-center text-center px-4 sm:px-6">
             {/* Trust Badge */}
             <div className="mb-3 sm:mb-5 pt-3 sm:pt-5 mt-4 sm:mt-8">
               <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 mt-14 sm:mt-8 border border-white/20">
@@ -869,7 +869,7 @@ const Home = () => {
           {/* Hero Illustration */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 px-4 py-2 max-w-2xl mx-auto">
             {/* Main characters illustration */}
-            <div className="relative h-[330px] w-[330px] sm:h-[350px] sm:w-[350px] lg:h-[500px] lg:w-[500px] overflow-hidden">
+            <div className="relative h-[350px] w-[330px] sm:h-[350px] sm:w-[350px] lg:h-[500px] lg:w-[500px] overflow-hidden">
               <img
                 src="/heroIMG.png"
                 alt="Full"
@@ -1195,10 +1195,10 @@ const Home = () => {
                     <img src={getLevelIcon(course.level)} alt={course.level} className="w-3 h-3" />
                     {course.level}
                   </div>
-                  <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
+                  <div className="flex items-center bg-gray-200 lg:-ml-3 rounded-2xl mr-2 ml-3 py-[6px] px-2  gap-1">
                     <span><img src="/time.png" alt="" /></span> {course.duration}
                   </div>
-                  <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
+                  <div className="flex items-center bg-gray-200 lg:-ml-5 rounded-2xl mr-2 ml-3 py-[6px] px-2  gap-1">
                     <span><img src="/people.png" alt="" /></span>  {course.students}
                   </div>
                 </div>
