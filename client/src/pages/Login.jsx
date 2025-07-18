@@ -217,7 +217,7 @@ const Login = () => {
                     checked={rememberMe}
                     onChange={() => setRememberMe(!rememberMe)}
                   />
-                  <span className="-mt-0.5">Remeber me</span>
+                  <span className="-mt-0.5">Remember me</span>
                 </label>
 
                 <button
