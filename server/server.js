@@ -13,7 +13,7 @@ import lawRoutes from "./routes/lawRoutes.js";
 import leadershipRoutes from "./routes/leadershipRoutes.js";
 import SELRoutes from "./routes/SELRoutes.js";
 import performanceRoutes from './routes/performanceRoutes.js';
-
+import blogRoutes from './routes/blogRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -33,8 +33,8 @@ app.use("/envirnoment", envirnomentRoutes);
 app.use("/law", lawRoutes);
 app.use("/leadership", leadershipRoutes);
 app.use("/sel", SELRoutes);
-
 app.use("/performance", performanceRoutes);
+app.use("/blogs", blogRoutes);
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

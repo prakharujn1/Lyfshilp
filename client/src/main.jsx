@@ -13,6 +13,8 @@ import { LawProvider } from "./contexts/LawContext";
 import { LeadershipProvider } from "./contexts/LeadershipContext";
 import { SELProvider } from "./contexts/SELContext";
 import { PerformanceProvider } from "./contexts/PerformanceContext";
+import { BlogProvider } from "./contexts/BlogContext";
+import { HelmetProvider } from "react-helmet-async";
 
 import { Toaster } from 'react-hot-toast';
 
@@ -29,8 +31,12 @@ createRoot(document.getElementById("root")).render(
                     <LeadershipProvider>
                       <SELProvider>
                         <PerformanceProvider>
-                          <App />
-                          <Toaster />
+                          <BlogProvider>
+                            <HelmetProvider>
+                              <App/>
+                              <Toaster/>
+                            </HelmetProvider>
+                          </BlogProvider>
                         </PerformanceProvider>
                       </SELProvider>
                     </LeadershipProvider>
