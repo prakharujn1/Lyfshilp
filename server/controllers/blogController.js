@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client"; 
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 

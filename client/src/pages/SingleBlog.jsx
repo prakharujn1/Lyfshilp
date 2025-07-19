@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useBlog } from "@/contexts/BlogContext";
 import BlogCard from "@/components/BlogCard";
 import { useAuth } from "@/contexts/AuthContext";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
  
 const SingleBlog = () => { 
   const { user, role } = useAuth();
@@ -29,11 +29,11 @@ const SingleBlog = () => {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>{singleBlog.title} | Edumaniax Blog</title>
         <meta name="description" content={singleBlog.metaDescription} />
         <meta name="author" content="Edumaniax" />
-      </Helmet>
+      </Helmet> */}
 
       <div className="max-w-4xl mx-auto p-6">
         <h1 className="text-4xl font-bold mb-2">{singleBlog.title}</h1>
