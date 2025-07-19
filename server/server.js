@@ -17,7 +17,7 @@ import blogRoutes from './routes/blogRoutes.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Enable CORS for all origins
 app.use(cors());
