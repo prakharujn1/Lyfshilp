@@ -3,7 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
 const prisma = new PrismaClient();
-
+ 
 // Get all blogs
 export const getAllBlogs = async (req, res) => {
   const blogs = await prisma.blog.findMany({
@@ -46,7 +46,6 @@ export const createBlog = async (req, res) => {
     let {
       title,
       module,
-      blogBody,
       metaDescription,
       tableOfContents,
       introduction,
@@ -56,7 +55,6 @@ export const createBlog = async (req, res) => {
     if (
       !title ||
       !module ||
-      !blogBody ||
       !metaDescription ||
       !tableOfContents ||
       !introduction ||
@@ -66,10 +64,14 @@ export const createBlog = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Parse tableOfContents if it's a stringified array
+    // Parse and validate tableOfContents
     if (typeof tableOfContents === "string") {
       try {
         tableOfContents = JSON.parse(tableOfContents);
+        const isValid = Array.isArray(tableOfContents) && tableOfContents.every(point =>
+          point.heading && Array.isArray(point.explanation) && point.reflection
+        );
+        if (!isValid) throw new Error();
       } catch (err) {
         return res.status(400).json({ message: "Invalid tableOfContents format" });
       }
@@ -84,13 +86,12 @@ export const createBlog = async (req, res) => {
       folder: "blogs",
     });
 
-    fs.unlinkSync(req.file.path); // clean up local file
+    fs.unlinkSync(req.file.path); // delete local file
 
     const blog = await prisma.blog.create({
       data: {
         title,
         module,
-        blogBody,
         metaDescription,
         tableOfContents,
         introduction,

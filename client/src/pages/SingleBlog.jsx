@@ -108,15 +108,35 @@ const SingleBlog = () => {
             </h2>
             <ol className="mt-2 list-decimal list-inside space-y-2 text-green-900 font-medium text-sm md:text-base">
               {singleBlog.tableOfContents.map((item, idx) => (
-                <li key={idx}>{item}</li>
+                <li key={idx}>
+                  <a href={`#point-${idx}`} className="hover:underline text-green-800">
+                    {item.heading}
+                  </a>
+                </li>
               ))}
             </ol>
           </div>
 
-          <div
-            className="prose max-w-none mt-6"
-            dangerouslySetInnerHTML={{ __html: singleBlog.blogBody }}
-          ></div>
+          <div className="mt-6 space-y-10">
+            {singleBlog.tableOfContents.map((point, index) => (
+              <div key={index} id={`point-${index}`} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">{point.heading}</h2>
+                <ul className="list-disc list-inside text-gray-800 pl-4 space-y-1">
+                  {point.explanation.map((item, i) => (
+                    <li key={i}>
+                      <span className="font-medium">
+                        {String.fromCharCode(65 + i)}.
+                      </span>{" "}
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 italic text-gray-700">
+                  <strong>Reflection:</strong> {point.reflection}
+                </p>
+              </div>
+            ))}
+          </div>
 
           <div className="-ml-4">
             <CTA />

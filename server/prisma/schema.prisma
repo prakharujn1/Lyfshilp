@@ -341,16 +341,15 @@ model Blog {
   id               String   @id @default(cuid())
   title            String
   module           String
-  blogBody         String
   introduction     String     
   metaDescription  String
-  tableOfContents  String[]
+  tableOfContents  Json      
   imageUrl         String
   imageId          String
   createdAt        DateTime @default(now())
   readTime         String?
   comments         Comment[]
-}
+} 
 
 model Comment {
   id      String   @id @default(cuid())

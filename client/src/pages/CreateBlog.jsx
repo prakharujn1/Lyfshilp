@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import JoditEditor from "jodit-react";
 import { useBlog } from "@/contexts/BlogContext";
 import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,32 +22,44 @@ const CreateBlog = () => {
   const [formData, setFormData] = useState({
     title: "",
     module: "Finance",
-    blogBody: "",
     metaDescription: "",
     introduction: "",
     readTime: "",
     tableOfContents: [],
   });
-  const [tocInput, setTocInput] = useState("");
+  const [currentTOCItem, setCurrentTOCItem] = useState({
+    heading: "",
+    explanation: [""],
+    reflection: "",
+  });
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleAddTOC = () => {
-    if (tocInput.trim()) {
+    const { heading, explanation, reflection } = currentTOCItem;
+    const hasExplanation = explanation.some((e) => e.trim() !== "");
+
+    if (heading.trim() && reflection.trim() && hasExplanation) {
       setFormData((prev) => ({
         ...prev,
-        tableOfContents: [...prev.tableOfContents, tocInput],
+        tableOfContents: [...prev.tableOfContents, currentTOCItem],
       }));
-      setTocInput("");
+      setCurrentTOCItem({
+        heading: "",
+        explanation: [""],
+        reflection: "",
+      });
+    } else {
+      toast.error("Please fill all TOC fields before adding.");
     }
   };
 
   const isFormValid = () => {
-    const { title, module, blogBody, metaDescription, introduction, readTime, tableOfContents } = formData;
+    const { title, module, metaDescription, introduction, readTime, tableOfContents } = formData;
+    // const { title, module, metaDescription, introduction, readTime, tableOfContents } = formData;
     return (
       title &&
       module &&
-      blogBody &&
       metaDescription &&
       introduction &&
       readTime &&
@@ -61,13 +72,18 @@ const CreateBlog = () => {
     setFormData({
       title: "",
       module: "Finance",
-      blogBody: "",
       metaDescription: "",
       introduction: "",
       readTime: "",
       tableOfContents: [],
     });
-    setTocInput("");
+
+    setCurrentTOCItem({
+      heading: "",
+      explanation: [""],
+      reflection: "",
+    });
+
     setFile(null);
   };
 
@@ -174,39 +190,84 @@ const CreateBlog = () => {
 
         <div>
           <label className="block font-medium">Table of Contents</label>
-          <div className="flex gap-2 mb-2">
+
+          <div className="space-y-2 border p-4 rounded border-gray-300 bg-gray-50">
             <input
               type="text"
-              value={tocInput}
-              onChange={(e) => setTocInput(e.target.value)}
-              className="w-full p-2 border border-gray-800 rounded shadow-sm"
+              placeholder="Heading"
+              value={currentTOCItem.heading}
+              onChange={(e) =>
+                setCurrentTOCItem((prev) => ({ ...prev, heading: e.target.value }))
+              }
+              className="w-full p-2 border border-gray-800 rounded"
             />
+
+            {currentTOCItem.explanation.map((exp, idx) => (
+              <input
+                key={idx}
+                type="text"
+                placeholder={`Explanation ${idx + 1}`}
+                value={exp}
+                onChange={(e) => {
+                  const updated = [...currentTOCItem.explanation];
+                  updated[idx] = e.target.value;
+                  setCurrentTOCItem((prev) => ({ ...prev, explanation: updated }));
+                }}
+                className="w-full p-2 border border-gray-800 rounded"
+              />
+            ))}
+
+            <button
+              type="button"
+              className="text-sm text-blue-600 underline"
+              onClick={() =>
+                setCurrentTOCItem((prev) => ({
+                  ...prev,
+                  explanation: [...prev.explanation, ""],
+                }))
+              }
+            >
+              + Add Explanation
+            </button>
+
+            <textarea
+              rows="2"
+              placeholder="Reflection"
+              value={currentTOCItem.reflection}
+              onChange={(e) =>
+                setCurrentTOCItem((prev) => ({
+                  ...prev,
+                  reflection: e.target.value,
+                }))
+              }
+              className="w-full p-2 border border-gray-800 rounded"
+            />
+
             <button
               type="button"
               onClick={handleAddTOC}
-              className="bg-blue-600 text-white px-4 py-1 rounded"
+              className="bg-blue-600 text-white px-4 py-2 rounded"
             >
-              Add
+              Add TOC Entry
             </button>
           </div>
-          <ul className="list-disc pl-5 text-sm">
+
+          {/* Preview of added TOC */}
+          <ul className="mt-3 list-disc pl-5 text-sm space-y-2">
             {formData.tableOfContents.map((item, i) => (
-              <li key={i}>{item}</li>
+              <li key={i}>
+                <strong>{item.heading}</strong>
+                <ul className="list-decimal pl-4">
+                  {item.explanation.map((e, j) => (
+                    <li key={j}>{e}</li>
+                  ))}
+                </ul>
+                <em className="block mt-1">Reflection: {item.reflection}</em>
+              </li>
             ))}
           </ul>
         </div>
 
-        <div>
-          <label className="block font-medium">Blog Body</label>
-          <div className="border border-gray-800 rounded shadow-sm p-1">
-            <JoditEditor
-              value={formData.blogBody}
-              onChange={(value) =>
-                setFormData((prev) => ({ ...prev, blogBody: value }))
-              }
-            />
-          </div>
-        </div>
 
         <div>
           <label className="block font-medium">Read Time (in minutes)</label>
