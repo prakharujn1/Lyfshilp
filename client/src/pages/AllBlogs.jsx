@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useBlog } from "@/contexts/BlogContext";
 import BlogCard from "@/components/BlogCard";
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,6 +11,9 @@ const AllBlogs = () => {
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const { role } = useAuth();
   const navigate = useNavigate();
+  const [showFilters, setShowFilters] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
+  const categoryRef = useRef(null);
 
   const modules = [
     "All",
@@ -48,6 +51,23 @@ const AllBlogs = () => {
     currentPage * blogsPerPage
   );
 
+  const handleToggleFilters = () => {
+    setShowFilters((prev) => {
+      const newState = !prev;
+      setTimeout(() => {
+        if (newState && categoryRef.current) {
+          categoryRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }, 50);
+      return newState;
+    });
+  };
+
   return (
     <>
       <Hero />
@@ -55,7 +75,10 @@ const AllBlogs = () => {
       <div className="max-w-7xl mx-auto px-4 mt-8">
         {/* Filters Header */}
         <div className="flex items-center justify-between mb-4">
-          <button className="flex items-center gap-2 border border-gray-300 px-3 py-1.5 rounded-lg text-sm font-medium text-gray-700">
+          <button
+            onClick={() => setShowCategories((prev) => !prev)}
+            className="flex items-center gap-2 border border-gray-300 px-3 py-1.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 hover:shadow-sm active:scale-95 active:shadow-inner transition-transform duration-150"
+          >
             <img
               src="/blogDesign/filterIcon.svg"
               alt="Filter Icon"
@@ -63,29 +86,37 @@ const AllBlogs = () => {
             />
             Filters
           </button>
+
           <p className="text-sm font-semibold text-gray-600">
             {filteredBlogs.length} Blog{filteredBlogs.length !== 1 && "s"} found
           </p>
         </div>
 
-        {/* Category Heading */}
-        <p className="text-sm font-medium text-gray-600 mb-2">Category</p>
+        {/* Category Toggle Section */}
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${
+            showCategories ? "max-h-40 opacity-100 mt-4" : "max-h-0 opacity-0"
+          }`}
+        >
+          {/* Category Heading */}
+          <p className="text-sm font-medium text-gray-600 mb-2">Category</p>
 
-        {/* Module Buttons */}
-        <div className="flex flex-wrap gap-2 mt-6">
-          {modules.map((mod) => (
-            <button
-              key={mod}
-              onClick={() => setSelectedModule(mod)}
-              className={`px-4 py-1.5 text-sm font-semibold rounded-full border ${
-                selectedModule === mod
-                  ? "bg-green-600 text-white border-green-600"
-                  : "bg-gray-100 text-gray-700 border-transparent"
-              }`}
-            >
-              {mod}
-            </button>
-          ))}
+          {/* Module Buttons */}
+          <div className="flex flex-wrap gap-2 mt-2">
+            {modules.map((mod) => (
+              <button
+                key={mod}
+                onClick={() => setSelectedModule(mod)}
+                className={`px-4 py-1.5 text-sm font-semibold rounded-full border ${
+                  selectedModule === mod
+                    ? "bg-green-600 text-white border-green-600"
+                    : "bg-gray-100 text-gray-700 border-transparent"
+                }`}
+              >
+                {mod}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Divider */}
@@ -105,17 +136,41 @@ const AllBlogs = () => {
 
         {/* Blog Cards Grid */}
         {loading ? (
-          <p>Loading...</p>
+          <div className="mt-10 md:mt-16 px-4 pb-10 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="animate-pulse flex flex-col space-y-4 p-4 border rounded-lg shadow-sm"
+              >
+                <div className="h-40 bg-gray-200 rounded"></div>
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              </div>
+            ))}
+          </div>
         ) : (
           <>
             <div className="mt-10 md:mt-16 px-4 pb-10 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {paginatedBlogs.map((blog) => (
-                <BlogCard key={blog._id} blog={blog} />
-              ))}
+              {paginatedBlogs.length === 0 ? (
+                <div className="w-full flex flex-col items-center justify-center mt-12 mb-24 col-span-full">
+                  <img
+                    src="/blogDesign/notfound.svg"
+                    alt="No blogs found"
+                    className="w-72 h-auto opacity-80"
+                  />
+                  <p className="mt-4 text-gray-500 text-lg font-medium">
+                    No blogs found in this category.
+                  </p>
+                </div>
+              ) : (
+                paginatedBlogs.map((blog) => (
+                  <BlogCard key={blog._id} blog={blog} />
+                ))
+              )}
             </div>
 
             {/* Pagination (unchanged design, only logic added) */}
-            <div className="flex justify-center mt-4 mb-10">
+            <div className="flex justify-center mt-20 mb-28">
               <nav className="flex items-center space-x-1 text-sm font-medium">
                 {/* Previous */}
                 <button

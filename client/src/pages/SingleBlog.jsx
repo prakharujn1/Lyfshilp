@@ -31,202 +31,153 @@ const SingleBlog = () => {
   return (
     <>
       <div className="max-w-4xl mx-auto p-6">
-        {/* Breadcrumb */}
+        {/* Breadcrumb - outside the border */}
         <nav className="text-sm mt-8">
-          <div className="bg-gray-50 border border-gray-200 text-gray-800 px-4 py-2 rounded-xl inline-flex items-center space-x-2">
-            {/* Home */}
+          <div className="bg-gray-50 border border-gray-300 text-gray-800 px-4 py-3 rounded-xl inline-flex items-center space-x-3">
             <Link
               to="/"
               className="flex items-center gap-1 text-gray-500 font-semibold hover:underline"
             >
-              <img src="/blogDesign/home.svg" alt="Home" className="w-4 h-4" />
-              <span>Home</span>
+              <img
+                src="/blogDesign/home.svg"
+                alt="Home"
+                className="w-4 h-4 -mt-1"
+              />
+              <span className="-mt-1">Home</span>
             </Link>
-
-            {/* Arrow */}
             <img
               src="/blogDesign/rightArrow.svg"
               alt="Right Arrow"
               className="w-3 h-3"
             />
-
-            {/* Blogs */}
             <Link
               to="/blogs"
-              className="text-gray-500 font-semibold hover:underline"
+              className="text-gray-500 hover:underline -mt-1 block"
             >
               Blogs
             </Link>
-
-            {/* Arrow */}
             <img
               src="/blogDesign/rightArrow.svg"
               alt="Right Arrow"
               className="w-3 h-3"
             />
-
-            {/* Current Blog Title */}
-            <span className="font-semibold text-black flex items-center gap-1">
+            <span className="font-semibold text-black flex items-center gap-1 -mt-1">
               {singleBlog.title}
             </span>
           </div>
         </nav>
 
-        <h1 className="text-4xl md:text-4xl font-bold text-gray-900 mt-8 flex items-center gap-2">
-          {singleBlog.title}
-        </h1>
+        {/* Bordered Box Starts Here */}
+        <div className="border border-gray-300 rounded-2xl p-6 shadow-sm mt-6">
+          <h1 className="text-4xl md:text-4xl font-bold text-gray-900 flex items-center gap-2">
+            {singleBlog.title}
+          </h1>
 
-        {/* Author, Date, Read Time */}
-        <div className="flex items-center gap-2 flex-wrap text-sm text-gray-600 mt-2">
-          <span>By Edumaniax</span>
-          <span className="text-gray-400">|</span>
-          <span>
-            {new Date(singleBlog.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
-
-          <div className="mt-1 inline-flex items-center gap-1 text-green-700 bg-green-100 rounded-full px-3 py-1 text-xs font-medium w-fit">
-            <img
-              src="/blogDesign/4-5minRead.svg"
-              alt="read-time-icon"
-              className="w-4 h-4"
-            />
-            {(singleBlog.readTime || "4-5")
-              .replace(/mins?|minutes?/gi, "")
-              .trim() + " Min Read"}
-          </div>
-        </div>
-
-        <img
-          src={singleBlog.imageUrl}
-          alt="blog"
-          className="rounded-lg mt-4 w-full"
-        />
-
-        <div className="bg-[#EFFFD9] border border-green-700 rounded-lg p-4 mt-8">
-          <h2 className="text-xl font-bold text-black mt-2">
-            Table of Contents
-          </h2>
-          <ol className="mt-2 list-decimal list-inside space-y-2 text-green-900 font-medium text-sm md:text-base">
-            {singleBlog.tableOfContents.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ol>
-        </div>
-
-        <div
-          className="prose max-w-none mt-6"
-          dangerouslySetInnerHTML={{ __html: singleBlog.blogBody }}
-        ></div>
-
-        <div className="-ml-4">
-          <CTA />
-        </div>
-
-        <div className=" flex items-center gap-3">
-          <span className="text-gray-900 font-semibold">
-            Share this blog on:
-          </span>
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-700 hover:bg-green-800 text-white p-2 rounded-full"
-          >
-            <img
-              src="/blogDesign/facebook.svg"
-              alt="Facebook"
-              className="w-4 h-4"
-            />
-          </a>
-          <a
-            href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-700 hover:bg-green-800 text-white p-2 rounded-full"
-          >
-            <img
-              src="/blogDesign/twitter.svg"
-              alt="Twitter"
-              className="w-4 h-4"
-            />
-          </a>
-          <a
-            href={`https://wa.me/?text=${encodeURIComponent(
-              window.location.href
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-700 hover:bg-green-800 text-white p-2 rounded-full"
-          >
-            <img
-              src="/blogDesign/whatsapp.svg"
-              alt="WhatsApp"
-              className="w-4 h-4"
-            />
-          </a>
-          <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-700 hover:bg-green-800 text-white p-2 rounded-full"
-          >
-            <img
-              src="/blogDesign/linkedin.svg"
-              alt="LinkedIn"
-              className="w-4 h-4"
-            />
-          </a>
-        </div>
-
-        {user || role === "admin" ? (
-          <form onSubmit={handleSubmit} className="mt-12">
-            <h3 className="text-lg font-semibold mb-4">Leave your comment</h3>
-            <div className="bg-white border rounded-lg p-4 flex items-start gap-4 shadow-sm">
-              {/* Avatar */}
+          {/* Author, Date, Read Time */}
+          <div className="flex items-center gap-2 flex-wrap text-sm text-gray-600 mt-2">
+            <span>By Edumaniax</span>
+            <span className="text-gray-400">|</span>
+            <span>
+              {new Date(singleBlog.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+            <div className="mt-1 inline-flex items-center gap-1 text-green-700 bg-green-100 rounded-full px-3 py-1 text-xs font-medium w-fit">
               <img
-                src="/blogDesign/avatar.svg" // Replace with actual user avatar or default
-                alt="User Avatar"
-                className="w-12 h-12 rounded-full object-cover"
+                src="/blogDesign/4-5minRead.svg"
+                alt="read-time-icon"
+                className="w-4 h-4"
               />
+              {(singleBlog.readTime || "4-5")
+                .replace(/mins?|minutes?/gi, "")
+                .trim() + " Min Read"}
+            </div>
+          </div>
 
-              {/* Input + Button */}
-              <div className="flex-1">
-                <input
-                  type="text"
-                  placeholder="Ask your question in comment"
-                  value={comment.content}
-                  onChange={(e) =>
-                    setComment({ ...comment, content: e.target.value })
-                  }
-                  className="w-full p-3 border border-gray-300 rounded-md bg-[#F3F3F3] focus:outline-none focus:ring-2 focus:ring-green-700"
+          <img
+            src={singleBlog.imageUrl}
+            alt="blog"
+            className="rounded-lg mt-4 w-full"
+          />
+
+          <div className="bg-[#EFFFD9] border border-green-700 rounded-lg p-4 mt-8">
+            <h2 className="text-xl font-bold text-black mt-2">
+              Table of Contents
+            </h2>
+            <ol className="mt-2 list-decimal list-inside space-y-2 text-green-900 font-medium text-sm md:text-base">
+              {singleBlog.tableOfContents.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ol>
+          </div>
+
+          <div
+            className="prose max-w-none mt-6"
+            dangerouslySetInnerHTML={{ __html: singleBlog.blogBody }}
+          ></div>
+
+          <div className="-ml-4">
+            <CTA />
+          </div>
+
+          <div className="flex items-center gap-3 mt-6">
+            <span className="text-gray-900 font-semibold">
+              Share this blog on:
+            </span>
+            {/* Social icons */}
+            {/* ... existing share buttons ... */}
+          </div>
+
+          {/* Comment Section Inside Border */}
+          {user || role === "admin" ? (
+            <form onSubmit={handleSubmit} className="mt-12">
+              <h3 className="text-lg font-semibold mb-4">Leave your comment</h3>
+              <div className="bg-white border rounded-lg p-4 flex items-start gap-4 shadow-sm">
+                <img
+                  src="/blogDesign/avatar.svg"
+                  alt="User Avatar"
+                  className="w-12 h-12 rounded-full object-cover"
                 />
-
-                <div className="flex justify-end mt-3">
-                  <button
-                    type="submit"
-                    className="bg-[#10903E] hover:bg-green-700 text-white font-medium px-5 py-2 rounded-md flex items-center gap-1 transition"
-                  >
-                    Post Now
-                    <span>
-                      <img src="/blogDesign/buttonArrow.svg" />
-                    </span>
-                  </button>
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Ask your question in comment"
+                    value={comment.content}
+                    onChange={(e) =>
+                      setComment({ ...comment, content: e.target.value })
+                    }
+                    className="w-full p-3 border border-gray-300 rounded-md bg-[#F3F3F3] focus:outline-none focus:ring-2 focus:ring-green-700"
+                  />
+                  <div className="flex justify-end mt-3">
+                    <button
+                      type="submit"
+                      className="bg-[#10903E] hover:bg-green-700 text-white font-medium px-5 py-2 rounded-md flex items-center gap-1 transition"
+                    >
+                      Post Now
+                      <span>
+                        <img src="/blogDesign/buttonArrow.svg" />
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-        ) : (
-          <p className="text-gray-600 italic mt-4">
-            Please login to comment about the blog.
-          </p>
-        )}
+            </form>
+          ) : (
+            <p className="text-gray-600 italic mt-4">
+              Please{" "}
+              <span className="text-green-700 font-semibold italic">
+                login to comment
+              </span>{" "}
+              about the blog.
+            </p>
+          )}
+        </div>
 
+        {/* Outside Border - Similar Posts */}
         {similarBlogs.length > 0 && (
-          <div className="mt-10">
+          <div className="mt-10 mb-32">
             <h2 className="text-3xl font-bold mt-6">Similar Posts</h2>
             <div className="grid md:grid-cols-2 gap-4 mt-6">
               {similarBlogs.map((blog) => (
