@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <section
-      className="-mt-10 text-white py-12 md:py-12 pb-0 relative overflow-hidden"
+      className="-mt-6 text-white py-8 md:py-4 pb-0 relative overflow-hidden"
       style={{
         background: "linear-gradient(to bottom, #3F9400 0%, #2C6601 100%)",
       }}
@@ -20,9 +20,9 @@ const Hero = () => {
 
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between relative z-10">
         {/* Left Content */}
-        <div className="max-w-xl space-y-4 mb-10 md:mb-0">
-          <nav className="text-sm mt-10 -ml-2">
-            <div className="bg-black/20 ml-1 mb-10 text-white px-4 py-2 rounded-lg inline-flex items-center space-x-2">
+        <div className="max-w-xl space-y-3 mb-8 md:mb-0">
+          <nav className="text-sm mt-6 -ml-2">
+            <div className="bg-black/20 ml-1 mb-7 text-white px-4 py-2 rounded-lg inline-flex items-center space-x-2">
               <Link
                 to="/"
                 className="flex items-center gap-1 text-white hover:underline"
@@ -41,32 +41,32 @@ const Hero = () => {
             </div>
           </nav>
 
-          <h1 className="text-4xl sigmar-font font-bold leading-tight">
-            Discover something new in
-            <br />
-            every blog
-            <img
-              src="/blogDesign/eyes.svg"
-              alt="Eyes"
-              className="inline-block w-8 h-8 ml-2"
-            />
+          <h1 className="text-3xl md:text-4xl sigmar-font font-bold leading-none">
+            Discover something new in{" "}
+            <span className="inline-flex items-center align-middle -mt-10">
+              every blog
+              <img
+                src="/blogDesign/eyeMoving.gif"
+                alt="Eyes"
+                className="w-[5.8rem] h-[6.8rem] -ml-4 mt-2 -translate-y-[6px] align-middle"
+              />
+            </span>
           </h1>
 
-          <p className="text-white text-base md:text-lg mt-2 leading-relaxed max-w-xl">
+          <p className="text-white text-sm md:text-base -mt-8 leading-relaxed max-w-xl">
             Fun facts, cool ideas, and easy reads on science, tech, and more —
             perfect for curious kids, teachers and parents learning together.
           </p>
         </div>
 
         {/* Right Image */}
-        <div className="relative w-full max-w-sm md:max-w-md mt-10 md:mt-0 z-20 md:ml-8 md:self-end self-end mx-auto md:mx-0">
+        <div className="relative w-full max-w-sm md:max-w-md mt-6 md:mt-0 z-20 md:ml-6 mx-auto md:mx-0 flex items-end">
           {/* Glow effect */}
           <div className="absolute inset-0 z-0 blur-2xl opacity-30 scale-110 bg-white rounded-full pointer-events-none" />
           <img
             src="/blogDesign/kidsImage.svg"
             alt="Kids reading blogs"
-            className="w-full relative z-10 transform translate-y-0 md:translate-y-12"
-            style={{ marginTop: "1rem" }}
+            className="w-full relative z-10 translate-y-0 md:translate-y-6"
           />
         </div>
       </div>

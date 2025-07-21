@@ -12,10 +12,19 @@ export const BlogProvider = ({ children }) => {
 
   // Get all blogs
   const getAllBlogs = async () => {
+    if (blogs.length > 0) return; // already fetched
+
     setLoading(true);
     try {
+      const cached = localStorage.getItem("blogs");
+      if (cached) {
+        setBlogs(JSON.parse(cached));
+        setLoading(false); // show cached immediately
+      }
+
       const res = await axios.get(`${server}/blogs`);
       setBlogs(res.data);
+      localStorage.setItem("blogs", JSON.stringify(res.data));
     } catch (error) {
       console.error("Error fetching blogs:", error);
     } finally {
@@ -27,9 +36,23 @@ export const BlogProvider = ({ children }) => {
   const getBlogById = async (id) => {
     setLoading(true);
     try {
+      const cached = localStorage.getItem(`blog-${id}`);
+      if (cached) {
+        const { blog, similar } = JSON.parse(cached);
+        setSingleBlog(blog);
+        setSimilarBlogs(similar);
+      }
+
       const res = await axios.get(`${server}/blogs/${id}`);
       setSingleBlog(res.data.blog);
       setSimilarBlogs(res.data.similar);
+      localStorage.setItem(
+        `blog-${id}`,
+        JSON.stringify({
+          blog: res.data.blog,
+          similar: res.data.similar,
+        })
+      );
     } catch (error) {
       console.error("Error fetching blog:", error);
     } finally {
@@ -50,7 +73,10 @@ export const BlogProvider = ({ children }) => {
       });
       getAllBlogs();
     } catch (error) {
-      console.error("❌ Error creating blog:", error.response?.data || error.message);
+      console.error(
+        "❌ Error creating blog:",
+        error.response?.data || error.message
+      );
     }
   };
 
