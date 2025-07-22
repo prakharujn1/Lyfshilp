@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useBlog } from "@/contexts/BlogContext";
 import BlogCard from "@/components/BlogCard";
 import { useAuth } from "@/contexts/AuthContext";
 import CTA from "@/BlogDesign/CTA";
-// import { Helmet } from "react-helmet-async";
 
 const SingleBlog = () => {
   const { user, role } = useAuth();
@@ -13,6 +12,37 @@ const SingleBlog = () => {
     useBlog();
 
   const [comment, setComment] = useState({ content: "" });
+
+  const tocRef = useRef(null);
+  const ctaRef = useRef(null);
+  const [tocBottomOffset, setTocBottomOffset] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!tocRef.current || !ctaRef.current) return;
+
+      const tocRect = tocRef.current.getBoundingClientRect();
+      const ctaRect = ctaRef.current.getBoundingClientRect();
+
+      const padding = 20;
+
+      if (ctaRect.top < window.innerHeight) {
+        const overlap = window.innerHeight - ctaRect.top + padding;
+        setTocBottomOffset(overlap);
+      } else {
+        setTocBottomOffset(0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     getBlogById(id);
@@ -32,9 +62,9 @@ const SingleBlog = () => {
     <>
       <div className="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-start gap-8 mt-6">
         {/* LEFT: Main Blog Content */}
-        <div className="w-full lg:w-3/4">
+        <div className="w-full lg:flex-[3]">
           <div className="max-w-4xl mx-auto p-6">
-            {/* Breadcrumb - outside the border */}
+            {/* Breadcrumb */}
             <nav className="text-sm mt-8">
               <div className="bg-gray-50 border border-gray-300 text-gray-800 px-4 py-3 rounded-xl inline-flex items-center space-x-3">
                 <Link
@@ -70,13 +100,12 @@ const SingleBlog = () => {
               </div>
             </nav>
 
-            {/* Bordered Box Starts Here */}
+            {/* Blog Box */}
             <div className="border border-gray-300 rounded-2xl p-6 shadow-sm mt-6">
               <h1 className="text-4xl md:text-4xl font-bold text-gray-900 flex items-center gap-2">
                 {singleBlog.title}
               </h1>
 
-              {/* Author, Date, Read Time */}
               <div className="flex items-center gap-2 flex-wrap text-sm text-gray-600 mt-2">
                 <span>By Edumaniax</span>
                 <span className="text-gray-400">|</span>
@@ -105,7 +134,7 @@ const SingleBlog = () => {
                 className="rounded-lg mt-4 w-full"
               />
 
-              {/* TOC for mobile only */}
+              {/* Mobile TOC */}
               <div className="bg-[#EFFFD9] border border-green-700 rounded-lg p-4 mt-8 block lg:hidden">
                 <h2 className="text-xl font-bold text-black mt-2">
                   Table of Contents
@@ -124,6 +153,7 @@ const SingleBlog = () => {
                 </ol>
               </div>
 
+              {/* Blog Content */}
               <div className="mt-6 space-y-10">
                 {singleBlog.tableOfContents.map((point, index) => (
                   <div
@@ -151,18 +181,70 @@ const SingleBlog = () => {
                 ))}
               </div>
 
-              <div className="-ml-4">
+              {/* CTA with ref */}
+              <div className="-ml-4 mt-12" ref={ctaRef}>
                 <CTA />
               </div>
 
               <div className="flex items-center gap-3 mt-6">
-                <span className="text-gray-900 font-semibold">
+                <span className="text-gray-900 text-lg font-bold">
                   Share this blog on:
                 </span>
-                {/* Social icons */}
+
+                <a
+                  href="https://www.facebook.com/sharer/sharer.php?u=https://yourblog.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                >
+                  <img
+                    src="/blogDesign/facebook.svg"
+                    alt="Facebook"
+                    className="w-5 h-5"
+                  />
+                </a>
+
+                <a
+                  href="https://twitter.com/intent/tweet?url=https://yourblog.com&text=Check%20this%20out!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                >
+                  <img
+                    src="/blogDesign/twitter.svg"
+                    alt="Twitter"
+                    className="w-5 h-5"
+                  />
+                </a>
+
+                <a
+                  href="https://api.whatsapp.com/send?text=Check%20this%20out:%20https://yourblog.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                >
+                  <img
+                    src="/blogDesign/whatsapp.svg"
+                    alt="WhatsApp"
+                    className="w-5 h-5"
+                  />
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/shareArticle?mini=true&url=https://yourblog.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                >
+                  <img
+                    src="/blogDesign/linkedin.svg"
+                    alt="LinkedIn"
+                    className="w-5 h-4"
+                  />
+                </a>
               </div>
 
-              {/* Comment Section Inside Border */}
+              {/* Comments */}
               {user || role === "admin" ? (
                 <form onSubmit={handleSubmit} className="mt-12">
                   <h3 className="text-lg font-semibold mb-4">
@@ -191,7 +273,10 @@ const SingleBlog = () => {
                         >
                           Post Now
                           <span>
-                            <img src="/blogDesign/buttonArrow.svg" />
+                            <img
+                              src="/blogDesign/buttonArrow.svg"
+                              alt="arrow"
+                            />
                           </span>
                         </button>
                       </div>
@@ -199,7 +284,7 @@ const SingleBlog = () => {
                   </div>
                 </form>
               ) : (
-                <p className="text-gray-600 italic mt-4">
+                <p className="text-gray-600 italic mt-8">
                   Please{" "}
                   <span className="text-green-700 font-semibold italic">
                     login to comment
@@ -208,28 +293,20 @@ const SingleBlog = () => {
                 </p>
               )}
             </div>
-
-            {/* Outside Border - Similar Posts */}
-            {similarBlogs.length > 0 && (
-              <div className="mt-10 mb-32">
-                <h2 className="text-3xl font-bold mt-6">Similar Posts</h2>
-                <div className="grid md:grid-cols-2 gap-4 mt-6">
-                  {similarBlogs.map((blog) => (
-                    <BlogCard key={blog._id} blog={blog} />
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* RIGHT: TOC Sidebar for Desktop */}
-        <div className="hidden lg:block w-full max-w-md h-fit self-start mt-[138px]">
+        {/* RIGHT: TOC */}
+        <div
+          ref={tocRef}
+          className="hidden lg:block sticky top-[220px] self-start max-h-[calc(100vh-160px)] overflow-auto lg:flex-[1]"
+          style={{ marginBottom: `${tocBottomOffset}px` }}
+        >
           <div className="bg-[#EFFFD9] border border-green-700 rounded-lg p-3">
             <h2 className="text-base font-bold text-black mb-2">
               Table of Contents
             </h2>
-            <ol className="list-decimal list-outside pl-5 space-y-1 text-green-900 font-medium text-2sm">
+            <ol className="list-decimal list-outside pl-5 space-y-1 text-green-900 font-medium text-sm">
               {singleBlog.tableOfContents.map((item, idx) => (
                 <li key={idx}>
                   <a
@@ -244,6 +321,18 @@ const SingleBlog = () => {
           </div>
         </div>
       </div>
+
+      {/* ✅ Moved OUTSIDE of flex row */}
+      {similarBlogs.length > 0 && (
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 mt-10 mb-32">
+          <h2 className="text-3xl font-bold mt-6">Similar Posts</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            {similarBlogs.map((blog) => (
+              <BlogCard key={blog._id} blog={blog} />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };
