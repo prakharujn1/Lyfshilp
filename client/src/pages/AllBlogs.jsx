@@ -94,15 +94,15 @@ const AllBlogs = () => {
 
         {/* Category Toggle Section */}
         <div
-          className={`overflow-hidden transition-all duration-500 ease-in-out ${
-            showCategories ? "max-h-40 opacity-100 mt-4" : "max-h-0 opacity-0"
-          }`}
+          className={`transition-all duration-500 ease-in-out ${
+            showCategories
+              ? "max-h-[500px] opacity-100 mt-4"
+              : "max-h-0 opacity-0"
+          } overflow-hidden`}
         >
-          {/* Category Heading */}
           <p className="text-sm font-medium text-gray-600 mb-2">Category</p>
 
-          {/* Module Buttons */}
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 mt-3 max-h-[200px] overflow-y-auto pr-1">
             {modules.map((mod) => (
               <button
                 key={mod}
