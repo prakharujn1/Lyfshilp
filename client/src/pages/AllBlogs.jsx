@@ -12,7 +12,7 @@ const AllBlogs = () => {
   const { role } = useAuth();
   const navigate = useNavigate();
   const [showFilters, setShowFilters] = useState(false);
-  const [showCategories, setShowCategories] = useState(false);
+  const [showCategories, setShowCategories] = useState(true);
   const categoryRef = useRef(null);
 
   const modules = [
@@ -170,7 +170,7 @@ const AllBlogs = () => {
             </div>
 
             {/* Pagination (unchanged design, only logic added) */}
-            <div className="flex justify-center mt-20 mb-28">
+            <div className="flex justify-center mt-24 mb-44">
               <nav className="flex items-center space-x-1 text-sm font-medium">
                 {/* Previous */}
                 <button
