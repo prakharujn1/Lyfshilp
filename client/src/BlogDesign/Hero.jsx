@@ -41,19 +41,19 @@ const Hero = () => {
             </div>
           </nav>
 
-          <h1 className="text-3xl md:text-4xl sigmar-font font-bold leading-none">
-            Discover something new in{" "}
-            <span className="inline-flex items-center align-middle -mt-10">
-              every blog
+          <h1 className="text-2xl sm:text-3xl md:text-4xl sigmar-font font-bold leading-snug sm:leading-tight">
+            <div>Discover something new in</div>
+            <div className="inline-flex items-center gap-2 -mt-8">
+              <span>every blog</span>
               <img
                 src="/blogDesign/eyeMoving.gif"
                 alt="Eyes"
-                className="w-[5.8rem] h-[6.8rem] -ml-4 mt-2 -translate-y-[6px] align-middle"
+                className="h-[5.9rem] sm:h-[6.5rem] -ml-3 w-auto -translate-y-[1px]"
               />
-            </span>
+            </div>
           </h1>
 
-          <p className="text-white text-sm md:text-base -mt-8 leading-relaxed max-w-xl">
+          <p className="text-white text-sm md:text-base -mt-7 leading-relaxed max-w-xl">
             Fun facts, cool ideas, and easy reads on science, tech, and more —
             perfect for curious kids, teachers and parents learning together.
           </p>
