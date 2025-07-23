@@ -72,7 +72,7 @@ const AllBlogs = () => {
     <>
       <Hero />
 
-      <div className="max-w-7xl mx-auto px-4 mt-8">
+      <div className="max-w-7xl mx-auto px-4 mt-7">
         {/* Filters Header */}
         <div className="flex items-center justify-between mb-4">
           <button
