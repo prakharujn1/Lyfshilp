@@ -28,7 +28,7 @@ const Hero = () => {
                 className="flex items-center gap-1 text-white hover:underline"
               >
                 <img
-                  src="/imageForDesign/home.png"
+                  src="/blogDesign/home.svg"
                   alt="Home Icon"
                   className="w-4 h-4"
                 />
