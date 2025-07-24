@@ -62,8 +62,8 @@ const SingleBlog = () => {
     <>
       <div className="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-start gap-8 mt-6">
         {/* LEFT: Main Blog Content */}
-        <div className="w-full lg:flex-[3] ml-0 sm:ml-0">
-          <div className="max-w-[95%] sm:max-w-[90%] md:max-w-4xl mx-auto px-2 sm:px-4 md:px-6">
+        <div className="w-full lg:flex-[3] sm:ml-0">
+          <div className="max-w-[95%] ml-0 sm:ml-0 md:-ml-5 max-w-4xl mx-auto px-2 sm:px-4 md:px-6">
             {/* Breadcrumb */}
             <nav className="text-sm mt-8">
               <div className="bg-gray-50 border border-gray-300 text-gray-800 px-4 py-3 rounded-xl inline-flex items-center space-x-3">
@@ -72,7 +72,7 @@ const SingleBlog = () => {
                   className="flex items-center gap-1 text-gray-500 font-semibold hover:underline mr-4"
                 >
                   <img
-                    src="/blogDesign/home.svg"
+                    src="/blogDesign/homeForSs.svg"
                     alt="Home"
                     className="w-4 h-4 -mt-1"
                   />
@@ -81,7 +81,7 @@ const SingleBlog = () => {
                 <img
                   src="/blogDesign/rightArrow.svg"
                   alt="Right Arrow"
-                  className="w-3 h-3"
+                  className="w-3 h-3 ml-1"
                 />
                 <Link
                   to="/blogs"
@@ -101,7 +101,7 @@ const SingleBlog = () => {
             </nav>
 
             {/* Blog Box */}
-            <div className="border border-gray-300 rounded-2xl p-6 shadow-sm mt-6">
+            <div className="mt-6">
               <h1 className="text-4xl md:text-4xl font-bold text-gray-900 flex items-center gap-2">
                 {singleBlog.title}
               </h1>
@@ -299,7 +299,7 @@ const SingleBlog = () => {
         {/* RIGHT: TOC */}
         <div
           ref={tocRef}
-          className="hidden lg:block sticky top-[195px] self-start max-h-[calc(100vh-160px)] overflow-auto lg:flex-[1]"
+          className="hidden -ml-6 lg:block sticky top-[195px] self-start max-h-[calc(100vh-160px)] overflow-auto lg:flex-[1]"
           style={{ marginBottom: `${tocBottomOffset}px` }}
         >
           <div className="bg-[#EFFFD9] border border-green-700 rounded-lg p-3">
