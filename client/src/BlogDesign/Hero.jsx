@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <section
-      className="-mt-6 text-white py-8 md:py-4 pb-0 relative overflow-hidden"
+      className="-mt-6 text-white py-6 md:py-2 pb-0 relative overflow-hidden"
       style={{
         background: "linear-gradient(to bottom, #3F9400 0%, #2C6601 100%)",
       }}
