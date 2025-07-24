@@ -8,17 +8,17 @@ import "keen-slider/keen-slider.min.css";
 // Custom hook for mobile detection
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
-  
+
   return isMobile;
 };
 
@@ -419,49 +419,54 @@ const StudentFeedbackCarousel = () => {
 
   const feedbackCards = [
     {
-      text: "I like this type of quiz because it Shows us \"the answer\" when we get wrong and we don't understand the answer at the end it give feedback, where can understand it more so on the test we can get a A or B because we learned by wayground.",
+      text: 'I like this type of quiz because it Shows us "the answer" when we get wrong and we don\'t understand the answer at the end it give feedback, where can understand it more so on the test we can get a A or B because we learned by wayground.',
       author: "",
       bgColor: "bg-purple-300",
-      rotation: "rotate-1"
+      rotation: "rotate-1",
     },
     {
       text: "I think the school should purchase wayground because it could help you learning. And if you get a question wrong it lets you have more tips and I like it because I was able to rush me if I'm stuck on a question.",
       author: "Charlotte",
       bgColor: "bg-blue-200",
-      rotation: "-rotate-1"
+      rotation: "-rotate-1",
     },
     {
       text: "I think it has a lots of help you can do some gra",
       author: "",
       bgColor: "bg-yellow-200",
-      rotation: "rotate-1"
+      rotation: "rotate-1",
     },
     {
       text: "This platform made learning so much fun! The games are engaging and help me remember concepts better than traditional studying methods.",
       author: "Alex",
       bgColor: "bg-pink-200",
-      rotation: "-rotate-1"
+      rotation: "-rotate-1",
     },
     {
       text: "The interactive notes and quizzes helped me improve my grades significantly. I love how it explains concepts in simple terms.",
       author: "Emma",
       bgColor: "bg-green-100",
-      rotation: "rotate-1"
+      rotation: "rotate-1",
     },
     {
       text: "Amazing way to learn! The combination of games and structured content makes studying enjoyable rather than a chore.",
       author: "Ryan",
       bgColor: "bg-purple-200",
-      rotation: "-rotate-1"
-    }
+      rotation: "-rotate-1",
+    },
   ];
 
   return (
     <div className="relative p-5 max-w-6xl mx-auto">
       <div ref={sliderRef} className="keen-slider">
         {feedbackCards.map((card, index) => (
-          <div key={index} className={`keen-slider__slide transform ${card.rotation}`}>
-            <div className={`${card.bgColor} p-8 sm:p-6 rounded-lg shadow-lg relative h-40 sm:h-48`}>
+          <div
+            key={index}
+            className={`keen-slider__slide transform ${card.rotation}`}
+          >
+            <div
+              className={`${card.bgColor} p-8 sm:p-6 rounded-lg shadow-lg relative h-40 sm:h-48`}
+            >
               <div className="h-full overflow-hidden flex flex-col justify-between">
                 <p
                   className="text-black text-left text-xs sm:text-sm leading-relaxed flex-1"
@@ -470,13 +475,17 @@ const StudentFeedbackCarousel = () => {
                   {card.text}
                 </p>
                 {card.author && (
-                  <p className="text-right mt-2 font-bold text-black text-xs sm:text-sm">
-                    
-                  </p>
+                  <p className="text-right mt-2 font-bold text-black text-xs sm:text-sm"></p>
                 )}
               </div>
               {/* Tape effect */}
-              <div className={`absolute -top-2 ${index % 2 === 0 ? 'left-4 sm:left-8' : 'right-4 sm:right-8'} w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform ${index % 2 === 0 ? '-rotate-12' : 'rotate-12'}`}></div>
+              <div
+                className={`absolute -top-2 ${
+                  index % 2 === 0 ? "left-4 sm:left-8" : "right-4 sm:right-8"
+                } w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform ${
+                  index % 2 === 0 ? "-rotate-12" : "rotate-12"
+                }`}
+              ></div>
             </div>
           </div>
         ))}
@@ -507,7 +516,7 @@ const StudentFeedbackCarousel = () => {
             <button
               key={idx}
               className={`w-2 h-2 rounded-full transition duration-300 ${
-                currentSlide === idx ? 'bg-green-600' : 'bg-gray-300'
+                currentSlide === idx ? "bg-green-600" : "bg-gray-300"
               }`}
               onClick={() => instanceRef.current?.moveToIdx(idx)}
             />
@@ -605,104 +614,119 @@ const Home = () => {
     },
   ];
 
- const courses = [
+  const courses = [
     {
       title: "Fundamentals of Finance",
-      description: "Learn the basics of budgeting, saving, and financial planning for a secure future.",
+      description:
+        "Learn the basics of budgeting, saving, and financial planning for a secure future.",
       rating: 4.7,
       notesLink: "/finance/notes",
-    gamesLink: "/finance/games",
+      gamesLink: "/finance/games",
       level: "Beginner",
       duration: "6 weeks",
       students: "2,847",
       category: "Finance",
-      image: "https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=800&q=80",
     },
     {
       title: "Computers",
-      description: "Understand computer fundamentals, hardware, software, and digital literacy essentials.",
+      description:
+        "Understand computer fundamentals, hardware, software, and digital literacy essentials.",
       rating: 4.6,
       notesLink: "/computer/notes",
-    gamesLink: "/computer/games",
+      gamesLink: "/computer/games",
       level: "Intermediate",
       duration: "5 weeks",
       students: "3,215",
       category: "Technology",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     },
     {
       title: "Fundamentals of Law",
-      description: "Gain a foundational understanding of legal principles, rights, and responsibilities.",
+      description:
+        "Gain a foundational understanding of legal principles, rights, and responsibilities.",
       rating: 4.8,
       notesLink: "/law/notes",
-    gamesLink: "/law/games",
+      gamesLink: "/law/games",
       level: "Advanced",
       duration: "7 weeks",
       students: "1,932",
       category: "Legal",
-      image: "https://images.unsplash.com/photo-1593115057322-e94b77572f20?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0",
+      image:
+        "https://images.unsplash.com/photo-1593115057322-e94b77572f20?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0",
     },
     {
       title: "Communication Skills",
-      description: "Enhance your verbal, non-verbal, and written communication for personal and professional success.",
+      description:
+        "Enhance your verbal, non-verbal, and written communication for personal and professional success.",
       rating: 4.9,
       notesLink: "/communications/notes",
-    gamesLink: "/communications/games",
+      gamesLink: "/communications/games",
       level: "Beginner",
       duration: "4 weeks",
       students: "4,102",
       category: "Soft Skills",
-      image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&auto=format&fit=crop&q=60",
+      image:
+        "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&auto=format&fit=crop&q=60",
     },
     {
       title: "Entrepreneurship",
-      description: "Learn how to start, manage, and grow a successful business from scratch.",
+      description:
+        "Learn how to start, manage, and grow a successful business from scratch.",
       rating: 4.7,
-      notesLink: "/entreprenerurship/notes",
-    gamesLink: "/entreprenerurship/games",
+      notesLink: "/entrepreneurship/notes",
+      gamesLink: "/entrepreneurship/games",
       level: "Intermediate",
       duration: "6 weeks",
       students: "2,658",
       category: "Business",
-      image: "https://images.unsplash.com/photo-1507099985932-87a4520ed1d5?w=600&auto=format&fit=crop&q=60",
+      image:
+        "https://images.unsplash.com/photo-1507099985932-87a4520ed1d5?w=600&auto=format&fit=crop&q=60",
     },
     {
       title: "Digital Marketing",
-      description: "Explore SEO, social media, and online advertising to grow brands digitally.",
+      description:
+        "Explore SEO, social media, and online advertising to grow brands digitally.",
       rating: 4.6,
       notesLink: "/digital-marketing/notes",
-    gamesLink: "/digital-marketing/games",
+      gamesLink: "/digital-marketing/games",
       level: "Advanced",
       duration: "5 weeks",
       students: "3,876",
       category: "Marketing",
-      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
     },
     {
       title: "Leadership & Adaptability",
-      description: "Develop leadership skills and learn to thrive in changing environments.",
+      description:
+        "Develop leadership skills and learn to thrive in changing environments.",
       rating: 4.8,
       notesLink: "/leadership/notes",
-    gamesLink: "/leadership/games",
+      gamesLink: "/leadership/games",
       level: "Beginner",
       duration: "6 weeks",
       students: "2,491",
       category: "Leadership",
-      image: "https://images.unsplash.com/photo-1709715357520-5e1047a2b691?w=600&auto=format&fit=crop&q=60",
+      image:
+        "https://images.unsplash.com/photo-1709715357520-5e1047a2b691?w=600&auto=format&fit=crop&q=60",
     },
     {
       title: "Environmental",
-      description: "Understand environmental issues and sustainable practices for a better future.",
+      description:
+        "Understand environmental issues and sustainable practices for a better future.",
       rating: 4.7,
       notesLink: "/environmental/notes",
-    gamesLink: "/environmental/games",
+      gamesLink: "/environmental/games",
       level: "Intermediate",
       duration: "6 weeks",
       students: "1,743",
       category: "Environment",
-      image: "https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=800&q=80",
     },
-  
   ];
 
   const categories = [
@@ -724,7 +748,7 @@ const Home = () => {
       answer:
         "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
       QbgColor: "bg-green-400",
-      AbgColor: "bg-green-100"
+      AbgColor: "bg-green-100",
     },
     {
       question: "What do I get with Premium?",
@@ -800,10 +824,10 @@ const Home = () => {
     );
   }
 
-
-  const filteredCourses = activeCategory === "All" 
-    ? courses 
-    : courses.filter(course => course.category === activeCategory);
+  const filteredCourses =
+    activeCategory === "All"
+      ? courses
+      : courses.filter((course) => course.category === activeCategory);
 
   // Helper function to get level icon
   const getLevelIcon = (level) => {
@@ -818,7 +842,6 @@ const Home = () => {
         return "/beginner.png";
     }
   };
-
 
   return (
     <div className="min-h-screen -mt-8 bg-white overflow-x-hidden">
@@ -837,13 +860,24 @@ const Home = () => {
 
             {/* Main Heading */}
             <div className="mb-2 sm:mb-3">
-              <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
-              style={{ fontFamily: '"Sigmar One", cursive' }}>
+              <h1
+                className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
+                style={{ fontFamily: '"Sigmar One", cursive' }}
+              >
                 Master AI, Finance, Law,
               </h1>
-              <h1 className="text-white flex text-xl ml-8 sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
-              style={{ fontFamily: '"Sigmar One", cursive' }}>
-                and More- Fun Way <div className=" sm:h-15 sm:w-15 "><img className="w-8 h-7 sm:h-15 sm:w-15" src="/Fire.gif" alt="fire" /></div>
+              <h1
+                className="text-white flex text-xl ml-8 sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
+                style={{ fontFamily: '"Sigmar One", cursive' }}
+              >
+                and More- Fun Way{" "}
+                <div className=" sm:h-15 sm:w-15 ">
+                  <img
+                    className="w-8 h-7 sm:h-15 sm:w-15"
+                    src="/Fire.gif"
+                    alt="fire"
+                  />
+                </div>
               </h1>
             </div>
 
@@ -865,7 +899,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          
+
           {/* Hero Illustration */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 px-4 py-2 max-w-2xl mx-auto">
             {/* Main characters illustration */}
@@ -916,7 +950,7 @@ const Home = () => {
             </motion.div>
 
             {/* Feature 2 - Learn anywhere */}
-           <motion.div
+            <motion.div
               className="bg-[url('/F2.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-6 h-full flex flex-col"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -989,13 +1023,14 @@ const Home = () => {
 
               {/* Progress Card Component */}
               <div className=" ml-10 h-40">
-                
-                
-                <img className=" absolute sm:h-[48%] h-[34%] -ml-6 sm:mt-4 z-50 sm:w-[57%]" src="/mid4.png" alt="mid" />
-              <div className="flex sm:w-[60%] w-[60%] ml-15 sm:ml-25 absolute bottom-0 mb-5 left-0 h-18 sm:h-28">
-                
-                <ProgressCardComponent />
-              </div>
+                <img
+                  className=" absolute sm:h-[48%] h-[34%] -ml-6 sm:mt-4 z-50 sm:w-[57%]"
+                  src="/mid4.png"
+                  alt="mid"
+                />
+                <div className="flex sm:w-[60%] w-[60%] ml-15 sm:ml-25 absolute bottom-0 mb-5 left-0 h-18 sm:h-28">
+                  <ProgressCardComponent />
+                </div>
               </div>
             </motion.div>
 
@@ -1018,24 +1053,64 @@ const Home = () => {
                 <div className="grid mt-4 sm:mt-10 grid-cols-5 gap-2 sm:gap-5 group">
                   {/* 5 child divs, each has two <img> tags */}
                   <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
-                    <img src="/Link1.png" className="w-full h-auto" alt="Link 1" />
-                    <img src="/Link2.png" className="w-full h-auto" alt="Link 2" />
+                    <img
+                      src="/Link1.png"
+                      className="w-full h-auto"
+                      alt="Link 1"
+                    />
+                    <img
+                      src="/Link2.png"
+                      className="w-full h-auto"
+                      alt="Link 2"
+                    />
                   </div>
                   <div className="w-9 sm:w-15 h-9 sm:h-15 transition-transform duration-300 ease-in-out group-hover:translate-y-4 sm:group-hover:translate-y-10">
-                    <img src="/Link3.png" className="w-full h-auto" alt="Link 3" />
-                    <img src="/Link4.png" className="w-full h-auto" alt="Link 4" />
+                    <img
+                      src="/Link3.png"
+                      className="w-full h-auto"
+                      alt="Link 3"
+                    />
+                    <img
+                      src="/Link4.png"
+                      className="w-full h-auto"
+                      alt="Link 4"
+                    />
                   </div>
                   <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
-                    <img src="/Link5.png" className="w-full h-auto" alt="Link 5" />
-                    <img src="/Link6.png" className="w-full h-auto" alt="Link 6" />
+                    <img
+                      src="/Link5.png"
+                      className="w-full h-auto"
+                      alt="Link 5"
+                    />
+                    <img
+                      src="/Link6.png"
+                      className="w-full h-auto"
+                      alt="Link 6"
+                    />
                   </div>
                   <div className="w-9 sm:w-15 h-9 sm:h-15 transition-transform duration-300 ease-in-out group-hover:translate-y-4 sm:group-hover:translate-y-10">
-                    <img src="/Link7.png" className="w-full h-auto" alt="Link 7" />
-                    <img src="/Link8.png" className="w-full h-auto" alt="Link 8" />
+                    <img
+                      src="/Link7.png"
+                      className="w-full h-auto"
+                      alt="Link 7"
+                    />
+                    <img
+                      src="/Link8.png"
+                      className="w-full h-auto"
+                      alt="Link 8"
+                    />
                   </div>
                   <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
-                    <img src="/Link9.png" className="w-full h-auto" alt="Link 9" />
-                    <img src="/Link10.png" className="w-full h-auto" alt="Link 10" />
+                    <img
+                      src="/Link9.png"
+                      className="w-full h-auto"
+                      alt="Link 9"
+                    />
+                    <img
+                      src="/Link10.png"
+                      className="w-full h-auto"
+                      alt="Link 10"
+                    />
                   </div>
                 </div>
               </div>
@@ -1044,210 +1119,215 @@ const Home = () => {
         </div>
       </section>
 
-    {/* Success Stats Section */}
-<section className="py-10 sm:py-20 bg-white">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-    <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 items-center gap-8">
-      {/* Heading - order 1 on mobile, positioned in desktop grid */}
-      <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1 lg:self-start">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-4 sm:mb-8 leading-tight">
-          Join thousands of curious minds from top schools and
-          institutions using Edumaniax to -
-          <span className="text-green-600">
-            {" "}
-            make learning fun, engaging, and effective
-          </span>
-        </h2>
-      </div>
+      {/* Success Stats Section */}
+      <section className="py-10 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 items-center gap-8">
+            {/* Heading - order 1 on mobile, positioned in desktop grid */}
+            <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1 lg:self-start">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-4 sm:mb-8 leading-tight">
+                Join thousands of curious minds from top schools and
+                institutions using Edumaniax to -
+                <span className="text-green-600">
+                  {" "}
+                  make learning fun, engaging, and effective
+                </span>
+              </h2>
+            </div>
 
-      {/* Image - order 2 on mobile, spans both rows on desktop */}
-      <div className="order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2">
-        <div className="bg-green-500 rounded-2xl lg:rounded-tl-4xl lg:rounded-bl-4xl text-center h-[300px] sm:h-[430px] w-full lg:w-[550px] relative overflow-hidden">
-          {/* Character illustration */}
-          <div className="relative w-full pt-5 -mb-10 h-full z-10">
-            <img
-              src="/5.gif"
-              alt="Full"
-              className="absolute inset-0 w-full h-[-50%] object-cover"
-            />
+            {/* Image - order 2 on mobile, spans both rows on desktop */}
+            <div className="order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2">
+              <div className="bg-green-500 rounded-2xl lg:rounded-tl-4xl lg:rounded-bl-4xl text-center h-[300px] sm:h-[430px] w-full lg:w-[550px] relative overflow-hidden">
+                {/* Character illustration */}
+                <div className="relative w-full pt-5 -mb-10 h-full z-10">
+                  <img
+                    src="/5.gif"
+                    alt="Full"
+                    className="absolute inset-0 w-full h-[-50%] object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Stats - order 3 on mobile, positioned in desktop grid */}
+            <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2 lg:self-end">
+              <div className="bg-gray-200 rounded-2xl p-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
+                  <div className="text-center sm:pr-6">
+                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                      50+
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-600">
+                      Partners School overall India
+                    </div>
+                  </div>
+                  <div className="text-center sm:px-6">
+                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                      12K+
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-600">
+                      Students across the globe
+                    </div>
+                  </div>
+                  <div className="text-center sm:pl-6">
+                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                      20+
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-600">
+                      Trending topics from different categories
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Stats - order 3 on mobile, positioned in desktop grid */}
-      <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2 lg:self-end">
-        <div className="bg-gray-200 rounded-2xl p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
-            <div className="text-center sm:pr-6">
-              <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
-                50+
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600">
-                Partners School overall India
-              </div>
-            </div>
-            <div className="text-center sm:px-6">
-              <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
-                12K+
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600">
-                Students across the globe
-              </div>
-            </div>
-            <div className="text-center sm:pl-6">
-              <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
-                20+
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600">
-                Trending topics from different categories
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Courses Section */}
       <section className="py-10 sm:py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
-          Courses, curated with love
-        </h2>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
+            Courses, curated with love
+          </h2>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 mb-4 overflow-x-auto pb-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-3 sm:px-4 py-2 text-xs whitespace-nowrap rounded-full font-medium transition duration-300 ${
-                category === activeCategory
-                  ? "bg-green-600 text-white"
-                  : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+          {/* Category Filters */}
+          <div className="flex flex-wrap gap-2 mb-4 overflow-x-auto pb-2">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-3 sm:px-4 py-2 text-xs whitespace-nowrap rounded-full font-medium transition duration-300 ${
+                  category === activeCategory
+                    ? "bg-green-600 text-white"
+                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
 
-        {/* Course Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-0">
-          {filteredCourses.map((course, index) => (
-            <motion.div
-              key={`${course.title}-${index}`}
-              className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
-            >
-              <div className="relative h-32 sm:h-40 bg-gray-900">
-                {/* Course-specific background image */}
-                <div className="absolute inset-0">
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black opacity-40"></div>
-                </div>
-
-                {/* Category tag */}
-                <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
-                  <span className="bg-white px-2 sm:px-3 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
-                     {course.category}
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-3 sm:p-3">
-                <div className="flex justify-between">
-                  <div className="flex-1">
-                    <h4 className="text-sm sm:text-base font-bold text-black mb-2 line-clamp-2">
-                      {course.title}
-                    </h4>
+          {/* Course Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-0">
+            {filteredCourses.map((course, index) => (
+              <motion.div
+                key={`${course.title}-${index}`}
+                className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.05 }}
+              >
+                <div className="relative h-32 sm:h-40 bg-gray-900">
+                  {/* Course-specific background image */}
+                  <div className="absolute inset-0">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black opacity-40"></div>
                   </div>
-                  <div className="flex items-center gap-1 mb-1 ml-2">
-                    <Star className="w-3 sm:w-4 h-3 sm:h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-xs sm:text-sm font-medium">
-                      {course.rating}
+
+                  {/* Category tag */}
+                  <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
+                    <span className="bg-white px-2 sm:px-3 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
+                      {course.category}
                     </span>
                   </div>
                 </div>
 
-                <p className="text-gray-600 text-xs mb-3 sm:mb-4 line-clamp-2">
-                  {course.description}
-                </p>
+                <div className="p-3 sm:p-3">
+                  <div className="flex justify-between">
+                    <div className="flex-1">
+                      <h4 className="text-sm sm:text-base font-bold text-black mb-2 line-clamp-2">
+                        {course.title}
+                      </h4>
+                    </div>
+                    <div className="flex items-center gap-1 mb-1 ml-2">
+                      <Star className="w-3 sm:w-4 h-3 sm:h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs sm:text-sm font-medium">
+                        {course.rating}
+                      </span>
+                    </div>
+                  </div>
 
-                <div className="flex flex-wrap items-center gap-1 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-ex text-gray-500">
-                  <div
-                    className={`px-2 py-1 rounded flex items-center gap-1 text-xs font-medium ${
-                      course.level === "Beginner"
-                        ? "bg-green-100 text-green-600"
-                        : course.level === "Intermediate"
-                        ? "bg-yellow-100 text-yellow-600"
-                        : "bg-red-100 text-red-600"
-                    }`}
-                  >
-                    <img src={getLevelIcon(course.level)} alt={course.level} className="w-3 h-3" />
-                    {course.level}
+                  <p className="text-gray-600 text-xs mb-3 sm:mb-4 line-clamp-2">
+                    {course.description}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-1 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-ex text-gray-500">
+                    <div
+                      className={`px-2 py-1 rounded flex items-center gap-1 text-xs font-medium ${
+                        course.level === "Beginner"
+                          ? "bg-green-100 text-green-600"
+                          : course.level === "Intermediate"
+                          ? "bg-yellow-100 text-yellow-600"
+                          : "bg-red-100 text-red-600"
+                      }`}
+                    >
+                      <img
+                        src={getLevelIcon(course.level)}
+                        alt={course.level}
+                        className="w-3 h-3"
+                      />
+                      {course.level}
+                    </div>
+                    <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
+                      <span>
+                        <img src="/time.png" alt="" />
+                      </span>{" "}
+                      {course.duration}
+                    </div>
+                    <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
+                      <span>
+                        <img src="/people.png" alt="" />
+                      </span>{" "}
+                      {course.students}
+                    </div>
                   </div>
-                  <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
-                    <span><img src="/time.png" alt="" /></span> {course.duration}
-                  </div>
-                  <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
-                    <span><img src="/people.png" alt="" /></span>  {course.students}
+
+                  <div className="flex gap-2">
+                    <Link to={course.gamesLink} className="flex-1">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
+                      >
+                        <img src="/game.png" alt="Game" className="w-4 h-4" />
+                        Let's Play &gt;
+                      </motion.button>
+                    </Link>
+
+                    <Link to={course.notesLink} className="">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
+                      >
+                        <img
+                          src="/notes.png"
+                          alt="Notes"
+                          className="w-4 h-4 mr-1"
+                        />
+                        Notes
+                      </motion.button>
+                    </Link>
                   </div>
                 </div>
-
-                <div className="flex gap-2">
-          <Link
-            to={course.gamesLink}
-            className="flex-1"
-          >
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
-            >
-              <img src="/game.png" alt="Game" className="w-4 h-4" />
-              Let's Play &gt;
-            </motion.button>
-          </Link>
-
-          <Link
-            to={course.notesLink}
-            className=""
-          >
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
-            >
-              <img src="/notes.png" alt="Notes" className="w-4 h-4 mr-1" />
-              Notes
-            </motion.button>
-          </Link>
+              </motion.div>
+            ))}
+          </div>
+          <div className="w-full h-full flex justify-center items-center">
+            <Link to={"/courses"} className="">
+              <button className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
+                View More..
+              </button>
+            </Link>
+          </div>
         </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="w-full h-full flex justify-center items-center">
-          <Link
-            to={"/courses"}
-            className=""
-          >
-          <button  className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
-            View More..
-          </button>
-          </Link>
-        </div>
-      </div>
-    </section>
+      </section>
 
       {/* Testimonials Section */}
       <section className="h-auto lg:h-[90vh] py-10 lg:py-0">
@@ -1264,7 +1344,9 @@ const Home = () => {
                     <h4 className="text-lg sm:text-xl font-bold text-black">
                       {currentTestimonial.name}
                     </h4>
-                    <p className="text-gray-600 text-sm sm:text-base">{currentTestimonial.title}</p>
+                    <p className="text-gray-600 text-sm sm:text-base">
+                      {currentTestimonial.title}
+                    </p>
                   </div>
 
                   <div className="flex gap-2">
@@ -1350,8 +1432,12 @@ const Home = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <div className={`flex ${faq.QbgColor} p-3 z-30 relative pb-4 rounded-2xl -mb-4 justify-between items-center`}>
-                  <h3 className={`text-sm  sm:text-lg font-bold text-black text-left flex-1 pr-2`}>
+                <div
+                  className={`flex ${faq.QbgColor} p-3 z-30 relative pb-4 rounded-2xl -mb-4 justify-between items-center`}
+                >
+                  <h3
+                    className={`text-sm  sm:text-lg font-bold text-black text-left flex-1 pr-2`}
+                  >
                     {faq.question}
                   </h3>
                   <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
@@ -1375,11 +1461,6 @@ const Home = () => {
               </motion.div>
             ))}
           </div>
-          
-
-
-          
-
         </div>
       </section>
     </div>
