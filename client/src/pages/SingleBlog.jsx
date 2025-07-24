@@ -62,14 +62,14 @@ const SingleBlog = () => {
     <>
       <div className="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-start gap-8 mt-6">
         {/* LEFT: Main Blog Content */}
-        <div className="w-full lg:flex-[3]">
-          <div className="max-w-4xl mx-auto p-6">
+        <div className="w-full lg:flex-[3] ml-0 sm:ml-0">
+          <div className="max-w-[95%] sm:max-w-[90%] md:max-w-4xl mx-auto px-2 sm:px-4 md:px-6">
             {/* Breadcrumb */}
             <nav className="text-sm mt-8">
               <div className="bg-gray-50 border border-gray-300 text-gray-800 px-4 py-3 rounded-xl inline-flex items-center space-x-3">
                 <Link
                   to="/"
-                  className="flex items-center gap-1 text-gray-500 font-semibold hover:underline"
+                  className="flex items-center gap-1 text-gray-500 font-semibold hover:underline mr-4"
                 >
                   <img
                     src="/blogDesign/home.svg"
@@ -299,7 +299,7 @@ const SingleBlog = () => {
         {/* RIGHT: TOC */}
         <div
           ref={tocRef}
-          className="hidden lg:block sticky top-[220px] self-start max-h-[calc(100vh-160px)] overflow-auto lg:flex-[1]"
+          className="hidden lg:block sticky top-[195px] self-start max-h-[calc(100vh-160px)] overflow-auto lg:flex-[1]"
           style={{ marginBottom: `${tocBottomOffset}px` }}
         >
           <div className="bg-[#EFFFD9] border border-green-700 rounded-lg p-3">
