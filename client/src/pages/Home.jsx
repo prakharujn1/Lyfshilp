@@ -4,6 +4,8 @@ import { ChevronLeft, ChevronRight, Star, ChevronDown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
+import { FaArrowUp } from "react-icons/fa";
+
 
 // Custom hook for mobile detection
 const useIsMobile = () => {
@@ -15,8 +17,8 @@ const useIsMobile = () => {
     };
 
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   return isMobile;
@@ -299,7 +301,7 @@ const PeopleAvatars = ({ defaultImages }) => {
           animate={isHovered ? "hover" : "default"}
           transition={transition}
         >
-          <div className="w-15 h-12 absolute mt-12 ml-30 top-1/2 -left-7 transform -translate-y-1/2">
+          <div className="w-15 h-12 absolute mt-4 ml-30 top-1/2 -left-7 transform -translate-y-1/2">
             <img
               src={defaultImages.chotuArrow}
               alt="Chotu arrow"
@@ -315,7 +317,7 @@ const PeopleAvatars = ({ defaultImages }) => {
           animate={isHovered ? "hover" : "default"}
           transition={transition}
         >
-          <div className="w-15 h-12 absolute mt-12 mr-25 top-1/2 -right-7 transform -translate-y-1/2">
+          <div className="w-15 h-12 absolute mt-4 mr-25 top-1/2 -right-7 transform -translate-y-1/2">
             <img
               src={defaultImages.velmaArrow}
               alt="Velma arrow"
@@ -325,7 +327,7 @@ const PeopleAvatars = ({ defaultImages }) => {
         </motion.div>
 
         {/* Circle Images - Cross-fade between states */}
-        <div className="absolute top-1/2 w-[80%] left-1/2 mt-4 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute top-1/2 w-[80%] left-1/2 mr-15 transform -translate-x-1/2 -translate-y-1/2">
           <AnimatePresence mode="wait">
             {!showTeacher ? (
               <motion.img
@@ -360,7 +362,7 @@ const PeopleAvatars = ({ defaultImages }) => {
           animate={isHovered ? "hover" : "default"}
           transition={transition}
         >
-          <div className="w-15 h-12 mb-8 ml-15 absolute top-1/2 -left-7 transform -translate-y-1/2">
+          <div className="w-15 h-12 mb-6 ml-18 absolute top-1/2 -left-7 transform -translate-y-1/2">
             <img src={defaultImages.raviArrow} alt="Ravi arrow" className="" />
           </div>
         </motion.div>
@@ -372,7 +374,7 @@ const PeopleAvatars = ({ defaultImages }) => {
           animate={showTeacher ? "hover" : "default"}
           transition={crossFadeTransition}
         >
-          <div className="w-15 h-12 mb-18 mr-10 absolute top-1/2 -right-7 transform -translate-y-1/2">
+          <div className="w-15 h-12 mb-18 mr-8 absolute top-1/2 -right-7 transform -translate-y-1/2">
             <img
               src={defaultImages.teacherArrow}
               alt="Teacher arrow"
@@ -419,73 +421,54 @@ const StudentFeedbackCarousel = () => {
 
   const feedbackCards = [
     {
-      text: 'I like this type of quiz because it Shows us "the answer" when we get wrong and we don\'t understand the answer at the end it give feedback, where can understand it more so on the test we can get a A or B because we learned by wayground.',
+      text: "I like this type of quiz because it Shows us \"the answer\" when we get wrong and we don't understand the answer at the end it give feedback, where can understand it more so on the test we can get a A or B because we learned by wayground.",
       author: "",
       bgColor: "bg-purple-300",
-      rotation: "rotate-1",
+      rotation: "rotate-1"
     },
-    {
-      text: "I think the school should purchase wayground because it could help you learning. And if you get a question wrong it lets you have more tips and I like it because I was able to rush me if I'm stuck on a question.",
-      author: "Charlotte",
-      bgColor: "bg-blue-200",
-      rotation: "-rotate-1",
-    },
-    {
-      text: "I think it has a lots of help you can do some gra",
-      author: "",
-      bgColor: "bg-yellow-200",
-      rotation: "rotate-1",
-    },
+    
     {
       text: "This platform made learning so much fun! The games are engaging and help me remember concepts better than traditional studying methods.",
       author: "Alex",
       bgColor: "bg-pink-200",
-      rotation: "-rotate-1",
+      rotation: "-rotate-1"
     },
     {
       text: "The interactive notes and quizzes helped me improve my grades significantly. I love how it explains concepts in simple terms.",
       author: "Emma",
       bgColor: "bg-green-100",
-      rotation: "rotate-1",
+      rotation: "rotate-1"
     },
     {
       text: "Amazing way to learn! The combination of games and structured content makes studying enjoyable rather than a chore.",
       author: "Ryan",
       bgColor: "bg-purple-200",
-      rotation: "-rotate-1",
-    },
+      rotation: "-rotate-1"
+    }
   ];
 
   return (
     <div className="relative p-5 max-w-6xl mx-auto">
       <div ref={sliderRef} className="keen-slider">
         {feedbackCards.map((card, index) => (
-          <div
-            key={index}
-            className={`keen-slider__slide transform ${card.rotation}`}
-          >
-            <div
-              className={`${card.bgColor} p-8 sm:p-6 rounded-lg shadow-lg relative h-40 sm:h-48`}
-            >
+          <div key={index} className={`keen-slider__slide transform ${card.rotation}`}>
+            <div className={`${card.bgColor} p-8 sm:p-6 rounded-lg shadow-lg relative h-40 sm:h-48`}>
               <div className="h-full overflow-hidden flex flex-col justify-between">
                 <p
                   className="text-black text-left text-xs sm:text-sm leading-relaxed flex-1"
-                  style={{ fontFamily: "Comic Sans MS, cursive" }}
+                  style={{ fontFamily: '"Patrick Hand", cursive' }}
+
                 >
                   {card.text}
                 </p>
                 {card.author && (
-                  <p className="text-right mt-2 font-bold text-black text-xs sm:text-sm"></p>
+                  <p className="text-right mt-2 font-bold text-black text-xs sm:text-sm">
+
+                  </p>
                 )}
               </div>
               {/* Tape effect */}
-              <div
-                className={`absolute -top-2 ${
-                  index % 2 === 0 ? "left-4 sm:left-8" : "right-4 sm:right-8"
-                } w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform ${
-                  index % 2 === 0 ? "-rotate-12" : "rotate-12"
-                }`}
-              ></div>
+              <div className={`absolute -top-2 ${index % 2 === 0 ? 'left-4 sm:left-8' : 'right-4 sm:right-8'} w-8 sm:w-12 h-4 sm:h-6 bg-yellow-100 opacity-80 rounded transform ${index % 2 === 0 ? '-rotate-12' : 'rotate-12'}`}></div>
             </div>
           </div>
         ))}
@@ -515,9 +498,8 @@ const StudentFeedbackCarousel = () => {
           {Array.from({ length: feedbackCards.length - 2 }).map((_, idx) => (
             <button
               key={idx}
-              className={`w-2 h-2 rounded-full transition duration-300 ${
-                currentSlide === idx ? "bg-green-600" : "bg-gray-300"
-              }`}
+              className={`w-2 h-2 rounded-full transition duration-300 ${currentSlide === idx ? 'bg-green-600' : 'bg-gray-300'
+                }`}
               onClick={() => instanceRef.current?.moveToIdx(idx)}
             />
           ))}
@@ -533,7 +515,30 @@ const Home = () => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
+
+  const [showScroll, setShowScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScroll(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+
+  // Add mobile autoplay for Feature 2 (circular logo)
+  const [feature2AutoHover, setFeature2AutoHover] = useState(false);
+
+  // Add mobile autoplay for Feature 5 (skill icons)
+  const [feature5AutoHover, setFeature5AutoHover] = useState(false);
+
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   // Bitcoin images array (replace with your actual image paths)
   const bitcoinImages = [
@@ -617,8 +622,7 @@ const Home = () => {
   const courses = [
     {
       title: "Fundamentals of Finance",
-      description:
-        "Learn the basics of budgeting, saving, and financial planning for a secure future.",
+      description: "Learn the basics of budgeting, saving, and financial planning for a secure future.",
       rating: 4.7,
       notesLink: "/finance/notes",
       gamesLink: "/finance/games",
@@ -626,13 +630,11 @@ const Home = () => {
       duration: "6 weeks",
       students: "2,847",
       category: "Finance",
-      image:
-        "https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=800&q=80",
     },
     {
       title: "Computers",
-      description:
-        "Understand computer fundamentals, hardware, software, and digital literacy essentials.",
+      description: "Understand computer fundamentals, hardware, software, and digital literacy essentials.",
       rating: 4.6,
       notesLink: "/computer/notes",
       gamesLink: "/computer/games",
@@ -640,13 +642,11 @@ const Home = () => {
       duration: "5 weeks",
       students: "3,215",
       category: "Technology",
-      image:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     },
     {
       title: "Fundamentals of Law",
-      description:
-        "Gain a foundational understanding of legal principles, rights, and responsibilities.",
+      description: "Gain a foundational understanding of legal principles, rights, and responsibilities.",
       rating: 4.8,
       notesLink: "/law/notes",
       gamesLink: "/law/games",
@@ -654,13 +654,11 @@ const Home = () => {
       duration: "7 weeks",
       students: "1,932",
       category: "Legal",
-      image:
-        "https://images.unsplash.com/photo-1593115057322-e94b77572f20?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0",
+      image: "https://images.unsplash.com/photo-1593115057322-e94b77572f20?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0",
     },
     {
       title: "Communication Skills",
-      description:
-        "Enhance your verbal, non-verbal, and written communication for personal and professional success.",
+      description: "Enhance your verbal, non-verbal, and written communication for personal and professional success.",
       rating: 4.9,
       notesLink: "/communications/notes",
       gamesLink: "/communications/games",
@@ -668,27 +666,23 @@ const Home = () => {
       duration: "4 weeks",
       students: "4,102",
       category: "Soft Skills",
-      image:
-        "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&auto=format&fit=crop&q=60",
+      image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&auto=format&fit=crop&q=60",
     },
     {
       title: "Entrepreneurship",
-      description:
-        "Learn how to start, manage, and grow a successful business from scratch.",
+      description: "Learn how to start, manage, and grow a successful business from scratch.",
       rating: 4.7,
-      notesLink: "/entrepreneurship/notes",
-      gamesLink: "/entrepreneurship/games",
+      notesLink: "/entreprenerurship/notes",
+      gamesLink: "/entreprenerurship/games",
       level: "Intermediate",
       duration: "6 weeks",
       students: "2,658",
       category: "Business",
-      image:
-        "https://images.unsplash.com/photo-1507099985932-87a4520ed1d5?w=600&auto=format&fit=crop&q=60",
+      image: "https://images.unsplash.com/photo-1507099985932-87a4520ed1d5?w=600&auto=format&fit=crop&q=60",
     },
     {
       title: "Digital Marketing",
-      description:
-        "Explore SEO, social media, and online advertising to grow brands digitally.",
+      description: "Explore SEO, social media, and online advertising to grow brands digitally.",
       rating: 4.6,
       notesLink: "/digital-marketing/notes",
       gamesLink: "/digital-marketing/games",
@@ -696,13 +690,11 @@ const Home = () => {
       duration: "5 weeks",
       students: "3,876",
       category: "Marketing",
-      image:
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
     },
     {
       title: "Leadership & Adaptability",
-      description:
-        "Develop leadership skills and learn to thrive in changing environments.",
+      description: "Develop leadership skills and learn to thrive in changing environments.",
       rating: 4.8,
       notesLink: "/leadership/notes",
       gamesLink: "/leadership/games",
@@ -710,13 +702,11 @@ const Home = () => {
       duration: "6 weeks",
       students: "2,491",
       category: "Leadership",
-      image:
-        "https://images.unsplash.com/photo-1709715357520-5e1047a2b691?w=600&auto=format&fit=crop&q=60",
+      image: "https://images.unsplash.com/photo-1709715357520-5e1047a2b691?w=600&auto=format&fit=crop&q=60",
     },
     {
       title: "Environmental",
-      description:
-        "Understand environmental issues and sustainable practices for a better future.",
+      description: "Understand environmental issues and sustainable practices for a better future.",
       rating: 4.7,
       notesLink: "/environmental/notes",
       gamesLink: "/environmental/games",
@@ -724,9 +714,9 @@ const Home = () => {
       duration: "6 weeks",
       students: "1,743",
       category: "Environment",
-      image:
-        "https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=800&q=80",
     },
+
   ];
 
   const categories = [
@@ -744,30 +734,30 @@ const Home = () => {
 
   const faqs = [
     {
-      question: "What do I get with Premium?",
-      answer:
-        "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
+      question: "What makes EduManiax courses truly unique?",
+      answer: "Our courses blend cutting-edge interactive learning with real-world applications through gamification, AI-powered personalized learning paths, and adaptive assessments. Every piece of content is crafted by industry veterans and continuously updated to reflect the latest trends and best practices in your field.",
+
       QbgColor: "bg-green-400",
-      AbgColor: "bg-green-100",
+      AbgColor: "bg-green-100"
     },
     {
-      question: "What do I get with Premium?",
+      question: "How do I get instant help when I'm stuck?",
       answer:
-        "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
+        "Support is always within reach through multiple channels: 24/7 intelligent chat support, thriving community forums, weekly instructor office hours, and collaborative peer study groups. Our AI learning companion provides instant assistance with common questions and intelligently guides you to the perfect resources.",
       QbgColor: "bg-pink-300",
       AbgColor: "bg-pink-100",
     },
     {
-      question: "What do I get with Premium?",
+      question: "What if I'm not completely satisfied?",
       answer:
-        "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
+        "We stand behind every learning experience with our comprehensive 30-day satisfaction guarantee. If you're not thriving in your course, we'll provide a complete refund with zero hassle. Plus, you'll have ongoing access to our vibrant community forums and direct mentor support throughout your journey.",
       QbgColor: "bg-blue-300",
       AbgColor: "bg-blue-100",
     },
     {
-      question: "What do I get with Premium?",
+      question: "Can I showcase my certificates professionally?",
       answer:
-        "With Premium, you get access to all courses, unlimited practice games, personalized learning paths, and priority support.",
+        "Definitely! Our stunning digital certificates are designed for maximum impact across professional networks. Seamlessly add them to LinkedIn, showcase them in portfolios, or share achievements on social platforms. Each certificate includes blockchain verification for unquestionable authenticity and credibility.",
       QbgColor: "bg-purple-300",
       AbgColor: "bg-purple-100",
     },
@@ -786,6 +776,30 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, testimonials.length]);
+
+  // Mobile autoplay for Feature 2
+  useEffect(() => {
+    let interval;
+    if (isMobile) {
+      interval = setInterval(() => {
+        setFeature2AutoHover(true);
+        setTimeout(() => setFeature2AutoHover(false), 3000); // Show animation for 3 seconds
+      }, 5000); // Repeat every 5 seconds
+    }
+    return () => clearInterval(interval);
+  }, [isMobile]);
+
+  // Mobile autoplay for Feature 5
+  useEffect(() => {
+    let interval;
+    if (isMobile) {
+      interval = setInterval(() => {
+        setFeature5AutoHover(true);
+        setTimeout(() => setFeature5AutoHover(false), 2500); // Show animation for 2.5 seconds
+      }, 4500); // Repeat every 4.5 seconds
+    }
+    return () => clearInterval(interval);
+  }, [isMobile]);
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -824,10 +838,10 @@ const Home = () => {
     );
   }
 
-  const filteredCourses =
-    activeCategory === "All"
-      ? courses
-      : courses.filter((course) => course.category === activeCategory);
+
+  const filteredCourses = activeCategory === "All"
+    ? courses
+    : courses.filter(course => course.category === activeCategory);
 
   // Helper function to get level icon
   const getLevelIcon = (level) => {
@@ -843,15 +857,16 @@ const Home = () => {
     }
   };
 
+
   return (
     <div className="min-h-screen -mt-8 bg-white overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-[100vh] sm:h-[70vh] lg:h-[100vh] w-full p-0 -mt-8">
-        <div className="w-full relative h-full bg-[url('/heroBG.jpg')] bg-cover bg-center bg-no-repeat">
-          <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center px-4 sm:px-6">
+      <section className="relative h-[90vh] sm:h-[100vh] lg:h-[100vh] w-full p-0 -mt-8">
+        <div className="w-full relative h-full bg-[url('/heroBG.jpg')] bg-cover  bg-center bg-no-repeat">
+          <div className="relative z-10 max-w-7xl mx-auto flex flex-wrap  mt-9  flex-col items-center text-center px-4 sm:px-6">
             {/* Trust Badge */}
-            <div className="mb-3 sm:mb-5 pt-3 sm:pt-5 mt-4 sm:mt-8">
-              <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 mt-14 sm:mt-8 border border-white/20">
+            <div className="mb-3 sm:mb-5 pt-3 sm:pt-3 mt-4 sm:mt-6 md:mt-6 md:mb-3">
+              <div className="bg-black backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 mt-14 sm:mt-8 border border-white/20">
                 <span className="text-white text-xs sm:text-sm flex items-center gap-2">
                   ⭐ Loved by 1K+ users worldwide
                 </span>
@@ -859,42 +874,30 @@ const Home = () => {
             </div>
 
             {/* Main Heading */}
-            <div className="mb-2 sm:mb-3">
-              <h1
-                className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
-                style={{ fontFamily: '"Sigmar One", cursive' }}
-              >
-                Master AI, Finance, Law,
+            <div className="mb-2 sm:mb- md:-mb-2">
+              <h1 className="text-white text-xl sm:text-2xl md:text-2xl lg:text-5xl  leading-tight"
+                style={{ fontFamily: '"Sigmar", sans-serif' }}>
+                Master AI, Finance, Law
               </h1>
-              <h1
-                className="text-white flex text-xl ml-8 sm:text-2xl md:text-3xl lg:text-5xl  leading-tight"
-                style={{ fontFamily: '"Sigmar One", cursive' }}
-              >
-                and More- Fun Way{" "}
-                <div className=" sm:h-15 sm:w-15 ">
-                  <img
-                    className="w-8 h-7 sm:h-15 sm:w-15"
-                    src="/Fire.gif"
-                    alt="fire"
-                  />
-                </div>
+              <h1 className="text-white flex text-xl ml-8 sm:text-2xl md:text-2xl lg:text-5xl  leading-tight"
+                style={{ fontFamily: '"Sigmar", sans-serif' }} >
+                 With a Twist of Fun <div className=" sm:h-15 sm:w-15 "><img className="w-8 h-7 sm:h-9 sm:w-9 md:h-9 md:w-9 lg:h-15 lg:w-15" src="/Fire.gif" alt="fire" /></div>
               </h1>
             </div>
 
             {/* Subtitle */}
-            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-4xl mx-4 sm:mx-20 lg:mx-60 mb-4 sm:mb-8 leading-tight">
+            <p className="text-white/90 text-sm sm:text-base md:text-base max-w-4xl mx-4 sm:mx-20 lg:mt-3 lg:mx-60 mb-4 sm:mb-8 leading-tight">
               Explore Artificial Intelligence, Machine Learning, Communication,
               Coding, and more through interactive games, real-world challenges,
-              and bite-sized notes — all designed for curious minds from Grade 6
-              to 12.
+              and bite-sized notes
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-16 w-full sm:w-auto px-4 sm:px-0">
-              <button className="bg-white text-green-600 font-semibold px-4 sm:px-8 py-2 sm:py-3 rounded-lg   transition duration-300 cursor-pointer text-sm sm:text-lg">
+              <button className="bg-white text-black font-semibold px-4 sm:px-8 py-3 sm:py-4 rounded-md   transition duration-300 cursor-pointer text-sm sm:text-sm">
                 Get Started Free
               </button>
-              <button className="border-2 border-white text-white font-semibold px-4 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-white hover:text-green-600 cursor-pointer transition duration-300 text-sm sm:text-lg flex items-center justify-center gap-2">
+              <button className="border-2 border-white text-white font-semibold px-4 sm:px-8   py-2 sm:py-3 rounded-md hover:bg-white hover:text-green-600 cursor-pointer transition duration-300 text-sm sm:text-sm flex items-center justify-center gap-2">
                 Book a trial
               </button>
             </div>
@@ -903,7 +906,7 @@ const Home = () => {
           {/* Hero Illustration */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 px-4 py-2 max-w-2xl mx-auto">
             {/* Main characters illustration */}
-            <div className="relative h-[330px] w-[330px] sm:h-[350px] sm:w-[350px] lg:h-[500px] lg:w-[500px] overflow-hidden">
+            <div className="relative h-[430px] w-[400px] sm:h-[350px] sm:w-[350px] md:h-[300px] md:w-[300px] lg:h-[500px] lg:w-[500px]">
               <img
                 src="/heroIMG.png"
                 alt="Full"
@@ -921,15 +924,13 @@ const Home = () => {
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4 lg:mb-0">
               Why you'll love it
             </h2>
-            <p className="text-gray-900 font-medium text-base sm:text-lg max-w-xs text-left lg:text-right">
-              Designed to make your learning fun
-            </p>
+            
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Feature 1 - Notes */}
             <motion.div
-              className="bg-[#C3E2FF] rounded-2xl p-4 sm:p-6 min-h-[300px] sm:h-90 overflow-hidden"
+              className="bg-[#C3E2FF] rounded-2xl p-4 sm:p-6 min-h-[300px] sm:h-80 overflow-hidden"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -951,7 +952,7 @@ const Home = () => {
 
             {/* Feature 2 - Learn anywhere */}
             <motion.div
-              className="bg-[url('/F2.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-6 h-full flex flex-col"
+              className="bg-[url('/F2.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-6 h-full sm:h-80 flex flex-col"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -963,16 +964,26 @@ const Home = () => {
               <p className="text-gray-700 mb-6 text-sm">
                 Just google edumaniax, to start your fun learning journey
               </p>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="relative group">
+              <div className="flex-1 flex items-center -mt-5 justify-center">
+                <div className="relative group ">
                   {/* OUTER circle (on hover of this) */}
-                  <div className="outer w-50 h-50 border-1 border-green-300 rounded-[80px] flex items-center justify-center group">
+                  <div
+                    className="outer w-50 h-50 border-1 border-green-300 rounded-[80px] flex items-center justify-center group"
+                    onMouseEnter={isMobile ? undefined : () => setFeature2AutoHover(true)}
+                    onMouseLeave={isMobile ? undefined : () => setFeature2AutoHover(false)}
+                  >
                     <div className="w-40 h-40 border-1 border-green-400 rounded-[67px] flex items-center justify-center">
                       <div className="w-30 h-30 border-1 border-green-400 rounded-[47px] flex items-center justify-center">
                         {/* INNER circle */}
-                        <div className="inner w-20 h-20 border-2 bg-white border-green-500 rounded-[20px] flex items-center justify-center transition-all duration-500 group-hover:w-24 group-hover:h-24 group-hover:shadow-lg group-hover:shadow-green-500/50 delay-500">
+                        <div className={`inner border-2 bg-white border-green-500 rounded-[20px] flex items-center justify-center transition-all duration-500 delay-500 ${feature2AutoHover
+                          ? 'w-24 h-24 shadow-lg shadow-green-500/50'
+                          : 'w-20 h-20 group-hover:w-24 group-hover:h-24 group-hover:shadow-lg group-hover:shadow-green-500/50'
+                          }`}>
                           <img
-                            className="w-17 h-15 transition-transform duration-500 group-hover:rotate-[-115deg] group-hover:delay-[1000ms]"
+                            className={`w-17 h-15 transition-transform duration-500 ${feature2AutoHover
+                              ? 'rotate-[-115deg] delay-[1000ms]'
+                              : 'group-hover:rotate-[-115deg] group-hover:delay-[1000ms]'
+                              }`}
                             src="/midLogo.png"
                           />
                         </div>
@@ -985,7 +996,7 @@ const Home = () => {
 
             {/* Feature 3 - Connect & learn */}
             <motion.div
-              className="bg-[url('/F3.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-4 sm:p-6 min-h-[300px] h-full"
+              className="bg-[url('/F3.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-4 sm:p-6 min-h-[300px] sm:h-80 h-full"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -1007,7 +1018,7 @@ const Home = () => {
           <div className="grid mt-4 sm:mt-5 grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Feature 4 - Games */}
             <motion.div
-              className="bg-[url('/F4.png')] bg-cover bg-center bg-no-repeat rounded-2xl relative w-full p-4 sm:p-6 min-h-[250px] sm:h-100"
+              className="bg-[url('/F4.png')] bg-cover bg-center bg-no-repeat rounded-2xl relative w-full p-4 sm:p-6 min-h-[250px] sm:h-90"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -1023,12 +1034,11 @@ const Home = () => {
 
               {/* Progress Card Component */}
               <div className=" ml-10 h-40">
-                <img
-                  className=" absolute sm:h-[48%] h-[34%] -ml-6 sm:mt-4 z-50 sm:w-[57%]"
-                  src="/mid4.png"
-                  alt="mid"
-                />
+
+
+                <img className=" absolute sm:h-[45%] h-[34%] -ml-6 sm:mt-2 z-50 sm:w-[57%]" src="/mid4.png" alt="mid" />
                 <div className="flex sm:w-[60%] w-[60%] ml-15 sm:ml-25 absolute bottom-0 mb-5 left-0 h-18 sm:h-28">
+
                   <ProgressCardComponent />
                 </div>
               </div>
@@ -1036,7 +1046,7 @@ const Home = () => {
 
             {/* Feature 5 - Skills */}
             <motion.div
-              className="bg-[url('/F5.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-4 sm:p-6 min-h-[250px] sm:h-100 w-full"
+              className="bg-[url('/F5.png')] bg-cover bg-center bg-no-repeat rounded-2xl p-4 sm:p-6 min-h-[250px] sm:h-90 w-full"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -1050,67 +1060,46 @@ const Home = () => {
                 fun and playing simple games
               </p>
               <div className="flex-1 flex items-center justify-center">
-                <div className="grid mt-4 sm:mt-10 grid-cols-5 gap-2 sm:gap-5 group">
+                <div
+                  className="grid mt-4 sm:mt-10 grid-cols-5 gap-2 sm:gap-5 group"
+                  onMouseEnter={isMobile ? undefined : () => setFeature5AutoHover(true)}
+                  onMouseLeave={isMobile ? undefined : () => setFeature5AutoHover(false)}
+                >
                   {/* 5 child divs, each has two <img> tags */}
-                  <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
-                    <img
-                      src="/Link1.png"
-                      className="w-full h-auto"
-                      alt="Link 1"
-                    />
-                    <img
-                      src="/Link2.png"
-                      className="w-full h-auto"
-                      alt="Link 2"
-                    />
+                  <div className={`w-10 sm:w-15 h-10 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out ${feature5AutoHover
+                    ? '-translate-y-4 sm:-translate-y-10'
+                    : 'group-hover:-translate-y-4 sm:group-hover:-translate-y-10'
+                    }`}>
+                    <img src="/Link1.png" className="w-full h-auto" alt="Link 1" />
+                    <img src="/Link2.png" className="w-full h-auto" alt="Link 2" />
                   </div>
-                  <div className="w-9 sm:w-15 h-9 sm:h-15 transition-transform duration-300 ease-in-out group-hover:translate-y-4 sm:group-hover:translate-y-10">
-                    <img
-                      src="/Link3.png"
-                      className="w-full h-auto"
-                      alt="Link 3"
-                    />
-                    <img
-                      src="/Link4.png"
-                      className="w-full h-auto"
-                      alt="Link 4"
-                    />
+                  <div className={`w-10 sm:w-15 h-10 sm:h-15 transition-transform duration-300 ease-in-out ${feature5AutoHover
+                    ? 'translate-y-4 sm:translate-y-10'
+                    : 'group-hover:translate-y-4 sm:group-hover:translate-y-10'
+                    }`}>
+                    <img src="/Link3.png" className="w-full h-auto" alt="Link 3" />
+                    <img src="/Link4.png" className="w-full h-auto" alt="Link 4" />
                   </div>
-                  <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
-                    <img
-                      src="/Link5.png"
-                      className="w-full h-auto"
-                      alt="Link 5"
-                    />
-                    <img
-                      src="/Link6.png"
-                      className="w-full h-auto"
-                      alt="Link 6"
-                    />
+                  <div className={`w-10 sm:w-15 h-10 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out ${feature5AutoHover
+                    ? '-translate-y-4 sm:-translate-y-10'
+                    : 'group-hover:-translate-y-4 sm:group-hover:-translate-y-10'
+                    }`}>
+                    <img src="/Link5.png" className="w-full h-auto" alt="Link 5" />
+                    <img src="/Link6.png" className="w-full h-auto" alt="Link 6" />
                   </div>
-                  <div className="w-9 sm:w-15 h-9 sm:h-15 transition-transform duration-300 ease-in-out group-hover:translate-y-4 sm:group-hover:translate-y-10">
-                    <img
-                      src="/Link7.png"
-                      className="w-full h-auto"
-                      alt="Link 7"
-                    />
-                    <img
-                      src="/Link8.png"
-                      className="w-full h-auto"
-                      alt="Link 8"
-                    />
+                  <div className={`w-10 sm:w-15 h-10 sm:h-15 transition-transform duration-300 ease-in-out ${feature5AutoHover
+                    ? 'translate-y-4 sm:translate-y-10'
+                    : 'group-hover:translate-y-4 sm:group-hover:translate-y-10'
+                    }`}>
+                    <img src="/Link7.png" className="w-full h-auto" alt="Link 7" />
+                    <img src="/Link8.png" className="w-full h-auto" alt="Link 8" />
                   </div>
-                  <div className="w-9 sm:w-15 h-9 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out group-hover:-translate-y-4 sm:group-hover:-translate-y-10">
-                    <img
-                      src="/Link9.png"
-                      className="w-full h-auto"
-                      alt="Link 9"
-                    />
-                    <img
-                      src="/Link10.png"
-                      className="w-full h-auto"
-                      alt="Link 10"
-                    />
+                  <div className={`w-10 sm:w-15 h-10 sm:h-15 mt-4 sm:mt-10 transition-transform duration-300 ease-in-out ${feature5AutoHover
+                    ? '-translate-y-4 sm:-translate-y-10'
+                    : 'group-hover:-translate-y-4 sm:group-hover:-translate-y-10'
+                    }`}>
+                    <img src="/Link9.png" className="w-full h-auto" alt="Link 9" />
+                    <img src="/Link10.png" className="w-full h-auto" alt="Link 10" />
                   </div>
                 </div>
               </div>
@@ -1143,7 +1132,7 @@ const Home = () => {
                   <img
                     src="/5.gif"
                     alt="Full"
-                    className="absolute inset-0 w-full h-[-50%] object-cover"
+                    className="absolute inset-0 w-full   object-cover"
                   />
                 </div>
               </div>
@@ -1152,7 +1141,7 @@ const Home = () => {
             {/* Stats - order 3 on mobile, positioned in desktop grid */}
             <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2 lg:self-end">
               <div className="bg-gray-200 rounded-2xl p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
+                <div className="grid grid-cols-3  divide-x sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
                   <div className="text-center sm:pr-6">
                     <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
                       50+
@@ -1185,7 +1174,7 @@ const Home = () => {
       </section>
 
       {/* Courses Section */}
-      <section className="py-10 sm:py-20 bg-gray-50">
+      <section className="py-10 sm:py-20 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
             Courses, curated with love
@@ -1197,11 +1186,10 @@ const Home = () => {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-3 sm:px-4 py-2 text-xs whitespace-nowrap rounded-full font-medium transition duration-300 ${
-                  category === activeCategory
-                    ? "bg-green-600 text-white"
-                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-                }`}
+                className={`px-3 sm:px-4 py-2 text-xs whitespace-nowrap rounded-full font-medium transition duration-300 ${category === activeCategory
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                  }`}
               >
                 {category}
               </button>
@@ -1209,18 +1197,18 @@ const Home = () => {
           </div>
 
           {/* Course Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-6 px-2 sm:px-0">
             {filteredCourses.map((course, index) => (
               <motion.div
                 key={`${course.title}-${index}`}
-                className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+                className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300 flex flex-col"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.05 }}
               >
-                <div className="relative h-32 sm:h-40 bg-gray-900">
-                  {/* Course-specific background image */}
+                {/* Image Section */}
+                <div className="relative h-32 sm:h-40 bg-gray-900 flex-shrink-0">
                   <div className="absolute inset-0">
                     <img
                       src={course.image}
@@ -1238,14 +1226,16 @@ const Home = () => {
                   </div>
                 </div>
 
-                <div className="p-3 sm:p-3">
-                  <div className="flex justify-between">
-                    <div className="flex-1">
-                      <h4 className="text-sm sm:text-base font-bold text-black mb-2 line-clamp-2">
+                {/* Content Section - Fixed Padding */}
+                <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                  {/* Title and Rating Row */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1 pr-3">
+                      <h4 className="text-sm sm:text-base font-bold text-black line-clamp-2 leading-tight">
                         {course.title}
                       </h4>
                     </div>
-                    <div className="flex items-center gap-1 mb-1 ml-2">
+                    <div className="flex items-center gap-1 flex-shrink-0">
                       <Star className="w-3 sm:w-4 h-3 sm:h-4 fill-yellow-400 text-yellow-400" />
                       <span className="text-xs sm:text-sm font-medium">
                         {course.rating}
@@ -1253,64 +1243,64 @@ const Home = () => {
                     </div>
                   </div>
 
-                  <p className="text-gray-600 text-xs mb-3 sm:mb-4 line-clamp-2">
+                  {/* Description */}
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4 line-clamp-2 leading-relaxed">
                     {course.description}
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-1 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-ex text-gray-500">
+                  {/* Metadata Badges - Fixed Layout */}
+                  <div className="flex flex-nowrap gap-1.5 mb-4">
+                    {/* Level Badge */}
                     <div
-                      className={`px-2 py-1 rounded flex items-center gap-1 text-xs font-medium ${
-                        course.level === "Beginner"
-                          ? "bg-green-100 text-green-600"
-                          : course.level === "Intermediate"
+                      className={`px-1.5 py-1 rounded-lg flex items-center gap-1 text-xs font-medium ${course.level === "Beginner"
+                        ? "bg-green-100 text-green-600"
+                        : course.level === "Intermediate"
                           ? "bg-yellow-100 text-yellow-600"
                           : "bg-red-100 text-red-600"
-                      }`}
+                        }`}
                     >
-                      <img
-                        src={getLevelIcon(course.level)}
-                        alt={course.level}
-                        className="w-3 h-3"
-                      />
-                      {course.level}
+                      <img src={getLevelIcon(course.level)} alt={course.level} className="w-3 h-3" />
+                      <span className="pb-0.5">{course.level}</span>
                     </div>
-                    <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
-                      <span>
-                        <img src="/time.png" alt="" />
-                      </span>{" "}
-                      {course.duration}
+
+                    {/* Duration Badge */}
+                    <div className="flex items-center bg-[#A063F3]/10 rounded-lg py-1 px-1.5 gap-1">
+                      <img src="/time.png" alt="" className="w-3 h-3" />
+                      <span className="text-xs pb-0.5 text-[#A063F3] font-medium">{course.duration}</span>
                     </div>
-                    <div className="flex items-center bg-gray-200 -ml-2 rounded-2xl py-[6px] px-2  gap-1">
-                      <span>
-                        <img src="/people.png" alt="" />
-                      </span>{" "}
-                      {course.students}
+
+                    {/* Students Badge */}
+                    <div className="flex items-center bg-[#008FA6]/10 rounded-lg py-1 px-2.5 gap-1">
+                      <img src="/people.png" alt="" className="w-3 h-3" />
+                      <span className="text-xs pb-0.5 text-[#008FA6] font-medium">{course.students}</span>
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
-                    <Link to={course.gamesLink} className="flex-1">
+                  {/* Buttons Row - Improved Spacing */}
+                  <div className="flex gap-2 mt-auto">
+                    <Link
+                      to={course.gamesLink}
+                      className="flex-1"
+                    >
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
+                        className="w-full bg-green-600 text-white font-medium py-2.5 px-3 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
                       >
                         <img src="/game.png" alt="Game" className="w-4 h-4" />
                         Let's Play &gt;
                       </motion.button>
                     </Link>
 
-                    <Link to={course.notesLink} className="">
+                    <Link
+                      to={course.notesLink}
+                    >
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
+                        className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-3 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
                       >
-                        <img
-                          src="/notes.png"
-                          alt="Notes"
-                          className="w-4 h-4 mr-1"
-                        />
+                        <img src="/notes.png" alt="Notes" className="w-4 h-4 mr-1" />
                         Notes
                       </motion.button>
                     </Link>
@@ -1320,39 +1310,41 @@ const Home = () => {
             ))}
           </div>
           <div className="w-full h-full flex justify-center items-center">
-            <Link to={"/courses"} className="">
-              <button className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
+            
+              <a href="/courses" className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 lg:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
                 View More..
-              </button>
-            </Link>
+              </a>
+            
           </div>
+
+
+
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="h-auto lg:h-[90vh] py-10 lg:py-0">
-        <div className="w-full h-full bg-[url('/Testimonial.png')] bg-cover sm:bg-contain bg-center bg-no-repeat">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 place-items-center h-auto lg:h-screen py-10 lg:py-0">
-              <div className="order-1 lg:order-1 mr-0 lg:mr-5">
-                <p className="text-lg sm:text-2xl text-gray-700 mb-6 sm:mb-8 leading-relaxed font-medium italic">
+      {/* Testimonials Section
+      <section className="h-auto lg:h-[90vh] md:-mt-10 py-10  lg:py-0">
+        <div className="w-full h-full bg-[#FFFAD1]  sm:bg-[url('/Testimonial.png')] sm:bg-contain sm:bg-contain sm:bg-center sm:bg-no-repeat">
+          <div className="max-w-7xl mx-auto px-4 sm:px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 place-items-center h-auto lg:h-screen py-10 lg:py-0">
+              <div className="order-1 relative lg:order-1 mr-0 md:pt-69 md:-mt-40 lg:mr-5 lg:mb-20 ">
+                <div><img className=" h-35 w-35 sm:h-0 sm:w-0 lg:h-0  ml-1 -mt-10 lg:w-0 absolute top-0 left-0" src="/test1.svg" alt="" /></div>
+                <p className="text-lg sm:text-xl mt-20 text-gray-700 mb-6 sm:mb-8 md:w-[50%]  md:text-xs lg:text-3xl lg:w-[100%] leading-relaxed font-medium italic">
                   {currentTestimonial.quote}
                 </p>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center lg:mt-30 justify-between">
                   <div>
-                    <h4 className="text-lg sm:text-xl font-bold text-black">
+                    <h4 className="text-sm sm:text-lg md:text-md lg:text-3xl font-bold text-black">
                       {currentTestimonial.name}
                     </h4>
-                    <p className="text-gray-600 text-sm sm:text-base">
-                      {currentTestimonial.title}
-                    </p>
+                    <p className="text-gray-600 text-sm  md:text-sm lg:text-sm sm:text-base">{currentTestimonial.title}</p>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex md:mr-80 lg:mr-0 gap-2">
                     <button
                       onClick={prevTestimonial}
-                      className="p-2 rounded-full bg-white hover:bg-gray-100 transition duration-300"
+                      className="p-2 rounded-full bg-white  hover:bg-gray-100 transition duration-300"
                     >
                       <ChevronLeft className="w-4 sm:w-5 h-4 sm:h-5" />
                     </button>
@@ -1366,9 +1358,10 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="order-2 lg:order-2 flex justify-center ml-0 lg:ml-10">
+              <div className="order-2 lg:order-2  flex justify-center ml-0 lg:ml-10">
                 <div className="relative z-10">
-                  <div className="w-70 h-70 -mb-10 sm:w-90 sm:h-90 lg:w-119 lg:h-130 lg:-mb-16 relative overflow-hidden">
+                  <div><img className="h-37 w-37 sm:h-0 sm:w-0 lg:h-0 lg:w-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-10  -ml-5 " src="/testbg.png" alt="" /></div>
+                  <div className="w-70 h-70 -mb-10 sm:w-90 sm:h-90 md:-mt-61 md:ml-100 md:h-70 md:w-70 lg:w-119 lg:h-150 lg:-mb-16 lg:mr-100 lg:mt-1  relative overflow-hidden">
                     <img
                       key={`img-${currentIndex}`}
                       src={currentTestimonial.image}
@@ -1392,7 +1385,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Student Feedback Section - CAROUSEL */}
       <section className="py-10 sm:py-20 bg-white">
@@ -1409,8 +1402,8 @@ const Home = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-10 sm:py-20 mb-100 sm:mb-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <section className="py-1 sm:py-2 mb-10 sm:mb-20 ">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6  text-center">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
             Frequently Asked
           </h2>
@@ -1421,30 +1414,25 @@ const Home = () => {
             Everything you need to know before getting started
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-2 md:gap-2">
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}
-                className={` rounded-2xl p-4 sm:p-6 cursor-pointer transition duration-300 `}
+                className={` rounded-2xl p-4  cursor-pointer transition duration-300 `}
                 onClick={() => toggleFAQ(index)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <div
-                  className={`flex ${faq.QbgColor} p-3 z-30 relative pb-4 rounded-2xl -mb-4 justify-between items-center`}
-                >
-                  <h3
-                    className={`text-sm  sm:text-lg font-bold text-black text-left flex-1 pr-2`}
-                  >
+                <div className={`flex ${faq.QbgColor} p-8 z-30 relative  rounded-2xl -mb-4 justify-between items-center`}>
+                  <h3 className={`text-sm  sm:text-lg font-semibold text-black text-left flex-1 pr-2`}>
                     {faq.question}
                   </h3>
                   <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
                     <ChevronDown
-                      className={`w-3 sm:w-4 h-3 sm:h-4 text-green-600  transition-transform duration-300 ${
-                        openFAQ === index ? "transform rotate-180" : ""
-                      }`}
+                      className={`w-3 sm:w-4 h-3 sm:h-4 text-green-600  transition-transform duration-300 ${openFAQ === index ? "transform rotate-180" : ""
+                        }`}
                     />
                   </div>
                 </div>
@@ -1463,6 +1451,14 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {showScroll && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-10 right-8 bg-gray-700 text-white p-4 rounded-lg shadow-md hover:bg-gray-800 transition-all cursor-pointer duration-300 z-100"
+        >
+          <FaArrowUp className="text-lg" />
+        </button>
+      )}
     </div>
   );
 };

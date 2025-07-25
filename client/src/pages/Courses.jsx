@@ -177,15 +177,9 @@ const CourseCard = ({ course, index }) => {
     }
   };
 
-  const difficultyColors = {
-    Beginner: "bg-green-100 text-green-600",
-    Intermediate: "bg-yellow-100 text-yellow-600",
-    Advanced: "bg-red-100 text-red-600"
-  };
-
   return (
     <motion.div
-      className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+      className="bg-white rounded-2xl w-full overflow-hidden shadow-lg hover:shadow-xl transition duration-300 flex flex-col"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
@@ -201,7 +195,8 @@ const CourseCard = ({ course, index }) => {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <div className="relative h-48  bg-gray-900">
+      {/* Image Section */}
+      <div className="relative h-32 sm:h-40 bg-gray-900 flex-shrink-0">
         {/* Course-specific background image */}
         <div className="absolute inset-0">
           <motion.img
@@ -215,54 +210,65 @@ const CourseCard = ({ course, index }) => {
         </div>
 
         {/* Category Badge */}
-        <div className="absolute top-3 left-3 z-20">
-          <span className="bg-white px-3 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
-
+        <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-20">
+          <span className="bg-white px-2 sm:px-3 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
             {course.category}
           </span>
         </div>
-
-
-
       </div>
 
-      <div className="p-2">
-        <div className="flex justify-between">
+      {/* Content Section - Fixed Padding */}
+      <div className="p-4 sm:p-5 flex flex-col flex-grow">
+        {/* Title and Rating Row */}
+        <div className="flex justify-between items-start mb-3">
           <div className="flex-1 w-[80%]">
-            <h4 className="text-lg font-bold  text-black mb-2 truncate group-hover:text-gray-700 transition-colors duration-300">
+            <h4 className="text-md font-bold  text-black mb-2 truncate group-hover:text-gray-700 transition-colors duration-300">
               {course.title}
             </h4>
           </div>
-          <div className="flex items-center gap-1 mb-1 ml-2">
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium text-gray-600">
+          <div className="flex items-center gap-1 mt-1 flex-shrink-0">
+            <Star className="w-3 sm:w-4 h-3 sm:h-4 fill-yellow-400 text-yellow-400" />
+            <span className="text-xs sm:text-sm font-medium">
               {course.rating}
             </span>
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
+        {/* Description */}
+        <p className="text-gray-600 text-xs sm:text-xs mb-4 line-clamp-2 leading-relaxed">
           {course.description}
         </p>
 
-        <div className="flex flex-wrap items-center gap-2 mb-4 text-xs text-gray-500">
+        {/* Metadata Badges - Fixed Layout */}
+        <div className="flex flex-nowrap gap-1.5 mb-4">
+          {/* Level Badge */}
           <div
-            className={`px-2 py-1  rounded flex items-center gap-1 text-xs font-medium ${difficultyColors[course.difficulty]}`}
+            className={`px-1.5 py-1 rounded-lg flex items-center gap-1 text-xs font-medium ${course.difficulty === "Beginner"
+                ? "bg-green-100 text-green-600"
+                : course.difficulty === "Intermediate"
+                  ? "bg-yellow-100 text-yellow-600"
+                  : "bg-red-100 text-red-600"
+              }`}
           >
             <img src={getLevelIcon(course.difficulty)} alt={course.difficulty} className="w-3 h-3" />
             {course.difficulty}
           </div>
-          <div className="flex text-xs items-center bg-gray-200 rounded-2xl py-[6px] px-3 gap-1">
-            <img src="/time.png" alt="Duration" className="w-3.5 h-3.5" />
-            <span>{course.duration}</span>
+
+          {/* Duration Badge */}
+          <div className="flex items-center bg-[#A063F3]/10 rounded-lg py-1 px-1 gap-1">
+            <img src="/time.png" alt="" className="w-3 h-3" />
+            <span className="text-xs font-medium">{course.duration}</span>
           </div>
-          <div className="flex text-xs  items-center bg-gray-200 rounded-2xl p-[5px] ] px-3  gap-1">
-            <img src="/people.png" alt="Students" className="w-3.5 h-3.5" />
-            <span>{course.students.toLocaleString()}</span>
+
+          {/* Students Badge */}
+          <div className="flex items-center bg-[#008FA6]/10 rounded-lg py-1 px-2 gap-1">
+            <img src="/people.png" alt="" className="w-3 h-3" />
+            <span className="text-xs font-medium">{course.students.toLocaleString()}</span>
           </div>
         </div>
 
-        <div className="flex gap-2">
+        {/* Buttons Row - Improved Spacing */}
+        <div className="flex gap-2 mt-auto">
           <Link
             to={course.gamesLink}
             className="flex-1"
@@ -270,7 +276,7 @@ const CourseCard = ({ course, index }) => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
+              className="w-full bg-green-600 text-white font-medium py-2.5 px-3 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
             >
               <img src="/game.png" alt="Game" className="w-4 h-4" />
               Let's Play &gt;
@@ -279,12 +285,11 @@ const CourseCard = ({ course, index }) => {
 
           <Link
             to={course.notesLink}
-            className=""
           >
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-4 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
+              className="bg-orange-400 flex items-center text-white font-medium py-2.5 px-3 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
             >
               <img src="/notes.png" alt="Notes" className="w-4 h-4 mr-1" />
               Notes
@@ -465,18 +470,33 @@ const Courses = () => {
                   alt="Search"
                   className="absolute text-white left-4 top-1/2 transform -translate-y-1/2 w-8 h-8 opacity-100 pointer-events-none z-10"
                 />
-                <img
-                  src="/rightArrow.png"
-                  alt="Arrow Right"
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 w-8 h-8 opacity-80 pointer-events-none z-10"
-                />
+                <button
+                  onClick={() => {
+                    // Create synthetic Enter key event to trigger existing search logic
+                    const syntheticEvent = {
+                      key: 'Enter',
+                      preventDefault: () => { },
+                      target: document.querySelector('input[type="text"]')
+                    };
+                    handleSearchKeyDown(syntheticEvent);
+                  }}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 w-8 h-8 opacity-80 z-10 bg-transparent border-none cursor-pointer hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-[#074a19] rounded-full transition-all duration-200"
+                  aria-label="Search"
+                  type="button"
+                >
+                  <img
+                    src="/rightArrow.png"
+                    alt=""
+                    className="w-full h-full"
+                  />
+                </button>
                 <input
                   type="text"
                   placeholder={` Search courses... `}
                   value={searchTerm}
                   onChange={handleSearch}
                   onKeyDown={handleSearchKeyDown}
-                  className="w-full pl-12 pr-12 py-4 bg-[#074a19] backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
+                  className="w-full pl-14 pr-12 py-4 bg-[#074a19] backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                 />
               </div>
             </motion.div>
@@ -519,12 +539,12 @@ const Courses = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setFiltersOpen(!filtersOpen)}
-            className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm hover:shadow-md transition-all duration-300 group"
+            className="flex items-center gap-2.5 bg-white border border-gray-200 rounded-xl px-3 py-1.5 shadow-sm hover:shadow-md transition-all duration-300 group"
           >
-            
-            <span><img className="w- h-6" src="/filter.png" alt="" /></span>
+
+            <span><img className="w-6 h-6" src="/filter.png" alt="" /></span>
             <div>
-              <span className="text-lg font-medium text-gray-700 group-hover:text-gray-900">
+              <span className="text-md font-medium text-gray-700 -ml-2 group-hover:text-gray-900">
                 Filters
               </span>
             </div>
@@ -618,14 +638,14 @@ const Courses = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-16"
           >
-            <div className="text-6xl mb-4">🔍</div>
+            <div className="text-6xl flex items-center justify-center"><img className="h-50 w-50" src="/noResult.svg" alt="" /></div>
             <h3 className="text-xl font-semibold text-gray-700 mb-2">No courses found</h3>
             <p className="text-gray-500">Try adjusting your search or filters</p>
           </motion.div>
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4"
           >
             {filteredCourses.map((course, index) => (
               <CourseCard
