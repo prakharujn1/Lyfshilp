@@ -101,7 +101,7 @@ const SingleBlog = () => {
             </nav>
 
             {/* Blog Box */}
-            <div className="mt-6">
+            <div className="mt-6 p-4 sm:p-6 sm:border sm:border-gray-300 sm:rounded-xl sm:shadow-sm">
               <h1 className="text-4xl md:text-4xl font-bold text-gray-900 flex items-center gap-2">
                 {singleBlog.title}
               </h1>
@@ -187,7 +187,7 @@ const SingleBlog = () => {
               </div>
 
               <div className="flex items-center gap-3 mt-6">
-                <span className="text-gray-900 text-lg font-bold">
+                <span className="text-gray-900 text-lg font-bold whitespace-nowrap">
                   Share this blog on:
                 </span>
 
