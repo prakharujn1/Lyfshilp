@@ -195,7 +195,7 @@ const SingleBlog = () => {
                   href="https://www.facebook.com/sharer/sharer.php?u=https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/facebook.svg"
@@ -208,7 +208,7 @@ const SingleBlog = () => {
                   href="https://twitter.com/intent/tweet?url=https://yourblog.com&text=Check%20this%20out!"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/twitter.svg"
@@ -221,7 +221,7 @@ const SingleBlog = () => {
                   href="https://api.whatsapp.com/send?text=Check%20this%20out:%20https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/whatsapp.svg"
@@ -234,12 +234,12 @@ const SingleBlog = () => {
                   href="https://www.linkedin.com/shareArticle?mini=true&url=https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/linkedin.svg"
                     alt="LinkedIn"
-                    className="w-5 h-4"
+                    className="w-5 h-5"
                   />
                 </a>
               </div>
