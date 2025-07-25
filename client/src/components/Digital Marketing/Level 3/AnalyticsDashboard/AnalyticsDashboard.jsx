@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlatformCard from "./PlatformCard";
 import { PlatformAnalysis } from "./PlatformAnalysis";
 import { WhatIfSimulator } from "./WhatIfSimulator";
 import { motion } from "framer-motion"; // Make sure to import motion
 import toast from 'react-hot-toast';
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const initialData = [
   {
@@ -74,6 +75,26 @@ export default function AnalyticsDashboard() {
   const [chartType, setChartType] = useState("bar");
   const [draggedLabel, setDraggedLabel] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState("");
+
+
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (!challengeCompleted) return;
+
+    const endTime = Date.now();
+    const timeTakenSec = Math.floor((endTime - startTime) / 1000);
+    const studyTimeMinutes = Math.ceil(timeTakenSec / 60);
+
+    updateDMPerformance({
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes,
+      completed: true,
+    });
+  }, [challengeCompleted]);
+
 
   /**
    * Handles the simulation of increased sales, clicks, and views for a given platform.

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 export default function ConflictCommanderGame() {
   const { completeCommunicationChallenge } = useCommunication();
   const [step, setStep] = useState(1);
@@ -7,7 +8,9 @@ export default function ConflictCommanderGame() {
   const [result, setResult] = useState(null);
   const [reflection, setReflection] = useState("");
   const [showResult, setShowResult] = useState(false);
-
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const step1Options = [
     { id: "s1a", text: "😤 “You’re just yelling again.”", correct: false },
     { id: "s1b", text: "😟 “I get that you’re upset.”", correct: true },
@@ -37,7 +40,7 @@ export default function ConflictCommanderGame() {
     if (empathy && assertive) {
       message = "🌈 Awesome! You showed both empathy and leadership!";
       emoji = "🎉";
-      completeCommunicationChallenge(2,0); // ✅ Call it here
+      completeCommunicationChallenge(2, 0);
     } else if (empathy) {
       message = "👍 You were kind, but could be more solution-focused!";
       emoji = "🙂";
@@ -49,9 +52,20 @@ export default function ConflictCommanderGame() {
       emoji = "🙈";
     }
 
+    // 🟢 Track performance
+    const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+    updateCommunicationPerformance({
+      score: Math.round((empathy + assertive) * 5),
+      accuracy: ((empathy + assertive) / 2) * 100,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+      completed: empathy && assertive,
+    });
+
     setResult({ message, emoji });
     setShowResult(true);
   };
+
 
   const restartGame = () => {
     setStep(1);

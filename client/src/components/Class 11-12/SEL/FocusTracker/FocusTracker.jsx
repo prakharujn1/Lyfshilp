@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const allHours = [
   "12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
   "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"
@@ -16,11 +16,27 @@ export default function FocusTracker() {
   const [tasks, setTasks] = useState([]);
   const [schedule, setSchedule] = useState({});
   const [draggedTask, setDraggedTask] = useState(null);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const filteredHours = allHours.slice(
     allHours.indexOf(wakeTime),
     allHours.indexOf(sleepTime) + 1
   );
+
+  useEffect(() => {
+    if (step === 4) {
+      const endTime = Date.now();
+      const durationSec = Math.round((endTime - startTime) / 1000);    
+
+      updateSELPerformance({
+        avgResponseTimeSec: durationSec,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: true,
+      });
+    }
+  }, [step]);
+
 
   const addTask = () => {
     if (!taskInput.trim()) return;
@@ -113,7 +129,7 @@ export default function FocusTracker() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
-                  completeSELChallenge(1,0); // ✅ Mark challenge as complete
+                  completeSELChallenge(1, 0); // ✅ Mark challenge as complete
                   setStep(4);
                 }}
                 className="bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-300 text-white font-semibold py-3 px-10 rounded-full shadow-xl transition-all duration-300 tracking-wide"

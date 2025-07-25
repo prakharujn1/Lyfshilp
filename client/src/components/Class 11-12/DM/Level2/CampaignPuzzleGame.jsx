@@ -13,9 +13,9 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const CampaignPuzzleGame = () => {
-  const {completeDMChallenge} = useDM();
+  const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro");
   const [timeline, setTimeline] = useState([null, null, null]);
   const [availableTiles, setAvailableTiles] = useState([]);
@@ -25,6 +25,9 @@ const CampaignPuzzleGame = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [celebrationMode, setCelebrationMode] = useState(false);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const campaignTiles = [
     {
@@ -172,13 +175,27 @@ const CampaignPuzzleGame = () => {
       starCount = 1;
     }
 
+    // Scale score out of 10
+    const scaledScore = starCount === 5 ? 10 : starCount === 3 ? 7 : 3;
+
+    const endTime = Date.now();
+    const timeSpentSec = Math.floor((endTime - startTime) / 1000);
+
+    updateDMPerformance({
+      score: scaledScore,
+      accuracy: (correctCount / 3) * 100,
+      avgResponseTimeSec: timeSpentSec / 3,
+      studyTimeMinutes: Math.ceil(timeSpentSec / 60),
+      completed: true,
+    });
+
     setFeedback(feedbackMessage);
     setStars(starCount);
     setIsLoading(false);
-    
     setCurrentPage("results");
-    completeDMChallenge(1,2);
+    completeDMChallenge(1, 2);
   };
+
 
   const resetGame = () => {
     setTimeline([null, null, null]);
@@ -411,11 +428,10 @@ const CampaignPuzzleGame = () => {
             <button
               onClick={checkResults}
               disabled={timeline.some((slot) => slot === null)}
-              className={`font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 flex items-center justify-center space-x-2 mx-auto ${
-                timeline.some((slot) => slot === null)
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gradient-to-r from-green-400 to-blue-500 text-white hover:shadow-lg transform hover:scale-105"
-              }`}
+              className={`font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 flex items-center justify-center space-x-2 mx-auto ${timeline.some((slot) => slot === null)
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-green-400 to-blue-500 text-white hover:shadow-lg transform hover:scale-105"
+                }`}
             >
               <Rocket size={24} />
               <span>Launch Campaign!</span>
@@ -456,9 +472,8 @@ const CampaignPuzzleGame = () => {
 
         <div className="space-y-2 text-sm text-gray-600">
           <div
-            className={`flex items-center space-x-2 ${
-              loadingProgress > 20 ? "text-green-600" : ""
-            }`}
+            className={`flex items-center space-x-2 ${loadingProgress > 20 ? "text-green-600" : ""
+              }`}
           >
             <CheckCircle
               size={16}
@@ -469,9 +484,8 @@ const CampaignPuzzleGame = () => {
             <span>Checking campaign sequence...</span>
           </div>
           <div
-            className={`flex items-center space-x-2 ${
-              loadingProgress > 50 ? "text-green-600" : ""
-            }`}
+            className={`flex items-center space-x-2 ${loadingProgress > 50 ? "text-green-600" : ""
+              }`}
           >
             <CheckCircle
               size={16}
@@ -482,9 +496,8 @@ const CampaignPuzzleGame = () => {
             <span>Analyzing funnel strategy...</span>
           </div>
           <div
-            className={`flex items-center space-x-2 ${
-              loadingProgress > 80 ? "text-green-600" : ""
-            }`}
+            className={`flex items-center space-x-2 ${loadingProgress > 80 ? "text-green-600" : ""
+              }`}
           >
             <CheckCircle
               size={16}
@@ -510,17 +523,15 @@ const CampaignPuzzleGame = () => {
           className="fixed top-0 left-0 w-screen h-screen pointer-events-none z-50"
         />
         <div
-          className={`text-center mb-8 ${
-            celebrationMode ? "animate-bounce" : ""
-          }`}
+          className={`text-center mb-8 ${celebrationMode ? "animate-bounce" : ""
+            }`}
         >
           <div className="flex justify-center mb-4">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-8 h-8 mx-1 ${
-                  i < stars ? "text-yellow-400 fill-current" : "text-gray-300"
-                } transition-all duration-300`}
+                className={`w-8 h-8 mx-1 ${i < stars ? "text-yellow-400 fill-current" : "text-gray-300"
+                  } transition-all duration-300`}
               />
             ))}
           </div>
@@ -549,11 +560,10 @@ const CampaignPuzzleGame = () => {
               return (
                 <div key={index} className="relative">
                   <div
-                    className={`rounded-2xl p-6 border-2 ${
-                      isCorrect
-                        ? "bg-green-50 border-green-200"
-                        : "bg-red-50 border-red-200"
-                    }`}
+                    className={`rounded-2xl p-6 border-2 ${isCorrect
+                      ? "bg-green-50 border-green-200"
+                      : "bg-red-50 border-red-200"
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <span className="bg-white rounded-full px-3 py-1 text-sm font-bold text-gray-600">

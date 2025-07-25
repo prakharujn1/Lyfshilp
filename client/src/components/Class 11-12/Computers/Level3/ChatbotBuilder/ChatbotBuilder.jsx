@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, Brain, Target, Trophy, Users, TrendingUp, Settings, Play, Bot, User, CheckCircle, AlertCircle, Clock, Star } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const CustomerServiceChatbotBuilder = () => {
     const { completeComputersChallenge } = useComputers();
@@ -28,8 +29,28 @@ const CustomerServiceChatbotBuilder = () => {
         currentLevel: 1
     });
 
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
     useEffect(() => {
-        if (isVictoryAchieved(2,0)) {
+        if (gameState === 'results') {
+            const endTime = Date.now();
+            const timeTakenSec = (endTime - startTime) / 1000;
+            const finalScore = (metrics.satisfaction + metrics.resolutionRate + metrics.relevanceScore + metrics.completionRate) / 4;
+
+            updateComputersPerformance({
+                score: parseFloat((finalScore / 10).toFixed(1)), // scale out of 10
+                accuracy: parseFloat(finalScore.toFixed(2)),     // actual %
+                avgResponseTimeSec: timeTakenSec / Math.max(1, gameProgress.scenariosCompleted),
+                studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+                completed: isVictoryAchieved()
+            });
+        }
+    }, [gameState]);
+
+    useEffect(() => {
+        if (isVictoryAchieved(2, 0)) {
             completeComputersChallenge();
         }
     }, [metrics]); // Only runs when metrics update

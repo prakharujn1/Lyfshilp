@@ -3,12 +3,16 @@ import { motion } from "framer-motion";
 import { Sparkles, Wand2, BrainCircuit } from "lucide-react"
 const APIKEY = import.meta.env.VITE_API_KEY;
 import { useSEL } from "@/contexts/SELContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 export default function ThoughtReframer() {
     const { completeSELChallenge } = useSEL();
     const [thoughts, setThoughts] = useState(["", "", ""]);
     const [reframes, setReframes] = useState(["", "", ""]);
     const [loading, setLoading] = useState(false);
+    //for performance
+    const { updateSELPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
     const handleChange = (i, value) => {
         const updated = [...thoughts];
@@ -51,7 +55,17 @@ export default function ThoughtReframer() {
             })
         );
         setReframes(newReframes);
-        completeSELChallenge(0,0); // ✅ Mark SEL challenge complete here
+        completeSELChallenge(0, 0); // ✅ Mark SEL challenge complete here
+
+        // ✅ Update SEL Performance
+        const endTime = Date.now();
+        const durationSec = Math.round((endTime - startTime) / 1000);
+        updateSELPerformance({
+            avgResponseTimeSec: durationSec,
+            studyTimeMinutes: Math.ceil(durationSec / 60),
+            completed: true,
+        });
+
         setLoading(false);
     };
 

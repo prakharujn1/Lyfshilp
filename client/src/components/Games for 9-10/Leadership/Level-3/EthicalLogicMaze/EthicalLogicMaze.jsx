@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const EthicalLogicMaze = () => {
   const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState("intro");
@@ -9,12 +10,35 @@ const EthicalLogicMaze = () => {
   const [alert, setAlert] = useState("");
   const [reflection, setReflection] = useState("");
   const [showBadge, setShowBadge] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (step === "final" && showBadge) {
-      completeLeadershipChallenge(2,0);
+      completeLeadershipChallenge(2, 0);
     }
   }, [step, showBadge]);
+  useEffect(() => {
+    if (step !== "final") return;
+
+    const totalTimeMs = Date.now() - startTime;
+    const totalScore = 2; // reflection + completion
+    let earned = 0;
+
+    if (reflection.trim()) earned += 1;
+    if (showBadge) earned += 1;
+
+    const scaledScore = Math.round((earned / totalScore) * 10);
+
+    updateLeadershipPerformance({
+      score: scaledScore,
+      accuracy: scaledScore * 10,
+      avgResponseTimeSec: parseFloat((totalTimeMs / 2000).toFixed(2)), // 2 decision steps
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: showBadge,
+    });
+  }, [step]);
+
 
   const triggerConfetti = () => {
     confetti({ spread: 200, particleCount: 150, origin: { y: 0.6 } });

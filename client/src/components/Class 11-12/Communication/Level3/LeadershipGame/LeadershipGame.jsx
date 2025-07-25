@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -14,6 +15,9 @@ export default function LeadershipGame() {
   const [feedback, setFeedback] = useState("");
   const [gameDone, setGameDone] = useState(false);
   const [evaluating, setEvaluating] = useState(false);
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const tones = ["Assertive", "Aggressive", "Passive", "Motivating"];
 
@@ -112,19 +116,30 @@ Here is the student's message:
       let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
       rawText = rawText.trim();
 
-      // Strip markdown if included
       if (rawText.startsWith("```")) {
         rawText = rawText.replace(/```(?:json)?|```/g, "").trim();
       }
 
       const result = JSON.parse(rawText);
       const { acknowledgement, direction, motivation } = result;
-      const score = [acknowledgement, direction, motivation].filter(Boolean).length;
+      const correctCount = [acknowledgement, direction, motivation].filter(Boolean).length;
 
-      if (score === 3) {
+      const scaledScore = Math.round((correctCount / 3) * 10);      // Integer out of 10
+      const accuracy = Math.round((correctCount / 3) * 100);         // Integer out of 100
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+      updateCommunicationPerformance({
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: correctCount === 3,
+      });
+
+      if (correctCount === 3) {
         setFeedback("✅ Well done—you inspired and directed at the same time!");
         setGameDone(true);
-        completeCommunicationChallenge(2,0); // Call the context function
+        completeCommunicationChallenge(2, 0);
       } else if (!direction) {
         setFeedback("⚠️ Consider making the next steps more specific in your message!");
       } else if (!acknowledgement) {
@@ -139,6 +154,7 @@ Here is the student's message:
       setEvaluating(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-yellow-50 p-6 text-gray-800 font-sans">

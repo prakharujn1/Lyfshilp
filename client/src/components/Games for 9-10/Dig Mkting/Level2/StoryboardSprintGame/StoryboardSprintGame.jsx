@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 
 const initialFrames = [
@@ -46,10 +47,12 @@ export default function StoryboardSprintGame() {
     const [points, setPoints] = useState(0);
     const [step, setStep] = useState(1);
     const [currentSlide, setCurrentSlide] = useState(0);
-
+    //for performance
+    const { updateDMPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
     useEffect(() => {
         if (step === 4 && points >= 7) {
-            completeDMChallenge(1,1);
+            completeDMChallenge(1, 1);
         }
     }, [step, points]);
 
@@ -102,10 +105,24 @@ export default function StoryboardSprintGame() {
         const toneMatch = checkToneMatchScore();       // 3 pts
         const ctaScore = checkCtaScore();              // 1 pt
 
-        const total = buildScore + platformFit + carouselScore + toneMatch + ctaScore;
-        setPoints(total);
+        const rawScore = buildScore + platformFit + carouselScore + toneMatch + ctaScore; // total out of 11
+        const scaledScore = Math.round((rawScore / 11) * 10); // scale to 10 and round
+        const accuracy = Math.round((rawScore / 11) * 100);   // scale to 100 and round
+
+
+        const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+        updateDMPerformance({
+            score: scaledScore,
+            accuracy,
+            avgResponseTimeSec: timeTakenSec,
+            completed: scaledScore >= 7,
+            studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        });
+
         setStep(4);
     };
+
 
     const resetGame = () => {
         setFrames(["", "", "", ""]);

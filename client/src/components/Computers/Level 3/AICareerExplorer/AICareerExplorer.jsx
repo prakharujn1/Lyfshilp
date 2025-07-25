@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const careers = [
   { title: "🤖 AI Engineer", description: "Builds smart machines and algorithms" },
   { title: "📊 Data Scientist", description: "Finds patterns in big data" },
@@ -17,6 +17,10 @@ const interestEmojis = [
 export default function AICareerExplorerGame() {
   const { completeComputersChallenge } = useComputers();
   const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const [careerData, setCareerData] = useState(
     careers.map((c) => ({ ...c, skills: "", aiHelps: "", interest: "" }))
@@ -60,12 +64,22 @@ export default function AICareerExplorerGame() {
     }
 
     if (!challengeCompleted) {
-      completeComputersChallenge(2,2);
+      completeComputersChallenge(2, 2);
       setChallengeCompleted(true);
     }
+    // ✅ Performance tracking
+    const endTime = Date.now();
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+    const avgResponseTimeSec = ((endTime - startTime) / 1000) / (careerData.length + 3); // 3 reflections
 
+    updateComputersPerformance({
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
     setStep(2);
   };
+
 
 
   const getRecommendedCareer = () => {

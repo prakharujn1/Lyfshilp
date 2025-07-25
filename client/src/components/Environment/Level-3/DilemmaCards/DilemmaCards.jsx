@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const dilemmas = [
   {
@@ -84,18 +85,37 @@ const getFeedbackText = (score) => {
 };
 
 const DilemmaCards = () => {
-    const { completeEnvirnomentChallenge } = useEnvirnoment();
-  
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+
   const [index, setIndex] = useState(-1);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showConsequence, setShowConsequence] = useState(false);
-
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-  if (index >= dilemmas.length && score >= 9) {
-    completeEnvirnomentChallenge(2,2); // Challenge 3, Task 1 completed
+    if (index >= dilemmas.length && score >= 9) {
+      completeEnvirnomentChallenge(2, 2); // Challenge 3, Task 1 completed
+    }
+  }, [index, score]);
+  useEffect(() => {
+  if (index >= dilemmas.length) {
+    const endTime = Date.now();
+    const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+    const avgResponseTimeSec = totalTimeSec / dilemmas.length;
+    const scaledScore = Number(((score / (dilemmas.length * 3)) * 10).toFixed(2));
+
+    updateEnvirnomentPerformance({
+      score: scaledScore,
+      accuracy: (score / (dilemmas.length * 3)) * 100,
+      avgResponseTimeSec,
+      studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+      completed: score >= 9,
+    });
   }
-}, [index, score]);
+}, [index]);
+
 
   const handleChoice = (choiceIdx) => {
     const points = dilemmas[index].scores[choiceIdx];
@@ -184,11 +204,10 @@ const DilemmaCards = () => {
             key={i}
             onClick={() => handleChoice(i)}
             disabled={showConsequence}
-            className={`px-4 py-2 rounded-xl border text-left ${
-              selected === i
+            className={`px-4 py-2 rounded-xl border text-left ${selected === i
                 ? "bg-green-200 border-green-600"
                 : "bg-white border-gray-300"
-            }`}
+              }`}
           >
             {opt}
           </button>

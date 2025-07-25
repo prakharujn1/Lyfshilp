@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
-  
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const initialState = {
   name: "",
   description: "",
@@ -38,16 +39,19 @@ const kidFriendlyTypes = [
 ];
 
 const AIStartupBuilder = () => {
-    const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [step, setStep] = useState("intro");
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-  if (form.review.startsWith("Looks awesome") && form.submitted) {
-    completeEntreprenerushipChallenge(0,1); // Update ID as needed
-  }
-}, [form.review, form.submitted]);
+    if (form.review.startsWith("Looks awesome") && form.submitted) {
+      completeEntreprenerushipChallenge(0, 1); // Update ID as needed
+    }
+  }, [form.review, form.submitted]);
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -79,8 +83,7 @@ const AIStartupBuilder = () => {
     const prompt = getReviewPrompt(form.description, form.features);
     try {
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${
-          import.meta.env.VITE_API_KEY
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_API_KEY
         }`,
         {
           method: "POST",
@@ -105,8 +108,7 @@ const AIStartupBuilder = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${
-          import.meta.env.VITE_API_KEY
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_API_KEY
         }`,
         {
           method: "POST",
@@ -172,8 +174,21 @@ Make it clearer, exciting, and more suitable for school students.`,
   const handleSubmit = () => {
     if (form.review.startsWith("Looks awesome")) {
       setForm((prev) => ({ ...prev, submitted: true }));
+
+      // ✅ Performance tracking
+      const endTime = Date.now();
+      const timeTakenSec = (endTime - startTime) / 1000;
+      const timeTakenMin = Math.round(timeTakenSec / 60);
+
+      
+      updateEntreprenerushipPerformance({
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: timeTakenMin,
+        completed: true,
+      });
     }
   };
+
 
   return (
     <div className="p-4 max-w-4xl mx-auto">

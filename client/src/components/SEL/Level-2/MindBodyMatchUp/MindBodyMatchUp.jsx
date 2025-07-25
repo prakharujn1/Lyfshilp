@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const questions = [
   {
     clue: "Sweaty palms",
@@ -49,12 +49,31 @@ const MindBodyMatchUp = () => {
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-  if (showResult && score >= 3) {
-    completeSELChallenge(1, 2);
-  }
-}, [showResult, score]);
+    if (showResult) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+
+      // Scale score out of 10
+      const scaledScore = Math.round((score / questions.length) * 10);
+
+      updateSELPerformance({
+        score: scaledScore,
+        accuracy: (score / questions.length) * 100,
+        avgResponseTimeSec: totalSeconds / questions.length,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: score >= 3,
+      });
+
+      if (score >= 3) {
+        completeSELChallenge(1, 2);
+      }
+    }
+  }, [showResult]);
+
 
   useEffect(() => {
     if (!started || showResult) return;

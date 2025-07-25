@@ -48,8 +48,21 @@ const PitchItGame = () => {
   const [finalWin, setFinalWin] = useState(false);
 
   //for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  const handleGameFinish = () => {
+    const endTime = Date.now();
+    const durationSec = (endTime - startTime) / 1000;
+
+    updateCommunicationPerformance({
+      score: 10,
+      accuracy: 100,
+      studyTimeMinutes: durationSec / 60,
+      completed: true,
+    });
+  };
+
 
   const isCorrect = (text) =>
     Object.values(correctAnswers).some((a) => a.text === text);
@@ -101,11 +114,11 @@ const [startTime] = useState(Date.now());
       if (allCorrect) {
         setFinalWin(true);
         setFeedback({
-          gif: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3QwdmR4Y28zNDB3MGt4NG12aHFjeDA3Y3E2OXltdWNoaHAxYjd3aCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jJQC2puVZpTMO4vUs0/200.webp",
-          message:
-            "🎉 You have now become a pro at pitching — congratulations!",
+          gif: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3QwdmR4Y28zNDB3MGt4NG12aHFjeDA3Y3E2OXltdWNoaHAxYjd3aCZlcD1...",
+          message: "🎉 You have now become a pro at pitching — congratulations!",
         });
-        completeCommunicationChallenge(3,1); // ✅ Mark Game 5 of Challenge 3 complete
+        completeCommunicationChallenge(3, 1); // ✅ Mark Game 5 of Challenge 3 complete
+        handleGameFinish(); // ✅ Log performance
       }
     }
   };

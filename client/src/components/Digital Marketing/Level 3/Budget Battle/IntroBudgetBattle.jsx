@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const platforms = [
   {
@@ -78,6 +79,32 @@ export default function IntroBudgetBattle() {
   const navigate = useNavigate();
   const previewRef = useRef(null);
 
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+  if (!result) return;
+
+  const endTime = Date.now();
+  const timeTakenSec = Math.floor((endTime - startTime) / 1000);
+  const studyTimeMinutes = Math.ceil(timeTakenSec / 60);
+
+  const prosScore = result.pros && result.pros !== "No pros" ? 1 : 0;
+  const consScore = result.cons && result.cons !== "No cons" ? 1 : 0;
+  const hasTip = result.tip && result.tip.length > 0 ? 1 : 0;
+
+  const score = (prosScore + consScore + hasTip) * 3; // max 9
+ 
+
+  updateDMPerformance({
+    score,
+    avgResponseTimeSec: timeTakenSec,
+    studyTimeMinutes,
+    completed: true,
+  });
+}, [result]);
+
   const handleAllocationChange = (index, value) => {
     const newAllocations = [...allocations];
     newAllocations[index] = parseInt(value) || 0;
@@ -109,15 +136,15 @@ export default function IntroBudgetBattle() {
 
          Original Budget : 500
          Allocations across differnet platforms for ads : ${JSON.stringify(
-           allocations,
-           null,
-           2
-         )}
+                    allocations,
+                    null,
+                    2
+                  )}
          Details about specific platforms : ${JSON.stringify(
-           platforms,
-           null,
-           2
-         )}        
+                    platforms,
+                    null,
+                    2
+                  )}        
 
 
 ### FINAL INSTRUCTION ###
@@ -203,9 +230,8 @@ Example format:
               <div className="bg-white rounded-xl p-3 shadow-lg border-2 border-purple-400">
                 <div className="text-2xl">{remaining >= 0 ? "🎉" : "😱"}</div>
                 <p
-                  className={`font-bold ${
-                    remaining >= 0 ? "text-purple-600" : "text-red-600"
-                  }`}
+                  className={`font-bold ${remaining >= 0 ? "text-purple-600" : "text-red-600"
+                    }`}
                 >
                   Remaining: ₹{remaining}
                 </p>
@@ -302,11 +328,10 @@ Example format:
           <button
             disabled={!validClick()}
             onClick={() => handleSubmit()}
-            className={`transform transition-all duration-300 ${
-              validClick()
+            className={`transform transition-all duration-300 ${validClick()
                 ? "bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 hover:scale-110 cursor-pointer animate-pulse"
                 : "bg-gray-400 cursor-not-allowed"
-            } text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-lg sm:text-xl font-bold shadow-xl border-4 border-white`}
+              } text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-lg sm:text-xl font-bold shadow-xl border-4 border-white`}
           >
             🎯 Get AI Feedback ✨
           </button>

@@ -3,6 +3,7 @@ import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const introGif =
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHFwbnNuZmo0Z3prNDFiczgwdjYwdTFnbWg3dGdweHI5dGE3bzlnYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xT39Db8zIOODTppk08/giphy.webp";
@@ -82,11 +83,33 @@ export default function MatchFallOut() {
   const [score, setScore] = useState(null);
   const { width, height } = useWindowSize();
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     if (view === "result" && score >= 8) {
       completeEnvirnomentChallenge(1, 1); // Mark Challenge 2, Task 1 as completed
     }
   }, [view, score]);
+
+  useEffect(() => {
+    if (view === "result") {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / 5;
+      const scaledScore = Number(((score / 10) * 10).toFixed(2));
+
+      updateEnvirnomentPerformance({
+        score: scaledScore,
+        accuracy: (score / 10) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: score >= 8, // Mark complete only if good score
+      });
+    }
+  }, [view]);
+
 
   const handleDragEnd = ({ active, over }) => {
     if (!over) return;

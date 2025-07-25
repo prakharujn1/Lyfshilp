@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const questions = [
     {
@@ -67,12 +68,25 @@ export default function BrandYouSimulator() {
     const [archetype, setArchetype] = useState("");
     const [feedback, setFeedback] = useState({ mission: "", bio: "" });
     const [loading, setLoading] = useState(false);
-
+    //for performance
+    const { updateLeadershipPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
     useEffect(() => {
         if (completed) {
-            completeLeadershipChallenge(0,0);
+            completeLeadershipChallenge(0, 0);
+        }
+
+        if (completed) {
+            const totalTimeMs = Date.now() - startTime;
+
+            updateLeadershipPerformance({
+                avgResponseTimeSec: parseFloat((totalTimeMs / (questions.length * 1000)).toFixed(2)),
+                studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+                completed: true,
+            });
         }
     }, [completed]);
+
 
     const recordAnswer = (selectedArchetype) => {
         const newAnswers = [...answers, selectedArchetype];

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Star, Lightbulb, PartyPopper } from "lucide-react";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const dilemmas = [
     {
@@ -47,12 +48,25 @@ export default function FunDilemmaGame() {
     const [score, setScore] = useState(0);
     const [showJustify, setShowJustify] = useState(false);
     const [currentAnswer, setCurrentAnswer] = useState("");
-
+    //for performance
+    const { updateLeadershipPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
     useEffect(() => {
         if (step === 4 && score >= flashcards.length) {
-            completeLeadershipChallenge(0,1);
+            const totalTimeMs = Date.now() - startTime;
+
+            updateLeadershipPerformance({
+                score: Math.round((score / flashcards.length) * 100),
+                accuracy: parseFloat(((score / flashcards.length) * 100).toFixed(2)),
+                avgResponseTimeSec: parseFloat((totalTimeMs / (flashcards.length * 1000)).toFixed(2)),
+                studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+                completed: true
+            });
+
+            completeLeadershipChallenge(0, 1);
         }
     }, [step, score]);
+
 
     const restartGame = () => {
         setStep(1);

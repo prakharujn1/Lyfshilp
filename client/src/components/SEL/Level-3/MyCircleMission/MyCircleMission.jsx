@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const thoughtsData = [
   {
     id: 1,
@@ -79,6 +79,9 @@ const MyCircleMission = () => {
     width: window.innerWidth,
     height: document.body.scrollHeight, // key point
   });
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     const handleResize = () => {
@@ -103,6 +106,24 @@ const MyCircleMission = () => {
       completeSELChallenge(2, 2); // Adjust challenge ID and task ID as needed
     }
   }, [showResult, isWin, completeSELChallenge]);
+
+  useEffect(() => {
+    if (showResult) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+      const accuracy = Math.round((correctCount / thoughtsData.length) * 100);
+      const score = isWin ? 10 : accuracy >= 50 ? 5 : 2;
+
+      updateSELPerformance({
+        score,
+        accuracy,
+        avgResponseTimeSec: totalSeconds / thoughtsData.length,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: isWin,
+      });
+    }
+  }, [showResult]);
+
 
   const handleReset = () => {
     setAnswers({});

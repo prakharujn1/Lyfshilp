@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { RotateCcw } from "lucide-react";
 import DetectiveAnimation from "@/components/Detective"; // Ensure this is a fun animated component!
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const cases = [
   {
@@ -41,12 +42,27 @@ const BiasDetectiveGame = () => {
   const [selected, setSelected] = useState("");
   const [customSolution, setCustomSolution] = useState("");
   const [showResult, setShowResult] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (current === cases.length) {
-      completeLeadershipChallenge(2,0);
+      completeLeadershipChallenge(2, 0);
+    }
+
+    if (current === cases.length) {
+      const totalTimeMs = Date.now() - startTime;
+
+      updateLeadershipPerformance({
+        score: Math.round((score / cases.length) * 10),
+        accuracy: parseFloat(((score / cases.length) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / (cases.length * 1000)).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: true,
+      });
     }
   }, [current]);
+
 
   const handleCheck = () => {
     if (selected === cases[current].correctBias) setScore(score + 1);

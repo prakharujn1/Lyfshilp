@@ -105,14 +105,16 @@ const Login = () => {
         />
 
         <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
-          <Link to="/">
+          <Link to="/" className="flex items-center -gap-1">
             <img
               src="/loginPageDesign/EduManiax_Logo.svg"
               alt="Edumaniax Logo"
               className="h-20 w-auto"
             />
+            <h1 className="text-white -mt-1 text-2xl lg:text-3xl font-bold">
+              Edumaniax
+            </h1>
           </Link>
-          <h1 className="text-white text-2xl font-bold">Edumaniax</h1>
         </div>
 
         <div className="z-10 lg:absolute lg:left-[8%] lg:-bottom-[3%]">
@@ -134,7 +136,7 @@ const Login = () => {
               alt="Edumaniax Mobile Logo"
               className="h-10 w-auto"
             />
-            <span className="text-green-500 text-xl font-bold leading-none">
+            <span className="text-green-500 text-xl lg:text-2xl font-bold leading-none">
               Edumaniax
             </span>
           </Link>
@@ -149,9 +151,14 @@ const Login = () => {
             )}
 
             {step === 1 && (
-              <p className="text-sm text-gray-600 mt-6">
-                Welcome back! Login to continue your journey with us—we’ve got
-                great things waiting.
+              <p className="text-sm text-gray-600 mt-2 lg:mt-6 text-center">
+                <span className="block lg:inline">
+                  Welcome back! Login to continue your journey
+                </span>
+                <span className="hidden lg:inline">
+                  {" "}
+                  with us—we’ve got great things waiting.
+                </span>
               </p>
             )}
 
@@ -210,7 +217,7 @@ const Login = () => {
                     checked={rememberMe}
                     onChange={() => setRememberMe(!rememberMe)}
                   />
-                  Remember me
+                  <span className="-mt-0.5">Remember me</span>
                 </label>
 
                 <button

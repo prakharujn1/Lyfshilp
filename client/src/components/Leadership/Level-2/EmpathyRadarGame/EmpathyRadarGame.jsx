@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useLeadership } from "@/contexts/LeadershipContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const EmpathyRadarGame = () => {
   const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState(-1);
@@ -15,12 +15,27 @@ const EmpathyRadarGame = () => {
   const [geminiSuggestion, setGeminiSuggestion] = useState("");
   const [attemptsLeft, setAttemptsLeft] = useState(3);
   const { width, height } = useWindowSize();
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-    if (step === questions.length && score >= 5) {
-      completeLeadershipChallenge(1, 1); // Update challengeId and taskId as per your system
+    if (step === questions.length) {
+      const totalTimeMs = Date.now() - startTime;
+      updateLeadershipPerformance({
+        score: Math.round((score / questions.length) * 10),
+        accuracy: parseFloat(((score / questions.length) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: score >= 5,
+      });
+
+      if (score >= 5) {
+        completeLeadershipChallenge(1, 1);
+      }
     }
   }, [step, score]);
+
 
   const questions = [
     {
@@ -248,10 +263,9 @@ Keep your reply short, simple, and kind with emojis if possible.`,
                   key={idx}
                   onClick={() => handleSelect(opt.correct, idx)}
                   className={`w-full py-2 px-4 rounded-lg border text-left transition-all
-                    ${
-                      selected === null
-                        ? "bg-white hover:bg-pink-100"
-                        : idx === selected
+                    ${selected === null
+                      ? "bg-white hover:bg-pink-100"
+                      : idx === selected
                         ? opt.correct
                           ? "bg-green-100 border-green-500"
                           : "bg-red-100 border-red-500"

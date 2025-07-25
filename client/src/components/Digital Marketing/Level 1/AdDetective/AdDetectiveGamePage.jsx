@@ -1,14 +1,16 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
- 
+
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { useDM } from "@/contexts/DMContext";
- 
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
+
 const adTypes = ["Video", "Post", "Banner", "Popup", "Other"];
 
 const AdDetectiveGamePage = () => {
-  const {completeDMChallenge} = useDM();
+  const { completeDMChallenge } = useDM();
   const [entries, setEntries] = useState(
     Array.from({ length: 5 }, () => ({
       platform: "",
@@ -18,6 +20,9 @@ const AdDetectiveGamePage = () => {
       why: "",
     }))
   );
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleChange = (index, field, value) => {
     console.log(index, field, value);
@@ -206,7 +211,7 @@ const AdDetectiveGamePage = () => {
               rows={3}
             />
           </div>
-                    <AnimatePresence>
+          <AnimatePresence>
             {missed && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.7 }}
@@ -226,19 +231,25 @@ const AdDetectiveGamePage = () => {
           <button
             onClick={() => {
               const x = isFormComplete();
-              if (x){
-                  completeDMChallenge(0,0);
-                  navigate("/ad-detective-mission-complete");
-              }
-              else {
+              if (x) {
+                completeDMChallenge(0, 0); // levelIndex & stageIndex
+                const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+
+                updateDMPerformance({
+                  avgResponseTimeSec: timeTakenSec,
+                  studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+                  completed: true,
+                });
+
+                navigate("/ad-detective-mission-complete");
+              } else {
                 setMissed(true);
                 setTimeout(() => {
                   setMissed(false);
                 }, 4000);
               }
             }}
-            // disabled={!isFormComplete()}
-            className={` bg-yellow-400 hover:bg-yellow-500 text-xl text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300`}
+            className="bg-yellow-400 hover:bg-yellow-500 text-xl text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300"
           >
             Finish Mission
           </button>

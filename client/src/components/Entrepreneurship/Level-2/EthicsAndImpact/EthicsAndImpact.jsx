@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 // GIFs
 const introGif = "https://media0.giphy.com/media/YHvI6fvc1bwfrP9alV/200w.webp";
@@ -19,6 +20,9 @@ const EthicsAndImpact = () => {
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if (showSuccess) {
@@ -104,10 +108,45 @@ Check this reflection:
       text.toLowerCase().startsWith("great") ||
       text.toLowerCase().startsWith("good");
 
-    const allGood =
-      pairFeedbacks.every(isPositive) && isPositive(reflectionFeedback);
+    const isNegative = (text) =>
+      text.toLowerCase().startsWith("needs improvement");
 
-    if (allGood) {
+    let score = 0;
+    let validPairs = 0;
+
+    pairFeedbacks.forEach((feedback) => {
+      if (isPositive(feedback)) {
+        score += 2;
+        validPairs++;
+      } else if (isNegative(feedback)) {
+        score += 1;
+        validPairs++;
+      }
+    });
+
+    // Reflect feedback scoring
+    if (isPositive(reflectionFeedback)) {
+      score += 2;
+      validPairs++;
+    } else if (isNegative(reflectionFeedback)) {
+      score += 1;
+      validPairs++;
+    }
+
+    const accuracy = Math.round((score / 8) * 100);
+    const endTime = Date.now();
+    const timeTakenSec = (endTime - startTime) / 1000;
+    const timeTakenMin = Math.round(timeTakenSec / 60);
+
+    updateEntreprenerushipPerformance({
+      score,
+      accuracy,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: timeTakenMin,
+      completed: true,
+    });
+
+    if (score >= 7) {
       setShowSuccess(true);
       setShowFail(false);
     } else {
@@ -115,6 +154,7 @@ Check this reflection:
       setShowFail(true);
     }
   };
+
 
   const handleTryAgain = () => {
     setRisks(["", "", ""]);

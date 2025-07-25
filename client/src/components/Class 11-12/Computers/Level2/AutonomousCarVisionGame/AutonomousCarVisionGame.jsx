@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Car, Eye, Brain, Clock, Target, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const AutonomousCarVisionGame = () => {
   const { completeComputersChallenge } = useComputers();
   const [gameState, setGameState] = useState('menu'); // menu, playing, results
@@ -15,6 +16,11 @@ const AutonomousCarVisionGame = () => {
     safetyIncidents: 0,
     completedScenarios: 0
   });
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
 
   // Simplified road scenarios with objects to detect
   const scenarios = [
@@ -215,12 +221,26 @@ const AutonomousCarVisionGame = () => {
       setAccuracy(finalAccuracy);
 
       if (finalAccuracy >= 95 && (gameStats.safetyIncidents + missedSafetyObjects.length) === 0) {
-        completeComputersChallenge(1,3);
+        completeComputersChallenge(1, 3);
       }
+
+      const endTime = Date.now();
+      const totalTimeSec = (endTime - startTime) / 1000;
+      const maxPossibleScore = 5 * 4 * 10; // 5 scenarios × 4 required objects × 10 points
+      const scoreOutOf10 = parseFloat(((score / maxPossibleScore) * 10).toFixed(2));
+
+      updateComputersPerformance({
+        score: scoreOutOf10,
+        accuracy: parseFloat(finalAccuracy.toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeSec / gameStats.totalDetections).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeSec / 60).toFixed(2)),
+        completed: hasWon
+      });
 
       setTimeout(() => {
         setGameState('results');
       }, 2000);
+
     }
   };
 
@@ -426,8 +446,8 @@ const AutonomousCarVisionGame = () => {
                     key={type}
                     onClick={() => handleObjectClick(type)}
                     className={`p-3 rounded-lg text-2xl transition-all duration-200 ${selectedObjects.includes(type)
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-white/10 text-white hover:bg-white/20'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-white/10 text-white hover:bg-white/20'
                       }`}
                   >
                     {icon}
@@ -448,8 +468,8 @@ const AutonomousCarVisionGame = () => {
                 <div
                   key={index}
                   className={`p-3 rounded-lg transition-all duration-500 ${layer.active
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
-                      : 'bg-white/10 text-gray-400'
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+                    : 'bg-white/10 text-gray-400'
                     }`}
                 >
                   <div className="font-semibold">{layer.name}</div>

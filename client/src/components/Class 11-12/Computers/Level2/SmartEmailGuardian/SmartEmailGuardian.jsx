@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Mail, Shield, Brain, Target, Settings, Play, Pause, RotateCcw } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const SmartEmailGuardian = () => {
   const { completeComputersChallenge } = useComputers();
@@ -22,6 +23,10 @@ const SmartEmailGuardian = () => {
   });
   const [testResults, setTestResults] = useState([]);
   const [gamePhase, setGamePhase] = useState('setup'); // setup, training, testing, complete
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   // Sample email dataset
   const emailDataset = [
@@ -59,10 +64,10 @@ const SmartEmailGuardian = () => {
       email.attachmentType / 3,
       Math.abs(email.timeOfDay - 12) / 12 // Distance from noon
     ];
-    
+
     const weightValues = Object.values(currentWeights);
     const score = features.reduce((sum, feature, index) => sum + feature * weightValues[index], 0);
-    
+
     // Sigmoid activation with some noise to prevent perfect accuracy
     const baseScore = 1 / (1 + Math.exp(-score * 8));
     // Add small random noise to introduce realistic uncertainty
@@ -73,22 +78,22 @@ const SmartEmailGuardian = () => {
   // Training simulation with realistic accuracy limits
   const trainNetwork = async () => {
     if (isTraining) return;
-    
+
     setIsTraining(true);
     setGamePhase('training');
     setCurrentEpoch(0);
     setAccuracyData([]);
     setCurrentAccuracy(0);
     setTrainingComplete(false);
-    
+
     let currentWeights = { ...weights };
     const learningRate = 0.08; // Slightly reduced learning rate
     const newAccuracyData = [];
-    
+
     for (let epoch = 0; epoch < epochs; epoch++) {
       let correctPredictions = 0;
       const epochWeights = { ...currentWeights };
-      
+
       // Generate training data based on samples count
       const trainingData = [];
       for (let i = 0; i < trainingSamples; i++) {
@@ -104,17 +109,17 @@ const SmartEmailGuardian = () => {
         };
         trainingData.push(variation);
       }
-      
+
       // Train on each email
       for (const email of trainingData) {
         const prediction = predictSpam(email, currentWeights);
         const target = email.isSpam ? 1 : 0;
         const error = target - prediction;
-        
+
         if ((prediction > 0.5 && email.isSpam) || (prediction <= 0.5 && !email.isSpam)) {
           correctPredictions++;
         }
-        
+
         // Update weights based on error
         const features = [
           (10 - email.senderRep) / 10,
@@ -124,21 +129,21 @@ const SmartEmailGuardian = () => {
           email.attachmentType / 3,
           Math.abs(email.timeOfDay - 12) / 12
         ];
-        
+
         const weightKeys = Object.keys(currentWeights);
         weightKeys.forEach((key, index) => {
           currentWeights[key] += learningRate * error * features[index];
         });
       }
-      
+
       let accuracy = (correctPredictions / trainingData.length) * 100;
-      
+
       // Apply realistic accuracy constraints
       // Early epochs: lower accuracy (70-85%)
       // Middle epochs: gradual improvement (85-95%)
       // Later epochs: plateau at 90-97%
       const progressRatio = epoch / epochs;
-      
+
       if (progressRatio < 0.3) {
         // Early training: 70-85%
         accuracy = Math.min(accuracy, 70 + (progressRatio * 50));
@@ -150,22 +155,22 @@ const SmartEmailGuardian = () => {
         const maxAccuracy = 90 + (Math.random() * 7); // Random between 90-97%
         accuracy = Math.min(accuracy, maxAccuracy);
       }
-      
+
       // Add some realistic fluctuation
       accuracy += (Math.random() - 0.5) * 2;
       accuracy = Math.max(70, Math.min(97, accuracy)); // Hard cap at 97%
-      
+
       newAccuracyData.push({ epoch: epoch + 1, accuracy });
-      
+
       setCurrentEpoch(epoch + 1);
       setCurrentAccuracy(accuracy);
       setAccuracyData([...newAccuracyData]);
       setWeights({ ...currentWeights });
-      
+
       // Slow down training for visualization
       await new Promise(resolve => setTimeout(resolve, 200));
     }
-    
+
     setIsTraining(false);
     setTrainingComplete(true);
     setGamePhase('testing');
@@ -177,7 +182,7 @@ const SmartEmailGuardian = () => {
       const prediction = predictSpam(email, weights);
       const predictedSpam = prediction > 0.5;
       const correct = predictedSpam === email.isSpam;
-      
+
       return {
         email,
         prediction: prediction * 100,
@@ -185,15 +190,27 @@ const SmartEmailGuardian = () => {
         correct
       };
     });
-    
+
     setTestResults(results);
     const baseTestAccuracy = (results.filter(r => r.correct).length / results.length) * 100;
-    
+
     // Ensure test accuracy is also realistic (90-97%)
     const testAccuracy = Math.min(baseTestAccuracy, 90 + (Math.random() * 7));
-    
+
+    // ✅ Track performance when testing is done
+    const endTime = Date.now();
+    const timeTakenSec = (endTime - startTime) / 1000;
+
+    updateComputersPerformance({
+      score: Math.round((testAccuracy / 10)), // out of 10
+      accuracy: testAccuracy,
+      avgResponseTimeSec: timeTakenSec / testEmails.length,
+      studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+      completed: testAccuracy >= 90,
+    });
+
     if (testAccuracy >= 90) {
-       completeComputersChallenge(1,1); // <-- Call here
+      completeComputersChallenge(1, 1);
       setGamePhase('complete');
     }
   };
@@ -283,7 +300,7 @@ const SmartEmailGuardian = () => {
               <Brain className="w-6 h-6 mr-2" />
               Neural Network Training
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div className="bg-blue-50 p-4 rounded-lg text-center">
                 <div className="text-2xl font-bold text-blue-600">{currentEpoch}/{epochs}</div>
@@ -357,7 +374,7 @@ const SmartEmailGuardian = () => {
               <Target className="w-6 h-6 mr-2" />
               Test the Trained Network
             </h2>
-            
+
             <div className="mb-6">
               <div className="bg-green-50 p-4 rounded-lg text-center">
                 <div className="text-2xl font-bold text-green-600">{currentAccuracy.toFixed(1)}%</div>
@@ -383,7 +400,7 @@ const SmartEmailGuardian = () => {
                       <div>
                         <div className="font-semibold">{result.email.subject}</div>
                         <div className="text-sm text-gray-600">
-                          Actual: {result.email.isSpam ? 'Spam' : 'Legitimate'} | 
+                          Actual: {result.email.isSpam ? 'Spam' : 'Legitimate'} |
                           Predicted: {result.predictedSpam ? 'Spam' : 'Legitimate'} ({result.prediction.toFixed(1)}%)
                         </div>
                       </div>
@@ -393,7 +410,7 @@ const SmartEmailGuardian = () => {
                     </div>
                   </div>
                 ))}
-                
+
                 <div className="text-center">
                   <div className="text-lg font-semibold">
                     Test Accuracy: {((testResults.filter(r => r.correct).length / testResults.length) * 100).toFixed(1)}%
@@ -415,7 +432,7 @@ const SmartEmailGuardian = () => {
             <p className="text-lg mb-6">Your AI achieved realistic performance with 90%+ accuracy - excellent for real-world deployment!</p>
             <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-6">
               <p className="text-sm">
-                🔬 <strong>Real-world note:</strong> Even the best spam filters don't achieve 100% accuracy. 
+                🔬 <strong>Real-world note:</strong> Even the best spam filters don't achieve 100% accuracy.
                 Your model's 90-97% performance is actually excellent and prevents overfitting!
               </p>
             </div>

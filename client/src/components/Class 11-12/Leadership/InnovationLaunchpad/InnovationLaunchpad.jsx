@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Lightbulb, Rocket, Smile, Video, RotateCcw } from "lucide-react";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const steps = ["Problem", "Prototype", "Pitch"];
 
@@ -60,12 +61,23 @@ const InnovationLaunchpadGame = () => {
   const [prototypeIdea, setPrototypeIdea] = useState("");
   const [pitchSummary, setPitchSummary] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (submitted) {
-      completeLeadershipChallenge(2,1);
+      const totalTimeMs = Date.now() - startTime;
+
+      updateLeadershipPerformance({
+        avgResponseTimeSec: parseFloat((totalTimeMs / (steps.length * 1000)).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: true
+      });
+
+      completeLeadershipChallenge(2, 1);
     }
   }, [submitted]);
+
 
 
   const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));

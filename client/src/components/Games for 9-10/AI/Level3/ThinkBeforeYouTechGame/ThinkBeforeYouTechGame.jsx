@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const questions = [
     {
         scenario: "📝 Ask AI to check grammar after writing an essay",
@@ -76,12 +76,33 @@ export default function ThinkBeforeYouTechGame() {
     const [isAnswered, setIsAnswered] = useState(false); // New state to track if a question has been answered
     const [challengeCompleted, setChallengeCompleted] = useState(false);
 
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
     useEffect(() => {
         if (showFeedback && selectedOption && !challengeCompleted) {
-            completeComputersChallenge(2,3);
+            completeComputersChallenge(2, 3);
             setChallengeCompleted(true);
         }
     }, [showFeedback, selectedOption, challengeCompleted]);
+
+    useEffect(() => {
+        if (showFeedback && selectedOption) {
+            const endTime = Date.now();
+            const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+            const avgResponseTimeSec = (endTime - startTime) / 1000;
+
+            updateComputersPerformance({
+                score: finalScore,
+                accuracy: (finalScore / 10) * 100,
+                avgResponseTimeSec,
+                studyTimeMinutes,
+                completed: true,
+            });
+        }
+    }, [showFeedback, selectedOption]);
+
 
     const avatars = ["🦄", "🧚‍♀️", "🐵", "🤖", "🐯", "🦸‍♂️"];
     const avatar = avatars[step % avatars.length];
@@ -295,8 +316,8 @@ export default function ThinkBeforeYouTechGame() {
                                     <div
                                         key={idx}
                                         className={`mb-6 p-5 rounded-xl border-4 ${ans.isCorrect
-                                                ? "border-green-400 bg-green-50"
-                                                : "border-red-400 bg-red-50"
+                                            ? "border-green-400 bg-green-50"
+                                            : "border-red-400 bg-red-50"
                                             } shadow-lg`}
                                     >
                                         <p className="text-2xl font-bold text-purple-800 mb-2">

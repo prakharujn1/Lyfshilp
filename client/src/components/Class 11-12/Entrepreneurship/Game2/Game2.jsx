@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -50,7 +51,7 @@ function parsePossiblyStringifiedJSON(text) {
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const StartupSimulationGame = () => {
-   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [currentStep, setCurrentStep] = useState(0);
   const [showInstructions, setShowInstructions] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -94,6 +95,10 @@ const StartupSimulationGame = () => {
   });
 
   const [selectedmarket, setSelectedMarket] = useState("");
+
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const marketOptions = [
     {
@@ -241,8 +246,8 @@ const StartupSimulationGame = () => {
       const newStrengths = prev.strengths.includes(strength)
         ? prev.strengths.filter((s) => s !== strength)
         : prev.strengths.length < 2
-        ? [...prev.strengths, strength]
-        : prev.strengths;
+          ? [...prev.strengths, strength]
+          : prev.strengths;
       return { ...prev, strengths: newStrengths };
     });
   };
@@ -392,9 +397,31 @@ const StartupSimulationGame = () => {
       const aiReply = response.data.candidates[0].content.parts[0].text;
       console.log(aiReply);
       const parsed = parsePossiblyStringifiedJSON(aiReply);
-      console.log(parsed);
+          if (parsed) {
       setResult2(parsed);
-      completeEntreprenerushipChallenge(0,1);
+      completeEntreprenerushipChallenge(0, 1);
+
+      // Calculate performance metrics
+      const endTime = Date.now();
+      const totalTimeMs = endTime - startTime;
+      const studyTimeMinutes = Math.floor(totalTimeMs / (1000 * 60));
+      const totalSteps = 6;
+      const avgResponseTimeSec = Math.round(totalTimeMs / 1000 / totalSteps);
+
+      const rawScore = calculateScore(); // out of 100
+      const scaledScore = Math.round((rawScore / 100) * 10); // out of 10
+      const accuracy = (scaledScore / 10) * 100; // percentage
+
+      const completed = true;
+
+      await updateEntreprenerushipPerformance({
+        score: scaledScore, // out of 10
+        accuracy,           // in percentage
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed,
+      });
+    }
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
@@ -664,11 +691,10 @@ const StartupSimulationGame = () => {
                         handleProductChange("market", market.value);
                         setSelectedMarket(market.value);
                       }}
-                      className={`p-4 ${
-                        market.value === selectedmarket
-                          ? "bg-blue-500 text-white"
-                          : "bg-white"
-                      }  rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 `}
+                      className={`p-4 ${market.value === selectedmarket
+                        ? "bg-blue-500 text-white"
+                        : "bg-white"
+                        }  rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 `}
                     >
                       <div className="text-3xl mb-2">{market.icon}</div>
                       <div className="font-bold text-lg mb-1">
@@ -764,11 +790,10 @@ const StartupSimulationGame = () => {
                     <div
                       key={model.value}
                       onClick={() => handlePricingChange("model", model.value)}
-                      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
-                        pricingData.model === model.value
-                          ? `bg-gradient-to-br ${model.gradient} text-white border-transparent shadow-lg`
-                          : `${model.color} hover:shadow-md`
-                      }`}
+                      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${pricingData.model === model.value
+                        ? `bg-gradient-to-br ${model.gradient} text-white border-transparent shadow-lg`
+                        : `${model.color} hover:shadow-md`
+                        }`}
                     >
                       <div className="text-3xl mb-2">{model.icon}</div>
                       <div className="font-bold text-lg mb-1">
@@ -832,11 +857,10 @@ const StartupSimulationGame = () => {
                     <div
                       key={strength.value}
                       onClick={() => handleStrengthToggle(strength.value)}
-                      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
-                        positioningData.strengths.includes(strength.value)
-                          ? `${strength.color} shadow-lg border-opacity-80`
-                          : `bg-gray-50 border-gray-200 ${strength.hoverColor}`
-                      }`}
+                      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${positioningData.strengths.includes(strength.value)
+                        ? `${strength.color} shadow-lg border-opacity-80`
+                        : `bg-gray-50 border-gray-200 ${strength.hoverColor}`
+                        }`}
                     >
                       <div className="text-3xl mb-2">{strength.icon}</div>
                       <div className="font-bold text-lg">{strength.label}</div>
@@ -994,11 +1018,10 @@ const StartupSimulationGame = () => {
             <button
               onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
               disabled={currentStep === 0}
-              className={`flex items-center px-6 py-3 rounded-full font-bold transition-all duration-300 ${
-                currentStep === 0
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-gray-200 hover:bg-gray-300 text-gray-700 hover:shadow-lg transform hover:scale-105"
-              }`}
+              className={`flex items-center px-6 py-3 rounded-full font-bold transition-all duration-300 ${currentStep === 0
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-gray-200 hover:bg-gray-300 text-gray-700 hover:shadow-lg transform hover:scale-105"
+                }`}
             >
               <ChevronLeft className="w-5 h-5 mr-2" />
               Back
@@ -1008,11 +1031,10 @@ const StartupSimulationGame = () => {
               <button
                 onClick={() => setCurrentStep(currentStep + 1)}
                 disabled={!canProceed(currentStep)}
-                className={`flex items-center px-6 py-3 rounded-full font-bold transition-all duration-300 ${
-                  canProceed(currentStep)
-                    ? "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                }`}
+                className={`flex items-center px-6 py-3 rounded-full font-bold transition-all duration-300 ${canProceed(currentStep)
+                  ? "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  }`}
               >
                 Next Step
                 <ChevronRight className="w-5 h-5 ml-2" />
@@ -1022,11 +1044,10 @@ const StartupSimulationGame = () => {
                 <button
                   onClick={handleSubmit2}
                   disabled={!canProceed(currentStep)}
-                  className={`flex items-center px-8 py-3 rounded-full font-bold transition-all duration-300 ${
-                    canProceed(currentStep)
-                      ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  }`}
+                  className={`flex items-center px-8 py-3 rounded-full font-bold transition-all duration-300 ${canProceed(currentStep)
+                    ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    }`}
                 >
                   🚀 Launch My Startup!
                   <Rocket className="w-5 h-5 ml-2" />

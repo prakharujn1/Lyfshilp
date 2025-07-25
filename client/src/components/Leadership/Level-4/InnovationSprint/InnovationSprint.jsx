@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const InnovationSprint = () => {
   const { completeLeadershipChallenge } = useLeadership();
@@ -11,6 +12,9 @@ const InnovationSprint = () => {
   const [verifyMessage, setVerifyMessage] = useState("");
   const [isApproved, setIsApproved] = useState(false);
   const [loading, setLoading] = useState(false);
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const startGame = () => setStep(0);
 
@@ -103,7 +107,16 @@ const InnovationSprint = () => {
         reply.toLowerCase().includes("awesome")
       ) {
         setIsApproved(true);
-        completeLeadershipChallenge(3,0); // Replace with your actual challenge and task ID
+
+        const totalTimeMs = Date.now() - startTime;
+
+        updateLeadershipPerformance({
+          avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
+          studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+          completed: true,
+        });
+
+        completeLeadershipChallenge(3, 0); // Replace with your actual challenge and task ID
         // ✅ Trigger confetti immediately:
         confetti({
           particleCount: 150,

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 // Reuse your same GIFs
 const introGif =
   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXNhdXM3cm4zMDYwajJqOWVhdTNxYmR4cG9oc2phazJ2aXJuc2FsNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yoJC2L06aZw6OoqtDG/200.webp";
@@ -21,6 +23,11 @@ const PhosphorusLockdown = () => {
   const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [page, setPage] = useState("intro");
   const [step, setStep] = useState(1);
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+   
+
 
   // Q1
   const scrambled = [
@@ -108,8 +115,8 @@ const PhosphorusLockdown = () => {
                       )
                     }
                     className={`px-4 py-2 rounded-full border ${q1Answer.includes(step)
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                       }`}
                   >
                     {step}
@@ -179,8 +186,8 @@ const PhosphorusLockdown = () => {
                       setQ2Correct(null);
                     }}
                     className={`block w-full border px-4 py-2 rounded-full ${q2 === opt
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                       }`}
                   >
                     {opt}
@@ -241,8 +248,8 @@ const PhosphorusLockdown = () => {
                       setQ3Correct(null);
                     }}
                     className={`block w-full border px-4 py-2 rounded-full ${q3 === opt
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                       }`}
                   >
                     {opt}
@@ -256,12 +263,27 @@ const PhosphorusLockdown = () => {
                       q3 ===
                       "Because it comes from slow geological processes & we mine it faster";
                     setQ3Correct(correct);
-                    const allCorrect = q1Correct && q2Correct && correct;
+
+                    const correctCount =
+                      (q1Correct ? 1 : 0) + (q2Correct ? 1 : 0) + (correct ? 1 : 0);
+                    const allCorrect = correctCount === 3;
                     setFinal(allCorrect);
+
                     if (allCorrect) {
                       confetti();
-                      completeEnvirnomentChallenge(0,2);
+                      completeEnvirnomentChallenge(0, 2);
                     }
+
+
+                    const totalTimeMs = Date.now() - startTime;
+
+                    updateEnvirnomentPerformance({
+                      score: Math.round((correctCount / 3) * 10), // out of 10
+                      accuracy: parseFloat(((correctCount / 3) * 100).toFixed(2)), // in %
+                      avgResponseTimeSec: parseFloat((totalTimeMs / 3000).toFixed(2)), // 3 questions
+                      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+                      completed: allCorrect,
+                    });
                   }}
                   className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-blue-700 transition"
                 >

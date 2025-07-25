@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const MetricMatchUpGame = () => {
   const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("intro"); // intro, game, loading, result
@@ -25,6 +25,9 @@ const MetricMatchUpGame = () => {
   const [stars, setStars] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [canProceed, setCanProceed] = useState(false);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   // Game data
   const gameData = {
@@ -101,51 +104,55 @@ const MetricMatchUpGame = () => {
   }, [currentPage]);
 
   const calculateScore = () => {
-    let score = 0;
-    let feedback = "";
+    let rawScore = 0;
+    const correctMetrics = ["engagement", "clicks", "saves"];
+    const correctSelected = selectedMetrics.filter((metric) =>
+      correctMetrics.includes(metric)
+    );
 
-    // Check if Ad B is selected (correct choice)
+    const hasGoodReason = [
+      "better",
+      "higher",
+      "more",
+      "connects",
+      "engagement",
+      "action",
+      "results",
+    ].some((word) => userReason.toLowerCase().includes(word));
+
+    // 🎯 Scoring breakdown (out of 5)
     if (selectedAd === "B") {
-      score += 2;
+      rawScore += 2;
 
-      // Check if correct metrics are selected (engagement, clicks, saves are good indicators)
-      const correctMetrics = ["engagement", "clicks", "saves"];
-      const correctSelected = selectedMetrics.filter((metric) =>
-        correctMetrics.includes(metric)
-      );
+      if (correctSelected.length === 2) rawScore += 2;
+      else if (correctSelected.length === 1) rawScore += 1;
 
-      if (correctSelected.length === 2) {
-        score += 2;
-      } else if (correctSelected.length === 1) {
-        score += 1;
-      }
-
-      // Check reason quality (basic check for meaningful words)
-      const meaningfulWords = [
-        "better",
-        "higher",
-        "more",
-        "connects",
-        "engagement",
-        "action",
-        "results",
-      ];
-      const hasGoodReason = meaningfulWords.some((word) =>
-        userReason.toLowerCase().includes(word)
-      );
-
-      if (hasGoodReason) {
-        score += 1;
-      }
+      if (hasGoodReason) rawScore += 1;
     } else {
-      // Ad A selected (incorrect)
-      score = 1;
+      if (correctSelected.length > 0) rawScore += 1;
+      if (hasGoodReason) rawScore += 1;
     }
 
-    setStars(Math.max(1, score));
-    // ✅ Mark challenge as complete
-    completeDMChallenge(2,1);
+    rawScore = Math.min(rawScore, 5);
+    const scaledScore = Math.round((rawScore / 5) * 10);       // Score out of 10
+    const scaledAccuracy = Math.round((rawScore / 5) * 100);   // Accuracy %
+
+    setStars(Math.max(1, rawScore));
+    completeDMChallenge(2, 1);
+
+    const endTime = Date.now();
+    const responseTimeSec = (endTime - startTime) / 1000;
+    const studyTimeMinutes = Math.ceil(responseTimeSec / 60);
+
+    updateDMPerformance({
+      score: scaledScore,
+      accuracy: scaledAccuracy,
+      avgResponseTimeSec: Math.round(responseTimeSec),
+      studyTimeMinutes,
+      completed: true,
+    });
   };
+
 
   const handleMetricSelect = (metricId) => {
     setSelectedMetrics((prev) => {
@@ -353,10 +360,10 @@ const MetricMatchUpGame = () => {
                         !selectedMetrics.includes(metric.id)
                       }
                       className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${selectedMetrics.includes(metric.id)
-                          ? "bg-purple-500 border-purple-500 text-white scale-110"
-                          : selectedMetrics.length >= 2
-                            ? "border-gray-300 text-gray-300 cursor-not-allowed"
-                            : "border-purple-300 text-purple-500 hover:bg-purple-100 hover:scale-110"
+                        ? "bg-purple-500 border-purple-500 text-white scale-110"
+                        : selectedMetrics.length >= 2
+                          ? "border-gray-300 text-gray-300 cursor-not-allowed"
+                          : "border-purple-300 text-purple-500 hover:bg-purple-100 hover:scale-110"
                         }`}
                     >
                       {selectedMetrics.includes(metric.id) && (
@@ -383,8 +390,8 @@ const MetricMatchUpGame = () => {
               <button
                 onClick={() => setSelectedAd("A")}
                 className={`p-6 rounded-2xl border-4 transition-all duration-300 ${selectedAd === "A"
-                    ? "border-blue-500 bg-blue-50 transform scale-105"
-                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                  ? "border-blue-500 bg-blue-50 transform scale-105"
+                  : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
                   }`}
               >
                 <div className="text-4xl mb-3">🅰️</div>
@@ -397,8 +404,8 @@ const MetricMatchUpGame = () => {
               <button
                 onClick={() => setSelectedAd("B")}
                 className={`p-6 rounded-2xl border-4 transition-all duration-300 ${selectedAd === "B"
-                    ? "border-green-500 bg-green-50 transform scale-105"
-                    : "border-gray-200 hover:border-green-300 hover:bg-green-50"
+                  ? "border-green-500 bg-green-50 transform scale-105"
+                  : "border-gray-200 hover:border-green-300 hover:bg-green-50"
                   }`}
               >
                 <div className="text-4xl mb-3">🅱️</div>
@@ -434,8 +441,8 @@ const MetricMatchUpGame = () => {
               onClick={handleSubmit}
               disabled={!canProceed}
               className={`font-bold py-4 px-8 rounded-full text-xl transform transition-all duration-300 shadow-lg ${canProceed
-                  ? "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white hover:scale-110 hover:shadow-xl"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white hover:scale-110 hover:shadow-xl"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
             >
               {canProceed ? "🚀 Analyze My Choice" : "⏳ Complete All Steps"}
@@ -521,8 +528,8 @@ const MetricMatchUpGame = () => {
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div
                 className={`rounded-2xl p-6 ${selectedAd === "A"
-                    ? "bg-blue-100 border-2 border-blue-300"
-                    : "bg-green-100 border-2 border-green-300"
+                  ? "bg-blue-100 border-2 border-blue-300"
+                  : "bg-green-100 border-2 border-green-300"
                   }`}
               >
                 <h3 className="text-xl font-bold mb-3">Your Choice:</h3>

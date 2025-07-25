@@ -3,7 +3,7 @@ import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const signals = [
   { id: "1", text: "Tense jaw", match: "Frustration" },
   { id: "2", text: "Rapid heartbeat", match: "Anxiety" },
@@ -70,6 +70,27 @@ const BodySignalMatchup = () => {
   const [win, setWin] = useState(false);
   const [activeSignal, setActiveSignal] = useState(null);
   const [step, setStep] = useState("intro");
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (Object.keys(matches).length === signals.length) {
+      setWin(true);
+      setGameOver(true);
+      fireConfetti();
+      completeSELChallenge(1, 2);
+
+      const endTime = Date.now();
+      const durationSec = Math.round((endTime - startTime) / 1000);
+
+      updateSELPerformance({
+        avgResponseTimeSec: durationSec / signals.length,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: true,
+      });
+    }
+  }, [matches]);
 
   useEffect(() => {
     if (step === "game" && timeLeft > 0 && !gameOver) {
@@ -107,7 +128,7 @@ const BodySignalMatchup = () => {
       setWin(true);
       setGameOver(true);
       fireConfetti();
-      completeSELChallenge(1,2);
+      completeSELChallenge(1, 2);
     }
   }, [matches]);
 

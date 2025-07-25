@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Upload, Brain, Calendar, Trophy, BookOpen, Target, CheckCircle, Clock, Star, Award, Lightbulb, RefreshCw } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const PersonalStudyBuddy = () => {
   const { completeComputersChallenge } = useComputers();
@@ -23,13 +24,17 @@ const PersonalStudyBuddy = () => {
   const [badges, setBadges] = useState(['First Problem Solved', 'Study Streak 3 Days']);
   const fileInputRef = useRef(null);
 
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     if (
       quizQuestions.length > 0 &&
       currentQuizIndex === quizQuestions.length - 1 &&
       showAnswer
     ) {
-      completeComputersChallenge(2,2);
+      completeComputersChallenge(2, 2);
     }
   }, [quizQuestions, currentQuizIndex, showAnswer]);
 

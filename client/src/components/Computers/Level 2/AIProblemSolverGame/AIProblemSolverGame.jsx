@@ -5,7 +5,7 @@ import Confetti from "react-confetti";
 import { ArrowRight, MousePointerClick } from "lucide-react";
 import { useComputers } from "@/contexts/ComputersContext";
 import { Link } from "react-router-dom";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const problems = [
   {
     id: 1,
@@ -46,6 +46,12 @@ export default function AIProblemSolverGame() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedTool, setSelectedTool] = useState(null);
 
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+
   const handleAssign = (problemId) => {
     if (!selectedTool) return;
 
@@ -75,13 +81,24 @@ export default function AIProblemSolverGame() {
     const allHelpFilled = problems.every(
       (p) => howItHelps[p.id]?.trim().length > 0
     );
+
     if (allAssigned && allHelpFilled) {
       setSubmitted(true);
       completeComputersChallenge(1, 2); // ✅ Mark task as complete
+
+      const endTime = Date.now();
+      const totalSeconds = Math.floor((endTime - startTime) / 1000);
+
+      updateComputersPerformance({
+        avgResponseTimeSec: totalSeconds / problems.length,
+        studyTimeMinutes: totalSeconds / 60,
+        completed: true,
+      });
     } else {
       alert("Please assign a tool AND fill how it helps for every problem.");
     }
   };
+
 
   return (
     <div className="p-6 max-w-6xl mx-auto text-center bg-gradient-to-br from-yellow-100 via-pink-100 to-blue-100 min-h-screen rounded-xl shadow-2xl">
@@ -124,11 +141,10 @@ export default function AIProblemSolverGame() {
         {aiTools.map((tool) => (
           <motion.div
             key={tool.id}
-            className={`cursor-pointer p-4 rounded-2xl shadow-xl text-5xl border-4 transition-all duration-300 text-center w-40 h-40 flex flex-col justify-center items-center font-bold ${
-              selectedTool?.id === tool.id
-                ? "bg-green-300 border-green-600 scale-110"
-                : "bg-white border-gray-300 hover:scale-105"
-            }`}
+            className={`cursor-pointer p-4 rounded-2xl shadow-xl text-5xl border-4 transition-all duration-300 text-center w-40 h-40 flex flex-col justify-center items-center font-bold ${selectedTool?.id === tool.id
+              ? "bg-green-300 border-green-600 scale-110"
+              : "bg-white border-gray-300 hover:scale-105"
+              }`}
             onClick={() => setSelectedTool(tool)}
             whileTap={{ scale: 0.9 }}
           >
@@ -142,11 +158,10 @@ export default function AIProblemSolverGame() {
         {problems.map((problem) => (
           <motion.div
             key={problem.id}
-            className={`bg-white p-6 rounded-3xl border-4 shadow-xl text-left transition duration-300 hover:shadow-2xl ${
-              assignedTools[problem.id]
-                ? "border-green-400 bg-green-50"
-                : "border-yellow-300"
-            }`}
+            className={`bg-white p-6 rounded-3xl border-4 shadow-xl text-left transition duration-300 hover:shadow-2xl ${assignedTools[problem.id]
+              ? "border-green-400 bg-green-50"
+              : "border-yellow-300"
+              }`}
             whileHover={{ scale: 1.03 }}
             onClick={() => handleAssign(problem.id)}
           >

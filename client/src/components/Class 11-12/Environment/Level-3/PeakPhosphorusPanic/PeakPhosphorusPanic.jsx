@@ -3,6 +3,8 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { motion } from "framer-motion";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const scenarios = [
   {
     id: 1,
@@ -92,12 +94,28 @@ const PeakPhosphorusPanic = () => {
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const { width, height } = useWindowSize();
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-    if (step === "result" && score === scenarios.length) {
-      completeEnvirnomentChallenge(2,1);
+    const totalTimeMs = Date.now() - startTime;
+
+    if (step === "result" ) {
+      updateEnvirnomentPerformance({
+        score: Math.round((score / cards.length) * 10),
+        accuracy: parseFloat(((score / scenarios.length) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / scenarios.length / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: score === scenarios.length,
+      });
+
+      if (score === scenarios.length) {
+        completeEnvirnomentChallenge(2, 1);
+      }
     }
   }, [step, score]);
+
 
   const spinWheel = () => {
     const next = availableScenarios[0];

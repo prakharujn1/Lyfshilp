@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const InnovationLaunchpad = () => {
   const { completeLeadershipChallenge } = useLeadership();
   const [step, setStep] = useState("intro");
@@ -9,7 +10,9 @@ const InnovationLaunchpad = () => {
   const [pitch, setPitch] = useState("");
   const [verifyMessage, setVerifyMessage] = useState("");
   const [reviewing, setReviewing] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const startConfetti = () => {
     confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
   };
@@ -92,8 +95,24 @@ Keep it upbeat and encouraging, like you're hyping up your junior!`,
       const scores = extractScores(reply);
       const total = scores.innovation + scores.impact + scores.feasibility;
 
-      if (total >= 24) {
-        completeLeadershipChallenge(3,1); // ✅ Marks the challenge as completed
+      // ⏱️ Time + performance tracking
+      const totalTimeMs = Date.now() - startTime;
+      const avgResponseTimeSec = parseFloat((totalTimeMs / 1000 / 3).toFixed(2));
+      const studyTimeMinutes = parseFloat((totalTimeMs / 60000).toFixed(2));
+      const accuracy = Math.round((total / 30) * 100);
+      const completed = total >= 24;
+
+      // Update performance
+      updateLeadershipPerformance({
+        score: total,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed,
+      });
+
+      if (completed) {
+        completeLeadershipChallenge(3, 1); // ✅ Marks the challenge as completed
         setStep("success");
         startConfetti();
       } else {

@@ -14,7 +14,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const cases = [
   {
     id: 1,
@@ -182,17 +182,16 @@ const Timer2 = ({ timeLeft, isActive }) => {
     timeLeft > 10
       ? "bg-green-500"
       : timeLeft > 5
-      ? "bg-yellow-500"
-      : "bg-red-500";
+        ? "bg-yellow-500"
+        : "bg-red-500";
 
   return (
     <div className="mb-6" style={{ fontFamily: "'Comic Neue', cursive" }}>
       <div className="flex items-center justify-center gap-2 mb-2">
         <Timer className="w-5 h-5 text-gray-600" />
         <span
-          className={`font-bold text-lg ${
-            timeLeft <= 5 ? "text-red-500 animate-pulse" : "text-gray-700"
-          }`}
+          className={`font-bold text-lg ${timeLeft <= 5 ? "text-red-500 animate-pulse" : "text-gray-700"
+            }`}
         >
           {timeLeft}s
         </span>
@@ -295,11 +294,10 @@ const ArgumentSelection = ({
           {caseData.title}
         </h2>
         <div
-          className={`px-4 py-2 rounded-full inline-block mb-4 ${
-            selectedSide === "plaintiff"
-              ? "bg-green-100 text-green-700"
-              : "bg-orange-100 text-orange-700"
-          }`}
+          className={`px-4 py-2 rounded-full inline-block mb-4 ${selectedSide === "plaintiff"
+            ? "bg-green-100 text-green-700"
+            : "bg-orange-100 text-orange-700"
+            }`}
         >
           <span className="font-semibold">{sideData.title}</span>
         </div>
@@ -358,50 +356,45 @@ const ResultScreen = ({
       style={{ fontFamily: "'Comic Neue', cursive" }}
     >
       <div
-        className={`text-6xl mb-4 ${
-          isCorrect ? "animate-bounce" : "animate-pulse"
-        }`}
+        className={`text-6xl mb-4 ${isCorrect ? "animate-bounce" : "animate-pulse"
+          }`}
       >
         {isCorrect ? "🎉" : "🤔"}
       </div>
 
       <div
-        className={`p-6 rounded-xl ${
-          isCorrect
-            ? "bg-green-100 border-green-300"
-            : "bg-yellow-100 border-yellow-300"
-        } border-2`}
+        className={`p-6 rounded-xl ${isCorrect
+          ? "bg-green-100 border-green-300"
+          : "bg-yellow-100 border-yellow-300"
+          } border-2`}
       >
         <h2
-          className={`text-2xl font-bold mb-2 ${
-            isCorrect ? "text-green-700" : "text-yellow-700"
-          }`}
+          className={`text-2xl font-bold mb-2 ${isCorrect ? "text-green-700" : "text-yellow-700"
+            }`}
         >
           {selectedArgument === null
             ? "Time's up"
             : isCorrect
-            ? "Excellent Choice! 🌟"
-            : "Good Try! 💪"}
+              ? "Excellent Choice! 🌟"
+              : "Good Try! 💪"}
         </h2>
 
         <div
-          className={`text-4xl font-bold mb-4 ${
-            isCorrect ? "text-green-600" : "text-yellow-600"
-          }`}
+          className={`text-4xl font-bold mb-4 ${isCorrect ? "text-green-600" : "text-yellow-600"
+            }`}
         >
           +{points} points
         </div>
 
         <p
-          className={`text-lg mb-4 ${
-            isCorrect ? "text-green-700" : "text-yellow-700"
-          }`}
+          className={`text-lg mb-4 ${isCorrect ? "text-green-700" : "text-yellow-700"
+            }`}
         >
           {selectedArgument === null
             ? ""
             : isCorrect
-            ? "You chose the strongest legal argument!"
-            : "You earned points, but there was a stronger argument!"}
+              ? "You chose the strongest legal argument!"
+              : "You earned points, but there was a stronger argument!"}
         </p>
       </div>
 
@@ -531,6 +524,10 @@ export default function CaseHear() {
   const [selectedArgument, setSelectedArgument] = useState(null);
   const [correctArgument, setCorrectArgument] = useState(null);
 
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     let timer;
     if (gamePhase === "playing" && timeLeft > 0) {
@@ -541,7 +538,7 @@ export default function CaseHear() {
       const sideData = caseData.sides[selectedSide];
       const randomArg =
         sideData.arguments[
-          Math.floor(Math.random() * sideData.arguments.length)
+        Math.floor(Math.random() * sideData.arguments.length)
         ];
       handleArgumentSelect(null, 0);
     }
@@ -583,10 +580,26 @@ export default function CaseHear() {
       setSelectedSide(null);
       setGamePhase("sideSelect");
     } else {
-       completeLawChallenge(2,0);
+      const endTime = Date.now();
+      const timeTakenSec = Math.floor((endTime - startTime) / 1000);
+
+      const maxScore = 12;
+      const scaledScore = Math.round((score / maxScore) * 10); // out of 10
+      const accuracyPercent = Math.round((score / maxScore) * 100); // out of 100
+
+      updateLawPerformance({
+        score: scaledScore,
+        accuracy: accuracyPercent,
+        avgResponseTimeSec: timeTakenSec / 3,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: true,
+      });
+
+      completeLawChallenge(2, 0);
       setGamePhase("final");
     }
   };
+
 
   const handleRestart = () => {
     setGamePhase("menu");

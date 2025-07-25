@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, RefreshCcw, Loader } from "lucide-react";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const emojiOptions = ["😄", "🙂", "😐", "😟", "😢"];
 const strategies = ["Pause", "Rethink", "Reframe", "Deep Breathing"];
@@ -34,12 +35,25 @@ const EQGame = () => {
   const [started, setStarted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState(null);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  
   useEffect(() => {
     if (stage === 4 && aiFeedback) {
-      completeLeadershipChallenge(1,0);
+      completeLeadershipChallenge(1, 0);
+
+      if (!scoreSent) {
+        const totalTimeMs = Date.now() - startTime;
+        updateLeadershipPerformance({
+          avgResponseTimeSec: parseFloat((totalTimeMs / (3 * 1000)).toFixed(2)), // 3 mood days
+          studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+          completed: true
+        });
+      }
     }
   }, [stage, aiFeedback]);
+
 
   const handleMoodChange = (index, emoji) => {
     const updated = [...moodTracker];

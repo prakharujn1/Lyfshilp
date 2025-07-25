@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const sampleGoals = {
   "Start a podcast": [
     { text: "Choose a podcast topic & format", category: "S" },
@@ -56,7 +56,9 @@ const SmartGoalLab = () => {
   const [placements, setPlacements] = useState({});
   const [actionSteps, setActionSteps] = useState(["", "", ""]);
   const [submitted, setSubmitted] = useState(false);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const handleDrop = (noteText, cat) => {
     const note = notes.find((n) => n.text === noteText);
     if (!placements[noteText]) {
@@ -72,13 +74,11 @@ const SmartGoalLab = () => {
   const handleSubmit = () => {
     const correctBreakdown = sampleGoals[goal];
 
-    // Map: category => expected text
     const expectedPlacements = {};
     correctBreakdown.forEach((item) => {
       expectedPlacements[item.category] = item.text;
     });
 
-    // Reverse the current placements: category => dragged text
     const userPlacements = {};
     Object.entries(placements).forEach(([text, category]) => {
       userPlacements[category] = text;
@@ -103,11 +103,22 @@ const SmartGoalLab = () => {
     setSubmitted(allCorrect);
     setStep("result");
 
+    const endTime = Date.now();
+    const durationSec = Math.round((endTime - startTime) / 1000);
+    const avgResponseTimeSec = durationSec / 5;
+
+    updateSELPerformance({
+      avgResponseTimeSec,
+      studyTimeMinutes: Math.ceil(durationSec / 60),
+      completed: allCorrect,
+    });
+
     if (allCorrect) {
-      completeSELChallenge(2,0);
+      completeSELChallenge(2, 0);
       confetti({ spread: 300, particleCount: 250, origin: { y: 0.6 } });
     }
   };
+
 
   const resetGame = () => {
     setGoal(null);

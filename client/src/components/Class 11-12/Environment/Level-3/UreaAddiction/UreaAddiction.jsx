@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const introGif =
   "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWQ4b3VmcHNpcmRpZ2YzeDQxY3F1bjR3N2E1Y2RiMnBpOTk1cDg5aCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/9AaNbSShRHQQfosEOm/200.webp";
 const correctGif =
@@ -157,13 +159,30 @@ const UreaAddiction = () => {
   const [score, setScore] = useState(0);
   const [lastCorrect, setLastCorrect] = useState(null);
   const { width, height } = useWindowSize();
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
+  
   useEffect(() => {
     const allCorrect = score === cards.length && currentIndex >= cards.length;
-    if (allCorrect) {
-      completeEnvirnomentChallenge(2,0);
+    const totalTimeMs = Date.now() - startTime;
+
+    if (currentIndex >= cards.length) {
+      updateEnvirnomentPerformance({
+        score: Math.round((score / cards.length) * 10),
+        accuracy: parseFloat(((score / cards.length) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / cards.length / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: allCorrect,
+      });
+
+      if (allCorrect) {
+        completeEnvirnomentChallenge(2, 0);
+      }
     }
-  }, [score, currentIndex]);
+  }, [currentIndex, score]);
+
 
   const currentCard = cards[currentIndex];
 

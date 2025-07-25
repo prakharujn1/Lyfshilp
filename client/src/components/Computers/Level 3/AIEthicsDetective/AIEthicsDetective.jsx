@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { toast } from "react-hot-toast";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const scenarios = [
     { id: 1, title: "🧑‍🏫 AI that recognizes faces for school security" },
     { id: 2, title: "💼 AI that decides who gets a job" },
@@ -36,6 +36,10 @@ export default function AIEthicsDetective() {
         q3: "",
     });
     const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
 
     const handleDrop = (label) => {
@@ -288,9 +292,21 @@ export default function AIEthicsDetective() {
                         <button
                             onClick={() => {
                                 if (!challengeCompleted) {
-                                    completeComputersChallenge(2,0);
+                                    completeComputersChallenge(2, 0);
                                     setChallengeCompleted(true);
                                 }
+
+                                // ✅ Always update performance
+                                const endTime = Date.now();
+                                const totalPrompts = scenarios.length * 2 + 3; // why + improve + 3 deep answers
+                                const avgResponseTimeSec = ((endTime - startTime) / 1000) / totalPrompts;
+                                const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+                                updateComputersPerformance({
+                                    avgResponseTimeSec,
+                                    studyTimeMinutes,
+                                    completed: true,
+                                });
                                 setStep(4);
                             }}
                             className="mt-6 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full text-lg transition hover:scale-105"

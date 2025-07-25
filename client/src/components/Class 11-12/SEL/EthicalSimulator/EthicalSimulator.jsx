@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const dilemmas = [
   {
     scenario: "📚 You didn’t study for a test and your friend offers to let you copy. What do you do?",
@@ -265,6 +265,10 @@ export default function EthicalSimulator() {
 
   const current = dilemmas[step];
 
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const handleChoice = (i) => {
     const choice = current.choices[i];
     setSelected(i);
@@ -273,8 +277,22 @@ export default function EthicalSimulator() {
 
   const nextScenario = () => {
     if (step + 1 === dilemmas.length) {
-      completeSELChallenge(1,1); // ✅ Challenge complete
+      completeSELChallenge(1, 1); // ✅ Mark SEL challenge complete
+
+      const endTime = Date.now();
+      const durationSec = Math.round((endTime - startTime) / 1000);
+      const scaledScore = score; // Already out of 10
+      const accuracy = Math.round((scaledScore / 10) * 100);
+
+      updateSELPerformance({
+        score: scaledScore,
+        accuracy: accuracy,
+        avgResponseTimeSec: durationSec,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: true,
+      });
     }
+
     setStep(step + 1);
     setSelected(null);
   };

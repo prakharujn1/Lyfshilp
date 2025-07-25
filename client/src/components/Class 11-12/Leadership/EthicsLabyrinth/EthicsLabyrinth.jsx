@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, RefreshCcw } from "lucide-react";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const questions = [
   {
@@ -55,7 +56,9 @@ const EthicsLabyrinth = () => {
   const [timeLeft, setTimeLeft] = useState(20);
   const [showEnd, setShowEnd] = useState(false);
   const [started, setStarted] = useState(false);
-
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (started && chosen === null && !showEnd) {
       const timer = setTimeout(() => {
@@ -67,10 +70,23 @@ const EthicsLabyrinth = () => {
   }, [timeLeft, chosen, started]);
 
   useEffect(() => {
-    if (showEnd && score === questions.length) {
-      completeLeadershipChallenge(1,1);
+  if (showEnd && !scoreSent) {
+    const totalTimeMs = Date.now() - startTime;
+
+    updateLeadershipPerformance({
+      score: Math.round((score / questions.length) * 10),
+      accuracy: parseFloat(((score / questions.length) * 100).toFixed(2)),
+      avgResponseTimeSec: parseFloat((totalTimeMs / (questions.length * 1000)).toFixed(2)),
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: score === questions.length
+    });
+
+    if (score === questions.length) {
+      completeLeadershipChallenge(1, 1);
     }
-  }, [showEnd, score]);
+  }
+}, [showEnd, score]);
+
 
 
   const handleOptionClick = (option) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronDown, ChevronRight, Crown, Shield, Sword, Castle, Zap, Brain, Target, Trophy, Play, RotateCcw, Eye, EyeOff } from 'lucide-react';
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const ChessMasterTrainer = () => {
   // Piece types for simplified 6x6 chess
   const PIECES = {
@@ -72,9 +72,29 @@ const ChessMasterTrainer = () => {
   const [score, setScore] = useState(0);
   const [completedScenarios, setCompletedScenarios] = useState([]);
 
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     if (completedScenarios.length === SCENARIOS.length) {
-      completeComputersChallenge(0,3);
+      completeComputersChallenge(0, 3);
+    }
+  }, [completedScenarios]);
+  
+  useEffect(() => {
+    if (completedScenarios.length === SCENARIOS.length) {
+      const endTime = Date.now();
+      const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+      const avgResponseTimeSec = (endTime - startTime) / 1000;
+
+      updateComputersPerformance({
+        score,
+        accuracy: (score / 300) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+      });
     }
   }, [completedScenarios]);
 

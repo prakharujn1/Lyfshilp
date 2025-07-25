@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const candidates = [
   {
@@ -39,6 +40,9 @@ export default function BodyLanguageGame() {
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState({});
   const [showGame, setShowGame] = useState(false);
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
 
   const handleDrop = (candidateId, label) => {
@@ -78,7 +82,20 @@ export default function BodyLanguageGame() {
 
     if (allCorrect) {
       toast.success("🎉 Great job! You decoded all signals correctly!");
-      completeCommunicationChallenge(0,0); // ✅ Call it here
+      completeCommunicationChallenge(0, 0);
+
+      // ✅ Performance tracking
+      const endTime = Date.now();
+      const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+      const accuracy = 100;
+      const finalScore = 10;
+
+      updateCommunicationPerformance({
+        completed: true,
+        studyTimeMinutes,
+        score: finalScore,
+        accuracy,
+      });
     }
   };
 

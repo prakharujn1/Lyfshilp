@@ -1,9 +1,9 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useSEL } from "@/contexts/SELContext";
-
-const scenarios = [ 
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+const scenarios = [
   {
     id: 1,
     title: "The Lunch Table Drama",
@@ -69,12 +69,30 @@ const FriendshipFixer = () => {
   const [showResult, setShowResult] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState(null);
   const [feedbackText, setFeedbackText] = useState("");
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-  if (showResult && score >= 3) {
-    completeSELChallenge(0,1);
-  }
-}, [showResult, score]);
+    if (showResult) {
+      const endTime = Date.now();
+      const durationSec = Math.round((endTime - startTime) / 1000);
+      const accuracy = (score / scenarios.length) * 100;
+      const avgResponseTimeSec = durationSec / scenarios.length;
+
+      updateSELPerformance({
+        score: Math.round(score * 2.5), // out of 10
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: score >= 3,
+      });
+
+      if (score >= 3) {
+        completeSELChallenge(0, 1);
+      }
+    }
+  }, [showResult]);
+
 
   const handleOptionClick = (option) => {
     if (selected !== null) return;

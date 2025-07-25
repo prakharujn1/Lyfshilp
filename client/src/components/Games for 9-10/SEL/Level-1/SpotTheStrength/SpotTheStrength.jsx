@@ -4,6 +4,7 @@ import Confetti from "react-confetti";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useSEL } from "@/contexts/SELContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const scenarios = [
   {
@@ -49,23 +50,40 @@ const SpotTheStrength = () => {
   const [score, setScore] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleDrop = (strength, index) => {
     setMatches((prev) => ({ ...prev, [index]: strength }));
   };
 
   const handleSubmit = () => {
-    let correct = 0;
-    scenarios.forEach((s, i) => {
-      if (matches[i] === s.strength) correct++;
-    });
-    setScore(correct);
-    setSubmitted(true);
-    if (correct >= 5) {
-      setShowConfetti(true);
-      completeSELChallenge(0,2); // ✅ Mark challenge as complete
-    }
-  };
+  let correct = 0;
+  scenarios.forEach((s, i) => {
+    if (matches[i] === s.strength) correct++;
+  });
+
+  setScore(correct);
+  setSubmitted(true);
+
+  const endTime = Date.now();
+  const durationSec = Math.round((endTime - startTime) / 1000);
+
+  updateSELPerformance({
+    score: Math.round((correct / scenarios.length) * 10),
+    accuracy: Math.round((correct / scenarios.length) * 100),
+    avgResponseTimeSec: durationSec / scenarios.length,
+    studyTimeMinutes: Math.ceil(durationSec / 60),
+    completed: correct >= 5,
+  });
+
+  if (correct >= 5) {
+    setShowConfetti(true);
+    completeSELChallenge(0, 2); // ✅ Mark challenge as complete
+  }
+};
+
 
 
   const restartGame = () => {

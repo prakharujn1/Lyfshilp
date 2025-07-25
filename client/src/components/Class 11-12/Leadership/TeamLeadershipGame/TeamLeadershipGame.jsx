@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Users, ClipboardList } from "lucide-react";
 import toast from "react-hot-toast";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const teammates = [
   {
@@ -62,6 +63,27 @@ export default function TeamLeadershipGame() {
   const [submitted, setSubmitted] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [draggedTeammate, setDraggedTeammate] = useState(null);
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (submitted && percent >= 75) {
+      const totalTimeMs = Date.now() - startTime;
+      const scaledScore = Math.round((totalScore / maxScore) * 10);
+
+      updateLeadershipPerformance({
+        score: scaledScore, // out of 10
+        accuracy: percent, // already out of 100
+        avgResponseTimeSec: parseFloat((totalTimeMs / (tasks.length * 1000)).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: true
+      });
+
+      completeLeadershipChallenge(1, 2);
+      setScoreSent(true);
+    }
+  }, [submitted, percent]);
 
   const getResult = (task) => {
     const teammateId = assignments[task.id];
@@ -82,11 +104,7 @@ export default function TeamLeadershipGame() {
   const maxScore = tasks.length * 15;
   const percent = Math.round((totalScore / maxScore) * 100);
 
-  useEffect(() => {
-    if (submitted && percent >= 75) {
-      completeLeadershipChallenge(1, 2);
-    }
-  }, [submitted, percent, completeLeadershipChallenge]);
+   
 
   const getAssignmentCount = (id) => {
     return Object.values(assignments).filter((val) => val === id).length;
@@ -277,8 +295,8 @@ export default function TeamLeadershipGame() {
                         <div className="p-3 rounded-full bg-white border-2 border-dashed border-purple-400 min-h-[50px] text-center text-md font-semibold text-purple-600">
                           {assignments[task.id]
                             ? teammates.find(
-                                (t) => t.id === assignments[task.id]
-                              )?.name
+                              (t) => t.id === assignments[task.id]
+                            )?.name
                             : "😃 Drag a teammate here"}
                         </div>
                       </div>
@@ -291,11 +309,10 @@ export default function TeamLeadershipGame() {
                 <button
                   onClick={handleSubmit}
                   disabled={!canSubmit}
-                  className={`mt-1 px-8 py-3 rounded-full font-bold shadow-md text-white transition-all ${
-                    canSubmit
+                  className={`mt-1 px-8 py-3 rounded-full font-bold shadow-md text-white transition-all ${canSubmit
                       ? "bg-green-500 hover:bg-green-600"
                       : "bg-gray-300 cursor-not-allowed"
-                  }`}
+                    }`}
                 >
                   ✅ Submit Delegation
                 </button>

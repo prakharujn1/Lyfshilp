@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const dragOptions = [
   "Water rationing schedules",
   "Rainwater harvesting campaigns",
@@ -103,6 +105,9 @@ const DayZero = () => {
   const [currentCorrect, setCurrentCorrect] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const current = questions[step - 1];
 
@@ -151,18 +156,27 @@ const DayZero = () => {
     answers.length === questions.length && answers.every(Boolean);
 
   useEffect(() => {
-    if (step === questions.length + 1 && allCorrect) {
-      setShowConfetti(true);
-    } else {
-      setShowConfetti(false);
-    }
-  }, [step, allCorrect]);
+    const totalTimeMs = Date.now() - startTime;
+    const correctCount = answers.filter(Boolean).length;
 
-  useEffect(() => {
-    if (step === questions.length + 1 && allCorrect) {
-      completeEnvirnomentChallenge(1,1);
+    if (step === questions.length + 1) {
+      updateEnvirnomentPerformance({
+        score: Math.round((correctCount / questions.length) * 10 ),
+        accuracy: parseFloat(((correctCount / questions.length) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / questions.length / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: allCorrect,
+      });
+
+      if (allCorrect) {
+        completeEnvirnomentChallenge(1, 1);
+        setShowConfetti(true);
+      } else {
+        setShowConfetti(false);
+      }
     }
-  }, [step, allCorrect]);
+  }, [step, answers, allCorrect]);
+
 
 
   return (
@@ -219,8 +233,8 @@ const DayZero = () => {
                         key={idx}
                         onClick={() => handleDragSelect(opt)}
                         className={`px-4 py-2 rounded-full border ${dragSelected.includes(opt)
-                            ? "bg-green-500 text-white"
-                            : "hover:bg-green-100"
+                          ? "bg-green-500 text-white"
+                          : "hover:bg-green-100"
                           }`}
                       >
                         {opt}
@@ -231,8 +245,8 @@ const DayZero = () => {
                     onClick={handleDragSubmit}
                     disabled={dragSelected.length !== 4}
                     className={`mt-4 px-6 py-2 rounded-full text-white ${dragSelected.length === 4
-                        ? "bg-green-600 hover:bg-green-700"
-                        : "bg-gray-400 cursor-not-allowed"
+                      ? "bg-green-600 hover:bg-green-700"
+                      : "bg-gray-400 cursor-not-allowed"
                       }`}
                   >
                     Submit Selection

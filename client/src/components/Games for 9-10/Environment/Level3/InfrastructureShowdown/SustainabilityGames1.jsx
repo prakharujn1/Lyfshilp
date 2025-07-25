@@ -35,10 +35,29 @@ const SustainabilityGames1 = () => {
   const [gameCompleted, setGameCompleted] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     if (gameCompleted) {
-      completeEnvirnomentChallenge(2,0);
+      completeEnvirnomentChallenge(2, 0);
     }
+    const endTime = Date.now();
+    const totalTimeMinutes = Math.round((endTime - startTime) / 1000 / 60); // in minutes
+    
+    const scaledScore = Math.round((score / 5) * 10);
+    const accuracy = parseFloat(((score / 5) * 100).toFixed(2));
+    const avgResponseTimeSec = parseFloat(((endTime - startTime) / 1000 / 5).toFixed(2)); // per 5 questions
+
+    updateEnvirnomentPerformance({
+      score:scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes: totalTimeMinutes,
+      completed: gameCompleted,
+    });
+
   }, [gameCompleted]);
 
   const infrastructureQuestions = [
@@ -364,16 +383,16 @@ const SustainabilityGames1 = () => {
     return (
       <div
         className={`min-h-screen p-4 flex items-center justify-center ${currentGame === "infrastructure"
-            ? "bg-gradient-to-br from-green-400 via-teal-500 to-blue-600"
-            : "bg-gradient-to-br from-purple-500 via-pink-500 to-red-500"
+          ? "bg-gradient-to-br from-green-400 via-teal-500 to-blue-600"
+          : "bg-gradient-to-br from-purple-500 via-pink-500 to-red-500"
           }`}
       >
         <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto border-4 border-white/50">
           <div className="text-center mb-6">
             <div
               className={`inline-block p-4 rounded-full mb-4 ${currentGame === "infrastructure"
-                  ? "bg-green-500"
-                  : "bg-purple-500"
+                ? "bg-green-500"
+                : "bg-purple-500"
                 }`}
             >
               {currentGame === "infrastructure" ? (
@@ -399,8 +418,8 @@ const SustainabilityGames1 = () => {
                 <div key={index} className="flex items-start space-x-3">
                   <div
                     className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold ${currentGame === "infrastructure"
-                        ? "bg-green-500"
-                        : "bg-purple-500"
+                      ? "bg-green-500"
+                      : "bg-purple-500"
                       }`}
                   >
                     {index + 1}
@@ -421,8 +440,8 @@ const SustainabilityGames1 = () => {
             <button
               onClick={startQuestions}
               className={`px-8 py-3 rounded-full font-bold text-white transition-all duration-300 transform hover:scale-105 ${currentGame === "infrastructure"
-                  ? "bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600"
-                  : "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                ? "bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600"
+                : "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
                 }`}
             >
               Start Playing! 🎮
@@ -489,8 +508,8 @@ const SustainabilityGames1 = () => {
                   <Star
                     key={i}
                     className={`w-6 h-6 ${i < Math.floor(percentage / 20)
-                        ? "text-yellow-500 fill-current"
-                        : "text-gray-300"
+                      ? "text-yellow-500 fill-current"
+                      : "text-gray-300"
                       }`}
                   />
                 ))}
@@ -544,8 +563,8 @@ const SustainabilityGames1 = () => {
     return (
       <div
         className={`min-h-screen p-4 ${currentGame === "infrastructure"
-            ? "bg-gradient-to-br from-green-400 via-teal-500 to-blue-600"
-            : "bg-gradient-to-br from-purple-500 via-pink-500 to-red-500"
+          ? "bg-gradient-to-br from-green-400 via-teal-500 to-blue-600"
+          : "bg-gradient-to-br from-purple-500 via-pink-500 to-red-500"
           }`}
       >
         <div className="max-w-4xl mx-auto">
@@ -577,8 +596,8 @@ const SustainabilityGames1 = () => {
             <div className="text-center mb-6">
               <div
                 className={`inline-block p-4 rounded-full mb-4 ${currentGame === "infrastructure"
-                    ? "bg-green-100"
-                    : "bg-purple-100"
+                  ? "bg-green-100"
+                  : "bg-purple-100"
                   }`}
               >
                 {currentQuestion.icon}
@@ -601,21 +620,21 @@ const SustainabilityGames1 = () => {
                   onClick={() => !showResult && handleAnswer(index)}
                   disabled={showResult}
                   className={`p-4 sm:p-6 rounded-2xl border-3 font-bold text-sm sm:text-base transition-all duration-300 transform hover:scale-105 text-left ${showResult
-                      ? index === currentQuestion.correct
-                        ? "bg-green-500 text-white border-green-600 animate-pulse"
-                        : selectedAnswer === index
-                          ? "bg-red-500 text-white border-red-600"
-                          : "bg-gray-200 text-gray-500 border-gray-300"
-                      : currentGame === "infrastructure"
-                        ? "bg-green-100 hover:bg-green-200 border-green-300 text-green-800"
-                        : "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-800"
+                    ? index === currentQuestion.correct
+                      ? "bg-green-500 text-white border-green-600 animate-pulse"
+                      : selectedAnswer === index
+                        ? "bg-red-500 text-white border-red-600"
+                        : "bg-gray-200 text-gray-500 border-gray-300"
+                    : currentGame === "infrastructure"
+                      ? "bg-green-100 hover:bg-green-200 border-green-300 text-green-800"
+                      : "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-800"
                     }`}
                 >
                   <div className="flex items-center">
                     <div
                       className={`w-8 h-8 rounded-full mr-4 flex items-center justify-center font-bold text-white ${currentGame === "infrastructure"
-                          ? "bg-green-500"
-                          : "bg-purple-500"
+                        ? "bg-green-500"
+                        : "bg-purple-500"
                         }`}
                     >
                       {String.fromCharCode(65 + index)}
@@ -632,8 +651,8 @@ const SustainabilityGames1 = () => {
             <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
               <div
                 className={`bg-white rounded-3xl p-6 sm:p-8 max-w-md mx-auto text-center transform animate-bounce ${isCorrect
-                    ? "border-4 border-green-500"
-                    : "border-4 border-red-500"
+                  ? "border-4 border-green-500"
+                  : "border-4 border-red-500"
                   }`}
               >
                 <div className="mb-4">

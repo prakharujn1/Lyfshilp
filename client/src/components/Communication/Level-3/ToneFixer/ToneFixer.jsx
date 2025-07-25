@@ -48,8 +48,8 @@ const ToneFixer = () => {
   const [selectedTone, setSelectedTone] = useState(null);
 
   //for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const currentQuestion = rudeMessages[questionIndex];
 
@@ -66,10 +66,29 @@ const [startTime] = useState(Date.now());
     );
   };
 
+  const handleGameFinish = () => {
+    const finalScore = score + (isCorrect ? 1 : 0);
+    setScore(finalScore);
+    setGameFinished(true);
+    completeCommunicationChallenge(2, 3); // module 2, game 3
+
+    // ⏱️ Performance metrics
+    const endTime = Date.now();
+    const durationSec = (endTime - startTime) / 1000;
+    const accuracy = finalScore / rudeMessages.length;
+
+    updateCommunicationPerformance({
+      score: Math.round(accuracy * 10),       // score out of 10
+      accuracy: Math.round(accuracy * 100),   // percentage
+      studyTimeMinutes: durationSec / 60,
+      completed: true,
+    });
+  };
+
+
   const nextQuestion = () => {
     if (questionIndex === rudeMessages.length - 1) {
-      setGameFinished(true);
-      completeCommunicationChallenge(2, 0);
+      handleGameFinish();
     } else {
       setQuestionIndex((prev) => prev + 1);
       setFeedback("");

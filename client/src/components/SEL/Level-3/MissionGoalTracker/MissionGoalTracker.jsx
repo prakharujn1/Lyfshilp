@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 // ✅ Goal data
 const goals = [
   {
@@ -112,12 +112,29 @@ const MissionGoalTracker = () => {
   const [attempts, setAttempts] = useState(0);
   const [resultMessage, setResultMessage] = useState("");
   const [showCorrect, setShowCorrect] = useState(false);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
     if (resultMessage && isCorrect()) {
-      completeSELChallenge(2,0); // ✅ Adjust the parameters as needed
+      completeSELChallenge(2, 0); // ✅ Adjust the parameters as needed
     }
   }, [resultMessage]);
+
+  useEffect(() => {
+    if (resultMessage && (isCorrect() || showCorrect)) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+      
+
+      updateSELPerformance({
+        avgResponseTimeSec: totalSeconds / 5,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: isCorrect(),
+      });
+    }
+  }, [resultMessage]);
+
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -272,8 +289,8 @@ const MissionGoalTracker = () => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   className={`bg-white p-4 rounded-xl shadow-md min-h-[200px] transition border-2 ${snapshot.isDraggingOver
-                      ? "border-green-400"
-                      : "border-transparent"
+                    ? "border-green-400"
+                    : "border-transparent"
                     }`}
                 >
                   <h2 className="font-bold mb-2 text-green-800">{bucket}</h2>

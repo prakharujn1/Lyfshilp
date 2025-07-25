@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Confetti from 'react-confetti';
 import { useWindowSize } from '@react-hook/window-size';
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const initialDeck = {
   slide1: { problem: '', audience: '' },
@@ -14,7 +15,7 @@ const initialDeck = {
 };
 
 export default function PitchArenaPro() {
-   const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
   const [showBadge, setShowBadge] = useState(false);
   const { width, height } = useWindowSize();
   const [step, setStep] = useState(1);
@@ -23,17 +24,29 @@ export default function PitchArenaPro() {
   const [videoURL, setVideoURL] = useState('');
   const [submission, setSubmission] = useState({ name: '', tagline: '', confirm: false });
   const [showPDF, setShowPDF] = useState(false); // 🔁 New state
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleDeckChange = (field, value, slide = 'slide1') => {
     setDeck(prev => ({ ...prev, [slide]: { ...prev[slide], [field]: value } }));
   };
 
   const handleStep3Submit = () => {
-  alert('🎉 Pitch submitted! Badge Unlocked: 💼 Boardroom Ready');
-  setShowPDF(true);
-  setShowBadge(true);
-  completeEntreprenerushipChallenge(1,0); // ✅ Add this line
-};
+    alert('🎉 Pitch submitted! Badge Unlocked: 💼 Boardroom Ready');
+    setShowPDF(true);
+    setShowBadge(true);
+    completeEntreprenerushipChallenge(1, 0);
+
+    const endTime = Date.now();
+    const timeSpentMinutes = Math.floor((endTime - startTime) / 60000);
+    updateEntreprenerushipPerformance({
+      avgResponseTimeSec: 0,
+      studyTimeMinutes: timeSpentMinutes,
+      completed: true,
+    });
+  };
+
 
 
   const handleRestart = () => {

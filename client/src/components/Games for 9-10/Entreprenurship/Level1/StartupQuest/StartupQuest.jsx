@@ -8,6 +8,7 @@ import { Textarea } from './TextArea';
 import { Sparkles, ChevronDown, Radar, MousePointerClick, UserRound } from "lucide-react";
 import toast from 'react-hot-toast';
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 
 // const painPoints = [
@@ -82,7 +83,9 @@ export default function StartupQuest() {
   const [ideas, setIdeas] = useState({});
   const [pitch, setPitch] = useState("");
   const [showSummary, setShowSummary] = useState(false);
-
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const handleReset = () => {
     setSelectedTheme("");
     setDraggedPain([]);
@@ -119,10 +122,23 @@ export default function StartupQuest() {
       toast.error("❗ Please complete all activities before continuing.");
       return;
     }
+
     // ✅ Mark challenge as completed
-    completeEntreprenerushipChallenge(0,0);
+    completeEntreprenerushipChallenge(0, 0);
+
+    // ⏱️ Performance tracking
+    const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+    const studyTimeMinutes = Math.ceil(timeTakenSec / 60);
+ 
+    updateEntreprenerushipPerformance({
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes,
+      completed: true
+    });
+
     setShowSummary(true);
   };
+
   if (showSummary) {
     return (
       <div className="p-10 sm:p-14 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-yellow-200 via-rose-300 to-sky-300 min-h-screen text-lg text-center relative overflow-hidden rounded-t-[3rem] shadow-2xl border-4 border-white/60 backdrop-blur-lg">

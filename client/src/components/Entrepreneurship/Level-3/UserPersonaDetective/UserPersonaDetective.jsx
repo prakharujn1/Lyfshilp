@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const introGif =
   "https://media.tenor.com/-yxM2tVxRlkAAAA1/let%27s-start-lets-start.webp";
@@ -9,8 +10,8 @@ const tryAgainGif =
   "https://media.tenor.com/BTeSyQlKLfwAAAA1/try-one-more-time-alex.webp";
 
 const UserPersonaDetective = () => {
-    const { completeEntreprenerushipChallenge } = useEntrepreneruship();
-  
+  const { completeEntreprenerushipChallenge } = useEntrepreneruship();
+
   const [step, setStep] = useState("intro");
   const [persona, setPersona] = useState("");
   const [problem, setProblem] = useState("");
@@ -20,12 +21,15 @@ const UserPersonaDetective = () => {
   const [feedback, setFeedback] = useState("");
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [uplift, setUplift] = useState(false);
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-  if (step === "result" && badgeEarned) {
-    completeEntreprenerushipChallenge(2,0); // Challenge 1, Task 5
-  }
-}, [step, badgeEarned]);
+    if (step === "result" && badgeEarned) {
+      completeEntreprenerushipChallenge(2, 0); // Challenge 1, Task 5
+    }
+  }, [step, badgeEarned]);
 
   const startGame = () => {
     setStep("form");
@@ -112,24 +116,36 @@ Benefit: ${benefit}
   };
 
   const handleSubmit = () => {
-    if (!feedback) {
-      alert("Please verify with Gemini before submitting!");
-      return;
-    }
+  if (!feedback) {
+    alert("Please verify with Gemini before submitting!");
+    return;
+  }
 
-    const lower = feedback.toLowerCase();
-    if (
-      lower.includes("well done") ||
-      lower.includes("good") ||
-      lower.includes("great work") ||
-      lower.includes("clear and realistic")
-    ) {
-      setBadgeEarned(true);
-    } else {
-      setUplift(true);
-    }
-    setStep("result");
-  };
+  const lower = feedback.toLowerCase();
+  if (
+    lower.includes("well done") ||
+    lower.includes("good") ||
+    lower.includes("great work") ||
+    lower.includes("clear and realistic")
+  ) {
+    setBadgeEarned(true);
+  } else {
+    setUplift(true);
+  }
+
+  setStep("result");
+
+  const endTime = Date.now();
+  const timeTakenSec = (endTime - startTime) / 1000;
+  const timeTakenMin = Math.round(timeTakenSec / 60);
+
+  updateEntreprenerushipPerformance({
+    avgResponseTimeSec: timeTakenSec,
+    studyTimeMinutes: timeTakenMin,
+    completed: true,
+  });
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex flex-col items-center justify-center p-6">

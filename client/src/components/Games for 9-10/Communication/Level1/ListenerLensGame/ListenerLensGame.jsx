@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const sampleReplies = [
   "That must be frustrating. I hear you.",
   "Want to talk more about it?",
@@ -20,7 +22,9 @@ const ListenerLensGame = () => {
   const [feedback, setFeedback] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-
+  //for performance
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const handleInputChange = (e) => {
     if (!submitted) {
       setUserResponse(e.target.value);
@@ -54,10 +58,22 @@ const ListenerLensGame = () => {
     setFeedback(toneFeedback);
     setSubmitted(true);
 
-    if (toneFeedback.includes("Great job showing empathy")) {
-      completeCommunicationChallenge(0,1);
+    const passed = toneFeedback.includes("Great job showing empathy");
+
+    if (passed) {
+      completeCommunicationChallenge(0, 1);
+
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+      updateCommunicationPerformance({
+        score: 10,
+        accuracy: 100,
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: true,
+       });
     }
   };
+
 
 
   const handlePlayAgain = () => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -36,12 +37,15 @@ const BrandVoiceChallenge = () => {
         captionScore: null,
         finalStep: false,
     });
+    //for performance
+    const { updateDMPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
     const [state, setState] = useState(getInitialState());
 
     useEffect(() => {
         if (finalStep && result?.finalBreakdown?.overallTotal >= finalPassingScore) {
-            completeDMChallenge(1,2);
+            completeDMChallenge(1, 2);
         }
     }, [finalStep, result]);
 
@@ -247,6 +251,25 @@ ONLY return the JSON.
                 }
             }));
             setFinalStep(true); // Show the final score section
+
+            // ⏱️ Track performance and update DB
+            const endTime = Date.now();
+            const durationSec = Math.round((endTime - startTime) / 1000);
+            const durationMinutes = Math.round(durationSec / 60) || 1;
+
+            const totalPoints = overallFinalCalculatedTotal; // max = 11
+            const scoreOutOf10 = Math.round((totalPoints / 11) * 10);
+            const accuracyOutOf100 = Math.round((totalPoints / 11) * 100);
+            const avgResponseTimeSec = Math.round(durationSec); // per point
+
+            updateDMPerformance({
+                score: scoreOutOf10,
+                accuracy: accuracyOutOf100,
+                avgResponseTimeSec,
+                studyTimeMinutes: durationMinutes,
+                completed: true,
+            });
+
 
         } catch (err) {
             console.error("❌ Error scoring caption:", err);

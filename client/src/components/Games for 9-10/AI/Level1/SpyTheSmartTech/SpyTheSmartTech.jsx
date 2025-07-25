@@ -11,12 +11,16 @@ import {
   Battery,
 } from "lucide-react";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const SpyTheSmartTech = () => {
   const { completeComputersChallenge } = useComputers();
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [completedRows, setCompletedRows] = useState(new Set());
+
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const devices = [
     {
@@ -80,10 +84,27 @@ const SpyTheSmartTech = () => {
   const checkAnswers = () => {
     setShowResults(true);
 
+    // ✅ Mark challenge as completed
+    completeComputersChallenge(0, 0);
 
-    // ✅ Mark challenge complete when answers are submitted
-    completeComputersChallenge(0,0);
+    // ✅ Performance tracking
+    const endTime = Date.now();
+    const totalQuestions = devices.length;
+    const correctAnswers = getScore();
+
+    const scaledScore = Math.round((correctAnswers / totalQuestions) * 10); // Score out of 10
+    const avgResponseTimeSec = ((endTime - startTime) / 1000) / Math.max(totalQuestions, 1);
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+    updateComputersPerformance({
+      score: scaledScore,
+      accuracy: ((correctAnswers / totalQuestions)*100).toFixed(2),
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
   };
+
 
   const getScore = () => {
     let correct = 0;
@@ -193,10 +214,10 @@ const SpyTheSmartTech = () => {
                               )
                             }
                             className={`px-4 py-2 rounded-full font-bold transition-all duration-300 ${answers[device.id]?.answer === option
-                                ? option === "yes"
-                                  ? "bg-green-500 text-white shadow-lg"
-                                  : "bg-red-500 text-white shadow-lg"
-                                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                              ? option === "yes"
+                                ? "bg-green-500 text-white shadow-lg"
+                                : "bg-red-500 text-white shadow-lg"
+                              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                               }`}
                           >
                             {option === "yes" ? "✅ Yes" : "❌ No"}
@@ -239,8 +260,8 @@ const SpyTheSmartTech = () => {
             onClick={checkAnswers}
             disabled={!allAnswered}
             className={`px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 ${allAnswered
-                ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl hover:shadow-2xl"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
           >
             🔍 Check My Answers!
@@ -277,8 +298,8 @@ const SpyTheSmartTech = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                     className={`p-4 rounded-xl ${answers[device.id]?.answer === device.correctAnswer
-                        ? "bg-green-100 border-2 border-green-400"
-                        : "bg-red-100 border-2 border-red-400"
+                      ? "bg-green-100 border-2 border-green-400"
+                      : "bg-red-100 border-2 border-red-400"
                       }`}
                   >
                     <div className="flex items-center justify-between mb-2">

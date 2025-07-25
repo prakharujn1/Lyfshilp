@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const aiTools = [
   { name: "Calculator", image: "./calculator.jpg" },
   { name: "Google Maps", image: "./google_maps.jpg" },
@@ -19,11 +19,35 @@ export default function RateTheIntelligenceGame() {
   const [reason, setReason] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-useEffect(() => {
-  if (submitted) {
-    completeComputersChallenge(1,2);
-  }
-}, [submitted]);
+  //for performance
+  const { updateComputersPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (submitted) {
+      completeComputersChallenge(1, 2);
+
+      const endTime = Date.now();
+      const total = aiTools.length;
+
+      const totalStars = ratings.reduce((sum, r) => sum + r.stars, 0);
+      const avgStars = totalStars / total;
+
+      const score = Math.round((avgStars / 5) * 10);
+      const accuracy = Math.round((avgStars / 5) * 100);
+      const avgResponseTimeSec = ((endTime - startTime) / 1000) / total;
+      const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+      updateComputersPerformance({
+        score,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+      });
+    }
+  }, [submitted]);
+
 
   const handleRestart = () => {
     setStars(0);
@@ -56,7 +80,7 @@ useEffect(() => {
   if (submitted) {
     return (
       <div className="text-center px-6 py-10 max-w-3xl mx-auto bg-gradient-to-br from-indigo-900 via-purple-800 to-blue-900 rounded-3xl shadow-2xl border-4 border-yellow-400">
-          <Confetti numberOfPieces={300} />
+        <Confetti numberOfPieces={300} />
         <motion.h1
           className="text-5xl font-black text-yellow-500 mb-6 drop-shadow-[0_2px_8px_rgba(255,255,0,0.4)]"
           initial={{ opacity: 0, y: -30 }}

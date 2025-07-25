@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const AdSpotterGame = () => {
   const { completeDMChallenge } = useDM();
@@ -21,6 +21,9 @@ const AdSpotterGame = () => {
   const [loading, setLoading] = useState(false);
   const [score, setScore] = useState(0);
   const [stars, setStars] = useState(0);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const phoneItems = [
     {
@@ -108,21 +111,37 @@ const AdSpotterGame = () => {
     const correctCount = correctSelections.length;
     const missedCorrect = correctAnswers.length - correctCount;
 
-    let newScore =
+    let rawScore =
       correctCount * 100 - incorrectSelections.length * 50 - missedCorrect * 25;
-    newScore = Math.max(0, newScore);
+    rawScore = Math.max(0, rawScore);
+
+    // Scale the score out of 10
+    const scaledScore = parseFloat(((rawScore / 300) * 10).toFixed(2)); // 300 is max score
 
     let newStars = 1;
     if (correctCount === 3 && incorrectSelections.length === 0) newStars = 5;
     else if (correctCount === 2) newStars = 3;
 
-    setScore(newScore);
+    setScore(scaledScore);
     setStars(newStars);
 
-    // ✅ Mark the challenge as complete here
-    completeDMChallenge(0,0);
+    // ✅ Mark the challenge as complete
+    completeDMChallenge(0, 0);
 
+    // ✅ Update performance
+    const endTime = Date.now();
+    const timeTakenSec = (endTime - startTime) / 1000;
+    const timeTakenMin = Math.round(timeTakenSec / 60);
+
+    updateDMPerformance({
+      score: scaledScore,
+      accuracy: (correctCount / 3) * 100,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: timeTakenMin,
+      completed: true,
+    });
   };
+
 
   const submitAnswers = () => {
     if (selectedItems.length === 3) {
@@ -418,8 +437,8 @@ const AdSpotterGame = () => {
                   <Star
                     key={i}
                     className={`w-6 h-6 ${i < stars
-                        ? "text-yellow-400 fill-current"
-                        : "text-gray-300"
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300"
                       }`}
                   />
                 ))}

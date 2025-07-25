@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useComputers } from "@/contexts/ComputersContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const tasks = [
     {
         id: 1,
@@ -63,6 +63,13 @@ export default function SmartOrNotGame() {
         unique: "",
         submitted: false
     });
+
+
+    //for performance
+    const { updateComputersPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
+
     const handleAnswer = (canDo) => {
         const task = tasks[current];
         const answer = {
@@ -240,9 +247,24 @@ export default function SmartOrNotGame() {
                             {!reflection.submitted ? (
                                 <button
                                     onClick={() => {
+                                        const endTime = Date.now();
+                                        const totalSeconds = Math.floor((endTime - startTime) / 1000);
+
+                                        // Scale score out of 10
+                                        const scaledScore = Math.round((score / tasks.length) * 10);
+
+                                        updateComputersPerformance({
+                                            score: scaledScore,
+                                            accuracy: (score / tasks.length) * 100,
+                                            avgResponseTimeSec: totalSeconds / tasks.length,
+                                            studyTimeMinutes: totalSeconds / 60,
+                                            completed: true,
+                                        });
+
+                                        completeComputersChallenge(1, 1); // ✅ Mark task as complete
                                         setReflection({ ...reflection, submitted: true });
-                                        completeComputersChallenge(1,1); // ✅ Mark task as complete
                                     }}
+
                                     className="mt-6 bg-pink-500 hover:bg-pink-600 text-white text-xl px-6 py-3 rounded-full shadow-md transition transform hover:scale-105"
                                 >
                                     ✅ Submit Reflection

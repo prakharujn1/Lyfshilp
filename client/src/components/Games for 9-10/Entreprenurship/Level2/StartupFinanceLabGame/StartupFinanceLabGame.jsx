@@ -22,6 +22,7 @@ import { motion } from "framer-motion";
 import ThinkingEmoji from "@/components/ThinkingEmoji";
 import MoneyAnimation from "@/components/Money";
 import { useEntrepreneruship } from "@/contexts/EntreprenerushipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const totalBudget = 100000;
 const categories = ["Product Dev", "Marketing", "Operations", "Team"];
@@ -59,6 +60,23 @@ export default function StartupFinanceFunGame() {
   const [decisionLog, setDecisionLog] = useState([]);
   const [showLogic, setShowLogic] = useState(false);
   const [prevAllocations, setPrevAllocations] = useState({});
+  
+  //for performance
+  const { updateEntreprenerushipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  useEffect(() => {
+    if (!currentDilemma && decisionLog.length === dilemmas.length) {
+      const endTime = Date.now();
+      const elapsedTimeSec = Math.floor((endTime - startTime) / 1000);
+
+      updateEntreprenerushipPerformance({
+        score: starRating * 2,
+        avgResponseTimeSec: elapsedTimeSec / dilemmas.length,
+        studyTimeMinutes: Math.ceil(elapsedTimeSec / 60),
+        completed: true,
+      });
+    }
+  }, [currentDilemma]);
 
   const handleAllocation = (category, value) => {
     const num = parseInt(value) || 0;
@@ -124,7 +142,7 @@ export default function StartupFinanceFunGame() {
       const nextIndex = prev + 1;
       // ✅ Award badge only once when last dilemma is completed
       if (nextIndex === dilemmas.length) {
-        completeEntreprenerushipChallenge(1,2);
+        completeEntreprenerushipChallenge(1, 2);
       }
       return nextIndex;
     });

@@ -3,6 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { useSEL } from "@/contexts/SELContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const APIKEY = import.meta.env.VITE_API_KEY;
 
 const categories = [
@@ -50,7 +51,9 @@ export default function BurnoutBarometer() {
   const [selfCarePlans, setSelfCarePlans] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const handleChange = (key, val) => {
     setValues({ ...values, [key]: parseInt(val) });
   };
@@ -105,6 +108,24 @@ No explanation or extra text. Only JSON.
       setFeedback(parsed.feedback);
       setSelfCarePlans(parsed.selfCarePlans);
       setShowReport(true);
+
+      // ✅ Track SEL performance
+      const endTime = Date.now();
+      const durationSec = Math.round((endTime - startTime) / 1000);
+      const total = values.energy + values.motivation + values.focus + values.mood + (100 - values.stress);
+      const maxTotal = 500; // 5 categories * 100
+      const scaledScore = Math.round((total / maxTotal) * 10); // out of 10
+      const accuracy = Math.round((scaledScore / 10) * 100); // out of 100
+
+      updateSELPerformance({
+        score: scaledScore,
+        accuracy: accuracy,
+        avgResponseTimeSec: durationSec,
+        studyTimeMinutes: Math.ceil(durationSec / 60),
+        completed: true,
+      });
+
+
       // ✅ Mark SEL challenge complete here
       completeSELChallenge(0, 2);
     } catch (e) {

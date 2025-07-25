@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Confetti from "react-confetti";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -44,23 +45,27 @@ export default function ActiveListeningGame() {
     const [timeUp, setTimeUp] = useState(false);
     const [gameStarted, setGameStarted] = useState(false);
 
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
+
     // Timer countdown effect
     useEffect(() => {
-  if (step === 1 && gameStarted && !timeUp) {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setTimeUp(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+        if (step === 1 && gameStarted && !timeUp) {
+            const timer = setInterval(() => {
+                setTimeLeft((prev) => {
+                    if (prev <= 1) {
+                        clearInterval(timer);
+                        setTimeUp(true);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
 
-    return () => clearInterval(timer);
-  }
-}, [step, gameStarted, timeUp]);
+            return () => clearInterval(timer);
+        }
+    }, [step, gameStarted, timeUp]);
 
     const formatTime = (seconds) => {
         const m = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -159,10 +164,24 @@ Here is the student’s response:
 
             if (score === 3) {
                 setFeedback("🎉 Great job listening actively!");
-                completeCommunicationChallenge(0,1);
+                completeCommunicationChallenge(0, 1);
                 setShowConfetti(true);
                 setStep(5);
-            } else if (!empathy) {
+
+                // ⬇️ Performance Tracking
+                const endTime = Date.now();
+                const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+            
+                const finalScore = 10;
+
+                updateCommunicationPerformance({
+                    completed: true,
+                    studyTimeMinutes,
+                    score: finalScore,
+                   
+                });
+            }
+            else if (!empathy) {
                 setFeedback("🧠 Try to reword your reply with more empathy and support.");
             } else if (!action) {
                 setFeedback("✅ You captured the emotions correctly, but try offering a clearer action step.");

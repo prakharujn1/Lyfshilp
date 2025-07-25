@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { Sparkles, RefreshCcw, Star, Smile, Wand2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSEL } from "@/contexts/SELContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const traits = ["Kindness", "Bravery", "Creativity", "Patience", "Honesty"];
 const values = ["Justice", "Freedom", "Equality", "Curiosity", "Love"];
@@ -24,6 +25,10 @@ export default function LegacyBuilder() {
     causes: []
   });
   const [quote, setQuote] = useState("");
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const boardRef = useRef(null);
 
   const toggleSelect = (type, item) => {
@@ -169,7 +174,18 @@ export default function LegacyBuilder() {
               />
             }
             fileName="legacy-board.pdf"
-            onClick={() => completeSELChallenge(1,2)} // ✅ HERE
+            onClick={() => {
+              completeSELChallenge(1, 2);
+              const endTime = Date.now();
+              const durationSec = Math.round((endTime - startTime) / 1000);
+
+              updateSELPerformance({
+                avgResponseTimeSec: durationSec,
+                studyTimeMinutes: Math.ceil(durationSec / 60),
+                completed: true,
+              });
+            }}
+
           >
             {({ loading }) => (
               <motion.button

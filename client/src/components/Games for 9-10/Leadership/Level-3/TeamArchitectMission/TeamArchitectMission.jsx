@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import { useLeadership } from "@/contexts/LeadershipContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const teamMembers = [
   {
     id: 1,
@@ -44,6 +45,39 @@ const TeamArchitectMission = () => {
   const [assignments, setAssignments] = useState({});
   const [step, setStep] = useState("intro");
   const [result, setResult] = useState(null);
+  //for performance
+  const { updateLeadershipPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    if (!result) return;
+
+    const totalTimeMs = Date.now() - startTime;
+
+    // Count how many assignments are correct
+    let correctCount = 0;
+    for (const roleId in assignments) {
+      if (assignments[roleId]?.correctRole === roleId) {
+        correctCount++;
+      }
+    }
+
+    const totalRoles = Object.keys(assignments).length;
+    const score = Math.round((correctCount / totalRoles) * 10); // score out of 10
+    const accuracy = score*10; // assuming 1:1 mapping here
+    const avgResponseTimeSec = parseFloat((totalTimeMs / totalRoles / 1000).toFixed(2));
+    const studyTimeMinutes = parseFloat((totalTimeMs / 60000).toFixed(2));
+    const completed = correctCount === totalRoles;
+
+    updateLeadershipPerformance({
+      score,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed,
+    });
+  }, [result]);
+
 
   const handleDrop = (roleId, member) => {
     setAssignments((prev) => ({ ...prev, [roleId]: member }));
@@ -63,7 +97,7 @@ const TeamArchitectMission = () => {
     setResult(allCorrect ? "correct" : "incorrect");
     if (allCorrect) {
       confetti();
-      completeLeadershipChallenge(2,1); // ✅ Mark challenge as complete
+      completeLeadershipChallenge(2, 1); // ✅ Mark challenge as complete
     }
   };
 

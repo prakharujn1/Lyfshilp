@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const items = [
   {
     text: "Worry about global warming",
@@ -101,6 +101,9 @@ const InfluenceJournal = () => {
   const [finalResult, setFinalResult] = useState(null);
   const [feedbackGif, setFeedbackGif] = useState("");
   const [showFeedback, setShowFeedback] = useState(false);
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleSelect = (choice) => {
     if (selections[idx] != null) return;
@@ -115,18 +118,32 @@ const InfluenceJournal = () => {
   };
 
   const finalize = () => {
-  const passed = score >= 4 && verifyMessage.startsWith("Good job");
+    const passed = score >= 4 && verifyMessage.startsWith("Good job");
 
-  if (passed) {
-    completeSELChallenge(2,2); // ✅ Call here only if passed
-    confetti({ spread: 120, particleCount: 200, origin: { y: 0.6 } });
-    setFinalResult("win");
-  } else {
-    setFinalResult("lose");
-  }
+    const endTime = Date.now();
+    const durationSec = Math.round((endTime - startTime) / 1000);
+    const accuracy = Math.round((score / 5) * 100);
+    const avgResponseTimeSec = durationSec / 5;
+    const roundedScore = Math.round((score / 5) * 10);
 
-  setStep("result");
-};
+    updateSELPerformance({
+      score: roundedScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes: Math.ceil(durationSec / 60),
+      completed: passed,
+    });
+
+    if (passed) {
+      completeSELChallenge(2, 2);
+      confetti({ spread: 120, particleCount: 200, origin: { y: 0.6 } });
+      setFinalResult("win");
+    } else {
+      setFinalResult("lose");
+    }
+
+    setStep("result");
+  };
 
 
   const reset = () => {
@@ -144,8 +161,8 @@ const InfluenceJournal = () => {
     finalResult === "win"
       ? "https://media.tenor.com/HJZ5aRpjiNgAAAAm/wonderful-faisal-khan.webp"
       : score === 3
-      ? "https://media.tenor.com/oSisjPetzfoAAAA1/bayless-mister-bayless.webp"
-      : "https://media.tenor.com/LwQz3a4KDtcAAAA1/thumbs-down-bad-job.webp";
+        ? "https://media.tenor.com/oSisjPetzfoAAAA1/bayless-mister-bayless.webp"
+        : "https://media.tenor.com/LwQz3a4KDtcAAAA1/thumbs-down-bad-job.webp";
 
   return (
     <div className="p-6 max-w-xl mx-auto text-center space-y-6">

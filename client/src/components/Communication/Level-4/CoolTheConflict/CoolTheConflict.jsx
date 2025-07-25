@@ -72,11 +72,25 @@ const CoolTheConflict = () => {
 const { updateCommunicationPerformance } = usePerformance();
 const [startTime] = useState(Date.now());
 
-  useEffect(() => {
-    if (step === "result" && isCorrectResolution === true) {
-      completeCommunicationChallenge(3, 2);
-    }
-  }, [step, isCorrectResolution]);
+const handleGameFinish = () => {
+  const endTime = Date.now();
+  const durationSec = (endTime - startTime) / 1000;
+
+  updateCommunicationPerformance({
+    score: isCorrectResolution ? 10 : 5,
+    accuracy: isCorrectResolution ? 100 : 50,
+    studyTimeMinutes: durationSec / 60,
+    completed: true,
+  });
+};
+
+
+ useEffect(() => {
+  if (step === "result") {
+    handleGameFinish(); // ✅ Log performance after game completes
+  }
+}, [step]);
+
 
   const handleSwap = (lineIdx, wordIdx) => {
     setSwaps((prev) => ({

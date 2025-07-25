@@ -11,7 +11,7 @@ import {
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import { useDM } from "@/contexts/DMContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const AudienceMatchUpGame = () => {
   const { completeDMChallenge } = useDM();
   const [currentPage, setCurrentPage] = useState("start");
@@ -21,6 +21,9 @@ const AudienceMatchUpGame = () => {
   const [gameComplete, setGameComplete] = useState(false);
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverTarget, setDragOverTarget] = useState(null);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if (currentPage === "result") {
@@ -159,10 +162,20 @@ const AudienceMatchUpGame = () => {
     else if (correctCount === 2) finalScore = 3;
     else finalScore = 1;
 
+    const scaledScore = finalScore * 2;
+
     setScore(finalScore);
     setFeedback(feedbackArray);
     setGameComplete(true);
     setCurrentPage("result");
+
+    updateDMPerformance({
+      score: scaledScore,
+      accuracy: (correctCount / 3) * 100,
+      avgResponseTimeSec: (Date.now() - startTime) / 1000,
+      studyTimeMinutes: Math.round((Date.now() - startTime) / 60000),
+      completed: true,
+    });
   };
 
   const resetGame = () => {
@@ -382,8 +395,8 @@ const AudienceMatchUpGame = () => {
                       {/* Drop Zone */}
                       <div
                         className={`border-2 border-dashed rounded-xl p-4 min-h-[80px] flex items-center justify-center transition duration-200 ${isDropTarget
-                            ? "bg-white/40 border-white"
-                            : "bg-white/10 border-white/40"
+                          ? "bg-white/40 border-white"
+                          : "bg-white/10 border-white/40"
                           }`}
                       >
                         {matchedBrand ? (
@@ -474,8 +487,8 @@ const AudienceMatchUpGame = () => {
                 <Star
                   key={star}
                   className={`w-8 h-8 sm:w-10 sm:h-10 ${star <= score
-                      ? "text-yellow-400 fill-yellow-400"
-                      : "text-gray-300"
+                    ? "text-yellow-400 fill-yellow-400"
+                    : "text-gray-300"
                     } animate-pulse`}
                   style={{ animationDelay: `${star * 0.1}s` }}
                 />
@@ -500,8 +513,8 @@ const AudienceMatchUpGame = () => {
               <div
                 key={index}
                 className={`p-4 rounded-2xl border-2 ${item.correct
-                    ? "bg-green-50 border-green-300 text-green-800"
-                    : "bg-red-50 border-red-300 text-red-800"
+                  ? "bg-green-50 border-green-300 text-green-800"
+                  : "bg-red-50 border-red-300 text-red-800"
                   } transform hover:scale-105 transition-all duration-300`}
               >
                 <div className="flex items-start gap-3">

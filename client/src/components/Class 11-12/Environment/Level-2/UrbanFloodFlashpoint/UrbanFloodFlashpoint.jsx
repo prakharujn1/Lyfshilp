@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
+
 const questions = [
   {
     id: 1,
@@ -93,23 +95,38 @@ const UrbanFloodFlashpoint = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [currentCorrect, setCurrentCorrect] = useState(false);
   const { width, height } = useWindowSize();
-
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const current = questions[step - 1];
 
   const allCorrect =
     answers.length === questions.length && answers.every(Boolean);
 
   useEffect(() => {
-    if (step === questions.length + 1 && allCorrect) {
-      setShowConfetti(true);
-    }
-  }, [step, allCorrect, questions.length]);
+  const totalTimeMs = Date.now() - startTime;
+  const correctCount = answers.filter(Boolean).length;
 
-  useEffect(() => {
-    if (step === questions.length + 1 && allCorrect) {
-      completeEnvirnomentChallenge(1,0);
+  if (step === questions.length + 1 ) {
+    updateEnvirnomentPerformance({
+      score: Math.round((correctCount / questions.length) * 10 ),
+      accuracy: parseFloat(((correctCount / questions.length) * 100).toFixed(2)),
+      avgResponseTimeSec: parseFloat((totalTimeMs / questions.length / 1000).toFixed(2)),
+      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+      completed: allCorrect,
+    });
+
+    if (allCorrect) {
+      completeEnvirnomentChallenge(1, 0); // keep this if needed
+      setShowConfetti(true);
+    } else {
+      setShowConfetti(false);
     }
-  }, [step, allCorrect]);
+
+    
+  }
+}, [step, answers, allCorrect]);
+
 
   const handleSelect = (index) => {
     if (current.type === "multiple") {
@@ -189,8 +206,8 @@ const UrbanFloodFlashpoint = () => {
                     key={idx}
                     onClick={() => handleSelect(idx)}
                     className={`px-4 py-2 rounded-full border ${current.type === "multiple" && multiSelect.includes(idx)
-                        ? "bg-blue-500 text-white"
-                        : "hover:bg-blue-100"
+                      ? "bg-blue-500 text-white"
+                      : "hover:bg-blue-100"
                       }`}
                   >
                     {opt}

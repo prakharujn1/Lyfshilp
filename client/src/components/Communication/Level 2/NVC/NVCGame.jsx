@@ -101,15 +101,28 @@ const [startTime] = useState(Date.now());
   };
 
   const handleComplete = () => {
-    if (isNvcComplete()) {
-      setScore(score + 20);
-      setBadges([...badges, "☮️"]);
-      setGameState("result");
-      completeCommunicationChallenge(1,0);
-      setShowCelebration(true);
-      setTimeout(() => setShowCelebration(false), 3000);
-    }
-  };
+  if (isNvcComplete()) {
+    const finalScore = score + 20;
+    setScore(finalScore);
+    setBadges([...badges, "☮️"]);
+    setGameState("result");
+    completeCommunicationChallenge(1, 0);
+    setShowCelebration(true);
+
+    // 🟢 Track Performance
+    const endTime = Date.now();
+    const durationSec = (endTime - startTime) / 1000;
+    const payload = {
+      score: Math.min(Math.round(finalScore / 10), 10), // scaled out of 10
+      studyTimeMinutes: durationSec / 60,
+      completed: true,
+    };
+    updateCommunicationPerformance(payload);
+
+    setTimeout(() => setShowCelebration(false), 3000);
+  }
+};
+
 
   const resetGame = () => {
     setGameState("scenario");

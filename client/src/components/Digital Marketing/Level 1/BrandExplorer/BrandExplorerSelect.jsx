@@ -8,6 +8,7 @@ import marvelLogo from "../BrandExplorer/images/marvel.png";
 import mcdonaldsLogo from "../BrandExplorer/images/mcdonalds.png";
 import { useNavigate } from "react-router-dom";
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 import { toast, ToastContainer } from "react-toastify";
 
@@ -54,6 +55,9 @@ const BrandBrandExplorerGameSelect = () => {
   };
 
   const [formData, setFormData] = useState([]);
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleSubmit = () => {
     if (selectedBrands.length < 3) {
@@ -101,11 +105,19 @@ const BrandBrandExplorerGameSelect = () => {
   };
 
   const handleGameSubmit = () => {
-    console.log("Submitted:", formData);
-    completeDMChallenge(0, 1);
-    navigate("/brand-explorer-game-complete");
-    // You can navigate or show a result screen here.
-  };
+  console.log("Submitted:", formData);
+  completeDMChallenge(0, 1);
+
+  const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+  updateDMPerformance({
+    avgResponseTimeSec: timeTakenSec,
+    studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+    completed: true,
+  });
+
+  navigate("/brand-explorer-game-complete");
+};
+
 
   useEffect(() => {
     if (formData.length > 0 && formData.length === selectedBrands.length) {
@@ -232,9 +244,8 @@ const BrandBrandExplorerGameSelect = () => {
       <button
         disabled={checkGameSubmit()}
         onClick={handleGameSubmit}
-        className={`${
-          checkGameSubmit() ? "cursor-not-allowed" : "cursor-pointer"
-        } mt-8 bg-purple-600 hover:bg-purple-800 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300`}
+        className={`${checkGameSubmit() ? "cursor-not-allowed" : "cursor-pointer"
+          } mt-8 bg-purple-600 hover:bg-purple-800 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300`}
       >
         Finish Game 🎉
       </button>
@@ -257,11 +268,10 @@ const BrandBrandExplorerGameSelect = () => {
           return (
             <div
               key={index}
-              className={`floating-card ${floatClass} relative rounded-3xl shadow-2xl p-5 border-4 ${
-                selectedBrands?.some((b) => b?.name === brand.name)
+              className={`floating-card ${floatClass} relative rounded-3xl shadow-2xl p-5 border-4 ${selectedBrands?.some((b) => b?.name === brand.name)
                   ? "border border-purple-400"
                   : "border-none"
-              } border-pink-400 hover:scale-105 transition-all duration-300 ease-in-out bg-gradient-to-br from-emerald-200 via-cyan-300 to-indigo-400
+                } border-pink-400 hover:scale-105 transition-all duration-300 ease-in-out bg-gradient-to-br from-emerald-200 via-cyan-300 to-indigo-400
  overflow-hidden `}
               onClick={() => handleClick(brand)}
             >

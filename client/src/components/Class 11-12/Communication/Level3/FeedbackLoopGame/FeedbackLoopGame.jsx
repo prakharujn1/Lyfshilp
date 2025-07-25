@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -14,6 +15,9 @@ const FeedbackLoop = () => {
     const [gameDone, setGameDone] = useState(false);
     const [feedback, setFeedback] = useState("");
     const [evaluating, setEvaluating] = useState(false);
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
 
     useEffect(() => {
@@ -111,8 +115,18 @@ Here is the student's feedback message:
             if (score === 3) {
                 setFeedback("✅ You gave feedback like a leader—honest, helpful, and respectful.");
                 setGameDone(true);
-                completeCommunicationChallenge(2,2); // ✅ Call it here
-            } else if (!praise) {
+                completeCommunicationChallenge(2, 2); // ✅ Challenge complete
+
+                const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+
+                updateCommunicationPerformance({
+                    avgResponseTimeSec: timeTaken,
+                    studyTimeMinutes: Math.ceil(timeTaken / 60),
+                    completed: true,
+                    score, // Optional, here score is between 0-3
+                });
+            }
+            else if (!praise) {
                 setFeedback("🧠 Include at least one specific praise point before suggesting changes. Revise your message and try again.");
             } else if (!suggestion) {
                 setFeedback("📌 Add a clear suggestion to help your peer improve. Revise your message and try again.");

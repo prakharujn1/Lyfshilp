@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 const APIKEY = import.meta.env.VITE_API_KEY;
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const sentenceStarters = [
     { text: "I feel like…", isCorrect: true },
@@ -35,6 +36,10 @@ export default function ResolveItRight() {
     const [hasStarted, setHasStarted] = useState(false);
     const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
     const [timeUp, setTimeUp] = useState(false);
+
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
     // Start & manage countdown
     useEffect(() => {
@@ -130,9 +135,16 @@ Just the JSON.
 
             if (passed) {
                 setGameDone(true);
-                completeCommunicationChallenge(1,2); // ✅ Notify context on success
-            }
+                completeCommunicationChallenge(1, 2); // Track challenge
 
+                const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+
+                updateCommunicationPerformance({
+                    avgResponseTimeSec: timeTaken,
+                    studyTimeMinutes: Math.ceil(timeTaken / 60),
+                    completed: true,
+                });
+            }
         } catch (e) {
             console.error("Gemini error:", e);
             setFeedback("❌ Error evaluating. Try again.");

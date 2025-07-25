@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useCommunication } from "@/contexts/CommunicationContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const EMAILS = [
     {
         id: 1,
@@ -26,6 +27,9 @@ export default function InboxInsightGame() {
     );
     const [feedback, setFeedback] = useState(null);
     const [loading, setLoading] = useState(false);
+    //for performance
+    const { updateCommunicationPerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
     const APIKEY = import.meta.env.VITE_API_KEY;
 
     const isAllEmailsFilled = responses.every(
@@ -85,8 +89,23 @@ ${promptText}`;
             const parsedFeedback = JSON.parse(text);
             setFeedback(parsedFeedback);
 
+            const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+            const totalScore =
+                Number(parsedFeedback.email1[0]) +
+                Number(parsedFeedback.email2[0]) +
+                Number(parsedFeedback.email3[0]);
+
+            updateCommunicationPerformance({
+                score:  Math.round((totalScore / 24) * 10),
+                accuracy: (totalScore / 24) * 100,
+                avgResponseTimeSec: timeTakenSec,
+                studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+                completed: parsedFeedback.avatarType === "congratulatory",
+            });
+
+
             if (parsedFeedback.avatarType === "congratulatory") {
-                completeCommunicationChallenge(2,2);
+                completeCommunicationChallenge(2, 2);
             }
         } catch (err) {
             console.error("Gemini API Error:", err);

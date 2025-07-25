@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Trophy, Clock, Star, RotateCcw, Info } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 // Confetti component
 const Confetti = ({ isActive }) => {
   const canvasRef = useRef(null);
@@ -202,6 +202,10 @@ const PuzzleMatch = () => {
   const [shakeItem, setShakeItem] = useState(null);
   const [showExplanations, setShowExplanations] = useState(false);
 
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     setTerms(shuffleArray(givenTerms));
     setDescriptions(shuffleArray(givenDescriptions));
@@ -215,6 +219,34 @@ const PuzzleMatch = () => {
       }, 2500);
     }
   }, [gameState]);
+
+  // Track performance after game ends
+  useEffect(() => {
+    if (gameState === "completed") {
+      const endTime = Date.now();
+      const timeSpentMillis = endTime - startTime;
+      const studyTimeMinutes = Math.round(timeSpentMillis / 60000);
+
+      const totalPlayed = 11; // 11 terms total
+      const accuracy = (Object.keys(matches).length / totalPlayed) * 100;
+      const avgResponseTimeSec =
+        Object.keys(matches).length > 0
+          ? timeSpentMillis / Object.keys(matches).length / 1000
+          : 0;
+
+      const maxRawScore = totalPlayed * 100 + 180 * 10; // 100 per correct + bonus max
+      const scaledScore = Math.min(10, parseFloat(((score / maxRawScore) * 10).toFixed(2)));
+
+      updateLawPerformance({
+        score: scaledScore,
+        accuracy: parseFloat(accuracy.toFixed(2)),
+        avgResponseTimeSec: parseFloat(avgResponseTimeSec.toFixed(2)),
+        studyTimeMinutes,
+        completed: true,
+      });
+    }
+  }, [gameState]);
+
 
   // Timer effect
   useEffect(() => {
@@ -232,7 +264,7 @@ const PuzzleMatch = () => {
       const bonusPoints = timeLeft * 10;
       setScore((prev) => prev + bonusPoints);
       setGameState("completed");
-      completeLawChallenge(1,0);
+      completeLawChallenge(1, 0);
     }
   }, [matches, timeLeft]);
 
@@ -323,9 +355,8 @@ const PuzzleMatch = () => {
         {gameState === "completed" && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
             <div
-              className={`bg-white rounded-3xl p-8 max-w-2xl w-full mx-4 text-center ${
-                spin ? "animate-bounce" : "animate-none"
-              }`}
+              className={`bg-white rounded-3xl p-8 max-w-2xl w-full mx-4 text-center ${spin ? "animate-bounce" : "animate-none"
+                }`}
             >
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-3xl font-bold text-purple-800 mb-4">
@@ -400,11 +431,10 @@ const PuzzleMatch = () => {
                     key={term.id}
                     draggable={!matches[term.id]}
                     onDragStart={(e) => handleDragStart(e, term)}
-                    className={`p-4 rounded-xl font-semibold text-center cursor-move transition-all duration-300 ${
-                      matches[term.id]
-                        ? "bg-green-200 text-green-800 opacity-50 cursor-not-allowed"
-                        : "bg-gradient-to-r from-pink-200 to-purple-200 text-purple-800 hover:shadow-lg hover:scale-105"
-                    }`}
+                    className={`p-4 rounded-xl font-semibold text-center cursor-move transition-all duration-300 ${matches[term.id]
+                      ? "bg-green-200 text-green-800 opacity-50 cursor-not-allowed"
+                      : "bg-gradient-to-r from-pink-200 to-purple-200 text-purple-800 hover:shadow-lg hover:scale-105"
+                      }`}
                   >
                     {term.term}
                   </div>
@@ -423,13 +453,12 @@ const PuzzleMatch = () => {
                     key={desc.id}
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDrop(e, desc)}
-                    className={`p-4 rounded-xl border-2 border-dashed transition-all duration-300 ${
-                      Object.values(matches).includes(desc.id)
-                        ? "bg-green-100 border-green-300 text-green-800"
-                        : shakeItem === desc.id
+                    className={`p-4 rounded-xl border-2 border-dashed transition-all duration-300 ${Object.values(matches).includes(desc.id)
+                      ? "bg-green-100 border-green-300 text-green-800"
+                      : shakeItem === desc.id
                         ? "bg-red-100 border-red-300 animate-pulse"
                         : "bg-blue-50 border-blue-300 hover:bg-blue-100"
-                    } ${shakeItem === desc.id ? "animate-shake" : ""}`}
+                      } ${shakeItem === desc.id ? "animate-shake" : ""}`}
                   >
                     <p className="text-center font-medium">{desc.desc}</p>
                     {shakeItem === desc.id && (

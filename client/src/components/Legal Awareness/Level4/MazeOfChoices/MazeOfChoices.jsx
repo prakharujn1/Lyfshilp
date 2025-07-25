@@ -13,7 +13,7 @@ import {
   Target,
 } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const questions = [
   // Challenge 1
@@ -548,7 +548,7 @@ const CompletionScreen = ({ score, totalQuestions, timeBonus, onRestart }) => {
 
   useEffect(() => {
     if (percentage >= 90) {
-      completeLawChallenge(3, 0);  
+      completeLawChallenge(3, 0);
     }
   }, [percentage]);
 
@@ -683,8 +683,34 @@ export default function MazeOfChoices() {
     3: [],
   });
 
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
+
   const currentQuestionData = questions.find((q) => q.id === currentQuestion);
   const currentLevel = currentQuestionData ? currentQuestionData.level : 1;
+
+  useEffect(() => {
+    if (gamePhase === "completed") {
+      const endTime = Date.now();
+      const timeTakenSec = Math.floor((endTime - startTime) / 1000);
+      const maxScore = 160; // 16 questions * 10 points each
+      const totalScore = score; // Already includes timeBonus
+
+      const scaledScore = Math.round((totalScore / maxScore) * 10); // out of 10
+      const accuracyPercent = Math.round((totalScore / maxScore) * 100); // out of 100
+
+      updateLawPerformance({
+        score: scaledScore,
+        accuracy: accuracyPercent,
+        avgResponseTimeSec: Math.round(timeTakenSec / 16),
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: true,
+      });
+    }
+  }, [gamePhase]);
+
 
   useEffect(() => {
     let timer;

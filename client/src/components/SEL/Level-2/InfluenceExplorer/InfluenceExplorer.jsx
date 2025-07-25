@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSEL } from "@/contexts/SELContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 const statements = [
   { text: "My friend's bad mood", type: "Concern" },
   { text: "How much I study", type: "Influence" },
@@ -20,12 +20,28 @@ const InfluenceExplorer = () => {
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState(null);
   const [finished, setFinished] = useState(false);
-
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   useEffect(() => {
-    if (finished && score >= 8) {
-      completeSELChallenge(1, 3); // Change values as needed
+    if (finished) {
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
+
+      updateSELPerformance({
+        score: score, // Already out of 10
+        accuracy: (score / 10) * 100,
+        avgResponseTimeSec: totalSeconds / 10,
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: score >= 8,
+      });
+
+      if (score >= 8) {
+        completeSELChallenge(1, 3);
+      }
     }
-  }, [finished, score]);
+  }, [finished]);
+
 
   const handleChoice = (choice) => {
     const correct = statements[current].type === choice;

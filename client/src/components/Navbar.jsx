@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+
 const Navbar = () => {
   const { user, role, logout } = useAuth();
   const navigate = useNavigate();
@@ -54,15 +55,26 @@ const Navbar = () => {
         {/* Logo Section */}
         <div className="">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-13 h-10 relative">
+            <div className="w-15  h-10 relative">
               {/* 3D Cube Icon - recreating the exact green cube from Figma */}
-              <img className="h-12 w-15" src="/midLogo.png" alt="logo" />
+              <img className="h-12 w-full" src="/midLogo.png" alt="logo" />
             </div>
-            <span className="text-[#09BE43] font-bold text-2xl">
+            <span className="text-[#09BE43] mt-1 font-bold text-2xl">
               Edumaniax
             </span>
           </Link>
         </div>
+
+        {/* <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
+          <Link to="/">
+            <img
+              src="/loginPageDesign/EduManiax_Logo.svg"
+              alt="Edumaniax Logo"
+              className="h-20 w-auto"
+            />
+          </Link>
+          <h1 className="text-white text-2xl font-bold">Edumaniax</h1>
+        </div> */}
 
         {/* Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
@@ -91,12 +103,7 @@ const Navbar = () => {
                 Dashboard
               </Link>
 
-              <button
-                onClick={() => logout(navigate)}
-                className="border border-green-600 text-green-600 font-medium px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300"
-              >
-                Logout
-              </button>
+              
             </>
           ) : (
             <>
@@ -140,50 +147,46 @@ const Navbar = () => {
                 <X size={24} className="text-black" />
               </button>
             </div>
-            
+
             <hr className="mb-6" />
-            
+
             {/* Navigation Links */}
             <div className="space-y-4">
               <Link
                 to="/"
                 onClick={handleItemClick}
-                className={`block text-lg font-medium transition duration-300 ${
-                  isActive("/") ? "text-green-600" : "text-black hover:text-green-600"
-                }`}
+                className={`block text-lg font-medium transition duration-300 ${isActive("/") ? "text-green-600" : "text-black hover:text-green-600"
+                  }`}
               >
                 Home
               </Link>
               <Link
                 to="/about"
                 onClick={handleItemClick}
-                className={`block text-lg font-medium transition duration-300 ${
-                  isActive("/about") ? "text-green-600" : "text-black hover:text-green-600"
-                }`}
+                className={`block text-lg font-medium transition duration-300 ${isActive("/about") ? "text-green-600" : "text-black hover:text-green-600"
+                  }`}
               >
                 About Us
               </Link>
               <Link
                 to="/courses"
                 onClick={handleItemClick}
-                className={`block text-lg font-medium transition duration-300 ${
-                  isActive("/courses") ? "text-green-600" : "text-black hover:text-green-600"
-                }`}
+                className={`block text-lg font-medium transition duration-300 ${isActive("/courses") ? "text-green-600" : "text-black hover:text-green-600"
+                  }`}
               >
                 Courses
               </Link>
               <Link
                 to="/blogs"
                 onClick={handleItemClick}
-                className={`block text-lg font-medium transition duration-300 ${
-                  isActive("/blogs") ? "text-green-600" : "text-black hover:text-green-600"
-                }`}
+                className={`block text-lg font-medium transition duration-300 ${isActive("/blogs") ? "text-green-600" : "text-black hover:text-green-600"
+                  }`}
               >
                 Blogs
               </Link>
             </div>
           </div>
-          
+
           {/* Bottom Buttons */}
           <div className="px-6 py-6 border-t border-gray-200">
             {user || role === "admin" ? (

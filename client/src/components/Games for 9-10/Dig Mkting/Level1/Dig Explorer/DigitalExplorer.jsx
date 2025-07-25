@@ -16,6 +16,7 @@ import {
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import { useNavigate } from "react-router-dom";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const DigitalExplorer = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -33,6 +34,10 @@ const DigitalExplorer = () => {
   const [reelIdea, setReelIdea] = useState("");
   const [showFeedback, setShowFeedback] = useState("");
   const [attempts, setAttempts] = useState(0);
+
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const personas = [
     {
@@ -239,7 +244,28 @@ const DigitalExplorer = () => {
 
   const navigate = useNavigate();
   const handleSubmit = () => {
-    console.log(scores);
+    const endTime = Date.now();
+    const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+
+    const totalScore = getTotalScore(); // out of 11
+    const accuracy = parseFloat(((totalScore / 11) * 100).toFixed(2));
+    const avgResponseTimeSec = parseFloat((totalTimeSec / 3).toFixed(2));
+    const studyTimeMinutes = parseFloat((totalTimeSec / 60).toFixed(2));
+
+    // Scaled values (0–100 scale)
+    const scaledScore = Math.round((totalScore / 11) * 100); // scale to 100
+    const scaledStudyTime = Math.min(Math.round(studyTimeMinutes * 10), 100); // e.g., cap at 100
+
+    const payload = {
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes: scaledStudyTime,
+      completed: true,
+    };
+
+    updateDMPerformance(payload); // call context method
+
     setLoading(true);
     setTimeout(() => {
       navigate("/digital-explorer-result", { state: scores });
@@ -247,6 +273,7 @@ const DigitalExplorer = () => {
       resetGame();
     }, 500);
   };
+
 
   return (
     <div className="w-[95%] mx-auto max-h-screen  p-5">
@@ -377,11 +404,10 @@ const DigitalExplorer = () => {
                       key={card.id}
                       draggable={!matches[card.id]}
                       onDragStart={(e) => handleDragStart(e, card.id)}
-                      className={`bg-white floating-card ${floatClass} rounded-xl p-4 shadow-lg cursor-move transform transition-all duration-300 hover:scale-105 ${
-                        matches[card.id]
-                          ? "opacity-50 cursor-not-allowed"
-                          : "hover:shadow-xl"
-                      }`}
+                      className={`bg-white floating-card ${floatClass} rounded-xl p-4 shadow-lg cursor-move transform transition-all duration-300 hover:scale-105 ${matches[card.id]
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:shadow-xl"
+                        }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className="text-2xl">{card.emoji}</div>
@@ -468,13 +494,12 @@ const DigitalExplorer = () => {
                               )
                             }
                             disabled={flowChoices[step.id]}
-                            className={`p-3 rounded-lg border-2 transition-all duration-300 ${
-                              flowChoices[step.id] === option.id
-                                ? option.correct
-                                  ? "bg-green-100 border-green-500 text-green-700"
-                                  : "bg-red-100 border-red-500 text-red-700"
-                                : "bg-gray-50 border-gray-200 hover:border-purple-400 hover:bg-purple-50"
-                            }`}
+                            className={`p-3 rounded-lg border-2 transition-all duration-300 ${flowChoices[step.id] === option.id
+                              ? option.correct
+                                ? "bg-green-100 border-green-500 text-green-700"
+                                : "bg-red-100 border-red-500 text-red-700"
+                              : "bg-gray-50 border-gray-200 hover:border-purple-400 hover:bg-purple-50"
+                              }`}
                           >
                             <div className="flex items-center gap-2">
                               <span className="text-lg">{option.emoji}</span>
@@ -588,9 +613,8 @@ const DigitalExplorer = () => {
               <button
                 disabled={!seeResults}
                 onClick={handleSubmit}
-                className={`${
-                  seeResults ? "bg-purple-400" : "bg-gray-400"
-                } px-5 py-3 text-lg rounded-4xl hover:rotate-1 hover:scale-105 transition-all duration-300 ease-in-out`}
+                className={`${seeResults ? "bg-purple-400" : "bg-gray-400"
+                  } px-5 py-3 text-lg rounded-4xl hover:rotate-1 hover:scale-105 transition-all duration-300 ease-in-out`}
               >
                 See Your Results
               </button>

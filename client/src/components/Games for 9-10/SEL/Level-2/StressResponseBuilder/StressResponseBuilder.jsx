@@ -3,6 +3,7 @@ import { CheckCircle, XCircle } from "lucide-react";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom"; // Only needed if using React Router
 import { useSEL } from "@/contexts/SELContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const options = [
   { id: 1, text: "Sleep 7 hours", isHelpful: true },
@@ -19,6 +20,9 @@ const StressResponseBuilder = () => {
   const [stage, setStage] = useState("intro"); // intro, game, result
   const [selected, setSelected] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  //for performance
+  const { updateSELPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleSelect = (option) => {
     if (submitted) return;
@@ -35,13 +39,31 @@ const StressResponseBuilder = () => {
       alert("Please select exactly 4 strategies!");
       return;
     }
+
     setSubmitted(true);
+
     const correctCount = selected.filter((o) => o.isHelpful).length;
+
+    const endTime = Date.now();
+    const durationSec = Math.round((endTime - startTime) / 1000);
+    const accuracy = Math.round((correctCount / 4) * 100);
+    const avgResponseTimeSec = durationSec / 4;
+    const roundedScore = Math.round((correctCount / 4) * 10);
+
     if (correctCount === 4) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-      completeSELChallenge(1,0); // ✅ Mark SEL challenge complete
+      completeSELChallenge(1, 0); // ✅ Mark challenge complete
     }
+
+    updateSELPerformance({
+      score: roundedScore, // out of 10
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes: Math.ceil(durationSec / 60),
+      completed: correctCount === 4,
+    });
   };
+
 
 
   const handleReset = () => {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import SmoothieAvatar from "./SmoothieAnimation";
 import { useDM } from "@/contexts/DMContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const captions = {
   "Mango Madness": [
@@ -42,15 +43,28 @@ export default function CaptionCraze() {
   const [showExamples, setShowExamples] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  //for performance
+  const { updateDMPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   const handleSubmit = () => {
-    if (userCaption.trim() !== "") {
-      setSubmitted(true);
-      if (!challengeCompleted) {
-        completeDMChallenge(1,0);
-        setChallengeCompleted(true);
-      }
+  if (userCaption.trim() !== "") {
+    setSubmitted(true);
+
+    if (!challengeCompleted) {
+      completeDMChallenge(1, 0);
+      setChallengeCompleted(true);
+
+      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+      updateDMPerformance({
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: true,
+      });
     }
-  };
+  }
+};
+
 
 
   return (

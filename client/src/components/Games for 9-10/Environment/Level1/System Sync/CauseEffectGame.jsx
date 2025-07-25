@@ -31,6 +31,9 @@ const CauseEffectGame = () => {
   const [gameComplete, setGameComplete] = useState(false);
   const [animateWrong, setAnimateWrong] = useState(false);
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
   const questions = [
     {
       id: 1,
@@ -214,13 +217,30 @@ const CauseEffectGame = () => {
   };
 
   const canvasRef = useRef(null);
+  useEffect(() => {
+  if (!gameComplete) return;
+
+  const studyTimeMinutes = Math.round((Date.now() - startTime) / 60000);
+  const avgResponseTimeSec = Math.round((Date.now() - startTime) / 1000 / questions.length);
+  const accuracy = (score / questions.length) * 100;
+  const scaledScore = (score / questions.length) * 10;
+
+  updateEnvirnomentPerformance({
+    score: scaledScore,
+    accuracy,
+    avgResponseTimeSec,
+    studyTimeMinutes,
+    completed: score >= 4, // ✅ You mentioned completed = score < 8, here it means if passed 4 or more out of 5
+  });
+}, [gameComplete]);
+
 
   useEffect(() => {
     if (score < 5 || !gameComplete) {
       return;
     }
 
-    completeEnvirnomentChallenge(0,0); // ✅ Add this line here
+    completeEnvirnomentChallenge(0, 0); // ✅ Add this line here
 
     const myCanvas = canvasRef.current;
     const myConfetti = confetti.create(myCanvas, {
@@ -380,10 +400,10 @@ const CauseEffectGame = () => {
               }`}</div>
             <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">
               {`${score < 4
-                  ? "Keep Trying"
-                  : score < 5
-                    ? "Well done"
-                    : "Outstanding, Champ"
+                ? "Keep Trying"
+                : score < 5
+                  ? "Well done"
+                  : "Outstanding, Champ"
                 }`}
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 mb-6">
@@ -465,8 +485,8 @@ const CauseEffectGame = () => {
                           playClickSound(clickSoundRefPop);
                         }}
                         className={`p-4 rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 ${selectedEffect === effect
-                            ? "bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-lg scale-105"
-                            : "bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-100 hover:to-orange-100 text-gray-700"
+                          ? "bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-lg scale-105"
+                          : "bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-100 hover:to-orange-100 text-gray-700"
                           } ${animateWrong && selectedEffect === effect
                             ? "animate-pulse bg-red-400"
                             : ""
@@ -491,10 +511,10 @@ const CauseEffectGame = () => {
                               playClickSound(clickSoundRefPop);
                             }}
                             className={`p-4 rounded-2xl font-semibold text-center transition-all duration-300 transform hover:scale-105 flex flex-col items-center gap-2 ${selectedSphere === sphere
-                                ? `bg-gradient-to-br ${getSphereColor(
-                                  sphere
-                                )} text-white shadow-lg scale-105`
-                                : "bg-gradient-to-br from-gray-100 to-gray-200 hover:from-blue-100 hover:to-purple-100 text-gray-700"
+                              ? `bg-gradient-to-br ${getSphereColor(
+                                sphere
+                              )} text-white shadow-lg scale-105`
+                              : "bg-gradient-to-br from-gray-100 to-gray-200 hover:from-blue-100 hover:to-purple-100 text-gray-700"
                               } ${animateWrong && selectedSphere === sphere
                                 ? "animate-pulse bg-red-400"
                                 : ""

@@ -7,13 +7,13 @@ import {
   Home,
   BookOpen,
   Clock,
-  Award, 
+  Award,
   ChevronRight,
   Zap,
   Shield,
 } from "lucide-react";
 import { useLaw } from "@/contexts/LawContext";
-
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
@@ -34,6 +34,10 @@ const LegalQuizQuestLevel3 = () => {
   const [showCelebration, setShowCelebration] = useState(false);
   const [challengeWrongAnswer, setChallengeWrongAnswer] = useState(false);
   const [legalWhizBadge, setLegalWhizBadge] = useState(false);
+
+  //for performance
+  const { updateLawPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const modules = [
     {
@@ -337,6 +341,27 @@ const LegalQuizQuestLevel3 = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    if (!gameComplete || !selectedModule) return;
+
+    const endTime = Date.now();
+    const totalQuestions = gameMode === "challenge" ? 2 : selectedModule.questions.length;
+    const correctAnswers = score;
+    const scaledScore = (correctAnswers / totalQuestions) * 10;
+    const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+    updateLawPerformance({
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
+  }, [gameComplete]);
+
+
+  useEffect(() => {
     const myCanvas = canvasRef.current;
     if (!myCanvas || !confetti) return; // check for canvas and confetti presence
 
@@ -375,7 +400,7 @@ const LegalQuizQuestLevel3 = () => {
 
     frame();
 
-    completeLawChallenge(2,0);
+    completeLawChallenge(2, 0);
 
     // ✅ Cleanup function to stop the animation
     return () => {
@@ -671,9 +696,8 @@ const LegalQuizQuestLevel3 = () => {
             <div className="flex items-center gap-4">
               {(timerEnabled || gameMode === "challenge") && (
                 <div
-                  className={`bg-white/20 backdrop-blur px-3 py-2 rounded-xl text-white font-bold ${
-                    timeLeft <= 10 ? "animate-pulse bg-red-500/50" : ""
-                  }`}
+                  className={`bg-white/20 backdrop-blur px-3 py-2 rounded-xl text-white font-bold ${timeLeft <= 10 ? "animate-pulse bg-red-500/50" : ""
+                    }`}
                 >
                   <Clock size={16} className="inline mr-1" />
                   {timeLeft}s
@@ -772,13 +796,12 @@ const LegalQuizQuestLevel3 = () => {
                 <div
                   className="bg-gradient-to-r from-green-300 to-teal-400 h-3 rounded-full transition-all duration-500"
                   style={{
-                    width: `${
-                      ((currentQuestion + 1) /
-                        (gameMode === "normal"
-                          ? selectedModule.questions.length
-                          : selectedModule.questions.length - 1)) *
+                    width: `${((currentQuestion + 1) /
+                      (gameMode === "normal"
+                        ? selectedModule.questions.length
+                        : selectedModule.questions.length - 1)) *
                       100
-                    }%`,
+                      }%`,
                   }}
                 ></div>
               </div>
@@ -794,15 +817,14 @@ const LegalQuizQuestLevel3 = () => {
                       key={index}
                       onClick={() => !showFeedback && handleAnswer(index)}
                       disabled={showFeedback}
-                      className={`p-4 rounded-xl text-left font-semibold transition-all duration-300 transform hover:scale-105 border-2 ${
-                        showFeedback
-                          ? index === currentQ.correct
-                            ? "bg-green-400 text-white border-green-600 shadow-lg"
-                            : index === selectedAnswer
+                      className={`p-4 rounded-xl text-left font-semibold transition-all duration-300 transform hover:scale-105 border-2 ${showFeedback
+                        ? index === currentQ.correct
+                          ? "bg-green-400 text-white border-green-600 shadow-lg"
+                          : index === selectedAnswer
                             ? "bg-red-400 text-white border-red-600 shadow-lg"
                             : "bg-gray-200 text-gray-600"
-                          : "bg-gradient-to-br from-pink-100 to-yellow-100 hover:from-pink-200 hover:to-yellow-200 text-purple-700 hover:shadow-xl"
-                      }`}
+                        : "bg-gradient-to-br from-pink-100 to-yellow-100 hover:from-pink-200 hover:to-yellow-200 text-purple-700 hover:shadow-xl"
+                        }`}
                     >
                       {option}
                     </button>
@@ -865,8 +887,8 @@ const LegalQuizQuestLevel3 = () => {
                         ? gameMode === "normal"
                           ? "Next Question"
                           : isCorrect
-                          ? "Next Question"
-                          : "Restart Module"
+                            ? "Next Question"
+                            : "Restart Module"
                         : "See Results"}
                       <ChevronRight className="w-5 h-5" />
                     </button>

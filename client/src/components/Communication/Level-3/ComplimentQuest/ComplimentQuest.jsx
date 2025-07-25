@@ -63,8 +63,8 @@ const ComplimentQuest = () => {
   const [showResult, setShowResult] = useState(false);
 
   //for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+  const { updateCommunicationPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const handleOptionClick = (index) => {
     if (selected !== null) return;
@@ -75,8 +75,22 @@ const [startTime] = useState(Date.now());
     setTimeout(() => {
       setTimeout(() => {
         if (current === compliments.length - 1) {
+          const finalScore = score + (index === compliments[current].correctIndex ? 1 : 0);
+          setScore(finalScore);
           setShowResult(true);
-          completeCommunicationChallenge(2, 2); // ✅ Add this line
+          completeCommunicationChallenge(2, 2);
+
+          // ✅ Performance tracking
+          const endTime = Date.now();
+          const durationSec = (endTime - startTime) / 1000;
+          const accuracy = finalScore / compliments.length;
+
+          updateCommunicationPerformance({
+            score: Math.round(accuracy * 10),
+            accuracy: Math.round(accuracy * 100),
+            studyTimeMinutes: durationSec / 60,
+            completed: true
+          });
         } else {
           setCurrent(current + 1);
           setSelected(null);

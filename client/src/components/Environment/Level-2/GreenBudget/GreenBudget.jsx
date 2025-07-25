@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 const questions = [
   {
@@ -95,11 +96,33 @@ export default function GreenBudgetGame() {
   const [gifUrl, setGifUrl] = useState("");
   const { width, height } = useWindowSize();
 
+  //for performance
+  const { updateEnvirnomentPerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+
   useEffect(() => {
     if (step === "end" && score >= 12) {
       completeEnvirnomentChallenge(1, 0); // Mark Challenge 4, Task 1 as completed
     }
   }, [step, score]);
+
+  useEffect(() => {
+    if (step === "end") {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / questions.length;
+      const scaledScore = Number(((score / 15) * 10).toFixed(2));
+
+      updateEnvirnomentPerformance({
+        score: scaledScore,
+        accuracy: (score / 15) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: score >= 12, // mark as completed if score is good
+      });
+    }
+  }, [step]);
+
 
   useEffect(() => {
     if (step === "playing" && timeLeft > 0) {

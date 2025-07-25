@@ -177,7 +177,7 @@ model SELChallenge {
 
 model FinancePerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -196,7 +196,7 @@ model FinancePerformance {
 
 model ComputersPerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -214,7 +214,7 @@ model ComputersPerformance {
 
 model DMPerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -232,7 +232,7 @@ model DMPerformance {
 
 model SELPerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -250,7 +250,7 @@ model SELPerformance {
 
 model LeadershipPerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -268,7 +268,7 @@ model LeadershipPerformance {
 
 model EntrepreneurshipPerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -284,8 +284,9 @@ model EntrepreneurshipPerformance {
   user                User     @relation(fields: [userId], references: [id])
 }
 
-model LawPerformance {id                  String   @id @default(cuid())
-  userId              String
+model LawPerformance {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -302,7 +303,7 @@ model LawPerformance {id                  String   @id @default(cuid())
 }
 model CommunicationPerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -320,7 +321,7 @@ model CommunicationPerformance {
 
 model EnvironmentPerformance {
   id                  String   @id @default(cuid())
-  userId              String
+  userId              String   @unique
   totalGamesPlayed    Int
   completedGamesCount Int
   averageScorePerGame Float
@@ -334,4 +335,27 @@ model EnvironmentPerformance {
   createdAt           DateTime @default(now())
 
   user                User     @relation(fields: [userId], references: [id])
+}
+
+model Blog {
+  id               String   @id @default(cuid())
+  title            String
+  module           String
+  introduction     String     
+  metaDescription  String
+  tableOfContents  Json      
+  imageUrl         String
+  imageId          String
+  createdAt        DateTime @default(now())
+  readTime         String?
+  comments         Comment[]
+} 
+
+model Comment {
+  id      String   @id @default(cuid())
+  blogId  String
+  blog    Blog     @relation(fields: [blogId], references: [id])
+  name    String
+  content String
+  date    DateTime @default(now())
 }
