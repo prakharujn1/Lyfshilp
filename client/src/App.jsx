@@ -304,7 +304,6 @@ import AllBlogs from "./pages/AllBlogs";
 import SingleBlog from "./pages/SingleBlog";
 import CreateBlog from "./pages/CreateBlog";
 
-
 const INTRO_EXPIRY_HOURS = 0.5; // Change this to 1 for 1 hour, 0.1 for 6 minutes, etc.
 
 function App() {
@@ -781,7 +780,7 @@ function App() {
 
                       {/*  Entrepreneurship Notes*/}
                       <Route
-                        path="/entreprenerurship/notes"
+                        path="/entrepreneurship/notes"
                         element={<EntrepreneurshipNotes />}
                       />
                       {/* Entrepreneurship Games for 6th-8th */}
@@ -1563,10 +1562,7 @@ function App() {
 
                       {/* Other Routes */}
 
-                      <Route
-                        path="/blogs"
-                        element={<AllBlogs />}
-                      />
+                      <Route path="/blogs" element={<AllBlogs />} />
                       <Route path="/blog/:id" element={<SingleBlog />} />
                       <Route path="/create-blog" element={<CreateBlog />} />
                       <Route
