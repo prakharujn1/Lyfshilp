@@ -140,46 +140,70 @@ const SingleBlog = () => {
                   Table of Contents
                 </h2>
                 <ol className="mt-2 list-decimal list-inside space-y-2 text-green-900 font-medium text-sm md:text-base">
-                  {singleBlog.tableOfContents.map((item, idx) => (
-                    <li key={idx}>
-                      <a
-                        href={`#point-${idx}`}
-                        className="hover:underline text-green-800"
-                      >
-                        {item.heading}
-                      </a>
-                    </li>
-                  ))}
+                  {Array.isArray(singleBlog.tableOfContents) &&
+                    singleBlog.tableOfContents
+                      .filter((item) => item.heading?.trim())
+                      .map((item, idx) => (
+                        <li key={idx}>
+                          <a
+                            href={`#point-${idx}`}
+                            className="hover:underline text-green-800"
+                          >
+                            {item.heading}
+                          </a>
+                        </li>
+                      ))}
                 </ol>
               </div>
 
               {/* Blog Content */}
               <div className="mt-6 space-y-10">
-                {singleBlog.tableOfContents.map((point, index) => (
-                  <div
-                    key={index}
-                    id={`point-${index}`}
-                    className="scroll-mt-24"
-                  >
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                      {index + 1}. {point.heading}
-                    </h2>
-                    <ul className="list-disc list-inside text-gray-800 pl-4 space-y-1">
-                      {point.explanation.map((item, i) => (
-                        <li key={i}>
-                          <span className="font-medium">
-                            {String.fromCharCode(65 + i)}.
-                          </span>{" "}
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-4 italic text-gray-700">
-                      <strong>Reflection:</strong> {point.reflection}
-                    </p>
-                  </div>
-                ))}
+                {Array.isArray(singleBlog.tableOfContents) &&
+                  singleBlog.tableOfContents
+                    .filter((point) => point.heading?.trim())
+                    .map((point, index) => (
+                      <div key={index} id={`point-${index}`} className="scroll-mt-24">
+                        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                          {index + 1}. {point.heading}
+                        </h2>
+
+                        {Array.isArray(point.explanation) &&
+                          point.explanation.filter((e) => e.trim()).length > 0 && (
+                            <ul className="list-disc list-inside text-gray-800 pl-4 space-y-1">
+                              {point.explanation
+                                .filter((item) => item.trim())
+                                .map((item, i) => (
+                                  <li key={i}>
+                                    <span className="font-medium">
+                                      {String.fromCharCode(65 + i)}.
+                                    </span>{" "}
+                                    {item}
+                                  </li>
+                                ))}
+                            </ul>
+                          )}
+
+                        {point.reflection?.trim() && (
+                          <p className="mt-4 italic text-gray-700">
+                            <strong>Reflection:</strong> {point.reflection}
+                          </p>
+                        )}
+                      </div>
+                    ))}
               </div>
+
+              {/* Extra Blog Link */}
+              <p className="mt-10  text-center text-gray-800    ">
+                To explore more modules and success stories, visit the official{" "}
+                <Link
+                  to="/blogs"
+                  className="underline"
+                >
+                  EduManiax Blogs
+                </Link>
+                .
+              </p>
+
 
               {/* CTA with ref */}
               <div className="-ml-4 mt-12" ref={ctaRef}>
@@ -307,16 +331,19 @@ const SingleBlog = () => {
               Table of Contents
             </h2>
             <ol className="list-decimal list-outside pl-5 space-y-1 text-green-900 font-medium text-sm">
-              {singleBlog.tableOfContents.map((item, idx) => (
-                <li key={idx}>
-                  <a
-                    href={`#point-${idx}`}
-                    className="hover:underline text-green-800"
-                  >
-                    {item.heading}
-                  </a>
-                </li>
-              ))}
+              {Array.isArray(singleBlog.tableOfContents) &&
+                singleBlog.tableOfContents
+                  .filter((item) => item.heading?.trim())
+                  .map((item, idx) => (
+                    <li key={idx}>
+                      <a
+                        href={`#point-${idx}`}
+                        className="hover:underline text-green-800"
+                      >
+                        {item.heading}
+                      </a>
+                    </li>
+                  ))}
             </ol>
           </div>
         </div>
