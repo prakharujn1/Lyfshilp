@@ -46,10 +46,10 @@ const AllBlogs = () => {
   }, [blogs, selectedModule]);
 
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
-  const paginatedBlogs = filteredBlogs.slice(
-    (currentPage - 1) * blogsPerPage,
-    currentPage * blogsPerPage
-  );
+  const paginatedBlogs = Array.isArray(filteredBlogs)
+  ? filteredBlogs.slice((currentPage - 1) * blogsPerPage, currentPage * blogsPerPage)
+  : [];
+
 
   const handleToggleFilters = () => {
     setShowFilters((prev) => {

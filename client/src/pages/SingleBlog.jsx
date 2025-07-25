@@ -101,7 +101,7 @@ const SingleBlog = () => {
             </nav>
 
             {/* Blog Box */}
-            <div className="mt-6">
+            <div className="mt-6 p-4 sm:p-6 sm:border sm:border-gray-300 sm:rounded-xl sm:shadow-sm">
               <h1 className="text-4xl md:text-4xl font-bold text-gray-900 flex items-center gap-2">
                 {singleBlog.title}
               </h1>
@@ -140,46 +140,70 @@ const SingleBlog = () => {
                   Table of Contents
                 </h2>
                 <ol className="mt-2 list-decimal list-inside space-y-2 text-green-900 font-medium text-sm md:text-base">
-                  {singleBlog.tableOfContents.map((item, idx) => (
-                    <li key={idx}>
-                      <a
-                        href={`#point-${idx}`}
-                        className="hover:underline text-green-800"
-                      >
-                        {item.heading}
-                      </a>
-                    </li>
-                  ))}
+                  {Array.isArray(singleBlog.tableOfContents) &&
+                    singleBlog.tableOfContents
+                      .filter((item) => item.heading?.trim())
+                      .map((item, idx) => (
+                        <li key={idx}>
+                          <a
+                            href={`#point-${idx}`}
+                            className="hover:underline text-green-800"
+                          >
+                            {item.heading}
+                          </a>
+                        </li>
+                      ))}
                 </ol>
               </div>
 
               {/* Blog Content */}
               <div className="mt-6 space-y-10">
-                {singleBlog.tableOfContents.map((point, index) => (
-                  <div
-                    key={index}
-                    id={`point-${index}`}
-                    className="scroll-mt-24"
-                  >
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                      {index + 1}. {point.heading}
-                    </h2>
-                    <ul className="list-disc list-inside text-gray-800 pl-4 space-y-1">
-                      {point.explanation.map((item, i) => (
-                        <li key={i}>
-                          <span className="font-medium">
-                            {String.fromCharCode(65 + i)}.
-                          </span>{" "}
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-4 italic text-gray-700">
-                      <strong>Reflection:</strong> {point.reflection}
-                    </p>
-                  </div>
-                ))}
+                {Array.isArray(singleBlog.tableOfContents) &&
+                  singleBlog.tableOfContents
+                    .filter((point) => point.heading?.trim())
+                    .map((point, index) => (
+                      <div key={index} id={`point-${index}`} className="scroll-mt-24">
+                        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                          {index + 1}. {point.heading}
+                        </h2>
+
+                        {Array.isArray(point.explanation) &&
+                          point.explanation.filter((e) => e.trim()).length > 0 && (
+                            <ul className="list-disc list-inside text-gray-800 pl-4 space-y-1">
+                              {point.explanation
+                                .filter((item) => item.trim())
+                                .map((item, i) => (
+                                  <li key={i}>
+                                    <span className="font-medium">
+                                      {String.fromCharCode(65 + i)}.
+                                    </span>{" "}
+                                    {item}
+                                  </li>
+                                ))}
+                            </ul>
+                          )}
+
+                        {point.reflection?.trim() && (
+                          <p className="mt-4 italic text-gray-700">
+                            <strong>Reflection:</strong> {point.reflection}
+                          </p>
+                        )}
+                      </div>
+                    ))}
               </div>
+
+              {/* Extra Blog Link */}
+              <p className="mt-10  text-center text-gray-800    ">
+                To explore more modules and success stories, visit the official{" "}
+                <Link
+                  to="/blogs"
+                  className="underline"
+                >
+                  EduManiax Blogs
+                </Link>
+                .
+              </p>
+
 
               {/* CTA with ref */}
               <div className="-ml-4 mt-12" ref={ctaRef}>
@@ -187,7 +211,7 @@ const SingleBlog = () => {
               </div>
 
               <div className="flex items-center gap-3 mt-6">
-                <span className="text-gray-900 text-lg font-bold">
+                <span className="text-gray-900 text-lg font-bold whitespace-nowrap">
                   Share this blog on:
                 </span>
 
@@ -195,7 +219,7 @@ const SingleBlog = () => {
                   href="https://www.facebook.com/sharer/sharer.php?u=https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/facebook.svg"
@@ -208,7 +232,7 @@ const SingleBlog = () => {
                   href="https://twitter.com/intent/tweet?url=https://yourblog.com&text=Check%20this%20out!"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/twitter.svg"
@@ -221,7 +245,7 @@ const SingleBlog = () => {
                   href="https://api.whatsapp.com/send?text=Check%20this%20out:%20https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/whatsapp.svg"
@@ -234,7 +258,7 @@ const SingleBlog = () => {
                   href="https://www.linkedin.com/shareArticle?mini=true&url=https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/linkedin.svg"
@@ -307,16 +331,19 @@ const SingleBlog = () => {
               Table of Contents
             </h2>
             <ol className="list-decimal list-outside pl-5 space-y-1 text-green-900 font-medium text-sm">
-              {singleBlog.tableOfContents.map((item, idx) => (
-                <li key={idx}>
-                  <a
-                    href={`#point-${idx}`}
-                    className="hover:underline text-green-800"
-                  >
-                    {item.heading}
-                  </a>
-                </li>
-              ))}
+              {Array.isArray(singleBlog.tableOfContents) &&
+                singleBlog.tableOfContents
+                  .filter((item) => item.heading?.trim())
+                  .map((item, idx) => (
+                    <li key={idx}>
+                      <a
+                        href={`#point-${idx}`}
+                        className="hover:underline text-green-800"
+                      >
+                        {item.heading}
+                      </a>
+                    </li>
+                  ))}
             </ol>
           </div>
         </div>

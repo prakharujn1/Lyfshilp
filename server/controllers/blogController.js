@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client"; 
+import { PrismaClient } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
 const prisma = new PrismaClient();
- 
+
 // Get all blogs
 export const getAllBlogs = async (req, res) => {
   const blogs = await prisma.blog.findMany({
@@ -69,7 +69,10 @@ export const createBlog = async (req, res) => {
       try {
         tableOfContents = JSON.parse(tableOfContents);
         const isValid = Array.isArray(tableOfContents) && tableOfContents.every(point =>
-          point.heading && Array.isArray(point.explanation) && point.reflection
+          typeof point === 'object' &&
+          (point.heading === undefined || typeof point.heading === 'string') &&
+          (point.explanation === undefined || Array.isArray(point.explanation)) &&
+          (point.reflection === undefined || typeof point.reflection === 'string')
         );
         if (!isValid) throw new Error();
       } catch (err) {
@@ -118,7 +121,7 @@ export const deleteBlog = async (req, res) => {
 
     if (!blog) return res.status(404).json({ message: "Blog not found" });
 
-     // 1. Delete associated comments
+    // 1. Delete associated comments
     await prisma.comment.deleteMany({
       where: { blogId: req.params.id },
     });

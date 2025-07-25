@@ -5,13 +5,13 @@ const CTA = () => {
   return (
     <div className="max-w-8xl mx-auto px-4 py-10">
       {/* ✅ Mobile View */}
-      <div className="md:hidden bg-[#FFD86B] rounded-2xl p-6 flex flex-col items-center text-center space-y-4">
+      <div className="md:hidden bg-[#FFD86B] rounded-2xl p-6 flex flex-col items-center text-center space-y-4 w-[111%] mx-auto">
         <img src="/blogDesign/mushroom.svg" alt="Mushroom" className="w-24" />
-        <h2 className="text-xl font-bold text-gray-900">
+        <h2 className="text-3xl font-extrabold text-gray-900">
           Want to play all the levels?
         </h2>
         <Link to="/login">
-          <button className="bg-[#068F36] hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md shadow-md text-sm">
+          <button className="bg-[#068F36] mt-2 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md shadow-md text-sm">
             Book your trial now! - It's Free
           </button>
         </Link>

@@ -9,7 +9,6 @@ export const BlogProvider = ({ children }) => {
   const [similarBlogs, setSimilarBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const server = "https://edumaniax-api-343555083503.asia-south1.run.app";
-
   // Get all blogs
   const getAllBlogs = async () => {
     if (blogs.length > 0) return; // already fetched
