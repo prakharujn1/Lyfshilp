@@ -101,7 +101,7 @@ const SingleBlog = () => {
             </nav>
 
             {/* Blog Box */}
-            <div className="mt-6">
+            <div className="mt-6 p-4 sm:p-6 sm:border sm:border-gray-300 sm:rounded-xl sm:shadow-sm">
               <h1 className="text-4xl md:text-4xl font-bold text-gray-900 flex items-center gap-2">
                 {singleBlog.title}
               </h1>
@@ -211,7 +211,7 @@ const SingleBlog = () => {
               </div>
 
               <div className="flex items-center gap-3 mt-6">
-                <span className="text-gray-900 text-lg font-bold">
+                <span className="text-gray-900 text-lg font-bold whitespace-nowrap">
                   Share this blog on:
                 </span>
 
@@ -219,7 +219,7 @@ const SingleBlog = () => {
                   href="https://www.facebook.com/sharer/sharer.php?u=https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/facebook.svg"
@@ -232,7 +232,7 @@ const SingleBlog = () => {
                   href="https://twitter.com/intent/tweet?url=https://yourblog.com&text=Check%20this%20out!"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/twitter.svg"
@@ -245,7 +245,7 @@ const SingleBlog = () => {
                   href="https://api.whatsapp.com/send?text=Check%20this%20out:%20https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/whatsapp.svg"
@@ -258,7 +258,7 @@ const SingleBlog = () => {
                   href="https://www.linkedin.com/shareArticle?mini=true&url=https://yourblog.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
+                  className="w-8 h-8 aspect-square flex items-center justify-center rounded-full bg-[#007F2D] hover:opacity-80 transition"
                 >
                   <img
                     src="/blogDesign/linkedin.svg"
