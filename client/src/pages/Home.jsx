@@ -906,7 +906,7 @@ const Home = () => {
           {/* Hero Illustration */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 px-4 py-2 max-w-2xl mx-auto">
             {/* Main characters illustration */}
-            <div className="relative h-[430px] w-[400px] sm:h-[350px] sm:w-[350px] md:h-[300px] md:w-[300px] lg:h-[500px] lg:w-[500px]">
+            <div className="relative h-[395px] w-[395px] sm:h-[350px] sm:w-[350px] md:h-[300px] md:w-[300px] lg:h-[500px] lg:w-[500px]">
               <img
                 src="/heroIMG.png"
                 alt="Full"
@@ -1143,23 +1143,23 @@ const Home = () => {
               <div className="bg-gray-200 rounded-2xl p-4">
                 <div className="grid grid-cols-3  divide-x sm:grid-cols-3 gap-4 sm:gap-0 sm:divide-x divide-gray-400">
                   <div className="text-center sm:pr-6">
-                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                    <div className="text-4xl sm:text-4xl font-bold text-green-600 mb-2">
                       50+
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600">
+                    <div className="text-xs sm:text-sm pr-2 sm:pr-0 text-gray-600">
                       Partners School overall India
                     </div>
                   </div>
-                  <div className="text-center sm:px-6">
-                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                  <div className="text-center  sm:px-6">
+                    <div className="text-3xl pr-4 mt-1 sm:mt-0 sm:pr-0 sm:text-4xl font-bold text-green-600 mb-2">
                       12K+
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600">
+                    <div className="text-xs pr-2 sm:pr-0 sm:text-sm text-gray-600">
                       Students across the globe
                     </div>
                   </div>
-                  <div className="text-center sm:pl-6">
-                    <div className="text-2xl sm:text-4xl font-bold text-green-600 mb-2">
+                  <div className="text-center  sm:pl-6">
+                    <div className="text-4xl sm:text-4xl font-bold text-green-600 mb-2">
                       20+
                     </div>
                     <div className="text-xs sm:text-sm text-gray-600">

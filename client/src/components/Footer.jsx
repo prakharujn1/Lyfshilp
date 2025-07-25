@@ -29,7 +29,7 @@ const Footer = () => {
         >
           {/* Teddy positioned to emerge from the wave */}
           <div className="absolute -z-20 bottom-0 left-1/2 transform -translate-x-1/2 translate-y-8 sm:translate-y-10 md:translate-y-12 lg:translate-y-16">
-            <div className="w-65 h-65 sm:w-32 sm:h-32 md:w-30 md:h-30 lg:w-147 lg:h-147 xl:w-170 xl:h-170 2xl:w-180 2xl:h-180">
+            <div className="w-62 h-62 sm:w-32 sm:h-32 md:w-30 md:h-30 lg:w-147 lg:h-147 xl:w-170 xl:h-170 2xl:w-180 2xl:h-180">
               <img 
                 src="/4.gif" 
                 alt="Teddy mascot with educational icons" 
