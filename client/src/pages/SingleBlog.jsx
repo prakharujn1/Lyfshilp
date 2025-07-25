@@ -239,7 +239,7 @@ const SingleBlog = () => {
                   <img
                     src="/blogDesign/linkedin.svg"
                     alt="LinkedIn"
-                    className="w-5 h-5"
+                    className="w-5 h-4"
                   />
                 </a>
               </div>
