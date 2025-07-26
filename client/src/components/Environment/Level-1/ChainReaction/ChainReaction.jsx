@@ -658,7 +658,7 @@ const ChainReaction = () => {
           </div>
         </div>
       ) : !showResult ? (
-        // MAIN GAME SCREEN: Conditional rendering based on screen size
+        // MAIN GAME: Conditional rendering based on screen size
         <>
           {/* Large Screen Layout */}
           <div className="hidden lg:flex flex-col gap-[5vh] w-full items-center">
