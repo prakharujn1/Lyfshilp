@@ -16,6 +16,7 @@ import {
   Users
 } from "lucide-react";
 
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -223,7 +224,7 @@ export default function ModernTermsPage() {
         className="relative overflow-hidden bg-white border-b border-slate-200"
         style={{ opacity, scale }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-indigo-600/5" />
+        <div className="absolute inset-0 bg-[linear-gradient(258deg,_#3F9400_-1.82%,_#2C6601_100.88%)]" />
         <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
           <motion.div
             className="text-center"
@@ -232,47 +233,32 @@ export default function ModernTermsPage() {
             animate="visible"
           >
             <motion.div 
-              className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
               variants={itemVariants}
             >
-              <Clock size={16} />
+              
+              <div className="w-6 h-6 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/public/terms_nd_conditions/icon-park-solid_update-rotation.svg')" }} />
+
               Effective Date: June 5, 2025
             </motion.div>
             
             <motion.h1 
-              className="text-4xl lg:text-6xl font-bold text-slate-900 mb-6"
+              className="text-4xl lg:text-6xl font-bold text-white mb-6 "
               variants={itemVariants}
             >
               Terms & Conditions
             </motion.h1>
-            
-            <motion.p 
-              className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
-              variants={itemVariants}
-            >
-              Welcome to EduManiax! These terms govern your use of our educational platform. 
-              By using our services, you agree to these conditions designed to create a safe, 
-              effective learning environment for everyone.
-            </motion.p>
-            
-            <motion.div 
-              className="flex items-center justify-center gap-2 mt-8 text-green-700 bg-green-50 px-6 py-3 rounded-lg inline-flex"
-              variants={itemVariants}
-            >
-              <CheckCircle2 size={20} />
-              <span className="font-medium">Clear, Fair, and Transparent</span>
-            </motion.div>
           </motion.div>
         </div>
       </motion.div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-6 -mt-8">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Table of Contents - Sticky Sidebar */}
           <div className="lg:w-80 lg:shrink-0">
             <div className="lg:sticky lg:top-8">
               <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-[#0F172B] mb-4 flex items-center gap-2">
                   <FileText size={20} />
                   Quick Navigation
                 </h3>
@@ -285,18 +271,16 @@ export default function ModernTermsPage() {
                         onClick={() => scrollToSection(section.id)}
                         className={`w-full text-left p-3 rounded-lg transition-all duration-200 flex items-center gap-3 group ${
                           activeSection === section.id
-                            ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                            : 'hover:bg-slate-50 text-slate-600 hover:text-slate-900'
+                            ? 'bg-[#E6F4EB] text-[#068F36] border border-blue-200'
+                            : 'hover:bg-slate-50 text-[#45556C] hover:text-slate-900'
                         }`}
                       >
-                        <Icon size={18} className={activeSection === section.id ? 'text-blue-600' : 'text-slate-400'} />
+                        <Icon size={18} className={activeSection === section.id ? 'text-[#068F36]' : 'text-[#90A1B9]'} />
                         <div className="flex-1">
                           <div className="font-medium text-sm">{section.title}</div>
                           <div className="text-xs opacity-70">{section.subtitle}</div>
                         </div>
-                        <ChevronRight size={16} className={`transition-transform ${
-                          activeSection === section.id ? 'rotate-90' : 'group-hover:translate-x-1'
-                        }`} />
+                        <ChevronRight size={16}  />
                       </button>
                     );
                   })}
@@ -307,80 +291,56 @@ export default function ModernTermsPage() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="space-y-8"
-            >
-              {termsSections.map((section, index) => {
-                const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
-                return (
-                  <motion.div
-                    key={section.id}
-                    id={section.id}
-                    variants={itemVariants}
-                    className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-300"
-                  >
-                    <div className="p-8 lg:p-10">
-                      <div className="flex items-start gap-4 mb-6">
-                        <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                          <Icon size={24} className="text-blue-600" />
+            <div className="lg:sticky lg:top-8">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="space-y-8"
+              >
+                {termsSections.map((section, index) => {
+                  const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
+                  return (
+                    <motion.div
+                      key={section.id}
+                      id={section.id}
+                      variants={itemVariants}
+                      className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-300"
+                    >
+                      <div className="p-8 lg:p-10">
+                        <div className="flex items-start gap-4 mb-6">
+                          <div className="flex-shrink-0 w-12 h-12 bg-[#068F361A] rounded-xl flex items-center justify-center">
+                            <Icon size={24} className="text-[#068F36]" />
+                          </div>
+                          <div className="flex-1">
+                            <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
+                              {index + 1}. {section.title}
+                            </h2>
+                            <p className="text-lg text-slate-600 ml-7 lg:ml-9">{section.subtitle}</p>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
-                            {index + 1}. {section.title}
-                          </h2>
-                          <p className="text-lg text-slate-600">{section.subtitle}</p>
+
+                        <div className="space-y-4">
+                          {section.content.map((point, pointIndex) => (
+                            <motion.div
+                              key={pointIndex}
+                              className="flex items-start gap-3 p-1 rounded-lg hover:bg-slate-100 transition-colors duration-200"
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
+                              viewport={{ once: true, margin: "-50px" }}
+                            >
+                              <div className="flex-shrink-0 w-2 h-2 bg-[#068F36] rounded-full mt-3" />
+                              <p className="text-[#0000008A] leading-relaxed">{point}</p>
+                            </motion.div>
+                          ))}
                         </div>
                       </div>
-
-                      <div className="space-y-4">
-                        {section.content.map((point, pointIndex) => (
-                          <motion.div
-                            key={pointIndex}
-                            className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors duration-200"
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                          >
-                            <div className="flex-shrink-0 w-2 h-2 bg-blue-400 rounded-full mt-3" />
-                            <p className="text-slate-700 leading-relaxed">{point}</p>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-
-            {/* Contact Section */}
-            <motion.div
-              className="mt-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 lg:p-10 text-white"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <div className="text-center">
-                <h3 className="text-2xl font-bold mb-4">Questions About Our Terms?</h3>
-                <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-                  We're here to help! If you have any questions about these terms or need clarification 
-                  on any point, don't hesitate to reach out to our support team.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a
-                    href="mailto:service.excellence@lyfshilpacademy.com"
-                    className="inline-flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200"
-                  >
-                    Email Support
-                  </a>
-                  
-                </div>
-              </div>
-            </motion.div>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            </div> 
           </div>
         </div>
       </div>
