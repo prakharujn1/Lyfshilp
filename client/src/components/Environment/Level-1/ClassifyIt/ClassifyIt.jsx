@@ -104,21 +104,31 @@ const ClassifyIt = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh]">
         <h1 className="text-4xl font-bold mb-2 mt-8">Classify it</h1>
-        <p className="text-lg text-gray-600 mb-6">Classify the given word into one of the given categories</p>
+        <p className="text-lg text-gray-600 mb-6">
+          Classify the given word into one of the given categories
+        </p>
         <div className="bg-white rounded-xl shadow-md p-6 max-w-lg mb-6">
-          <p className="mb-2">You’ll be given a list of **12 words**. Your job is to sort each into one of four categories:</p>
-          <ul className="mb-2 text-left">
-            <li>**Natural–Biotic** (living natural elements)</li>
-            <li>**Natural–Abiotic** (non-living natural elements)</li>
-            <li>**Human-Made** (built by humans)</li>
-            <li>**Social** (related to society, rules, or institutions)</li>
+          <p className="mb-2">
+            You’ll be given a list of <b>12 words</b>. Your job is to sort each into one of four categories:
+          </p>
+          <ul className="mb-2 text-left list-disc pl-5">
+            <li><b>Natural–Biotic</b> (living natural elements)</li>
+            <li><b>Natural–Abiotic</b> (non-living natural elements)</li>
+            <li><b>Human-Made</b> (built by humans)</li>
+            <li><b>Social</b> (related to society, rules, or institutions)</li>
           </ul>
-          <p className="mb-2">🎯 **Scoring:** +2 per correct placement</p>
-          <p className="mb-2">🕐 **Time Limit:** 3 minutes</p>
+          <p className="mb-2">🎯 <b>Scoring:</b> +2 per correct placement</p>
+          <p className="mb-2">🕐 <b>Time Limit:</b> 3 minutes</p>
         </div>
-        <button onClick={() => dispatch({ type: "START_GAME" })} className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg text-xl font-semibold shadow-lg">Start</button>
+        <button
+          onClick={() => dispatch({ type: "START_GAME" })}
+          className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg text-xl font-semibold shadow-lg"
+        >
+          Start
+        </button>
       </div>
     );
+
   }
 
   if (state.gameState === "finished") {
