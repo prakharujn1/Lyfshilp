@@ -7,14 +7,12 @@ import {
   useSensors,
   DragOverlay,
   useDroppable,
-  useDraggable, // <--- Import useDraggable
+  useDraggable, 
 } from "@dnd-kit/core";
-// Removed useSortable and SortableContext as we are no longer doing internal sorting
-// import { useSortable, arrayMove } from "@dnd-kit/sortable";
+import { useSortable, arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"; 
 import { CSS } from "@dnd-kit/utilities";
 import { useNavigate } from "react-router-dom";
 
-// Mocking context providers (assuming these are external to the component)
 const useEnvirnoment = () => ({
   completeEnvirnomentChallenge: (a, b) =>
     console.log("completeEnvirnomentChallenge called"),
@@ -54,20 +52,17 @@ const puzzles = [
 
 // --- Helper Components ---
 
-// DraggableCard: Represents an actual card that can be dragged from the left column
 const DraggableCard = React.memo(({ id, content, isDraggingOverlay }) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({ id: id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    // No transition needed for non-sorting, unless you want custom animations
-    // Use undefined for DragOverlay to let Dnd-kit handle it
     transition: isDraggingOverlay ? undefined : (isDragging ? 'transform 0.25s ease' : undefined),
     width: "300px",
     height: "8.5vh",
     zIndex: isDragging ? 100 : 'auto',
-    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), // Hide original when dragging
+    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), 
   };
 
   return (
@@ -88,31 +83,26 @@ const DraggableCard = React.memo(({ id, content, isDraggingOverlay }) => {
   );
 });
 
-// DroppableSequenceSlot: Represents a slot in the sequence that can receive items
-// Its *content* can also be dragged (to swap with other slots or move back to available)
 const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay }) => {
   const { setNodeRef: setDroppableNodeRef } = useDroppable({ id: id });
 
-  // If there's content, the content itself is draggable. The slot serves as its container.
-  // The draggable ID is the slot's ID so we know which slot the item came from in handleDragEnd.
   const { attributes, listeners, setNodeRef: setDraggableNodeRef, transform, isDragging } =
-    useDraggable({ id: id, disabled: !content }); // Only enable draggable if there's content
+    useDraggable({ id: id, disabled: !content }); 
 
-  // Combine refs so the div acts as both a droppable target and a draggable source for its content
   const combinedRef = useCallback((node) => {
-    setDroppableNodeRef(node); // Always set droppable ref for the slot
-    if (content) { // Only set draggable ref if there's content to drag
+    setDroppableNodeRef(node);
+    if (content) {
       setDraggableNodeRef(node);
     }
-  }, [setDroppableNodeRef, setDraggableNodeRef, content]); // Dependency on content to re-evaluate ref when content changes
+  }, [setDroppableNodeRef, setDraggableNodeRef, content]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: isDraggingOverlay ? undefined : (isDragging ? 'transform 0.25s ease' : undefined), // No transition for non-overlay if not dragging
+    transition: isDraggingOverlay ? undefined : (isDragging ? 'transform 0.25s ease' : undefined),
     width: "300px",
     height: "8.5vh",
     zIndex: isDragging ? 100 : 'auto',
-    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), // Hide original when dragging
+    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), 
   };
 
   const borderClass = content ? '' : 'border-dashed border-[2.5px] border-[#79caef]';
@@ -120,9 +110,9 @@ const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay
 
   return (
     <div
-      ref={combinedRef} // Use the combined ref
+      ref={combinedRef}
       style={style}
-      {...(content ? attributes : {})} // Only apply draggable attributes/listeners if content is present
+      {...(content ? attributes : {})} 
       {...(content ? listeners : {})}
       className={`
         flex justify-center items-center shrink-0 basis-auto text-center
@@ -130,7 +120,7 @@ const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay
         font-['Commissioner'] text-[26px] font-medium leading-[20px] text-[#79caef] tracking-[1.82px]
         w-[300px] h-[8.5vh] relative ${borderClass}
         ${content ? 'shadow-[2px_4px_10px_0_rgba(167,142,207,0.6)]' : ''}
-        ${content ? 'cursor-grab' : ''} {/* Add grab cursor if content is present */}
+        ${content ? 'cursor-grab' : ''}
       `}
     >
       {content ? (
@@ -146,9 +136,8 @@ const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay
   );
 });
 
-// EmptyPlaceholderCardLeft: Visual placeholder for empty slots on the left
-const EmptyPlaceholderCardLeft = React.memo(({ id }) => { // Added id prop
-  const { setNodeRef } = useDroppable({ id: id }); // Use the provided id
+const EmptyPlaceholderCardLeft = React.memo(({ id }) => { 
+  const { setNodeRef } = useDroppable({ id: id }); 
   return (
     <div
       ref={setNodeRef}
@@ -157,9 +146,8 @@ const EmptyPlaceholderCardLeft = React.memo(({ id }) => { // Added id prop
   );
 });
 
-// StaticReviewCard: A non-draggable card for displaying answers in review mode
 const StaticReviewCard = React.memo(({ content, type }) => {
-  const bgColorClass = type === 'user' ? 'bg-[#d8bfd8]' : 'bg-[#e0ffe0]'; // User answers vs Correct answers
+  const bgColorClass = type === 'user' ? 'bg-[#d8bfd8]' : 'bg-[#e0ffe0]';
   const textColorClass = type === 'user' ? 'text-[rgba(75,0,130,0.6)]' : 'text-[rgba(9,190,67,0.8)]';
   const shadowClass = 'shadow-[2px_4px_10px_0_rgba(167,142,207,0.6)]';
 
@@ -178,7 +166,6 @@ const StaticReviewCard = React.memo(({ content, type }) => {
   );
 });
 
-// ReviewItemCard for small/medium screens - ADJUSTED FOR TEXT OVERFLOW
 const ReviewItemCard = React.memo(({ puzzle, userAnswer }) => {
   const isCorrect = userAnswer.every(
     (item, index) =>
@@ -188,27 +175,68 @@ const ReviewItemCard = React.memo(({ puzzle, userAnswer }) => {
 
   return (
     <div
-      className={`main-container flex w-full max-w-[280px] sm:max-w-[256px] h-auto p-3 sm:pt-[15px] sm:pr-[20px] sm:pb-[15px] sm:pl-[20px] flex-col gap-[8px] justify-center items-start rounded-[15px] relative ${isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"}`}
+      className={`main-container flex w-full max-w-[280px] sm:max-w-[256px] h-auto p-2 sm:pt-3 sm:pr-4 sm:pb-3 sm:pl-4 flex-col gap-[6px] justify-center items-start rounded-[15px] relative ${isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"}`}
     >
       <div className="flex w-full justify-between items-start relative">
-        <div className="flex flex-col gap-[6px] sm:gap-[8px] items-start flex-1">
-          <span className={`font-['Comic_Neue'] text-base sm:text-lg font-bold leading-tight relative text-left break-words z-[2] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Cause: {puzzle.cause}</span>
+        <div className="flex flex-col gap-[4px] sm:gap-[6px] items-start flex-1">
+          <span className={`font-['Comic_Neue'] text-sm sm:text-base font-bold leading-tight relative text-left break-words z-[2] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Cause: {puzzle.cause}</span>
           <div className="flex flex-col gap-[1px] sm:gap-[2px] items-start w-full">
-            <span className={`font-['Commissioner'] text-xs sm:text-sm font-light leading-tight relative text-left break-words z-[4] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Your Sequence : {userAnswer.filter(Boolean).join(" -> ")}</span>
-            <span className={`font-['Commissioner'] text-xs sm:text-sm font-light leading-tight relative text-left break-words z-[5] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Correct Sequence : {puzzle.correctOrder.join(" -> ")}</span>
+            <span className={`font-['Commissioner'] text-xs sm:text-sm font-light leading-tight relative text-left break-words z-[4] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Your Seq : {userAnswer.filter(Boolean).join(" -> ")}</span>
+            <span className={`font-['Commissioner'] text-xs sm:text-sm font-light leading-tight relative text-left break-words z-[5] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Correct Seq : {puzzle.correctOrder.join(" -> ")}</span>
           </div>
         </div>
-        <div className="w-[25px] h-[25px] sm:w-[30px] sm:h-[30px] shrink-0 bg-contain bg-no-repeat ml-2" style={{ backgroundImage: isCorrect ? "url(/check.png)" : "url(/cancel.png)" }} />
+        <div className="w-[20px] h-[20px] sm:w-[25px] sm:h-[25px] shrink-0 bg-contain bg-no-repeat ml-1" style={{ backgroundImage: isCorrect ? "url(/check.png)" : "url(/cancel.png)" }} />
       </div>
+    </div>
+  );
+});
+
+const MobileSortableCard = React.memo(({ id, content }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 'auto',
+    opacity: isDragging ? 0.5 : 1, 
+    width: "100%", 
+    height: "72px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexShrink: 0,
+    background: "#d8bfd8",
+    boxShadow: "2px 4px 10px 0 rgba(167,142,207,0.6)",
+    position: "relative",
+    cursor: "grab",
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="font-['Comic_Sans_MS'] text-[18px] font-bold leading-[20px] text-[rgba(75,0,130,0.6)] text-center whitespace-nowrap"
+    >
+      <span className="p-2 text-wrap break-words flex justify-center items-center">
+        {content}
+      </span>
     </div>
   );
 });
 
 
 // --- Main Component ---
-const TOTAL_TIME_LIMIT = 120; // 2 minutes in seconds
-const TOTAL_PUZZLES_SCORE = puzzles.length * 5; // Total possible score
-
+const TOTAL_TIME_LIMIT = 120; 
+const TOTAL_PUZZLES_SCORE = puzzles.length * 5; 
 const ChainReaction = () => {
   const { completeEnvirnomentChallenge } = useEnvirnoment();
   const { updateEnvirnomentPerformance } = usePerformance();
@@ -224,6 +252,8 @@ const ChainReaction = () => {
     { id: null, slotId: 'slot-2' },
   ]);
 
+  const [mobileSortableItems, setMobileSortableItems] = useState([]);
+
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [showReview, setShowReview] = useState(false);
@@ -235,15 +265,18 @@ const ChainReaction = () => {
 
   const [userAnswers, setUserAnswers] = useState([]);
 
-  // Use useRef to hold the active item data for DragOverlay more stably
   const activeDragItemDataRef = useRef(null);
-  // activeId state is still needed for useDraggable's dependency and for conditional rendering of existing items
+ 
   const [activeId, setActiveId] = useState(null);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleSubmit = useCallback(() => {
-    const currentSequence = sequenceSlotsContent.map(item => item ? item.id : null);
+    // Determine which sequence to check based on screen size
+    const currentSequence = window.innerWidth >= 1024 
+      ? sequenceSlotsContent.map(item => item ? item.id : null) 
+      : mobileSortableItems; 
+
     setIsTimerRunning(false);
     setUserAnswers(prevAnswers => [...prevAnswers, currentSequence]);
 
@@ -256,12 +289,15 @@ const ChainReaction = () => {
 
     if (current < puzzles.length - 1) {
       const next = current + 1;
-      setAvailableCards(shuffle([...puzzles[next].correctOrder]));
+      const shuffledOrder = shuffle([...puzzles[next].correctOrder]);
+
+      setAvailableCards(shuffledOrder);
       setSequenceSlotsContent([
         { id: null, slotId: 'slot-0' },
         { id: null, slotId: 'slot-1' },
         { id: null, slotId: 'slot-2' },
       ]);
+      setMobileSortableItems(shuffledOrder);
       setCurrent(next);
       setTimeLeft(TOTAL_TIME_LIMIT);
       setIsTimerRunning(true);
@@ -282,7 +318,7 @@ const ChainReaction = () => {
 
       setShowResult(true);
     }
-  }, [current, puzzles, score, sequenceSlotsContent, startTime, updateEnvirnomentPerformance]);
+  }, [current, puzzles, score, sequenceSlotsContent, mobileSortableItems, startTime, updateEnvirnomentPerformance]);
 
   useEffect(() => {
     if (showResult && score >= 20) {
@@ -301,12 +337,14 @@ const ChainReaction = () => {
   }, [timeLeft, showStart, showResult, showReview, isTimerRunning, handleSubmit]);
 
   const startGame = () => {
-    setAvailableCards(shuffle([...puzzles[0].correctOrder]));
+    const shuffledOrder = shuffle([...puzzles[0].correctOrder]);
+    setAvailableCards(shuffledOrder);
     setSequenceSlotsContent([
       { id: null, slotId: 'slot-0' },
       { id: null, slotId: 'slot-1' },
       { id: null, slotId: 'slot-2' },
     ]);
+    setMobileSortableItems(shuffledOrder); 
     setCurrent(0);
     setScore(0);
     setTimeLeft(TOTAL_TIME_LIMIT);
@@ -319,132 +357,127 @@ const ChainReaction = () => {
     setIsTimerRunning(true);
   };
 
-  const handleDragStart = (event) => {
-    const draggedId = event.active.id;
-    setActiveId(draggedId);
+  const handleDragStartUnified = (event) => {
+    setActiveId(event.active.id); 
 
-    const activeItemContent = availableCards.find(card => card === draggedId);
-    if (activeItemContent) {
-      activeDragItemDataRef.current = { type: 'card', content: activeItemContent, id: draggedId };
-    } else {
-      const activeSlot = sequenceSlotsContent.find(slot => slot.slotId === draggedId);
-      if (activeSlot && activeSlot.id) {
-        activeDragItemDataRef.current = {
-          type: 'slot',
-          content: activeSlot.id,
-          slotText: ['1st', '2nd', '3rd'][sequenceSlotsContent.findIndex(s => s.slotId === activeSlot.slotId)],
-          id: draggedId
-        };
+    if (window.innerWidth >= 1024) { 
+      const draggedId = event.active.id;
+      const activeItemContent = availableCards.find(card => card === draggedId);
+      if (activeItemContent) {
+        activeDragItemDataRef.current = { type: 'card', content: activeItemContent, id: draggedId };
       } else {
-        activeDragItemDataRef.current = null;
-        setActiveId(null);
+        const activeSlot = sequenceSlotsContent.find(slot => slot.slotId === draggedId);
+        if (activeSlot && activeSlot.id) {
+          activeDragItemDataRef.current = {
+            type: 'slot',
+            content: activeSlot.id,
+            slotText: ['1st', '2nd', '3rd'][sequenceSlotsContent.findIndex(s => s.slotId === activeSlot.slotId)],
+            id: draggedId
+          };
+        } else {
+          activeDragItemDataRef.current = null;
+        }
       }
     }
   };
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
+  const handleDragEndUnified = (event) => {
+    if (window.innerWidth >= 1024) { 
+      const { active, over } = event;
 
-    setActiveId(null);
-    activeDragItemDataRef.current = null;
+      setActiveId(null);
+      activeDragItemDataRef.current = null;
 
-    if (!over) {
-      console.log("Dropped outside valid area.");
-      return;
-    }
+      if (!over) {
+        console.log("Dropped outside valid area on large screen.");
+        return;
+      }
 
-    const activeId = active.id; // The ID of the draggable item
-    const overId = over.id;     // The ID of the droppable target
+      const activeId = active.id;
+      const overId = over.id;
 
-    let newAvailableCards = [...availableCards];
-    let newSequenceSlotsContent = [...sequenceSlotsContent];
+      let newAvailableCards = [...availableCards];
+      let newSequenceSlotsContent = [...sequenceSlotsContent];
 
-    const isDraggingFromAvailable = newAvailableCards.includes(activeId);
-    const activeSequenceSlotIndex = newSequenceSlotsContent.findIndex(slot => slot.slotId === activeId);
-    const isDraggingFromSequence = activeSequenceSlotIndex !== -1;
+      const isDraggingFromAvailable = newAvailableCards.includes(activeId);
+      const activeSequenceSlotIndex = newSequenceSlotsContent.findIndex(slot => slot.slotId === activeId);
+      const isDraggingFromSequence = activeSequenceSlotIndex !== -1;
 
-    const overSequenceSlotIndex = newSequenceSlotsContent.findIndex(slot => slot.slotId === overId);
-    const isOverSequenceSlot = overSequenceSlotIndex !== -1;
-    const isOverAvailableCardsArea = overId === 'available-cards-area' || String(overId).startsWith('available-cards-placeholder');
+      const overSequenceSlotIndex = newSequenceSlotsContent.findIndex(slot => slot.slotId === overId);
+      const isOverSequenceSlot = overSequenceSlotIndex !== -1;
+      const isOverAvailableCardsArea = overId === 'available-cards-area' || String(overId).startsWith('available-cards-placeholder');
 
-    let draggedContent = null;
-    if (isDraggingFromAvailable) {
-        draggedContent = activeId;
-    } else if (isDraggingFromSequence) {
-        draggedContent = newSequenceSlotsContent[activeSequenceSlotIndex].id;
-        if (!draggedContent) return; // Should not happen if disabled: !content works
-    } else {
-        return; // Item dragged is neither from available nor a filled sequence slot
-    }
+      let draggedContent = null;
+      if (isDraggingFromAvailable) {
+          draggedContent = activeId;
+      } else if (isDraggingFromSequence) {
+          draggedContent = newSequenceSlotsContent[activeSequenceSlotIndex].id;
+          if (!draggedContent) return;
+      } else {
+          return;
+      }
 
-    // Attempt to drop into a sequence slot
-    if (isOverSequenceSlot) {
-        const targetSlot = newSequenceSlotsContent[overSequenceSlotIndex];
-        const cardCurrentlyInTargetSlot = targetSlot.id;
+      if (isOverSequenceSlot) {
+          const targetSlot = newSequenceSlotsContent[overSequenceSlotIndex];
+          const cardCurrentlyInTargetSlot = targetSlot.id;
 
-        // Update the target slot with the dragged content
-        newSequenceSlotsContent[overSequenceSlotIndex] = {
-            ...targetSlot,
-            id: draggedContent,
-        };
+          newSequenceSlotsContent[overSequenceSlotIndex] = {
+              ...targetSlot,
+              id: draggedContent,
+          };
 
-        // Handle the source of the drag
-        if (isDraggingFromAvailable) {
-            // Remove from available cards
-            newAvailableCards = newAvailableCards.filter(id => id !== draggedContent);
-            // If target slot had content, move it back to available cards
-            if (cardCurrentlyInTargetSlot) {
-                newAvailableCards.push(cardCurrentlyInTargetSlot);
-            }
-        } else if (isDraggingFromSequence) {
-            // Clear the source slot
-            newSequenceSlotsContent[activeSequenceSlotIndex] = {
-                ...newSequenceSlotsContent[activeSequenceSlotIndex],
-                id: cardCurrentlyInTargetSlot, // Place the content from the target slot here
-            };
-        }
-    }
-    // Attempt to drop into the available cards area (left column)
-    else if (isOverAvailableCardsArea) {
-        if (isDraggingFromSequence) {
-            // Remove from sequence slot
-            newSequenceSlotsContent[activeSequenceSlotIndex] = {
-                ...newSequenceSlotsContent[activeSequenceSlotIndex],
-                id: null,
-            };
-            // Add to available cards (if not already there - should not be for drag from sequence)
-            if (!newAvailableCards.includes(draggedContent)) {
-                newAvailableCards.push(draggedContent);
-            }
-        }
-        // If dragging from available to available area, no state change is needed
-        // as we are not reordering within the available area.
-    }
+          if (isDraggingFromAvailable) {
+              newAvailableCards = newAvailableCards.filter(id => id !== draggedContent);
+              if (cardCurrentlyInTargetSlot) {
+                  newAvailableCards.push(cardCurrentlyInTargetSlot);
+              }
+          } else if (isDraggingFromSequence) {
+              newSequenceSlotsContent[activeSequenceSlotIndex] = {
+                  ...newSequenceSlotsContent[activeSequenceSlotIndex],
+                  id: cardCurrentlyInTargetSlot,
+              };
+          }
+      }
+      else if (isOverAvailableCardsArea) {
+          if (isDraggingFromSequence) {
+              newSequenceSlotsContent[activeSequenceSlotIndex] = {
+                  ...newSequenceSlotsContent[activeSequenceSlotIndex],
+                  id: null,
+              };
+              if (!newAvailableCards.includes(draggedContent)) {
+                  newAvailableCards.push(draggedContent);
+              }
+          }
+      }
 
-    setAvailableCards(newAvailableCards);
-    setSequenceSlotsContent(newSequenceSlotsContent);
-  };
+      setAvailableCards(newAvailableCards);
+      setSequenceSlotsContent(newSequenceSlotsContent);
 
+    } else { // Small/Medium screen sorting logic
+      const { active, over } = event;
+      setActiveId(null); 
 
-  const handleBackToLevels = () => navigate(-1);
+      if (!over) { 
+        console.log("Dropped outside valid area on mobile screen.");
+        return;
+      }
 
-  const handleReviewGame = () => {
-    setShowResult(false);
-    setShowReview(true);
-    setReviewIndex(0);
-  };
-
-  const handleNextReviewItem = () => {
-    if (reviewIndex < puzzles.length - 1) {
-      setReviewIndex(prevIndex => prevIndex + 1);
-    } else {
-      setShowReview(false);
-      setShowResult(true);
-      setReviewIndex(0);
+      if (active.id !== over.id) {
+        setMobileSortableItems((items) => {
+          const oldIndex = items.indexOf(active.id);
+          const newIndex = items.indexOf(over.id);
+          return arrayMove(items, oldIndex, newIndex);
+        });
+      }
     }
   };
 
-  const isSubmitEnabled = sequenceSlotsContent.every(item => item && item.id !== null);
+  const { setNodeRef: setAvailableCardsAreaRef } = useDroppable({ id: 'available-cards-area' });
+
+  const isSubmitEnabled = window.innerWidth >= 1024
+    ? sequenceSlotsContent.every(item => item && item.id !== null)
+    : true;
+
   const progress = ((TOTAL_TIME_LIMIT - timeLeft) / TOTAL_TIME_LIMIT) * 100;
 
   const minutes = Math.floor(timeLeft / 60);
@@ -455,33 +488,45 @@ const ChainReaction = () => {
   const currentUserReviewAnswer = userAnswers[reviewIndex] || [];
 
   const renderDragOverlayContent = useCallback(() => {
-    const currentDragItem = activeDragItemDataRef.current;
-    if (!currentDragItem || !currentDragItem.id) {
-      return null;
-    }
+    const isLargeScreen = window.innerWidth >= 1024;
 
-    if (currentDragItem.type === 'card') {
-      return (
-        <DraggableCard
-          id={currentDragItem.id}
-          content={currentDragItem.content}
-          isDraggingOverlay={true}
-        />
-      );
-    } else if (currentDragItem.type === 'slot') {
-      return (
-        <DroppableSequenceSlot
-          id={currentDragItem.id} // The ID of the slot being dragged
-          content={currentDragItem.content} // The content of the slot
-          text={currentDragItem.slotText} // The placeholder text
-          isDraggingOverlay={true}
-        />
-      );
+    if (isLargeScreen) {
+        const currentDragItem = activeDragItemDataRef.current;
+        if (currentDragItem && currentDragItem.id) {
+            if (currentDragItem.type === 'card') {
+                return (
+                    <DraggableCard
+                        id={currentDragItem.id}
+                        content={currentDragItem.content}
+                        isDraggingOverlay={true}
+                    />
+                );
+            } else if (currentDragItem.type === 'slot') {
+                return (
+                    <DroppableSequenceSlot
+                        id={currentDragItem.id}
+                        content={currentDragItem.content}
+                        text={currentDragItem.slotText}
+                        isDraggingOverlay={true}
+                    />
+                );
+            }
+        }
+    } else { // Small/Medium Screen
+        if (activeId) {
+            const draggedContent = mobileSortableItems.find(item => item === activeId);
+            if (draggedContent) {
+                return (
+                    <MobileSortableCard
+                        id={activeId}
+                        content={draggedContent}
+                    />
+                );
+            }
+        }
     }
     return null;
-  }, []);
-
-  const { setNodeRef: setAvailableCardsAreaRef } = useDroppable({ id: 'available-cards-area' });
+  }, [activeId, mobileSortableItems, availableCards, sequenceSlotsContent]);
 
 
   return (
@@ -509,19 +554,18 @@ const ChainReaction = () => {
           </button>
         </div>
       ) : showReview ? (
-        // REVIEW ANSWERS SCREEN
-        <div className="min-h-[90vh] w-screen flex flex-col items-center justify-center bg-green-100 py-8 px-4 sm:px-6 lg:px-8">
+        // REVIEW ANSWERS SCREEN 
+        <div className="min-h-screen w-screen flex flex-col items-center bg-green-100 py-8 px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-6xl bg-white rounded-3xl shadow flex flex-col items-center p-6 sm:p-8 lg:p-10 relative">
-            {/* Close button for review screen */}
+
             <button onClick={() => { setShowReview(false); setShowResult(true); }} className="flex justify-center items-center absolute top-4 right-4 z-[139] w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full hover:bg-gray-200 transition">
               <span className="font-['Comfortaa'] text-[36px] sm:text-[40px] font-light text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
             </button>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-700 text-center w-full" style={{ fontFamily: "'Comic Neue', 'Comic Sans MS', cursive'" }}>Check your answers</h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-gray-500 text-center w-full" style={{ fontFamily: "'Commissioner', 'Arial', sans-serif'" }}>Match each cause with its chain of effects in correct order.</p>
 
-            {/* Responsive review layout */}
             <div className="hidden lg:flex flex-col md:flex-row gap-8 w-full items-start justify-center">
-              {/* Left Column: Your Answer */}
+
               <div className="flex flex-col items-center w-full md:w-1/2 lg:w-1/3">
                 <div className="flex flex-col gap-[15px] mb-4 w-full items-center">
                   {currentUserReviewAnswer.map((answer, index) => (
@@ -537,7 +581,6 @@ const ChainReaction = () => {
                 </span>
               </div>
 
-              {/* Middle Column: Cause Image and Text (similar to game screen) */}
               <div className="flex flex-col items-center w-full md:w-auto lg:w-1/3 my-4 md:my-0">
                 <img
                   src={currentReviewPuzzle.image}
@@ -554,7 +597,7 @@ const ChainReaction = () => {
                 </div>
               </div>
 
-              {/* Right Column: Correct Answer */}
+             
               <div className="flex flex-col items-center w-full md:w-1/2 lg:w-1/3">
                 <div className="flex flex-col gap-[15px] mb-4 w-full items-center">
                   {currentReviewPuzzle.correctOrder.map((correctAnswer, index) => (
@@ -572,7 +615,7 @@ const ChainReaction = () => {
             </div>
 
             {/* Small/Medium screen review layout */}
-            <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full justify-items-center">
+            <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full justify-items-center"> 
               {puzzles.map((puzzleItem, idx) => (
                 <ReviewItemCard
                   key={`review-card-${idx}`}
@@ -583,7 +626,7 @@ const ChainReaction = () => {
             </div>
 
 
-            {/* Navigation Button for Review (only for large screens when not in responsive grid) */}
+            {/* Navigation Button for Review (large screen) */}
             <div className="hidden lg:flex w-full justify-center items-center flex-nowrap relative mt-[3vh]">
               <button
                 onClick={handleNextReviewItem}
@@ -595,7 +638,7 @@ const ChainReaction = () => {
                 </span>
               </button>
             </div>
-             {/* Navigation Button for Review (only for small/medium screens to go back) */}
+             {/* Navigation Button for Review ( small/medium screens ) */}
              <div className="lg:hidden flex w-full justify-center items-center flex-nowrap relative mt-[3vh]">
               <button
                 onClick={() => { setShowReview(false); setShowResult(true); }}
@@ -610,115 +653,188 @@ const ChainReaction = () => {
           </div>
         </div>
       ) : !showResult ? (
-        // MAIN GAME SCREEN
+        // MAIN GAME SCREEN: Conditional rendering based on screen size
         <>
-          <div className="flex flex-col gap-[0.5vh] justify-center items-center relative z-[29] mt-[1vh]">
-            <span className="font-['Comic_Neue'] text-[4.5vh] font-bold leading-[1.2] text-[rgba(75,75,75,0.8)] text-center whitespace-nowrap">
-              Chain Reaction
-            </span>
-            <span className="font-['Commissioner'] text-[2vh] font-light leading-[1.2] text-[rgba(75,75,75,0.8)] text-center whitespace-nowrap">
-              Drag and Drop the effects of the cause in correct sequence
-            </span>
-          </div>
-          <div className="flex w-[70vw] gap-[2vw] justify-start items-center relative z-[23] mt-[-0.5vh]">
-            <div className="flex w-[59vw] h-[2.5vh] flex-col justify-start items-start shrink-0 flex-nowrap bg-[#d9d9d9] rounded-[4px] relative z-[24]">
-              <div
-                className="h-[2.5vh] shrink-0 bg-[rgba(9,190,67,0.8)] rounded-[4px] relative z-[25]"
-                style={{ width: `${Math.max(0, progress)}%` }}
-              />
-            </div>
-            <div className="flex gap-[0.5vw] flex-row items-center">
-              <div
-                className="w-[35px] h-[31px] shrink-0 bg-cover bg-no-repeat relative z-[27]"
-                style={{ backgroundImage: 'url("https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/kFwo3bjqx3.png")' }}
-              />
-              <span className="font-['Comic_Sans_MS'] text-[2.5vh] font-bold leading-[20px] text-[rgba(75,75,75,0.8)] relative text-center whitespace-nowrap z-[28]">
-                {formattedTime}
-              </span>
-            </div>
-          </div>
-          <div className="flex w-[80vw] justify-evenly items-stretch flex-nowrap relative z-[3] mt-[2vh] ">
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-            >
-              {/* Left Column: Available Cards - Now a simple Droppable area */}
-              <div className="flex w-[24vw] h-[35vh] ml-[1vw] flex-col gap-[2.5vh] shrink-0 flex-nowrap relative z-[4]">
-                <div
-                  ref={setAvailableCardsAreaRef} // Make the entire div a droppable target
-                  id="available-cards-area"
-                  className="flex flex-col w-[23.5vw] h-[35vh] items-stretch justify-between"
-                >
-                  {availableCards.map((item) => (
-                    <DraggableCard
-                      key={item}
-                      id={item}
-                      content={item}
-                      isDraggingOverlay={activeId === item}
+         
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStartUnified} 
+            onDragEnd={handleDragEndUnified}    
+          >
+            {/* Large Screen Layout */}
+            <div className="hidden lg:flex flex-col gap-[5vh] w-full items-center">
+              <div className="flex flex-col gap-[0.5vh] justify-center items-center relative z-[29] mt-[1vh]">
+                <span className="font-['Comic_Neue'] text-[4.5vh] font-bold leading-[1.2] text-[rgba(75,75,75,0.8)] text-center whitespace-nowrap">
+                  Chain Reaction
+                </span>
+                <span className="font-['Commissioner'] text-[2vh] font-light leading-[1.2] text-[rgba(75,75,75,0.8)] text-center whitespace-nowrap">
+                  Drag and Drop the effects of the cause in correct sequence
+                </span>
+              </div>
+              <div className="flex w-[70vw] gap-[2vw] justify-start items-center relative z-[23] mt-[-0.5vh]">
+                <div className="flex w-[59vw] h-[2.5vh] flex-col justify-start items-start shrink-0 flex-nowrap bg-[#d9d9d9] rounded-[4px] relative z-[24]">
+                  <div
+                    className="h-[2.5vh] shrink-0 bg-[rgba(9,190,67,0.8)] rounded-[4px] relative z-[25]"
+                    style={{ width: `${Math.max(0, progress)}%` }}
+                  />
+                </div>
+                <div className="flex gap-[0.5vw] flex-row items-center">
+                  <div
+                    className="w-[35px] h-[31px] shrink-0 bg-cover bg-no-repeat relative z-[27]"
+                    style={{ backgroundImage: 'url("https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/kFwo3bjqx3.png")' }}
+                  />
+                  <span className="font-['Comic_Sans_MS'] text-[2.5vh] font-bold leading-[20px] text-[rgba(75,75,75,0.8)] relative text-center whitespace-nowrap z-[28]">
+                    {formattedTime}
+                  </span>
+                </div>
+              </div>
+              <div className="flex w-[80vw] justify-evenly items-stretch flex-nowrap relative z-[3] mt-[2vh] ">
+               
+                <div className="flex w-[24vw] h-[35vh] ml-[1vw] flex-col gap-[2.5vh] shrink-0 flex-nowrap relative z-[4]">
+                  <div
+                    ref={setAvailableCardsAreaRef}
+                    id="available-cards-area"
+                    className="flex flex-col w-[23.5vw] h-[35vh] items-stretch justify-between"
+                  >
+                    {availableCards.map((item) => (
+                      <DraggableCard
+                        key={item}
+                        id={item}
+                        content={item}
+                        isDraggingOverlay={activeId === item}
+                      />
+                    ))}
+                   
+                    {Array.from({ length: 3 - availableCards.length }).map((_, index) => (
+                      <EmptyPlaceholderCardLeft key={`empty-left-${index}`} id={`available-cards-placeholder-${index}`} />
+                    ))}
+                  </div>
+                </div>
+
+                
+                <div className="flex flex-col w-[22vw] h-[35vh] gap-[2vh] justify-center items-center shrink-0 flex-nowrap relative z-[11]">
+                  <img
+                    src={puzzles[current].image}
+                    alt="Cause Image"
+                    className="flex w-[25vh] h-[25vh] shrink-0 object-contain relative z-[12]"
+                  />
+                  <div className="flex flex-col w-[25vw] h-[10vh] shrink-0 relative z-[13] justify-evenly items-center">
+                    <span className="flex justify-center items-center font-['Baloo_2'] text-[3.5vh] font-semibold leading-[1.2] text-[rgba(75,75,75,0.6)] relative text-center whitespace-nowrap z-[15] ">
+                      CAUSE
+                    </span>
+                    <span className="flex w-full justify-center self-start font-['Baloo_2'] text-[3vh] font-semibold leading-tight text-[rgba(75,75,75,0.91)] relative text-center break-words ">
+                      {puzzles[current].cause}
+                    </span>
+                  </div>
+                </div>
+
+              
+                <div className="flex justify-between w-[23.5vw] h-[35vh] flex-col gap-[2.5vh] shrink-0 flex-nowrap relative z-[16]">
+                  {sequenceSlotsContent.map((itemInSlot, index) => (
+                    <DroppableSequenceSlot
+                      key={itemInSlot.slotId}
+                      id={itemInSlot.slotId} 
+                      content={itemInSlot.id} 
+                      text={['1st', '2nd', '3rd'][index]}
+                      isDraggingOverlay={activeId === itemInSlot.slotId}
                     />
-                  ))}
-                  {/* Render empty placeholders to ensure drop targets always exist */}
-                  {Array.from({ length: 3 - availableCards.length }).map((_, index) => (
-                    <EmptyPlaceholderCardLeft key={`empty-left-${index}`} id={`available-cards-placeholder-${index}`} />
                   ))}
                 </div>
               </div>
+             
+              <div className="flex w-full justify-center items-center flex-nowrap relative mt-[3vh]">
+                <button
+                  onClick={handleSubmit}
+                  disabled={!isSubmitEnabled}
+                  className={`w-[250px] h-[8vh] ml-[2vw] shrink-0 rounded-[10px] relative z-[1] flex justify-center items-center
+                    ${isSubmitEnabled
+                      ? "bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.9)] hover:bg-green-700"
+                      : "bg-gray-400 cursor-not-allowed"
+                    }`}
+                >
+                  <span className="font-['Comic_Sans_MS'] text-[18px] font-bold leading-[20px] text-[#fff] text-center whitespace-nowrap z-[2]">
+                    Submit
+                  </span>
+                </button>
+              </div>
+            </div>
 
-              {/* Middle Column: Cause Image and Text */}
-              <div className="flex flex-col w-[22vw] h-[35vh] gap-[2vh] justify-center items-center shrink-0 flex-nowrap relative z-[11]">
+            {/* Small/Medium Screen Layout */}
+            <div className="lg:hidden flex flex-col items-center w-full min-h-[90vh] py-4 px-2">
+             
+              <div className="flex flex-col gap-[14px] justify-end items-center flex-nowrap relative z-[22] mt-[20px] px-2 text-center w-full">
+                <span className="font-['Comic_Neue'] text-3xl font-bold leading-tight text-[rgba(75,75,75,0.8)] whitespace-nowrap">
+                  Chain Reaction
+                </span>
+                <span className="font-['Commissioner'] text-base font-light leading-tight text-[rgba(75,75,75,0.8)] text-center">
+                  Drag and Drop the effects of the cause in correct sequence
+                </span>
+              </div>
+
+            
+              <div className="flex w-full max-w-[400px] gap-[20px] justify-between items-center relative z-[16] mt-[20px] px-4">
+                <div className="flex-1 h-[15px] bg-[#d9d9d9] rounded-[4px] relative">
+                  <div
+                    className="h-full bg-[rgba(9,190,67,0.8)] rounded-[4px]"
+                    style={{ width: `${Math.max(0, progress)}%` }}
+                  />
+                </div>
+                <div className="flex gap-[5px] items-center">
+                  <div
+                    className="w-[25px] h-[22px] bg-cover bg-no-repeat"
+                    style={{ backgroundImage: 'url("https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/kFwo3bjqx3.png")' }}
+                  />
+                  <span className="font-['Comic_Sans_MS'] text-lg font-bold leading-[20px] text-[rgba(75,75,75,0.8)] whitespace-nowrap">
+                    {formattedTime}
+                  </span>
+                </div>
+              </div>
+
+             
+              <div className="flex flex-col items-center mt-[30px] w-full px-4">
                 <img
                   src={puzzles[current].image}
                   alt="Cause Image"
-                  className="flex w-[25vh] h-[25vh] shrink-0 object-contain relative z-[12]"
+                  className="w-[150px] h-[150px] object-contain relative z-[5]"
                 />
-                <div className="flex flex-col w-[25vw] h-[10vh] shrink-0 relative z-[13] justify-evenly items-center">
-                  <span className="flex justify-center items-center font-['Baloo_2'] text-[3.5vh] font-semibold leading-[1.2] text-[rgba(75,75,75,0.6)] relative text-center whitespace-nowrap z-[15] ">
+                <div className="text-center mt-4">
+                  <span className="font-['Baloo_2'] text-2xl font-semibold leading-tight text-[rgba(75,75,75,0.6)] block">
                     CAUSE
                   </span>
-                  <span className="flex w-full justify-center self-start font-['Baloo_2'] text-[3vh] font-semibold leading-tight text-[rgba(75,75,75,0.91)] relative text-center break-words ">
+                  <span className="font-['Baloo_2'] text-xl font-semibold leading-tight text-[rgba(75,75,75,0.91)] block break-words">
                     {puzzles[current].cause}
                   </span>
                 </div>
               </div>
 
-              {/* Right Column: Sequence Slots (Now all droppable, content draggable) */}
-              <div className="flex justify-between w-[23.5vw] h-[35vh] flex-col gap-[2.5vh] shrink-0 flex-nowrap relative z-[16]">
-                {sequenceSlotsContent.map((itemInSlot, index) => (
-                  <DroppableSequenceSlot
-                    key={itemInSlot.slotId}
-                    id={itemInSlot.slotId} // This is the droppable ID for the slot itself
-                    content={itemInSlot.id} // This is the actual draggable content (if any)
-                    text={['1st', '2nd', '3rd'][index]}
-                    isDraggingOverlay={activeId === itemInSlot.slotId}
-                  />
-                ))}
+             
+              <div className="flex flex-col gap-[15px] items-center mt-[30px] w-full max-w-[350px]">
+                <SortableContext items={mobileSortableItems} strategy={verticalListSortingStrategy}>
+                  {mobileSortableItems.map((item) => (
+                    <MobileSortableCard key={item} id={item} content={item} />
+                  ))}
+                </SortableContext>
               </div>
 
-              {/* DragOverlay */}
-              <DragOverlay>
-                {renderDragOverlayContent()} {/* Call the new function here */}
-              </DragOverlay>
-
-            </DndContext>
-          </div>
-          {/* Submit Button */}
-          <div className="flex w-full justify-center items-center flex-nowrap relative mt-[3vh]">
-            <button
-              onClick={handleSubmit}
-              disabled={!isSubmitEnabled}
-              className={`w-[250px] h-[8vh] ml-[2vw] shrink-0 rounded-[10px] relative z-[1] flex justify-center items-center
-                ${isSubmitEnabled
-                  ? "bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.9)] hover:bg-green-700"
-                  : "bg-gray-400 cursor-not-allowed"
-                }`}
-            >
-              <span className="font-['Comic_Sans_MS'] text-[18px] font-bold leading-[20px] text-[#fff] text-center whitespace-nowrap z-[2]">
-                Submit
-              </span>
-            </button>
-          </div>
+              
+              <div className="flex w-full justify-center items-center relative mt-[40px] mb-[20px]">
+                <button
+                  onClick={handleSubmit}
+                  className={`w-[250px] h-[60px] rounded-[10px] relative z-[1] flex justify-center items-center
+                    bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.9)] hover:bg-green-700`}
+                >
+                  <span className="font-['Comic_Sans_MS'] text-[18px] font-bold leading-[20px] text-[#fff] text-center whitespace-nowrap z-[2]">
+                    Submit
+                  </span>
+                </button>
+              </div>
+            </div>
+          </DndContext>
+          {/* DragOverlay MUST be a direct child of DndContext for it to render */}
+          <DragOverlay>
+            {renderDragOverlayContent()}
+          </DragOverlay>
         </>
       ) : (
         // RESULT SCREEN
