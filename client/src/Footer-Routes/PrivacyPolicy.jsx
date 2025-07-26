@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { 
-  Shield, 
-  Database, 
-  Users, 
-  Globe, 
-  Lock, 
-  Eye, 
-  Settings, 
+import {
+  Shield,
+  Database,
+  Users,
+  Globe,
+  Lock,
+  Eye,
+  Settings,
   Heart,
   CheckCircle,
   ArrowRight,
@@ -18,384 +18,352 @@ import {
   Activity,
   FileText,
   Zap,
-  Award
+  Award,
+  ChevronRight,
 } from "lucide-react";
 
-const FloatingShape = ({ children, className, delay = 0 }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-    animate={{ 
-      opacity: 1, 
-      scale: 1, 
-      rotate: 0,
-      y: [0, -10, 0]
-    }}
-    transition={{ 
-      duration: 0.8, 
-      delay,
-      y: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
 
-const FeatureCard = ({ icon, title, description, items, delay, gradient }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 60, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
-      viewport={{ once: true, margin: "-100px" }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="group relative"
-    >
-      <div className={`absolute inset-0 ${gradient} rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-500`} />
-      <div className="relative bg-white/70 backdrop-blur-xl border border-white/50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-        <motion.div
-          animate={{ rotate: isHovered ? 360 : 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className={`inline-flex p-4 rounded-2xl ${gradient} shadow-lg mb-6`}
-        >
-          {React.cloneElement(icon, { className: "w-8 h-8 text-white" })}
-        </motion.div>
-        
-        <h3 className="text-2xl font-bold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors">
-          {title}
-        </h3>
-        
-        <p className="text-gray-600 mb-6 leading-relaxed">
-          {description}
-        </p>
-        
-        <div className="space-y-3">
-          {items.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: delay + index * 0.1 }}
-              className="flex items-center gap-3 text-gray-700"
-            >
-              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-              <span className="text-sm">{item}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
 };
 
-const DataTypeIcon = ({ icon, label, color }) => (
-  <motion.div
-    whileHover={{ scale: 1.1, y: -5 }}
-    className="flex flex-col items-center gap-2 p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all"
-  >
-    <div className={`p-3 rounded-xl ${color}`}>
-      {React.cloneElement(icon, { className: "w-6 h-6 text-white" })}
-    </div>
-    <span className="text-sm font-medium text-gray-700">{label}</span>
-  </motion.div>
-);
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
 
-const TrustBadge = ({ icon, title, subtitle, delay }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.8 }}
-    whileInView={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.6, delay }}
-    className="flex items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-100"
-  >
-    <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl">
-      {React.cloneElement(icon, { className: "w-6 h-6 text-white" })}
-    </div>
-    <div>
-      <h4 className="font-semibold text-gray-800">{title}</h4>
-      <p className="text-sm text-gray-600">{subtitle}</p>
-    </div>
-  </motion.div>
-);
+const sectionIcons = {
+  "Information We Collect": Database,
+  "How We Use Your Information": Activity,
+  "Use of Cookies": Shield,
+  "Data Protection": Lock,
+  "Children’s Privacy": Users,
+  "Third-Party Services": Globe,
+  "Your Rights and Choices": CheckCircle,
+  "Changes to This Policy": Settings,
+  "Contact Us": Mail
+};
 
-const PrivacyPolicy = () => {
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 300], [0, -50]);
-  const y2 = useTransform(scrollY, [0, 300], [0, -100]);
 
-  const dataTypes = [
-    { icon: <Mail />, label: "Name & Email", color: "bg-gradient-to-r from-blue-500 to-blue-600" },
-    { icon: <Phone />, label: "Class/Grade", color: "bg-gradient-to-r from-green-500 to-green-600" },
-    { icon: <Calendar />, label: "Progress Data", color: "bg-gradient-to-r from-purple-500 to-purple-600" },
-    { icon: <CreditCard />, label: "Browser Info", color: "bg-gradient-to-r from-red-500 to-red-600" },
-    { icon: <Activity />, label: "Usage Analytics", color: "bg-gradient-to-r from-orange-500 to-orange-600" },
-    { icon: <Settings />, label: "Cookies", color: "bg-gradient-to-r from-teal-500 to-teal-600" }
-  ];
+const termsSections = [
+  {
+    id: "information",
+    title: "Information We Collect",
+    subtitle: "Types of data gathered from users",
+    content: [
+      "We may collect the following types of information from users:",
+      "a) Personal Information",
+      "- Name (first name or username only)",
+      "- Email address (if required for login or account creation)",
+      "- Class or grade level (for personalized content)",
+      "", // This blank line acts as a separator
+      "b) Non-Personal Information",
+      "- Browser type and device information",
+      "- Pages visited and time spent on site",
+      "- Progress in games, quizzes, and modules",
+      "- IP address (used for regional access control)",
+      "", // This blank line acts as a separator
+      "We do not knowingly collect sensitive personal data such as phone numbers, addresses, or payment information."
+    ],
+  },
+  {
+    id: "usage",
+    title: "How We Use Your Information",
+    subtitle: "Purpose behind data collection",
+    content: [
+      "We use your information to:",
+      "- Provide access to educational content",
+      "- Track student progress and activity completion",
+      "- Improve our platform’s user experience and performance",
+      "- Respond to inquiries or feedback",
+      "- Notify users of updates or new content",
+      "",
+      "We do not sell or rent your personal information to third parties."
+    ],
+  },
+  {
+    id: "cookies",
+    title: "Use of Cookies",
+    subtitle: "Why and how we use browser cookies",
+    content: [
+      "We use cookies and similar technologies to:",
+      "- Keep you logged in",
+      "- Save progress on challenges and modules",
+      "- Understand site usage patterns to improve user experience",
+      "",
+      "You can disable cookies in your browser settings, but doing so may affect the functionality of some features."
+    ],
+  },
+  {
+    id: "data-protection",
+    title: "Data Protection",
+    subtitle: "How we safeguard your information",
+    content: [
+      "We implement standard security practices to protect your data:",
+      "- SSL encryption for secure Browse",
+      "- Limited access to user data by authorized staff only",
+      "- Routine monitoring to detect and prevent unauthorized access",
+      "",
+      "Despite our best efforts, no method of transmission over the internet is 100% secure."
+    ],
+  },
+  {
+    id: "children",
+    title: "Children’s Privacy",
+    subtitle: "Privacy measures for students aged 10–18",
+    content: [
+      "EduManiax is designed for students aged 10–18 (Classes 6–12). We do not knowingly collect more data than necessary for educational purposes. If you are a parent or guardian and believe your child has provided more information than required, please contact us for assistance."
+    ],
+  },
+  {
+    id: "third-party",
+    title: "Third-Party Services",
+    subtitle: "External tools and service providers",
+    content: [
+      "We may use third-party services (like analytics tools or embedded tools such as Canva, Google Forms, etc.) that may collect basic technical information. These services operate under their own privacy policies."
+    ],
+  },
+  {
+    id: "rights",
+    title: "Your Rights and Choices",
+    subtitle: "How you can manage your data",
+    content: [
+      "You have the right to:",
+      "- Request access to the data we store about you",
+      "- Request corrections or deletion of your data",
+      "- Opt out of any non-essential communications",
+      "",
+      "To make such a request, please contact us at: edumaniax.support@gmail.com"
+    ],
+  },
+  {
+    id: "updates",
+    title: "Changes to This Policy",
+    subtitle: "How privacy updates are handled",
+    content: [
+      "We may update this Privacy Policy from time to time. All updates will be posted on this page with the revised date. Continued use of the website after changes implies your acceptance of the revised policy."
+    ],
+  },
+  {
+    id: "contact",
+    title: "Contact Us",
+    subtitle: "Reach out with any questions",
+    content: [
+      "If you have any questions about this Privacy Policy, please contact: edumaniax.support@gmail.com"
+    ],
+  }
+];
 
-  const trustBadges = [
-    { icon: <Shield />, title: "SSL Encryption", subtitle: "Secure browsing protection" },
-    { icon: <Lock />, title: "Limited Access", subtitle: "Authorized staff only" },
-    { icon: <Award />, title: "Student Safety", subtitle: "Ages 10-18 focused design" }
-  ];
+
+export default function ModernTermsPage() {
+  const [activeSection, setActiveSection] = useState("information"); // Changed initial active section
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = termsSections.map(section => document.getElementById(section.id));
+      // Adjust offset if needed based on header height, etc.
+      const scrollPosition = window.scrollY + 200;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(termsSections[i].id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <motion.div 
-          style={{ y: y1 }}
-          className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full blur-3xl opacity-30"
-        />
-        <motion.div 
-          style={{ y: y2 }}
-          className="absolute top-96 right-10 w-96 h-96 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full blur-3xl opacity-20"
-        />
-      </div>
-
-      {/* Floating Shapes */}
-      <FloatingShape className="absolute top-32 right-20 text-blue-300" delay={0.5}>
-        <Shield className="w-16 h-16" />
-      </FloatingShape>
-      <FloatingShape className="absolute top-80 left-16 text-purple-300" delay={1}>
-        <Lock className="w-12 h-12" />
-      </FloatingShape>
-      <FloatingShape className="absolute bottom-40 right-32 text-green-300" delay={1.5}>
-        <Heart className="w-14 h-14" />
-      </FloatingShape>
-
-      <div className="relative z-10 px-6 md:px-12 py-16">
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="max-w-6xl mx-auto text-center mb-20"
-        >
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
+      {/* Hero Section */}
+      <motion.div
+        className="relative overflow-hidden bg-white border-b border-slate-200"
+        style={{ opacity, scale }}
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(258deg,_#3F9400_-1.82%,_#2C6601_100.88%)]" />
+        <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-blue-200 px-8 py-4 rounded-full shadow-lg mb-8"
+            className="text-center"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <Shield className="w-8 h-8 text-blue-600" />
-            <span className="font-semibold text-blue-700 text-lg">Privacy Policy</span>
+            <motion.div
+              className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
+              variants={itemVariants}
+            >
+              <div className="w-6 h-6 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/public/terms_nd_conditions/icon-park-solid_update-rotation.svg')" }} />
+              Effective Date: June 5, 2025
+            </motion.div>
+
+            <motion.h1
+              className="text-4xl lg:text-6xl font-bold text-white mb-6 "
+              variants={itemVariants}
+            >
+              Privacy Policy {/* Changed from Terms & Conditions */}
+            </motion.h1>
           </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-8"
-          >
-            Privacy Policy
-            <br />
-            <span className="text-4xl md:text-6xl">Edumaniax</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4"
-          >
-            Effective Date: June 20, 2025
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12"
-          >
-            Last Updated: June 20, 2025
-          </motion.p>
-
-          {/* Data Types Visual */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="grid grid-cols-2 md:grid-cols-6 gap-4 max-w-4xl mx-auto mb-16"
-          >
-            {dataTypes.map((type, index) => (
-              <DataTypeIcon key={index} {...type} />
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Trust Badges */}
-        <div className="max-w-6xl mx-auto mb-20">
-          <div className="grid md:grid-cols-3 gap-6">
-            {trustBadges.map((badge, index) => (
-              <TrustBadge key={index} {...badge} delay={index * 0.2} />
-            ))}
-          </div>
         </div>
+      </motion.div>
 
-        {/* Main Content */}
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
-            <FeatureCard
-              icon={<Database />}
-              title="1. Information We Collect"
-              description="We may collect the following types of information from users:"
-              items={[
-                "Personal Information: Name (first name or username only), Email address (if required for login), Class or grade level (for personalized content)",
-                "Non-Personal Information: Browser type and device information, Pages visited and time spent on site",
-                "Progress in games, quizzes, and modules, IP address (used for regional access control)",
-                "We do not knowingly collect sensitive personal data such as phone numbers, addresses, or payment information"
-              ]}
-              delay={0.2}
-              gradient="bg-gradient-to-r from-blue-500 to-blue-600"
-            />
-
-            <FeatureCard
-              icon={<Zap />}
-              title="2. How We Use Your Information"
-              description="We use your information to:"
-              items={[
-                "Provide access to educational content",
-                "Track student progress and activity completion",
-                "Improve our platform's user experience and performance",
-                "Respond to inquiries or feedback",
-                "Notify users of updates or new content",
-                "We do not sell or rent your personal information to third parties"
-              ]}
-              delay={0.4}
-              gradient="bg-gradient-to-r from-purple-500 to-purple-600"
-            />
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
-            <FeatureCard
-              icon={<Settings />}
-              title="3. Use of Cookies"
-              description="We use cookies and similar technologies to:"
-              items={[
-                "Keep you logged in",
-                "Save progress on challenges and modules",
-                "Understand site usage patterns to improve user experience",
-                "You can disable cookies in your browser settings, but doing so may affect the functionality of some features"
-              ]}
-              delay={0.6}
-              gradient="bg-gradient-to-r from-green-500 to-green-600"
-            />
-
-            <FeatureCard
-              icon={<Lock />}
-              title="4. Data Protection"
-              description="We implement standard security practices to protect your data:"
-              items={[
-                "SSL encryption for secure browsing",
-                "Limited access to user data by authorized staff only",
-                "Routine monitoring to detect and prevent unauthorized access",
-                "Despite our best efforts, no method of transmission over the internet is 100% secure"
-              ]}
-              delay={0.8}
-              gradient="bg-gradient-to-r from-red-500 to-red-600"
-            />
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
-            <FeatureCard
-              icon={<Users />}
-              title="5. Children's Privacy"
-              description="Edumaniax is designed for students aged 10-18 (Classes 6-12)."
-              items={[
-                "We do not knowingly collect more data than necessary for educational purposes",
-                "If you are a parent or guardian and believe your child has provided more information than required, please contact us for assistance"
-              ]}
-              delay={1.0}
-              gradient="bg-gradient-to-r from-orange-500 to-orange-600"
-            />
-
-            <FeatureCard
-              icon={<Globe />}
-              title="6. Third-Party Services"
-              description="We may use third-party services that may collect basic technical information."
-              items={[
-                "Analytics tools or embedded tools such as Canva, Google Forms, etc.",
-                "These services operate under their own privacy policies"
-              ]}
-              delay={1.2}
-              gradient="bg-gradient-to-r from-teal-500 to-teal-600"
-            />
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
-            <FeatureCard
-              icon={<Eye />}
-              title="7. Your Rights and Choices"
-              description="You have the right to:"
-              items={[
-                "Request access to the data we store about you",
-                "Request corrections or deletion of your data",
-                "Opt out of any non-essential communications",
-                "To make such a request, please contact us at: edumaniax.support@gmail.com"
-              ]}
-              delay={1.4}
-              gradient="bg-gradient-to-r from-indigo-500 to-indigo-600"
-            />
-
-            <FeatureCard
-              icon={<FileText />}
-              title="8. Changes to This Policy"
-              description="We may update this Privacy Policy from time to time."
-              items={[
-                "All updates will be posted on this page with the revised date",
-                "Continued use of the website after changes implies your acceptance of the revised policy"
-              ]}
-              delay={1.6}
-              gradient="bg-gradient-to-r from-pink-500 to-pink-600"
-            />
-          </div>
-        </div>
-
-        {/* Contact & Footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto text-center mt-20"
-        >
-          <div className="bg-white/70 backdrop-blur-xl border border-white/50 rounded-3xl p-12 shadow-xl">
-            <div className="flex justify-center mb-6">
-              <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full">
-                <Heart className="w-8 h-8 text-white" />
+      <div className="max-w-7xl mx-auto px-6 -mt-8">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Table of Contents - Sticky Sidebar */}
+          <div className="lg:w-80 lg:shrink-0">
+            <div className="lg:sticky lg:top-8">
+              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-[#0F172B] mb-4 flex items-center gap-2">
+                  <FileText size={20} />
+                  Quick Navigation
+                </h3>
+                <nav className="space-y-1">
+                  {termsSections.map((section, index) => {
+                    const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
+                    return (
+                      <button
+                        key={section.id}
+                        onClick={() => scrollToSection(section.id)}
+                        className={`w-full text-left p-3 rounded-lg transition-all duration-200 flex items-center gap-3 group ${
+                          activeSection === section.id
+                            ? 'bg-[#E6F4EB] text-[#068F36] border border-blue-200'
+                            : 'hover:bg-slate-50 text-[#45556C] hover:text-slate-900'
+                        }`}
+                      >
+                        <Icon size={18} className={activeSection === section.id ? 'text-[#068F36]' : 'text-[#90A1B9]'} />
+                        <div className="flex-1">
+                          <div className="font-medium text-sm">{section.title}</div>
+                          <div className="text-xs opacity-70">{section.subtitle}</div>
+                        </div>
+                        <ChevronRight size={16} />
+                      </button>
+                    );
+                  })}
+                </nav>
               </div>
             </div>
-            
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">
-              9. Contact Us
-            </h3>
-            
-            <p className="text-gray-600 mb-8 text-lg">
-              If you have any questions about this Privacy Policy, please contact:
-            </p>
-
-            <motion.a
-              href="mailto:edumaniax.support@gmail.com"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all"
-            >
-              <Mail className="w-5 h-5" />
-              edumaniax.support@gmail.com
-              <ArrowRight className="w-5 h-5" />
-            </motion.a>
-
-           
           </div>
-        </motion.div>
+
+          {/* Main Content */}
+          <div className="flex-1 min-w-0">
+            <div className="lg:sticky lg:top-8">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="space-y-8"
+              >
+                {termsSections.map((section, index) => {
+                  const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
+                  return (
+                    <motion.div
+                      key={section.id}
+                      id={section.id}
+                      variants={itemVariants}
+                      className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-300"
+                    >
+                      <div className="p-8 lg:p-10">
+                        <div className="flex items-start gap-4 mb-6">
+                          <div className="flex-shrink-0 w-12 h-12 bg-[#068F361A] rounded-xl flex items-center justify-center">
+                            <Icon size={24} className="text-[#068F36]" />
+                          </div>
+                          <div className="flex-1">
+                            <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
+                              {index + 1}. {section.title}
+                            </h2>
+                            <p className="text-lg text-slate-600 ml-7 lg:ml-9">{section.subtitle}</p>
+                          </div>
+                        </div>
+
+                        <div className="space-y-4">
+                          {section.content.map((point, pointIndex) => {
+                            const trimmed = point.trim();
+
+                            const isLetteredHeading = /^[a-zA-Z]\)/.test(trimmed);
+                            const isDashList = /^-/.test(trimmed);
+                            const isParagraph = !isLetteredHeading && !isDashList && trimmed !== "";
+
+                            if (trimmed === "") {
+                              return <div key={pointIndex} className="h-2" />; 
+                            } else if (isLetteredHeading) {
+                              return (
+                                <motion.h3
+                                  key={pointIndex}
+                                  className="text-xl font-semibold text-slate-800 ml-0 md:ml-4 mt-6 mb-2" 
+                                  initial={{ opacity: 0, x: -20 }}
+                                  whileInView={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
+                                  viewport={{ once: true, margin: "-50px" }}
+                                >
+                                  {trimmed}
+                                </motion.h3>
+                              );
+                            } else if (isDashList) {
+                              return (
+                                <motion.div
+                                  key={pointIndex}
+                                  className="flex items-start rounded-md hover:bg-slate-50 transition-colors duration-200 ml-4 md:ml-8" // Adjusted margin-left
+                                  initial={{ opacity: 0, x: -20 }}
+                                  whileInView={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
+                                  viewport={{ once: true, margin: "-50px" }}
+                                >
+                                  
+                                  <p className="text-slate-700 ">{trimmed}</p> 
+                                </motion.div>
+                              );
+                            } else { 
+                              return (
+                                <motion.p
+                                  key={pointIndex}
+                                  className="text-slate-700 leading-relaxed "
+                                  initial={{ opacity: 0, x: -20 }}
+                                  whileInView={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
+                                  viewport={{ once: true, margin: "-50px" }}
+                                >
+                                  {trimmed}
+                                </motion.p>
+                              );
+                            }
+                          })}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
-};
-
-export default PrivacyPolicy;
+}
