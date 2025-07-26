@@ -9,11 +9,10 @@ import {
   useDroppable,
   useDraggable,
 } from "@dnd-kit/core";
-import { useSortable, arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"; // <-- Import for sorting
+import { useSortable, arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useNavigate } from "react-router-dom";
 
-// Mocking context providers (assuming these are external to the component)
 const useEnvirnoment = () => ({
   completeEnvirnomentChallenge: (a, b) =>
     console.log("completeEnvirnomentChallenge called"),
@@ -51,9 +50,6 @@ const puzzles = [
   },
 ];
 
-// --- Helper Components ---
-
-// DraggableCard: Represents an actual card that can be dragged from the left column (Large Screen only)
 const DraggableCard = React.memo(({ id, content, isDraggingOverlay }) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({ id: id });
@@ -64,7 +60,7 @@ const DraggableCard = React.memo(({ id, content, isDraggingOverlay }) => {
     width: "300px",
     height: "8.5vh",
     zIndex: isDragging ? 100 : 'auto',
-    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), // Hide original when dragging
+    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), 
   };
 
   return (
@@ -85,13 +81,11 @@ const DraggableCard = React.memo(({ id, content, isDraggingOverlay }) => {
   );
 });
 
-// DroppableSequenceSlot: Represents a slot in the sequence that can receive items (Large Screen only)
-// Its *content* can also be dragged (to swap with other slots or move back to available)
 const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay }) => {
   const { setNodeRef: setDroppableNodeRef } = useDroppable({ id: id });
 
   const { attributes, listeners, setNodeRef: setDraggableNodeRef, transform, isDragging } =
-    useDraggable({ id: id, disabled: !content }); // Only enable draggable if there's content
+    useDraggable({ id: id, disabled: !content }); 
 
   const combinedRef = useCallback((node) => {
     setDroppableNodeRef(node);
@@ -106,7 +100,7 @@ const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay
     width: "300px",
     height: "8.5vh",
     zIndex: isDragging ? 100 : 'auto',
-    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), // Hide original when dragging
+    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), 
   };
 
   const borderClass = content ? '' : 'border-dashed border-[2.5px] border-[#79caef]';
@@ -140,7 +134,6 @@ const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay
   );
 });
 
-// EmptyPlaceholderCardLeft: Visual placeholder for empty slots on the left (Large Screen only)
 const EmptyPlaceholderCardLeft = React.memo(({ id }) => {
   const { setNodeRef } = useDroppable({ id: id });
   return (
@@ -151,7 +144,6 @@ const EmptyPlaceholderCardLeft = React.memo(({ id }) => {
   );
 });
 
-// StaticReviewCard: A non-draggable card for displaying answers in review mode
 const StaticReviewCard = React.memo(({ content, type }) => {
   const bgColorClass = type === 'user' ? 'bg-[#d8bfd8]' : 'bg-[#e0ffe0]';
   const textColorClass = type === 'user' ? 'text-[rgba(75,0,130,0.6)]' : 'text-[rgba(9,190,67,0.8)]';
@@ -172,7 +164,6 @@ const StaticReviewCard = React.memo(({ content, type }) => {
   );
 });
 
-// ReviewItemCard for small/medium screens
 const ReviewItemCard = React.memo(({ puzzle, userAnswer }) => {
   const isCorrect = userAnswer.every(
     (item, index) =>
@@ -198,8 +189,6 @@ const ReviewItemCard = React.memo(({ puzzle, userAnswer }) => {
   );
 });
 
-
-// NEW: MobileSortableCard for vertical sorting in small/medium screens
 const MobileSortableCard = React.memo(({ id, content }) => {
   const {
     attributes,
@@ -213,11 +202,10 @@ const MobileSortableCard = React.memo(({ id, content }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 10 : 'auto', // Keep dragged item on top
-    opacity: isDragging ? 0.5 : 1, // Slightly hide the original when dragging
-    // Added specific mobile styles
-    width: "100%", // Full width within its container
-    maxWidth: "324px", // Max width to match provided example
+    zIndex: isDragging ? 10 : 'auto', 
+    opacity: isDragging ? 0.5 : 1, 
+    width: "100%", 
+    maxWidth: "324px", 
     height: "72px",
     display: "flex",
     justifyContent: "center",
@@ -244,10 +232,8 @@ const MobileSortableCard = React.memo(({ id, content }) => {
   );
 });
 
-
-// --- Main Component ---
-const TOTAL_TIME_LIMIT = 120; // 2 minutes in seconds
-const TOTAL_PUZZLES_SCORE = puzzles.length * 5; // Total possible score
+const TOTAL_TIME_LIMIT = 120; 
+const TOTAL_PUZZLES_SCORE = puzzles.length * 5; 
 
 const ChainReaction = () => {
   const { completeEnvirnomentChallenge } = useEnvirnoment();
@@ -257,7 +243,6 @@ const ChainReaction = () => {
   const [showStart, setShowStart] = useState(true);
   const [current, setCurrent] = useState(0);
 
-  // For the large screen Dnd-kit logic
   const [availableCards, setAvailableCards] = useState([]);
   const [sequenceSlotsContent, setSequenceSlotsContent] = useState([
     { id: null, slotId: 'slot-0' },
@@ -265,7 +250,6 @@ const ChainReaction = () => {
     { id: null, slotId: 'slot-2' },
   ]);
 
-  // NEW: State for mobile sorting
   const [mobileSortableItems, setMobileSortableItems] = useState([]);
 
   const [score, setScore] = useState(0);
@@ -280,16 +264,14 @@ const ChainReaction = () => {
   const [userAnswers, setUserAnswers] = useState([]);
 
   const activeDragItemDataRef = useRef(null);
-  const [activeId, setActiveId] = useState(null); // Used for DragOverlay content determination
+  const [activeId, setActiveId] = useState(null);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleSubmit = useCallback(() => {
-    // Determine which sequence to check based on screen size
-    const currentSequence = window.innerWidth >= 1024 // Assuming 'lg' breakpoint is 1024px
-      ? sequenceSlotsContent.map(item => item ? item.id : null) // Large screen D&D
-      : mobileSortableItems; // Mobile sorting
-
+    const currentSequence = window.innerWidth >= 1024 
+      ? sequenceSlotsContent.map(item => item ? item.id : null) 
+      : mobileSortableItems; 
     setIsTimerRunning(false);
     setUserAnswers(prevAnswers => [...prevAnswers, currentSequence]);
 
@@ -310,7 +292,7 @@ const ChainReaction = () => {
         { id: null, slotId: 'slot-1' },
         { id: null, slotId: 'slot-2' },
       ]);
-      setMobileSortableItems(shuffledOrder); // Reset mobile items
+      setMobileSortableItems(shuffledOrder);
       setCurrent(next);
       setTimeLeft(TOTAL_TIME_LIMIT);
       setIsTimerRunning(true);
@@ -357,8 +339,7 @@ const ChainReaction = () => {
       { id: null, slotId: 'slot-1' },
       { id: null, slotId: 'slot-2' },
     ]);
-    setMobileSortableItems(shuffledOrder); // Initialize mobile items
-    setCurrent(0);
+    setMobileSortableItems(shuffledOrder); 
     setScore(0);
     setTimeLeft(TOTAL_TIME_LIMIT);
     setStartTime(Date.now());
@@ -370,7 +351,6 @@ const ChainReaction = () => {
     setIsTimerRunning(true);
   };
 
-  // --- Drag and Drop Logic for Large Screens (Existing) ---
   const handleDragStartLargeScreen = (event) => {
     const draggedId = event.active.id;
     setActiveId(draggedId);
@@ -468,11 +448,9 @@ const ChainReaction = () => {
 
   const { setNodeRef: setAvailableCardsAreaRef } = useDroppable({ id: 'available-cards-area' });
 
-
-  // NEW: Drag and Drop Logic for Mobile Sorting
   const handleDragEndMobile = (event) => {
     const { active, over } = event;
-    setActiveId(null); // Clear activeId for DragOverlay
+    setActiveId(null); 
 
     if (active.id !== over.id) {
       setMobileSortableItems((items) => {
@@ -502,10 +480,10 @@ const ChainReaction = () => {
     }
   };
 
-  // For large screens, check if all slots are filled. For small/medium, submit is always enabled.
+ 
   const isSubmitEnabled = window.innerWidth >= 1024
     ? sequenceSlotsContent.every(item => item && item.id !== null)
-    : true; // Always true for small/medium screens
+    : true; 
 
   const progress = ((TOTAL_TIME_LIMIT - timeLeft) / TOTAL_TIME_LIMIT) * 100;
 
@@ -517,7 +495,7 @@ const ChainReaction = () => {
   const currentUserReviewAnswer = userAnswers[reviewIndex] || [];
 
   const renderDragOverlayContent = useCallback(() => {
-    const currentDragItem = activeDragItemDataRef.current; // This ref holds data for the large screen drag overlay
+    const currentDragItem = activeDragItemDataRef.current; 
     if (window.innerWidth >= 1024 && currentDragItem && currentDragItem.id) {
       if (currentDragItem.type === 'card') {
         return (
@@ -537,7 +515,7 @@ const ChainReaction = () => {
           />
         );
       }
-    } else if (activeId && window.innerWidth < 1024) { // For mobile sorting, activeId directly holds the content
+    } else if (activeId && window.innerWidth < 1024) { 
         const draggedContent = mobileSortableItems.find(item => item === activeId);
         if (draggedContent) {
             return (
@@ -588,7 +566,7 @@ const ChainReaction = () => {
         </div>
 
       ) : showReview ? (
-        // REVIEW ANSWERS SCREEN (No changes to this section)
+        // REVIEW ANSWERS SCREEN 
         <div className="min-h-screen w-screen flex flex-col items-center bg-green-100 py-8 px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-6xl bg-white rounded-3xl shadow flex flex-col items-center p-6 sm:p-8 lg:p-10 relative">
             <button onClick={() => { setShowReview(false); setShowResult(true); }} className="flex justify-center items-center absolute top-4 right-4 z-[139] w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full hover:bg-gray-200 transition">
@@ -682,7 +660,7 @@ const ChainReaction = () => {
       ) : !showResult ? (
         // MAIN GAME SCREEN: Conditional rendering based on screen size
         <>
-          {/* Large Screen Layout (existing code) */}
+          {/* Large Screen Layout */}
           <div className="hidden lg:flex flex-col gap-[5vh] w-full items-center">
             <div className="flex flex-col gap-[0.5vh] justify-center items-center relative z-[29] mt-[1vh]">
               <span className="font-['Comic_Neue'] text-[4.5vh] font-bold leading-[1.2] text-[rgba(75,75,75,0.8)] text-center whitespace-nowrap">
@@ -713,10 +691,10 @@ const ChainReaction = () => {
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
-                onDragStart={handleDragStartLargeScreen} // Use large screen specific handler
-                onDragEnd={handleDragEndLargeScreen} // Use large screen specific handler
+                onDragStart={handleDragStartLargeScreen} 
+                onDragEnd={handleDragEndLargeScreen}
               >
-                {/* Left Column: Available Cards - Now a simple Droppable area */}
+                {/* Left Column: Available Cards */}
                 <div className="flex w-[24vw] h-[35vh] ml-[1vw] flex-col gap-[2.5vh] shrink-0 flex-nowrap relative z-[4]">
                   <div
                     ref={setAvailableCardsAreaRef}
@@ -731,7 +709,6 @@ const ChainReaction = () => {
                         isDraggingOverlay={activeId === item}
                       />
                     ))}
-                    {/* Render empty placeholders to ensure drop targets always exist */}
                     {Array.from({ length: 3 - availableCards.length }).map((_, index) => (
                       <EmptyPlaceholderCardLeft key={`empty-left-${index}`} id={`available-cards-placeholder-${index}`} />
                     ))}
@@ -755,7 +732,7 @@ const ChainReaction = () => {
                   </div>
                 </div>
 
-                {/* Right Column: Sequence Slots (Now all droppable, content draggable) */}
+                {/* Right Column: Sequence Slots  */}
                 <div className="flex justify-between w-[23.5vw] h-[35vh] flex-col gap-[2.5vh] shrink-0 flex-nowrap relative z-[16]">
                   {sequenceSlotsContent.map((itemInSlot, index) => (
                     <DroppableSequenceSlot
@@ -768,7 +745,6 @@ const ChainReaction = () => {
                   ))}
                 </div>
 
-                {/* DragOverlay */}
                 <DragOverlay>
                   {renderDragOverlayContent()}
                 </DragOverlay>
@@ -793,7 +769,7 @@ const ChainReaction = () => {
             </div>
           </div>
 
-          {/* Small/Medium Screen Layout (NEW) */}
+          {/* Small/Medium Screen Layout */}
           <div className="lg:hidden flex flex-col items-center w-full min-h-[90vh] py-4 px-2"> {/* Added py-4 px-2 for padding */}
             {/* Title and Description */}
             <div className="flex flex-col gap-[14px] justify-end items-center flex-nowrap relative z-[22] mt-[20px] px-2 text-center w-full">
@@ -846,8 +822,8 @@ const ChainReaction = () => {
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
-                onDragStart={event => setActiveId(event.active.id)} // Set activeId for DragOverlay
-                onDragEnd={handleDragEndMobile} // Use mobile specific handler
+                onDragStart={event => setActiveId(event.active.id)} 
+                onDragEnd={handleDragEndMobile} 
               >
                 <SortableContext items={mobileSortableItems} strategy={verticalListSortingStrategy}>
                   {mobileSortableItems.map((item) => (
@@ -864,7 +840,6 @@ const ChainReaction = () => {
             <div className="flex w-full justify-center items-center relative mt-[40px] mb-[20px]">
               <button
                 onClick={handleSubmit}
-                // Submit button always enabled for small/medium screens
                 className={`w-[250px] h-[60px] rounded-[10px] relative z-[1] flex justify-center items-center
                   bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.9)] hover:bg-green-700`}
               >
@@ -876,7 +851,7 @@ const ChainReaction = () => {
           </div>
         </>
       ) : (
-        // RESULT SCREEN (No changes to this section)
+        // RESULT SCREEN 
         <div className="flex flex-col items-center justify-center min-h-[90vh]">
           <h1 className="text-4xl font-bold mb-2 mt-16 text-center" style={{ fontFamily: "'Comic Neue', 'Comic Sans MS', cursive'" }}>Chain Reaction</h1>
           <p className="text-lg text-gray-600 mb-6 text-center" style={{ fontFamily: "'Commissioner', 'Arial', sans-serif'" }}>
