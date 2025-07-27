@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-// Removed unused Lucide React imports as they are replaced by custom SVGs
 import {
-  FileText, // Keep this if it's your fallback icon
+  FileText, 
   ChevronRight,
 } from "lucide-react";
 
-// Import all your custom SVG components
 import InformationWeCollectIcon from '../components/icon/InformationWeCollectIcon.jsx';
 import HowWeUseInformationIcon from '../components/icon/HowWeUseInformationIcon.jsx';
 import UseOfCookiesIcon from '../components/icon/UseOfCookiesIcon.jsx';
@@ -46,7 +44,7 @@ const sectionIcons = {
   "How We Use Your Information": HowWeUseInformationIcon,
   "Use of Cookies": UseOfCookiesIcon,
   "Data Protection": DataProtectionIcon,
-  "Children’s Privacy": ChildrensPrivacyIcon, // Note the exact matching title here
+  "Children’s Privacy": ChildrensPrivacyIcon, 
   "Third-Party Services": ThirdPartyServicesIcon,
   "Your Rights and Choices": YourRightsIcon,
   "Changes to This Policy": ChangesToPolicyIcon,
@@ -65,13 +63,13 @@ const termsSections = [
       "- Name (first name or username only)",
       "- Email address (if required for login or account creation)",
       "- Class or grade level (for personalized content)",
-      "", // This blank line acts as a separator
+      "", 
       "b) Non-Personal Information",
       "- Browser type and device information",
       "- Pages visited and time spent on site",
       "- Progress in games, quizzes, and modules",
       "- IP address (used for regional access control)",
-      "", // This blank line acts as a separator
+      "",
       "We do not knowingly collect sensitive personal data such as phone numbers, addresses, or payment information."
     ],
   },
@@ -118,7 +116,7 @@ const termsSections = [
   },
   {
     id: "children",
-    title: "Children’s Privacy", // Ensure this title matches the sectionIcons key exactly
+    title: "Children’s Privacy", 
     subtitle: "Privacy measures for students aged 10-18",
     content: [
       "EduManiax is designed for students aged 10-18 (Classes 6-12). We do not knowingly collect more data than necessary for educational purposes. If you are a parent or guardian and believe your child has provided more information than required, please contact us for assistance."
@@ -200,7 +198,7 @@ export default function ModernTermsPage() {
       {/* Hero Section */}
       <motion.div
         className="relative overflow-hidden bg-white border-b border-slate-200"
-        style={{ opacity, scale }}
+        style={{ opacity}}
       >
         <div className="absolute inset-0 bg-[linear-gradient(258deg,_#3F9400_-1.82%,_#2C6601_100.88%)]" />
         <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
@@ -230,7 +228,7 @@ export default function ModernTermsPage() {
 
       <div className="max-w-7xl mx-auto px-6 -mt-8">
         <div className="flex flex-col lg:flex-row gap-12">
-          {/* Table of Contents - Sticky Sidebar */}
+          {/* Table of Contents */}
           <div className="lg:w-80 lg:shrink-0">
             <div className="lg:sticky lg:top-8">
               <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
@@ -240,7 +238,6 @@ export default function ModernTermsPage() {
                 </h3>
                 <nav className="space-y-1">
                   {termsSections.map((section, index) => {
-                    // *** CORRECTED LINE HERE ***
                     const Icon = sectionIcons[section.title] || FileText;
                     const iconFillColor = activeSection === section.id ? '#068F36' : '#90A1B9';
 
@@ -280,7 +277,7 @@ export default function ModernTermsPage() {
                 {termsSections.map((section, index) => {
                   // *** CORRECTED LINE HERE ***
                   const Icon = sectionIcons[section.title] || FileText;
-                  const contentIconFillColor = '#068F36'; // Static fill for these icons as per your original code's intention
+                  const contentIconFillColor = '#068F36'; 
 
                   return (
                     <motion.div

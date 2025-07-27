@@ -226,7 +226,7 @@ export default function ModernTermsPage() {
       {/* Hero Section */}
       <motion.div
         className="relative overflow-hidden bg-white border-b border-slate-200"
-        style={{ opacity, scale }}
+        style={{ opacity}}
       >
         <div className="absolute inset-0 bg-[linear-gradient(258deg,_#3F9400_-1.82%,_#2C6601_100.88%)]" />
         <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
@@ -258,7 +258,7 @@ export default function ModernTermsPage() {
 
       <div className="max-w-7xl mx-auto px-6 -mt-8">
         <div className="flex flex-col lg:flex-row gap-12">
-          {/* Table of Contents - Sticky Sidebar */}
+          {/* Table of Contents  */}
           <div className="lg:w-80 lg:shrink-0">
             <div className="lg:sticky lg:top-8">
               <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
@@ -269,7 +269,6 @@ export default function ModernTermsPage() {
                 <nav className="space-y-1">
                   {termsSections.map((section, index) => {
                     const Icon = sectionIcons[section.title] || FileText;
-                    // Determine the fill color based on activeSection
                     const iconFillColor = activeSection === section.id ? '#068F36' : '#90A1B9';
 
                     return (
@@ -282,8 +281,7 @@ export default function ModernTermsPage() {
                             : 'hover:bg-slate-50 text-[#45556C] hover:text-slate-900'
                         }`}
                       >
-                        {/* Pass the fill prop directly to your custom Icon component */}
-                        <Icon size={18} fill={iconFillColor} /> {/* Removed redundant className */}
+                        <Icon size={18} fill={iconFillColor} /> 
                         <div className="flex-1">
                           <div className="font-medium text-sm">{section.title}</div>
                           <div className="text-xs opacity-70">{section.subtitle}</div>
@@ -308,8 +306,7 @@ export default function ModernTermsPage() {
               >
                 {termsSections.map((section, index) => {
                   const Icon = sectionIcons[section.title] || FileText;
-                  // Determine the fill color for the main content icons as well
-                  const contentIconFillColor = '#068F36'; // Static fill for these icons as per your original code's intention
+                  const contentIconFillColor = '#068F36'; 
 
                   return (
                     <motion.div
@@ -321,8 +318,7 @@ export default function ModernTermsPage() {
                       <div className="p-8 lg:p-10">
                         <div className="flex items-start gap-4 mb-6">
                           <div className="flex-shrink-0 w-12 h-12 bg-[#068F361A] rounded-xl flex items-center justify-center">
-                            {/* Pass the fill prop here too */}
-                            <Icon size={24} fill={contentIconFillColor} /> {/* Removed redundant className */}
+                            <Icon size={24} fill={contentIconFillColor} /> 
                           </div>
                           <div className="flex-1">
                             <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
