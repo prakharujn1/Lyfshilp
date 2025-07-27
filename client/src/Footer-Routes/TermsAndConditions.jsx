@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { 
-  Shield, 
-  User, 
-  CreditCard, 
-  Copyright, 
-  Upload, 
-  AlertTriangle, 
-  Scale, 
-  FileText, 
-  Settings,
+import {
+  // You might be able to remove unused Lucide React imports if they are fully replaced
+  FileText, // Keep this if it's your fallback icon
   ChevronRight,
-  CheckCircle2,
-  Clock,
-  Users
+  // Remaining Lucide icons if still used elsewhere, otherwise remove them
+  // Shield, User, CreditCard, Copyright, Upload, AlertTriangle, Scale, Settings, CheckCircle2, Clock, Users
 } from "lucide-react";
+import UserAccountIcon from '../components/icon/UserAccountIcon.jsx';
+import PlatformUsageIcon from '../components/icon/PlatformUsageIcon.jsx';
+import SubscriptionIcon from '../components/icon/SubscriptionIcon.jsx';
+import IntellectualIcon from '../components/icon/IntellectualIcon.jsx';
+import UserContentIcon from '../components/icon/UserContentIcon.jsx';
+import AccountTerminationIcon from '../components/icon/AccountTerminationIcon.jsx';
+import ServiceIcon from '../components/icon/ServiceIcon.jsx';
+import LiabilityIcon from '../components/icon/LiabilityIcon.jsx';
+import GoverningIcon from '../components/icon/GoverningIcon.jsx';
+import TermsUpdateIcon from '../components/icon/TermsUpdateIcon.jsx';
+import Eligibility from '../components/icon/Eligibility.jsx';
 
 
 const containerVariants = {
@@ -41,18 +44,19 @@ const itemVariants = {
 };
 
 const sectionIcons = {
-  "Eligibility": Users,
-  "User Accounts": User,
-  "Platform Usage": Shield,
-  "Subscription & Payments": CreditCard,
-  "Intellectual Property": Copyright,
-  "User Content": Upload,
-  "Account Termination": AlertTriangle,
-  "Service Disclaimers": FileText,
-  "Liability Limits": Scale,
-  "Governing Law": Scale,
-  "Terms Updates": Settings
+  "Eligibility": Eligibility,
+  "User Accounts": UserAccountIcon,
+  "Platform Usage": PlatformUsageIcon,
+  "Subscription & Payments": SubscriptionIcon,
+  "Intellectual Property": IntellectualIcon,
+  "User Content": UserContentIcon,
+  "Account Termination": AccountTerminationIcon,
+  "Service Disclaimers": ServiceIcon,
+  "Liability Limits": LiabilityIcon,
+  "Governing Law": GoverningIcon,
+  "Terms Updates": TermsUpdateIcon
 };
+
 
 const termsSections = [
   {
@@ -220,7 +224,7 @@ export default function ModernTermsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
       {/* Hero Section */}
-      <motion.div 
+      <motion.div
         className="relative overflow-hidden bg-white border-b border-slate-200"
         style={{ opacity, scale }}
       >
@@ -232,18 +236,18 @@ export default function ModernTermsPage() {
             initial="hidden"
             animate="visible"
           >
-            <motion.div 
+            <motion.div
               className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
               variants={itemVariants}
             >
-              
-              <div className="w-6 h-6 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/public/terms_nd_conditions/icon-park-solid_update-rotation.svg')" }} />
 
-              Effective Date: June 5, 2025
+              <div className="w-6 h-6 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/public/rotation.svg')" }} />
+
+              Last Updated on June 2025
             </motion.div>
-            
-            <motion.h1 
-              className="text-4xl lg:text-6xl font-bold text-white mb-6 "
+
+            <motion.h1
+              className="text-4xl lg:text-6xl font-bold text-white mb-6 " style={{ fontFamily: '"Sigmar", sans-serif' }}
               variants={itemVariants}
             >
               Terms & Conditions
@@ -264,7 +268,10 @@ export default function ModernTermsPage() {
                 </h3>
                 <nav className="space-y-1">
                   {termsSections.map((section, index) => {
-                    const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
+                    const Icon = sectionIcons[section.title] || FileText;
+                    // Determine the fill color based on activeSection
+                    const iconFillColor = activeSection === section.id ? '#068F36' : '#90A1B9';
+
                     return (
                       <button
                         key={section.id}
@@ -275,12 +282,13 @@ export default function ModernTermsPage() {
                             : 'hover:bg-slate-50 text-[#45556C] hover:text-slate-900'
                         }`}
                       >
-                        <Icon size={18} className={activeSection === section.id ? 'text-[#068F36]' : 'text-[#90A1B9]'} />
+                        {/* Pass the fill prop directly to your custom Icon component */}
+                        <Icon size={18} fill={iconFillColor} /> {/* Removed redundant className */}
                         <div className="flex-1">
                           <div className="font-medium text-sm">{section.title}</div>
                           <div className="text-xs opacity-70">{section.subtitle}</div>
                         </div>
-                        <ChevronRight size={16}  />
+                        <ChevronRight size={16} />
                       </button>
                     );
                   })}
@@ -299,7 +307,10 @@ export default function ModernTermsPage() {
                 className="space-y-8"
               >
                 {termsSections.map((section, index) => {
-                  const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
+                  const Icon = sectionIcons[section.title] || FileText;
+                  // Determine the fill color for the main content icons as well
+                  const contentIconFillColor = '#068F36'; // Static fill for these icons as per your original code's intention
+
                   return (
                     <motion.div
                       key={section.id}
@@ -310,7 +321,8 @@ export default function ModernTermsPage() {
                       <div className="p-8 lg:p-10">
                         <div className="flex items-start gap-4 mb-6">
                           <div className="flex-shrink-0 w-12 h-12 bg-[#068F361A] rounded-xl flex items-center justify-center">
-                            <Icon size={24} className="text-[#068F36]" />
+                            {/* Pass the fill prop here too */}
+                            <Icon size={24} fill={contentIconFillColor} /> {/* Removed redundant className */}
                           </div>
                           <div className="flex-1">
                             <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
@@ -340,7 +352,7 @@ export default function ModernTermsPage() {
                   );
                 })}
               </motion.div>
-            </div> 
+            </div>
           </div>
         </div>
       </div>

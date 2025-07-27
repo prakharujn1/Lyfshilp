@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+// Removed unused Lucide React imports as they are replaced by custom SVGs
 import {
-  Shield,
-  Database,
-  Users,
-  Globe,
-  Lock,
-  Eye,
-  Settings,
-  Heart,
-  CheckCircle,
-  ArrowRight,
-  Mail,
-  Phone,
-  Calendar,
-  CreditCard,
-  Activity,
-  FileText,
-  Zap,
-  Award,
+  FileText, // Keep this if it's your fallback icon
   ChevronRight,
 } from "lucide-react";
+
+// Import all your custom SVG components
+import InformationWeCollectIcon from '../components/icon/InformationWeCollectIcon.jsx';
+import HowWeUseInformationIcon from '../components/icon/HowWeUseInformationIcon.jsx';
+import UseOfCookiesIcon from '../components/icon/UseOfCookiesIcon.jsx';
+import DataProtectionIcon from '../components/icon/DataProtectionIcon.jsx';
+import ChildrensPrivacyIcon from '../components/icon/ChildrensPrivacyIcon.jsx';
+import ThirdPartyServicesIcon from '../components/icon/ThirdPartyServicesIcon.jsx';
+import YourRightsIcon from '../components/icon/YourRightsIcon.jsx';
+import ChangesToPolicyIcon from '../components/icon/ChangesToPolicyIcon.jsx';
+import ContactIcon from '../components/icon/ContactIcon.jsx';
 
 
 const containerVariants = {
@@ -47,15 +42,15 @@ const itemVariants = {
 };
 
 const sectionIcons = {
-  "Information We Collect": Database,
-  "How We Use Your Information": Activity,
-  "Use of Cookies": Shield,
-  "Data Protection": Lock,
-  "Children’s Privacy": Users,
-  "Third-Party Services": Globe,
-  "Your Rights and Choices": CheckCircle,
-  "Changes to This Policy": Settings,
-  "Contact Us": Mail
+  "Information We Collect": InformationWeCollectIcon,
+  "How We Use Your Information": HowWeUseInformationIcon,
+  "Use of Cookies": UseOfCookiesIcon,
+  "Data Protection": DataProtectionIcon,
+  "Children’s Privacy": ChildrensPrivacyIcon, // Note the exact matching title here
+  "Third-Party Services": ThirdPartyServicesIcon,
+  "Your Rights and Choices": YourRightsIcon,
+  "Changes to This Policy": ChangesToPolicyIcon,
+  "Contact Us": ContactIcon
 };
 
 
@@ -123,10 +118,10 @@ const termsSections = [
   },
   {
     id: "children",
-    title: "Children’s Privacy",
-    subtitle: "Privacy measures for students aged 10–18",
+    title: "Children’s Privacy", // Ensure this title matches the sectionIcons key exactly
+    subtitle: "Privacy measures for students aged 10-18",
     content: [
-      "EduManiax is designed for students aged 10–18 (Classes 6–12). We do not knowingly collect more data than necessary for educational purposes. If you are a parent or guardian and believe your child has provided more information than required, please contact us for assistance."
+      "EduManiax is designed for students aged 10-18 (Classes 6-12). We do not knowingly collect more data than necessary for educational purposes. If you are a parent or guardian and believe your child has provided more information than required, please contact us for assistance."
     ],
   },
   {
@@ -170,7 +165,7 @@ const termsSections = [
 
 
 export default function ModernTermsPage() {
-  const [activeSection, setActiveSection] = useState("information"); // Changed initial active section
+  const [activeSection, setActiveSection] = useState("information");
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
@@ -178,7 +173,6 @@ export default function ModernTermsPage() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = termsSections.map(section => document.getElementById(section.id));
-      // Adjust offset if needed based on header height, etc.
       const scrollPosition = window.scrollY + 200;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -220,15 +214,15 @@ export default function ModernTermsPage() {
               className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
               variants={itemVariants}
             >
-              <div className="w-6 h-6 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/public/terms_nd_conditions/icon-park-solid_update-rotation.svg')" }} />
-              Effective Date: June 5, 2025
+              <div className="w-6 h-6 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/public/rotation.svg')" }} />
+              Last Updated on June 2025
             </motion.div>
 
             <motion.h1
-              className="text-4xl lg:text-6xl font-bold text-white mb-6 "
+              className="text-4xl lg:text-6xl font-bold text-white mb-6 " style={{ fontFamily: '"Sigmar", sans-serif' }}
               variants={itemVariants}
             >
-              Privacy Policy {/* Changed from Terms & Conditions */}
+              Privacy Policy
             </motion.h1>
           </motion.div>
         </div>
@@ -246,7 +240,10 @@ export default function ModernTermsPage() {
                 </h3>
                 <nav className="space-y-1">
                   {termsSections.map((section, index) => {
-                    const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
+                    // *** CORRECTED LINE HERE ***
+                    const Icon = sectionIcons[section.title] || FileText;
+                    const iconFillColor = activeSection === section.id ? '#068F36' : '#90A1B9';
+
                     return (
                       <button
                         key={section.id}
@@ -257,7 +254,7 @@ export default function ModernTermsPage() {
                             : 'hover:bg-slate-50 text-[#45556C] hover:text-slate-900'
                         }`}
                       >
-                        <Icon size={18} className={activeSection === section.id ? 'text-[#068F36]' : 'text-[#90A1B9]'} />
+                        <Icon size={18} fill={iconFillColor} />
                         <div className="flex-1">
                           <div className="font-medium text-sm">{section.title}</div>
                           <div className="text-xs opacity-70">{section.subtitle}</div>
@@ -281,7 +278,10 @@ export default function ModernTermsPage() {
                 className="space-y-8"
               >
                 {termsSections.map((section, index) => {
-                  const Icon = sectionIcons[section.title.split(' ')[0]] || FileText;
+                  // *** CORRECTED LINE HERE ***
+                  const Icon = sectionIcons[section.title] || FileText;
+                  const contentIconFillColor = '#068F36'; // Static fill for these icons as per your original code's intention
+
                   return (
                     <motion.div
                       key={section.id}
@@ -292,7 +292,7 @@ export default function ModernTermsPage() {
                       <div className="p-8 lg:p-10">
                         <div className="flex items-start gap-4 mb-6">
                           <div className="flex-shrink-0 w-12 h-12 bg-[#068F361A] rounded-xl flex items-center justify-center">
-                            <Icon size={24} className="text-[#068F36]" />
+                            <Icon size={24} fill={contentIconFillColor} />
                           </div>
                           <div className="flex-1">
                             <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
@@ -311,12 +311,12 @@ export default function ModernTermsPage() {
                             const isParagraph = !isLetteredHeading && !isDashList && trimmed !== "";
 
                             if (trimmed === "") {
-                              return <div key={pointIndex} className="h-2" />; 
+                              return <div key={pointIndex} className="h-2" />;
                             } else if (isLetteredHeading) {
                               return (
                                 <motion.h3
                                   key={pointIndex}
-                                  className="text-xl font-semibold text-slate-800 ml-0 md:ml-4 mt-6 mb-2" 
+                                  className="text-xl font-semibold text-slate-800 ml-0 md:ml-4 mt-6 mb-2"
                                   initial={{ opacity: 0, x: -20 }}
                                   whileInView={{ opacity: 1, x: 0 }}
                                   transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
@@ -329,17 +329,16 @@ export default function ModernTermsPage() {
                               return (
                                 <motion.div
                                   key={pointIndex}
-                                  className="flex items-start rounded-md hover:bg-slate-50 transition-colors duration-200 ml-4 md:ml-8" // Adjusted margin-left
+                                  className="flex items-start rounded-md hover:bg-slate-50 transition-colors duration-200 ml-4 md:ml-8"
                                   initial={{ opacity: 0, x: -20 }}
                                   whileInView={{ opacity: 1, x: 0 }}
                                   transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
                                   viewport={{ once: true, margin: "-50px" }}
                                 >
-                                  
-                                  <p className="text-slate-700 ">{trimmed}</p> 
+                                  <p className="text-slate-700 ">{trimmed}</p>
                                 </motion.div>
                               );
-                            } else { 
+                            } else {
                               return (
                                 <motion.p
                                   key={pointIndex}
