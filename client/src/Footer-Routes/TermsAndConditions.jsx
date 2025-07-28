@@ -194,7 +194,6 @@ export default function ModernTermsPage() {
   const [activeSection, setActiveSection] = useState("eligibility");
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -247,7 +246,7 @@ export default function ModernTermsPage() {
             </motion.div>
 
             <motion.h1
-              className="text-4xl lg:text-6xl font-bold text-white mb-6 " style={{ fontFamily: '"Sigmar", sans-serif' }}
+              className="text-4xl lg:text-6xl text-white mb-6 tracking-wide" style={{ fontFamily: '"Sigmar", sans-serif' }}
               variants={itemVariants}
             >
               Terms & Conditions
@@ -260,7 +259,7 @@ export default function ModernTermsPage() {
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Table of Contents  */}
           <div className="lg:w-80 lg:shrink-0">
-            <div className="lg:sticky lg:top-8">
+            <div className="lg:sticky lg:top-13">
               <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                 <h3 className="text-lg font-semibold text-[#0F172B] mb-4 flex items-center gap-2">
                   <FileText size={20} />
