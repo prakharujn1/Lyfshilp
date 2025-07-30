@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  FileText, 
+  FileText,
   ChevronRight,
 } from "lucide-react";
 
@@ -44,7 +44,7 @@ const sectionIcons = {
   "How We Use Your Information": HowWeUseInformationIcon,
   "Use of Cookies": UseOfCookiesIcon,
   "Data Protection": DataProtectionIcon,
-  "Children’s Privacy": ChildrensPrivacyIcon, 
+  "Children’s Privacy": ChildrensPrivacyIcon,
   "Third-Party Services": ThirdPartyServicesIcon,
   "Your Rights and Choices": YourRightsIcon,
   "Changes to This Policy": ChangesToPolicyIcon,
@@ -63,7 +63,7 @@ const termsSections = [
       "- Name (first name or username only)",
       "- Email address (if required for login or account creation)",
       "- Class or grade level (for personalized content)",
-      "", 
+      "",
       "b) Non-Personal Information",
       "- Browser type and device information",
       "- Pages visited and time spent on site",
@@ -116,7 +116,7 @@ const termsSections = [
   },
   {
     id: "children",
-    title: "Children’s Privacy", 
+    title: "Children’s Privacy",
     subtitle: "Privacy measures for students aged 10-18",
     content: [
       "EduManiax is designed for students aged 10-18 (Classes 6-12). We do not knowingly collect more data than necessary for educational purposes. If you are a parent or guardian and believe your child has provided more information than required, please contact us for assistance."
@@ -164,6 +164,7 @@ const termsSections = [
 
 export default function ModernTermsPage() {
   const [activeSection, setActiveSection] = useState("information");
+  const [scrolledPastHero, setScrolledPastHero] = useState(false); 
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
@@ -179,6 +180,12 @@ export default function ModernTermsPage() {
           break;
         }
       }
+
+      // Logic for sticky header adjustment
+      const heroSection = document.querySelector('.hero-section-identifier');
+      if (heroSection) {
+        setScrolledPastHero(window.scrollY > heroSection.offsetHeight - 50); 
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -188,16 +195,24 @@ export default function ModernTermsPage() {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const offset = scrolledPastHero ? 23 : 13; 
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth'
+      });
     }
   };
+
+  
+  const stickyTopClass = scrolledPastHero ? 'lg:top-23' : 'lg:top-13'; 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
       {/* Hero Section */}
       <motion.div
-        className="relative overflow-hidden bg-white border-b border-slate-200"
-        style={{ opacity}}
+        className="relative overflow-hidden bg-white border-b border-slate-200 hero-section-identifier" 
+        style={{ opacity }}
       >
         <div className="absolute inset-0 bg-[linear-gradient(258deg,_#3F9400_-1.82%,_#2C6601_100.88%)]" />
         <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
@@ -229,10 +244,9 @@ export default function ModernTermsPage() {
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Table of Contents */}
           <div className="lg:w-80 lg:shrink-0">
-            <div className="lg:sticky lg:top-13">
+            <div className={`lg:sticky sticky ${stickyTopClass}`}> {/* Conditional class */}
               <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-[#0F172B] mb-4 flex items-center gap-2">
-                  <FileText size={20} />
+                <h3 className="text-lg font-semibold text-[#0F172B] mb-2 flex items-center gap-2">
                   Quick Navigation
                 </h3>
                 <nav className="space-y-1">
@@ -266,7 +280,7 @@ export default function ModernTermsPage() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            <div className="lg:sticky lg:top-8">
+            <div className={`lg:sticky ${stickyTopClass}`}> 
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -274,9 +288,8 @@ export default function ModernTermsPage() {
                 className="space-y-8"
               >
                 {termsSections.map((section, index) => {
-                  // *** CORRECTED LINE HERE ***
                   const Icon = sectionIcons[section.title] || FileText;
-                  const contentIconFillColor = '#068F36'; 
+                  const contentIconFillColor = '#068F36';
 
                   return (
                     <motion.div
@@ -292,9 +305,9 @@ export default function ModernTermsPage() {
                           </div>
                           <div className="flex-1">
                             <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
-                              {index + 1}. {section.title}
+                              {section.title}
                             </h2>
-                            <p className="text-lg text-slate-600 ml-7 lg:ml-9">{section.subtitle}</p>
+                            <p className="text-lg text-slate-600">{section.subtitle}</p>
                           </div>
                         </div>
 

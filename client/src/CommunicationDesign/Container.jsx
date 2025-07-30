@@ -332,7 +332,7 @@ const Container = () => {
     modules = [
       { group: "Class 6 to 8", levels: modulesfor6to8 },
       { group: "Class 9 to 10", levels: modulesfor9to10 },
-      { group: "Class 11 to 12", levels: modulesfor11to12 },
+      { group: "Class 11 and above", levels: modulesfor11to12 },
     ];
   } else if (!user) {
     modules = modulesfor6to8;
