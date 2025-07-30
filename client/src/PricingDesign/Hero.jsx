@@ -3,7 +3,7 @@ import React from "react";
 const Hero = () => {
   return (
     <section
-      className="text-white py-20 pb-40 text-center relative overflow-hidden"
+      className="text-white -mt-10 py-20 pb-40 text-center relative overflow-hidden"
       style={{
         background: "linear-gradient(to bottom, #3F9400 0%, #2C6601 100%)",
       }}
@@ -20,7 +20,7 @@ const Hero = () => {
           <div className="inline-flex items-center justify-center">
             your progress
             <img
-              src="/pricingDesign/runwk899FVEasw-ar-11-video-1-d-unscreen 1.svg"
+              src="/pricingDesign/runwk899FVEasw-ar-11-video-1-d-unscreen.gif"
               alt="Rupee emoji"
               className="inline-block w-10 h-10 sm:w-11 sm:h-11 ml-2 mt-1 align-middle"
             />

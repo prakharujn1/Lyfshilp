@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  FileText, 
-  ChevronRight,
-} from "lucide-react";
+import { FileText, ChevronRight } from "lucide-react";
 
-import UserAccountIcon from '../components/icon/UserAccountIcon.jsx';
-import SubscriptionIcon from '../components/icon/SubscriptionIcon.jsx';
-import FileTextIcon from '../components/icon/FileTextIcon.jsx';
-import ClockIcon from '../components/icon/ClockIcon.jsx';
-import AlertIcon from '../components/icon/AlertIcon.jsx';
+import UserAccountIcon from "../components/icon/UserAccountIcon.jsx";
+import SubscriptionIcon from "../components/icon/SubscriptionIcon.jsx";
+import FileTextIcon from "../components/icon/FileTextIcon.jsx";
+import ClockIcon from "../components/icon/ClockIcon.jsx";
+import AlertIcon from "../components/icon/AlertIcon.jsx";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,9 +14,9 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
+      delayChildren: 0.2,
+    },
+  },
 };
 
 const itemVariants = {
@@ -29,19 +26,18 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut"
-    }
-  }
+      ease: "easeOut",
+    },
+  },
 };
 
 const sectionIcons = {
-  "General Refund Terms": FileTextIcon, 
-  "Refund Amount": SubscriptionIcon, 
-  "Processing Time": ClockIcon, 
-  "Non-Refundable Situations": AlertIcon, 
-  "Contact for Refunds": UserAccountIcon 
+  "General Refund Terms": FileTextIcon,
+  "Refund Amount": SubscriptionIcon,
+  "Processing Time": ClockIcon,
+  "Non-Refundable Situations": AlertIcon,
+  "Contact for Refunds": UserAccountIcon,
 };
-
 
 const termsSections = [
   {
@@ -90,21 +86,23 @@ const termsSections = [
     subtitle: "How to reach us for refund queries",
     content: [
       "For refund-related queries or requests, please contact:",
-      "Email: support@edumaniax.com",
-      "Phone: [Insert phone number]", 
+      "Email: service@agilityai.in",
+      "Phone: 7042149608",
       "Website: www.edumaniax.com",
     ],
   },
 ];
 
 export default function ModernTermsPage() {
-  const [activeSection, setActiveSection] = useState("general-terms"); 
+  const [activeSection, setActiveSection] = useState("general-terms");
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = termsSections.map(section => document.getElementById(section.id));
+      const sections = termsSections.map((section) =>
+        document.getElementById(section.id)
+      );
       const scrollPosition = window.scrollY + 200;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -116,14 +114,14 @@ export default function ModernTermsPage() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -132,7 +130,7 @@ export default function ModernTermsPage() {
       {/* Hero Section */}
       <motion.div
         className="relative overflow-hidden bg-white border-b border-slate-200"
-        style={{ opacity }} 
+        style={{ opacity }}
       >
         <div className="absolute inset-0 bg-[linear-gradient(258deg,_#3F9400_-1.82%,_#2C6601_100.88%)]" />
         <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
@@ -146,12 +144,16 @@ export default function ModernTermsPage() {
               className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
               variants={itemVariants}
             >
-              <div className="w-6 h-6 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/public/rotation.svg')" }} />
+              <div
+                className="w-6 h-6 bg-no-repeat bg-center bg-contain"
+                style={{ backgroundImage: "url('/public/rotation.svg')" }}
+              />
               Last Updated on June 2025
             </motion.div>
 
             <motion.h1
-              className="text-4xl lg:text-6xl text-white mb-6 tracking-wide" style={{ fontFamily: '"Sigmar", sans-serif' }}
+              className="text-4xl lg:text-6xl text-white mb-6 tracking-wide"
+              style={{ fontFamily: '"Sigmar", sans-serif' }}
               variants={itemVariants}
             >
               Refund Policy
@@ -173,7 +175,8 @@ export default function ModernTermsPage() {
                 <nav className="space-y-1">
                   {termsSections.map((section, index) => {
                     const Icon = sectionIcons[section.title] || FileText;
-                    const iconFillColor = activeSection === section.id ? '#068F36' : '#90A1B9';
+                    const iconFillColor =
+                      activeSection === section.id ? "#068F36" : "#90A1B9";
 
                     return (
                       <button
@@ -181,14 +184,18 @@ export default function ModernTermsPage() {
                         onClick={() => scrollToSection(section.id)}
                         className={`w-full text-left p-3 rounded-lg transition-all duration-200 flex items-center gap-3 group ${
                           activeSection === section.id
-                            ? 'bg-[#E6F4EB] text-[#068F36] border border-blue-200'
-                            : 'hover:bg-slate-50 text-[#45556C] hover:text-slate-900'
+                            ? "bg-[#E6F4EB] text-[#068F36] border border-blue-200"
+                            : "hover:bg-slate-50 text-[#45556C] hover:text-slate-900"
                         }`}
                       >
                         <Icon size={18} fill={iconFillColor} />
                         <div className="flex-1">
-                          <div className="font-medium text-sm">{section.title}</div>
-                          <div className="text-xs opacity-70">{section.subtitle}</div>
+                          <div className="font-medium text-sm">
+                            {section.title}
+                          </div>
+                          <div className="text-xs opacity-70">
+                            {section.subtitle}
+                          </div>
                         </div>
                         <ChevronRight size={16} />
                       </button>
@@ -209,8 +216,8 @@ export default function ModernTermsPage() {
                 className="space-y-8"
               >
                 {termsSections.map((section, index) => {
-                  const Icon = sectionIcons[section.title] || FileText; 
-                  const contentIconFillColor = '#068F36';
+                  const Icon = sectionIcons[section.title] || FileText;
+                  const contentIconFillColor = "#068F36";
 
                   return (
                     <motion.div
@@ -228,7 +235,9 @@ export default function ModernTermsPage() {
                             <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
                               {index + 1}. {section.title}
                             </h2>
-                            <p className="text-lg text-slate-600 ml-7 lg:ml-9">{section.subtitle}</p>
+                            <p className="text-lg text-slate-600 ml-7 lg:ml-9">
+                              {section.subtitle}
+                            </p>
                           </div>
                         </div>
 
@@ -239,11 +248,16 @@ export default function ModernTermsPage() {
                               className="flex items-start gap-3 p-1 rounded-lg hover:bg-slate-100 transition-colors duration-200"
                               initial={{ opacity: 0, x: -20 }}
                               whileInView={{ opacity: 1, x: 0 }}
-                              transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
+                              transition={{
+                                delay: pointIndex * 0.1,
+                                duration: 0.5,
+                              }}
                               viewport={{ once: true, margin: "-50px" }}
                             >
                               <div className="flex-shrink-0 w-2 h-2 bg-[#068F36] rounded-full mt-3" />
-                              <p className="text-[#0000008A] leading-relaxed">{point}</p>
+                              <p className="text-[#0000008A] leading-relaxed">
+                                {point}
+                              </p>
                             </motion.div>
                           ))}
                         </div>
