@@ -57,7 +57,7 @@ const SmartGoalLab = () => {
   const [actionSteps, setActionSteps] = useState(["", "", ""]);
   const [submitted, setSubmitted] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const handleDrop = (noteText, cat) => {
     const note = notes.find((n) => n.text === noteText);
@@ -107,10 +107,15 @@ const SmartGoalLab = () => {
     const durationSec = Math.round((endTime - startTime) / 1000);
     const avgResponseTimeSec = durationSec / 5;
 
-    updateSELPerformance({
+    updatePerformance({
+      moduleName: "SEL",
+      topicName: "selfAwareness",
+      score: 10, // out of 10
+      accuracy: 100,
       avgResponseTimeSec,
       studyTimeMinutes: Math.ceil(durationSec / 60),
       completed: allCorrect,
+       
     });
 
     if (allCorrect) {

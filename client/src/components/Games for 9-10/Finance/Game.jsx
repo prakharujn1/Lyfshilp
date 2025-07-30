@@ -37,7 +37,7 @@ const WealthQuestGame = () => {
   const [isSimulating, setIsSimulating] = useState(false);
 
   // for performance tracking
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const totalBudget = 10000;
@@ -154,10 +154,15 @@ const WealthQuestGame = () => {
         const totalTime = (Date.now() - startTime) / 1000; // in seconds
         const studyTimeMinutes = Math.ceil(totalTime / 60);
 
-        updateFinancePerformance({
+        updatePerformance({
+          moduleName: "Finance",
+          topicName: "investorLevel",
+          score: 10,
+          accuracy: 100,
           avgResponseTimeSec: totalTime,
           studyTimeMinutes,
           completed: true,
+         
         });
 
         completeFinanceChallenge(0, 0); // ✅ Marks the challenge as complete

@@ -61,6 +61,8 @@ const TortLawGame1 = () => {
       avgResponseTimeSec: Number(avgResponseTimeSec.toFixed(2)),
       studyTimeMinutes: Number(studyTimeMinutes.toFixed(2)),
       completed,
+      beginnerLegalIntellectAvgScore: scaledScore,
+      beginnerLegalIntellectAccuracy: accuracy,
     });
   }, [currentPage]);
 

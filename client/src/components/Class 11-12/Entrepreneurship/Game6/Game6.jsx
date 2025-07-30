@@ -33,7 +33,7 @@ export default function SDGStartupQuest() {
   const [beneficiary, setBeneficiary] = useState("");
   const [submitted, setSubmitted] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const toggleSDG = (id) => {
     if (selectedSDGs.includes(id)) {
@@ -238,10 +238,15 @@ export default function SDGStartupQuest() {
                 completeEntreprenerushipChallenge(1, 2);
 
                 // Update performance
-                updateEntreprenerushipPerformance({
+                updatePerformance({
+                  moduleName: "Entrepreneurship",
+                  topicName: "ideationIntellect",
+                  score: 10,
+                  accuracy: 100,
                   avgResponseTimeSec: timeSpent,
                   studyTimeMinutes: Math.ceil(timeSpent / 60),
                   completed,
+                   
                 });
 
                 setSubmitted(true);

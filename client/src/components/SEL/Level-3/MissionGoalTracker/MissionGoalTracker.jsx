@@ -113,7 +113,7 @@ const MissionGoalTracker = () => {
   const [resultMessage, setResultMessage] = useState("");
   const [showCorrect, setShowCorrect] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (resultMessage && isCorrect()) {
@@ -125,12 +125,17 @@ const MissionGoalTracker = () => {
     if (resultMessage && (isCorrect() || showCorrect)) {
       const endTime = Date.now();
       const totalSeconds = Math.round((endTime - startTime) / 1000);
-      
 
-      updateSELPerformance({
+
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "peerSupportNetworks",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: totalSeconds / 5,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: isCorrect(),
+      
       });
     }
   }, [resultMessage]);

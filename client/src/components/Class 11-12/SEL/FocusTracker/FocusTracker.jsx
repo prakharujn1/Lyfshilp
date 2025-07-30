@@ -17,7 +17,7 @@ export default function FocusTracker() {
   const [schedule, setSchedule] = useState({});
   const [draggedTask, setDraggedTask] = useState(null);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const filteredHours = allHours.slice(
     allHours.indexOf(wakeTime),
@@ -27,12 +27,17 @@ export default function FocusTracker() {
   useEffect(() => {
     if (step === 4) {
       const endTime = Date.now();
-      const durationSec = Math.round((endTime - startTime) / 1000);    
+      const durationSec = Math.round((endTime - startTime) / 1000);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "selfAwareness",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: durationSec,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: true,
+         
       });
     }
   }, [step]);

@@ -68,28 +68,33 @@ const CoolTheConflict = () => {
   const [selectedEndings, setSelectedEndings] = useState([]);
   const [isCorrectResolution, setIsCorrectResolution] = useState(null);
 
-//for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+  //for performance
+  const { updatePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
-const handleGameFinish = () => {
-  const endTime = Date.now();
-  const durationSec = (endTime - startTime) / 1000;
+  const handleGameFinish = () => {
+    const endTime = Date.now();
+    const durationSec = (endTime - startTime) / 1000;
+    const avgResponseTimeSec = durationSec / 3; // ✅ simple calculation
 
-  updateCommunicationPerformance({
-    score: isCorrectResolution ? 10 : 5,
-    accuracy: isCorrectResolution ? 100 : 50,
-    studyTimeMinutes: durationSec / 60,
-    completed: true,
-  });
-};
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "situationalAwareness",
+      score: isCorrectResolution ? 10 : 5,
+      accuracy: isCorrectResolution ? 100 : 50,
+      studyTimeMinutes: durationSec / 60,
+      avgResponseTimeSec,
+      completed: true,
+       
+    });
+  };
 
 
- useEffect(() => {
-  if (step === "result") {
-    handleGameFinish(); // ✅ Log performance after game completes
-  }
-}, [step]);
+  useEffect(() => {
+    if (step === "result") {
+      handleGameFinish(); // ✅ Log performance after game completes
+    }
+  }, [step]);
 
 
   const handleSwap = (lineIdx, wordIdx) => {
@@ -153,8 +158,8 @@ const handleGameFinish = () => {
                       key={key}
                       onClick={() => handleSwap(i, j)}
                       className={`cursor-pointer px-2 py-1 rounded-md mx-1 font-semibold transition-colors duration-200 ${swapped
-                          ? "bg-green-200 text-green-800"
-                          : "bg-red-200 text-red-800"
+                        ? "bg-green-200 text-green-800"
+                        : "bg-red-200 text-red-800"
                         }`}
                     >
                       {swapped ? item.replacement : item.word}
@@ -217,8 +222,8 @@ const handleGameFinish = () => {
                 key={index}
                 onClick={() => handleResolutionClick(index)}
                 className={`p-3 rounded-xl border cursor-pointer transition-all ${selectedEndings.includes(index)
-                    ? "bg-green-200 border-green-500"
-                    : "bg-white border-gray-300"
+                  ? "bg-green-200 border-green-500"
+                  : "bg-white border-gray-300"
                   }`}
               >
                 {ending.text}
@@ -228,8 +233,8 @@ const handleGameFinish = () => {
           <button
             onClick={handleResolutionSubmit}
             className={`mt-6 px-6 py-2 text-white rounded-lg ${selectedEndings.length === 2
-                ? "bg-purple-600 hover:bg-purple-700"
-                : "bg-gray-400 cursor-not-allowed"
+              ? "bg-purple-600 hover:bg-purple-700"
+              : "bg-gray-400 cursor-not-allowed"
               }`}
             disabled={selectedEndings.length !== 2}
           >

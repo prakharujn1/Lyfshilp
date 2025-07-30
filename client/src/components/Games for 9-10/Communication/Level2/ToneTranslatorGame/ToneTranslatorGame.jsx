@@ -32,19 +32,22 @@ export default function ToneTranslatorGame() {
   const [isRecording, setIsRecording] = useState({});
   const [toneScore, setToneScore] = useState(0); // state to track tone-based score
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if (score !== null) {
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-      updateCommunicationPerformance({
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "emotionalIntelligence",
         score: Math.round((score / 7) * 10),
         accuracy: Math.round((score / 7) * 100),
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
-        completed: 1
+        completed: 1,
+       
       });
     }
   }, [score]);

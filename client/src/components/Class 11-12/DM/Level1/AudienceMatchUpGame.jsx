@@ -22,7 +22,7 @@ const AudienceMatchUpGame = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverTarget, setDragOverTarget] = useState(null);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -169,12 +169,15 @@ const AudienceMatchUpGame = () => {
     setGameComplete(true);
     setCurrentPage("result");
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "contentStrategist",
       score: scaledScore,
       accuracy: (correctCount / 3) * 100,
       avgResponseTimeSec: (Date.now() - startTime) / 1000,
       studyTimeMinutes: Math.round((Date.now() - startTime) / 60000),
       completed: true,
+      
     });
   };
 

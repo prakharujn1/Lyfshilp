@@ -78,7 +78,7 @@ export default function AnalyticsDashboard() {
 
 
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -88,10 +88,15 @@ export default function AnalyticsDashboard() {
     const timeTakenSec = Math.floor((endTime - startTime) / 1000);
     const studyTimeMinutes = Math.ceil(timeTakenSec / 60);
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "marketer",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes,
       completed: true,
+      
     });
   }, [challengeCompleted]);
 

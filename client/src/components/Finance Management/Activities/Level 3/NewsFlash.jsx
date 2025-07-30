@@ -66,7 +66,7 @@ export default function NewsFlash() {
   const [appliedEffects, setAppliedEffects] = useState(new Set());
 
   //for performance
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -110,10 +110,15 @@ export default function NewsFlash() {
         completeFinanceChallenge(2, 0); //mark challenge completed 
         //for performance
         const totalTimeSec = (Date.now() - startTime) / 1000;
-        updateFinancePerformance({
+        updatePerformance({
+          moduleName: "Finance",
+          topicName: "investorLevel",
+          score: 10,
+          accuracy: 100,
           avgResponseTimeSec: totalTimeSec / 3,
           studyTimeMinutes: Math.ceil(totalTimeSec / 60),
           completed: true,
+           
         });
       }
 

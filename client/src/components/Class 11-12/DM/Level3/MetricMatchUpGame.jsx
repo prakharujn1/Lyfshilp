@@ -26,7 +26,7 @@ const MetricMatchUpGame = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [canProceed, setCanProceed] = useState(false);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Game data
@@ -144,12 +144,15 @@ const MetricMatchUpGame = () => {
     const responseTimeSec = (endTime - startTime) / 1000;
     const studyTimeMinutes = Math.ceil(responseTimeSec / 60);
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "marketer",
       score: scaledScore,
       accuracy: scaledAccuracy,
       avgResponseTimeSec: Math.round(responseTimeSec),
       studyTimeMinutes,
       completed: true,
+      
     });
   };
 

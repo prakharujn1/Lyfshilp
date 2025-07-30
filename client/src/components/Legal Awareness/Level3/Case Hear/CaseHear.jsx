@@ -525,7 +525,7 @@ export default function CaseHear() {
   const [correctArgument, setCorrectArgument] = useState(null);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -587,12 +587,15 @@ export default function CaseHear() {
       const scaledScore = Math.round((score / maxScore) * 10); // out of 10
       const accuracyPercent = Math.round((score / maxScore) * 100); // out of 100
 
-      updateLawPerformance({
+      updatePerformance({
+        moduleName: "Law",
+        topicName: "courtroomManerism",
         score: scaledScore,
         accuracy: accuracyPercent,
         avgResponseTimeSec: timeTakenSec / 3,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: true,
+        
       });
 
       completeLawChallenge(2, 0);

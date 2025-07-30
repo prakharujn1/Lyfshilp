@@ -40,7 +40,7 @@ const ClimatePledge = () => {
   const { width, height } = useWindowSize();
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -161,12 +161,15 @@ const ClimatePledge = () => {
     const scaledScore = Number(((baseScore / maxScore) * 10).toFixed(2));
 
     // ✅ Update performance using baseScore
-    updateEnvirnomentPerformance({
+    updatePerformance({
+      moduleName: "Environment",
+      topicName: "ecoDecisionMaker",
       score: scaledScore,
       accuracy: (baseScore / maxScore) * 100,
       avgResponseTimeSec,
       studyTimeMinutes: Math.ceil(totalTimeSec / 60),
       completed: baseScore >= 5, // ✅ fixed to use baseScore
+       
     });
 
     setFeedback(newFeedback);

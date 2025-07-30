@@ -96,7 +96,7 @@ const UrbanFloodFlashpoint = () => {
   const [currentCorrect, setCurrentCorrect] = useState(false);
   const { width, height } = useWindowSize();
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const current = questions[step - 1];
 
@@ -104,28 +104,31 @@ const UrbanFloodFlashpoint = () => {
     answers.length === questions.length && answers.every(Boolean);
 
   useEffect(() => {
-  const totalTimeMs = Date.now() - startTime;
-  const correctCount = answers.filter(Boolean).length;
+    const totalTimeMs = Date.now() - startTime;
+    const correctCount = answers.filter(Boolean).length;
 
-  if (step === questions.length + 1 ) {
-    updateEnvirnomentPerformance({
-      score: Math.round((correctCount / questions.length) * 10 ),
-      accuracy: parseFloat(((correctCount / questions.length) * 100).toFixed(2)),
-      avgResponseTimeSec: parseFloat((totalTimeMs / questions.length / 1000).toFixed(2)),
-      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
-      completed: allCorrect,
-    });
+    if (step === questions.length + 1) {
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "ecoDecisionMaker",
+        score: Math.round((correctCount / questions.length) * 10),
+        accuracy: parseFloat(((correctCount / questions.length) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / questions.length / 1000).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: allCorrect,
+        
+      });
 
-    if (allCorrect) {
-      completeEnvirnomentChallenge(1, 0); // keep this if needed
-      setShowConfetti(true);
-    } else {
-      setShowConfetti(false);
+      if (allCorrect) {
+        completeEnvirnomentChallenge(1, 0); // keep this if needed
+        setShowConfetti(true);
+      } else {
+        setShowConfetti(false);
+      }
+
+
     }
-
-    
-  }
-}, [step, answers, allCorrect]);
+  }, [step, answers, allCorrect]);
 
 
   const handleSelect = (index) => {

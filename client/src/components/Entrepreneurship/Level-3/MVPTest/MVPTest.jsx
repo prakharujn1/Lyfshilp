@@ -26,7 +26,7 @@ const MVPTest = () => {
   const [loadingFeedback, setLoadingFeedback] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -193,10 +193,15 @@ const MVPTest = () => {
     const endTime = Date.now();
     const timeTakenSec = (endTime - startTime) / 1000;
     const timeTakenMin = Math.round(timeTakenSec / 60);
-    updateEntreprenerushipPerformance({
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "strategist",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: timeTakenMin,
       completed: true,
+     
     });
   };
 

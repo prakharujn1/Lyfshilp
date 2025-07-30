@@ -77,7 +77,7 @@ export default function ThinkBeforeYouTechGame() {
     const [challengeCompleted, setChallengeCompleted] = useState(false);
 
     //for performance
-    const { updateComputersPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     useEffect(() => {
@@ -93,12 +93,15 @@ export default function ThinkBeforeYouTechGame() {
             const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
             const avgResponseTimeSec = (endTime - startTime) / 1000;
 
-            updateComputersPerformance({
+            updatePerformance({
+                moduleName: "Computers",
+                topicName: "humanCenteredAIThinking",
                 score: finalScore,
                 accuracy: (finalScore / 10) * 100,
                 avgResponseTimeSec,
                 studyTimeMinutes,
                 completed: true,
+                
             });
         }
     }, [showFeedback, selectedOption]);

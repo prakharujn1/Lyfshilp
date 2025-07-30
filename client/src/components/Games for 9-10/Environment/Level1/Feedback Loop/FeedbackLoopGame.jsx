@@ -30,7 +30,7 @@ const FeedbackLoopGame = () => {
   const [questions, setQuestions] = useState([]);
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const toShuffleQuestions = [
@@ -464,12 +464,15 @@ const FeedbackLoopGame = () => {
     const accuracy = (score / questions.length) * 100;
     const scaledScore = (score / questions.length) * 10;
 
-    updateEnvirnomentPerformance({
+    updatePerformance({
+      moduleName: "Environment",
+      topicName: "climateAnalyst",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: score >= 8,
+      
     });
   }, [gameComplete, score]);
 

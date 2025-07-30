@@ -31,6 +31,7 @@ const WhatWentWrongGame = () => {
   const [selections, setSelections] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [challengeCompleted, setChallengeCompleted] = useState(false);
+  const { updatePerformance } = usePerformance();
   //for performance
   useEffect(() => {
     if (showResult && !challengeCompleted) {
@@ -44,12 +45,15 @@ const WhatWentWrongGame = () => {
       const allCorrect = correctCount === total;
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-      updateCommunicationPerformance({
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "communicationSkills",
         score: Math.round(correctCount * (10 / total)), // Score scaled to 10
         accuracy: Math.round((correctCount / total) * 100),
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: allCorrect,
+        
       });
 
       if (allCorrect) {

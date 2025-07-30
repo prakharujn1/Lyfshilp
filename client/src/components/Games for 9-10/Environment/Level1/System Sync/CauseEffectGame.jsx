@@ -32,7 +32,7 @@ const CauseEffectGame = () => {
   const [animateWrong, setAnimateWrong] = useState(false);
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const questions = [
     {
@@ -218,21 +218,24 @@ const CauseEffectGame = () => {
 
   const canvasRef = useRef(null);
   useEffect(() => {
-  if (!gameComplete) return;
+    if (!gameComplete) return;
 
-  const studyTimeMinutes = Math.round((Date.now() - startTime) / 60000);
-  const avgResponseTimeSec = Math.round((Date.now() - startTime) / 1000 / questions.length);
-  const accuracy = (score / questions.length) * 100;
-  const scaledScore = (score / questions.length) * 10;
+    const studyTimeMinutes = Math.round((Date.now() - startTime) / 60000);
+    const avgResponseTimeSec = Math.round((Date.now() - startTime) / 1000 / questions.length);
+    const accuracy = (score / questions.length) * 100;
+    const scaledScore = (score / questions.length) * 10;
 
-  updateEnvirnomentPerformance({
-    score: scaledScore,
-    accuracy,
-    avgResponseTimeSec,
-    studyTimeMinutes,
-    completed: score >= 4, // ✅ You mentioned completed = score < 8, here it means if passed 4 or more out of 5
-  });
-}, [gameComplete]);
+    updatePerformance({
+      moduleName: "Environment",
+      topicName: "climateAnalyst",
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: score >= 4, // ✅ You mentioned completed = score < 8, here it means if passed 4 or more out of 5
+     
+    });
+  }, [gameComplete]);
 
 
   useEffect(() => {

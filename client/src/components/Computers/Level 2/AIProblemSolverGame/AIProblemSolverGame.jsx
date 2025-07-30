@@ -48,7 +48,7 @@ export default function AIProblemSolverGame() {
 
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -89,10 +89,15 @@ export default function AIProblemSolverGame() {
       const endTime = Date.now();
       const totalSeconds = Math.floor((endTime - startTime) / 1000);
 
-      updateComputersPerformance({
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "foundationsOfAIIntelligence",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: totalSeconds / problems.length,
         studyTimeMinutes: totalSeconds / 60,
         completed: true,
+  
       });
     } else {
       alert("Please assign a tool AND fill how it helps for every problem.");

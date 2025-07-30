@@ -15,7 +15,7 @@ const VisionBuilderGame = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [warning, setWarning] = useState("");
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const resetAll = () => {
     setScreen("intro");
@@ -43,12 +43,15 @@ const VisionBuilderGame = () => {
     if (screen === "result") {
       const totalTimeMs = Date.now() - startTime;
 
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "foresight",
         score: isCorrect ? 10 : 4, // or adjust as per scale
         accuracy: isCorrect ? 100 : 40,
         avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: isCorrect,
+      
       });
 
       if (isCorrect) {

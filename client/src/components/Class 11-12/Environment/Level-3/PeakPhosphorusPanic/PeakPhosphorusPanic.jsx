@@ -95,19 +95,22 @@ const PeakPhosphorusPanic = () => {
   const [rotation, setRotation] = useState(0);
   const { width, height } = useWindowSize();
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
     const totalTimeMs = Date.now() - startTime;
 
-    if (step === "result" ) {
-      updateEnvirnomentPerformance({
+    if (step === "result") {
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "sustainableLeader",
         score: Math.round((score / cards.length) * 10),
         accuracy: parseFloat(((score / scenarios.length) * 100).toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeMs / scenarios.length / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: score === scenarios.length,
+         
       });
 
       if (score === scenarios.length) {

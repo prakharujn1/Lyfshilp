@@ -50,7 +50,7 @@ const MindBodyMatchUp = () => {
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (showResult) {
@@ -60,12 +60,15 @@ const MindBodyMatchUp = () => {
       // Scale score out of 10
       const scaledScore = Math.round((score / questions.length) * 10);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: scaledScore,
         accuracy: (score / questions.length) * 100,
         avgResponseTimeSec: totalSeconds / questions.length,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: score >= 3,
+       
       });
 
       if (score >= 3) {

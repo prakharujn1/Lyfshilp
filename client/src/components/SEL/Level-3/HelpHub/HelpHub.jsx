@@ -88,7 +88,7 @@ export default function HelpHub() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { width, height } = useWindowSize();
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const checkScore = () => {
     return answers.filter((ans, i) => ans === scenarios[i].correct).length;
@@ -108,12 +108,15 @@ export default function HelpHub() {
       const totalSeconds = Math.round((endTime - startTime) / 1000);
       const scaledScore = Math.round((score / scenarios.length) * 10);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "peerSupportNetworks",
         score: scaledScore,
         accuracy: Math.round((score / scenarios.length) * 100),
         avgResponseTimeSec: totalSeconds / scenarios.length,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: score >= 5,
+        
       });
     }
   }, [showResult]);

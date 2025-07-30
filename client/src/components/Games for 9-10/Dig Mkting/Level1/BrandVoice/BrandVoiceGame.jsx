@@ -26,7 +26,7 @@ const BrandVoiceGame = () => {
   const [showResults, setShowResults] = useState(false);
   const [animations, setAnimations] = useState({});
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const platforms = [
     {
@@ -209,12 +209,15 @@ const BrandVoiceGame = () => {
     const avgResponseTimeSec = Math.round((endTime - startTime) / 1000 / 4); // assume 3 responses + 1 caption
 
     // ✅ Performance tracking
-    updateDMPerformance({
-      score: Math.round((final / 23) * 10), 
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "contentStrategist",
+      score: Math.round((final / 23) * 10),
       accuracy: ((final / 23) * 100).toFixed(2), // total max score = 15 + 3 + 5 = 23
       avgResponseTimeSec,
       studyTimeMinutes: durationInMinutes,
       completed: true,
+      
     });
 
     // Navigate to result page

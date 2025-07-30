@@ -72,7 +72,7 @@ const CauseScanner = () => {
   const [timeLeft, setTimeLeft] = useState(10);
   const [questionKey, setQuestionKey] = useState(0);
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (showResult && score >= 6) {
@@ -87,12 +87,15 @@ const CauseScanner = () => {
       const avgResponseTimeSec = totalTimeSec / statements.length;
       const scaledScore = Number(((score / statements.length) * 10).toFixed(2));
 
-      updateEnvirnomentPerformance({
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "climateAnalyst",
         score: scaledScore,
         accuracy: (score / statements.length) * 100,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: score >= 6,
+         
       });
     }
   }, [showResult]);

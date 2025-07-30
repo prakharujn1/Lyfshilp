@@ -15,7 +15,7 @@ const PitchChampion = () => {
   const [verified, setVerified] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -107,10 +107,15 @@ const PitchChampion = () => {
     const timeTakenSec = (endTime - startTime) / 1000;
     const timeTakenMin = Math.round(timeTakenSec / 60);
 
-    updateEntreprenerushipPerformance({
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "masteringPitch",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: timeTakenMin,
       completed: true,
+      
     });
   };
 

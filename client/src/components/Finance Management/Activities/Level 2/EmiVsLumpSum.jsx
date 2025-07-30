@@ -54,7 +54,7 @@ const EmiVsLumpSum = () => {
   const emiTotal = 4500 + 3000 * 3; // ₹13,500
 
   // for performance
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const data = [
@@ -106,10 +106,15 @@ feedback : "Your feedback"
         completeFinanceChallenge(1, 1);
 
         const totalTimeSec = (Date.now() - startTime) / 1000;
-        updateFinancePerformance({
+        updatePerformance({
+          moduleName: "Finance",
+          topicName: "bankingExpert",
+          score: 10,
+          accuracy: 100,
           completed: true,
           avgResponseTimeSec: totalTimeSec / 2,
           studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+         
         });
       }
 

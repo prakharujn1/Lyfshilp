@@ -23,18 +23,21 @@ const DigitalDilemma = () => {
   const [feedback, setFeedback] = useState("");
   const [challengeCompleted, setChallengeCompleted] = useState(false);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (score !== null) {
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-      updateCommunicationPerformance({
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "emotionalIntelligence",
         score: Math.round((score / 7) * 10), // Score out of 10
         accuracy: Math.round((score / 7) * 100),
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: score >= 6,
+        
       });
 
       if (score >= 6 && !challengeCompleted) {

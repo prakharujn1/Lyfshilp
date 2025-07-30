@@ -19,7 +19,7 @@ const StressBusterLab = () => {
   const [feedback, setFeedback] = useState({});
   const [score, setScore] = useState(null);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const handleDrop = (e) => {
     const index = e.dataTransfer.getData("toolIndex");
@@ -74,12 +74,15 @@ const StressBusterLab = () => {
       const totalSeconds = Math.round((endTime - startTime) / 1000);
       const scaledScore = Math.round((score / 5) * 10);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: scaledScore,
         accuracy: (score / 5) * 100,
         avgResponseTimeSec: totalSeconds / 5,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: score >= 4,
+ 
       });
 
       if (score >= 4) {

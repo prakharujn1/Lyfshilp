@@ -21,7 +21,7 @@ const AdDetectiveGamePage = () => {
     }))
   );
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleChange = (index, field, value) => {
@@ -235,10 +235,15 @@ const AdDetectiveGamePage = () => {
                 completeDMChallenge(0, 0); // levelIndex & stageIndex
                 const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-                updateDMPerformance({
+                updatePerformance({
+                  moduleName: "DigitalMarketing",
+                  topicName: "creativity",
+                  score: 10,
+                  accuracy: 100,
                   avgResponseTimeSec: timeTakenSec,
                   studyTimeMinutes: Math.ceil(timeTakenSec / 60),
                   completed: true,
+                  
                 });
 
                 navigate("/ad-detective-mission-complete");

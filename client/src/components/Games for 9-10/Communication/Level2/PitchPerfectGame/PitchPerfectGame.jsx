@@ -55,7 +55,7 @@ const PitchPerfectGame = () => {
 
 
     //for performance
-    const { updateCommunicationPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
     const [finalScore, setFinalScore] = useState(null);
 
@@ -67,12 +67,15 @@ const PitchPerfectGame = () => {
         if (finalScore !== null) {
             const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-            updateCommunicationPerformance({
+            updatePerformance({
+                moduleName: "Communication",
+                topicName: "emotionalIntelligence",
                 score: Math.round((finalScore / 20) * 10),
                 accuracy: Math.round((finalScore / 20) * 100),
                 avgResponseTimeSec: timeTakenSec,
                 studyTimeMinutes: Math.ceil(timeTakenSec / 60),
-                completed: finalScore >= 15
+                completed: finalScore >= 15,
+                
             });
 
             if (finalScore >= 15 && !challengeCompleted) {

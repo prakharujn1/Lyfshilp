@@ -59,8 +59,8 @@ export default function DigitalDilemmaGame() {
     const [timeLeft, setTimeLeft] = useState(420); // 7 minutes
 
     //for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+    const { updatePerformance } = usePerformance();
+    const [startTime] = useState(Date.now());
 
     useEffect(() => {
         if (!started || gameOver) return;
@@ -106,36 +106,39 @@ const [startTime] = useState(Date.now());
     };
 
     const evaluateGame = () => {
-    const correctDecisionCount = selectedAnswers.reduce(
-        (count, answer, idx) => (answer === decisionTreeSteps[idx].correct ? count + 1 : count),
-        0
-    );
+        const correctDecisionCount = selectedAnswers.reduce(
+            (count, answer, idx) => (answer === decisionTreeSteps[idx].correct ? count + 1 : count),
+            0
+        );
 
-    const correctMatches = Object.entries(matches).filter(([principle, example]) =>
-        etiquetteMatches.find((item) => item.principle === principle && item.example === example)
-    ).length === 3;
+        const correctMatches = Object.entries(matches).filter(([principle, example]) =>
+            etiquetteMatches.find((item) => item.principle === principle && item.example === example)
+        ).length === 3;
 
-    const didSucceed = correctDecisionCount >= 2 && correctMatches;
-    setSuccess(didSucceed);
-    setGameOver(true);
+        const didSucceed = correctDecisionCount >= 2 && correctMatches;
+        setSuccess(didSucceed);
+        setGameOver(true);
 
-    const endTime = Date.now();
-    const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
-    const accuracy = Math.round((correctDecisionCount / decisionTreeSteps.length) * 100);
-    const score = didSucceed ? 10 : 5;
+        const endTime = Date.now();
+        const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+        const accuracy = Math.round((correctDecisionCount / decisionTreeSteps.length) * 100);
+        const score = didSucceed ? 10 : 5;
 
-    if (didSucceed) {
-        completeCommunicationChallenge(1, 1);
-    }
+        if (didSucceed) {
+            completeCommunicationChallenge(1, 1);
+        }
 
-    // ✅ Update performance
-    updateCommunicationPerformance({
-        completed: didSucceed,
-        studyTimeMinutes,
-        score,
-        accuracy,
-    });
-};
+        // ✅ Update performance
+        updatePerformance({
+            moduleName: "Communication",
+            topicName: "situationalAwareness",
+            completed: didSucceed,
+            studyTimeMinutes,
+            score,
+            accuracy,
+         
+        });
+    };
 
 
 

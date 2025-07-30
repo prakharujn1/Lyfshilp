@@ -32,7 +32,7 @@ const PRCrisisGame = () => {
     const [gameDone, setGameDone] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
     //for performance
-    const { updateCommunicationPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
 
@@ -98,12 +98,15 @@ const PRCrisisGame = () => {
             const accuracy = Math.round((correctCount / 3) * 100);
             const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-            updateCommunicationPerformance({
+            updatePerformance({
+                moduleName: "Communication",
+                topicName: "situationalAwareness",
                 score: scaledScore,
                 accuracy,
                 avgResponseTimeSec: timeTakenSec,
                 studyTimeMinutes: Math.ceil(timeTakenSec / 60),
                 completed: true,
+
             });
         }
 

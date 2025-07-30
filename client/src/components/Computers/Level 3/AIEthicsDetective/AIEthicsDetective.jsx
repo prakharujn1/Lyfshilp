@@ -38,7 +38,7 @@ export default function AIEthicsDetective() {
     const [challengeCompleted, setChallengeCompleted] = useState(false);
 
     //for performance
-    const { updateComputersPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
 
@@ -302,10 +302,16 @@ export default function AIEthicsDetective() {
                                 const avgResponseTimeSec = ((endTime - startTime) / 1000) / totalPrompts;
                                 const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-                                updateComputersPerformance({
+
+                                updatePerformance({
+                                    moduleName: "Computers",
+                                    topicName: "aIFuturesAndPossibilities",
+                                    score: 10,
+                                    accuracy: 100,
                                     avgResponseTimeSec,
                                     studyTimeMinutes,
                                     completed: true,
+                                   
                                 });
                                 setStep(4);
                             }}

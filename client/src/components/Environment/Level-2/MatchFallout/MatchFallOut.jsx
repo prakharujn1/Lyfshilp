@@ -84,7 +84,7 @@ export default function MatchFallOut() {
   const { width, height } = useWindowSize();
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -100,12 +100,15 @@ export default function MatchFallOut() {
       const avgResponseTimeSec = totalTimeSec / 5;
       const scaledScore = Number(((score / 10) * 10).toFixed(2));
 
-      updateEnvirnomentPerformance({
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "ecoDecisionMaker",
         score: scaledScore,
         accuracy: (score / 10) * 100,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: score >= 8, // Mark complete only if good score
+       
       });
     }
   }, [view]);

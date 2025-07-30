@@ -12,7 +12,7 @@ const LevelController = () => {
     const [stage, setStage] = useState(1);
     const [score, setScore] = useState(0);
     //for performance
-    const { updateDMPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     useEffect(() => {
@@ -25,12 +25,15 @@ const LevelController = () => {
             const scaledScore = Math.min(10, Math.round((score / 9) * 10));
             const accuracy = Math.min(100, Math.round((score / 9) * 100)); // Assuming max score is 9
 
-            updateDMPerformance({
+            updatePerformance({
+                moduleName: "DigitalMarketing",
+                topicName: "marketer",
                 score: scaledScore,
                 accuracy,
                 avgResponseTimeSec: timeTakenSec,
                 studyTimeMinutes,
                 completed: true,
+                
             });
         }
     }, [stage]);

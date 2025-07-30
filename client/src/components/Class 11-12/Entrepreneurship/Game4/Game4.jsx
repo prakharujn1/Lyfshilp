@@ -25,7 +25,7 @@ export default function PitchArenaPro() {
   const [submission, setSubmission] = useState({ name: '', tagline: '', confirm: false });
   const [showPDF, setShowPDF] = useState(false); // 🔁 New state
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleDeckChange = (field, value, slide = 'slide1') => {
@@ -40,10 +40,15 @@ export default function PitchArenaPro() {
 
     const endTime = Date.now();
     const timeSpentMinutes = Math.floor((endTime - startTime) / 60000);
-    updateEntreprenerushipPerformance({
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "masteringPitch",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: 0,
       studyTimeMinutes: timeSpentMinutes,
       completed: true,
+       
     });
   };
 

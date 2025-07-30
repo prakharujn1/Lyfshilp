@@ -108,7 +108,7 @@ export default function BoundaryBuilder() {
   const { completeSELChallenge } = useSEL();
   const [selected, setSelected] = useState(null);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-blue-100 p-6 font-sans">
@@ -227,12 +227,15 @@ export default function BoundaryBuilder() {
                   completeSELChallenge(0, 1);
                 }
 
-                updateSELPerformance({
+                updatePerformance({
+                  moduleName: "SEL",
+                  topicName: "peerSupportNetworks",
                   score: selectedScore,                     // Out of 10
                   accuracy: Math.round((selectedScore / maxScore) * 100), // Scaled to 100
                   avgResponseTimeSec: durationSec,
                   studyTimeMinutes: Math.ceil(durationSec / 60),
                   completed: selectedScore >= 9,
+                   
                 });
               }}
               whileHover={{ scale: 1.06, rotate: [0, 1, -1, 0] }}

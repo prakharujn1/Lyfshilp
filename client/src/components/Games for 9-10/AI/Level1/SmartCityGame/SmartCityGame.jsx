@@ -25,7 +25,7 @@ const SmartCityGame = () => {
   const [showResults, setShowResults] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const zones = [
@@ -213,10 +213,15 @@ const SmartCityGame = () => {
       ((endTime - startTime) / 1000) / Math.max(totalSolutionsPlaced, 1); // avoid division by 0
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-    updateComputersPerformance({
+    updatePerformance({
+      moduleName: "Computers",
+      topicName: "exploringAITools",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: true,
+       
     });
   };
 

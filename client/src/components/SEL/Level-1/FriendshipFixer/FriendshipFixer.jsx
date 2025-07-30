@@ -70,7 +70,7 @@ const FriendshipFixer = () => {
   const [feedbackGif, setFeedbackGif] = useState(null);
   const [feedbackText, setFeedbackText] = useState("");
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (showResult) {
@@ -79,12 +79,15 @@ const FriendshipFixer = () => {
       const accuracy = (score / scenarios.length) * 100;
       const avgResponseTimeSec = durationSec / scenarios.length;
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "selfAwareness",
         score: Math.round(score * 2.5), // out of 10
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: score >= 3,
+         
       });
 
       if (score >= 3) {

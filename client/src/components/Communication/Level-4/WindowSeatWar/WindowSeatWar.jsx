@@ -68,20 +68,28 @@ const WindowSeatWarGame = () => {
   const [gifUrl, setGifUrl] = useState("");
 
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleGameFinish = () => {
     const endTime = Date.now();
     const durationSec = (endTime - startTime) / 1000;
+    const responseCount = dropped.length;
+    const avgResponseTimeSec =
+      responseCount > 0 ? durationSec / responseCount : 0;
 
-    updateCommunicationPerformance({
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "situationalAwareness",
       score: 10,
       accuracy: 100,
       studyTimeMinutes: durationSec / 60,
+      avgResponseTimeSec: avgResponseTimeSec,
       completed: true,
+   
     });
   };
+
 
 
   const handleDrop = (statement) => {

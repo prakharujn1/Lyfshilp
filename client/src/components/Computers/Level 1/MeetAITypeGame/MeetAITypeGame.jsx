@@ -34,7 +34,7 @@ export default function MeetAITypeGame() {
 
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -68,12 +68,15 @@ export default function MeetAITypeGame() {
     const avgResponseTimeSec = totalSeconds / examples.length;
     const studyTimeMinutes = Math.ceil(totalSeconds / 60);
 
-    updateComputersPerformance({
+    updatePerformance({
+      moduleName: "Computers",
+      topicName: "introductionToAI",
       score: (correct / examples.length) * 10,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: correct === examples.length,
+       
     });
 
     if (correct === examples.length) {

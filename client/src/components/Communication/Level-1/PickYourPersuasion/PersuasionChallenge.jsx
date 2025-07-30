@@ -35,7 +35,7 @@ const PersuasionGame = () => {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   // ✅ for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleReasonClick = (reason) => {
@@ -77,14 +77,22 @@ const PersuasionGame = () => {
     const accuracy = (finalScore / 10) * 100;
 
     const endTime = Date.now();
+    const totalTimeSec = (endTime - startTime) / 1000;
+    const avgResponseTimeSec = totalTimeSec / 3;
+
     const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
 
-    updateCommunicationPerformance({
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "interpersonalSkills",
       completed: true,
       studyTimeMinutes,
+      avgResponseTimeSec, // ✅ simplified
       score: finalScore,
       accuracy,
+      
     });
+
 
     setScore(finalScore);
 

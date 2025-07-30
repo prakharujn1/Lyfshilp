@@ -24,8 +24,11 @@ const InterruptGame = () => {
   const [selectedRewrite, setSelectedRewrite] = useState("");
 
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
+  const [responseTimes, setResponseTimes] = useState([]);
+  const [lastClickTime, setLastClickTime] = useState(null);
+
 
   const dialogue = [
     {
@@ -80,22 +83,29 @@ const InterruptGame = () => {
   };
 
   const handleDialogueClick = (dialogueItem) => {
-    if (
-      dialogueItem.isInterrupted &&
-      !interruptionsFound.includes(dialogueItem.id)
-    ) {
-      // Found an interruption!
+    const now = Date.now();
+
+    // Track response time only for interruptions
+    if (dialogueItem.isInterrupted && !interruptionsFound.includes(dialogueItem.id)) {
+      if (lastClickTime) {
+        const diffSec = (now - lastClickTime) / 1000;
+        setResponseTimes((prev) => [...prev, diffSec]);
+      }
+      setLastClickTime(now);
+
+      // Found an interruption
       setInterruptionsFound([...interruptionsFound, dialogueItem.id]);
       setScore(score + 10);
       setGameState("paused");
       setTimer(2);
       setShowTimer(true);
     } else if (!dialogueItem.isInterrupted) {
-      // Wrong click - provide feedback
+      // Wrong click - just update state
       setGameState("playing");
+      setLastClickTime(now); // still update lastClickTime for next response
     }
 
-    // Move to next dialogue if not the last one
+    // Move to next dialogue
     if (currentDialogue < dialogue.length - 1) {
       setTimeout(
         () => {
@@ -106,11 +116,10 @@ const InterruptGame = () => {
     }
   };
 
+
   const handleRewrite = (option) => {
     setSelectedRewrite(option);
-    const correctRewrite = dialogue.find(
-      (d) => d.isInterrupted
-    )?.correctRewrite;
+    const correctRewrite = dialogue.find((d) => d.isInterrupted)?.correctRewrite;
 
     if (
       option === correctRewrite ||
@@ -125,16 +134,32 @@ const InterruptGame = () => {
       // 🟢 Performance Tracking
       const endTime = Date.now();
       const durationSec = (endTime - startTime) / 1000;
+      const totalPossible = (dialogue.filter((d) => d.isInterrupted).length * 10) + 20;
+      const scaledScore = Math.min(Math.round((score / totalPossible) * 10), 10);
+      const accuracy = Math.round((score / totalPossible) * 100);
+
+      const avgResponseTimeSec =
+        responseTimes.length > 0
+          ? responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length
+          : 0;
+
       const payload = {
-        score: Math.min(Math.round((score + 20) / 10), 10), // out of 10
+        moduleName: "Communication",
+        topicName: "emotionalIntelligence",
+        score: scaledScore,
+        accuracy,
         studyTimeMinutes: durationSec / 60,
+        avgResponseTimeSec, // ✅ newly added
         completed: true,
+        
       };
-      updateCommunicationPerformance(payload);
+
+      updatePerformance(payload);
 
       setTimeout(() => setShowCelebration(false), 3000);
     }
   };
+
 
   const resetGame = () => {
     setGameState("intro");

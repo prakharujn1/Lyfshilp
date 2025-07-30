@@ -23,7 +23,7 @@ const ListenerLensGame = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const handleInputChange = (e) => {
     if (!submitted) {
@@ -64,13 +64,16 @@ const ListenerLensGame = () => {
       completeCommunicationChallenge(0, 1);
 
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
-      updateCommunicationPerformance({
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "communicationSkills",
         score: 10,
         accuracy: 100,
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: true,
-       });
+         
+      });
     }
   };
 

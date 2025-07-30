@@ -66,7 +66,7 @@ export default function SmartOrNotGame() {
 
 
     //for performance
-    const { updateComputersPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
 
@@ -253,12 +253,15 @@ export default function SmartOrNotGame() {
                                         // Scale score out of 10
                                         const scaledScore = Math.round((score / tasks.length) * 10);
 
-                                        updateComputersPerformance({
+                                        updatePerformance({
+                                            moduleName: "Computers",
+                                            topicName: "foundationsOfAIIntelligence",
                                             score: scaledScore,
                                             accuracy: (score / tasks.length) * 100,
                                             avgResponseTimeSec: totalSeconds / tasks.length,
                                             studyTimeMinutes: totalSeconds / 60,
                                             completed: true,
+                                           
                                         });
 
                                         completeComputersChallenge(1, 1); // ✅ Mark task as complete

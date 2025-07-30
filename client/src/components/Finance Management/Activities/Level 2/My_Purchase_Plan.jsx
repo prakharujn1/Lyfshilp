@@ -38,7 +38,7 @@ const My_Purchase_Plan = () => {
   const [error, setError] = useState("");
 
   // for performance
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const parsePossiblyStringifiedJSON = (text) => {
@@ -107,11 +107,16 @@ Format:
       //for performance
       const totalTime = (Date.now() - startTime) / 1000;
       const studyTimeMinutes = Math.ceil(totalTime / 60);
-      
-      updateFinancePerformance({
+
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "bankingExpert",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: totalTime,
         studyTimeMinutes,
         completed: true,
+       
       });
     } catch (err) {
       console.error(err);

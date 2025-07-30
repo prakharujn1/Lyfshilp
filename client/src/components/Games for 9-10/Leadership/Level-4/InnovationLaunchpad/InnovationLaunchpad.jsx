@@ -11,7 +11,7 @@ const InnovationLaunchpad = () => {
   const [verifyMessage, setVerifyMessage] = useState("");
   const [reviewing, setReviewing] = useState(false);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const startConfetti = () => {
     confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
@@ -103,12 +103,15 @@ Keep it upbeat and encouraging, like you're hyping up your junior!`,
       const completed = total >= 24;
 
       // Update performance
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "innovativeLeader",
         score: total,
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes,
         completed,
+      
       });
 
       if (completed) {

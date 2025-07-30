@@ -266,7 +266,7 @@ export default function EthicalSimulator() {
   const current = dilemmas[step];
 
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleChoice = (i) => {
@@ -284,12 +284,15 @@ export default function EthicalSimulator() {
       const scaledScore = score; // Already out of 10
       const accuracy = Math.round((scaledScore / 10) * 100);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "peerSupportNetworks",
         score: scaledScore,
         accuracy: accuracy,
         avgResponseTimeSec: durationSec,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: true,
+         
       });
     }
 

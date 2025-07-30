@@ -24,9 +24,9 @@ const PhosphorusLockdown = () => {
   const [page, setPage] = useState("intro");
   const [step, setStep] = useState(1);
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
-   
+
 
 
   // Q1
@@ -277,12 +277,15 @@ const PhosphorusLockdown = () => {
 
                     const totalTimeMs = Date.now() - startTime;
 
-                    updateEnvirnomentPerformance({
+                    updatePerformance({
+                      moduleName: "Environment",
+                      topicName: "climateAnalyst",
                       score: Math.round((correctCount / 3) * 10), // out of 10
                       accuracy: parseFloat(((correctCount / 3) * 100).toFixed(2)), // in %
                       avgResponseTimeSec: parseFloat((totalTimeMs / 3000).toFixed(2)), // 3 questions
                       studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
                       completed: allCorrect,
+                     
                     });
                   }}
                   className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-blue-700 transition"

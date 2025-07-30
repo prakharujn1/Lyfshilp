@@ -24,28 +24,31 @@ const JusticeThroneGame = () => {
   const [scenarioResults, setScenarioResults] = useState([]);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
-  if (currentPage !== "results") return;
+    if (currentPage !== "results") return;
 
-  const endTime = Date.now();
-  const totalQuestions = scenarioResults.length;
-  const correctAnswers = scenarioResults.filter((r) => r.points === 10).length;
-  const scaledScore = (correctAnswers / totalQuestions) * 10;
-  const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
-  const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
-  const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+    const endTime = Date.now();
+    const totalQuestions = scenarioResults.length;
+    const correctAnswers = scenarioResults.filter((r) => r.points === 10).length;
+    const scaledScore = (correctAnswers / totalQuestions) * 10;
+    const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-  updateLawPerformance({
-     score: scaledScore,
-    accuracy,
-    avgResponseTimeSec,
-    studyTimeMinutes,
-    completed: true,
-  });
-}, [currentPage]);
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "constitutionalRights",
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+ 
+    });
+  }, [currentPage]);
 
 
   useEffect(() => {

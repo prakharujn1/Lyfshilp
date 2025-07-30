@@ -58,7 +58,7 @@ const ConflictQuest = () => {
   const [selected, setSelected] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (completed) {
@@ -66,12 +66,15 @@ const ConflictQuest = () => {
       const totalSeconds = Math.round((endTime - startTime) / 1000);
       const scaledScore = Math.round((score / 3) * 10); // 3 questions
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: scaledScore,
         accuracy: (score / 3) * 100,
         avgResponseTimeSec: totalSeconds / 3,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: score >= 3,
+ 
       });
 
       if (score >= 3) {

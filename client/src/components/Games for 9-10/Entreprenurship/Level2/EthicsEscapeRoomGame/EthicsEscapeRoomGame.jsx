@@ -19,23 +19,28 @@ export default function EthicsEscapeRoomGame() {
   const [feedback, setFeedback] = useState("");
   const [auditFeedback, setAuditFeedback] = useState("");
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
-  
+
   useEffect(() => {
-  if (currentRoom >= rooms.length) {
-    completeEntreprenerushipChallenge(1, 1); // Mark challenge complete
+    if (currentRoom >= rooms.length) {
+      completeEntreprenerushipChallenge(1, 1); // Mark challenge complete
 
-    const endTime = Date.now();
-    const timeTakenSeconds = Math.floor((endTime - startTime) / 1000);
+      const endTime = Date.now();
+      const timeTakenSeconds = Math.floor((endTime - startTime) / 1000);
 
-    updateEntreprenerushipPerformance({
-      avgResponseTimeSec: timeTakenSeconds / rooms.length,
-      studyTimeMinutes: Math.round(timeTakenSeconds / 60),
-      completed: true,
-    });
-  }
-}, [currentRoom]);
+      updatePerformance({
+        moduleName: "Entrepreneurship",
+        topicName: "masteringPitch",
+        score: 10,
+        accuracy: 100,
+        avgResponseTimeSec: timeTakenSeconds / rooms.length,
+        studyTimeMinutes: Math.round(timeTakenSeconds / 60),
+        completed: true,
+        
+      });
+    }
+  }, [currentRoom]);
 
 
 

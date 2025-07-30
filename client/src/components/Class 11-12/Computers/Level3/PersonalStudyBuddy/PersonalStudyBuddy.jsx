@@ -25,7 +25,7 @@ const PersonalStudyBuddy = () => {
   const fileInputRef = useRef(null);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -193,11 +193,36 @@ const PersonalStudyBuddy = () => {
     if (userAnswer !== '' && !showAnswer) {
       const correct = parseInt(userAnswer) === quizQuestions[currentQuizIndex].correct;
       if (correct) {
-        setScore(score + 1);
+        setScore(prev => prev + 1);
       }
       setShowAnswer(true);
+
+      const isLastQuestion = currentQuizIndex === quizQuestions.length - 1;
+      const newScore = correct ? score + 1 : score;
+
+      if (isLastQuestion) {
+        const endTime = Date.now();
+        const totalTimeSec = (endTime - startTime) / 1000;
+        const avgResponseTimeSec = totalTimeSec / quizQuestions.length;
+        const accuracy = (newScore / quizQuestions.length) * 100;
+        const scaledScore = (newScore / quizQuestions.length) * 10;
+        const studyTimeMinutes = totalTimeSec / 60;
+
+        updatePerformance({
+          moduleName: "Computers",
+          topicName: "genAIInEverydayLife",
+          score: parseFloat(scaledScore.toFixed(2)), // scaled out of 10
+          accuracy: parseFloat(accuracy.toFixed(2)),
+          avgResponseTimeSec: parseFloat(avgResponseTimeSec.toFixed(2)),
+          studyTimeMinutes: parseFloat(studyTimeMinutes.toFixed(2)),
+          completed: true,
+
+        });
+      }
     }
   };
+
+
 
   const nextQuestion = () => {
     if (currentQuizIndex < quizQuestions.length - 1) {

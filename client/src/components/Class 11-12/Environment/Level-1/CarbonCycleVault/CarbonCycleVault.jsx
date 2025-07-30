@@ -25,7 +25,7 @@ const CarbonCycleVault = () => {
   const { completeEnvirnomentChallenge } = useEnvirnoment();
   const [page, setPage] = useState("intro");
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const [sequence, setSequence] = useState([
@@ -94,12 +94,18 @@ const CarbonCycleVault = () => {
       const totalTimeMs = endTime - startTime;
 
       const payload = {
+        moduleName: "Environment",
+        topicName: "climateAnalyst",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: true,
+        climateAnalystAvgScore: 10,
+        climateAnalystAccuracy: 100,
       };
 
-      updateEnvirnomentPerformance(payload);
+      updatePerformance(payload);
     }
   };
 

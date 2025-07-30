@@ -49,7 +49,7 @@ export default function FutureAIArchitect() {
   const [challengeCompleted, setChallengeCompleted] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const [formData, setFormData] = useState({
@@ -75,28 +75,33 @@ export default function FutureAIArchitect() {
   };
 
   const handleSubmit = () => {
-  if (Object.values(formData).every((v) => v !== '')) {
-    setSubmitted(true);
+    if (Object.values(formData).every((v) => v !== '')) {
+      setSubmitted(true);
 
-    // ✅ Challenge completion only once
-    if (!challengeCompleted) {
-      completeComputersChallenge(2, 1);
-      setChallengeCompleted(true);
+      // ✅ Challenge completion only once
+      if (!challengeCompleted) {
+        completeComputersChallenge(2, 1);
+        setChallengeCompleted(true);
+      }
+
+      // ✅ Always update performance
+      const endTime = Date.now();
+      const totalPrompts = 6; // 6 fields selected
+      const avgResponseTimeSec = ((endTime - startTime) / 1000) / totalPrompts;
+      const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "aIFuturesAndPossibilities",
+        score: 10,
+        accuracy: 100,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+ 
+      });
     }
-
-    // ✅ Always update performance
-    const endTime = Date.now();
-    const totalPrompts = 6; // 6 fields selected
-    const avgResponseTimeSec = ((endTime - startTime) / 1000) / totalPrompts;
-    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
-
-    updateComputersPerformance({
-      avgResponseTimeSec,
-      studyTimeMinutes,
-      completed: true,
-    });
-  }
-};
+  };
 
   const renderOptions = (fieldKey) => (
     <motion.div className="flex gap-4 flex-wrap justify-center">

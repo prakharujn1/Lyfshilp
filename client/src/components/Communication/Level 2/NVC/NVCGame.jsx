@@ -18,8 +18,11 @@ const NVCGame = () => {
   const [showCelebration, setShowCelebration] = useState(false);
 
   //for performance
-const { updateCommunicationPerformance } = usePerformance();
-const [startTime] = useState(Date.now());
+  const { updatePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
+  const [responseTimes, setResponseTimes] = useState([]);
+  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+
 
   const scenario = {
     text: "Your friend grabbed the sketch pen while you were using it.",
@@ -70,19 +73,23 @@ const [startTime] = useState(Date.now());
   ];
 
   const handleChoiceSelect = (choice) => {
+    const responseTime = (Date.now() - questionStartTime) / 1000; // in seconds
+    setResponseTimes((prev) => [...prev, responseTime]);
+
     setSelectedChoice(choice);
     setTimeout(() => {
       if (choice.correct) {
         setScore(score + 10);
         setGameState("builder");
       } else {
-        // Show feedback and let them try again
         setTimeout(() => {
           setSelectedChoice(null);
+          setQuestionStartTime(Date.now()); // reset timer for retry
         }, 1500);
       }
     }, 1000);
   };
+
 
   const handleNvcSelect = (category, value) => {
     setNvcSentence((prev) => ({
@@ -101,27 +108,49 @@ const [startTime] = useState(Date.now());
   };
 
   const handleComplete = () => {
-  if (isNvcComplete()) {
-    const finalScore = score + 20;
-    setScore(finalScore);
-    setBadges([...badges, "☮️"]);
-    setGameState("result");
-    completeCommunicationChallenge(1, 0);
-    setShowCelebration(true);
+    if (isNvcComplete()) {
+      const finalScore = score + 20; // last bonus
+      setScore(finalScore);
+      setBadges([...badges, "☮️"]);
+      setGameState("result");
+      completeCommunicationChallenge(1, 0);
+      setShowCelebration(true);
 
-    // 🟢 Track Performance
-    const endTime = Date.now();
-    const durationSec = (endTime - startTime) / 1000;
-    const payload = {
-      score: Math.min(Math.round(finalScore / 10), 10), // scaled out of 10
-      studyTimeMinutes: durationSec / 60,
-      completed: true,
-    };
-    updateCommunicationPerformance(payload);
 
-    setTimeout(() => setShowCelebration(false), 3000);
-  }
-};
+
+      const endTime = Date.now();
+      const durationSec = (endTime - startTime) / 1000;
+
+      // Score already scaled out of 10
+      const scaledScore = Math.min(Math.round(finalScore / 10), 10);
+
+      // Accuracy: each 10 points = 1 correct answer
+      const totalQs = 5; // or however many questions you have
+      const correct = finalScore / 10;
+      const accuracy = Math.min(Math.round((correct / totalQs) * 100), 100);
+      const avgResponseTimeSec =
+        responseTimes.length > 0
+          ? responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length
+          : 0;
+
+      const payload = {
+        moduleName: "Communication",
+        topicName: "emotionalIntelligence",
+        score: scaledScore,
+        accuracy,
+        studyTimeMinutes: durationSec / 60,
+        avgResponseTimeSec, // ✅ added!
+        completed: true,
+         
+      };
+
+
+      updatePerformance(payload);
+
+      setTimeout(() => setShowCelebration(false), 3000);
+    }
+  };
+
 
 
   const resetGame = () => {
@@ -188,7 +217,10 @@ const [startTime] = useState(Date.now());
             </div>
             <div className="text-center">
               <button
-                onClick={() => setGameState("choice")}
+                onClick={() => {
+                  setQuestionStartTime(Date.now());
+                  setGameState("choice");
+                }}
                 className="bg-green-400 hover:bg-green-500 text-white font-bold py-4 px-8 rounded-full text-xl transform hover:scale-105 transition-all duration-200 shadow-lg"
               >
                 What should you do? 🤔
@@ -209,17 +241,15 @@ const [startTime] = useState(Date.now());
                   key={choice.id}
                   onClick={() => handleChoiceSelect(choice)}
                   disabled={selectedChoice !== null}
-                  className={`w-full p-6 rounded-2xl text-left text-lg font-medium transition-all duration-300 transform hover:scale-102 ${
-                    selectedChoice?.id === choice.id
-                      ? choice.correct
-                        ? "bg-green-400 text-white ring-4 ring-green-300"
-                        : "bg-red-400 text-white ring-4 ring-red-300"
-                      : "bg-gray-100 hover:bg-gray-200 text-gray-800"
-                  } ${
-                    selectedChoice !== null
+                  className={`w-full p-6 rounded-2xl text-left text-lg font-medium transition-all duration-300 transform hover:scale-102 ${selectedChoice?.id === choice.id
+                    ? choice.correct
+                      ? "bg-green-400 text-white ring-4 ring-green-300"
+                      : "bg-red-400 text-white ring-4 ring-red-300"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-800"
+                    } ${selectedChoice !== null
                       ? "cursor-not-allowed"
                       : "cursor-pointer"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center space-x-4">
                     <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-gray-700">
@@ -266,11 +296,10 @@ const [startTime] = useState(Date.now());
                     <button
                       key={emotion.text}
                       onClick={() => handleNvcSelect("feeling", emotion.text)}
-                      className={`p-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${
-                        nveSentence.feeling === emotion.text
-                          ? "ring-4 ring-red-400 bg-red-300 text-white"
-                          : `${emotion.color} hover:opacity-80 text-gray-700`
-                      }`}
+                      className={`p-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${nveSentence.feeling === emotion.text
+                        ? "ring-4 ring-red-400 bg-red-300 text-white"
+                        : `${emotion.color} hover:opacity-80 text-gray-700`
+                        }`}
                     >
                       <div className="text-2xl mb-1">{emotion.emoji}</div>
                       <div className="text-sm">{emotion.text}</div>
@@ -289,11 +318,10 @@ const [startTime] = useState(Date.now());
                     <button
                       key={action}
                       onClick={() => handleNvcSelect("action", action)}
-                      className={`p-4 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${
-                        nveSentence.action === action
-                          ? "ring-4 ring-blue-400 bg-blue-300 text-white"
-                          : "bg-blue-200 hover:bg-blue-300 text-gray-700"
-                      }`}
+                      className={`p-4 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${nveSentence.action === action
+                        ? "ring-4 ring-blue-400 bg-blue-300 text-white"
+                        : "bg-blue-200 hover:bg-blue-300 text-gray-700"
+                        }`}
                     >
                       {action}
                     </button>
@@ -311,11 +339,10 @@ const [startTime] = useState(Date.now());
                     <button
                       key={reason}
                       onClick={() => handleNvcSelect("reason", reason)}
-                      className={`p-4 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${
-                        nveSentence.reason === reason
-                          ? "ring-4 ring-yellow-400 bg-yellow-300 text-white"
-                          : "bg-yellow-200 hover:bg-yellow-300 text-gray-700"
-                      }`}
+                      className={`p-4 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${nveSentence.reason === reason
+                        ? "ring-4 ring-yellow-400 bg-yellow-300 text-white"
+                        : "bg-yellow-200 hover:bg-yellow-300 text-gray-700"
+                        }`}
                     >
                       {reason}
                     </button>
@@ -333,11 +360,10 @@ const [startTime] = useState(Date.now());
                     <button
                       key={solution}
                       onClick={() => handleNvcSelect("solution", solution)}
-                      className={`p-4 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${
-                        nveSentence.solution === solution
-                          ? "ring-4 ring-green-400 bg-green-300 text-white"
-                          : "bg-green-200 hover:bg-green-300 text-gray-700"
-                      }`}
+                      className={`p-4 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${nveSentence.solution === solution
+                        ? "ring-4 ring-green-400 bg-green-300 text-white"
+                        : "bg-green-200 hover:bg-green-300 text-gray-700"
+                        }`}
                     >
                       {solution}
                     </button>

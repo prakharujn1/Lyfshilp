@@ -86,7 +86,7 @@ const KindnessClicks = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackCorrect, setFeedbackCorrect] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const yay = new Audio(
     "/children-saying-yay-praise-and-worship-jesus-299607.mp3"
@@ -144,12 +144,15 @@ const KindnessClicks = () => {
       const accuracy = (score / questions.length) * 100;
       const avgResponseTimeSec = totalSeconds / questions.length;
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "selfAwareness",
         score: score * 1, // out of 10
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: score >= 8,
+         
       });
 
       if (score >= 8) {

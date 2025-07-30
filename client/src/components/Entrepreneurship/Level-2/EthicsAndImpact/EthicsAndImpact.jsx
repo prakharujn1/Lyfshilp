@@ -21,7 +21,7 @@ const EthicsAndImpact = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -138,12 +138,15 @@ Check this reflection:
     const timeTakenSec = (endTime - startTime) / 1000;
     const timeTakenMin = Math.round(timeTakenSec / 60);
 
-    updateEntreprenerushipPerformance({
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "masteringPitch",
       score,
       accuracy,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: timeTakenMin,
       completed: true,
+      
     });
 
     if (score >= 7) {

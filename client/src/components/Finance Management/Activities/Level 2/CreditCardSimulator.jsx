@@ -54,7 +54,7 @@ export default function CreditCardSimulator() {
   const [remainingPrincipal, setRemainingPrincipal] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
 
-  const { updateFinancePerformance } = usePerformance(); // for performance
+  const { updatePerformance } = usePerformance(); // for performance
   const [startTime] = useState(Date.now()); // for performance
 
 
@@ -149,10 +149,15 @@ export default function CreditCardSimulator() {
 
       // for performance
       const totalTimeSec = (Date.now() - startTime) / 1000;
-      updateFinancePerformance({
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "bankingExpert",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: totalTimeSec / (totalMonths * 2), // 6 months * 2 methods
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: true,
+        
       });
     }
   }, [hasTriedEmi, hasTriedMin]);

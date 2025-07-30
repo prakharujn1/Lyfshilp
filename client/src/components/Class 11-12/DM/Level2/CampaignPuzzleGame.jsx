@@ -26,7 +26,7 @@ const CampaignPuzzleGame = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [celebrationMode, setCelebrationMode] = useState(false);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const campaignTiles = [
@@ -181,12 +181,15 @@ const CampaignPuzzleGame = () => {
     const endTime = Date.now();
     const timeSpentSec = Math.floor((endTime - startTime) / 1000);
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "contentStrategist",
       score: scaledScore,
       accuracy: (correctCount / 3) * 100,
       avgResponseTimeSec: timeSpentSec / 3,
       studyTimeMinutes: Math.ceil(timeSpentSec / 60),
       completed: true,
+   
     });
 
     setFeedback(feedbackMessage);

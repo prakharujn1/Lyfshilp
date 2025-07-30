@@ -32,7 +32,7 @@ export default function IdentityShifter() {
   const [draggingId, setDraggingId] = useState(null);
   const [celebrate, setCelebrate] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -40,10 +40,15 @@ export default function IdentityShifter() {
       const endTime = Date.now();
       const durationSec = Math.round((endTime - startTime) / 1000);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "selfAwareness",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: durationSec,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: true,
+      
       });
     }
   }, [celebrate]);

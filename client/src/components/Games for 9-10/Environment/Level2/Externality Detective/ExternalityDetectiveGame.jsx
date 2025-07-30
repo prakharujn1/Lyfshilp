@@ -17,7 +17,7 @@ const ExternalityDetectiveGame = () => {
   const [showCard, setShowCard] = useState(null);
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Game data - scenarios and their externalities
@@ -268,25 +268,28 @@ const ExternalityDetectiveGame = () => {
   }, [isWinner, currentPage]);
 
   useEffect(() => {
-  if (!gameOver || currentPage !== "result") return;
+    if (!gameOver || currentPage !== "result") return;
 
-  const endTime = Date.now();
-  const timeTakenSec = Math.floor((endTime - startTime) / 1000);
-  const studyTimeMin = Math.ceil(timeTakenSec / 60);
-  const accuracy = matchedPairs.length / cards.length;
+    const endTime = Date.now();
+    const timeTakenSec = Math.floor((endTime - startTime) / 1000);
+    const studyTimeMin = Math.ceil(timeTakenSec / 60);
+    const accuracy = matchedPairs.length / cards.length;
 
-  // Scale score out of 10
-  const maxPossibleScore = cardPairs.length * 2 * 100 + 60 * 5; // match points + max move bonus
-  const scaledScore = parseFloat(((finalScore / maxPossibleScore) * 10).toFixed(2));
+    // Scale score out of 10
+    const maxPossibleScore = cardPairs.length * 2 * 100 + 60 * 5; // match points + max move bonus
+    const scaledScore = parseFloat(((finalScore / maxPossibleScore) * 10).toFixed(2));
 
-  updateEnvirnomentPerformance({
-    score: scaledScore, // score out of 10
-    accuracy: parseFloat((accuracy * 100).toFixed(2)),
-    avgResponseTimeSec: parseFloat((timeTakenSec / moves).toFixed(2)),
-    studyTimeMinutes: studyTimeMin,
-    completed: true,
-  });
-}, [gameOver, currentPage]);
+    updatePerformance({
+      moduleName: "Environment",
+      topicName: "ecoDecisionMaker",
+      score: scaledScore, // score out of 10
+      accuracy: parseFloat((accuracy * 100).toFixed(2)),
+      avgResponseTimeSec: parseFloat((timeTakenSec / moves).toFixed(2)),
+      studyTimeMinutes: studyTimeMin,
+      completed: true,
+       
+    });
+  }, [gameOver, currentPage]);
 
 
 

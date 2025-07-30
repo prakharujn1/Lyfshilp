@@ -89,7 +89,7 @@ const JusticeForAll = () => {
 
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -121,10 +121,15 @@ const JusticeForAll = () => {
       const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
       const avgResponseTimeSec = (endTime - startTime) / 1000;
 
-      updateComputersPerformance({
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "humanCenteredAIThinking",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec,
         studyTimeMinutes,
         completed: true,
+       
       });
     }
   };

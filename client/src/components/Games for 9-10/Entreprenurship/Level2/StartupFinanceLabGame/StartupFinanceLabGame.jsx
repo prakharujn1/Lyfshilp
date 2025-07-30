@@ -60,20 +60,24 @@ export default function StartupFinanceFunGame() {
   const [decisionLog, setDecisionLog] = useState([]);
   const [showLogic, setShowLogic] = useState(false);
   const [prevAllocations, setPrevAllocations] = useState({});
-  
+
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (!currentDilemma && decisionLog.length === dilemmas.length) {
       const endTime = Date.now();
       const elapsedTimeSec = Math.floor((endTime - startTime) / 1000);
 
-      updateEntreprenerushipPerformance({
+      updatePerformance({
+        moduleName: "Entrepreneurship",
+        topicName: "strategist",
         score: starRating * 2,
+        accuracy: starRating * 20,
         avgResponseTimeSec: elapsedTimeSec / dilemmas.length,
         studyTimeMinutes: Math.ceil(elapsedTimeSec / 60),
         completed: true,
+       
       });
     }
   }, [currentDilemma]);

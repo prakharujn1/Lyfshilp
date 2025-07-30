@@ -69,7 +69,7 @@ export default function BrandYouSimulator() {
     const [feedback, setFeedback] = useState({ mission: "", bio: "" });
     const [loading, setLoading] = useState(false);
     //for performance
-    const { updateLeadershipPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
     useEffect(() => {
         if (completed) {
@@ -79,10 +79,15 @@ export default function BrandYouSimulator() {
         if (completed) {
             const totalTimeMs = Date.now() - startTime;
 
-            updateLeadershipPerformance({
+            updatePerformance({
+                moduleName: "Leadership",
+                topicName: "understandableLeader",
+                score: 10,
+                accuracy: 100,
                 avgResponseTimeSec: parseFloat((totalTimeMs / (questions.length * 1000)).toFixed(2)),
                 studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
                 completed: true,
+               
             });
         }
     }, [completed]);

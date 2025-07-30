@@ -56,7 +56,7 @@ const BrandBrandExplorerGameSelect = () => {
 
   const [formData, setFormData] = useState([]);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleSubmit = () => {
@@ -105,18 +105,23 @@ const BrandBrandExplorerGameSelect = () => {
   };
 
   const handleGameSubmit = () => {
-  console.log("Submitted:", formData);
-  completeDMChallenge(0, 1);
+    console.log("Submitted:", formData);
+    completeDMChallenge(0, 1);
 
-  const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
-  updateDMPerformance({
-    avgResponseTimeSec: timeTakenSec,
-    studyTimeMinutes: Math.ceil(timeTakenSec / 60),
-    completed: true,
-  });
+    const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "creativity",
+      score: 10,
+      accuracy: 100,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+      completed: true,
+     
+    });
 
-  navigate("/brand-explorer-game-complete");
-};
+    navigate("/brand-explorer-game-complete");
+  };
 
 
   useEffect(() => {
@@ -269,8 +274,8 @@ const BrandBrandExplorerGameSelect = () => {
             <div
               key={index}
               className={`floating-card ${floatClass} relative rounded-3xl shadow-2xl p-5 border-4 ${selectedBrands?.some((b) => b?.name === brand.name)
-                  ? "border border-purple-400"
-                  : "border-none"
+                ? "border border-purple-400"
+                : "border-none"
                 } border-pink-400 hover:scale-105 transition-all duration-300 ease-in-out bg-gradient-to-br from-emerald-200 via-cyan-300 to-indigo-400
  overflow-hidden `}
               onClick={() => handleClick(brand)}

@@ -41,7 +41,7 @@ export default function OverspendTrap() {
   const feedbackRef = useRef(null);
 
   //for Performance
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const problem =
@@ -99,10 +99,15 @@ Example format:
       //for performance
       const totalTime = (Date.now() - startTime) / 1000; // in seconds
       const studyTimeMinutes = Math.ceil(totalTime / 60);
-      updateFinancePerformance({
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "budgetExpert",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: totalTime,
         studyTimeMinutes,
         completed: true,
+    
       });
 
 

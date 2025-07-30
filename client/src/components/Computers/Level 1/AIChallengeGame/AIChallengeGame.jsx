@@ -42,7 +42,7 @@ export default function AIChallengeGame() {
   const [showBadge, setShowBadge] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleDrop = (deviceId) => {
@@ -74,10 +74,15 @@ export default function AIChallengeGame() {
       const endTime = Date.now();
       const totalSeconds = Math.round((endTime - startTime) / 1000);
 
-      updateComputersPerformance({
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "introductionToAI",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: totalSeconds / 5,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: true,
+        
       });
 
       setTimeout(() => setShowBadge(false), 4000);

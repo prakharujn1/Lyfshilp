@@ -5,6 +5,7 @@ import AdCampaignMatchGame from "./AdCampaignMatchGame";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
 
 function parsePossiblyStringifiedJSON(text) {
   if (typeof text !== "string") return null;
@@ -48,6 +49,10 @@ export default function AdCampaignerGame() {
     platforms: [],
     campaignName: "",
   });
+
+  //for performance
+  const { updatePerformance } = usePerformance();
+  const [startTime] = useState(Date.now());
 
   const updateFormData = (field, value) => {
     if (field === "platforms") {
@@ -102,10 +107,10 @@ export default function AdCampaignerGame() {
                   text: `Evaluate the user's decisions to run an ad Campaign for a brand that sells caps. The user is a school student.
 
           This is the data of his ad-campaign startegy : ${JSON.stringify(
-            formData,
-            null,
-            2
-          )}        
+                    formData,
+                    null,
+                    2
+                  )}        
 
 
 ### FINAL INSTRUCTION ###
@@ -132,6 +137,39 @@ Example format:
       const parsed = parsePossiblyStringifiedJSON(aiReply);
       console.log(parsed);
       setResult(parsed);
+
+      // Time taken for the task
+      const timeTakenSec = (Date.now() - startTime) / 1000;
+
+      // === Simple scoring logic ===
+      // Score = 10 if there are pros and no cons, 8 if both present, 5 if only cons, etc.
+      let scaledScore = 0;
+      if (parsed.pros && parsed.pros !== "No pros") {
+        scaledScore += 5;
+      }
+      if (parsed.cons && parsed.cons !== "No cons") {
+        scaledScore += 3;
+      }
+      if (parsed.tip && parsed.tip.length > 10) {
+        scaledScore += 2;
+      }
+
+      // Cap score at 10
+      scaledScore = Math.min(scaledScore, 10);
+      // Accuracy can just be score * 10 (out of 100)
+      const accuracy = scaledScore * 10;
+
+      // ✅ Send to performance context
+      updatePerformance({
+        moduleName: "DigitalMarketing",
+        topicName: "marketer",
+        score: scaledScore,
+        accuracy,
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+        completed: true,
+         
+      });
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);
@@ -182,11 +220,10 @@ Example format:
         </div>
 
         <div
-          className={`${
-            !completed
-              ? "opacity-50  pointer-events-none w-full h-full flex flex-col items-center space-y-10"
-              : "w-full h-full flex flex-col items-center space-y-10"
-          }`}
+          className={`${!completed
+            ? "opacity-50  pointer-events-none w-full h-full flex flex-col items-center space-y-10"
+            : "w-full h-full flex flex-col items-center space-y-10"
+            }`}
         >
           <div
             className={`text-lg sm:text-xl md:text-2xl lg:text-3xl mt-10  p-3 rounded-2xl bg-gradient-to-r from-pink-400 to-purple-500 text-white`}
@@ -206,11 +243,10 @@ Example format:
                 <div
                   key={idx}
                   onClick={() => updateFormData("targetAudience", label)}
-                  className={`${
-                    formData.targetAudience === label
-                      ? "border-green-500"
-                      : "border-purple-300"
-                  } floating-card ${floatClass} border-4 cursor-pointer bg-white rounded-3xl p-6 shadow-xl `}
+                  className={`${formData.targetAudience === label
+                    ? "border-green-500"
+                    : "border-purple-300"
+                    } floating-card ${floatClass} border-4 cursor-pointer bg-white rounded-3xl p-6 shadow-xl `}
                 >
                   <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-purple-600 mb-2">
                     {label}
@@ -236,11 +272,10 @@ Example format:
                 <div
                   key={idx}
                   onClick={() => updateFormData("slogan", label)}
-                  className={`${
-                    formData.slogan === label
-                      ? "border-green-500"
-                      : "border-purple-300"
-                  } floating-card ${floatClass} bg-white cursor-pointer rounded-3xl p-6 shadow-xl border-4`}
+                  className={`${formData.slogan === label
+                    ? "border-green-500"
+                    : "border-purple-300"
+                    } floating-card ${floatClass} bg-white cursor-pointer rounded-3xl p-6 shadow-xl border-4`}
                 >
                   <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-purple-600 mb-2">
                     {label}
@@ -279,11 +314,10 @@ Example format:
                 <div
                   key={idx}
                   onClick={() => updateFormData("platforms", label)}
-                  className={`bg-white cursor-pointer floating-card ${floatClass} rounded-3xl p-6 shadow-xl border-4 ${
-                    formData.platforms.includes(label)
-                      ? "border-green-500"
-                      : "border-purple-300"
-                  }`}
+                  className={`bg-white cursor-pointer floating-card ${floatClass} rounded-3xl p-6 shadow-xl border-4 ${formData.platforms.includes(label)
+                    ? "border-green-500"
+                    : "border-purple-300"
+                    }`}
                 >
                   <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center text-purple-600 mb-2">
                     {label}
@@ -308,11 +342,10 @@ Example format:
                 <div
                   key={idx}
                   onClick={() => updateFormData("campaignName", label)}
-                  className={`bg-white cursor-pointer floating-card ${floatClass} rounded-3xl p-6 shadow-xl border-4 ${
-                    formData.campaignName === label
-                      ? "border-green-500"
-                      : "border-purple-300"
-                  }`}
+                  className={`bg-white cursor-pointer floating-card ${floatClass} rounded-3xl p-6 shadow-xl border-4 ${formData.campaignName === label
+                    ? "border-green-500"
+                    : "border-purple-300"
+                    }`}
                 >
                   <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center text-purple-600 mb-2">
                     {label}
@@ -349,11 +382,10 @@ Example format:
                   <div
                     key={idx}
                     onClick={() => updateFormData("adType", label)}
-                    className={`cursor-pointer ${
-                      formData.adType === label
-                        ? "border-green-500"
-                        : "border-purple-300"
-                    } bg-white cursor-pointer floating-card ${floatClass} rounded-3xl p-6 shadow-xl border-4`}
+                    className={`cursor-pointer ${formData.adType === label
+                      ? "border-green-500"
+                      : "border-purple-300"
+                      } bg-white cursor-pointer floating-card ${floatClass} rounded-3xl p-6 shadow-xl border-4`}
                   >
                     <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center text-purple-600 mb-2">
                       {label}
@@ -368,9 +400,8 @@ Example format:
             <button
               disabled={!validClick()}
               onClick={() => handleSubmit()}
-              className={`bg-gradient-to-r ${
-                validClick() ? "cursor-pointer" : "cursor-not-allowed"
-              } from-green-400 to-blue-500 text-white px-8 py-3 rounded-full text-lg sm:text-xl md:text-2xl lg:text-3xl hover:scale-105 transition duration-300 shadow-lg`}
+              className={`bg-gradient-to-r ${validClick() ? "cursor-pointer" : "cursor-not-allowed"
+                } from-green-400 to-blue-500 text-white px-8 py-3 rounded-full text-lg sm:text-xl md:text-2xl lg:text-3xl hover:scale-105 transition duration-300 shadow-lg`}
             >
               💡 Get AI Feedback
             </button>

@@ -109,7 +109,7 @@ const CatchYourRightsGame = () => {
   const [isTabVisible, setIsTabVisible] = useState(true);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -123,11 +123,15 @@ const CatchYourRightsGame = () => {
 
       const scaledScore = Math.min(10, parseFloat(((score / (totalPlayed * 3)) * 10).toFixed(2)));
 
-      updateLawPerformance({
+      updatePerformance({
+        moduleName: "Law",
+        topicName: "constitutionalRights",
         score: scaledScore,
+        accuracy: scaledScore * 10,
         avgResponseTimeSec: parseFloat(avgResponseTimeSec.toFixed(2)),
         studyTimeMinutes,
         completed: gameState === "completed",
+        
       });
     }
   }, [gameState]);

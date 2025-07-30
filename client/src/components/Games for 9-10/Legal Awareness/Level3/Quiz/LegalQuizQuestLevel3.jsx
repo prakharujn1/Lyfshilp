@@ -36,7 +36,7 @@ const LegalQuizQuestLevel3 = () => {
   const [legalWhizBadge, setLegalWhizBadge] = useState(false);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const modules = [
@@ -351,12 +351,15 @@ const LegalQuizQuestLevel3 = () => {
     const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-    updateLawPerformance({
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "learnedCounsel",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: true,
+       
     });
   }, [gameComplete]);
 

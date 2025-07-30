@@ -77,9 +77,12 @@ export default function FeelItFindItGame() {
   const [reflectionAnswers, setReflectionAnswers] = useState({});
   const [gameComplete, setGameComplete] = useState(false);
   const [score, setScore] = useState(0);
+
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
+  const [matchCount, setMatchCount] = useState(0);
+
 
   const handleFaceSelect = (face) => {
     setSelectedFace(face);
@@ -100,6 +103,7 @@ export default function FeelItFindItGame() {
       };
 
       setCurrentMatches((prev) => [...prev, match]);
+      setMatchCount((prev) => prev + 1);
       setRemainingFaces((prev) => prev.filter((f) => f.id !== selectedFace.id));
       setRemainingEmotions((prev) => prev.filter((e) => e.id !== emotion.id));
       setSelectedFace(null);
@@ -191,22 +195,28 @@ export default function FeelItFindItGame() {
     setScore(finalScore);
     setGameComplete(true);
     completeCommunicationChallenge(1, 2);
-    
-    //for performance
+
+    // Time & performance calculation
     const endTime = Date.now();
-    const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+    const totalTimeSec = Math.round((endTime - startTime) / 1000);
+    const studyTimeMinutes = Math.max(1, Math.round(totalTimeSec / 60));
+    const avgResponseTimeSec = matchCount > 0 ? Math.round(totalTimeSec / matchCount) : 0;
+
     const accuracy = (finalScore / (gameEmotions.length * 2)) * 100;
     const scaledScore = Math.round((finalScore / (gameEmotions.length * 2)) * 10 * 10) / 10;
 
-    updateCommunicationPerformance({
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "emotionalIntelligence",
       completed: true,
       studyTimeMinutes,
+      avgResponseTimeSec,
       score: scaledScore,
       accuracy,
+      
     });
-
-
   };
+
 
   const resetGame = () => {
     setPhase(1);

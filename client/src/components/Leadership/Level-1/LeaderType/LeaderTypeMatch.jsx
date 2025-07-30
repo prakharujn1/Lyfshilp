@@ -53,19 +53,22 @@ export default function LeaderTypeMatch() {
   const [mcqAnswers, setMcqAnswers] = useState({});
   const [score, setScore] = useState(0);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     const totalTimeMs = Date.now() - startTime;
 
     if (stage === "result") {
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "foresight",
         score: Math.round((score / 6) * 10),
         accuracy: parseFloat(((score / 6) * 100).toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeMs / 6 / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: score >= 5,
-      });
+        
+      }); 
 
       if (score >= 5) {
         completeLeadershipChallenge(0, 0); // Use your real IDs

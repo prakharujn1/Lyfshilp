@@ -9,7 +9,7 @@ export default function ConflictCommanderGame() {
   const [reflection, setReflection] = useState("");
   const [showResult, setShowResult] = useState(false);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const step1Options = [
     { id: "s1a", text: "😤 “You’re just yelling again.”", correct: false },
@@ -54,12 +54,15 @@ export default function ConflictCommanderGame() {
 
     // 🟢 Track performance
     const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
-    updateCommunicationPerformance({
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "interpersonalSkills",
       score: Math.round((empathy + assertive) * 5),
       accuracy: ((empathy + assertive) / 2) * 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: Math.ceil(timeTakenSec / 60),
       completed: empathy && assertive,
+ 
     });
 
     setResult({ message, emoji });

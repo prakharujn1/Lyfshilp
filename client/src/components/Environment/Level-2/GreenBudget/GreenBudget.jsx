@@ -97,7 +97,7 @@ export default function GreenBudgetGame() {
   const { width, height } = useWindowSize();
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -113,12 +113,15 @@ export default function GreenBudgetGame() {
       const avgResponseTimeSec = totalTimeSec / questions.length;
       const scaledScore = Number(((score / 15) * 10).toFixed(2));
 
-      updateEnvirnomentPerformance({
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "ecoDecisionMaker",
         score: scaledScore,
         accuracy: (score / 15) * 100,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: score >= 12, // mark as completed if score is good
+         
       });
     }
   }, [step]);

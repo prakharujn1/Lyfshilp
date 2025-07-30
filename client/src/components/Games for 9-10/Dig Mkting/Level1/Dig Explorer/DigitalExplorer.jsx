@@ -36,7 +36,7 @@ const DigitalExplorer = () => {
   const [attempts, setAttempts] = useState(0);
 
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const personas = [
@@ -257,14 +257,17 @@ const DigitalExplorer = () => {
     const scaledStudyTime = Math.min(Math.round(studyTimeMinutes * 10), 100); // e.g., cap at 100
 
     const payload = {
+      moduleName: "DigitalMarketing",
+      topicName: "contentStrategist",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes: scaledStudyTime,
       completed: true,
+      
     };
 
-    updateDMPerformance(payload); // call context method
+    updatePerformance(payload); // call context method
 
     setLoading(true);
     setTimeout(() => {

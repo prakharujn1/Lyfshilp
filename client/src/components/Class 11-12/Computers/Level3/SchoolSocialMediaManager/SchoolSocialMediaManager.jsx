@@ -22,7 +22,7 @@ const SchoolSocialMediaManager = () => {
     });
 
     //for performance
-    const { updateComputersPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     useEffect(() => {
@@ -32,10 +32,15 @@ const SchoolSocialMediaManager = () => {
             const endTime = Date.now();
             const studyTimeMinutes = Math.floor((endTime - startTime) / 60000);
 
-            updateComputersPerformance({
+            updatePerformance({
+                moduleName: "Computers",
+                topicName: "genAIInEverydayLife",
+                score: 10,
+                accuracy: 100,     // actual %
                 avgResponseTimeSec: gameStats.avgResponseTimeSec || 0,
                 studyTimeMinutes,
-                completed: true
+                completed: true,
+            
             });
         }
     }, [isGameWon]);

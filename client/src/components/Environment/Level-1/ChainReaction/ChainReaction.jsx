@@ -12,15 +12,9 @@ import {
 import { useSortable, arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useNavigate } from "react-router-dom";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext";
 
-const useEnvirnoment = () => ({
-  completeEnvirnomentChallenge: (a, b) =>
-    console.log("completeEnvirnomentChallenge called"),
-});
-const usePerformance = () => ({
-  updateEnvirnomentPerformance: (data) =>
-    console.log("updateEnvirnomentPerformance called", data),
-});
 
 const puzzles = [
   {
@@ -60,7 +54,7 @@ const DraggableCard = React.memo(({ id, content, isDraggingOverlay }) => {
     width: "300px",
     height: "8.5vh",
     zIndex: isDragging ? 100 : 'auto',
-    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), 
+    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1),
   };
 
   return (
@@ -85,7 +79,7 @@ const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay
   const { setNodeRef: setDroppableNodeRef } = useDroppable({ id: id });
 
   const { attributes, listeners, setNodeRef: setDraggableNodeRef, transform, isDragging } =
-    useDraggable({ id: id, disabled: !content }); 
+    useDraggable({ id: id, disabled: !content });
 
   const combinedRef = useCallback((node) => {
     setDroppableNodeRef(node);
@@ -100,7 +94,7 @@ const DroppableSequenceSlot = React.memo(({ id, content, text, isDraggingOverlay
     width: "300px",
     height: "8.5vh",
     zIndex: isDragging ? 100 : 'auto',
-    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1), 
+    opacity: isDraggingOverlay ? 1 : (isDragging ? 0 : 1),
   };
 
   const borderClass = content ? '' : 'border-dashed border-[2.5px] border-[#79caef]';
@@ -202,10 +196,10 @@ const MobileSortableCard = React.memo(({ id, content }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 10 : 'auto', 
-    opacity: isDragging ? 0.5 : 1, 
-    width: "100%", 
-    maxWidth: "324px", 
+    zIndex: isDragging ? 10 : 'auto',
+    opacity: isDragging ? 0.5 : 1,
+    width: "100%",
+    maxWidth: "324px",
     height: "72px",
     display: "flex",
     justifyContent: "center",
@@ -232,12 +226,12 @@ const MobileSortableCard = React.memo(({ id, content }) => {
   );
 });
 
-const TOTAL_TIME_LIMIT = 120; 
-const TOTAL_PUZZLES_SCORE = puzzles.length * 5; 
+const TOTAL_TIME_LIMIT = 120;
+const TOTAL_PUZZLES_SCORE = puzzles.length * 5;
 
 const ChainReaction = () => {
   const { completeEnvirnomentChallenge } = useEnvirnoment();
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const navigate = useNavigate();
 
   const [showStart, setShowStart] = useState(true);
@@ -269,9 +263,9 @@ const ChainReaction = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleSubmit = useCallback(() => {
-    const currentSequence = window.innerWidth >= 1024 
-      ? sequenceSlotsContent.map(item => item ? item.id : null) 
-      : mobileSortableItems; 
+    const currentSequence = window.innerWidth >= 1024
+      ? sequenceSlotsContent.map(item => item ? item.id : null)
+      : mobileSortableItems;
     setIsTimerRunning(false);
     setUserAnswers(prevAnswers => [...prevAnswers, currentSequence]);
 
@@ -303,23 +297,26 @@ const ChainReaction = () => {
 
       const scaledScore = Number(((score / TOTAL_PUZZLES_SCORE) * 10).toFixed(2));
 
-      updateEnvirnomentPerformance({
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "sustainableLeader",
         score: scaledScore,
         accuracy: (score / TOTAL_PUZZLES_SCORE) * 100,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: true,
+    
       });
 
       setShowResult(true);
     }
-  }, [current, puzzles, score, sequenceSlotsContent, mobileSortableItems, startTime, updateEnvirnomentPerformance]);
+  }, [current, puzzles, score, sequenceSlotsContent, mobileSortableItems, startTime, updatePerformance]);
 
   useEffect(() => {
     if (showResult && score >= 20) {
       completeEnvirnomentChallenge(0, 2);
     }
-  }, [showResult, score, completeEnvirnomentChallenge]);
+  }, [showResult, score]);
 
   useEffect(() => {
     let timer;
@@ -339,7 +336,7 @@ const ChainReaction = () => {
       { id: null, slotId: 'slot-1' },
       { id: null, slotId: 'slot-2' },
     ]);
-    setMobileSortableItems(shuffledOrder); 
+    setMobileSortableItems(shuffledOrder);
     setScore(0);
     setTimeLeft(TOTAL_TIME_LIMIT);
     setStartTime(Date.now());
@@ -401,45 +398,45 @@ const ChainReaction = () => {
 
     let draggedContent = null;
     if (isDraggingFromAvailable) {
-        draggedContent = activeId;
+      draggedContent = activeId;
     } else if (isDraggingFromSequence) {
-        draggedContent = newSequenceSlotsContent[activeSequenceSlotIndex].id;
-        if (!draggedContent) return;
+      draggedContent = newSequenceSlotsContent[activeSequenceSlotIndex].id;
+      if (!draggedContent) return;
     } else {
-        return;
+      return;
     }
 
     if (isOverSequenceSlot) {
-        const targetSlot = newSequenceSlotsContent[overSequenceSlotIndex];
-        const cardCurrentlyInTargetSlot = targetSlot.id;
+      const targetSlot = newSequenceSlotsContent[overSequenceSlotIndex];
+      const cardCurrentlyInTargetSlot = targetSlot.id;
 
-        newSequenceSlotsContent[overSequenceSlotIndex] = {
-            ...targetSlot,
-            id: draggedContent,
-        };
+      newSequenceSlotsContent[overSequenceSlotIndex] = {
+        ...targetSlot,
+        id: draggedContent,
+      };
 
-        if (isDraggingFromAvailable) {
-            newAvailableCards = newAvailableCards.filter(id => id !== draggedContent);
-            if (cardCurrentlyInTargetSlot) {
-                newAvailableCards.push(cardCurrentlyInTargetSlot);
-            }
-        } else if (isDraggingFromSequence) {
-            newSequenceSlotsContent[activeSequenceSlotIndex] = {
-                ...newSequenceSlotsContent[activeSequenceSlotIndex],
-                id: cardCurrentlyInTargetSlot,
-            };
+      if (isDraggingFromAvailable) {
+        newAvailableCards = newAvailableCards.filter(id => id !== draggedContent);
+        if (cardCurrentlyInTargetSlot) {
+          newAvailableCards.push(cardCurrentlyInTargetSlot);
         }
+      } else if (isDraggingFromSequence) {
+        newSequenceSlotsContent[activeSequenceSlotIndex] = {
+          ...newSequenceSlotsContent[activeSequenceSlotIndex],
+          id: cardCurrentlyInTargetSlot,
+        };
+      }
     }
     else if (isOverAvailableCardsArea) {
-        if (isDraggingFromSequence) {
-            newSequenceSlotsContent[activeSequenceSlotIndex] = {
-                ...newSequenceSlotsContent[activeSequenceSlotIndex],
-                id: null,
-            };
-            if (!newAvailableCards.includes(draggedContent)) {
-                newAvailableCards.push(draggedContent);
-            }
+      if (isDraggingFromSequence) {
+        newSequenceSlotsContent[activeSequenceSlotIndex] = {
+          ...newSequenceSlotsContent[activeSequenceSlotIndex],
+          id: null,
+        };
+        if (!newAvailableCards.includes(draggedContent)) {
+          newAvailableCards.push(draggedContent);
         }
+      }
     }
 
     setAvailableCards(newAvailableCards);
@@ -450,7 +447,7 @@ const ChainReaction = () => {
 
   const handleDragEndMobile = (event) => {
     const { active, over } = event;
-    setActiveId(null); 
+    setActiveId(null);
 
     if (active.id !== over.id) {
       setMobileSortableItems((items) => {
@@ -480,10 +477,10 @@ const ChainReaction = () => {
     }
   };
 
- 
+
   const isSubmitEnabled = window.innerWidth >= 1024
     ? sequenceSlotsContent.every(item => item && item.id !== null)
-    : true; 
+    : true;
 
   const progress = ((TOTAL_TIME_LIMIT - timeLeft) / TOTAL_TIME_LIMIT) * 100;
 
@@ -495,7 +492,7 @@ const ChainReaction = () => {
   const currentUserReviewAnswer = userAnswers[reviewIndex] || [];
 
   const renderDragOverlayContent = useCallback(() => {
-    const currentDragItem = activeDragItemDataRef.current; 
+    const currentDragItem = activeDragItemDataRef.current;
     if (window.innerWidth >= 1024 && currentDragItem && currentDragItem.id) {
       if (currentDragItem.type === 'card') {
         return (
@@ -515,16 +512,16 @@ const ChainReaction = () => {
           />
         );
       }
-    } else if (activeId && window.innerWidth < 1024) { 
-        const draggedContent = mobileSortableItems.find(item => item === activeId);
-        if (draggedContent) {
-            return (
-                <MobileSortableCard
-                    id={activeId}
-                    content={draggedContent}
-                />
-            );
-        }
+    } else if (activeId && window.innerWidth < 1024) {
+      const draggedContent = mobileSortableItems.find(item => item === activeId);
+      if (draggedContent) {
+        return (
+          <MobileSortableCard
+            id={activeId}
+            content={draggedContent}
+          />
+        );
+      }
     }
     return null;
   }, [activeId, mobileSortableItems]);
@@ -570,7 +567,7 @@ const ChainReaction = () => {
         <div className="min-h-screen w-screen flex flex-col items-center bg-green-100 py-8 px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-6xl bg-white rounded-3xl shadow flex flex-col items-center p-6 sm:p-8 lg:p-10 relative">
             <button onClick={() => { setShowReview(false); setShowResult(true); }} className="flex justify-center items-center absolute top-4 right-4 z-[139] w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full hover:bg-gray-200 transition">
-              <span className="font-['Comfortaa'] text-[36px] sm:text-[40px] font-light text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
+              <span className="font-['Comfortaa'] text-[36px] sm:text-[40px]   text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
             </button>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-700 text-center w-full" style={{ fontFamily: "'Comic Neue', 'Comic Sans MS', cursive'" }}>Check your answers</h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-gray-500 text-center w-full" style={{ fontFamily: "'Commissioner', 'Arial', sans-serif'" }}>Match each cause with its chain of effects in correct order.</p>
@@ -644,7 +641,7 @@ const ChainReaction = () => {
                 </span>
               </button>
             </div>
-             <div className="lg:hidden flex w-full justify-center items-center flex-nowrap relative mt-[3vh]">
+            <div className="lg:hidden flex w-full justify-center items-center flex-nowrap relative mt-[3vh]">
               <button
                 onClick={() => { setShowReview(false); setShowResult(true); }}
                 className={`w-[250px] h-[6vh] shrink-0 rounded-[10px] relative z-[1] flex justify-center items-center
@@ -691,7 +688,7 @@ const ChainReaction = () => {
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
-                onDragStart={handleDragStartLargeScreen} 
+                onDragStart={handleDragStartLargeScreen}
                 onDragEnd={handleDragEndLargeScreen}
               >
                 {/* Left Column: Available Cards */}
@@ -822,8 +819,8 @@ const ChainReaction = () => {
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
-                onDragStart={event => setActiveId(event.active.id)} 
-                onDragEnd={handleDragEndMobile} 
+                onDragStart={event => setActiveId(event.active.id)}
+                onDragEnd={handleDragEndMobile}
               >
                 <SortableContext items={mobileSortableItems} strategy={verticalListSortingStrategy}>
                   {mobileSortableItems.map((item) => (
@@ -831,7 +828,7 @@ const ChainReaction = () => {
                   ))}
                 </SortableContext>
                 <DragOverlay>
-                    {renderDragOverlayContent()}
+                  {renderDragOverlayContent()}
                 </DragOverlay>
               </DndContext>
             </div>

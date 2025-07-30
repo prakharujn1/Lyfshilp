@@ -118,7 +118,7 @@ export default function MarketPulseChallenge() {
   const [decision, setDecision] = useState({ choice: '', reason: '' });
   const [loading, setLoading] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const spinIdea = () => {
@@ -249,12 +249,15 @@ Evaluate the quality of the user’s decision.
         }));
 
         // ✅ Save performance
-        updateEntreprenerushipPerformance({
+        updatePerformance({
+          moduleName: "Entrepreneurship",
+          topicName: "ideationIntellect",
           score: result.score,
           accuracy: result.score * 10, // Optional: scale accuracy
           avgResponseTimeSec: 0, // Not applicable here
           studyTimeMinutes: timeSpentMinutes,
-          completed: true
+          completed: true,
+          
         });
 
         // ✅ Mark challenge as completed

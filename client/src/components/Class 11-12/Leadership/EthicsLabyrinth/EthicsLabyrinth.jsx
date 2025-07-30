@@ -57,7 +57,7 @@ const EthicsLabyrinth = () => {
   const [showEnd, setShowEnd] = useState(false);
   const [started, setStarted] = useState(false);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (started && chosen === null && !showEnd) {
@@ -70,22 +70,25 @@ const EthicsLabyrinth = () => {
   }, [timeLeft, chosen, started]);
 
   useEffect(() => {
-  if (showEnd && !scoreSent) {
-    const totalTimeMs = Date.now() - startTime;
+    if (showEnd && !scoreSent) {
+      const totalTimeMs = Date.now() - startTime;
 
-    updateLeadershipPerformance({
-      score: Math.round((score / questions.length) * 10),
-      accuracy: parseFloat(((score / questions.length) * 100).toFixed(2)),
-      avgResponseTimeSec: parseFloat((totalTimeMs / (questions.length * 1000)).toFixed(2)),
-      studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
-      completed: score === questions.length
-    });
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "theStrategist",
+        score: Math.round((score / questions.length) * 10),
+        accuracy: parseFloat(((score / questions.length) * 100).toFixed(2)),
+        avgResponseTimeSec: parseFloat((totalTimeMs / (questions.length * 1000)).toFixed(2)),
+        studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
+        completed: score === questions.length,
+    
+      });
 
-    if (score === questions.length) {
-      completeLeadershipChallenge(1, 1);
+      if (score === questions.length) {
+        completeLeadershipChallenge(1, 1);
+      }
     }
-  }
-}, [showEnd, score]);
+  }, [showEnd, score]);
 
 
 

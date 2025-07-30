@@ -49,7 +49,7 @@ const BudgetActivity = () => {
   const [feedbackAvatarType, setFeedbackAvatarType] = useState("disappointing");
 
   //for performance 
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const feedbackMap = {
@@ -171,11 +171,15 @@ Remark can have one of these values : "Excellent", "Great", "Smart", "Impressive
       const score = scoreMap[parsed.remark] ?? 5;
       const totalTime = (Date.now() - startTime) / 1000; // seconds
       const studyTimeMinutes = Math.ceil(totalTime / 60);
-      updateFinancePerformance({
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "budgetExpert",
         score, // out of 10
+        accuracy: score * 10,
         avgResponseTimeSec: totalTime,
         studyTimeMinutes,
         completed: true,
+        
       });
 
 
