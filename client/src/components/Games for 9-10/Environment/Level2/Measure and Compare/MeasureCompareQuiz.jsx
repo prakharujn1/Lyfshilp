@@ -18,7 +18,7 @@ const MeasureCompareQuiz = () => {
   const [showCelebration, setShowCelebration] = useState(false);
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const questions = [
     {
@@ -263,12 +263,15 @@ const MeasureCompareQuiz = () => {
     // Scale score out of 10
     const scaledScore = parseFloat(((score / questions.length) * 10).toFixed(2));
 
-    updateEnvirnomentPerformance({
+    updatePerformance({
+      moduleName: "Environment",
+      topicName: "ecoDecisionMaker",
       score: scaledScore,
       accuracy: parseFloat((accuracy * 100).toFixed(2)),
       avgResponseTimeSec: parseFloat((timeTakenSec / questions.length).toFixed(2)),
       studyTimeMinutes: studyTimeMin,
       completed: score >= 5,
+      
     });
   }, [currentPage]);
 

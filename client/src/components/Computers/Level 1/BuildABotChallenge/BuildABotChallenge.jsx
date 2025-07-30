@@ -50,7 +50,7 @@ const BuildABotChallenge = () => {
 
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleDesignSelect = (design) => {
@@ -100,20 +100,25 @@ const BuildABotChallenge = () => {
   };
 
   useEffect(() => {
-  if (step === 3) {
-    completeComputersChallenge(0, 2); // Challenge 2, Task 1 complete
+    if (step === 3) {
+      completeComputersChallenge(0, 2); // Challenge 2, Task 1 complete
 
-    const endTime = Date.now();
-    const totalSeconds = Math.round((endTime - startTime) / 1000);
-   
+      const endTime = Date.now();
+      const totalSeconds = Math.round((endTime - startTime) / 1000);
 
-    updateComputersPerformance({
-      avgResponseTimeSec: totalSeconds / 6, // 6 fields filled
-      studyTimeMinutes: Math.ceil(totalSeconds / 60),
-      completed: true,
-    });
-  }
-}, [step]);
+
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "introductionToAI",
+        score: 10,
+        accuracy: 100,
+        avgResponseTimeSec: totalSeconds / 6, // 6 fields filled
+        studyTimeMinutes: Math.ceil(totalSeconds / 60),
+        completed: true,
+     
+      });
+    }
+  }, [step]);
 
 
   return (

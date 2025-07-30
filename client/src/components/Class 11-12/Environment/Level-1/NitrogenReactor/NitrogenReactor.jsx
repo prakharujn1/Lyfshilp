@@ -18,7 +18,7 @@ const NitrogenReactor = () => {
   const [page, setPage] = useState("intro");
   const [step, setStep] = useState(1);
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Q1
@@ -299,14 +299,17 @@ const NitrogenReactor = () => {
                       const totalTimeMs = endTime - startTime;
 
                       const payload = {
+                        moduleName: "Environment",
+                        topicName: "climateAnalyst",
                         score: Math.round((correctCount / 3) * 10),
                         accuracy: parseFloat(((correctCount / 3) * 100).toFixed(2)),
                         avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
                         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
                         completed: allCorrect,
+                        
                       };
 
-                      updateEnvirnomentPerformance(payload);
+                      updatePerformance(payload);
                     }
 
                     if (allCorrect) {
@@ -314,54 +317,54 @@ const NitrogenReactor = () => {
                       completeEnvirnomentChallenge(0, 1);
                     }
                   }}
-              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-blue-700 transition"
+                  className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-blue-700 transition"
                 >
-              Submit
-            </button>
+                  Submit
+                </button>
+              )}
+              {q3Correct !== null && (
+                <>
+                  <img
+                    src={
+                      q3Correct
+                        ? "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGcwYzhhaGJ4cWpxcTc5ZGNhaDEzbThkZ2VnOG8zM2doM21zcWRpMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/r9YPCIldstAcEGlbPg/giphy.webp"
+                        : "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTFjY3J0MnNzaGtqMDBpeWQzN3F1Y3Vyb2lieWw2bTUwcXhobGRxNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kBVyxpXLJ94B6G4qHK/200.webp"
+                    }
+                    alt={q3Correct ? "Correct GIF" : "Wrong GIF"}
+                    className="w-52 mx-auto rounded-xl shadow-md mb-4"
+                  />
+                  <p className="mt-2 font-semibold text-lg">
+                    {q3Correct ? "✅ Correct!" : "❌ Incorrect!"}
+                  </p>
+                </>
+              )}
+            </div>
           )}
-          {q3Correct !== null && (
-            <>
-              <img
-                src={
-                  q3Correct
-                    ? "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGcwYzhhaGJ4cWpxcTc5ZGNhaDEzbThkZ2VnOG8zM2doM21zcWRpMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/r9YPCIldstAcEGlbPg/giphy.webp"
-                    : "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTFjY3J0MnNzaGtqMDBpeWQzN3F1Y3Vyb2lieWw2bTUwcXhobGRxNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kBVyxpXLJ94B6G4qHK/200.webp"
-                }
-                alt={q3Correct ? "Correct GIF" : "Wrong GIF"}
-                className="w-52 mx-auto rounded-xl shadow-md mb-4"
-              />
-              <p className="mt-2 font-semibold text-lg">
-                {q3Correct ? "✅ Correct!" : "❌ Incorrect!"}
-              </p>
-            </>
-          )}
-        </div>
-      )}
 
-      {/* Final */}
-      {final !== null && (
-        <div className="text-center space-y-4">
-          <img
-            src={final ? successGif : failGif}
-            alt="Result GIF"
-            className="w-52 mx-auto rounded-xl shadow-md"
-          />
-          <h2 className="text-3xl font-bold text-green-700">
-            {final
-              ? "🎉 Congrats! You are a NitroNinja!"
-              : "❌ Some answers were wrong. Try again!"}
-          </h2>
-          <button
-            onClick={resetGame}
-            className="mt-4 bg-green-600 text-white px-6 py-3 rounded-full font-bold shadow hover:bg-green-700 transition"
-          >
-            Play Again
-          </button>
+          {/* Final */}
+          {final !== null && (
+            <div className="text-center space-y-4">
+              <img
+                src={final ? successGif : failGif}
+                alt="Result GIF"
+                className="w-52 mx-auto rounded-xl shadow-md"
+              />
+              <h2 className="text-3xl font-bold text-green-700">
+                {final
+                  ? "🎉 Congrats! You are a NitroNinja!"
+                  : "❌ Some answers were wrong. Try again!"}
+              </h2>
+              <button
+                onClick={resetGame}
+                className="mt-4 bg-green-600 text-white px-6 py-3 rounded-full font-bold shadow hover:bg-green-700 transition"
+              >
+                Play Again
+              </button>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  )
-}
+      )
+      }
     </div >
   );
 };

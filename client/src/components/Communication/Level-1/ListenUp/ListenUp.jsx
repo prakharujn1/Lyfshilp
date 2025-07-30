@@ -95,7 +95,12 @@ const DropZone = ({ onDrop, label, acceptedType, droppedItem }) => {
   );
 };
 
-const AudioChallenge = ({ data, index, onResult }) => {
+const AudioChallenge = ({ data, index, onResult, onStart }) => {
+
+  useEffect(() => {
+    if (onStart) onStart();
+  }, [onStart]);
+
   const [droppedEmotion, setDroppedEmotion] = useState(null);
   const [droppedBehavior, setDroppedBehavior] = useState(null);
   const [selectedMCQ, setSelectedMCQ] = useState(null);
@@ -219,46 +224,65 @@ const ListenUp = () => {
   const { completeCommunicationChallenge } = useCommunication();
   const [results, setResults] = useState(Array(audioData.length).fill(false));
   // ✅ for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
+  const [responseTimes, setResponseTimes] = useState(Array(audioData.length).fill(null));
+  const questionStartTimes = useRef(Array(audioData.length).fill(Date.now()));
 
 
-   useEffect(() => {
-  const allAttempted = results.every((r) => r !== null);
-  if (allAttempted) {
-    const endTime = Date.now();
-    const studyTimeMinutes = Math.max(
-      1,
-      Math.round((endTime - startTime) / 60000)
-    );
+  useEffect(() => {
+    const allAttempted = results.every((r) => r !== null);
+    if (allAttempted) {
+      const endTime = Date.now();
+      const studyTimeMinutes = Math.max(
+        1,
+        Math.round((endTime - startTime) / 60000)
+      );
 
-    const correctAnswers = results.filter(Boolean).length;
-    const total = results.length;
+      const correctAnswers = results.filter(Boolean).length;
+      const total = results.length;
 
-    const accuracy = (correctAnswers / total) * 100;
-    const score = Math.round((correctAnswers / total) * 10 * 10) / 10; // scale to 10, round to 1 decimal
+      const accuracy = (correctAnswers / total) * 100;
+      const score = Math.round((correctAnswers / total) * 10 * 10) / 10; // scale to 10, round to 1 decimal
 
-    updateCommunicationPerformance({
-      completed: true,
-      studyTimeMinutes,
-      score,
-      accuracy,
-    });
+      const avgResponseTimeSec =
+        responseTimes.filter(Boolean).reduce((a, b) => a + b, 0) /
+        responseTimes.filter(Boolean).length;
 
-    if (correctAnswers === total) {
-      completeCommunicationChallenge(0, 0);
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "interpersonalSkills",
+        completed: true,
+        studyTimeMinutes,
+        avgResponseTimeSec, // ✅ Pass it here
+        score,
+        accuracy,
+   
+      });
+
+      if (correctAnswers === total) {
+        completeCommunicationChallenge(0, 0);
+      }
     }
-  }
-}, [results]);
+  }, [results]);
+
 
   const handleResult = (index, isCorrect) => {
+    const now = Date.now();
+    const timeTakenSec = (now - questionStartTimes[index]) / 1000;
+
     setResults((prev) => {
       const updated = [...prev];
       updated[index] = isCorrect;
       return updated;
     });
-  };
 
+    setResponseTimes((prev) => {
+      const updated = [...prev];
+      updated[index] = timeTakenSec;
+      return updated;
+    });
+  };
 
   return (
     <div className="py-8 px-4 bg-gray-50 min-h-screen space-y-10">
@@ -271,6 +295,7 @@ const ListenUp = () => {
           data={clip}
           index={index}
           onResult={(isCorrect) => handleResult(index, isCorrect)}
+          onStart={() => questionStartTimes.current[index] = Date.now()} // 👈 Add this!
         />
       ))}
     </div>

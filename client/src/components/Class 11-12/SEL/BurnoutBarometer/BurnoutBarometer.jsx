@@ -52,7 +52,7 @@ export default function BurnoutBarometer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const handleChange = (key, val) => {
     setValues({ ...values, [key]: parseInt(val) });
@@ -117,12 +117,15 @@ No explanation or extra text. Only JSON.
       const scaledScore = Math.round((total / maxTotal) * 10); // out of 10
       const accuracy = Math.round((scaledScore / 10) * 100); // out of 100
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: scaledScore,
         accuracy: accuracy,
         avgResponseTimeSec: durationSec,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: true,
+        
       });
 
 

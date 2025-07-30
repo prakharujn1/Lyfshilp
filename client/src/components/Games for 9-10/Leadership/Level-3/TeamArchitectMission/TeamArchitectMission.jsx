@@ -46,7 +46,7 @@ const TeamArchitectMission = () => {
   const [step, setStep] = useState("intro");
   const [result, setResult] = useState(null);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -64,17 +64,20 @@ const TeamArchitectMission = () => {
 
     const totalRoles = Object.keys(assignments).length;
     const score = Math.round((correctCount / totalRoles) * 10); // score out of 10
-    const accuracy = score*10; // assuming 1:1 mapping here
+    const accuracy = score * 10; // assuming 1:1 mapping here
     const avgResponseTimeSec = parseFloat((totalTimeMs / totalRoles / 1000).toFixed(2));
     const studyTimeMinutes = parseFloat((totalTimeMs / 60000).toFixed(2));
     const completed = correctCount === totalRoles;
 
-    updateLeadershipPerformance({
+    updatePerformance({
+      moduleName: "Leadership",
+      topicName: "theStrategist",
       score,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed,
+       
     });
   }, [result]);
 

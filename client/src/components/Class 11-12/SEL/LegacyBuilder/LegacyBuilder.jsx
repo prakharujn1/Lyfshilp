@@ -26,7 +26,7 @@ export default function LegacyBuilder() {
   });
   const [quote, setQuote] = useState("");
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const boardRef = useRef(null);
@@ -179,10 +179,15 @@ export default function LegacyBuilder() {
               const endTime = Date.now();
               const durationSec = Math.round((endTime - startTime) / 1000);
 
-              updateSELPerformance({
+              updatePerformance({
+                moduleName: "SEL",
+                topicName: "selfAwareness",
+                score: 10,
+                accuracy: 100,
                 avgResponseTimeSec: durationSec,
                 studyTimeMinutes: Math.ceil(durationSec / 60),
                 completed: true,
+                
               });
             }}
 

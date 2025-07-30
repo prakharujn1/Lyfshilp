@@ -3,7 +3,7 @@ import { GiMoneyStack, GiReceiveMoney, GiChart } from "react-icons/gi";
 import { BackgroundBeamsWithCollision } from "../../../../../StyleComponents/BackGroundWithBeams";
 import { useFinance } from "@/contexts/FinanceContext";
 import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
- 
+
 
 const questions = [
   {
@@ -69,7 +69,7 @@ export default function RiskOMeter() {
   const [animate, setAnimate] = useState(false);
 
   //for performance
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime, setStartTime] = useState(Date.now());
   const [responseTimes, setResponseTimes] = useState([]);
 
@@ -94,11 +94,15 @@ export default function RiskOMeter() {
       const totalTime = [...responseTimes, responseTime].reduce((a, b) => a + b, 0);
       const avgResponseTime = totalTime / questions.length;
       const scaledScore = Math.round((newScore / 9) * 10);
-      updateFinancePerformance({
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "investorLevel",
         score: scaledScore,
+        accuracy: scaledScore * 10,
         avgResponseTimeSec: avgResponseTime,
         studyTimeMinutes: Math.ceil(totalTime / 60),
         completed: true,
+        
       });
       // mark challenge completed
       completeFinanceChallenge(2, 1);

@@ -39,7 +39,7 @@ const CarouselCampaign = () => {
   const [draggedItem, setDraggedItem] = useState(null);
 
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const frameTypes = [
@@ -290,14 +290,17 @@ const CarouselCampaign = () => {
       const scaledStudyTime = Math.min(Math.round(studyTimeMinutes * 10), 100);
 
       const payload = {
+        moduleName: "DigitalMarketing",
+        topicName: "contentStrategist",
         score: scaledScore,
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes: scaledStudyTime,
         completed: true,
+         
       };
 
-      updateDMPerformance(payload);
+      updatePerformance(payload);
     }
   }, [showResults, isPassed]);
 

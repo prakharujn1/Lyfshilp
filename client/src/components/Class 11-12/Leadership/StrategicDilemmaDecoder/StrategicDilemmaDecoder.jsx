@@ -49,18 +49,21 @@ export default function FunDilemmaGame() {
     const [showJustify, setShowJustify] = useState(false);
     const [currentAnswer, setCurrentAnswer] = useState("");
     //for performance
-    const { updateLeadershipPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
     useEffect(() => {
         if (step === 4 && score >= flashcards.length) {
             const totalTimeMs = Date.now() - startTime;
 
-            updateLeadershipPerformance({
+            updatePerformance({
+                moduleName: "Leadership",
+                topicName: "theStrategist",
                 score: Math.round((score / flashcards.length) * 100),
                 accuracy: parseFloat(((score / flashcards.length) * 100).toFixed(2)),
                 avgResponseTimeSec: parseFloat((totalTimeMs / (flashcards.length * 1000)).toFixed(2)),
                 studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
-                completed: true
+                completed: true,
+        
             });
 
             completeLeadershipChallenge(0, 1);

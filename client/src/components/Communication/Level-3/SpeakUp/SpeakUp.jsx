@@ -48,7 +48,7 @@ const SpeakUpGame = () => {
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleOptionClick = (index) => {
@@ -69,13 +69,19 @@ const SpeakUpGame = () => {
           const endTime = Date.now();
           const durationSec = (endTime - startTime) / 1000;
           const accuracy = finalScore / scenarios.length;
+          const avgResponseTimeSec = durationSec / scenarios.length;
 
-          updateCommunicationPerformance({
+          updatePerformance({
+            moduleName: "Communication",
+            topicName: "communicationSkills",
             score: Math.round(accuracy * 10),       // out of 10
             accuracy: Math.round(accuracy * 100),   // %
             studyTimeMinutes: durationSec / 60,
-            completed: true
+            avgResponseTimeSec,                     // ✅ new field
+            completed: true,
+          
           });
+
         }
         else {
           setCurrent(current + 1);

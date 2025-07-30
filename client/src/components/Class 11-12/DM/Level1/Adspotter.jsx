@@ -22,7 +22,7 @@ const AdSpotterGame = () => {
   const [score, setScore] = useState(0);
   const [stars, setStars] = useState(0);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const phoneItems = [
@@ -133,12 +133,15 @@ const AdSpotterGame = () => {
     const timeTakenSec = (endTime - startTime) / 1000;
     const timeTakenMin = Math.round(timeTakenSec / 60);
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "marketer",
       score: scaledScore,
       accuracy: (correctCount / 3) * 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: timeTakenMin,
       completed: true,
+    
     });
   };
 

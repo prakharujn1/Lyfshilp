@@ -58,7 +58,7 @@ export default function AIOopsGame() {
     const [selected, setSelected] = useState(null);
 
     //for performance
-    const { updateComputersPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     useEffect(() => {
@@ -74,12 +74,15 @@ export default function AIOopsGame() {
             const avgResponseTimeSec = ((endTime - startTime) / 1000) / total;
             const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-            updateComputersPerformance({
+            updatePerformance({
+                moduleName: "Computers",
+                topicName: "understandingAIPerformance",
                 score: scaledScore,
                 accuracy,
                 avgResponseTimeSec,
                 studyTimeMinutes,
                 completed: true,
+                
             });
         }
     }, [showResult]);

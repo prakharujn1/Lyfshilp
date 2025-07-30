@@ -96,7 +96,7 @@ export default function MatchingGame() {
   const [matches, setMatches] = useState([]);
   const navigate = useNavigate();
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleOptionSelect = (option) => {
@@ -148,12 +148,15 @@ export default function MatchingGame() {
       const accuracy = Math.round((correct / total) * 100);
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-      updateDMPerformance({
+      updatePerformance({
+        moduleName: "DigitalMarketing",
+        topicName: "contentStrategist",
         score: scaledScore,
         accuracy,
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: true,
+        
       });
 
       navigate("/matching-game-result", {

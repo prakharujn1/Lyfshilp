@@ -21,7 +21,7 @@ const SortItOut = () => {
   const timerRef = useRef(null);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -139,24 +139,28 @@ const SortItOut = () => {
   };
 
   useEffect(() => {
-  if (!gameComplete) return;
+    if (!gameComplete) return;
 
-  const endTime = Date.now();
-  const totalStatements = 9;
-  const correctAnswers = score / 3; // +3 for each correct answer
-  const scaledScore = (correctAnswers / totalStatements) * 10;
-  const accuracy = Math.round((correctAnswers / totalStatements) * 100);
-  const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalStatements));
-  const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+    const endTime = Date.now();
+    const totalStatements = 9;
+    const correctAnswers = score / 3; // +3 for each correct answer
+    const scaledScore = (correctAnswers / totalStatements) * 10;
+    const accuracy = Math.round((correctAnswers / totalStatements) * 100);
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalStatements));
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-  updateLawPerformance({
-    score: scaledScore,
-    accuracy,
-    avgResponseTimeSec,
-    studyTimeMinutes,
-    completed: true
-  });
-}, [gameComplete]);
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "beginnerLegalIntellect",
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+      beginnerLegalIntellectAvgScore: scaledScore,
+      beginnerLegalIntellectAccuracy: accuracy,
+    });
+  }, [gameComplete]);
 
 
   useEffect(() => {

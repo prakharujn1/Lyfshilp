@@ -38,7 +38,7 @@ export default function ResolveItRight() {
     const [timeUp, setTimeUp] = useState(false);
 
     //for performance
-    const { updateCommunicationPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     // Start & manage countdown
@@ -139,10 +139,13 @@ Just the JSON.
 
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
 
-                updateCommunicationPerformance({
+                updatePerformance({
+                    moduleName: "Communication",
+                    topicName: "interpersonalSkills",
                     avgResponseTimeSec: timeTaken,
                     studyTimeMinutes: Math.ceil(timeTaken / 60),
                     completed: true,
+                 
                 });
             }
         } catch (e) {

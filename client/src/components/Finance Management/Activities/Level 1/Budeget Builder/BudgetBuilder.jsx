@@ -51,7 +51,7 @@ const BudgetBuilder = () => {
   const { completeFinanceChallenge } = useFinance();
 
   //for performance
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime, setStartTime] = useState(Date.now());
 
   const initialExpenses = [
@@ -382,11 +382,15 @@ Constraints -
       const totalTime = (Date.now() - startTime) / 1000;
       const studyTimeMinutes = Math.ceil(totalTime / 60);
 
-      updateFinancePerformance({
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "budgetExpert",
         score: scoreNumber, // Already scaled out of 10
+        accuracy: scoreNumber * 10,
         avgResponseTimeSec: totalTime,
         studyTimeMinutes,
         completed: true,
+       
       });
 
       if (!isNaN(scoreNumber) && scoreNumber >= 8) {

@@ -36,7 +36,7 @@ const BiasDetective = () => {
   const [biasReviewMistakes, setBiasReviewMistakes] = useState([]);
   const [currentBiasIndex, setCurrentBiasIndex] = useState(0);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const verifyRewritesWithGemini = async () => {
     const apiKey = import.meta.env.VITE_API_KEY;
@@ -190,12 +190,15 @@ Be positive, honest, and use language that clicks with teens.`,
       const completed = reply.toLowerCase().includes("nailed it");
 
       // ✅ Update performance
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "understandableLeader",
         score: scaledScore,
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes,
         completed,
+        
       });
 
       if (completed) {

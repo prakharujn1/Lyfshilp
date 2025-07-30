@@ -19,7 +19,7 @@ const SpyTheSmartTech = () => {
   const [completedRows, setCompletedRows] = useState(new Set());
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const devices = [
@@ -96,12 +96,15 @@ const SpyTheSmartTech = () => {
     const avgResponseTimeSec = ((endTime - startTime) / 1000) / Math.max(totalQuestions, 1);
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-    updateComputersPerformance({
+    updatePerformance({
+      moduleName: "Computers",
+      topicName: "exploringAITools",
       score: scaledScore,
-      accuracy: ((correctAnswers / totalQuestions)*100).toFixed(2),
+      accuracy: ((correctAnswers / totalQuestions) * 100).toFixed(2),
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: true,
+      
     });
   };
 

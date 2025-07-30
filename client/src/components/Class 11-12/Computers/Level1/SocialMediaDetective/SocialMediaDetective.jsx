@@ -113,7 +113,7 @@ export default function SocialMediaDetective() {
   const animationCancelledRef = useRef(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -194,10 +194,15 @@ export default function SocialMediaDetective() {
       const endTime = Date.now();
       const totalTimeSec = ((endTime - startTime) / 1000).toFixed(2);
 
-      updateComputersPerformance({
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "exploringSmartStrategiesInAI",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: parseFloat((totalTimeSec / stats.nodes).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeSec / 60).toFixed(2)),
         completed: true,
+    
       });
     }
   };

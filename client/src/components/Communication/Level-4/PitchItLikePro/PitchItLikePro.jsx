@@ -48,18 +48,23 @@ const PitchItGame = () => {
   const [finalWin, setFinalWin] = useState(false);
 
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleGameFinish = () => {
     const endTime = Date.now();
     const durationSec = (endTime - startTime) / 1000;
+    const avgResponseTimeSec = durationSec / 4; // ✅ Simple average
 
-    updateCommunicationPerformance({
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "situationalAwareness",
       score: 10,
       accuracy: 100,
       studyTimeMinutes: durationSec / 60,
+      avgResponseTimeSec, // ✅ Include this
       completed: true,
+ 
     });
   };
 

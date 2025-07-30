@@ -18,7 +18,7 @@ const AutonomousCarVisionGame = () => {
   });
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -229,12 +229,15 @@ const AutonomousCarVisionGame = () => {
       const maxPossibleScore = 5 * 4 * 10; // 5 scenarios × 4 required objects × 10 points
       const scoreOutOf10 = parseFloat(((score / maxPossibleScore) * 10).toFixed(2));
 
-      updateComputersPerformance({
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "machineLearningInDailyLife",
         score: scoreOutOf10,
         accuracy: parseFloat(finalAccuracy.toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeSec / gameStats.totalDetections).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeSec / 60).toFixed(2)),
-        completed: hasWon
+        completed: hasWon,
+        
       });
 
       setTimeout(() => {

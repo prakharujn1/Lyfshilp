@@ -26,7 +26,7 @@ const WhichAIDoesWhat = () => {
   const [draggedItem, setDraggedItem] = useState(null);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const professions = [
@@ -132,12 +132,15 @@ const WhichAIDoesWhat = () => {
     const avgResponseTimeSec = ((endTime - startTime) / 1000) / Math.max(total, 1);
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-    updateComputersPerformance({
+    updatePerformance({
+      moduleName: "Computers",
+      topicName: "exploringAITools",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: true,
+      
     });
   };
 

@@ -56,7 +56,7 @@ const SimulatedMarketGame = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const restartGame = () => {
@@ -126,10 +126,15 @@ const SimulatedMarketGame = () => {
 
         const endTime = Date.now();
         const timeSpent = Math.floor((endTime - startTime) / 1000);
-        updateEntreprenerushipPerformance({
+        updatePerformance({
+          moduleName: "Entrepreneurship",
+          topicName: "strategist",
+          score: 10,
+          accuracy: 100,
           avgResponseTimeSec: timeSpent,
           studyTimeMinutes: Math.ceil(timeSpent / 60),
           completed: true,
+    
         });
 
         setFinal(true);

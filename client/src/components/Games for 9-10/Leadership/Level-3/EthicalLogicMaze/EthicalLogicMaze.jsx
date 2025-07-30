@@ -11,7 +11,7 @@ const EthicalLogicMaze = () => {
   const [reflection, setReflection] = useState("");
   const [showBadge, setShowBadge] = useState(false);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (step === "final" && showBadge) {
@@ -30,12 +30,15 @@ const EthicalLogicMaze = () => {
 
     const scaledScore = Math.round((earned / totalScore) * 10);
 
-    updateLeadershipPerformance({
+    updatePerformance({
+      moduleName: "Leadership",
+      topicName: "theStrategist",
       score: scaledScore,
       accuracy: scaledScore * 10,
       avgResponseTimeSec: parseFloat((totalTimeMs / 2000).toFixed(2)), // 2 decision steps
       studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
       completed: showBadge,
+      
     });
   }, [step]);
 

@@ -16,7 +16,7 @@ const FeedbackLoop = () => {
     const [feedback, setFeedback] = useState("");
     const [evaluating, setEvaluating] = useState(false);
     //for performance
-    const { updateCommunicationPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
 
@@ -119,11 +119,14 @@ Here is the student's feedback message:
 
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
 
-                updateCommunicationPerformance({
+                updatePerformance({
+                    moduleName: "Communication",
+                    topicName: "emotionalIntelligence",
                     avgResponseTimeSec: timeTaken,
                     studyTimeMinutes: Math.ceil(timeTaken / 60),
                     completed: true,
                     score, // Optional, here score is between 0-3
+                   
                 });
             }
             else if (!praise) {

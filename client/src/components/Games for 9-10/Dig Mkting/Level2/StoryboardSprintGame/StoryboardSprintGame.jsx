@@ -48,7 +48,7 @@ export default function StoryboardSprintGame() {
     const [step, setStep] = useState(1);
     const [currentSlide, setCurrentSlide] = useState(0);
     //for performance
-    const { updateDMPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
     useEffect(() => {
         if (step === 4 && points >= 7) {
@@ -112,12 +112,15 @@ export default function StoryboardSprintGame() {
 
         const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-        updateDMPerformance({
+        updatePerformance({
+            moduleName: "DigitalMarketing",
+            topicName: "creativity",
             score: scaledScore,
             accuracy,
             avgResponseTimeSec: timeTakenSec,
             completed: scaledScore >= 7,
             studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+            
         });
 
         setStep(4);

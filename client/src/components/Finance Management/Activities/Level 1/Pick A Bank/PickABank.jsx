@@ -230,7 +230,7 @@ export default function PickABank() {
   const [loadingFeedback, setLoadingFeedback] = useState(false);
 
   //for Performance
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleSubmit = async (e) => {
@@ -256,11 +256,15 @@ export default function PickABank() {
     const scoreMap = { A: 10, B: 7, C: 5 };
     const score = scoreMap[selectedBank.id] ?? 6;
 
-    updateFinancePerformance({
+    updatePerformance({
+      moduleName: "Finance",
+      topicName: "budgetExpert",
       score,
+      accuracy: score * 10,
       avgResponseTimeSec: totalTime,
       studyTimeMinutes,
       completed: true,
+     
     });
 
     setTimeout(() => {

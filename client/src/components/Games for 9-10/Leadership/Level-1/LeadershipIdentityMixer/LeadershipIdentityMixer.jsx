@@ -70,7 +70,7 @@ const LeadershipIdentityMixer = () => {
     values.trim() !== "";
 
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (!submitted) return;
@@ -86,12 +86,15 @@ const LeadershipIdentityMixer = () => {
 
     const scaledScore = Math.round((earned / totalScore) * 10);
 
-    updateLeadershipPerformance({
+    updatePerformance({
+      moduleName: "Leadership",
+      topicName: "understandableLeader",
       score: scaledScore,
       accuracy: scaledScore * 10,
       avgResponseTimeSec: parseFloat((totalTimeMs / 4000).toFixed(2)),
       studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
-      completed: isAllCorrect
+      completed: isAllCorrect,
+       
     });
 
     if (isAllCorrect) {
@@ -109,8 +112,7 @@ const LeadershipIdentityMixer = () => {
     scenarios.forEach((s) => {
       if (matches[s.id] !== s.correct) {
         incorrect.push(
-          `Scenario: "${s.text}" - Correct: ${s.correct}, You chose: ${
-            matches[s.id] || "None"
+          `Scenario: "${s.text}" - Correct: ${s.correct}, You chose: ${matches[s.id] || "None"
           }`
         );
       }

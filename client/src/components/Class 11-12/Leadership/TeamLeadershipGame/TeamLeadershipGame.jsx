@@ -64,7 +64,7 @@ export default function TeamLeadershipGame() {
   const [showIntro, setShowIntro] = useState(true);
   const [draggedTeammate, setDraggedTeammate] = useState(null);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -72,12 +72,15 @@ export default function TeamLeadershipGame() {
       const totalTimeMs = Date.now() - startTime;
       const scaledScore = Math.round((totalScore / maxScore) * 10);
 
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "theStrategist",
         score: scaledScore, // out of 10
         accuracy: percent, // already out of 100
         avgResponseTimeSec: parseFloat((totalTimeMs / (tasks.length * 1000)).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
-        completed: true
+        completed: true,
+ 
       });
 
       completeLeadershipChallenge(1, 2);
@@ -104,7 +107,7 @@ export default function TeamLeadershipGame() {
   const maxScore = tasks.length * 15;
   const percent = Math.round((totalScore / maxScore) * 100);
 
-   
+
 
   const getAssignmentCount = (id) => {
     return Object.values(assignments).filter((val) => val === id).length;
@@ -310,8 +313,8 @@ export default function TeamLeadershipGame() {
                   onClick={handleSubmit}
                   disabled={!canSubmit}
                   className={`mt-1 px-8 py-3 rounded-full font-bold shadow-md text-white transition-all ${canSubmit
-                      ? "bg-green-500 hover:bg-green-600"
-                      : "bg-gray-300 cursor-not-allowed"
+                    ? "bg-green-500 hover:bg-green-600"
+                    : "bg-gray-300 cursor-not-allowed"
                     }`}
                 >
                   ✅ Submit Delegation

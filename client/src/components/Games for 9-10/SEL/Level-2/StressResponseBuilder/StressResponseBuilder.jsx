@@ -21,7 +21,7 @@ const StressResponseBuilder = () => {
   const [selected, setSelected] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleSelect = (option) => {
@@ -55,12 +55,15 @@ const StressResponseBuilder = () => {
       completeSELChallenge(1, 0); // ✅ Mark challenge complete
     }
 
-    updateSELPerformance({
+    updatePerformance({
+      moduleName: "SEL",
+      topicName: "selfAwareness",
       score: roundedScore, // out of 10
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes: Math.ceil(durationSec / 60),
       completed: correctCount === 4,
+     
     });
   };
 

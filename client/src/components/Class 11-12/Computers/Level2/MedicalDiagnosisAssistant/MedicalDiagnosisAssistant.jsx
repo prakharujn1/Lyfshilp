@@ -81,7 +81,7 @@ export default function MedicalDiagnosisAssistant() {
   const [started, setStarted] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -130,12 +130,15 @@ export default function MedicalDiagnosisAssistant() {
     const avgResponseTimeSec = parseFloat(((Date.now() - startTime) / 1000 / testingData.length).toFixed(2));
     const studyTimeMinutes = parseFloat(((Date.now() - startTime) / 1000 / 60).toFixed(1));
 
-    updateComputersPerformance({
+    updatePerformance({
+      moduleName: "Computers",
+      topicName: "machineLearningInDailyLife",
       score: scoreOutOf10,
       accuracy: parseFloat(acc),
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: acc >= 85, // completed if passed
+   
     });
 
     // ✅ Trigger challenge completion if accuracy is high enough

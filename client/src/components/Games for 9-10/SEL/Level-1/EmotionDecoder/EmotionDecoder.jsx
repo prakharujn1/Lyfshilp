@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import Confetti from "react-confetti";
+import Confetti from "react-confetti"; 
 import { Link } from "react-router-dom";
 import { useSEL } from "@/contexts/SELContext";
 import { usePerformance } from "@/contexts/PerformanceContext"; //for performance
@@ -57,7 +57,7 @@ const EmotionDecoder = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState("");
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const startTimeRef = useRef(Date.now());
 
 
@@ -167,12 +167,15 @@ const EmotionDecoder = () => {
       const endTime = Date.now();
       const durationSec = Math.round((endTime - startTimeRef.current) / 1000);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: Math.round((score / scenarios.length) * 10),
         accuracy: Math.round((score / scenarios.length) * 100),
         avgResponseTimeSec: durationSec / scenarios.length,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: score >= 4,
+        
       });
     }
   }, [current, score]);

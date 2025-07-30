@@ -23,7 +23,7 @@ const PlatformPickerGame = () => {
   const [celebrationMode, setCelebrationMode] = useState(false);
   const [draggedItem, setDraggedItem] = useState(null);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const contentCards = [
@@ -155,12 +155,15 @@ const PlatformPickerGame = () => {
     const timeTakenSec = Math.round((endTime - startTime) / 1000);
     const accuracy = Math.round((correctCount / 3) * 100);
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "contentStrategist",
       score: (starCount / 5) * 10,
       accuracy,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: Math.round(timeTakenSec / 60),
       completed: correctCount === 3,
+      
     });
   };
 

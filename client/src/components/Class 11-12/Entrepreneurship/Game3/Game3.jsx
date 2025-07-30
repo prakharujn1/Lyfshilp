@@ -29,7 +29,7 @@ const EthicsFirewallGame = () => {
   const [matrixScore, setMatrixScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const scenario = {
@@ -168,35 +168,38 @@ The app tracks users' location, heart rate, sleep patterns, and workout data. Re
   };
 
   const completeGame = () => {
-  let matrixPoints = 0;
-  matrixTemplate.forEach((item) => {
-    const riskKey = `${item.stakeholder}_risk`;
-    const responseKey = `${item.stakeholder}_response`;
+    let matrixPoints = 0;
+    matrixTemplate.forEach((item) => {
+      const riskKey = `${item.stakeholder}_risk`;
+      const responseKey = `${item.stakeholder}_response`;
 
-    if (matrixResponses[riskKey] === item.correctRisk) matrixPoints += 1;
-    if (matrixResponses[responseKey] === item.correctResponse) matrixPoints += 1;
-  });
+      if (matrixResponses[riskKey] === item.correctRisk) matrixPoints += 1;
+      if (matrixResponses[responseKey] === item.correctResponse) matrixPoints += 1;
+    });
 
-  setMatrixScore(matrixPoints);
-  const finalScore = score + matrixPoints;
-  setTotalScore(finalScore);
+    setMatrixScore(matrixPoints);
+    const finalScore = score + matrixPoints;
+    setTotalScore(finalScore);
 
-  completeEntreprenerushipChallenge(0, 2);
+    completeEntreprenerushipChallenge(0, 2);
 
-  const endTime = Date.now();
-  const durationInMinutes = Math.round((endTime - startTime) / 60000);
+    const endTime = Date.now();
+    const durationInMinutes = Math.round((endTime - startTime) / 60000);
 
-  updateEntreprenerushipPerformance({
-    score: Math.round((finalScore / 12) * 10),
-    accuracy: Math.round((finalScore / 12) * 100),
-    avgResponseTimeSec: Math.round((endTime - startTime) / 1000 / 12),
-    studyTimeMinutes: durationInMinutes,
-    completed: true,
-  });
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "strategist",
+      score: Math.round((finalScore / 12) * 10),
+      accuracy: Math.round((finalScore / 12) * 100),
+      avgResponseTimeSec: Math.round((endTime - startTime) / 1000 / 12),
+      studyTimeMinutes: durationInMinutes,
+      completed: true,
+     
+    });
 
-  setGameCompleted(true);
-  setCurrentPage("completion");
-};
+    setGameCompleted(true);
+    setCurrentPage("completion");
+  };
 
 
   // Instructions Page

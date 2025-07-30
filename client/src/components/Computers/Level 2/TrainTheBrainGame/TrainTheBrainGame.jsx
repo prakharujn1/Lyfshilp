@@ -37,7 +37,7 @@ export default function TrainTheBrainGame() {
   const [challengeCompleted, setChallengeCompleted] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -275,16 +275,21 @@ export default function TrainTheBrainGame() {
                 const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
                 const avgResponseTimeSec = ((endTime - startTime) / 1000) / 3;
 
-                updateComputersPerformance({
+                updatePerformance({
+                  moduleName: "Computers",
+                  topicName: "foundationsOfAIIntelligence",
+                  score: 10,
+                  accuracy: 100,
                   avgResponseTimeSec,
                   studyTimeMinutes,
                   completed: true,
+                   
                 });
               }
             }}
             className={`mt-6 px-6 py-2 font-bold rounded-full text-white transition ${allQuestionsAnswered && !challengeCompleted
-                ? 'bg-green-600 hover:bg-green-700'
-                : 'bg-gray-400 cursor-not-allowed'
+              ? 'bg-green-600 hover:bg-green-700'
+              : 'bg-gray-400 cursor-not-allowed'
               }`}
           >
             ✅ Submit Answers

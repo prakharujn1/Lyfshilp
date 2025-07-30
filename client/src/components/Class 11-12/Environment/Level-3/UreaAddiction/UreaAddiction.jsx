@@ -160,21 +160,24 @@ const UreaAddiction = () => {
   const [lastCorrect, setLastCorrect] = useState(null);
   const { width, height } = useWindowSize();
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
-  
+
   useEffect(() => {
     const allCorrect = score === cards.length && currentIndex >= cards.length;
     const totalTimeMs = Date.now() - startTime;
 
     if (currentIndex >= cards.length) {
-      updateEnvirnomentPerformance({
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "sustainableLeader",
         score: Math.round((score / cards.length) * 10),
         accuracy: parseFloat(((score / cards.length) * 100).toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeMs / cards.length / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: allCorrect,
+         
       });
 
       if (allCorrect) {

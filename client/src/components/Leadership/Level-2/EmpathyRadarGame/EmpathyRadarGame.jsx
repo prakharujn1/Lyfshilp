@@ -15,19 +15,22 @@ const EmpathyRadarGame = () => {
   const [geminiSuggestion, setGeminiSuggestion] = useState("");
   const [attemptsLeft, setAttemptsLeft] = useState(3);
   const { width, height } = useWindowSize();
-  //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  //for performance 
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
     if (step === questions.length) {
       const totalTimeMs = Date.now() - startTime;
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "understandableLeader",
         score: Math.round((score / questions.length) * 10),
         accuracy: parseFloat(((score / questions.length) * 100).toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: score >= 5,
+       
       });
 
       if (score >= 5) {

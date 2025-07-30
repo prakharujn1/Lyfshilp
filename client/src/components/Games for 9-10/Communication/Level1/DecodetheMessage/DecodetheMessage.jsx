@@ -48,7 +48,7 @@ const DecodetheMessage = () => {
   const [scenarios, setScenarios] = useState(initialScenarios);
   const [draggedLabel, setDraggedLabel] = useState(null);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     const allCorrect = scenarios.every(
@@ -63,12 +63,15 @@ const DecodetheMessage = () => {
       const accuracy = Math.round((correctCount / 5) * 100); // out of 100
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-      updateCommunicationPerformance({
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "communicationSkills",
         score,
         accuracy,
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: true,
+        
       });
     }
   }, [scenarios]);

@@ -6,7 +6,7 @@ import { usePerformance } from "@/contexts/PerformanceContext"; // for performan
 
 const InvestmentSimulator = () => {
   const { completeFinanceChallenge } = useFinance();
-  const { updateFinancePerformance } = usePerformance(); // for performance
+  const { updatePerformance } = usePerformance(); // for performance
   const [startTime] = useState(Date.now()); // for performance
   const [allocations, setAllocations] = useState({
     fixedDeposits: 0,
@@ -124,10 +124,15 @@ const InvestmentSimulator = () => {
 
     // for performance
     const totalTimeSec = (Date.now() - startTime) / 1000;
-    updateFinancePerformance({
+    updatePerformance({
+      moduleName: "Finance",
+      topicName: "investorLevel",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: totalTimeSec, // using full time as it's one-shot
       studyTimeMinutes: Math.ceil(totalTimeSec / 60),
       completed: true,
+     
     });
   };
 

@@ -97,7 +97,7 @@ const StartupSimulationGame = () => {
   const [selectedmarket, setSelectedMarket] = useState("");
 
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const marketOptions = [
@@ -397,31 +397,34 @@ const StartupSimulationGame = () => {
       const aiReply = response.data.candidates[0].content.parts[0].text;
       console.log(aiReply);
       const parsed = parsePossiblyStringifiedJSON(aiReply);
-          if (parsed) {
-      setResult2(parsed);
-      completeEntreprenerushipChallenge(0, 1);
+      if (parsed) {
+        setResult2(parsed);
+        completeEntreprenerushipChallenge(0, 1);
 
-      // Calculate performance metrics
-      const endTime = Date.now();
-      const totalTimeMs = endTime - startTime;
-      const studyTimeMinutes = Math.floor(totalTimeMs / (1000 * 60));
-      const totalSteps = 6;
-      const avgResponseTimeSec = Math.round(totalTimeMs / 1000 / totalSteps);
+        // Calculate performance metrics
+        const endTime = Date.now();
+        const totalTimeMs = endTime - startTime;
+        const studyTimeMinutes = Math.floor(totalTimeMs / (1000 * 60));
+        const totalSteps = 6;
+        const avgResponseTimeSec = Math.round(totalTimeMs / 1000 / totalSteps);
 
-      const rawScore = calculateScore(); // out of 100
-      const scaledScore = Math.round((rawScore / 100) * 10); // out of 10
-      const accuracy = (scaledScore / 10) * 100; // percentage
+        const rawScore = calculateScore(); // out of 100
+        const scaledScore = Math.round((rawScore / 100) * 10); // out of 10
+        const accuracy = (scaledScore / 10) * 100; // percentage
 
-      const completed = true;
+        const completed = true;
 
-      await updateEntreprenerushipPerformance({
-        score: scaledScore, // out of 10
-        accuracy,           // in percentage
-        avgResponseTimeSec,
-        studyTimeMinutes,
-        completed,
-      });
-    }
+        await updatePerformance({
+          moduleName: "Entrepreneurship",
+          topicName: "strategist",
+          score: scaledScore, // out of 10
+          accuracy,           // in percentage
+          avgResponseTimeSec,
+          studyTimeMinutes,
+          completed,
+          
+        });
+      }
     } catch (err) {
       setError("Error fetching AI response");
       console.log(err);

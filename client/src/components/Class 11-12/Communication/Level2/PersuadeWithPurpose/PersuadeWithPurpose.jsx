@@ -74,7 +74,7 @@ export default function PersuadeWithPurpose() {
     const [hasStarted, setHasStarted] = useState(false);
     const [timeLeft, setTimeLeft] = useState(480); // 8 minutes
     //for performance
-    const { updateCommunicationPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     useEffect(() => {
@@ -154,11 +154,14 @@ export default function PersuadeWithPurpose() {
         const accuracy = isBalanced ? 100 : 50; // Simplified logic
         const score = isBalanced ? 10 : 5;
 
-        updateCommunicationPerformance({
+        updatePerformance({
+            moduleName: "Communication",
+            topicName: "communicationSkills",
             completed: isBalanced,
             studyTimeMinutes,
             score,
             accuracy,
+            
         });
     };
 

@@ -14,7 +14,7 @@ const LegalQuiz = () => {
   const [confirmedAnswer, setConfirmedAnswer] = useState(false);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (!gameComplete) return;
@@ -27,12 +27,15 @@ const LegalQuiz = () => {
     const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-    updateLawPerformance({
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "beginnerLegalIntellect",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: true, // You can set your own pass criteria here
+       
     });
   }, [gameComplete]);
 

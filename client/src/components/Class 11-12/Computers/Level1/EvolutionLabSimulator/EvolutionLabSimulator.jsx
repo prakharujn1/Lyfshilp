@@ -15,7 +15,7 @@ const EvolutionLabSimulator = () => {
   const [showSettings, setShowSettings] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Create initial population
@@ -244,6 +244,37 @@ const EvolutionLabSimulator = () => {
   const victoryCondition = currentAvgFitness >= 85 && population.length > 0 &&
     Math.max(...population.map(crop => calculateFitness(crop, currentEnvironment))) >= 90;
   const isComplete = generation >= maxGenerations || victoryCondition;
+
+  useEffect(() => {
+    if (isComplete) {
+      const endTime = Date.now();
+      const totalTimeMs = endTime - startTime;
+      const studyTimeMinutes = totalTimeMs / 1000 / 60;
+
+      const totalGenerations = generationHistory.length;
+      const totalResponses = totalGenerations * 20; // 20 crops per generation
+      const avgResponseTimeSec = totalResponses > 0 ? (totalTimeMs / 1000) / totalResponses : 0;
+
+      const finalGeneration = generationHistory[generationHistory.length - 1] || {};
+      const rawAvgFitness = finalGeneration.avgFitness || 0;
+      const rawMaxFitness = finalGeneration.maxFitness || 0;
+
+      const score = Math.round((rawAvgFitness / 100) * 10); // scaled to 10
+      const accuracy = Math.round(rawMaxFitness); // out of 100
+
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "exploringSmartStrategiesInAI",
+        score,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed: true,
+     
+      });
+    }
+  }, [isComplete]);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">

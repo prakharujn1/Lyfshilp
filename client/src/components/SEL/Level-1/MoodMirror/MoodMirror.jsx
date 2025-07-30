@@ -45,7 +45,7 @@ const MoodMirror = () => {
   const [showResult, setShowResult] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState(null);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (showResult) {
@@ -55,12 +55,15 @@ const MoodMirror = () => {
       const accuracy = (score / scenarios.length) * 100;
       const avgResponseTimeSec = totalSeconds / scenarios.length;
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "selfAwareness",
         score: scaledScore,
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: score >= 4,
+ 
       });
 
       if (score >= 4) {

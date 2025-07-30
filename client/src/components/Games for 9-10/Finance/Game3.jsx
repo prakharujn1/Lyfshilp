@@ -45,7 +45,7 @@ const BudgetBossGame = () => {
   const [quizCompleted, setQuizCompleted] = useState(false);
 
   // for performance tracking
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const surpriseEventPool = [
@@ -262,12 +262,16 @@ const BudgetBossGame = () => {
       const totalTime = (Date.now() - startTime) / 1000; // in seconds
       const studyTimeMinutes = Math.ceil(totalTime / 60);
 
-      updateFinancePerformance({
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "budgetExpert",
         score: finalScore,
+        accuracy: finalScore * 10,
         avgResponseTimeSec: totalTime,
         studyTimeMinutes,
         completed: true,
-      });
+        
+      }); 
 
       completeFinanceChallenge(0, 2); // ✅ Marks the challenge as complete
       setGameComplete(true);

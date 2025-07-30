@@ -36,19 +36,24 @@ const EQGame = () => {
   const [loading, setLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState(null);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
-  
+
   useEffect(() => {
     if (stage === 4 && aiFeedback) {
       completeLeadershipChallenge(1, 0);
 
       if (!scoreSent) {
         const totalTimeMs = Date.now() - startTime;
-        updateLeadershipPerformance({
+        updatePerformance({
+          moduleName: "Leadership",
+          topicName: "foresight",
+          score: 10,
+          accuracy: 100,
           avgResponseTimeSec: parseFloat((totalTimeMs / (3 * 1000)).toFixed(2)), // 3 mood days
           studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
-          completed: true
+          completed: true,
+           
         });
       }
     }

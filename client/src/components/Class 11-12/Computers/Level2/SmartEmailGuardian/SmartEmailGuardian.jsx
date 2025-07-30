@@ -25,7 +25,7 @@ const SmartEmailGuardian = () => {
   const [gamePhase, setGamePhase] = useState('setup'); // setup, training, testing, complete
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Sample email dataset
@@ -201,12 +201,15 @@ const SmartEmailGuardian = () => {
     const endTime = Date.now();
     const timeTakenSec = (endTime - startTime) / 1000;
 
-    updateComputersPerformance({
+    updatePerformance({
+      moduleName: "Computers",
+      topicName: "machineLearningInDailyLife",
       score: Math.round((testAccuracy / 10)), // out of 10
       accuracy: testAccuracy,
       avgResponseTimeSec: timeTakenSec / testEmails.length,
       studyTimeMinutes: Math.ceil(timeTakenSec / 60),
       completed: testAccuracy >= 90,
+ 
     });
 
     if (testAccuracy >= 90) {

@@ -13,7 +13,7 @@ const InnovationSprint = () => {
   const [isApproved, setIsApproved] = useState(false);
   const [loading, setLoading] = useState(false);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const startGame = () => setStep(0);
@@ -110,10 +110,15 @@ const InnovationSprint = () => {
 
         const totalTimeMs = Date.now() - startTime;
 
-        updateLeadershipPerformance({
+        updatePerformance({
+          moduleName: "Leadership",
+          topicName: "innovativeLeader",
+          score: 10,
+          accuracy: 100,
           avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
           studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
           completed: true,
+          
         });
 
         completeLeadershipChallenge(3, 0); // Replace with your actual challenge and task ID

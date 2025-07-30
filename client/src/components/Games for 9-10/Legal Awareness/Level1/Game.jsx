@@ -106,7 +106,7 @@ export default function MatchTermsGame() {
   const navigate = useNavigate();
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -120,12 +120,15 @@ export default function MatchTermsGame() {
     const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-    updateLawPerformance({
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "beginnerLegalIntellect",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: true,
+     
     });
   }, [gameEnded]);
 

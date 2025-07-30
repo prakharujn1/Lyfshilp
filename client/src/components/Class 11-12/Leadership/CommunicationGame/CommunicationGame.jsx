@@ -54,7 +54,7 @@ export default function CommunicationCombatZone() {
   const [feedback, setFeedback] = useState(null);
   const [loading, setLoading] = useState(false);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (feedback) {
@@ -63,11 +63,15 @@ export default function CommunicationCombatZone() {
 
     if (feedback) {
       const totalTimeMs = Date.now() - startTime;
-      updateLeadershipPerformance({
-
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "understandableLeader",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: parseFloat((totalTimeMs / (conversations.length * 1000)).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: true,
+       
       });
 
     }

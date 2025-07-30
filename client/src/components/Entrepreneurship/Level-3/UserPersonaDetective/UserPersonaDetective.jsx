@@ -22,7 +22,7 @@ const UserPersonaDetective = () => {
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [uplift, setUplift] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -116,35 +116,40 @@ Benefit: ${benefit}
   };
 
   const handleSubmit = () => {
-  if (!feedback) {
-    alert("Please verify with Gemini before submitting!");
-    return;
-  }
+    if (!feedback) {
+      alert("Please verify with Gemini before submitting!");
+      return;
+    }
 
-  const lower = feedback.toLowerCase();
-  if (
-    lower.includes("well done") ||
-    lower.includes("good") ||
-    lower.includes("great work") ||
-    lower.includes("clear and realistic")
-  ) {
-    setBadgeEarned(true);
-  } else {
-    setUplift(true);
-  }
+    const lower = feedback.toLowerCase();
+    if (
+      lower.includes("well done") ||
+      lower.includes("good") ||
+      lower.includes("great work") ||
+      lower.includes("clear and realistic")
+    ) {
+      setBadgeEarned(true);
+    } else {
+      setUplift(true);
+    }
 
-  setStep("result");
+    setStep("result");
 
-  const endTime = Date.now();
-  const timeTakenSec = (endTime - startTime) / 1000;
-  const timeTakenMin = Math.round(timeTakenSec / 60);
+    const endTime = Date.now();
+    const timeTakenSec = (endTime - startTime) / 1000;
+    const timeTakenMin = Math.round(timeTakenSec / 60);
 
-  updateEntreprenerushipPerformance({
-    avgResponseTimeSec: timeTakenSec,
-    studyTimeMinutes: timeTakenMin,
-    completed: true,
-  });
-};
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "strategist",
+      score: 10,
+      accuracy: 100,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: timeTakenMin,
+      completed: true,
+      
+    });
+  };
 
 
   return (

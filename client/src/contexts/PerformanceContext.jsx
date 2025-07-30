@@ -8,41 +8,34 @@ export const PerformanceProvider = ({ children }) => {
   const { token, user } = useAuth();
   const server = "https://edumaniax-api-343555083503.asia-south1.run.app";
 
-  const postPerformance = async (endpoint, payload) => {
+  const updatePerformance = async ({
+    moduleName,
+    topicName,
+    score,
+    accuracy,
+    avgResponseTimeSec,
+    studyTimeMinutes,
+    completed,
+  }) => {
     if (!user || !token) return;
     try {
-      await axios.post(`${server}${endpoint}`, {
-        ...payload,
+      await axios.post(`${server}/performance/update`, {
         userId: user.id,
+        moduleName,
+        topicName,
+        score,
+        accuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed,
       });
     } catch (err) {
-      console.error(`Failed to update performance at ${endpoint}:`, err);
+      console.error("Failed to update performance:", err);
     }
   };
 
   return (
-    <PerformanceContext.Provider
-      value={{
-        updateFinancePerformance: (data) =>
-          postPerformance("/performance/finance", data),
-        updateCommunicationPerformance: (data) =>
-          postPerformance("/performance/communication", data),
-        updateComputersPerformance: (data) =>
-          postPerformance("/performance/computers", data),
-        updateDMPerformance: (data) =>
-          postPerformance("/performance/dm", data),
-        updateEntreprenerushipPerformance: (data) =>
-          postPerformance("/performance/entrepreneurship", data),
-        updateEnvirnomentPerformance: (data) =>
-          postPerformance("/performance/environment", data),
-        updateLawPerformance: (data) =>
-          postPerformance("/performance/law", data),
-        updateLeadershipPerformance: (data) =>
-          postPerformance("/performance/leadership", data),
-        updateSELPerformance: (data) =>
-          postPerformance("/performance/sel", data),
-      }}
-    >
+    <PerformanceContext.Provider value={{ updatePerformance }}>
       {children}
     </PerformanceContext.Provider>
   );

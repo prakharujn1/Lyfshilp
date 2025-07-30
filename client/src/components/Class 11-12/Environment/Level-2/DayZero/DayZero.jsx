@@ -106,7 +106,7 @@ const DayZero = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const current = questions[step - 1];
@@ -160,12 +160,15 @@ const DayZero = () => {
     const correctCount = answers.filter(Boolean).length;
 
     if (step === questions.length + 1) {
-      updateEnvirnomentPerformance({
-        score: Math.round((correctCount / questions.length) * 10 ),
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "sustainableLeader",
+        score: Math.round((correctCount / questions.length) * 10),
         accuracy: parseFloat(((correctCount / questions.length) * 100).toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeMs / questions.length / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: allCorrect,
+        
       });
 
       if (allCorrect) {

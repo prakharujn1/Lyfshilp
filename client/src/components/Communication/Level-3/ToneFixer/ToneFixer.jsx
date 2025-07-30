@@ -48,7 +48,7 @@ const ToneFixer = () => {
   const [selectedTone, setSelectedTone] = useState(null);
 
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const currentQuestion = rudeMessages[questionIndex];
@@ -76,12 +76,17 @@ const ToneFixer = () => {
     const endTime = Date.now();
     const durationSec = (endTime - startTime) / 1000;
     const accuracy = finalScore / rudeMessages.length;
+    const avgResponseTimeSec = durationSec / rudeMessages.length;
 
-    updateCommunicationPerformance({
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "communicationSkills",
       score: Math.round(accuracy * 10),       // score out of 10
       accuracy: Math.round(accuracy * 100),   // percentage
       studyTimeMinutes: durationSec / 60,
+      avgResponseTimeSec,
       completed: true,
+      
     });
   };
 

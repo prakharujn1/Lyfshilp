@@ -26,7 +26,7 @@ export default function ReelPlannerGame() {
   const [showPreview, setShowPreview] = useState(false);
   const previewRef = useRef(null);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const validClick = () => {
     if (
@@ -127,10 +127,15 @@ export default function ReelPlannerGame() {
 
     const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "contentStrategist",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: Math.ceil(timeTakenSec / 60),
       completed: true,
+      
     });
   }, [showPreview]);
 

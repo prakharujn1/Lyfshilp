@@ -19,7 +19,7 @@ export default function AICareerExplorerGame() {
   const [challengeCompleted, setChallengeCompleted] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const [careerData, setCareerData] = useState(
@@ -72,10 +72,15 @@ export default function AICareerExplorerGame() {
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
     const avgResponseTimeSec = ((endTime - startTime) / 1000) / (careerData.length + 3); // 3 reflections
 
-    updateComputersPerformance({
+    updatePerformance({
+      moduleName: "Computers",
+      topicName: "aIFuturesAndPossibilities",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: true,
+   
     });
     setStep(2);
   };

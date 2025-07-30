@@ -65,7 +65,7 @@ const Challenge3 = () => {
   const [lastFeedback, setLastFeedback] = useState("");
   const [currentAction, setCurrentAction] = useState("");
 
-  const { updateFinancePerformance } = usePerformance(); // for performance
+  const { updatePerformance } = usePerformance(); // for performance
   const [startTime] = useState(Date.now()); // for performance
 
 
@@ -135,10 +135,15 @@ const Challenge3 = () => {
 
       // for performance
       const totalTimeSec = (Date.now() - startTime) / 1000;
-      updateFinancePerformance({
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "bankingExpert",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: totalTimeSec / items.length,
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: true,
+       
       });
     }
 

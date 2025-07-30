@@ -84,7 +84,7 @@ export default function StartupQuest() {
   const [pitch, setPitch] = useState("");
   const [showSummary, setShowSummary] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const handleReset = () => {
     setSelectedTheme("");
@@ -129,11 +129,16 @@ export default function StartupQuest() {
     // ⏱️ Performance tracking
     const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
     const studyTimeMinutes = Math.ceil(timeTakenSec / 60);
- 
-    updateEntreprenerushipPerformance({
+
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "ideationIntellect",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes,
-      completed: true
+      completed: true,
+    
     });
 
     setShowSummary(true);

@@ -44,7 +44,7 @@ const AIStartupBuilder = () => {
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -180,11 +180,16 @@ Make it clearer, exciting, and more suitable for school students.`,
       const timeTakenSec = (endTime - startTime) / 1000;
       const timeTakenMin = Math.round(timeTakenSec / 60);
 
-      
-      updateEntreprenerushipPerformance({
+
+      updatePerformance({
+        moduleName: "Entrepreneurship",
+        topicName: "ideationIntellect",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: timeTakenMin,
         completed: true,
+        
       });
     }
   };

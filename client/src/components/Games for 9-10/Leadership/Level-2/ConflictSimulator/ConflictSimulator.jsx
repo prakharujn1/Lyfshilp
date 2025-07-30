@@ -117,7 +117,7 @@ const ConflictSimulator = () => {
   const [selectedStyle, setSelectedStyle] = useState([]);
   const [showFeedback, setShowFeedback] = useState(null);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (step === scenarios.length) {
@@ -131,12 +131,15 @@ const ConflictSimulator = () => {
     const totalTimeMs = Date.now() - startTime;
     const scaledScore = Math.round((score / 30) * 10); // score scaled out of 10
 
-    updateLeadershipPerformance({
+    updatePerformance({
+      moduleName: "Leadership",
+      topicName: "understandableLeader",
       score: scaledScore,
       accuracy: scaledScore * 10, // out of 100
       avgResponseTimeSec: parseFloat((totalTimeMs / (scenarios.length * 1000)).toFixed(2)),
       studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
       completed: true,
+       
     });
   }, [step]);
 

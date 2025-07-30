@@ -21,19 +21,22 @@ const InfluenceExplorer = () => {
   const [feedback, setFeedback] = useState(null);
   const [finished, setFinished] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (finished) {
       const endTime = Date.now();
       const totalSeconds = Math.round((endTime - startTime) / 1000);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: score, // Already out of 10
         accuracy: (score / 10) * 100,
         avgResponseTimeSec: totalSeconds / 10,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: score >= 8,
+ 
       });
 
       if (score >= 8) {

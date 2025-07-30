@@ -107,7 +107,7 @@ export default function LeanMachineGame() {
   const [gameFinished, setGameFinished] = useState(false);
   const currentCard = challengeCards[currentIndex];
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleMouseDown = (e, index) => {
@@ -180,42 +180,45 @@ export default function LeanMachineGame() {
   };
 
   const handleFinish = () => {
-  const allCanvasFilled = canvasSections.every((section) => canvasData[section]);
-  const allGtmFilled = weeks.every((week) => gtmPlan[week] && mcqAnswers[week]);
-  const allQuizDone = quizComplete;
+    const allCanvasFilled = canvasSections.every((section) => canvasData[section]);
+    const allGtmFilled = weeks.every((week) => gtmPlan[week] && mcqAnswers[week]);
+    const allQuizDone = quizComplete;
 
-  if (!allCanvasFilled) {
-    toast.error("🧩 Please complete all Lean Canvas sections.");
-  } else if (!allGtmFilled) {
-    toast.error("📢 Complete all GTM Planner weeks with reason.");
-  } else if (!allQuizDone) {
-    toast.error("🎯 Finish all Market Challenge questions.");
-  } else {
-    completeEntreprenerushipChallenge(0, 1);
+    if (!allCanvasFilled) {
+      toast.error("🧩 Please complete all Lean Canvas sections.");
+    } else if (!allGtmFilled) {
+      toast.error("📢 Complete all GTM Planner weeks with reason.");
+    } else if (!allQuizDone) {
+      toast.error("🎯 Finish all Market Challenge questions.");
+    } else {
+      completeEntreprenerushipChallenge(0, 1);
 
-    // ⏱️ Performance tracking
-    const endTime = Date.now();
-    const timeTakenSec = (endTime - startTime) / 1000;
-    const timeTakenMin = Math.round(timeTakenSec / 60);
+      // ⏱️ Performance tracking
+      const endTime = Date.now();
+      const timeTakenSec = (endTime - startTime) / 1000;
+      const timeTakenMin = Math.round(timeTakenSec / 60);
 
-    const correctAnswers = challengeCards.filter(
-      (card, idx) => mcqAnswers[idx]?.trim() === card.correct
-    ).length;
+      const correctAnswers = challengeCards.filter(
+        (card, idx) => mcqAnswers[idx]?.trim() === card.correct
+      ).length;
 
-    const score = Math.round((correctAnswers / challengeCards.length) * 10);
-    const accuracy = Math.round((correctAnswers / challengeCards.length) * 100);
+      const score = Math.round((correctAnswers / challengeCards.length) * 10);
+      const accuracy = Math.round((correctAnswers / challengeCards.length) * 100);
 
-    updateEntreprenerushipPerformance({
-      score,
-      accuracy,
-      avgResponseTimeSec: timeTakenSec,
-      studyTimeMinutes: timeTakenMin,
-      completed: true,
-    });
+      updatePerformance({
+        moduleName: "Entrepreneurship",
+        topicName: "strategist",
+        score,
+        accuracy,
+        avgResponseTimeSec: timeTakenSec,
+        studyTimeMinutes: timeTakenMin,
+        completed: true,
+      
+      });
 
-    setGameFinished(true);
-  }
-};
+      setGameFinished(true);
+    }
+  };
 
 
   if (gameFinished) {

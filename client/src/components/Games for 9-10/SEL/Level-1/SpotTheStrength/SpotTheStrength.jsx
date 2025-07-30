@@ -51,7 +51,7 @@ const SpotTheStrength = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleDrop = (strength, index) => {
@@ -59,30 +59,33 @@ const SpotTheStrength = () => {
   };
 
   const handleSubmit = () => {
-  let correct = 0;
-  scenarios.forEach((s, i) => {
-    if (matches[i] === s.strength) correct++;
-  });
+    let correct = 0;
+    scenarios.forEach((s, i) => {
+      if (matches[i] === s.strength) correct++;
+    });
 
-  setScore(correct);
-  setSubmitted(true);
+    setScore(correct);
+    setSubmitted(true);
 
-  const endTime = Date.now();
-  const durationSec = Math.round((endTime - startTime) / 1000);
+    const endTime = Date.now();
+    const durationSec = Math.round((endTime - startTime) / 1000);
 
-  updateSELPerformance({
-    score: Math.round((correct / scenarios.length) * 10),
-    accuracy: Math.round((correct / scenarios.length) * 100),
-    avgResponseTimeSec: durationSec / scenarios.length,
-    studyTimeMinutes: Math.ceil(durationSec / 60),
-    completed: correct >= 5,
-  });
+    updatePerformance({
+      moduleName: "SEL",
+      topicName: "selfAwareness",
+      score: Math.round((correct / scenarios.length) * 10),
+      accuracy: Math.round((correct / scenarios.length) * 100),
+      avgResponseTimeSec: durationSec / scenarios.length,
+      studyTimeMinutes: Math.ceil(durationSec / 60),
+      completed: correct >= 5,
+       
+    });
 
-  if (correct >= 5) {
-    setShowConfetti(true);
-    completeSELChallenge(0, 2); // ✅ Mark challenge as complete
-  }
-};
+    if (correct >= 5) {
+      setShowConfetti(true);
+      completeSELChallenge(0, 2); // ✅ Mark challenge as complete
+    }
+  };
 
 
 

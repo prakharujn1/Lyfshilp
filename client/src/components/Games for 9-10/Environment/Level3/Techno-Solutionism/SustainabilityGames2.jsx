@@ -36,7 +36,7 @@ const SustainabilityGames2 = () => {
   const [showInstructions, setShowInstructions] = useState(false);
 
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   const [totalResponseTime, setTotalResponseTime] = useState(0);
 
@@ -287,12 +287,15 @@ const SustainabilityGames2 = () => {
     const avgResponseTimeSec = totalResponseTime / totalQuestions;
     const studyTimeMinutes = (Date.now() - startTime) / 60000;
 
-    updateEnvirnomentPerformance({
+    updatePerformance({
+      moduleName: "Environment",
+      topicName: "sustainableLeader",
       score: scaledScore,
       accuracy: parseFloat(accuracy.toFixed(2)),
       avgResponseTimeSec: parseFloat(avgResponseTimeSec.toFixed(2)),
       studyTimeMinutes: parseFloat(studyTimeMinutes.toFixed(2)),
       completed: true,
+      
     });
   }, [gameCompleted]);
 

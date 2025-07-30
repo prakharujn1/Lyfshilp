@@ -150,7 +150,7 @@ const SmartGPSChallenge = () => {
   const [showInstructions, setShowInstructions] = useState(true);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Initialize game grid
@@ -314,12 +314,15 @@ const SmartGPSChallenge = () => {
       const studyTimeMinutes = Math.floor(timeTakenSec / 60);
 
       // 📈 Update performance
-      updateComputersPerformance({
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "exploringSmartStrategiesInAI",
         score: scaledScore,
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes,
         completed: true,
+        
       });
     }
   };

@@ -33,6 +33,7 @@ const moodGIFs = {
 
 const SayItLikeUMeanItGame = () => {
   const { completeCommunicationChallenge } = useCommunication();
+  const { updatePerformance } = usePerformance();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -68,16 +69,24 @@ const SayItLikeUMeanItGame = () => {
         setShowResult(true);
 
         const endTime = Date.now();
+        const totalTimeSec = (endTime - startTime) / 1000;
+        const avgResponseTimeSec = totalTimeSec / 3; // since there are 3 steps
+
         const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
         const accuracy = (score + (correct ? 1 : 0)) / sentenceData.length * 100;
         const scaledScore = Math.round(((score + (correct ? 1 : 0)) / sentenceData.length) * 10 * 10) / 10;
 
-        updateCommunicationPerformance({
+        updatePerformance({
+          moduleName: "Communication",
+          topicName: "interpersonalSkills",
           completed: true,
           studyTimeMinutes,
+          avgResponseTimeSec, // ✅ add this
           score: scaledScore,
           accuracy,
+           
         });
+
 
         if ((score + (correct ? 1 : 0)) >= 3) {
           completeCommunicationChallenge(0, 1); // Mark as complete

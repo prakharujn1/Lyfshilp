@@ -32,7 +32,7 @@ const MiniMarketMaster = () => {
   });
 
   // for performance tracking
-  const { updateFinancePerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const companies = [
@@ -266,16 +266,21 @@ const MiniMarketMaster = () => {
       if (gameData.day >= 10) {
         completeFinanceChallenge(0, 1); // ✅ Marks the challenge as complete
 
-         // for performance
+        // for performance
         const totalTime = (Date.now() - startTime) / 1000; // in seconds
         const studyTimeMinutes = Math.ceil(totalTime / 60);
 
-        updateFinancePerformance({
+        updatePerformance({
+          moduleName: "Finance",
+          topicName: "bankingExpert",
+          score: 10,
+          accuracy: 100,
           avgResponseTimeSec: totalTime,
           studyTimeMinutes,
           completed: true,
+         
         });
-        
+
         setCurrentPage("results");
         return;
       }
@@ -408,8 +413,8 @@ const MiniMarketMaster = () => {
                   <button
                     onClick={() => setTradeType("buy")}
                     className={`px-4 py-2 rounded-md font-semibold transition-all ${tradeType === "buy"
-                        ? "bg-green-500 text-white"
-                        : "text-gray-600 hover:bg-gray-200"
+                      ? "bg-green-500 text-white"
+                      : "text-gray-600 hover:bg-gray-200"
                       }`}
                   >
                     Buy
@@ -417,8 +422,8 @@ const MiniMarketMaster = () => {
                   <button
                     onClick={() => setTradeType("sell")}
                     className={`px-4 py-2 rounded-md font-semibold transition-all ${tradeType === "sell"
-                        ? "bg-red-500 text-white"
-                        : "text-gray-600 hover:bg-gray-200"
+                      ? "bg-red-500 text-white"
+                      : "text-gray-600 hover:bg-gray-200"
                       }`}
                   >
                     Sell
@@ -552,8 +557,8 @@ const MiniMarketMaster = () => {
 
               <div
                 className={`bg-gradient-to-r ${isProfit
-                    ? "from-yellow-400 to-orange-500"
-                    : "from-gray-400 to-gray-600"
+                  ? "from-yellow-400 to-orange-500"
+                  : "from-gray-400 to-gray-600"
                   } text-white p-6 rounded-2xl text-center`}
               >
                 <Trophy className="mx-auto mb-2 text-3xl" />

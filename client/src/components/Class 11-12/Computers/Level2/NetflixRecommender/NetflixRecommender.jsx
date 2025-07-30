@@ -18,7 +18,7 @@ const NetflixRecommendationGame = () => {
   const [selectedScenario, setSelectedScenario] = useState('normal');
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -27,10 +27,14 @@ const NetflixRecommendationGame = () => {
       const avgResponseTimeSec = ((endTime - startTime) / 1000) / gameStats.totalRecommendations;
       const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-      updateComputersPerformance({
-        avgResponseTimeSec,
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "machineLearningInDailyLife",
+        score: 10,
+        accuracy: 100,
         studyTimeMinutes,
         completed: gameStats.satisfaction >= 80,
+        avgResponseTimeSec
       });
     }
   }, [gameStats.satisfaction >= 80]);

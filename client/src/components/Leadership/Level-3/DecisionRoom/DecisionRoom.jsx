@@ -46,19 +46,22 @@ const DecisionRoom = () => {
   const [puzzleSelected, setPuzzleSelected] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (gameOver) {
       const totalTimeMs = Date.now() - startTime;
 
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "theStrategist",
         score: Math.round((score / 6) * 100),
         accuracy: parseFloat(((score / 6) * 100).toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeMs / 6000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: score === 6,
-      });
+        
+      }); 
 
       if (score === 6) {
         completeLeadershipChallenge(2, 0);

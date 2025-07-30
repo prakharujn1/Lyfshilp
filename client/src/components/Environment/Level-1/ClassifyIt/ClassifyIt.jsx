@@ -1,5 +1,7 @@
 import React, { useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext";
 
 const data = [
   { word: "Tree", answer: "Natural–Biotic" },
@@ -85,6 +87,8 @@ function reducer(state, action) {
 const ClassifyIt = () => {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+  const { updatePerformance } = usePerformance();
 
   useEffect(() => {
     if (state.gameState === "playing" && state.timerActive && state.timeLeft > 0) {
@@ -95,6 +99,45 @@ const ClassifyIt = () => {
       dispatch({ type: "FINISH_GAME" });
     }
   }, [state.gameState, state.timerActive, state.timeLeft]);
+
+  useEffect(() => {
+    if (state.gameState === "finished") {
+      const runPerformanceUpdate = async () => {
+        try {
+          const totalAnswered = state.answers.length;
+          const correct = state.answers.filter(a => a.isCorrect).length;
+
+          const rawScore = state.score; // out of 24
+          const scaledScore = parseFloat(((rawScore / 24) * 10).toFixed(2)); // out of 10
+          const accuracy = totalAnswered ? (correct / totalAnswered) * 100 : 0;
+          const scaledAccuracy = parseFloat(accuracy.toFixed(2)); // out of 100
+
+          const completed = totalAnswered === TOTAL_QUESTIONS;
+          const studyTimeMinutes = Math.round((TIME_LIMIT - state.timeLeft) / 60);
+          const avgResponseTimeSec = totalAnswered ? Math.round((TIME_LIMIT - state.timeLeft) / totalAnswered) : 0;
+
+          await completeEnvirnomentChallenge(0, 0);
+
+          await updatePerformance({
+            moduleName: "Environment",
+            topicName: "sustainableLeader",
+            score: scaledScore,
+            accuracy: scaledAccuracy,
+            avgResponseTimeSec,
+            studyTimeMinutes,
+            completed,
+             
+          });
+        } catch (error) {
+          console.error("Error updating environment performance:", error);
+        }
+      };
+
+      runPerformanceUpdate();
+    }
+  }, [state.gameState, state.score, state.answers, state.timeLeft]);
+
+
 
   const handleBackToLevels = () => navigate(-1);
 
@@ -166,40 +209,40 @@ const ClassifyIt = () => {
   }
 
   if (state.gameState === "review") {
-  return (
-    <div className="min-h-[90vh] flex flex-col items-center justify-center bg-green-100 py-8 px-4 sm:px-6 lg:px-8"> 
-      <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-6xl bg-white rounded-3xl shadow flex flex-col items-center p-6 sm:p-8 lg:p-10 relative"> 
-        <button onClick={() => dispatch({ type: "BACK_TO_FINISH" })} className="flex justify-center items-center absolute top-4 right-4 z-[139] w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full hover:bg-gray-200 transition"> {/* Adjusted button size */}
-          <span className="font-['Comfortaa'] text-[36px] sm:text-[40px] font-light text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
-        </button>
-        <h2 className="text-3xl sm:text-4xl font-bold text-center w-full" style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}>Check your answers</h2>
-        <p className="mb-6 sm:mb-8 text-base sm:text-xl text-gray-700 text-center w-full" style={{ fontFamily: 'Commissioner, Arial, sans-serif' }}>Classify the given word into one of the given categories</p> {/* Adjusted text size and margin */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full justify-items-center"> 
-          {state.answers.map((ans, idx) => {
-            const isCorrect = ans.isCorrect;
-            return (
-              <div
-                key={idx}
-                className={`main-container flex w-full max-w-[280px] sm:max-w-[256px] h-[120px] sm:h-[117px] p-4 sm:pt-[18px] sm:pr-[24px] sm:pb-[18px] sm:pl-[24px] flex-col gap-[10px] justify-center items-start rounded-[15px] relative ${isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"}`}
-              > 
-                <div className="flex w-full justify-between items-start relative">
-                  <div className="flex flex-col gap-[8px] sm:gap-[10px] items-start flex-1"> 
-                    <span className={`font-['Comic_Neue'] text-xl sm:text-[25px] font-bold leading-[24px] relative text-left whitespace-nowrap z-[2] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>{ans.word}</span> {/* Adjusted text size */}
-                    <div className="flex flex-col gap-[2px] sm:gap-[3px] items-start w-full"> 
-                      <span className={`font-['Commissioner'] text-sm sm:text-[18px] font-light leading-[20px] sm:leading-[24px] relative text-left whitespace-nowrap z-[4] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>You : {ans.selected}</span> {/* Adjusted text size and leading */}
-                      <span className={`font-['Commissioner'] text-sm sm:text-[18px] font-light leading-[20px] sm:leading-[24px] relative text-left whitespace-nowrap z-[5] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Ans : {ans.correctAnswer}</span> {/* Adjusted text size and leading */}
+    return (
+      <div className="min-h-[90vh] flex flex-col items-center justify-center bg-green-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-6xl bg-white rounded-3xl shadow flex flex-col items-center p-6 sm:p-8 lg:p-10 relative">
+          <button onClick={() => dispatch({ type: "BACK_TO_FINISH" })} className="flex justify-center items-center absolute top-4 right-4 z-[139] w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full hover:bg-gray-200 transition"> {/* Adjusted button size */}
+            <span className="font-['Comfortaa'] text-[36px] sm:text-[40px]  text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
+          </button>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center w-full" style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}>Check your answers</h2>
+          <p className="mb-6 sm:mb-8 text-base sm:text-xl text-gray-700 text-center w-full" style={{ fontFamily: 'Commissioner, Arial, sans-serif' }}>Classify the given word into one of the given categories</p> {/* Adjusted text size and margin */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full justify-items-center">
+            {state.answers.map((ans, idx) => {
+              const isCorrect = ans.isCorrect;
+              return (
+                <div
+                  key={idx}
+                  className={`main-container flex w-full max-w-[280px] sm:max-w-[256px] h-[120px] sm:h-[117px] p-4 sm:pt-[18px] sm:pr-[24px] sm:pb-[18px] sm:pl-[24px] flex-col gap-[10px] justify-center items-start rounded-[15px] relative ${isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"}`}
+                >
+                  <div className="flex w-full justify-between items-start relative">
+                    <div className="flex flex-col gap-[8px] sm:gap-[10px] items-start flex-1">
+                      <span className={`font-['Comic_Neue'] text-xl sm:text-[25px] font-bold leading-[24px] relative text-left whitespace-nowrap z-[2] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>{ans.word}</span> {/* Adjusted text size */}
+                      <div className="flex flex-col gap-[2px] sm:gap-[3px] items-start w-full">
+                        <span className={`font-['Commissioner'] text-sm sm:text-[18px] font-light leading-[20px] sm:leading-[24px] relative text-left whitespace-nowrap z-[4] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>You : {ans.selected}</span> {/* Adjusted text size and leading */}
+                        <span className={`font-['Commissioner'] text-sm sm:text-[18px] font-light leading-[20px] sm:leading-[24px] relative text-left whitespace-nowrap z-[5] ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Ans : {ans.correctAnswer}</span> {/* Adjusted text size and leading */}
+                      </div>
                     </div>
+                    <div className="w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] shrink-0 bg-contain bg-no-repeat ml-2" style={{ backgroundImage: isCorrect ? "url(/check.png)" : "url(/cancel.png)" }} /> {/* Adjusted icon size */}
                   </div>
-                  <div className="w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] shrink-0 bg-contain bg-no-repeat ml-2" style={{ backgroundImage: isCorrect ? "url(/check.png)" : "url(/cancel.png)" }} /> {/* Adjusted icon size */}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
   return (
     <div className="w-full bg-white min-h-[calc(100vh-80px)] flex flex-col justify-center items-center overflow-hidden mt-6 mb-8 px-6">

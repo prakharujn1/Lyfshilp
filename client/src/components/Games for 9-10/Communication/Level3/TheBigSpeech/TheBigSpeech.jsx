@@ -22,7 +22,7 @@ export default function TheBigSpeech() {
   const [totalScore, setTotalScore] = useState(null);
   const [loading, setLoading] = useState(false);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const videoRef = useRef();
@@ -149,20 +149,23 @@ Give 2–3 specific improvement tips (max 20 words each).Respond in JSON like: {
   };
 
   const finalize = () => {
-  const total = feedback1.structure + feedback1.clarity + feedback1.tone + score2;
-  setTotalScore(total);
-  setStep(4);
+    const total = feedback1.structure + feedback1.clarity + feedback1.tone + score2;
+    setTotalScore(total);
+    setStep(4);
 
-  const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+    const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-  updateCommunicationPerformance({
-    score: total,
-    accuracy: (total / 10) * 100,
-    avgResponseTimeSec: timeTakenSec,
-    studyTimeMinutes: Math.ceil(timeTakenSec / 60),
-    completed: total >= 7, // Mark completed if good score
-  });
-};
+    updatePerformance({
+      moduleName: "Communication",
+      topicName: "interpersonalSkills",
+      score: total,
+      accuracy: (total / 10) * 100,
+      avgResponseTimeSec: timeTakenSec,
+      studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+      completed: total >= 7, // Mark completed if good score
+      
+    });
+  };
 
 
   const restart = () => {

@@ -12,18 +12,21 @@ const CommunicationLab = () => {
   const [feedbackGif, setFeedbackGif] = useState(null);
   const { width, height } = useWindowSize();
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (step === scenarios.length) {
       const totalTimeMs = Date.now() - startTime;
 
-      updateLeadershipPerformance({
+      updatePerformance({
+        moduleName: "Leadership",
+        topicName: "understandableLeader",
         score: Math.round((score / scenarios.length) * 10),
         accuracy: parseFloat(((score / scenarios.length) * 100).toFixed(2)),
         avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: score >= 5,
+         
       });
 
       if (score >= 5) {

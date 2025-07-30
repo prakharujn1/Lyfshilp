@@ -42,7 +42,7 @@ const InnovationExplorer = () => {
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [allPerfect, setAllPerfect] = useState(false);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -124,12 +124,15 @@ const InnovationExplorer = () => {
     const score = Math.round((goodCount / 5) * 10);
     const accuracy = (goodCount / 5) * 100;
 
-    updateEntreprenerushipPerformance({
+    updatePerformance({
+      moduleName: "Entrepreneurship",
+      topicName: "ideationIntellect",
       score,
       accuracy,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: timeTakenMin,
       completed: true,
+      
     });
   };
 

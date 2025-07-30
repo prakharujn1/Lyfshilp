@@ -41,7 +41,7 @@ export default function BodyLanguageGame() {
   const [result, setResult] = useState({});
   const [showGame, setShowGame] = useState(false);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -90,7 +90,9 @@ export default function BodyLanguageGame() {
       const accuracy = 100;
       const finalScore = 10;
 
-      updateCommunicationPerformance({
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "situationalAwareness",
         completed: true,
         studyTimeMinutes,
         score: finalScore,

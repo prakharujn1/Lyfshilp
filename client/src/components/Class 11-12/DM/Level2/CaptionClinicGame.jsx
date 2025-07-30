@@ -22,7 +22,7 @@ const CaptionClinicGame = () => {
   const [showResults, setShowResults] = useState(false);
   const [celebrationMode, setCelebrationMode] = useState(false);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const originalCaption =
@@ -141,12 +141,15 @@ const CaptionClinicGame = () => {
     const timeTakenSec = Math.round((Date.now() - startTime) / 1000);
     const scaledScore = (starCount / 5) * 10; // out of 10
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "creativity",
       score: scaledScore,
       accuracy: (totalScore / 3) * 100, // percentage based on 3-point system
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: Math.round(timeTakenSec / 60),
       completed: totalScore === 3,
+      
     });
 
 

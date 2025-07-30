@@ -42,9 +42,9 @@ const WaterGridCrisis = () => {
 
   const [final, setFinal] = useState(null);
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
-   
+
 
   const resetGame = () => {
     setStep(1);
@@ -350,12 +350,15 @@ const WaterGridCrisis = () => {
                       completeEnvirnomentChallenge(0, 3);
                     }
                     const totalTimeMs = Date.now() - startTime;
-                    updateEnvirnomentPerformance({
-                      score: Math.round((correctCount / 4) * 10 ), // scaled out of 10
+                    updatePerformance({
+                      moduleName: "Environment",
+                      topicName: "ecoDecisionMaker",
+                      score: Math.round((correctCount / 4) * 10), // scaled out of 10
                       accuracy: parseFloat(((correctCount / 4) * 100).toFixed(2)), // %
                       avgResponseTimeSec: parseFloat((totalTimeMs / 4000).toFixed(2)), // 4 questions
                       studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
                       completed: allCorrect,
+                     
                     });
                   }}
                   className="mt-6 bg-green-600 text-white px-4 py-2 rounded-full font-bold shadow hover:bg-green-700 transition"

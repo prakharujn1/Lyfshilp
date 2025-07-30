@@ -47,7 +47,7 @@ export default function PitchArenaGame() {
   const [review, setReview] = useState(null);
   const [ethicsAnswers, setEthicsAnswers] = useState({});
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const steps = [
@@ -137,11 +137,15 @@ ${growthText}
         const score = (parsed.Clarity + parsed.Originality + parsed.Impact + parsed.Design + parsed.Feasibility) * 2;
         const studyTimeMinutes = Math.ceil(timeTakenSec / 60);
 
-        updateEntreprenerushipPerformance({
+        updatePerformance({
+          moduleName: "Entrepreneurship",
+          topicName: "masteringPitch",
           score,
+          accuracy: score * 10,
           avgResponseTimeSec: timeTakenSec,
           studyTimeMinutes,
-          completed: true
+          completed: true,
+           
         });
       }
       else {

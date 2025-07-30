@@ -132,7 +132,7 @@ const RespondDontReact = () => {
   const [showResult, setShowResult] = useState(false);
   const [feedbackGif, setFeedbackGif] = useState("");
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleChoice = (choice) => {
@@ -162,12 +162,15 @@ const RespondDontReact = () => {
       const endTime = Date.now();
       const durationSec = Math.round((endTime - startTime) / 1000);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: Math.round((score / scenarios.length) * 10),
         accuracy: Math.round((score / scenarios.length) * 100),
         avgResponseTimeSec: durationSec / scenarios.length,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: score >= 3,
+        
       });
 
     }

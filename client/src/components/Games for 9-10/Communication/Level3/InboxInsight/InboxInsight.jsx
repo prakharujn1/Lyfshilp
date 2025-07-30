@@ -28,7 +28,7 @@ export default function InboxInsightGame() {
     const [feedback, setFeedback] = useState(null);
     const [loading, setLoading] = useState(false);
     //for performance
-    const { updateCommunicationPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
     const APIKEY = import.meta.env.VITE_API_KEY;
 
@@ -95,12 +95,15 @@ ${promptText}`;
                 Number(parsedFeedback.email2[0]) +
                 Number(parsedFeedback.email3[0]);
 
-            updateCommunicationPerformance({
-                score:  Math.round((totalScore / 24) * 10),
+            updatePerformance({
+                moduleName: "Communication",
+                topicName: "interpersonalSkills",
+                score: Math.round((totalScore / 24) * 10),
                 accuracy: (totalScore / 24) * 100,
                 avgResponseTimeSec: timeTakenSec,
                 studyTimeMinutes: Math.ceil(timeTakenSec / 60),
                 completed: parsedFeedback.avatarType === "congratulatory",
+                 
             });
 
 

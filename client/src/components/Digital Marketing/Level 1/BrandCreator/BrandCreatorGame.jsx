@@ -19,7 +19,7 @@ export default function BrandCreatorGame() {
   });
 
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const checkSumbit = () => {
@@ -102,10 +102,15 @@ export default function BrandCreatorGame() {
 
     // ✅ Update performance
     const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "creativity",
+      score: 10,
+      accuracy: 100,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: Math.ceil(timeTakenSec / 60),
       completed: true,
+ 
     });
 
     // 🎉 Confetti animation

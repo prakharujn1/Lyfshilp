@@ -92,7 +92,7 @@ const DilemmaCards = () => {
   const [selected, setSelected] = useState(null);
   const [showConsequence, setShowConsequence] = useState(false);
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (index >= dilemmas.length && score >= 9) {
@@ -100,21 +100,24 @@ const DilemmaCards = () => {
     }
   }, [index, score]);
   useEffect(() => {
-  if (index >= dilemmas.length) {
-    const endTime = Date.now();
-    const totalTimeSec = Math.floor((endTime - startTime) / 1000);
-    const avgResponseTimeSec = totalTimeSec / dilemmas.length;
-    const scaledScore = Number(((score / (dilemmas.length * 3)) * 10).toFixed(2));
+    if (index >= dilemmas.length) {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / dilemmas.length;
+      const scaledScore = Number(((score / (dilemmas.length * 3)) * 10).toFixed(2));
 
-    updateEnvirnomentPerformance({
-      score: scaledScore,
-      accuracy: (score / (dilemmas.length * 3)) * 100,
-      avgResponseTimeSec,
-      studyTimeMinutes: Math.ceil(totalTimeSec / 60),
-      completed: score >= 9,
-    });
-  }
-}, [index]);
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "climateAnalyst",
+        score: scaledScore,
+        accuracy: (score / (dilemmas.length * 3)) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: score >= 9,
+        
+      });
+    }
+  }, [index]);
 
 
   const handleChoice = (choiceIdx) => {
@@ -205,8 +208,8 @@ const DilemmaCards = () => {
             onClick={() => handleChoice(i)}
             disabled={showConsequence}
             className={`px-4 py-2 rounded-xl border text-left ${selected === i
-                ? "bg-green-200 border-green-600"
-                : "bg-white border-gray-300"
+              ? "bg-green-200 border-green-600"
+              : "bg-white border-gray-300"
               }`}
           >
             {opt}

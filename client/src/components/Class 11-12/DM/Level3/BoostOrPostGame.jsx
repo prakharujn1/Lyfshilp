@@ -21,7 +21,7 @@ const BoostOrPostGame = () => {
   const [stars, setStars] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Game data
@@ -105,12 +105,15 @@ const BoostOrPostGame = () => {
     const score = option.stars;
     const accuracy = option.isCorrect ? 100 : 33;
 
-    updateDMPerformance({
+    updatePerformance({
+      moduleName: "DigitalMarketing",
+      topicName: "marketer",
       score,
       accuracy,
       avgResponseTimeSec: timeTakenSec,
       studyTimeMinutes: Math.round(timeTakenSec / 60),
       completed: option.isCorrect, // ✅ full only if correct
+      
     });
   };
 

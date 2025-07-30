@@ -71,7 +71,7 @@ const BodySignalMatchup = () => {
   const [activeSignal, setActiveSignal] = useState(null);
   const [step, setStep] = useState("intro");
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -84,10 +84,15 @@ const BodySignalMatchup = () => {
       const endTime = Date.now();
       const durationSec = Math.round((endTime - startTime) / 1000);
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
+        score: 10,
+        accuracy: 100,
         avgResponseTimeSec: durationSec / signals.length,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: true,
+ 
       });
     }
   }, [matches]);

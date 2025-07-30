@@ -63,7 +63,7 @@ const ComplimentQuest = () => {
   const [showResult, setShowResult] = useState(false);
 
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleOptionClick = (index) => {
@@ -84,13 +84,19 @@ const ComplimentQuest = () => {
           const endTime = Date.now();
           const durationSec = (endTime - startTime) / 1000;
           const accuracy = finalScore / compliments.length;
+          const avgResponseTimeSec = durationSec / compliments.length;
 
-          updateCommunicationPerformance({
+          updatePerformance({
+            moduleName: "Communication",
+            topicName: "communicationSkills",
             score: Math.round(accuracy * 10),
             accuracy: Math.round(accuracy * 100),
             studyTimeMinutes: durationSec / 60,
-            completed: true
+            avgResponseTimeSec, // ✅ new simple field
+            completed: true,
+             
           });
+
         } else {
           setCurrent(current + 1);
           setSelected(null);

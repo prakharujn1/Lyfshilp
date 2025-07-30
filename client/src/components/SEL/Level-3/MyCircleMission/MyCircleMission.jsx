@@ -80,7 +80,7 @@ const MyCircleMission = () => {
     height: document.body.scrollHeight, // key point
   });
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -114,12 +114,15 @@ const MyCircleMission = () => {
       const accuracy = Math.round((correctCount / thoughtsData.length) * 100);
       const score = isWin ? 10 : accuracy >= 50 ? 5 : 2;
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "peerSupportNetworks",
         score,
         accuracy,
         avgResponseTimeSec: totalSeconds / thoughtsData.length,
         studyTimeMinutes: Math.ceil(totalSeconds / 60),
         completed: isWin,
+      
       });
     }
   }, [showResult]);

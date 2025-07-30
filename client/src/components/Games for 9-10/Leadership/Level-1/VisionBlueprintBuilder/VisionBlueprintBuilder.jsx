@@ -16,9 +16,9 @@ const VisionBlueprintBuilder = () => {
   const { width, height } = useWindowSize();
   const [isSuccess, setIsSuccess] = useState(null);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
-  
+
   useEffect(() => {
     if (submitted && isSuccess) {
       completeLeadershipChallenge(0, 1);
@@ -34,12 +34,15 @@ const VisionBlueprintBuilder = () => {
     const score = isSuccess ? 10 : 5; // Full score if verified successful, else half
     const accuracy = score * 10;
 
-    updateLeadershipPerformance({
+    updatePerformance({
+      moduleName: "Leadership",
+      topicName: "foresight",
       score, // out of 10
       accuracy, // out of 100
       avgResponseTimeSec: parseFloat((totalTimeMs / (totalSteps * 1000)).toFixed(2)),
       studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
       completed: isSuccess,
+      
     });
   }, [submitted, isSuccess]);
 

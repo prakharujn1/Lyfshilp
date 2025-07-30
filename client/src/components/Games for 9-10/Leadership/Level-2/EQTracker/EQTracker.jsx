@@ -16,7 +16,7 @@ const EQTracker = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   //for performance
-  const { updateLeadershipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   useEffect(() => {
     if (step === 3 && isSuccess) {
@@ -37,12 +37,15 @@ const EQTracker = () => {
 
     const scaledScore = Math.round((earned / totalScore) * 10);
 
-    updateLeadershipPerformance({
+    updatePerformance({
+      moduleName: "Leadership",
+      topicName: "foresight",
       score: scaledScore,
       accuracy: scaledScore * 10,
       avgResponseTimeSec: parseFloat((totalTimeMs / 3000).toFixed(2)), // 3 tasks
       studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
       completed: isSuccess, // only true if correct answer was chosen
+     
     });
   }, [step]);
 

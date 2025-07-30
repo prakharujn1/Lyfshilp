@@ -56,7 +56,7 @@ const ProblemSolutionGame = () => {
   });
   const [showInstructions, setShowInstructions] = useState(true);
   //for performance
-  const { updateEntreprenerushipPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const problemExamples = [
@@ -204,13 +204,15 @@ Constraints -
       const accuracy = (scaledScore / 10) * 100;
 
       // ✅ Send to performance tracker
-      await updateEntreprenerushipPerformance({
-        userId: localStorage.getItem("userId"),
+      await updatePerformance({
+        moduleName: "Entrepreneurship",
+        topicName: "ideationIntellect",
         score: scaledScore,
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes,
         completed: true,
+        
       });
 
     } catch (err) {

@@ -684,7 +684,7 @@ export default function MazeOfChoices() {
   });
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
 
@@ -701,12 +701,15 @@ export default function MazeOfChoices() {
       const scaledScore = Math.round((totalScore / maxScore) * 10); // out of 10
       const accuracyPercent = Math.round((totalScore / maxScore) * 100); // out of 100
 
-      updateLawPerformance({
+      updatePerformance({
+        moduleName: "Law",
+        topicName: "learnedCounsel",
         score: scaledScore,
         accuracy: accuracyPercent,
         avgResponseTimeSec: Math.round(timeTakenSec / 16),
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: true,
+        
       });
     }
   }, [gamePhase]);

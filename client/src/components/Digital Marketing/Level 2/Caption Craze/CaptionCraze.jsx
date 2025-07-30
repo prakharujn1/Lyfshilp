@@ -44,26 +44,31 @@ export default function CaptionCraze() {
   const [submitted, setSubmitted] = useState(false);
 
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleSubmit = () => {
-  if (userCaption.trim() !== "") {
-    setSubmitted(true);
+    if (userCaption.trim() !== "") {
+      setSubmitted(true);
 
-    if (!challengeCompleted) {
-      completeDMChallenge(1, 0);
-      setChallengeCompleted(true);
+      if (!challengeCompleted) {
+        completeDMChallenge(1, 0);
+        setChallengeCompleted(true);
 
-      const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
-      updateDMPerformance({
-        avgResponseTimeSec: timeTakenSec,
-        studyTimeMinutes: Math.ceil(timeTakenSec / 60),
-        completed: true,
-      });
+        const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
+        updatePerformance({
+          moduleName: "DigitalMarketing",
+          topicName: "contentStrategist",
+          score: 10,
+          accuracy: 100,
+          avgResponseTimeSec: timeTakenSec,
+          studyTimeMinutes: Math.ceil(timeTakenSec / 60),
+          completed: true,
+           
+        });
+      }
     }
-  }
-};
+  };
 
 
 

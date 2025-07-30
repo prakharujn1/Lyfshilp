@@ -48,7 +48,7 @@ const PersonaBuilderGame = () => {
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const ageOptions = ["13-15", "16-18", "19-22", "23-25", "26-30", "31-35"];
@@ -169,12 +169,15 @@ Form data provided by user : ${JSON.stringify(formData)}
         const endTime = Date.now();
         const timeSpentSec = Math.floor((endTime - startTime) / 1000);
 
-        updateDMPerformance({
+        updatePerformance({
+          moduleName: "DigitalMarketing",
+          topicName: "contentStrategist",
           score: scaledScore,
           accuracy: (parsed.score / 5) * 100, // Accuracy as %
           avgResponseTimeSec: timeSpentSec, // or timeSpentSec / 1 if 1 input = 1 question
           studyTimeMinutes: Math.ceil(timeSpentSec / 60),
           completed: true,
+          
         });
 
         completeDMChallenge(0, 1); // already present, keep it

@@ -92,7 +92,7 @@ const ConflictChoices = () => {
   const [gif, setGif] = useState(null);
   const [answered, setAnswered] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
   
   const startGame = () => {
@@ -127,12 +127,15 @@ const ConflictChoices = () => {
         completeSELChallenge(1, 1); // ✅ mark challenge complete
       }
 
-      updateSELPerformance({
+      updatePerformance({
+        moduleName: "SEL",
+        topicName: "emotionalAwareness",
         score: roundedScore, // score out of 10
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(durationSec / 60),
         completed: nextScore >= 2,
+         
       });
     }
   }, 2000);

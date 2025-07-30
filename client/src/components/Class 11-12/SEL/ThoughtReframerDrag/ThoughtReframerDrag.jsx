@@ -11,7 +11,7 @@ export default function ThoughtReframer() {
     const [reframes, setReframes] = useState(["", "", ""]);
     const [loading, setLoading] = useState(false);
     //for performance
-    const { updateSELPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     const handleChange = (i, value) => {
@@ -60,10 +60,15 @@ export default function ThoughtReframer() {
         // ✅ Update SEL Performance
         const endTime = Date.now();
         const durationSec = Math.round((endTime - startTime) / 1000);
-        updateSELPerformance({
+        updatePerformance({
+            moduleName: "SEL",
+            topicName: "emotionalAwareness",
+            score: 10,
+            accuracy: 100,
             avgResponseTimeSec: durationSec,
             studyTimeMinutes: Math.ceil(durationSec / 60),
             completed: true,
+         
         });
 
         setLoading(false);

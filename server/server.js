@@ -30,7 +30,7 @@ app.use("/communication", communicationRoutes);
 app.use("/computers", computersRoutes);
 app.use("/entrepreneruship", entreprenerushipRoutes); 
 app.use("/envirnoment", envirnomentRoutes);
-app.use("/law", lawRoutes);
+app.use("/law", lawRoutes); 
 app.use("/leadership", leadershipRoutes);
 app.use("/sel", SELRoutes);
 app.use("/performance", performanceRoutes);

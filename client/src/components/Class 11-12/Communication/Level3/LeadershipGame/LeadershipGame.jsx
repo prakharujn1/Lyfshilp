@@ -16,7 +16,7 @@ export default function LeadershipGame() {
   const [gameDone, setGameDone] = useState(false);
   const [evaluating, setEvaluating] = useState(false);
   //for performance
-  const { updateCommunicationPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const tones = ["Assertive", "Aggressive", "Passive", "Motivating"];
@@ -128,12 +128,15 @@ Here is the student's message:
       const accuracy = Math.round((correctCount / 3) * 100);         // Integer out of 100
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);
 
-      updateCommunicationPerformance({
+      updatePerformance({
+        moduleName: "Communication",
+        topicName: "interpersonalSkills",
         score: scaledScore,
         accuracy,
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: correctCount === 3,
+       
       });
 
       if (correctCount === 3) {

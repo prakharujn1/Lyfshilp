@@ -11,7 +11,7 @@ const ToneSimulatorGame = () => {
     const [timeLeft, setTimeLeft] = useState(6 * 60);
     const [timeUp, setTimeUp] = useState(false);
     //for performance
-    const { updateCommunicationPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     useEffect(() => {
@@ -101,7 +101,9 @@ const ToneSimulatorGame = () => {
                 const accuracy = 100;
                 const finalScore = 10;
 
-                updateCommunicationPerformance({
+                updatePerformance({
+                    moduleName: "Communication",
+                    topicName: "communicationSkills",
                     completed: true,
                     studyTimeMinutes,
                     score: finalScore,

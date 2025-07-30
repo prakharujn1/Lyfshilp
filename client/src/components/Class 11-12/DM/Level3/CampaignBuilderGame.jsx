@@ -64,7 +64,7 @@ const CampaignBuilderGame = () => {
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
   //for performance
-  const { updateDMPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   // Game data
@@ -162,12 +162,15 @@ const CampaignBuilderGame = () => {
               const score = Math.round((completedFields / 8) * 10);
               const accuracy = Math.round((completedFields / 8) * 100);
 
-              updateDMPerformance({
+              updatePerformance({
+                moduleName: "DigitalMarketing",
+                topicName: "creativity",
                 score,
                 accuracy,
                 avgResponseTimeSec: responseTimeSec,
                 studyTimeMinutes,
                 completed: true,
+                
               });
 
               setCurrentPage("result");

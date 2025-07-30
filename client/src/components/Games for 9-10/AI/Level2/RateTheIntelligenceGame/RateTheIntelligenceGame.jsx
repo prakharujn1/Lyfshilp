@@ -20,7 +20,7 @@ export default function RateTheIntelligenceGame() {
   const [submitted, setSubmitted] = useState(false);
 
   //for performance
-  const { updateComputersPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -38,12 +38,15 @@ export default function RateTheIntelligenceGame() {
       const avgResponseTimeSec = ((endTime - startTime) / 1000) / total;
       const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-      updateComputersPerformance({
+      updatePerformance({
+        moduleName: "Computers",
+        topicName: "understandingAIPerformance",
         score,
         accuracy,
         avgResponseTimeSec,
         studyTimeMinutes,
         completed: true,
+        
       });
     }
   }, [submitted]);

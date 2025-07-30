@@ -35,7 +35,7 @@ export default function ReelArchitectGame() {
     const [step, setStep] = useState(1);
     const [points, setPoints] = useState(0);
     //for performance
-    const { updateDMPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     const handleDragStart = (e, index) => {
@@ -118,12 +118,15 @@ export default function ReelArchitectGame() {
         const accuracyOutOf100 = Math.round((totalPoints / 11) * 100);
         const avgResponseTimeSec = Math.round(durationSec); // per point
 
-        updateDMPerformance({
+        updatePerformance({
+            moduleName: "DigitalMarketing",
+            topicName: "creativity",
             score: scoreOutOf10,
             accuracy: accuracyOutOf100,
             avgResponseTimeSec,
             studyTimeMinutes: durationMinutes,
             completed: true,
+          
         });
     };
 

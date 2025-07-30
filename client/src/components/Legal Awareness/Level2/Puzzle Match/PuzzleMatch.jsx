@@ -203,7 +203,7 @@ const PuzzleMatch = () => {
   const [showExplanations, setShowExplanations] = useState(false);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -237,12 +237,15 @@ const PuzzleMatch = () => {
       const maxRawScore = totalPlayed * 100 + 180 * 10; // 100 per correct + bonus max
       const scaledScore = Math.min(10, parseFloat(((score / maxRawScore) * 10).toFixed(2)));
 
-      updateLawPerformance({
+      updatePerformance({
+        moduleName: "Law",
+        topicName: "constitutionalRights",
         score: scaledScore,
         accuracy: parseFloat(accuracy.toFixed(2)),
         avgResponseTimeSec: parseFloat(avgResponseTimeSec.toFixed(2)),
         studyTimeMinutes,
         completed: true,
+        
       });
     }
   }, [gameState]);

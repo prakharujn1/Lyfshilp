@@ -102,7 +102,7 @@ const InfluenceJournal = () => {
   const [feedbackGif, setFeedbackGif] = useState("");
   const [showFeedback, setShowFeedback] = useState(false);
   //for performance
-  const { updateSELPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   const handleSelect = (choice) => {
@@ -126,12 +126,15 @@ const InfluenceJournal = () => {
     const avgResponseTimeSec = durationSec / 5;
     const roundedScore = Math.round((score / 5) * 10);
 
-    updateSELPerformance({
+    updatePerformance({
+      moduleName: "SEL",
+      topicName: "peerSupportNetworks",
       score: roundedScore,
       accuracy,
       avgResponseTimeSec,
       studyTimeMinutes: Math.ceil(durationSec / 60),
       completed: passed,
+       
     });
 
     if (passed) {

@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useEnvirnoment } from "@/contexts/EnvirnomentContext";
+import { usePerformance } from "@/contexts/PerformanceContext";
 const questions = [
   {
     question: "The layer that includes soil, rocks, and land where we build houses and grow food",
@@ -36,7 +37,7 @@ const options = [
 ];
 
 const TOTAL_QUESTIONS = questions.length;
-const TIME_LIMIT = 120; 
+const TIME_LIMIT = 120;
 
 const initialState = {
   gameState: "start", // "start", "playing", "finished", "review"
@@ -110,8 +111,8 @@ function reducer(state, action) {
 
 function PickZoneOption({ text, selected, onClick }) {
   const iconUrl = selected
-    ? "https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/OUPKF7XyuA.png" 
-    : "https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/szijJePOLJ.png"; 
+    ? "https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/OUPKF7XyuA.png"
+    : "https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/szijJePOLJ.png";
 
   return (
     <div
@@ -138,6 +139,38 @@ function PickZoneOption({ text, selected, onClick }) {
 const PickZone = () => {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { completeEnvirnomentChallenge } = useEnvirnoment();
+  const { updatePerformance } = usePerformance();
+
+  useEffect(() => {
+    if (state.gameState === "finished") {
+      completeEnvirnomentChallenge(0, 1);
+
+      const totalAnswered = state.answers.length;
+      const correct = state.answers.filter(a => a.isCorrect).length;
+
+      const rawScore = state.score; // out of 6
+      const scaledScore = parseFloat(((rawScore / TOTAL_QUESTIONS) * 10).toFixed(2)); // out of 10
+      const accuracy = totalAnswered ? (correct / totalAnswered) * 100 : 0;
+      const scaledAccuracy = parseFloat(accuracy.toFixed(2)); // out of 100
+
+      const completed = totalAnswered === TOTAL_QUESTIONS;
+      const studyTimeMinutes = Math.round((TIME_LIMIT - state.timeLeft) / 60);
+      const avgResponseTimeSec = totalAnswered ? Math.round((TIME_LIMIT - state.timeLeft) / totalAnswered) : 0;
+
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "sustainableLeader",
+        score: scaledScore,
+        accuracy: scaledAccuracy,
+        avgResponseTimeSec,
+        studyTimeMinutes,
+        completed,
+    
+      });
+    }
+  }, [state.gameState, state.score, state.answers, state.timeLeft]);
+
 
   useEffect(() => {
     if (state.gameState === "playing" && state.timerActive && state.timeLeft > 0) {
@@ -157,40 +190,40 @@ const PickZone = () => {
   const handleBackToLevels = () => navigate(-1);
 
   if (state.gameState === "review") {
-  return (
-    <div className="min-h-[90vh] flex flex-col items-center justify-center bg-green-100  px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-6xl bg-white rounded-3xl shadow flex flex-col items-center p-6 sm:p-8 lg:p-10 lg:px-20 relative">
-        <button onClick={() => dispatch({ type: "BACK_TO_FINISH" })} className="flex justify-center items-center absolute top-4 right-4 z-[139] w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full hover:bg-gray-200 transition">
-          <span className="font-['Comfortaa'] text-[36px] sm:text-[40px] font-light text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
-        </button>
-        <h2 className="text-3xl sm:text-4xl font-bold text-center w-full" style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}>Check your answers</h2>
-        <p className="mb-6 sm:mb-8 text-base sm:text-xl text-gray-700 text-center w-full" style={{ fontFamily: 'Commissioner, Arial, sans-serif' }}>Match each environment description to its correct zone</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full justify-items-center">
-          {state.answers.map((ans, idx) => {
-            const isCorrect = ans.isCorrect;
-            return (
-              <div
-                key={idx}
-                className={`main-container flex flex-col p-4 sm:p-5 gap-2 rounded-[15px] relative w-full max-w-[300px] sm:max-w-[calc(100%-1rem)] lg:max-w-[calc(100%-1rem)] xl:max-w-[280px] ${isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"}`}
-              >
-                <div className="flex w-full justify-between items-start relative">
-                  <div className="flex flex-col gap-1 items-start flex-1 mr-2">
-                    <span className={`font-['Comic_Neue'] text-lg sm:text-xl font-bold leading-tight relative text-left ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>
-                      {ans.question}
-                    </span>
-                    <span className={`font-['Commissioner'] text-sm sm:text-base font-light leading-tight relative text-left ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>You : {ans.selected}</span>
-                    <span className={`font-['Commissioner'] text-sm sm:text-base font-light leading-tight relative text-left ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Ans : {ans.correctAnswer}</span>
+    return (
+      <div className="min-h-[90vh] flex flex-col items-center justify-center bg-green-100  px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-6xl bg-white rounded-3xl shadow flex flex-col items-center p-6 sm:p-8 lg:p-10 lg:px-20 relative">
+          <button onClick={() => dispatch({ type: "BACK_TO_FINISH" })} className="flex justify-center items-center absolute top-4 right-4 z-[139] w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full hover:bg-gray-200 transition">
+            <span className="font-['Comfortaa'] text-[36px] sm:text-[40px] text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
+          </button>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center w-full" style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}>Check your answers</h2>
+          <p className="mb-6 sm:mb-8 text-base sm:text-xl text-gray-700 text-center w-full" style={{ fontFamily: 'Commissioner, Arial, sans-serif' }}>Match each environment description to its correct zone</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full justify-items-center">
+            {state.answers.map((ans, idx) => {
+              const isCorrect = ans.isCorrect;
+              return (
+                <div
+                  key={idx}
+                  className={`main-container flex flex-col p-4 sm:p-5 gap-2 rounded-[15px] relative w-full max-w-[300px] sm:max-w-[calc(100%-1rem)] lg:max-w-[calc(100%-1rem)] xl:max-w-[280px] ${isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"}`}
+                >
+                  <div className="flex w-full justify-between items-start relative">
+                    <div className="flex flex-col gap-1 items-start flex-1 mr-2">
+                      <span className={`font-['Comic_Neue'] text-lg sm:text-xl font-bold leading-tight relative text-left ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>
+                        {ans.question}
+                      </span>
+                      <span className={`font-['Commissioner'] text-sm sm:text-base font-light leading-tight relative text-left ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>You : {ans.selected}</span>
+                      <span className={`font-['Commissioner'] text-sm sm:text-base font-light leading-tight relative text-left ${isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>Ans : {ans.correctAnswer}</span>
+                    </div>
+                    <div className="w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] shrink-0 bg-contain bg-no-repeat" style={{ backgroundImage: isCorrect ? "url(/check.png)" : "url(/cancel.png)" }} />
                   </div>
-                  <div className="w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] shrink-0 bg-contain bg-no-repeat" style={{ backgroundImage: isCorrect ? "url(/check.png)" : "url(/cancel.png)" }} />
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
   if (state.gameState === "finished") {
     return (

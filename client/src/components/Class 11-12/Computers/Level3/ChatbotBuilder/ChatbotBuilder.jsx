@@ -30,7 +30,7 @@ const CustomerServiceChatbotBuilder = () => {
     });
 
     //for performance
-    const { updateComputersPerformance } = usePerformance();
+    const { updatePerformance } = usePerformance();
     const [startTime] = useState(Date.now());
 
     useEffect(() => {
@@ -39,12 +39,15 @@ const CustomerServiceChatbotBuilder = () => {
             const timeTakenSec = (endTime - startTime) / 1000;
             const finalScore = (metrics.satisfaction + metrics.resolutionRate + metrics.relevanceScore + metrics.completionRate) / 4;
 
-            updateComputersPerformance({
+            updatePerformance({
+                moduleName: "Computers",
+                topicName: "genAIInEverydayLife",
                 score: parseFloat((finalScore / 10).toFixed(1)), // scale out of 10
                 accuracy: parseFloat(finalScore.toFixed(2)),     // actual %
                 avgResponseTimeSec: timeTakenSec / Math.max(1, gameProgress.scenariosCompleted),
                 studyTimeMinutes: Math.ceil(timeTakenSec / 60),
-                completed: isVictoryAchieved()
+                completed: isVictoryAchieved(),
+                 
             });
         }
     }, [gameState]);

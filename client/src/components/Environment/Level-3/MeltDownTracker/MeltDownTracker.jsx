@@ -80,7 +80,7 @@ const MeltdownTracker = () => {
   const [submitted, setSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(120);
   //for performance
-  const { updateEnvirnomentPerformance } = usePerformance();
+  const { updatePerformance } = usePerformance();
   const [startTime] = useState(Date.now());
 
   useEffect(() => {
@@ -103,12 +103,15 @@ const MeltdownTracker = () => {
       const avgResponseTimeSec = totalTimeSec / data.length;
       const scaledScore = Number(((score / (data.length * 2)) * 10).toFixed(2));
 
-      updateEnvirnomentPerformance({
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "climateAnalyst",
         score: scaledScore,
         accuracy: (score / (data.length * 2)) * 100,
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: score >= 8,
+     
       });
     }
   }, [timeLeft, currentIndex]);
