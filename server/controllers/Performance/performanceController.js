@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 export const updatePerformance = async (req, res) => {
     const {
         userId, 
-        moduleName,           // e.g., "Finance"
+        moduleName,            // e.g., "Finance"
         topicName,            // e.g., "budgetExpert" (optional)
         score,
         accuracy,

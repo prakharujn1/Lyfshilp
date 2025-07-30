@@ -49,7 +49,7 @@ export default function StoryboardSprintGame() {
     const [currentSlide, setCurrentSlide] = useState(0);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+   const [startTime,setStartTime] = useState(Date.now());
     useEffect(() => {
         if (step === 4 && points >= 7) {
             completeDMChallenge(1, 1);

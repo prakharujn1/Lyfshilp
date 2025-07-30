@@ -55,7 +55,7 @@ export default function CommunicationCombatZone() {
   const [loading, setLoading] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (feedback) {
       completeLeadershipChallenge(0, 2);

@@ -685,7 +685,7 @@ export default function MazeOfChoices() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
 
   const currentQuestionData = questions.find((q) => q.id === currentQuestion);

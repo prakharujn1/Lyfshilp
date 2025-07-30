@@ -34,28 +34,30 @@ const TortLawGame3 = () => {
   const [completedChallenges, setCompletedChallenges] = useState([]);
 
   useEffect(() => {
-  if (currentPage !== "results") return;
+    if (currentPage !== "results") return;
 
-  const endTime = Date.now();
-  const timeSpent = Math.round((endTime - startTime) / 60000); // in minutes
-  const totalQuestions = cases.length;
-  const scaledScore = (score / (totalQuestions * 10)) * 10; // scale to 10
-  const accuracy = Math.round((score / (totalQuestions * 10)) * 100); // scale to 100
-  const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+    const endTime = Date.now();
+    const timeSpent = Math.round((endTime - startTime) / 60000); // in minutes
+    const totalQuestions = cases.length;
+    const scaledScore = (score / (totalQuestions * 10)) * 10; // scale to 10
+    const accuracy = Math.round((score / (totalQuestions * 10)) * 100); // scale to 100
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
 
-  updateLawPerformance({
-    score: scaledScore, // now out of 10
-    accuracy, // already out of 100
-    avgResponseTimeSec,
-    studyTimeMinutes: timeSpent,
-    completed: score >= 60,
-  });
-}, [currentPage]);
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "beginnerLegalIntellect",
+      score: scaledScore, // now out of 10
+      accuracy, // already out of 100
+      avgResponseTimeSec,
+      studyTimeMinutes: timeSpent,
+      completed: score >= 60,
+    });
+  }, [currentPage]);
 
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const { updatePerformance } = usePerformance();
+  const [startTime,setStartTime] = useState(Date.now());
 
   const cases = [
     {

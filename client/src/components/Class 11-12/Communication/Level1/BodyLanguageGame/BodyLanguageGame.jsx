@@ -42,7 +42,7 @@ export default function BodyLanguageGame() {
   const [showGame, setShowGame] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
 
   const handleDrop = (candidateId, label) => {
@@ -86,15 +86,20 @@ export default function BodyLanguageGame() {
 
       // ✅ Performance tracking
       const endTime = Date.now();
-      const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const studyTimeMinutes = Math.max(1, Math.round(totalTimeSec / 60));
+
+      const numberOfCandidates = candidates.length; // = 3
+      const avgResponseTimeSec = Math.floor(totalTimeSec / numberOfCandidates);
+
       const accuracy = 100;
       const finalScore = 10;
-
       updatePerformance({
         moduleName: "Communication",
         topicName: "situationalAwareness",
         completed: true,
         studyTimeMinutes,
+        avgResponseTimeSec,
         score: finalScore,
         accuracy,
       });
@@ -106,6 +111,8 @@ export default function BodyLanguageGame() {
     setSelections({});
     setResult({});
     setSubmitted(false);
+    setStartTime(Date.now());
+
   };
 
 

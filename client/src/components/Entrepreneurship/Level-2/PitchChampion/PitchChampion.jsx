@@ -16,7 +16,7 @@ const PitchChampion = () => {
   const [submitted, setSubmitted] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (submitted && verified) {

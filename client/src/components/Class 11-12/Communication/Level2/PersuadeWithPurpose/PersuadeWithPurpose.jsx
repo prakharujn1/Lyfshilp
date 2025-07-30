@@ -75,7 +75,7 @@ export default function PersuadeWithPurpose() {
     const [timeLeft, setTimeLeft] = useState(480); // 8 minutes
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
     useEffect(() => {
         if (!hasStarted) return;
@@ -108,6 +108,7 @@ export default function PersuadeWithPurpose() {
         setFeedback("");
         setTimeLeft(480);
         setHasStarted(false);
+        setStartTime(Date.now());
     };
     const handleDrop = (cardId, section) => {
         const allCards = [...cardData.intro, ...cardData.body, ...cardData.conclusion];
@@ -148,10 +149,14 @@ export default function PersuadeWithPurpose() {
             setFeedback("🧠 Try balancing emotion with logic and credibility to strengthen your pitch.");
         }
 
-        // ✅ Performance tracking
+        // ✅ Performance tracking with avgResponseTimeSec
         const endTime = Date.now();
-        const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
-        const accuracy = isBalanced ? 100 : 50; // Simplified logic
+        const elapsedMs = endTime - startTime;
+        const studyTimeMinutes = Math.max(1, Math.round(elapsedMs / 60000));
+        const totalCardsSelected =
+            selectedCards.intro.length + selectedCards.body.length + selectedCards.conclusion.length;
+        const avgResponseTimeSec = Math.round(elapsedMs / 1000 / Math.max(1, totalCardsSelected));
+        const accuracy = isBalanced ? 100 : 50;
         const score = isBalanced ? 10 : 5;
 
         updatePerformance({
@@ -161,10 +166,9 @@ export default function PersuadeWithPurpose() {
             studyTimeMinutes,
             score,
             accuracy,
-            
+            avgResponseTimeSec,
         });
     };
-
 
     if (isSuccess) {
         return (

@@ -66,7 +66,7 @@ const Challenge3 = () => {
   const [currentAction, setCurrentAction] = useState("");
 
   const { updatePerformance } = usePerformance(); // for performance
-  const [startTime] = useState(Date.now()); // for performance
+ const [startTime,setStartTime] = useState(Date.now()); // for performance
 
 
   const getTotalSpent = () =>

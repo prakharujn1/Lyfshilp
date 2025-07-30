@@ -12,7 +12,7 @@ export default function ThoughtReframer() {
     const [loading, setLoading] = useState(false);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
     const handleChange = (i, value) => {
         const updated = [...thoughts];

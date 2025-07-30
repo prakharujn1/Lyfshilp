@@ -53,7 +53,7 @@ export default function BurnoutBarometer() {
   const [error, setError] = useState("");
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   const handleChange = (key, val) => {
     setValues({ ...values, [key]: parseInt(val) });
   };

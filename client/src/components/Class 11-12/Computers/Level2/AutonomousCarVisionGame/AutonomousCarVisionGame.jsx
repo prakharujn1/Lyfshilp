@@ -19,7 +19,7 @@ const AutonomousCarVisionGame = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
 
   // Simplified road scenarios with objects to detect
@@ -239,6 +239,8 @@ const AutonomousCarVisionGame = () => {
         completed: hasWon,
         
       });
+      setStartTime(Date.now());
+
 
       setTimeout(() => {
         setGameState('results');

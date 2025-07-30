@@ -53,7 +53,7 @@ const HelpNetworkBuilder = () => {
   const [score, setScore] = useState(0);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const handleSelect = (opt) => {
     if (answers[current] != null) return;

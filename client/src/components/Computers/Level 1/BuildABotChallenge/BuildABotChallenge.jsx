@@ -51,7 +51,7 @@ const BuildABotChallenge = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const handleDesignSelect = (design) => {
     setFormData(prev => ({ ...prev, design }));

@@ -93,7 +93,7 @@ const DilemmaCards = () => {
   const [showConsequence, setShowConsequence] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (index >= dilemmas.length && score >= 9) {
       completeEnvirnomentChallenge(2, 2); // Challenge 3, Task 1 completed

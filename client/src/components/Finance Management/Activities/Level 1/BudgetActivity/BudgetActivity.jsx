@@ -50,7 +50,7 @@ const BudgetActivity = () => {
 
   //for performance 
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const feedbackMap = {
     Sad: "💸 Save some! Don't be a Spendthrift",

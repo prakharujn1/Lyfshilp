@@ -18,7 +18,9 @@ import {
 } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useFinance } from "@/contexts/FinanceContext";  
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+import { useFinance } from "@/contexts/FinanceContext";
+
 const StockTraderGame = () => {
   const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
@@ -28,6 +30,10 @@ const StockTraderGame = () => {
   const [gameData, setGameData] = useState({});
   const [finalResults, setFinalResults] = useState(null);
   const [notifications, setNotifications] = useState([]);
+
+  //for performance
+  const { updatePerformance } = usePerformance();
+  const [startTime, setStartTime] = useState(Date.now());
 
   const initialStocks = {
     TECHZ: {
@@ -146,7 +152,7 @@ const StockTraderGame = () => {
   const nextDay = () => {
     if (currentDay >= 7) {
       calculateFinalResults();
-      completeFinanceChallenge(0,1); // ✅ Mark challenge complete
+      completeFinanceChallenge(0, 1); // ✅ Mark challenge complete
       setCurrentPage("results");
       return;
     }
@@ -192,16 +198,36 @@ const StockTraderGame = () => {
 
     const profit = totalValue - 50000;
     const profitPercent = (profit / 50000) * 100;
+    const winRate = calculateWinRate();
+    const totalTrades = gameData.trades.length;
+
+    const endTime = Date.now();
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+    const avgResponseTimeSec = Math.round(totalTimeMs / (gameState.totalMonths * 1000)); // simple average
+
+    // Scale score out of 10 and accuracy out of 100
+    const score = Math.min(10, Math.max(0, (profitPercent / 10).toFixed(1))); // cap between 0–10
+    const accuracy = winRate; // already in %
+
+    // 🔁 Update performance
+    updatePerformance({
+      moduleName: "Finance",
+      topicName: "investorLevel",
+      score: Number(score),
+      accuracy: Number(accuracy),
+      studyTimeMinutes,
+      avgResponseTimeSec,  
+      completed: true,
+    });
 
     setFinalResults({
       totalValue,
       profit,
       profitPercent,
-      trades: gameData.trades.length,
-      winRate: calculateWinRate(),
+      trades: totalTrades,
+      winRate,
     });
   };
-
   // Replace your existing calculateWinRate function with this corrected version:
 
   const calculateWinRate = () => {
@@ -245,13 +271,13 @@ const StockTraderGame = () => {
     setPortfolio({});
     setGameData({});
     setFinalResults(null);
+    setStartTime(Date.now());
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage, currentDay]);
 
-  // Intro Page Component
   // Intro Page Component
   const IntroPage = () => (
     <div className="min-h-screen w-[90%] mx-auto mt-5 mb-5 rounded-xl bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center p-4">
@@ -403,8 +429,8 @@ const StockTraderGame = () => {
       {gameData.dayNews && (
         <div
           className={`mb-4 p-4 rounded-2xl border-2 animate-bounce ${gameData.dayNews.type === "positive"
-              ? "bg-green-500/20 border-green-400 text-green-100"
-              : "bg-red-500/20 border-red-400 text-red-100"
+            ? "bg-green-500/20 border-green-400 text-green-100"
+            : "bg-red-500/20 border-red-400 text-red-100"
             }`}
         >
           <div className="flex items-center gap-3">
@@ -517,10 +543,10 @@ const StockTraderGame = () => {
               <div className="text-white/70 text-xs">RSI</div>
               <div
                 className={`font-bold ${rsi > 70
-                    ? "text-red-300"
-                    : rsi < 30
-                      ? "text-green-300"
-                      : "text-white"
+                  ? "text-red-300"
+                  : rsi < 30
+                    ? "text-green-300"
+                    : "text-white"
                   }`}
               >
                 {rsi.toFixed(0)}
@@ -607,8 +633,8 @@ const StockTraderGame = () => {
 
               <div
                 className={`rounded-2xl p-6 border ${finalResults.profit >= 0
-                    ? "bg-blue-500/20 border-blue-400/30"
-                    : "bg-red-500/20 border-red-400/30"
+                  ? "bg-blue-500/20 border-blue-400/30"
+                  : "bg-red-500/20 border-red-400/30"
                   }`}
               >
                 <Trophy className="w-12 h-12 mb-2 text-yellow-400 mx-auto" />
@@ -999,10 +1025,10 @@ const StockTraderGame = () => {
   const Toast = ({ notification, onClose }) => (
     <div
       className={`p-4 rounded-lg shadow-lg transform transition-all duration-300 max-w-sm ${notification.type === "success"
-          ? "bg-green-500"
-          : notification.type === "error"
-            ? "bg-red-500"
-            : "bg-blue-500"
+        ? "bg-green-500"
+        : notification.type === "error"
+          ? "bg-red-500"
+          : "bg-blue-500"
         } text-white animate-bounce`}
     >
       <div className="flex items-start gap-2">

@@ -89,7 +89,7 @@ export default function HelpHub() {
   const { width, height } = useWindowSize();
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const checkScore = () => {
     return answers.filter((ans, i) => ans === scenarios[i].correct).length;
   };

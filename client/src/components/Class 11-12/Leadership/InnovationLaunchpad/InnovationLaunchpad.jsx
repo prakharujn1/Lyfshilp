@@ -63,7 +63,7 @@ const InnovationLaunchpadGame = () => {
   const [submitted, setSubmitted] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (submitted) {
       const totalTimeMs = Date.now() - startTime;

@@ -49,7 +49,7 @@ const PitchItGame = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const handleGameFinish = () => {
     const endTime = Date.now();

@@ -43,7 +43,7 @@ export default function AIChallengeGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const handleDrop = (deviceId) => {
     const device = allDevices.find(d => d.id === parseInt(deviceId));

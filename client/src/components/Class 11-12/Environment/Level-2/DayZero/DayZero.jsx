@@ -107,7 +107,7 @@ const DayZero = () => {
   const { width, height } = useWindowSize();
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const current = questions[step - 1];
 

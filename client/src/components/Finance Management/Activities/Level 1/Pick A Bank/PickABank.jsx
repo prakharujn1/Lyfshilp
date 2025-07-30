@@ -231,7 +231,7 @@ export default function PickABank() {
 
   //for Performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const handleSubmit = async (e) => {
     e.preventDefault();

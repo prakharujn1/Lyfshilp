@@ -49,7 +49,7 @@ const DecodetheMessage = () => {
   const [draggedLabel, setDraggedLabel] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     const allCorrect = scenarios.every(
       (s) => s.userAnswer.replace(/^[^a-zA-Z]+/, '') === s.correctLabel

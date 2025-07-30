@@ -33,7 +33,7 @@ const PRCrisisGame = () => {
     const [hasStarted, setHasStarted] = useState(false);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
 
     useEffect(() => {
@@ -129,6 +129,7 @@ const PRCrisisGame = () => {
         setFeedback("");
         setGameDone(false);
         setTimeLeft(10 * 60);
+        setStartTime(Date.now());
     };
 
     useEffect(() => {

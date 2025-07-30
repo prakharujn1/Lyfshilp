@@ -42,7 +42,7 @@ export default function OverspendTrap() {
 
   //for Performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const problem =
     "Your friend just spent ₹1,200 on concert tickets and now can not pay for school trip fees. What would you do?";

@@ -46,7 +46,7 @@ export default function FutureMeInAI() {
 
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+   const [startTime,setStartTime] = useState(Date.now());
 
     useEffect(() => {
         if (step === 2) {

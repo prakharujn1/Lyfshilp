@@ -13,7 +13,7 @@ const LevelController = () => {
     const [score, setScore] = useState(0);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+   const [startTime,setStartTime] = useState(Date.now());
 
     useEffect(() => {
         if (stage === 4) {

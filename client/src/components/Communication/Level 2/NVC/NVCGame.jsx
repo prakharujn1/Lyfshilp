@@ -19,7 +19,7 @@ const NVCGame = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   const [responseTimes, setResponseTimes] = useState([]);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
 

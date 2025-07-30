@@ -29,7 +29,7 @@ export default function InboxInsightGame() {
     const [loading, setLoading] = useState(false);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+   const [startTime,setStartTime] = useState(Date.now());
     const APIKEY = import.meta.env.VITE_API_KEY;
 
     const isAllEmailsFilled = responses.every(

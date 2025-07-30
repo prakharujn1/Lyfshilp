@@ -24,7 +24,7 @@ const PlatformPickerGame = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const contentCards = [
     {

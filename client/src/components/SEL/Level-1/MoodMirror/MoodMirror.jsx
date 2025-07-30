@@ -46,7 +46,7 @@ const MoodMirror = () => {
   const [feedbackGif, setFeedbackGif] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (showResult) {
       const endTime = Date.now();

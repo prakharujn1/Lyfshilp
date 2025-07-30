@@ -37,7 +37,7 @@ const EQGame = () => {
   const [aiFeedback, setAiFeedback] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (stage === 4 && aiFeedback) {

@@ -43,7 +43,7 @@ const WaterGridCrisis = () => {
   const [final, setFinal] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
 
   const resetGame = () => {

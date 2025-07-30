@@ -55,7 +55,7 @@ export default function CreditCardSimulator() {
   const [showSparkle, setShowSparkle] = useState(false);
 
   const { updatePerformance } = usePerformance(); // for performance
-  const [startTime] = useState(Date.now()); // for performance
+ const [startTime,setStartTime] = useState(Date.now()); // for performance
 
 
   const triggerSparkle = () => {

@@ -32,6 +32,7 @@ const moodGIFs = {
 };
 
 const SayItLikeUMeanItGame = () => {
+  const [startTime, setStartTime] = useState(Date.now());
   const { completeCommunicationChallenge } = useCommunication();
   const { updatePerformance } = usePerformance();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -84,7 +85,7 @@ const SayItLikeUMeanItGame = () => {
           avgResponseTimeSec, // ✅ add this
           score: scaledScore,
           accuracy,
-           
+
         });
 
 

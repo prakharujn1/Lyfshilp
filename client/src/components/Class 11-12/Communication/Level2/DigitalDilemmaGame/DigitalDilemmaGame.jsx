@@ -60,7 +60,7 @@ export default function DigitalDilemmaGame() {
 
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
     useEffect(() => {
         if (!started || gameOver) return;
@@ -120,9 +120,12 @@ export default function DigitalDilemmaGame() {
         setGameOver(true);
 
         const endTime = Date.now();
-        const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
+        const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+        const studyTimeMinutes = Math.max(1, Math.round(totalTimeSec / 60));
+        const avgResponseTimeSec = Math.floor(totalTimeSec / decisionTreeSteps.length);
         const accuracy = Math.round((correctDecisionCount / decisionTreeSteps.length) * 100);
         const score = didSucceed ? 10 : 5;
+
 
         if (didSucceed) {
             completeCommunicationChallenge(1, 1);
@@ -134,9 +137,9 @@ export default function DigitalDilemmaGame() {
             topicName: "situationalAwareness",
             completed: didSucceed,
             studyTimeMinutes,
+            avgResponseTimeSec,
             score,
             accuracy,
-         
         });
     };
 
@@ -152,6 +155,8 @@ export default function DigitalDilemmaGame() {
         setGameOver(false);
         setSuccess(false);
         setTimeLeft(420);
+        setStartTime(Date.now());
+
     };
 
     return (

@@ -72,7 +72,7 @@ const BodySignalMatchup = () => {
   const [step, setStep] = useState("intro");
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (Object.keys(matches).length === signals.length) {

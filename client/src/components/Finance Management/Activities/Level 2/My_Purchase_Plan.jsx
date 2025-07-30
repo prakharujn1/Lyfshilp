@@ -39,7 +39,7 @@ const My_Purchase_Plan = () => {
 
   // for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const parsePossiblyStringifiedJSON = (text) => {
     try {

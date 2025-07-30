@@ -47,7 +47,7 @@ const DecisionRoom = () => {
   const [gameOver, setGameOver] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (gameOver) {
       const totalTimeMs = Date.now() - startTime;

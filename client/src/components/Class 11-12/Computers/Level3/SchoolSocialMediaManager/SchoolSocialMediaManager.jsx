@@ -23,7 +23,7 @@ const SchoolSocialMediaManager = () => {
 
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
     useEffect(() => {
         if (isGameWon) {
@@ -42,6 +42,8 @@ const SchoolSocialMediaManager = () => {
                 completed: true,
             
             });
+            setStartTime(Date.now());
+
         }
     }, [isGameWon]);
 

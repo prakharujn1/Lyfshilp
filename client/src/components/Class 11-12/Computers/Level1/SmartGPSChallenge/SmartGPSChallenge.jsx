@@ -151,7 +151,7 @@ const SmartGPSChallenge = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   // Initialize game grid
   const initializeGrid = useCallback(() => {
@@ -324,6 +324,7 @@ const SmartGPSChallenge = () => {
         completed: true,
         
       });
+      setStartTime(Date.now());
     }
   };
 

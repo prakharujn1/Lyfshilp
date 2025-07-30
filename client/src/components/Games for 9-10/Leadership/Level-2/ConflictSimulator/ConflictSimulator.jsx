@@ -118,7 +118,7 @@ const ConflictSimulator = () => {
   const [showFeedback, setShowFeedback] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (step === scenarios.length) {
       completeLeadershipChallenge(1, 0);

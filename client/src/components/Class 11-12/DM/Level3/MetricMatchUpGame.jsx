@@ -27,7 +27,7 @@ const MetricMatchUpGame = () => {
   const [canProceed, setCanProceed] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   // Game data
   const gameData = {

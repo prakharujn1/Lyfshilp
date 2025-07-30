@@ -17,7 +17,7 @@ const FeedbackLoop = () => {
     const [evaluating, setEvaluating] = useState(false);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
 
     useEffect(() => {
@@ -42,6 +42,7 @@ const FeedbackLoop = () => {
         setTimeLeft(480);
         setGameDone(false);
         setFeedback("");
+        setStartTime(Date.now());
     };
 
     const toggleTone = (tone) => {
@@ -110,7 +111,9 @@ Here is the student's feedback message:
 
             const result = JSON.parse(rawText);
             const { praise, suggestion, tone } = result;
-            const score = [praise, suggestion, tone].filter(Boolean).length;
+            const rawScore = [praise, suggestion, tone].filter(Boolean).length;
+            const score = (rawScore / 3) * 10; // scale to 10
+            const accuracy = (rawScore / 3) * 100; // scale to 100
 
             if (score === 3) {
                 setFeedback("✅ You gave feedback like a leader—honest, helpful, and respectful.");
@@ -125,8 +128,8 @@ Here is the student's feedback message:
                     avgResponseTimeSec: timeTaken,
                     studyTimeMinutes: Math.ceil(timeTaken / 60),
                     completed: true,
-                    score, // Optional, here score is between 0-3
-                   
+                    score,       // out of 10
+                    accuracy,    // out of 100
                 });
             }
             else if (!praise) {

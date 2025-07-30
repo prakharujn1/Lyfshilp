@@ -38,7 +38,7 @@ const WealthQuestGame = () => {
 
   // for performance tracking
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const totalBudget = 10000;
   const allocatedAmount = Object.values(portfolio).reduce(

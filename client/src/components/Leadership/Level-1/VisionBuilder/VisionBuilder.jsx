@@ -16,7 +16,7 @@ const VisionBuilderGame = () => {
   const [warning, setWarning] = useState("");
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const resetAll = () => {
     setScreen("intro");
     setVision("");

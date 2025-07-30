@@ -24,7 +24,7 @@ const DigitalDilemma = () => {
   const [challengeCompleted, setChallengeCompleted] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (score !== null) {
       const timeTakenSec = Math.floor((Date.now() - startTime) / 1000);

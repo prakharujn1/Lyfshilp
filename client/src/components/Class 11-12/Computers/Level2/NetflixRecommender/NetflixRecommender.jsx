@@ -19,7 +19,7 @@ const NetflixRecommendationGame = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (gameStats.totalRecommendations > 0) {
@@ -36,6 +36,8 @@ const NetflixRecommendationGame = () => {
         completed: gameStats.satisfaction >= 80,
         avgResponseTimeSec
       });
+      setStartTime(Date.now());
+
     }
   }, [gameStats.satisfaction >= 80]);
 

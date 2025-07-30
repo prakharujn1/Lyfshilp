@@ -29,6 +29,8 @@ export const PerformanceProvider = ({ children }) => {
         studyTimeMinutes,
         completed,
       });
+      console.log("Performance update");
+
     } catch (err) {
       console.error("Failed to update performance:", err);
     }

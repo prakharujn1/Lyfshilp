@@ -22,7 +22,7 @@ const AdDetectiveGamePage = () => {
   );
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const handleChange = (index, field, value) => {
     console.log(index, field, value);

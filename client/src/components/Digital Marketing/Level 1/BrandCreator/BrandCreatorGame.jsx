@@ -20,7 +20,7 @@ export default function BrandCreatorGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const checkSumbit = () => {
     let x = Object.entries(brand)

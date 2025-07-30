@@ -36,7 +36,7 @@ export default function ReelArchitectGame() {
     const [points, setPoints] = useState(0);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+   const [startTime,setStartTime] = useState(Date.now());
 
     const handleDragStart = (e, index) => {
         e.dataTransfer.setData("dragIndex", index);

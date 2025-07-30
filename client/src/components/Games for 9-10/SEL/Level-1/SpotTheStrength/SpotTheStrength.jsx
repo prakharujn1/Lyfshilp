@@ -52,7 +52,7 @@ const SpotTheStrength = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const handleDrop = (strength, index) => {
     setMatches((prev) => ({ ...prev, [index]: strength }));

@@ -50,7 +50,7 @@ export default function FutureAIArchitect() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const [formData, setFormData] = useState({
     problem: '',

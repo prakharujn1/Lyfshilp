@@ -26,7 +26,7 @@ const PersonalStudyBuddy = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (
@@ -218,6 +218,8 @@ const PersonalStudyBuddy = () => {
           completed: true,
 
         });
+        setStartTime(Date.now());
+
       }
     }
   };

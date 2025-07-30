@@ -30,7 +30,7 @@ const EthicsFirewallGame = () => {
   const [totalScore, setTotalScore] = useState(0);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const scenario = {
     title: "FitTracker Pro: The Data Dilemma",

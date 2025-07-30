@@ -52,7 +52,7 @@ export default function AdCampaignerGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const updateFormData = (field, value) => {
     if (field === "platforms") {

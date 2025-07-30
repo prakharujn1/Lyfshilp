@@ -51,7 +51,7 @@ const MindBodyMatchUp = () => {
   const [showResult, setShowResult] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (showResult) {
       const endTime = Date.now();

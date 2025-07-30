@@ -39,7 +39,7 @@ export default function ResolveItRight() {
 
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
     // Start & manage countdown
     useEffect(() => {
@@ -73,6 +73,7 @@ export default function ResolveItRight() {
         setHasStarted(false);
         setTimeLeft(600);
         setTimeUp(false);
+        setStartTime(Date.now());
     };
     const formatTime = (s) => {
         const m = Math.floor(s / 60).toString().padStart(2, '0');
@@ -139,13 +140,34 @@ Just the JSON.
 
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
 
+                const correctPairsCount = new Set(
+                    pairs
+                        .filter(p =>
+                            [
+                                { starter: "I feel like…", ending: "…this project means a lot to both of us." },
+                                { starter: "Let’s find a way…", ending: "…we can talk this through calmly." },
+                                { starter: "I feel like…", ending: "…we can talk this through calmly." },
+                                { starter: "Let’s find a way…", ending: "…this project means a lot to both of us." },
+                            ].some(cp => cp.starter === p.starter.text && cp.ending === p.ending.text)
+                        )
+                        .map(p => `${p.starter.text}__${p.ending.text}`)
+                ).size;
+
+                const toneCorrect = selectedTones.includes("Calm") && selectedTones.includes("Assertive") && selectedTones.length === 2;
+
+                const total = 5;
+                const correct = correctPairsCount + (toneCorrect ? 2 : 0) + 1; // 1 for final message
+                const score = (correct / total) * 10; // scale to 10
+                const accuracy = (correct / total) * 100;
+
                 updatePerformance({
                     moduleName: "Communication",
                     topicName: "interpersonalSkills",
+                    score: parseFloat(score.toFixed(2)),      // out of 10
+                    accuracy: Math.round(accuracy),           // out of 100
                     avgResponseTimeSec: timeTaken,
                     studyTimeMinutes: Math.ceil(timeTaken / 60),
                     completed: true,
-                 
                 });
             }
         } catch (e) {

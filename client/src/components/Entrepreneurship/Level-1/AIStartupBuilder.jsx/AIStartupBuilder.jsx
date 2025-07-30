@@ -45,7 +45,7 @@ const AIStartupBuilder = () => {
   const [loading, setLoading] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (form.review.startsWith("Looks awesome") && form.submitted) {

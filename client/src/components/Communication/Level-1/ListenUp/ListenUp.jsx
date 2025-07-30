@@ -225,7 +225,7 @@ const ListenUp = () => {
   const [results, setResults] = useState(Array(audioData.length).fill(false));
   // ✅ for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   const [responseTimes, setResponseTimes] = useState(Array(audioData.length).fill(null));
   const questionStartTimes = useRef(Array(audioData.length).fill(Date.now()));
 

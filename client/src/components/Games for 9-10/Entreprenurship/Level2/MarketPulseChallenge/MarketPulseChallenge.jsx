@@ -119,7 +119,7 @@ export default function MarketPulseChallenge() {
   const [loading, setLoading] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const spinIdea = () => {
     const random = ideas[Math.floor(Math.random() * ideas.length)];

@@ -65,7 +65,7 @@ export default function TeamLeadershipGame() {
   const [draggedTeammate, setDraggedTeammate] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (submitted && percent >= 75) {

@@ -19,7 +19,7 @@ const NitrogenReactor = () => {
   const [step, setStep] = useState(1);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   // Q1
   const [q1Process, setQ1Process] = useState("");

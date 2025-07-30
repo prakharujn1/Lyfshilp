@@ -108,7 +108,7 @@ export default function LeanMachineGame() {
   const currentCard = challengeCards[currentIndex];
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const handleMouseDown = (e, index) => {
     setDragIndex(index);

@@ -12,7 +12,7 @@ const InnovationLaunchpad = () => {
   const [reviewing, setReviewing] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const startConfetti = () => {
     confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
   };

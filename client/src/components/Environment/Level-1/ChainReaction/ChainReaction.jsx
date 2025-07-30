@@ -297,7 +297,7 @@ const ChainReaction = () => {
 
       const scaledScore = Number(((score / TOTAL_PUZZLES_SCORE) * 10).toFixed(2));
 
-      updatePerformance({
+      updatePerformance({ 
         moduleName: "Environment",
         topicName: "sustainableLeader",
         score: scaledScore,

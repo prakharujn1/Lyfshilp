@@ -85,7 +85,7 @@ export default function StartupQuest() {
   const [showSummary, setShowSummary] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const handleReset = () => {
     setSelectedTheme("");
     setDraggedPain([]);

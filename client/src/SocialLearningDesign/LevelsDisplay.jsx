@@ -211,34 +211,16 @@ const LevelsDisplay = ({ modules }) => {
                         </div>
                       </div>
 
-                      {isUnlocked ? (
+                      {isUnlocked || role === "admin" ? (
                         <button
                           onClick={() => {
-                            if (!user) navigate("/login");
+                            if (role === "admin") navigate(challenge.path);
+                            else if (!user) navigate("/login");
                             else navigate(challenge.path);
                           }}
                           className={`${buttonBaseClasses} bg-[#10903E] text-white hover:bg-[#0a7d35] hover:scale-[1.02] hover:shadow-md active:scale-[0.98] transition-transform duration-200`}
                         >
-                          <img
-                            src="/imageForDesign/start.svg"
-                            alt="Start Icon"
-                            className="w-4 h-4"
-                          />
-                          <span className="whitespace-nowrap">Start Now</span>
-                        </button>
-                      ) : role === "admin" ? (
-                        <button
-                          onClick={() => {
-                            if (!user) navigate("/login");
-                            else navigate(challenge.path);
-                          }}
-                          className={`${buttonBaseClasses} bg-[#10903E] text-white hover:bg-[#0a7d35] hover:scale-[1.02] hover:shadow-md active:scale-[0.98] transition-transform duration-200`}
-                        >
-                          <img
-                            src="/imageForDesign/start.svg"
-                            alt="Start Icon"
-                            className="w-4 h-4"
-                          />
+                          <img src="/imageForDesign/start.svg" alt="Start Icon" className="w-4 h-4" />
                           <span className="whitespace-nowrap">Start Now</span>
                         </button>
                       ) : (
@@ -246,11 +228,7 @@ const LevelsDisplay = ({ modules }) => {
                           onClick={() => navigate("/payment-required")}
                           className={`${buttonBaseClasses} bg-[#BB8B00] text-white`}
                         >
-                          <img
-                            src="/imageForDesign/unlock.svg"
-                            alt="Unlock Icon"
-                            className="w-4 h-4"
-                          />
+                          <img src="/imageForDesign/unlock.svg" alt="Unlock Icon" className="w-4 h-4" />
                           <span className="whitespace-nowrap">Unlock Now</span>
                         </button>
                       )}

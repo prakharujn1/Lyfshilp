@@ -26,7 +26,7 @@ const SmartEmailGuardian = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   // Sample email dataset
   const emailDataset = [
@@ -211,6 +211,8 @@ const SmartEmailGuardian = () => {
       completed: testAccuracy >= 90,
  
     });
+    setStartTime(Date.now());
+
 
     if (testAccuracy >= 90) {
       completeComputersChallenge(1, 1);

@@ -27,7 +27,7 @@ export default function ReelPlannerGame() {
   const previewRef = useRef(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   const validClick = () => {
     if (
       story.every((part) => part) &&

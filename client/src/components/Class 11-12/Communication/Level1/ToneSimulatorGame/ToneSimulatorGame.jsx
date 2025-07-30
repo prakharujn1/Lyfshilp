@@ -12,7 +12,9 @@ const ToneSimulatorGame = () => {
     const [timeUp, setTimeUp] = useState(false);
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
+    const [responseTimes, setResponseTimes] = useState([]);
+
 
     useEffect(() => {
         let timer;
@@ -51,9 +53,12 @@ const ToneSimulatorGame = () => {
         setTimeUp(false);
         setFeedback("");
         setResponse("");
-    }; const handleScenario1 = (choice) => {
+        setStartTime(Date.now());
+    };
+    const handleScenario1 = (choice) => {
         if (choice === "B") {
             setFeedback("✅ Correct! Tone: Empathetic");
+            setResponseTimes((prev) => [...prev, Date.now()]);
             setTimeout(() => {
                 setFeedback("");
                 setStep(2);
@@ -77,6 +82,7 @@ const ToneSimulatorGame = () => {
 
         if (hasKeyword && hasSalutation && hasPoliteStart) {
             setFeedback("✅ Correct! Tone: Formal and Professional");
+            setResponseTimes((prev) => [...prev, Date.now()]);
             setTimeout(() => {
                 setFeedback("");
                 setStep(3);
@@ -101,6 +107,13 @@ const ToneSimulatorGame = () => {
                 const accuracy = 100;
                 const finalScore = 10;
 
+                // Calculate avg response time in seconds
+                const timestamps = [startTime, ...responseTimes, endTime];
+                const timeDiffs = timestamps.slice(1).map((t, i) => (t - timestamps[i]) / 1000);
+                const avgResponseTimeSec = Math.round(
+                    timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length
+                );
+
                 updatePerformance({
                     moduleName: "Communication",
                     topicName: "communicationSkills",
@@ -108,6 +121,7 @@ const ToneSimulatorGame = () => {
                     studyTimeMinutes,
                     score: finalScore,
                     accuracy,
+                    avgResponseTimeSec, // pass this in
                 });
             }, 2000);
         } else {
