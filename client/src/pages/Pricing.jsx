@@ -70,32 +70,39 @@ const plans = [
 
 const faqData = [
   {
-    question: "Is there a free trial available?",
+    question: "What if I’m not satisfied with EduManiax after joining?",
     answer:
-      "Yes! All users get a 7-day free trial with access to all premium features. No card required.",
+      "No worries! EduManiax offers a 90% refund policy for your peace of mind. Before enrolling, you also get a full demo of the platform, personalized one-on-one interaction, and access to our 24/7 support team to help you at every step.",
     QbgColor: "bg-[#6DEE0E]", // Vivid green
     AbgColor: "bg-[#E9FCD4]", // 🍏 Light green pastel
   },
   {
-    question: "What payment type do you accept?",
+    question: "How is EduManiax different from other platforms?",
     answer:
-      "We accept all major credit and debit cards, PayPal, UPI, and crypto wallets.",
+      "With our unique combination of risk‑free demo and refund policy, personalized onboarding, and round‑the‑clock support, EduManiax is built to ensure every learner feels confident and supported.",
     QbgColor: "bg-[#FEC6C7]", // Soft pink
     AbgColor: "bg-[#FFF1F2]", // 🌸 Ultra-light pink
   },
   {
-    question: "Can I cancel my subscription anytime?",
+    question: "What payment methods are accepted on EduManiax?",
     answer:
-      "Absolutely! You can cancel anytime from your dashboard with just a click. No hidden conditions.",
+      "We use Razorpay as our secure payment gateway, which supports all major payment methods including credit/debit cards, UPI, net banking, PayPal, and wallets. Fast, safe, and hassle-free!",
     QbgColor: "bg-[#DBEDFB]", // Light blue
     AbgColor: "bg-[#F0F9FF]", // ❄️ Icy sky blue
   },
   {
-    question: "Do I get customer support?",
+    question: "Can I speak to someone if I have doubts?",
     answer:
-      "Of course! Our team is available 24/7 via live chat and email to help you anytime.",
+      "Absolutely! If you have any doubts or need help, our dedicated customer support team is just a call away. We're here to guide you throughout your learning journey.",
     QbgColor: "bg-[#DABFFF]", // Lavender
     AbgColor: "bg-[#F5EBFF]", // 🪻 Soft lavender haze
+  },
+  {
+    question: "Is there a free trial available?",
+    answer:
+      "Yes! EduManiax currently offers a one-day free trial that grants access to all premium features.",
+    QbgColor: "bg-[#FFE7A1]", // Soft yellow
+    AbgColor: "bg-[#FFFBE5]", // ☀️ Pale yellow pastel
   },
 ];
 
@@ -118,7 +125,11 @@ const Pricing = () => {
           {plans.map((plan, idx) => (
             <div
               key={idx}
-              className="bg-white shadow-xl rounded-3xl p-6 border border-gray-200 hover:border-[#068F36] transition-all duration-300 flex flex-col justify-between relative"
+              className={`bg-white shadow-xl rounded-3xl p-6 border transition-all duration-300 flex flex-col justify-between relative ${
+                plan.title === "PRO PLAN"
+                  ? "border-[#068F36]"
+                  : "border-gray-200 hover:border-[#068F36]"
+              }`}
             >
               {/* Tags */}
               <div className="relative mb-4">
@@ -172,7 +183,9 @@ const Pricing = () => {
                               : "/pricingDesign/tick.svg"
                           }
                           alt={excluded ? "Not included" : "Included"}
-                          className="w-full h-full object-contain"
+                          className={`w-full h-full object-contain ${
+                            excluded ? "" : "p-[1px]"
+                          }`}
                         />
                       </span>
                       <span className={excluded ? "text-red-600" : ""}>
@@ -233,7 +246,8 @@ const Pricing = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="cursor-pointer transition-all duration-300 overflow-hidden rounded-2xl"
+                  className={`cursor-pointer transition-all duration-300 overflow-hidden rounded-2xl 
+      ${index === 4 ? "md:col-span-2 md:mx-auto md:w-1/2" : ""}`}
                 >
                   {/* Wrapper for Question + Answer */}
                   <div className="rounded-2xl overflow-hidden">
@@ -264,7 +278,7 @@ const Pricing = () => {
                       transition={{ duration: 0.4, ease: "easeInOut" }}
                       className={`overflow-hidden ${faq.AbgColor}`}
                     >
-                      <div className="p-4 pt-6 text-sm text-black">
+                      <div className="p-4 pt-6 text-sm text-black text-left">
                         {faq.answer}
                       </div>
                     </motion.div>

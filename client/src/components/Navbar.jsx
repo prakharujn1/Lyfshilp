@@ -86,7 +86,7 @@ const Navbar = () => {
           <Link to="/courses" className={getNavLinkClasses("/courses")}>
             Courses
           </Link>
-          <Link to="/pricing" className={getNavLinkClasses("/courses")}>
+          <Link to="/pricing" className={getNavLinkClasses("/pricing")}>
             Pricing
           </Link>
           <Link to="/blogs" className={getNavLinkClasses("/blogs")}>
