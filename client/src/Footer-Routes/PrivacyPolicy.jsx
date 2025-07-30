@@ -163,7 +163,7 @@ const termsSections = [
 
 export default function ModernTermsPage() {
   const [activeSection, setActiveSection] = useState("information");
-  const [scrolledPastHero, setScrolledPastHero] = useState(false); 
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
@@ -185,7 +185,7 @@ export default function ModernTermsPage() {
       // Logic for sticky header adjustment
       const heroSection = document.querySelector('.hero-section-identifier');
       if (heroSection) {
-        setScrolledPastHero(window.scrollY > heroSection.offsetHeight - 50); 
+        setScrolledPastHero(window.scrollY > heroSection.offsetHeight - 50);
       }
     };
 
@@ -196,7 +196,7 @@ export default function ModernTermsPage() {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = scrolledPastHero ? 23 : 13; 
+      const offset = scrolledPastHero ? 23 : 13;
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
         top: elementPosition - offset,
@@ -205,14 +205,13 @@ export default function ModernTermsPage() {
     }
   };
 
-  
-  const stickyTopClass = scrolledPastHero ? 'lg:top-23' : 'lg:top-13'; 
+  const stickyTopClass = scrolledPastHero ? 'lg:top-23' : 'lg:top-13';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
       {/* Hero Section */}
       <motion.div
-        className="relative overflow-hidden bg-white border-b border-slate-200 hero-section-identifier" 
+        className="relative overflow-hidden bg-white border-b border-slate-200 hero-section-identifier"
         style={{ opacity }}
       >
         <div className="absolute inset-0 bg-[linear-gradient(258deg,_#3F9400_-1.82%,_#2C6601_100.88%)]" />
@@ -290,7 +289,7 @@ export default function ModernTermsPage() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            <div className={`lg:sticky ${stickyTopClass}`}> 
+            <div className={`lg:sticky ${stickyTopClass}`}>
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -336,7 +335,8 @@ export default function ModernTermsPage() {
                               trimmed !== "";
 
                             if (trimmed === "") {
-                              return <div key={pointIndex} className="h-2" />;
+                              return (
+                                <div key={pointIndex} className="h-2" />);
                             } else if (isLetteredHeading) {
                               return (
                                 <motion.h3
@@ -371,9 +371,9 @@ export default function ModernTermsPage() {
                               );
                             } else {
                               return (
-                                <motion.p
+                                <motion.div
                                   key={pointIndex}
-                                  className="text-slate-700 leading-relaxed "
+                                  className="flex items-start gap-3 p-1 rounded-lg hover:bg-slate-100 transition-colors duration-200"
                                   initial={{ opacity: 0, x: -20 }}
                                   whileInView={{ opacity: 1, x: 0 }}
                                   transition={{
@@ -382,8 +382,11 @@ export default function ModernTermsPage() {
                                   }}
                                   viewport={{ once: true, margin: "-50px" }}
                                 >
-                                  {trimmed}
-                                </motion.p>
+                                  <div className="flex-shrink-0 w-2 h-2 bg-[#068F36] rounded-full mt-3" />
+                                  <p className="text-[#0000008A] leading-relaxed">
+                                    {trimmed}
+                                  </p>
+                                </motion.div>
                               );
                             }
                           })}

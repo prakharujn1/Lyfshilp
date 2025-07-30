@@ -189,7 +189,7 @@ const termsSections = [
 
 export default function ModernTermsPage() {
   const [activeSection, setActiveSection] = useState("eligibility");
-  const [scrolledPastHero, setScrolledPastHero] = useState(false); 
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
@@ -220,7 +220,7 @@ export default function ModernTermsPage() {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = scrolledPastHero ? 23 : 13; 
+      const offset = scrolledPastHero ? 23 : 13;
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
         top: elementPosition - offset,
@@ -229,7 +229,7 @@ export default function ModernTermsPage() {
     }
   };
 
-  const stickyTopClass = scrolledPastHero ? 'lg:top-23' : 'lg:top-13'; 
+  const stickyTopClass = scrolledPastHero ? 'lg:top-23' : 'lg:top-13';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
@@ -375,17 +375,20 @@ export default function ModernTermsPage() {
                                 </motion.div>
                               );
                             } else {
-                              return (
-                                <motion.p
+                              return ( 
+                                <motion.div
                                   key={pointIndex}
-                                  className="text-slate-700 leading-relaxed "
+                                  className="flex items-start gap-3 p-1 rounded-lg hover:bg-slate-100 transition-colors duration-200"
                                   initial={{ opacity: 0, x: -20 }}
                                   whileInView={{ opacity: 1, x: 0 }}
                                   transition={{ delay: pointIndex * 0.1, duration: 0.5 }}
                                   viewport={{ once: true, margin: "-50px" }}
                                 >
-                                  {trimmed}
-                                </motion.p>
+                                  <div className="flex-shrink-0 w-2 h-2 bg-[#068F36] rounded-full mt-3" />
+                                  <p className="text-[#0000008A] leading-relaxed">
+                                    {trimmed}
+                                  </p>
+                                </motion.div>
                               );
                             }
                           })}
