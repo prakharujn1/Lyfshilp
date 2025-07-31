@@ -218,9 +218,14 @@ const Pricing = () => {
               alt="Payment Methods"
               className="h-6 object-contain"
             />
+            <img
+              src="/pricingDesign/UPI-Logo-vector.svg"
+              alt="UPI"
+              className="h-6 object-contain -ml-2"
+            />
           </div>
           <p className="text-2xs mt-2 text-gray-400">
-            We accept Visa, American Express, Mastercard, Paypal and Crypto
+            We accept Visa, American Express, Mastercard, Paypal, and UPI.
           </p>
         </div>
 
