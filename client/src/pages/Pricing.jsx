@@ -225,7 +225,9 @@ const Pricing = () => {
             />
           </div>
           <p className="text-2xs mt-2 text-gray-400">
-            We accept Visa, American Express, Mastercard, Paypal, and UPI.
+            We accept Visa, American Express, Mastercard,
+            <br className="block sm:hidden" />
+            Paypal, UPI and more.
           </p>
         </div>
 
