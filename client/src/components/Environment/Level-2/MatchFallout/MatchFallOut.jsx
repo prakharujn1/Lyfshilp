@@ -110,6 +110,7 @@ export default function MatchFallOut() {
         completed: score >= 8, // Mark complete only if good score
        
       });
+      setStartTime(Date.now());
     }
   }, [view]);
 
@@ -169,6 +170,7 @@ export default function MatchFallOut() {
     setSlots(Array(initialActions.length).fill(null));
     setScore(null);
     setView("intro");
+    setStartTime(Date.now());
   };
 
   let resultGif = "";
