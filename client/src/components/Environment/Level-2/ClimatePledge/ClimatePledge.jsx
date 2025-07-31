@@ -41,7 +41,7 @@ const ClimatePledge = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
- const [startTime,setStartTime] = useState(Date.now());
+  const [startTime, setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (view === "result" && score >= 5) {
@@ -169,9 +169,9 @@ const ClimatePledge = () => {
       avgResponseTimeSec,
       studyTimeMinutes: Math.ceil(totalTimeSec / 60),
       completed: baseScore >= 5, // ✅ fixed to use baseScore
-       
-    });
 
+    });
+    setStartTime(Date.now());
     setFeedback(newFeedback);
     setScore(baseScore);
     setSubmitted(true);
@@ -206,6 +206,7 @@ const ClimatePledge = () => {
     setTimeLeft(300);
     setSubmitted(false);
     setView("intro");
+    setStartTime(Date.now());
   };
 
   const verifyActionWithGemini = async (field) => {

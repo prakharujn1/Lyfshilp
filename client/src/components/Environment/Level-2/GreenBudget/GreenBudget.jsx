@@ -98,7 +98,7 @@ export default function GreenBudgetGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
- const [startTime,setStartTime] = useState(Date.now());
+  const [startTime, setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (step === "end" && score >= 12) {
@@ -121,8 +121,8 @@ export default function GreenBudgetGame() {
         avgResponseTimeSec,
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: score >= 12, // mark as completed if score is good
-         
       });
+      setStartTime(Date.now());
     }
   }, [step]);
 
@@ -320,7 +320,11 @@ export default function GreenBudgetGame() {
             className="mx-auto mb-4 w-48"
           />
           <button
-            onClick={() => setStep("intro")}
+            onClick={() => {
+              setStep("intro")
+              setStartTime(Date.now());
+            }
+            }
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             Play Again
