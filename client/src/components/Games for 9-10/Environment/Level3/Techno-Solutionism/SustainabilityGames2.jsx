@@ -37,7 +37,7 @@ const SustainabilityGames2 = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const [totalResponseTime, setTotalResponseTime] = useState(0);
 
   const infrastructureQuestions = [

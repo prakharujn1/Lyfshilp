@@ -20,7 +20,7 @@ const StressBusterLab = () => {
   const [score, setScore] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const handleDrop = (e) => {
     const index = e.dataTransfer.getData("toolIndex");
     const tool = tools[index];

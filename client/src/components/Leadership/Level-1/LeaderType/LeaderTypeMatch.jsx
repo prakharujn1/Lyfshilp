@@ -54,7 +54,7 @@ export default function LeaderTypeMatch() {
   const [score, setScore] = useState(0);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     const totalTimeMs = Date.now() - startTime;
 

@@ -32,6 +32,7 @@ const WhatWentWrongGame = () => {
   const [showResult, setShowResult] = useState(false);
   const [challengeCompleted, setChallengeCompleted] = useState(false);
   const { updatePerformance } = usePerformance();
+  const [startTime,setStartTime] = useState(Date.now());
   //for performance
   useEffect(() => {
     if (showResult && !challengeCompleted) {

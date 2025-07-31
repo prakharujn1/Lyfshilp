@@ -20,8 +20,8 @@ const CrimeCivilGame = () => {
   const timerRef = useRef(null);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const { updatePerformance } = usePerformance();
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (currentPage === "results") {
@@ -39,7 +39,9 @@ const CrimeCivilGame = () => {
     const accuracy = Math.round((score / totalQuestions) * 100); // out of 100
     const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
 
-    updateLawPerformance({
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "constitutionalRights",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,

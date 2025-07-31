@@ -185,20 +185,26 @@ model ModulePerformance {
   updatedAt             DateTime   @updatedAt
 
   user                  User       @relation(fields: [userId], references: [id])
+
+  @@unique([userId, moduleName]) // ✅ add this line
 }
 
 model TopicPerformance {
   id                    String     @id @default(cuid())
   userId                String
-  moduleName            String     // e.g., "Finance"
-  topicName             String     // e.g., "budgetExpert"
-  averageScorePerGame   Float      // Average score out of 10
+  moduleName            String
+  topicName             String
+  completedGamesCount   Int
+  averageScorePerGame   Float
   accuracy              Float
   createdAt             DateTime   @default(now())
   updatedAt             DateTime   @updatedAt
 
   user                  User       @relation(fields: [userId], references: [id])
+
+  @@unique([userId, moduleName, topicName]) // ✅ add this line
 }
+
 
 model Blog {
   id               String   @id @default(cuid())

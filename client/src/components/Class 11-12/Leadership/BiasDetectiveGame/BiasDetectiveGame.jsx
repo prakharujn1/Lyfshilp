@@ -44,7 +44,7 @@ const BiasDetectiveGame = () => {
   const [showResult, setShowResult] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (current === cases.length) {
       completeLeadershipChallenge(2, 0);

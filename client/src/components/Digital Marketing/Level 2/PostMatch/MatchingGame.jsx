@@ -97,7 +97,7 @@ export default function MatchingGame() {
   const navigate = useNavigate();
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const handleOptionSelect = (option) => {
     if (!selectedBrand) return;

@@ -114,7 +114,7 @@ export default function SocialMediaDetective() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
 
   useEffect(() => {
@@ -204,6 +204,7 @@ export default function SocialMediaDetective() {
         completed: true,
     
       });
+      setStartTime(Date.now());
     }
   };
 

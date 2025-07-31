@@ -33,7 +33,7 @@ const MiniMarketMaster = () => {
 
   // for performance tracking
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const companies = [
     {

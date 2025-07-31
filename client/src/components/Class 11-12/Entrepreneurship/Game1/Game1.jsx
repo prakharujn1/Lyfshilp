@@ -57,7 +57,7 @@ const ProblemSolutionGame = () => {
   const [showInstructions, setShowInstructions] = useState(true);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const problemExamples = [
     "Too much plastic waste at school",

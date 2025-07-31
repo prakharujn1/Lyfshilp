@@ -26,7 +26,7 @@ export default function PitchArenaPro() {
   const [showPDF, setShowPDF] = useState(false); // 🔁 New state
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const handleDeckChange = (field, value, slide = 'slide1') => {
     setDeck(prev => ({ ...prev, [slide]: { ...prev[slide], [field]: value } }));

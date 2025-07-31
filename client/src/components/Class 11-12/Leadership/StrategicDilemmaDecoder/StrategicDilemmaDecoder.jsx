@@ -50,7 +50,7 @@ export default function FunDilemmaGame() {
     const [currentAnswer, setCurrentAnswer] = useState("");
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
     useEffect(() => {
         if (step === 4 && score >= flashcards.length) {
             const totalTimeMs = Date.now() - startTime;

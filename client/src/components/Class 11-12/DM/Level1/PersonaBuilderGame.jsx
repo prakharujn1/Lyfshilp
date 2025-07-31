@@ -49,7 +49,7 @@ const PersonaBuilderGame = () => {
   const [result, setResult] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const ageOptions = ["13-15", "16-18", "19-22", "23-25", "26-30", "31-35"];
 

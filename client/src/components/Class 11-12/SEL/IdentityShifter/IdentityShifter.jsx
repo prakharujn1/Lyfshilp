@@ -33,7 +33,7 @@ export default function IdentityShifter() {
   const [celebrate, setCelebrate] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (celebrate) {

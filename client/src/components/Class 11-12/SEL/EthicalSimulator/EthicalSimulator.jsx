@@ -267,7 +267,7 @@ export default function EthicalSimulator() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const handleChoice = (i) => {
     const choice = current.choices[i];

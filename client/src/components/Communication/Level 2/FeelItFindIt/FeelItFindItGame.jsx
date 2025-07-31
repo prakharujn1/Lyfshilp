@@ -80,7 +80,7 @@ export default function FeelItFindItGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   const [matchCount, setMatchCount] = useState(0);
 
 

@@ -23,7 +23,7 @@ export default function TheBigSpeech() {
   const [loading, setLoading] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const videoRef = useRef();
   const audioCtxRef = useRef(null);

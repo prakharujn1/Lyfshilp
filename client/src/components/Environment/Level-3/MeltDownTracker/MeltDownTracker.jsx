@@ -81,7 +81,7 @@ const MeltdownTracker = () => {
   const [timeLeft, setTimeLeft] = useState(120);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if ((timeLeft <= 0 || currentIndex >= data.length) && score >= 8) {

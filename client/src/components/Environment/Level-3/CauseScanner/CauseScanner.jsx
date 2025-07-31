@@ -73,7 +73,7 @@ const CauseScanner = () => {
   const [questionKey, setQuestionKey] = useState(0);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (showResult && score >= 6) {
       completeEnvirnomentChallenge(2, 0); // Challenge 1, Task 1 completed

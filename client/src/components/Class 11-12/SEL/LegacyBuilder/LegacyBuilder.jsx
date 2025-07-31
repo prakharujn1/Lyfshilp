@@ -27,7 +27,7 @@ export default function LegacyBuilder() {
   const [quote, setQuote] = useState("");
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const boardRef = useRef(null);
 

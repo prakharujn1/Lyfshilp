@@ -34,8 +34,8 @@ const TortLawGame1 = () => {
   const [completedChallenges, setCompletedChallenges] = useState([]);
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const { updatePerformance } = usePerformance();
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (score >= 50) {
@@ -55,7 +55,9 @@ const TortLawGame1 = () => {
     const studyTimeMinutes = (Date.now() - startTime) / 1000 / 60;
     const completed = challengeScore >= 50;
 
-    updateLawPerformance({
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "beginnerLegalIntellect",
       score: Number(normalizedScore.toFixed(2)), // Score out of 10
       accuracy: Number(accuracy.toFixed(2)),
       avgResponseTimeSec: Number(avgResponseTimeSec.toFixed(2)),

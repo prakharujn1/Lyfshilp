@@ -16,7 +16,7 @@ const EvolutionLabSimulator = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   // Create initial population
   const createRandomCrop = (id) => ({
@@ -270,8 +270,10 @@ const EvolutionLabSimulator = () => {
         avgResponseTimeSec,
         studyTimeMinutes,
         completed: true,
-     
+
       });
+
+      setStartTime(Date.now()); // Reset timer for next module
     }
   }, [isComplete]);
 

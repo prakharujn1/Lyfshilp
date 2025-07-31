@@ -31,7 +31,7 @@ const CustomerServiceChatbotBuilder = () => {
 
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
     useEffect(() => {
         if (gameState === 'results') {
@@ -49,6 +49,7 @@ const CustomerServiceChatbotBuilder = () => {
                 completed: isVictoryAchieved(),
                  
             });
+            setStartTime(Date.now());
         }
     }, [gameState]);
 

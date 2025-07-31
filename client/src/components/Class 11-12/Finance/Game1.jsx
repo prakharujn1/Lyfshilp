@@ -5,7 +5,7 @@ import {
   DollarSign,
   PieChart,
   BarChart3,
-  Trophy, 
+  Trophy,
   Star,
   RefreshCw,
   Play,
@@ -26,7 +26,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useFinance } from "@/contexts/FinanceContext";  
+import { useFinance } from "@/contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
 
 const InvestoQuestPro = () => {
   const { completeFinanceChallenge } = useFinance();
@@ -53,6 +54,10 @@ const InvestoQuestPro = () => {
     badges: [],
     assetGrowth: {},
   });
+
+  //for performance
+  const { updatePerformance } = usePerformance();
+  const [startTime, setStartTime] = useState(Date.now());
 
   const assetTypes = {
     fd: {
@@ -278,9 +283,28 @@ const InvestoQuestPro = () => {
       assetGrowth: assetGrowthData,
     }));
 
+    const endTime = Date.now();
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+    const totalTimeSec = Math.round((endTime - startTime) / 1000);
+    const avgResponseTimeSec = Math.round(totalTimeSec / yearlyResults.length);
+
+    const score = Math.min(Math.round((finalWealth / 100000) * 2), 10);
+    const accuracy = Math.min(Math.round((cagr * 100) / 15), 100);
+
+    updatePerformance({
+      moduleName: "Finance",
+      topicName: "investorLevel",
+      score,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
+
+
     setIsLoading(false);
     setCurrentPage("results");
-    completeFinanceChallenge(0,0); // ✅ Mark challenge as complete
+    completeFinanceChallenge(0, 0); // ✅ Mark challenge as complete
   };
 
   useEffect(() => {
@@ -653,10 +677,10 @@ const InvestoQuestPro = () => {
       const assetsToShow =
         selectedAsset === "all"
           ? Object.keys(assetTypes).filter(
-              (key) =>
-                gameData.assetGrowth[key] &&
-                gameData.assetGrowth[key][0].value > 0
-            )
+            (key) =>
+              gameData.assetGrowth[key] &&
+              gameData.assetGrowth[key][0].value > 0
+          )
           : [selectedAsset];
 
       // Custom tooltip
@@ -678,14 +702,14 @@ const InvestoQuestPro = () => {
                   {chartData.find((d) => d.year === label)?.[
                     `${entry.dataKey}_return`
                   ] && (
-                    <span className="text-xs text-gray-500 ml-2">
-                      (
-                      {chartData
-                        .find((d) => d.year === label)
-                        ?.[`${entry.dataKey}_return`]?.toFixed(1)}
-                      %)
-                    </span>
-                  )}
+                      <span className="text-xs text-gray-500 ml-2">
+                        (
+                        {chartData
+                          .find((d) => d.year === label)
+                          ?.[`${entry.dataKey}_return`]?.toFixed(1)}
+                        %)
+                      </span>
+                    )}
                 </div>
               ))}
             </div>
@@ -844,13 +868,12 @@ const InvestoQuestPro = () => {
               {gameData.events.map((event, index) => (
                 <div
                   key={index}
-                  className={`p-4 rounded-lg border-l-4 ${
-                    event.type === "positive"
-                      ? "bg-green-50 border-green-400"
-                      : event.type === "negative"
+                  className={`p-4 rounded-lg border-l-4 ${event.type === "positive"
+                    ? "bg-green-50 border-green-400"
+                    : event.type === "negative"
                       ? "bg-red-50 border-red-400"
                       : "bg-yellow-50 border-yellow-400"
-                  }`}
+                    }`}
                 >
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                     <div>
@@ -863,11 +886,10 @@ const InvestoQuestPro = () => {
                       {Object.entries(event.effects).map(([asset, effect]) => (
                         <span
                           key={asset}
-                          className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            effect > 0
-                              ? "bg-green-200 text-green-800"
-                              : "bg-red-200 text-red-800"
-                          }`}
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${effect > 0
+                            ? "bg-green-200 text-green-800"
+                            : "bg-red-200 text-red-800"
+                            }`}
                         >
                           {assetTypes[asset].icon} {effect > 0 ? "+" : ""}
                           {effect}%
@@ -949,10 +971,10 @@ const InvestoQuestPro = () => {
                       {badge.includes("Master")
                         ? "🏆"
                         : badge.includes("Champion")
-                        ? "🌟"
-                        : badge.includes("Superstar")
-                        ? "💫"
-                        : "💎"}
+                          ? "🌟"
+                          : badge.includes("Superstar")
+                            ? "💫"
+                            : "💎"}
                     </div>
                     <span className="font-semibold text-gray-800">{badge}</span>
                   </div>
@@ -1038,6 +1060,7 @@ const InvestoQuestPro = () => {
             </button>
             <button
               onClick={() => {
+                setStartTime(Date.now());
                 setCurrentPage("intro");
                 setGameData((prev) => ({
                   ...prev,

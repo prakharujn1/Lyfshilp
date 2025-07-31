@@ -82,7 +82,7 @@ export default function MedicalDiagnosisAssistant() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     const patients = generatePatients(100);
@@ -138,8 +138,10 @@ export default function MedicalDiagnosisAssistant() {
       avgResponseTimeSec,
       studyTimeMinutes,
       completed: acc >= 85, // completed if passed
-   
+
     });
+    setStartTime(Date.now());
+
 
     // ✅ Trigger challenge completion if accuracy is high enough
     if (acc >= 85) {

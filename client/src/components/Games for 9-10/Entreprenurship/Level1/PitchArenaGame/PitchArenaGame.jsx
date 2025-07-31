@@ -48,7 +48,7 @@ export default function PitchArenaGame() {
   const [ethicsAnswers, setEthicsAnswers] = useState({});
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   const steps = [
     { label: " Problem", placeholder: "What problem are you solving?" },

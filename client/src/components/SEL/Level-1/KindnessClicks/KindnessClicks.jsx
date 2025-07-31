@@ -87,7 +87,7 @@ const KindnessClicks = () => {
   const [feedbackCorrect, setFeedbackCorrect] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const yay = new Audio(
     "/children-saying-yay-praise-and-worship-jesus-299607.mp3"
   );

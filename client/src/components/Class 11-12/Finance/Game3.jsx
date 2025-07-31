@@ -22,7 +22,9 @@ import {
   AlertTriangle,
   Gift,
 } from "lucide-react";
-import { useFinance } from "@/contexts/FinanceContext";  
+import { useFinance } from "@/contexts/FinanceContext";
+import { usePerformance } from "@/contexts/PerformanceContext"; // for performance
+
 const FinFestGame = () => {
   const { completeFinanceChallenge } = useFinance();
   const [currentPage, setCurrentPage] = useState("intro");
@@ -58,6 +60,10 @@ const FinFestGame = () => {
     savings: 0,
   });
   const [showMonthlyFlow, setShowMonthlyFlow] = useState(false);
+
+  //for performance
+  const { updatePerformance } = usePerformance();
+  const [startTime, setStartTime] = useState(Date.now());
 
   const avatars = [
     {
@@ -415,10 +421,32 @@ const FinFestGame = () => {
         ),
       };
     });
-    if (gameState.currentMonth === gameState.totalMonths) {
-      completeFinanceChallenge(0,2);
+    if (gameState.currentMonth + 1 > gameState.totalMonths) {
+      completeFinanceChallenge(0, 2);
+
+      const endTime = Date.now();
+      const totalTimeMs = endTime - startTime;
+      const studyTimeMinutes = Math.round(totalTimeMs / 60000);
+      const avgResponseTimeSec = Math.round(totalTimeMs / (gameState.totalMonths * 1000)); // simple average
+
+      const rawScore = gameState.netWorth / 100000;
+      const score = Math.min(10, Math.round(rawScore * 10 * 10) / 10); // scaled to 10
+
+      const rawAccuracy = (gameState.creditScore - 300) / 550;
+      const accuracy = Math.min(100, Math.round(rawAccuracy * 100)); // scaled to 100
+
+      updatePerformance({
+        moduleName: "Finance",
+        topicName: "budgetExpert",
+        score,
+        accuracy,
+        studyTimeMinutes,
+        avgResponseTimeSec,
+        completed: true,
+      });
     }
-  };
+  }
+
 
   const handleEventChoice = (accept) => {
     if (!currentEvent) return;
@@ -515,13 +543,14 @@ const FinFestGame = () => {
     });
     setCurrentPage("intro");
     setAnimations([]);
+    setStartTime(Date.now());
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage, gameState.currentMonth]);
 
-  // Intro Page
+
   // Intro Page
   const IntroPage = () => (
     <div className="min-h-screen w-[90%] mx-auto rounded-xl mt-5 mb-5 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center p-4">

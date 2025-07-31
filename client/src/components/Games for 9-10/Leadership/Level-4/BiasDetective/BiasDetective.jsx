@@ -37,7 +37,7 @@ const BiasDetective = () => {
   const [currentBiasIndex, setCurrentBiasIndex] = useState(0);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const verifyRewritesWithGemini = async () => {
     const apiKey = import.meta.env.VITE_API_KEY;
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;

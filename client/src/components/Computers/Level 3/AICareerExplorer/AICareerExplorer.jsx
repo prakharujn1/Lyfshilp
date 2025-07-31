@@ -20,7 +20,7 @@ export default function AICareerExplorerGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const [careerData, setCareerData] = useState(
     careers.map((c) => ({ ...c, skills: "", aiHelps: "", interest: "" }))

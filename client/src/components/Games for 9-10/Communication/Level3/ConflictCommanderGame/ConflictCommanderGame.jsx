@@ -10,7 +10,7 @@ export default function ConflictCommanderGame() {
   const [showResult, setShowResult] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   const step1Options = [
     { id: "s1a", text: "😤 “You’re just yelling again.”", correct: false },
     { id: "s1b", text: "😟 “I get that you’re upset.”", correct: true },

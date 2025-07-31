@@ -17,7 +17,7 @@ const EQTracker = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (step === 3 && isSuccess) {
       completeLeadershipChallenge(1, 1);

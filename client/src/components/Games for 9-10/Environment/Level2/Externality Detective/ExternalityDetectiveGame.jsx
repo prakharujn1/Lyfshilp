@@ -18,7 +18,7 @@ const ExternalityDetectiveGame = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   // Game data - scenarios and their externalities
   const cardPairs = [

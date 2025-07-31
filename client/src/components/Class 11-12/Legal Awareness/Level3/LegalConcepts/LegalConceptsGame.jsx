@@ -58,8 +58,8 @@ export default function LegalConceptsGame() {
   const navigate = useNavigate();
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const { updatePerformance } = usePerformance();
+  const [startTime,setStartTime] = useState(Date.now());
 
   // Timer effect
   useEffect(() => {
@@ -80,24 +80,26 @@ export default function LegalConceptsGame() {
   }, [timeLeft, gameEnded]);
 
   useEffect(() => {
-  if (!gameEnded) return;
+    if (!gameEnded) return;
 
-  const endTime = Date.now();
-  const totalQuestions = availBrands.length;
-  const correctAnswers = matches.filter((m) => m.isCorrect).length;
-  const scaledScore = (correctAnswers / totalQuestions) * 10;
-  const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
-  const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
-  const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
+    const endTime = Date.now();
+    const totalQuestions = availBrands.length;
+    const correctAnswers = matches.filter((m) => m.isCorrect).length;
+    const scaledScore = (correctAnswers / totalQuestions) * 10;
+    const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+    const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
+    const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-  updateLawPerformance({
-    score: scaledScore,
-    accuracy,
-    avgResponseTimeSec,
-    studyTimeMinutes,
-    completed: true,
-  });
-}, [gameEnded]);
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "courtroomManerism",
+      score: scaledScore,
+      accuracy,
+      avgResponseTimeSec,
+      studyTimeMinutes,
+      completed: true,
+    });
+  }, [gameEnded]);
 
 
   const handleTimeUp = () => {

@@ -98,7 +98,7 @@ export default function GreenBudgetGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (step === "end" && score >= 12) {

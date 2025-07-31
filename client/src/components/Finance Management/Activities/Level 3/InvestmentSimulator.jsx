@@ -7,7 +7,7 @@ import { usePerformance } from "@/contexts/PerformanceContext"; // for performan
 const InvestmentSimulator = () => {
   const { completeFinanceChallenge } = useFinance();
   const { updatePerformance } = usePerformance(); // for performance
-  const [startTime] = useState(Date.now()); // for performance
+ const [startTime,setStartTime] = useState(Date.now()); // for performance
   const [allocations, setAllocations] = useState({
     fixedDeposits: 0,
     gold: 0,

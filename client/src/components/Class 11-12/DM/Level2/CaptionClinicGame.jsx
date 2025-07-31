@@ -23,7 +23,7 @@ const CaptionClinicGame = () => {
   const [celebrationMode, setCelebrationMode] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const originalCaption =
     "Buy our new energy drink now. It's very good for concentration.";

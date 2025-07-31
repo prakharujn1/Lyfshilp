@@ -12,7 +12,7 @@ const EthicalLogicMaze = () => {
   const [showBadge, setShowBadge] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (step === "final" && showBadge) {
       completeLeadershipChallenge(2, 0);

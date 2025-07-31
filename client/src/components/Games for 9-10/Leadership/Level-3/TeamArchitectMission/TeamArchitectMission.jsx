@@ -47,7 +47,7 @@ const TeamArchitectMission = () => {
   const [result, setResult] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (!result) return;

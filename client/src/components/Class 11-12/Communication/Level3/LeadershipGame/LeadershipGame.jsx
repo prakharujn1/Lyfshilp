@@ -17,7 +17,7 @@ export default function LeadershipGame() {
   const [evaluating, setEvaluating] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const tones = ["Assertive", "Aggressive", "Passive", "Motivating"];
 
@@ -70,6 +70,7 @@ export default function LeadershipGame() {
     setFeedback("");
     setGameDone(false);
     setTimeLeft(8 * 60);
+    setStartTime(Date.now());
   };
 
   const submitFinal = async () => {
@@ -136,7 +137,6 @@ Here is the student's message:
         avgResponseTimeSec: timeTakenSec,
         studyTimeMinutes: Math.ceil(timeTakenSec / 60),
         completed: correctCount === 3,
-       
       });
 
       if (correctCount === 3) {

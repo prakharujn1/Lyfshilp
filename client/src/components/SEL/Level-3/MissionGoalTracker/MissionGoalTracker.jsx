@@ -114,7 +114,7 @@ const MissionGoalTracker = () => {
   const [showCorrect, setShowCorrect] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (resultMessage && isCorrect()) {
       completeSELChallenge(2, 0); // ✅ Adjust the parameters as needed

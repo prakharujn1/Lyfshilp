@@ -47,7 +47,7 @@ export default function ActiveListeningGame() {
 
     //for performance
     const { updatePerformance } = usePerformance();
-    const [startTime] = useState(Date.now());
+    const [startTime,setStartTime] = useState(Date.now());
 
     // Timer countdown effect
     useEffect(() => {
@@ -170,17 +170,20 @@ Here is the student’s response:
 
                 // ⬇️ Performance Tracking
                 const endTime = Date.now();
-                const studyTimeMinutes = Math.max(1, Math.round((endTime - startTime) / 60000));
-
+                const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+                const studyTimeMinutes = Math.max(1, Math.round(totalTimeSec / 60));
+                const avgResponseTimeSec = Math.floor(totalTimeSec / 3); // 3 questions
                 const finalScore = 10;
+                const accuracy = 100;
 
                 updatePerformance({
                     moduleName: "Communication",
                     topicName: "emotionalIntelligence",
                     completed: true,
                     studyTimeMinutes,
+                    avgResponseTimeSec,
                     score: finalScore,
-                     
+                    accuracy,
                 });
             }
             else if (!empathy) {
@@ -208,6 +211,7 @@ Here is the student’s response:
         setLoading(false);
         setTimeLeft(7 * 60);
         setTimeUp(false);
+        setStartTime(Date.now());
     };
     if (timeUp) {
         return (

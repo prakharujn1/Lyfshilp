@@ -79,7 +79,7 @@ export default function AnalyticsDashboard() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (!challengeCompleted) return;

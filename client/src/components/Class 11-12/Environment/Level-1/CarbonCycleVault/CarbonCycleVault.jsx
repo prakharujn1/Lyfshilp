@@ -26,7 +26,7 @@ const CarbonCycleVault = () => {
   const [page, setPage] = useState("intro");
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
 
   const [sequence, setSequence] = useState([
     "Respiration",
@@ -101,8 +101,6 @@ const CarbonCycleVault = () => {
         avgResponseTimeSec: parseFloat((totalTimeMs / 1000).toFixed(2)),
         studyTimeMinutes: parseFloat((totalTimeMs / 60000).toFixed(2)),
         completed: true,
-        climateAnalystAvgScore: 10,
-        climateAnalystAccuracy: 100,
       };
 
       updatePerformance(payload);

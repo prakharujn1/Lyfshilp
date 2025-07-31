@@ -107,7 +107,7 @@ export default function MatchTermsGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (!gameEnded) return;

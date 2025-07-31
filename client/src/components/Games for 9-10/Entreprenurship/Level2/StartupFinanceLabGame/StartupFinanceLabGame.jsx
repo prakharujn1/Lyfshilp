@@ -63,7 +63,7 @@ export default function StartupFinanceFunGame() {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+ const [startTime,setStartTime] = useState(Date.now());
   useEffect(() => {
     if (!currentDilemma && decisionLog.length === dilemmas.length) {
       const endTime = Date.now();

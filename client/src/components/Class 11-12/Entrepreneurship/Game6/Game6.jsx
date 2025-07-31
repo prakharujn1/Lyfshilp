@@ -34,7 +34,7 @@ export default function SDGStartupQuest() {
   const [submitted, setSubmitted] = useState(false);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   const toggleSDG = (id) => {
     if (selectedSDGs.includes(id)) {
       setSelectedSDGs(selectedSDGs.filter((s) => s !== id));

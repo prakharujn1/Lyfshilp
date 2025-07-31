@@ -63,8 +63,8 @@ export default function LandmarkCasesGame() {
   const navigate = useNavigate();
 
   //for performance
-  const { updateLawPerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const { updatePerformance } = usePerformance();
+  const [startTime,setStartTime] = useState(Date.now());
 
   // Timer effect
   useEffect(() => {
@@ -95,7 +95,9 @@ export default function LandmarkCasesGame() {
     const avgResponseTimeSec = Math.round((endTime - startTime) / (1000 * totalQuestions));
     const studyTimeMinutes = Math.round((endTime - startTime) / 60000);
 
-    updateLawPerformance({
+    updatePerformance({
+      moduleName: "Law",
+      topicName: "learnedCounsel",
       score: scaledScore,
       accuracy,
       avgResponseTimeSec,

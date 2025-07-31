@@ -74,7 +74,7 @@ const ChessMasterTrainer = () => {
 
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime, setStartTime] = useState(Date.now());
 
   useEffect(() => {
     if (completedScenarios.length === SCENARIOS.length) {
@@ -96,8 +96,9 @@ const ChessMasterTrainer = () => {
         avgResponseTimeSec,
         studyTimeMinutes,
         completed: true,
-      
+
       });
+      setStartTime(Date.now());
     }
   }, [completedScenarios]);
 

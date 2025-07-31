@@ -109,7 +109,7 @@ export default function BoundaryBuilder() {
   const [selected, setSelected] = useState(null);
   //for performance
   const { updatePerformance } = usePerformance();
-  const [startTime] = useState(Date.now());
+  const [startTime,setStartTime] = useState(Date.now());
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-blue-100 p-6 font-sans">
       <motion.div
