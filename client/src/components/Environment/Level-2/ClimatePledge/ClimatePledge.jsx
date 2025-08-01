@@ -90,7 +90,7 @@ const reducer = (state, action) => {
         suggestion: action.payload.message,
         isVerified: true,
       };
-    case "NEXT_QUESTION":
+    case "NEXT_QUESTION": {
       // Record the last answer
       const newAnswer = {
         question: QUESTIONS[state.currentQuestionIndex].question,
@@ -121,7 +121,8 @@ const reducer = (state, action) => {
           score: newScore,
         };
       }
-    case "FINISH_GAME":
+    }
+    case "FINISH_GAME": {
       // Timer ran out. Save current if any.
       const finalAnswers = [...state.answers];
       if (state.inputValue && finalAnswers.length < QUESTIONS.length) {
@@ -138,6 +139,7 @@ const reducer = (state, action) => {
         answers: finalAnswers,
         score: finalAnswers.filter((a) => a.isCorrect).length,
       };
+    }
     case "RESET_GAME":
       return initialState;
     case "REVIEW_ANSWERS":
@@ -290,7 +292,7 @@ const ClimatePledgeGame = () => {
 
             {/* Title */}
             <div className="flex w-[33.75vw] flex-col justify-end items-center flex-nowrap relative z-[1] mt-[7vh] mr-0 mb-0 ml-[32.68vw]">
-              <span className="flex w-[77vw] md:w-[44.06vw] h-[7vh] md:h-[5.33vh] justify-center items-center shrink-0 font-['Comic_Neue'] text-[3.1vh] leading-[4vh] lg:text-[5vh] font-bold leading-[2.66vh] text-[rgba(75,75,75,0.8)] relative text-center z-[2]">
+              <span className="flex w-[77vw] md:w-[44.06vw] h-[7vh] md:h-[5.33vh] justify-center items-center shrink-0 font-['Comic_Neue'] text-[3.1vh] lg:text-[5vh] font-bold leading-[2.66vh] text-[rgba(75,75,75,0.8)] relative text-center z-[2]">
                 Create Your 5-Point Climate Pledge
               </span>
             </div>
