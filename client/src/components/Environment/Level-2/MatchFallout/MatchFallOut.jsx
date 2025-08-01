@@ -376,7 +376,6 @@ const MatchFallout = () => {
     setSequenceSlotsContent(newSequenceSlotsContent);
   };
 
-
   const { setNodeRef: setAvailableCardsAreaRef } = useDroppable({ id: 'available-cards-area' });
 
   const handleBackToLevels = () => navigate(-1);

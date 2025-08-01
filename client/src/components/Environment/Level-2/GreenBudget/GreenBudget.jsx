@@ -312,6 +312,7 @@ export default function GreenBudgetGame() {
     }
   }, [currentQuestionIndex, questions.length]);
 
+
   // handleSubmit is defined BEFORE the useEffect that calls it.
   const handleSubmit = useCallback(() => {
     // Only enforce 3 items if not auto-submitting due to timer expiring
@@ -374,6 +375,7 @@ export default function GreenBudgetGame() {
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: totalScore >= (questions.length * 5 * 0.8),
       });
+
 
       if (totalScore >= 12) {
         completeEnvirnomentChallenge(1, 0);
@@ -497,6 +499,7 @@ export default function GreenBudgetGame() {
 
       {step === "review" && (
         <ReviewScreen answers={scenarioResults} onBackToResults={handleBackToResults} />
+
       )}
     </div>
   );

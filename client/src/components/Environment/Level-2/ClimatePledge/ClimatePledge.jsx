@@ -157,11 +157,11 @@ const ClimatePledgeGame = () => {
       dispatch({ type: "FINISH_GAME" });
     }
   }, [timeLeft, state.view]);
-
   // Handler for verifying the input with Gemini
   const handleVerify = async () => {
     const result = await verifyPledgeWithGemini(state.inputValue);
     dispatch({ type: "SET_SUGGESTION", payload: result });
+
   };
 
   const handlePlayAgain = () => {
