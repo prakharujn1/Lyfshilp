@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { LogOut } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, logout, role } = useAuth();
+  const fileInputRef = useRef(null);
+  const [avatar, setAvatar] = useState("/dashboardDesign/uploadPic.svg");
 
   useEffect(() => {
     if (!user && role !== "admin") {
@@ -15,6 +16,37 @@ const Dashboard = () => {
 
   const handleLogout = () => {
     logout(navigate);
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setAvatar(imageUrl);
+    }
+  };
+
+  const formatDateWithSuffix = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString("en-GB", { month: "long" });
+    const year = date.getFullYear();
+
+    // Determine the suffix
+    const suffix =
+      day % 10 === 1 && day !== 11
+        ? "st"
+        : day % 10 === 2 && day !== 12
+        ? "nd"
+        : day % 10 === 3 && day !== 13
+        ? "rd"
+        : "th";
+
+    return `${day}${suffix} ${month} ${year}`;
   };
 
   return (
@@ -81,56 +113,135 @@ const Dashboard = () => {
           </div>
 
           {/* PROFILE + CHARACTER */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-            {/* Profile Card */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex flex-col items-center mb-4 relative">
-                <img
-                  src="/avatar_placeholder.png"
-                  alt="Profile Avatar"
-                  className="w-20 h-20 rounded-full border-4 border-white shadow absolute -top-10"
-                />
-                <div className="pt-12 text-center">
-                  <button className="text-sm text-blue-500 hover:underline">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+            {/* LEFT COLUMN (Profile + Comments) */}
+            <div className="flex flex-col gap-6 max-w-[520px]">
+              {/* Profile Card */}
+              <div className="bg-white rounded-xl shadow-md p-6 relative">
+                {/* Avatar */}
+                <div className="flex flex-col items-center relative -mt-12">
+                  <img
+                    src={avatar}
+                    alt="Profile Avatar"
+                    className="w-24 h-24 rounded-full"
+                  />
+
+                  {/* Hidden File Input */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+
+                  {/* Upload Button */}
+                  <button
+                    onClick={handleUploadClick}
+                    className="absolute mt-17 ml-30 transform translate-y-1/2 bg-[#068F36] text-white text-xs px-4 py-1 rounded shadow hover:bg-green-700"
+                  >
                     Upload Photo
                   </button>
                 </div>
+
+                {/* Profile Info */}
+                <div className="grid grid-cols-2 gap-4 text-sm mt-6">
+                  {/* Left Section: Name, Class, Age */}
+                  <div className="border rounded-lg p-4 flex flex-col gap-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-gray-500 text-xs">Your Name</p>
+                        <p className="font-semibold">{user.name}</p>
+                      </div>
+                      <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                        Edit
+                      </button>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-gray-500 text-xs">Class</p>
+                        <p className="font-semibold">{user.userClass}</p>
+                      </div>
+                      <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                        Edit
+                      </button>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-gray-500 text-xs">Age</p>
+                        <p className="font-semibold">{user.age} Yrs.</p>
+                      </div>
+                      <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                        Edit
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Right Section: Phone, Email, Account Created On */}
+                  <div className="border rounded-lg p-4 flex flex-col gap-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-gray-500 text-xs">Phone Number</p>
+                        <p className="font-semibold">{user.phonenumber}</p>
+                      </div>
+                      <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                        Edit
+                      </button>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-gray-500 text-xs">Email ID</p>
+                      </div>
+                      <button className="bg-[#068F36] text-white text-xs px-3 py-1 rounded-lg">
+                        Add Now
+                      </button>
+                    </div>
+
+                    <div>
+                      <p className="text-gray-500 text-xs">
+                        Account Created On
+                      </p>
+                      <p className="font-semibold">
+                        {formatDateWithSuffix(user.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 text-sm mt-4">
-                <div>
-                  <p className="text-gray-500">Your Name</p>
-                  <p className="font-semibold">{user.name}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Phone Number</p>
-                  <p className="font-semibold">{user.phonenumber}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Class</p>
-                  <p className="font-semibold">{user.userClass}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Email ID</p>
-                  <p className="text-green-600 font-semibold">Active</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Age</p>
-                  <p className="font-semibold">{user.age} Yrs.</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Account Created On</p>
-                  <p className="font-semibold">
-                    {new Intl.DateTimeFormat("en-GB").format(
-                      new Date(user.createdAt)
-                    )}
-                  </p>
+              {/* Comments Section */}
+              <div className="bg-white rounded-xl shadow-md p-5">
+                <h4 className="text-lg font-semibold mb-3 text-gray-800">
+                  Comments Written
+                </h4>
+                <div className="flex flex-wrap gap-3">
+                  <div className="bg-white border border-gray-200 px-4 py-3 rounded-lg shadow-sm flex-1">
+                    <h5 className="text-sm font-semibold mb-1 text-blue-800">
+                      AI Research Blog
+                    </h5>
+                    <p className="text-sm text-gray-600">
+                      Excellent conversation with him.. very knowledgeable
+                      person happy to talk with him
+                    </p>
+                  </div>
+                  <div className="bg-white border border-gray-200 px-4 py-3 rounded-lg shadow-sm flex-1">
+                    <h5 className="text-sm font-semibold mb-1 text-blue-800">
+                      Data Analytics and Research 2025
+                    </h5>
+                    <p className="text-sm text-gray-600">
+                      Excellent conversation with him.. very knowledgeable
+                      person happy to talk with him
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Character Card */}
-            <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+            {/* RIGHT COLUMN (Character Card) */}
+            <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center">
               <h3 className="text-lg font-semibold text-gray-800 mb-1">
                 Your Character
               </h3>
@@ -163,29 +274,6 @@ const Dashboard = () => {
               <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
                 Start Exploration Now →
               </button>
-            </div>
-          </div>
-
-          {/* Comments Section */}
-          <div>
-            <h4 className="text-xl font-semibold mb-3 text-gray-800">
-              Comments Written
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white p-4 rounded shadow-sm">
-                <h5 className="text-sm font-bold mb-1">AI Research Blog</h5>
-                <p className="text-sm text-gray-600">
-                  Excellent conversation with him. Very knowledgeable person.
-                </p>
-              </div>
-              <div className="bg-white p-4 rounded shadow-sm">
-                <h5 className="text-sm font-bold mb-1">
-                  Data Analytics and Research 2025
-                </h5>
-                <p className="text-sm text-gray-600">
-                  Great insights. Easy to talk to and very helpful.
-                </p>
-              </div>
             </div>
           </div>
         </div>
