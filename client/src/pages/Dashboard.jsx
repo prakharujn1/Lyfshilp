@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { LogOut } from "lucide-react";
 
@@ -7,7 +7,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user, logout, role } = useAuth();
 
-  // Redirect to login if not authenticated and not admin
   useEffect(() => {
     if (!user && role !== "admin") {
       navigate("/login");
@@ -17,137 +16,177 @@ const Dashboard = () => {
   const handleLogout = () => {
     logout(navigate);
   };
-   
-
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-gray-900">My Dashboard</h1>
-          <button
-            onClick={handleLogout}
-            className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <LogOut size={16} className="mr-1" />
-            Logout
-          </button>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 px-6 py-4">
-            <h2 className="text-white text-lg font-semibold">
-              Welcome, {role === "admin" ? "Admin" : user?.name}!
-            </h2>
+    <div className="flex min-h-screen font-sans">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-lg flex flex-col py-8 px-6">
+        <div>
+          <div className="flex items-center gap-2 mb-10">
+            <img
+              src="/dashboardDesign/homeImg.svg"
+              alt="Logo"
+              className="w-15 h-15"
+            />
+            <h1 className="text-2xl font-bold text-green-600 -mt-1">
+              Edumaniax
+            </h1>
           </div>
 
-          <div className="p-6">
-            {role === "admin" ? (
-              <div className="text-gray-700 text-lg">
-                <p>You are logged in as an <strong>admin</strong>.</p>
-               </div>
-            ) : (
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="w-full md:w-1/3 bg-indigo-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">
-                    Your Character
-                  </h3>
+          <nav className="flex flex-col gap-7 ml-5 text-sm font-medium">
+            <NavLink className="flex items-center gap-3 text-green-600 hover:text-green-700">
+              <img
+                src="/dashboardDesign/profile.svg"
+                alt="Profile"
+                className="w-5 h-5"
+              />
+              <span className="font-bold">My Profile</span>
+            </NavLink>
 
-                  <div className="space-y-3">
-                    <div className="bg-white p-4 rounded-md shadow-sm">
-                      <p className="text-sm font-medium text-gray-500">Name</p>
-                      <p className="text-indigo-700 font-medium">
-                        {user.characterName}
-                      </p>
-                    </div>
+            <NavLink
+              to="/modules"
+              className="flex items-center gap-3 text-gray-400 hover:text-green-600"
+            >
+              <img
+                src="/dashboardDesign/modules.svg"
+                alt="Modules"
+                className="w-5 h-5"
+              />
+              <span className="font-bold">My Modules</span>
+            </NavLink>
 
-                    <div className="bg-white p-4 rounded-md shadow-sm">
-                      <p className="text-sm font-medium text-gray-500">Gender</p>
-                      <p className="text-indigo-700 font-medium">
-                        {user.characterGender}
-                      </p>
-                    </div>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 text-red-500 hover:text-red-600"
+            >
+              <img
+                src="/dashboardDesign/logout.svg"
+                alt="Logout"
+                className="w-5 h-5"
+              />
+              Log Out
+            </button>
+          </nav>
+        </div>
+      </aside>
 
-                    <div className="bg-white p-4 rounded-md shadow-sm">
-                      <p className="text-sm font-medium text-gray-500">Style</p>
-                      <p className="text-indigo-700 font-medium">
-                        {user.characterStyle}
-                      </p>
-                    </div>
+      {/* Main Content */}
+      <main className="flex-1 bg-gray-100 overflow-x-hidden">
+        <div className="max-w-6xl mx-auto px-6 pt-6">
+          {/* DASHBOARD HEADER */}
+          <div className="bg-[#068F36] text-5xl font-bold text-center px-10 py-4 rounded-md shadow-sm mb-8">
+            <span className="text-white" style={{ opacity: 0.72 }}>
+              DASHBOARD
+            </span>
+          </div>
 
-                    <div className="bg-white p-4 rounded-md shadow-sm">
-                      <p className="text-sm font-medium text-gray-500">Traits</p>
-                      <div className="flex gap-2 mt-1">
-                        {user.characterTraits.map((trait, index) => (
-                          <span
-                            key={index}
-                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
-                          >
-                            {trait}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full md:w-2/3">
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">
-                    Your Information
-                  </h3>
-
-                  <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
-                      <div>
-                        <dt className="text-sm font-medium text-gray-500">Name</dt>
-                        <dd className="mt-1 text-gray-900">{user.name}</dd>
-                      </div>
-
-                      <div>
-                        <dt className="text-sm font-medium text-gray-500">Age</dt>
-                        <dd className="mt-1 text-gray-900">{user.age}</dd>
-                      </div>
-
-                      <div>
-                        <dt className="text-sm font-medium text-gray-500">Class</dt>
-                        <dd className="mt-1 text-gray-900">{user.userClass}</dd>
-                      </div>
-
-                      <div>
-                        <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                        <dd className="mt-1 text-gray-900">{user.phonenumber}</dd>
-                      </div>
-
-                      <div>
-                        <dt className="text-sm font-medium text-gray-500">Account Created</dt>
-                        <dd className="mt-1 text-gray-900">
-                          {new Intl.DateTimeFormat('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                          }).format(new Date(user.createdAt))}
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
-
-                  <div className="mt-6 bg-indigo-50 p-6 rounded-lg">
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">
-                      What's Next?
-                    </h3>
-                    <p className="text-gray-600">
-                      Start your journey with your new character! Explore the
-                      world, complete quests, and level up your skills.
-                    </p>
-                    <button className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors">
-                      Start Adventure
-                    </button>
-                  </div>
+          {/* PROFILE + CHARACTER */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            {/* Profile Card */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex flex-col items-center mb-4 relative">
+                <img
+                  src="/avatar_placeholder.png"
+                  alt="Profile Avatar"
+                  className="w-20 h-20 rounded-full border-4 border-white shadow absolute -top-10"
+                />
+                <div className="pt-12 text-center">
+                  <button className="text-sm text-blue-500 hover:underline">
+                    Upload Photo
+                  </button>
                 </div>
               </div>
-            )}
+
+              <div className="grid grid-cols-2 gap-4 text-sm mt-4">
+                <div>
+                  <p className="text-gray-500">Your Name</p>
+                  <p className="font-semibold">{user.name}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Phone Number</p>
+                  <p className="font-semibold">{user.phonenumber}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Class</p>
+                  <p className="font-semibold">{user.userClass}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Email ID</p>
+                  <p className="text-green-600 font-semibold">Active</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Age</p>
+                  <p className="font-semibold">{user.age} Yrs.</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Account Created On</p>
+                  <p className="font-semibold">
+                    {new Intl.DateTimeFormat("en-GB").format(
+                      new Date(user.createdAt)
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Character Card */}
+            <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                Your Character
+              </h3>
+              <p className="text-2xl font-bold text-gray-900 mb-4">
+                {user.characterName}
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-2 mb-4">
+                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                  {user.characterGender}
+                </span>
+                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+                  {user.characterStyle}
+                </span>
+                {user.characterTraits.map((trait, i) => (
+                  <span
+                    key={i}
+                    className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium"
+                  >
+                    {trait}
+                  </span>
+                ))}
+              </div>
+
+              <p className="text-sm text-gray-600 px-4 mb-6">
+                Meet "{user.characterName}" who is 40% creative, 30% curious,
+                20% sporty, and 10% mysterious
+              </p>
+
+              <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
+                Start Exploration Now →
+              </button>
+            </div>
+          </div>
+
+          {/* Comments Section */}
+          <div>
+            <h4 className="text-xl font-semibold mb-3 text-gray-800">
+              Comments Written
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white p-4 rounded shadow-sm">
+                <h5 className="text-sm font-bold mb-1">AI Research Blog</h5>
+                <p className="text-sm text-gray-600">
+                  Excellent conversation with him. Very knowledgeable person.
+                </p>
+              </div>
+              <div className="bg-white p-4 rounded shadow-sm">
+                <h5 className="text-sm font-bold mb-1">
+                  Data Analytics and Research 2025
+                </h5>
+                <p className="text-sm text-gray-600">
+                  Great insights. Easy to talk to and very helpful.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </main>
