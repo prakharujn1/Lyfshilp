@@ -44,7 +44,7 @@ const TrialBookingModal = ({ isOpen, onClose }) => {
     } else {
       document.body.style.overflow = 'unset';
     }
-    
+
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -98,14 +98,14 @@ const TrialBookingModal = ({ isOpen, onClose }) => {
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      
+
       setShowSuccess(true);
-      
+
       // Close modal after 2 seconds
       setTimeout(() => {
         onClose();
       }, 2000);
-      
+
     } catch (error) {
       console.error('Error sending email:', error);
       setError('Failed to send request. Please try again.');
@@ -125,11 +125,11 @@ const TrialBookingModal = ({ isOpen, onClose }) => {
         exit={{ opacity: 0 }}
       >
         {/* Backdrop with blur */}
-        <div 
+        <div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           onClick={onClose}
         />
-        
+
         {/* Modal */}
         <motion.div
           className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto"
@@ -223,7 +223,7 @@ const TrialBookingModal = ({ isOpen, onClose }) => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                     >
                       <option value="">Select your class</option>
-                      
+
                       <option value="Class 6">Class 6</option>
                       <option value="Class 7">Class 7</option>
                       <option value="Class 8">Class 8</option>
@@ -676,7 +676,7 @@ const StudentFeedbackCarousel = () => {
       bgColor: "bg-purple-300",
       rotation: "rotate-1"
     },
-    
+
     {
       text: "This platform made learning so much fun! The games are engaging and help me remember concepts better than traditional studying methods.",
       author: "Alex",
@@ -1014,6 +1014,109 @@ const Home = () => {
     },
   ];
 
+  const pricingFaqData = [
+    {
+      question: "What if I’m not satisfied with EduManiax after joining?",
+      answer:
+        "No worries! EduManiax offers a 90% refund policy for your peace of mind. Before enrolling, you also get a full demo of the platform, personalized one-on-one interaction, and access to our 24/7 support team to help you at every step.",
+      QbgColor: "bg-[#6DEE0E]", // Vivid green
+      AbgColor: "bg-[#E9FCD4]", // 🍏 Light green pastel
+    },
+    {
+      question: "How is EduManiax different from other platforms?",
+      answer:
+        "With our unique combination of risk‑free demo and refund policy, personalized onboarding, and round‑the‑clock support, EduManiax is built to ensure every learner feels confident and supported.",
+      QbgColor: "bg-[#FEC6C7]", // Soft pink
+      AbgColor: "bg-[#FFF1F2]", // 🌸 Ultra-light pink
+    },
+    {
+      question: "What payment methods are accepted on EduManiax?",
+      answer:
+        "We use Razorpay as our secure payment gateway, which supports all major payment methods including credit/debit cards, UPI, net banking, PayPal, and wallets. Fast, safe, and hassle-free!",
+      QbgColor: "bg-[#DBEDFB]", // Light blue
+      AbgColor: "bg-[#F0F9FF]", // ❄️ Icy sky blue
+    },
+    {
+      question: "Can I speak to someone if I have doubts?",
+      answer:
+        "Absolutely! If you have any doubts or need help, our dedicated customer support team is just a call away. We're here to guide you throughout your learning journey.",
+      QbgColor: "bg-[#DABFFF]", // Lavender
+      AbgColor: "bg-[#F5EBFF]", // 🪻 Soft lavender haze
+    },
+    {
+      question: "Is there a free trial available?",
+      answer:
+        "Yes! EduManiax currently offers a one-day free trial that grants access to all premium features.",
+      QbgColor: "bg-[#FFE7A1]", // Soft yellow
+      AbgColor: "bg-[#FFFBE5]", // ☀️ Pale yellow pastel
+    },
+  ];
+
+  const plans = [
+    {
+      title: "STARTER PLAN",
+      price: "₹0",
+      frequency: "Per member, per Month",
+      description: "Perfect to explore and get started.",
+      features: [
+        "Access to 1 free game/module",
+        "Notes for the selected module",
+        "Access to basic learning tools",
+        { text: "No access to premium modules", excluded: true },
+        { text: "No AI powered personalized assessment", excluded: true },
+        { text: "No completion certificates", excluded: true },
+      ],
+      button: "Start Now",
+    },
+    {
+      title: "SOLO PLAN",
+      price: "₹199",
+      frequency: "Per member, per 3 Month",
+      description: "Ideal for focused learning on a specific topic.",
+      features: [
+        "Access to 1 premium module of choice",
+        "Notes for the selected module",
+        "Interactive activities and assessments",
+        { text: "No access to all premium modules", excluded: true },
+        { text: "No AI powered personalized assessment", excluded: true },
+        { text: "No completion certificates", excluded: true },
+      ],
+      button: "Start Now",
+    },
+    {
+      title: "PRO PLAN",
+      price: "₹1433",
+      frequency: "Per member, per 3 Month",
+      description: "Full learning experience for committed users",
+      features: [
+        "Access to all premium modules",
+        "Notes for every module",
+        "All interactive games and assessments",
+        "AI powered personalized assessment",
+        "Completion certificates",
+      ],
+      button: "Start Now",
+      tag: "Popular",
+      discount: "Save 20%",
+    },
+    {
+      title: "INSTITUTIONAL PLAN",
+      price: "Custom",
+      frequency: "Per member, per Month",
+      description: "Tailored for bulk use with flexibility.",
+      features: [
+        "Access for 30+ users",
+        "All modules notes & games included",
+        "Custom onboarding & priority support",
+        "Live Lectures by SME",
+        "AI powered personalized assessment",
+        "Completion certificates",
+      ],
+      button: "Contact Us",
+    },
+  ];
+
+
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
@@ -1110,9 +1213,9 @@ const Home = () => {
   return (
     <div className="min-h-screen -mt-8 bg-white overflow-x-hidden">
       {/* Trial Booking Modal */}
-      <TrialBookingModal 
-        isOpen={isTrialModalOpen} 
-        onClose={() => setIsTrialModalOpen(false)} 
+      <TrialBookingModal
+        isOpen={isTrialModalOpen}
+        onClose={() => setIsTrialModalOpen(false)}
       />
 
       {/* Hero Section */}
@@ -1136,7 +1239,7 @@ const Home = () => {
               </h1>
               <h1 className="text-white flex text-xl ml-8 sm:text-2xl md:text-2xl lg:text-5xl  leading-tight"
                 style={{ fontFamily: '"Sigmar", sans-serif' }} >
-                 With a Twist of Fun <div className=" sm:h-15 sm:w-15 "><img className="w-8 h-7 sm:h-9 sm:w-9 md:h-9 md:w-9 lg:h-15 lg:w-15" src="/Fire.gif" alt="fire" /></div>
+                With a Twist of Fun <div className=" sm:h-15 sm:w-15 "><img className="w-8 h-7 sm:h-9 sm:w-9 md:h-9 md:w-9 lg:h-15 lg:w-15" src="/Fire.gif" alt="fire" /></div>
               </h1>
             </div>
 
@@ -1149,13 +1252,13 @@ const Home = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-16 w-full sm:w-auto px-4 sm:px-0">
-              <button 
+              <button
                 onClick={() => navigate(user ? '/pricing' : '/courses')}
                 className="bg-white text-black font-semibold px-4 sm:px-8 py-3 sm:py-4 rounded-md transition duration-300 cursor-pointer text-sm sm:text-sm hover:bg-gray-100"
               >
                 {user ? 'Purchase Plan' : 'Get Started Free'}
               </button>
-              <button 
+              <button
                 onClick={() => setIsTrialModalOpen(true)}
                 className="border-2 border-white text-white font-semibold px-4 sm:px-8 py-2 sm:py-3 rounded-md hover:bg-white hover:text-green-600 cursor-pointer transition duration-300 text-sm sm:text-sm flex items-center justify-center gap-2"
               >
@@ -1185,7 +1288,7 @@ const Home = () => {
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4 lg:mb-0">
               Why you'll love it
             </h2>
-            
+
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -1568,11 +1671,11 @@ const Home = () => {
             ))}
           </div>
           <div className="w-full h-full flex justify-center items-center">
-            
-              <a href="/courses" className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 lg:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
-                View More..
-              </a>
-            
+
+            <a href="/courses" className="border-2 sm:border-3 border-green-600 text-green-600 mt-6 sm:mt-8 mb-6 sm:mb-10 lg:mb-10 font-medium px-4 sm:px-6 py-2 rounded-lg hover:bg-green-50 transition duration-300 text-sm sm:text-base">
+              View More..
+            </a>
+
           </div>
         </div>
       </section>
@@ -1591,56 +1694,180 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section className="py-10 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="relative flex justify-center items-center mb-8 sm:mb-16">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none">
+              <div className="w-72 h-72 sm:w-80 sm:h-80 bg-white opacity-10 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="max-w-5xl mx-auto px-4 flex flex-col items-center justify-center space-y-4 relative z-10 text-center">
+              {/* Heading: 2-line layout, Sigmar font, emoji after "progress" */}
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold sigmar-font leading-tight text-black">
+                <div>Pick the plan that powers</div>
+                <div className="inline-flex items-center justify-center">
+                  your progress
+                  <img
+                    src="/pricingDesign/runwk899FVEasw-ar-11-video-1-d-unscreen.gif"
+                    alt="Run animation"
+                    className="inline-block w-10 h-10 sm:w-11 sm:h-11 ml-2 mt-1 align-middle"
+                  />
+                </div>
+              </h1>
+
+              {/* Subtext */}
+              <p className="text-gray-600 text-sm sm:text-lg -mt-2">
+                Affordable and scalable plans packed with features,
+                <br className="block sm:hidden" />
+                notes, and learning tools.
+              </p>
+            </div>
+          </div>
+
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {plans.map((plan, idx) => (
+              <div
+                key={idx}
+                className={`bg-white shadow-xl rounded-3xl p-6 border transition-all duration-300 flex flex-col justify-between relative ${plan.title === "PRO PLAN"
+                    ? "border-[#068F36]"
+                    : "border-gray-200 hover:border-[#068F36]"
+                  }`}
+              >
+                <div className="relative mb-4">
+                  {plan.title === "PRO PLAN" && (
+                    <img
+                      src="/pricingDesign/save20.svg"
+                      alt="Save 20%"
+                      className="absolute -mt-9 -mr-7 -top-0 left-32 w-[113px] h-[49px] z-10"
+                    />
+                  )}
+                  {plan.tag && (
+                    <span className="bg-[#EFB100] text-black text-xs font-bold px-2 py-1 rounded w-fit shadow">
+                      {plan.tag}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex justify-start">
+                  <h3
+                    className="text-xs font-bold uppercase text-[#007127] px-3 py-1 rounded"
+                    style={{ backgroundColor: "rgba(165, 237, 110, 0.31)" }}
+                  >
+                    {plan.title}
+                  </h3>
+                </div>
+                <p className="text-sm text-black mt-2">{plan.description}</p>
+                <hr className="my-3 border-gray-300" />
+                <p className="text-4xl font-extrabold text-[#042038] mt-1">
+                  {plan.price}
+                </p>
+                <p className="text-xs text-black font-semibold mt-1">
+                  {plan.frequency}
+                </p>
+                <hr className="my-3 border-gray-300 mt-5" />
+
+                <ul className="text-sm space-y-2 flex-1 mt-2">
+                  {plan.features.map((feat, i) => {
+                    const text = typeof feat === "string" ? feat : feat.text;
+                    const excluded = typeof feat === "object" && feat.excluded === true;
+
+                    return (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="w-4 h-4 flex-shrink-0 mt-1">
+                          <img
+                            src={excluded
+                              ? "/pricingDesign/cross.svg"
+                              : "/pricingDesign/tick.svg"
+                            }
+                            alt={excluded ? "Not included" : "Included"}
+                            className={`w-full h-full object-contain ${excluded ? "" : "p-[1px]"
+                              }`}
+                          />
+                        </span>
+                        <span className={excluded ? "text-red-600" : ""}>
+                          {text}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <Link
+                  to="/payment-required"
+                  className="bg-[#068F36] text-white font-semibold py-2 px-4 rounded-md hover:brightness-110 transition mt-4 inline-block text-center"
+                >
+                  {plan.button}
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          
+        </div>
+      </section>
+
       {/* FAQ Section */}
-      <section className="py-1 sm:py-2 mb-10 sm:mb-20 ">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6  text-center">
+      <section className="py-1 sm:py-2 mb-10 sm:mb-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
             Frequently Asked
           </h2>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
             Questions
           </h2>
-          <p className="text-gray-600 text-sm sm:text-lg mb-8 sm:mb-16">
+          <p className="text-black text-sm sm:text-lg mb-8 sm:mb-16">
             Everything you need to know before getting started
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-2 md:gap-2">
-            {faqs.map((faq, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {pricingFaqData.map((faq, index) => (
               <motion.div
                 key={index}
-                className={` rounded-2xl p-4  cursor-pointer transition duration-300 `}
                 onClick={() => toggleFAQ(index)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
+                className={`cursor-pointer transition-all duration-300 overflow-hidden rounded-2xl 
+                ${index === 4 ? "md:col-span-2 md:mx-auto md:w-1/2" : ""}`}
               >
-                <div className={`flex ${faq.QbgColor} p-8 z-30 relative  rounded-2xl -mb-4 justify-between items-center`}>
-                  <h3 className={`text-sm  sm:text-lg font-semibold text-black text-left flex-1 pr-2`}>
-                    {faq.question}
-                  </h3>
-                  <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                    <ChevronDown
-                      className={`w-3 sm:w-4 h-3 sm:h-4 text-green-600  transition-transform duration-300 ${openFAQ === index ? "transform rotate-180" : ""
-                        }`}
-                    />
-                  </div>
-                </div>
-                {openFAQ === index && (
-                  <motion.p
-                    className={`text-black ${faq.AbgColor} mt-3 sm:-mt-4 rounded-bl-2xl rounded-br-2xl pt-6 p-3  text-left text-sm`}
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.3 }}
+                <div className="rounded-2xl overflow-hidden">
+                  <div
+                    className={`flex ${faq.QbgColor} p-6 justify-between items-center`}
                   >
-                    {faq.answer}
-                  </motion.p>
-                )}
+                    <h3 className="text-sm sm:text-lg font-semibold text-black text-left flex-1 pr-2">
+                      {faq.question}
+                    </h3>
+                    <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
+                      <ChevronDown
+                        className={`w-3 sm:w-4 h-3 sm:h-4 text-green-600 transition-transform duration-300 ${openFAQ === index ? "rotate-180" : ""
+                          }`}
+                      />
+                    </div>
+                  </div>
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={
+                      openFAQ === index
+                        ? { height: "auto", opacity: 1 }
+                        : { height: 0, opacity: 0 }
+                    }
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className={`overflow-hidden ${faq.AbgColor}`}
+                  >
+                    <div className="p-4 pt-6 text-sm text-black text-left">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
       {showScroll && (
         <button
           onClick={scrollToTop}
