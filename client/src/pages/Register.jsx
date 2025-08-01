@@ -291,7 +291,7 @@ const Register = () => {
                   <option value="8th">8th</option>
                   <option value="9th">9th</option>
                   <option value="10th">10th</option>
-                  <option value="11th and above">11th and above</option>
+                  <option value="11th">11th and above</option>
                 </select>
                 {errors.userClass && (
                   <p className="mt-1 text-sm text-red-600">{errors.userClass}</p>

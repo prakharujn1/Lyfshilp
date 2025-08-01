@@ -245,7 +245,7 @@ const ClassifyIt = () => {
   }
 
   return (
-    <div className="w-full bg-white min-h-[calc(100vh-80px)] flex flex-col justify-center items-center overflow-hidden mt-6 mb-8 px-6">
+    <div className="w-full bg-white min-h-[89vh] flex flex-col justify-center items-center overflow-hidden mt-6 mb-8 px-6">
       <div className="flex flex-col items-center w-full">
         <div className="w-full lg:max-w-[64vw] max-w-[53vw] mt-12px items-end">
           <h1 className="text-4xl font-bold text-center" style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive', fontWeight: 1500 }}>Classify it</h1>

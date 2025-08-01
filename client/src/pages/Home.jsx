@@ -702,7 +702,7 @@ const StudentFeedbackCarousel = () => {
       <div ref={sliderRef} className="keen-slider">
         {feedbackCards.map((card, index) => (
           <div key={index} className={`keen-slider__slide transform ${card.rotation}`}>
-            <div className={`${card.bgColor} p-8 sm:p-6 rounded-lg shadow-lg relative h-40 sm:h-48`}>
+            <div className={`${card.bgColor} p-8 sm:p-6 rounded-lg shadow-lg relative h-40 sm:h-48 `}>
               <div className="h-full overflow-hidden flex flex-col justify-between">
                 <p
                   className="text-black text-left text-xs sm:text-sm leading-relaxed flex-1"
@@ -1545,7 +1545,7 @@ const Home = () => {
                         whileTap={{ scale: 0.98 }}
                         className="w-full bg-[#10903E] text-white font-medium py-2.5 px-3 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
                       >
-                        <img src="/game.png" alt="Game" className="w-4 h-4" />
+                        <img src="/game.png" alt="Game" className="w-5 h-5" />
                         Let's Play &gt;
                       </motion.button>
                     </Link>
@@ -1558,7 +1558,7 @@ const Home = () => {
                         whileTap={{ scale: 0.98 }}
                         className="bg-[#D9A30B] flex items-center text-white font-medium py-2.5 px-3 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
                       >
-                        <img src="/notes.png" alt="Notes" className="w-4 h-4 mr-1" />
+                        <img src="/notes.png" alt="Notes" className="w-5 h-5 mr-1" />
                         Notes
                       </motion.button>
                     </Link>

@@ -32,19 +32,19 @@ const AboutUs = () => {
 
   const heroCards = [
     {
-      image: "/child1.svg",
+      image: "/boywithcap.gif",
       bgColor: "bg-green-400",
     },
     {
-      image: "child2.svg",
+      image: "/girlinorange.gif",
       bgColor: "bg-orange-400",
     },
     {
-      image: "child3.svg",
+      image: "/girlinblue.gif",
       bgColor: "bg-blue-400",
     },
     {
-      image: "child4.svg",
+      image: "boywithyellowbg.gif",
       bgColor: "bg-yellow-400",
     },
   ];
