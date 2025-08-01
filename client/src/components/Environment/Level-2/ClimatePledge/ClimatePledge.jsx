@@ -71,6 +71,7 @@ const initialState = {
   score: 0,
 };
 
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "START_GAME":
@@ -138,6 +139,9 @@ const reducer = (state, action) => {
       return state;
   }
 };
+  //for performance
+  const { updatePerformance } = usePerformance();
+  const [startTime, setStartTime] = useState(Date.now());
 
 const ClimatePledgeGame = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -158,15 +162,139 @@ const ClimatePledgeGame = () => {
     }
   }, [timeLeft, state.view]);
 
+
   // Handler for verifying the input with Gemini
   const handleVerify = async () => {
     const result = await verifyPledgeWithGemini(state.inputValue);
     dispatch({ type: "SET_SUGGESTION", payload: result });
+    
+      if (bonus && checkCreativity(value)) {
+        hasCreative = true;
+      }
+    }
+
+    if (bonus && hasCreative && goodCount >= 3) {
+      baseScore += 2;
+    }
+
+    const endTime = Date.now();
+    const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+    const avgResponseTimeSec = totalTimeSec / 5;
+    const maxScore = bonus ? 7 : 5;
+    const scaledScore = Number(((baseScore / maxScore) * 10).toFixed(2));
+
+    // ✅ Update performance using baseScore
+    updatePerformance({
+      moduleName: "Environment",
+      topicName: "ecoDecisionMaker",
+      score: scaledScore,
+      accuracy: (baseScore / maxScore) * 100,
+      avgResponseTimeSec,
+      studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+      completed: baseScore >= 5, // ✅ fixed to use baseScore
+
+    });
+    setStartTime(Date.now());
+    setFeedback(newFeedback);
+    setScore(baseScore);
+    setSubmitted(true);
+    setView("result");
   };
 
   const handlePlayAgain = () => {
     dispatch({ type: "RESET_GAME" });
     setTimeLeft(INITIAL_TIME);
+    setPledge({
+      school: "",
+      home: "",
+      energy: "",
+      waste: "",
+      awareness: "",
+    });
+    setFeedback({
+      school: "",
+      home: "",
+      energy: "",
+      waste: "",
+      awareness: "",
+    });
+    setVerifyMessage({
+      school: "",
+      home: "",
+      energy: "",
+      waste: "",
+      awareness: "",
+    });
+    setScore(null);
+    setBonus(false);
+    setTimeLeft(300);
+    setSubmitted(false);
+    setView("intro");
+    setStartTime(Date.now());
+  };
+
+  const verifyActionWithGemini = async (field) => {
+    const text = pledge[field];
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    // Build the bonus part dynamically
+    const bonusPart = bonus
+      ? `4️⃣ Also, check if it is creative or something new that helps others too!`
+      : "";
+
+    const requestBody = {
+      contents: [
+        {
+          parts: [
+            {
+              text: `You are a super friendly teacher for students in Class 6–8. 
+  A student wrote this action plan: "${text}"
+  
+  ✅ Please check if it meets these:
+  1️⃣ Is it clear and specific?  
+  2️⃣ Is it realistic and doable today?  
+  3️⃣ Is it something the student can control?  
+  ${bonusPart}
+  
+  🎓 Then give your feedback in **very simple words with emojis**, like a supportive teacher talking to a 12-year-old:
+  - If it's good, start with: "✅ Good job! ..." and explain why it's good.
+  - If it needs changes, start with: "⚠️ Needs improvement: ..." and explain what to fix in an easy way.
+  
+  Keep your answer short, friendly, and use 1-2 emojis!`,
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        console.error("API error:", response.status, response.statusText);
+        setVerifyMessage((prev) => ({
+          ...prev,
+          [field]: "⚠️ Gemini could not verify right now. Please try again.",
+        }));
+        return;
+      }
+
+      const data = await response.json();
+      const geminiReply =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      setVerifyMessage((prev) => ({ ...prev, [field]: geminiReply }));
+    } catch (error) {
+      console.error("Error:", error);
+      setVerifyMessage((prev) => ({
+        ...prev,
+        [field]: "⚠️ Oops! Something went wrong. Try again later.",
+      }));
+    }
   };
 
   const minutes = Math.floor(timeLeft / 60);

@@ -311,6 +311,9 @@ export default function GreenBudgetGame() {
       setStep("end"); // Game ends
     }
   }, [currentQuestionIndex, questions.length]);
+  //for performance
+  const { updatePerformance } = usePerformance();
+  const [startTime, setStartTime] = useState(Date.now());
 
   // handleSubmit is defined BEFORE the useEffect that calls it.
   const handleSubmit = useCallback(() => {
@@ -374,6 +377,11 @@ export default function GreenBudgetGame() {
         studyTimeMinutes: Math.ceil(totalTimeSec / 60),
         completed: totalScore >= (questions.length * 5 * 0.8),
       });
+        completed: score >= 12, // mark as completed if score is good
+      });
+      setStartTime(Date.now());
+    }
+  }, [step]);
 
       if (totalScore >= 12) {
         completeEnvirnomentChallenge(1, 0);
@@ -497,6 +505,17 @@ export default function GreenBudgetGame() {
 
       {step === "review" && (
         <ReviewScreen answers={scenarioResults} onBackToResults={handleBackToResults} />
+          <button
+            onClick={() => {
+              setStep("intro")
+              setStartTime(Date.now());
+            }
+            }
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Play Again
+          </button>
+        </div>
       )}
     </div>
   );

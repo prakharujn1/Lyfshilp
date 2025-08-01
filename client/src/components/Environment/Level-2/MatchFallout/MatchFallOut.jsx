@@ -257,6 +257,23 @@ const MatchFallout = () => {
       timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     } else if (timeLeft === 0 && !showResult && !showReview && isTimerRunning) {
       handleSubmit();
+    if (view === "result") {
+      const endTime = Date.now();
+      const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+      const avgResponseTimeSec = totalTimeSec / 5;
+      const scaledScore = Number(((score / 10) * 10).toFixed(2));
+
+      updatePerformance({
+        moduleName: "Environment",
+        topicName: "ecoDecisionMaker",
+        score: scaledScore,
+        accuracy: (score / 10) * 100,
+        avgResponseTimeSec,
+        studyTimeMinutes: Math.ceil(totalTimeSec / 60),
+        completed: score >= 8, // Mark complete only if good score
+       
+      });
+      setStartTime(Date.now());
     }
     return () => clearTimeout(timer);
   }, [timeLeft, showStart, showResult, showReview, isTimerRunning, handleSubmit]);
@@ -384,6 +401,13 @@ const MatchFallout = () => {
   const handleReviewGame = () => {
     setShowResult(false);
     setShowReview(true);
+  const handlePlayAgain = () => {
+    setUnassigned(shuffle(initialActions));
+    setFallouts(shuffle(initialActions.map((a) => a.match)));
+    setSlots(Array(initialActions.length).fill(null));
+    setScore(null);
+    setView("intro");
+    setStartTime(Date.now());
   };
 
   const isSubmitEnabled = sequenceSlotsContent.every(item => item && item.id !== null);

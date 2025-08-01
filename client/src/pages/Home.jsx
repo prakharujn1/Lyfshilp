@@ -1219,7 +1219,7 @@ const Home = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative h-[100vh] sm:h-[100vh] lg:h-[95vh] w-full p-0 -mt-8">
+      <section className="relative h-[90vh] sm:h-[100vh] lg:h-[95vh] w-full p-0 -mt-8">
         <div className="w-full relative h-full bg-[url('/heroBG.jpg')] bg-cover  bg-center bg-no-repeat">
           <div className="relative z-10 max-w-7xl mx-auto flex flex-wrap  sm:mt-9  flex-col items-center text-center px-4 sm:px-6">
             {/* Trust Badge */}
@@ -1233,18 +1233,18 @@ const Home = () => {
 
             {/* Main Heading */}
             <div className="mb-2 sm:mb- md:-mb-2">
-              <h1 className="text-white text-xl sm:text-2xl md:text-2xl lg:text-5xl  leading-tight"
+              <h1 className="text-white text-2xl sm:text-2xl md:text-2xl lg:text-5xl  leading-tight"
                 style={{ fontFamily: '"Sigmar", sans-serif' }}>
                 Master AI, Finance, Law
               </h1>
-              <h1 className="text-white flex text-xl ml-8 sm:text-2xl md:text-2xl lg:text-5xl  leading-tight"
+              <h1 className="text-white flex text-2xl ml-8 sm:text-2xl md:text-2xl lg:text-5xl  leading-tight"
                 style={{ fontFamily: '"Sigmar", sans-serif' }} >
                 With a Twist of Fun <div className=" sm:h-15 sm:w-15 "><img className="w-8 h-7 sm:h-9 sm:w-9 md:h-9 md:w-9 lg:h-15 lg:w-15" src="/Fire.gif" alt="fire" /></div>
               </h1>
             </div>
 
             {/* Subtitle */}
-            <p className="text-white/90 text-sm sm:text-base md:text-base max-w-4xl mx-4 sm:mx-20 lg:mt-3 lg:mx-60 mb-4 sm:mb-8 leading-tight">
+            <p className="text-white/90 text-md sm:text-base md:text-base max-w-4xl mx-4 sm:mx-20 lg:mt-3 lg:mx-60 mb-4 sm:mb-8 leading-tight">
               Explore Artificial Intelligence, Machine Learning, Communication,
               Coding, and more through interactive games, real-world challenges,
               and bite-sized notes
