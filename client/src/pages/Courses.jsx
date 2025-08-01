@@ -278,7 +278,7 @@ const CourseCard = ({ course, index }) => {
               whileTap={{ scale: 0.98 }}
               className="w-full bg-[#10903E] text-white font-medium py-2.5 px-3 rounded-lg hover:bg-green-700 transition duration-300 text-sm flex items-center justify-center gap-2"
             >
-              <img src="/game.png" alt="Game" className="w-4 h-4" />
+              <img src="/game.png" alt="Game" className="w-5 h-5" />
               Let's Play &gt;
             </motion.button>
           </Link>
@@ -291,7 +291,7 @@ const CourseCard = ({ course, index }) => {
               whileTap={{ scale: 0.98 }}
               className="bg-[#D9A30B] flex items-center text-white font-medium py-2.5 px-3 rounded-lg hover:bg-orange-500 transition duration-300 text-sm"
             >
-              <img src="/notes.png" alt="Notes" className="w-4 h-4 mr-1" />
+              <img src="/notes.png" alt="Notes" className="w-5 h-5 mr-1" />
               Notes
             </motion.button>
           </Link>

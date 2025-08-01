@@ -734,6 +734,17 @@ const StudentFeedbackCarousel = () => {
                   className="text-black text-left text-xs sm:text-sm leading-relaxed flex-1"
                   style={{ fontFamily: '"Patrick Hand", cursive' }}
                 >
+
+                  <option value="">Select your class</option>
+                  <option value="6th">6th</option>
+                  <option value="7th">7th</option>
+                  <option value="8th">8th</option>
+                  <option value="9th">9th</option>
+                  <option value="10th">10th</option>
+                  <option value="11th">11th and above</option>
+                </select>
+                {errors.userClass && (
+                  <p className="mt-1 text-sm text-red-600">{errors.userClass}</p>
                   {card.text}
                 </p>
                 {card.author && (
