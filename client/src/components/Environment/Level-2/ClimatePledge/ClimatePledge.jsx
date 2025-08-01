@@ -3,25 +3,28 @@ import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import ThinkingCloud from "../../../icon/ThinkingCloud";
 
-// Define the questions and placeholders for the game
+// Questions config
 const QUESTIONS = [
   {
     id: "school",
     question: "1) One change at school",
     placeholder: "Eg : Organising a tree planting event",
-    suggestion: "Organising a tree planting event is a great way to improve the school environment!",
+    suggestion:
+      "Organising a tree planting event is a great way to improve the school environment!",
   },
   {
     id: "home",
     question: "2) One change at home",
     placeholder: "Eg : Start composting food waste",
-    suggestion: "Composting is a fantastic way to reduce waste and help your garden!",
+    suggestion:
+      "Composting is a fantastic way to reduce waste and help your garden!",
   },
   {
     id: "energy",
     question: "3) One energy-saving habit",
     placeholder: "Eg : Switch off lights when not in use",
-    suggestion: "Switching off lights is a simple but effective way to save energy.",
+    suggestion:
+      "Switching off lights is a simple but effective way to save energy.",
   },
   {
     id: "waste",
@@ -44,13 +47,11 @@ const verifyPledgeWithGemini = async (text) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       if (text.length > 10) {
-        // Simple check for a "good" answer
         resolve({
           isGood: true,
           message: "✅ Good choice! That's a clear and specific plan.",
         });
       } else {
-        // Simple check for a "bad" answer
         resolve({
           isGood: false,
           message: "⚠️ Needs improvement. Can you be more specific?",
@@ -71,7 +72,6 @@ const initialState = {
   score: 0,
 };
 
-
 const reducer = (state, action) => {
   switch (action.type) {
     case "START_GAME":
@@ -91,14 +91,13 @@ const reducer = (state, action) => {
         isVerified: true,
       };
     case "NEXT_QUESTION":
-      // Logic to record the final answer before moving to the next question
+      // Record the last answer
       const newAnswer = {
         question: QUESTIONS[state.currentQuestionIndex].question,
         answer: state.inputValue,
         suggestion: state.suggestion,
         isCorrect: state.suggestion.startsWith("✅"),
       };
-
       const updatedAnswers = [...state.answers, newAnswer];
       const newScore = newAnswer.isCorrect ? state.score + 1 : state.score;
       const nextIndex = state.currentQuestionIndex + 1;
@@ -115,10 +114,15 @@ const reducer = (state, action) => {
           isInputEmpty: true,
         };
       } else {
-        return { ...state, view: "finish", answers: updatedAnswers, score: newScore };
+        return {
+          ...state,
+          view: "finish",
+          answers: updatedAnswers,
+          score: newScore,
+        };
       }
     case "FINISH_GAME":
-      // Handle the case where the timer runs out before all questions are answered
+      // Timer ran out. Save current if any.
       const finalAnswers = [...state.answers];
       if (state.inputValue && finalAnswers.length < QUESTIONS.length) {
         finalAnswers.push({
@@ -128,7 +132,12 @@ const reducer = (state, action) => {
           isCorrect: state.suggestion.startsWith("✅"),
         });
       }
-      return { ...state, view: "finish", answers: finalAnswers, score: finalAnswers.filter(a => a.isCorrect).length };
+      return {
+        ...state,
+        view: "finish",
+        answers: finalAnswers,
+        score: finalAnswers.filter((a) => a.isCorrect).length,
+      };
     case "RESET_GAME":
       return initialState;
     case "REVIEW_ANSWERS":
@@ -139,255 +148,145 @@ const reducer = (state, action) => {
       return state;
   }
 };
-  //for performance
-  const { updatePerformance } = usePerformance();
-  const [startTime, setStartTime] = useState(Date.now());
 
 const ClimatePledgeGame = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { width, height } = useWindowSize();
   const currentQuestion = QUESTIONS[state.currentQuestionIndex];
-
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
 
-  // Timer useEffect hook
+  // Timer
   useEffect(() => {
-    if (state.view === 'game' && timeLeft > 0) {
+    if (state.view === "game" && timeLeft > 0) {
       const timer = setInterval(() => {
-        setTimeLeft(prevTime => prevTime - 1);
+        setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
       return () => clearInterval(timer);
-    } else if (timeLeft === 0 && state.view === 'game') {
+    } else if (timeLeft === 0 && state.view === "game") {
       dispatch({ type: "FINISH_GAME" });
     }
   }, [timeLeft, state.view]);
 
+  // When game restarts, reset timer
+  useEffect(() => {
+    if (state.view === "game") setTimeLeft(INITIAL_TIME);
+  }, [state.view]);
 
-  // Handler for verifying the input with Gemini
+  // Handler for Gemini-style verification
   const handleVerify = async () => {
     const result = await verifyPledgeWithGemini(state.inputValue);
     dispatch({ type: "SET_SUGGESTION", payload: result });
-    
-      if (bonus && checkCreativity(value)) {
-        hasCreative = true;
-      }
-    }
-
-    if (bonus && hasCreative && goodCount >= 3) {
-      baseScore += 2;
-    }
-
-    const endTime = Date.now();
-    const totalTimeSec = Math.floor((endTime - startTime) / 1000);
-    const avgResponseTimeSec = totalTimeSec / 5;
-    const maxScore = bonus ? 7 : 5;
-    const scaledScore = Number(((baseScore / maxScore) * 10).toFixed(2));
-
-    // ✅ Update performance using baseScore
-    updatePerformance({
-      moduleName: "Environment",
-      topicName: "ecoDecisionMaker",
-      score: scaledScore,
-      accuracy: (baseScore / maxScore) * 100,
-      avgResponseTimeSec,
-      studyTimeMinutes: Math.ceil(totalTimeSec / 60),
-      completed: baseScore >= 5, // ✅ fixed to use baseScore
-
-    });
-    setStartTime(Date.now());
-    setFeedback(newFeedback);
-    setScore(baseScore);
-    setSubmitted(true);
-    setView("result");
   };
 
   const handlePlayAgain = () => {
     dispatch({ type: "RESET_GAME" });
     setTimeLeft(INITIAL_TIME);
-    setPledge({
-      school: "",
-      home: "",
-      energy: "",
-      waste: "",
-      awareness: "",
-    });
-    setFeedback({
-      school: "",
-      home: "",
-      energy: "",
-      waste: "",
-      awareness: "",
-    });
-    setVerifyMessage({
-      school: "",
-      home: "",
-      energy: "",
-      waste: "",
-      awareness: "",
-    });
-    setScore(null);
-    setBonus(false);
-    setTimeLeft(300);
-    setSubmitted(false);
-    setView("intro");
-    setStartTime(Date.now());
-  };
-
-  const verifyActionWithGemini = async (field) => {
-    const text = pledge[field];
-    const apiKey = import.meta.env.VITE_API_KEY;
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-    // Build the bonus part dynamically
-    const bonusPart = bonus
-      ? `4️⃣ Also, check if it is creative or something new that helps others too!`
-      : "";
-
-    const requestBody = {
-      contents: [
-        {
-          parts: [
-            {
-              text: `You are a super friendly teacher for students in Class 6–8. 
-  A student wrote this action plan: "${text}"
-  
-  ✅ Please check if it meets these:
-  1️⃣ Is it clear and specific?  
-  2️⃣ Is it realistic and doable today?  
-  3️⃣ Is it something the student can control?  
-  ${bonusPart}
-  
-  🎓 Then give your feedback in **very simple words with emojis**, like a supportive teacher talking to a 12-year-old:
-  - If it's good, start with: "✅ Good job! ..." and explain why it's good.
-  - If it needs changes, start with: "⚠️ Needs improvement: ..." and explain what to fix in an easy way.
-  
-  Keep your answer short, friendly, and use 1-2 emojis!`,
-            },
-          ],
-        },
-      ],
-    };
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        console.error("API error:", response.status, response.statusText);
-        setVerifyMessage((prev) => ({
-          ...prev,
-          [field]: "⚠️ Gemini could not verify right now. Please try again.",
-        }));
-        return;
-      }
-
-      const data = await response.json();
-      const geminiReply =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-      setVerifyMessage((prev) => ({ ...prev, [field]: geminiReply }));
-    } catch (error) {
-      console.error("Error:", error);
-      setVerifyMessage((prev) => ({
-        ...prev,
-        [field]: "⚠️ Oops! Something went wrong. Try again later.",
-      }));
-    }
   };
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  const timerDisplay = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  const timerDisplay = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   const progressBarWidth = ((INITIAL_TIME - timeLeft) / INITIAL_TIME) * 100;
 
   const verifyDisabled = state.isInputEmpty;
   const arrowDisabled = !state.isVerified;
 
-  // The main component render logic
+  // Render main game UI
   const renderGameContent = () => {
     switch (state.view) {
       case "intro":
         return (
           <div className="flex flex-col items-center justify-center min-h-[80vh]">
-            <h1 className="text-[4.44vh] font-bold mb-[2.22vh] mt-[0.88vh]">Climate Pledge Challenge</h1>
+            <h1 className="text-[4.44vh] font-bold mb-[2.22vh] mt-[0.88vh]">
+              Climate Pledge Challenge
+            </h1>
             <p className="text-[2vh] text-gray-600 mb-[6.66vh]">
               Create your personal 5-point climate pledge.
             </p>
             <div className="bg-white rounded-[1.11vh] shadow-md p-[2.66vh] max-w-[44.44vw] mb-[6.66vh]">
               <p className="mb-[2.22vh]">
-                You will be asked to make a pledge in <b>5 categories</b>. Your job is to write a clear and specific action plan for each:
+                You will be asked to make a pledge in <b>5 categories</b>. Your
+                job is to write a clear and specific action plan for each:
               </p>
               <ul className="mb-[2.22vh] text-left list-disc pl-[5.55vh]">
-                <li><b>School</b> (an action you can take at school)</li>
-                <li><b>Home</b> (a change you can make at home)</li>
-                <li><b>Energy</b> (a habit to save energy)</li>
-                <li><b>Waste</b> (a habit to reduce waste)</li>
-                <li><b>Awareness</b> (an action to raise awareness)</li>
+                <li>
+                  <b>School</b> (an action you can take at school)
+                </li>
+                <li>
+                  <b>Home</b> (a change you can make at home)
+                </li>
+                <li>
+                  <b>Energy</b> (a habit to save energy)
+                </li>
+                <li>
+                  <b>Waste</b> (a habit to reduce waste)
+                </li>
+                <li>
+                  <b>Awareness</b> (an action to raise awareness)
+                </li>
               </ul>
-              <p className="mb-[2.22vh]">🎯 <b>Scoring:</b> 1 point per good answer.</p>
-              <p className="mb-[2.22vh]">💡 <b>Bonus:</b> Get suggestions from a friendly AI teacher to improve your answers!</p>
+              <p className="mb-[2.22vh]">
+                🎯 <b>Scoring:</b> 1 point per good answer.
+              </p>
+              <p className="mb-[2.22vh]">
+                💡 <b>Bonus:</b> Get suggestions from a friendly AI teacher to
+                improve your answers!
+              </p>
             </div>
             <button
-              onClick={() => {
-                dispatch({ type: "START_GAME" });
-                setTimeLeft(INITIAL_TIME);
-              }}
+              onClick={() => dispatch({ type: "START_GAME" })}
               className="bg-green-500 hover:bg-green-600 text-white px-[4.44vw] py-[3.33vh] rounded-[1.11vh] text-[2.22vh] font-semibold shadow-lg"
             >
               Start Pledge
             </button>
           </div>
         );
-
       case "game":
-       return (
-        <div className="main-container w-[100vw] h-[89vh] bg-[#fffcfd] relative overflow-hidden mx-auto my-0">
-          {/* 👇 Mobile screen layout (sm and below) */}
-          <div className="flex md:hidden w-full max-w-[400px] gap-[20px] justify-between items-center relative z-[16] mt-[20px] px-4">
-            <div className="flex-1 h-[15px] bg-[#d9d9d9] rounded-[4px] relative">
-              <div
-                className="h-full bg-[rgba(9,190,67,0.8)] rounded-[4px]"
-                style={{ width: `${Math.max(0, progressBarWidth)}%` }}
-              />
-            </div>
-            <div className="flex gap-[5px] items-center">
-              <div
-                className="w-[25px] h-[22px] bg-cover bg-no-repeat"
-                style={{
-                  backgroundImage:
-                    'url("https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/kFwo3bjqx3.png")',
-                }}
-              />
-              <span className="font-['Comic_Sans_MS'] text-lg font-bold leading-[20px] text-[rgba(75,75,75,0.8)] whitespace-nowrap">
-                {timerDisplay}
-              </span>
-            </div>
-          </div>
+        return (
+          <div className="main-container w-[100vw] h-[89vh] bg-[#fffcfd] relative overflow-hidden mx-auto my-0">
+            {/* Progress Bar and Timer */}
+            <div className="flex md:hidden w-full max-w-[400px] gap-[20px] justify-between items-center relative z-[16] mt-[20px] px-4">
+              <div className="flex-1 h-[15px] bg-[#d9d9d9] rounded-[4px] relative">
+                <div
+                  className="h-full bg-[rgba(9,190,67,0.8)] rounded-[4px]"
+                  style={{ width: `${Math.max(0, progressBarWidth)}%` }}
+                />
+              </div>
+              <div className="flex gap-[5px] items-center">
+                <div
+                  className="w-[25px] h-[22px] bg-cover bg-no-repeat"
+                  style={{
+                    backgroundImage:
+                      'url("https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/kFwo3bjqx3.png")',
+                  }}
+                />
+                <span className="font-['Comic_Sans_MS'] text-lg font-bold leading-[20px] text-[rgba(75,75,75,0.8)] whitespace-nowrap">
+                  {timerDisplay}
+                </span>
+              </div>
+            </div>
 
-          {/* 👇 md and lg screen layout */}
-          <div className="hidden md:flex w-[70vw] gap-[2vw] justify-start items-center relative z-[23] mt-[5vh] ml-[14vw]">
-            <div className="flex w-[59vw] h-[2.5vh] flex-col justify-start items-start shrink-0 bg-[#d9d9d9] rounded-[4px] relative z-[24]">
-              <div
-                className="h-[2.5vh] bg-[rgba(9,190,67,0.8)] rounded-[4px] relative z-[25]"
-                style={{ width: `${Math.max(0, progressBarWidth)}%` }}
-              />
-            </div>
-            <div className="flex gap-[0.5vw] items-center">
-              <div
-                className="w-[35px] h-[31px] bg-cover bg-no-repeat relative z-[27]"
-                style={{
-                  backgroundImage:
-                    'url("https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/kFwo3bjqx3.png")',
-                }}
-              />
-              <span className="font-['Comic_Sans_MS'] text-[2.5vh] font-bold leading-[20px] text-[rgba(75,75,75,0.8)] text-center whitespace-nowrap relative z-[28]">
-                {timerDisplay}
-              </span>
-            </div>
-          </div>
-
+            {/* Desktop Progress Bar */}
+            <div className="hidden md:flex w-[70vw] gap-[2vw] justify-start items-center relative z-[23] mt-[5vh] ml-[14vw]">
+              <div className="flex w-[59vw] h-[2.5vh] flex-col justify-start items-start shrink-0 bg-[#d9d9d9] rounded-[4px] relative z-[24]">
+                <div
+                  className="h-[2.5vh] bg-[rgba(9,190,67,0.8)] rounded-[4px] relative z-[25]"
+                  style={{ width: `${Math.max(0, progressBarWidth)}%` }}
+                />
+              </div>
+              <div className="flex gap-[0.5vw] items-center">
+                <div
+                  className="w-[35px] h-[31px] bg-cover bg-no-repeat relative z-[27]"
+                  style={{
+                    backgroundImage:
+                      'url("https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-07-24/kFwo3bjqx3.png")',
+                  }}
+                />
+                <span className="font-['Comic_Sans_MS'] text-[2.5vh] font-bold leading-[20px] text-[rgba(75,75,75,0.8)] text-center whitespace-nowrap relative z-[28]">
+                  {timerDisplay}
+                </span>
+              </div>
+            </div>
 
             {/* Title */}
             <div className="flex w-[33.75vw] flex-col justify-end items-center flex-nowrap relative z-[1] mt-[7vh] mr-0 mb-0 ml-[32.68vw]">
@@ -414,7 +313,12 @@ const ClimatePledgeGame = () => {
                 <input
                   type="text"
                   value={state.inputValue}
-                  onChange={(e) => dispatch({ type: "SET_INPUT_VALUE", payload: e.target.value })}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_INPUT_VALUE",
+                      payload: e.target.value,
+                    })
+                  }
                   placeholder={currentQuestion.placeholder}
                   className="flex w-full h-full justify-center items-center font-['Comic_Neue'] text-[2vh] md:text-[3.11vh] font-bold leading-[2.66vh] text-[#4b4b4b] placeholder-[#ababab] absolute top-0 left-0 text-center whitespace-nowrap z-[11] bg-transparent outline-none p-[1.11vh]"
                 />
@@ -422,8 +326,14 @@ const ClimatePledgeGame = () => {
 
               {/* Suggestion Text */}
               {state.suggestion && (
-                <span className={`flex w-[31.13vw] h-[2.66vh] justify-center items-center font-['Comic_Neue'] text-[3.11vh] font-normal leading-[2.66vh] relative text-center whitespace-nowrap z-[12] mt-[2vh] 
-                    ${state.suggestion.startsWith("✅") ? "text-[#09be43]" : "text-[#d64636]"}`}>
+                <span
+                  className={`flex w-[31.13vw] h-[2.66vh] justify-center items-center font-['Comic_Neue'] text-[3.11vh] font-normal leading-[2.66vh] relative text-center whitespace-nowrap z-[12] mt-[2vh] 
+                      ${
+                        state.suggestion.startsWith("✅")
+                          ? "text-[#09be43]"
+                          : "text-[#d64636]"
+                      }`}
+                >
                   {state.suggestion}
                 </span>
               )}
@@ -435,7 +345,11 @@ const ClimatePledgeGame = () => {
                 onClick={handleVerify}
                 disabled={verifyDisabled}
                 className={`flex w-[27vw] md:w-[14vw] gap-[18vw] justify-center items-center shrink-0 flex-nowrap rounded-[1.11vh] relative z-[19] transition-all duration-300
-                ${verifyDisabled ? 'bg-[#cccccc] shadow-[0_2px_10px_0_rgba(204,204,204,0.90)] cursor-not-allowed' : 'bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.9)] hover:bg-green-600'}`}
+                ${
+                  verifyDisabled
+                    ? "bg-[#cccccc] shadow-[0_2px_10px_0_rgba(204,204,204,0.90)] cursor-not-allowed"
+                    : "bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.9)] hover:bg-green-600"
+                }`}
               >
                 <div className="w-[14vw] h-[6.5vh] md:h-[8vh] shrink-0 rounded-[1.11vh] relative z-20">
                   <span className="flex w-auto md:h-[2.22vh] justify-center items-center font-['Comic_Sans_MS'] text-[2.44vh] font-bold leading-[2.22vh] text-[#fff] absolute top-[1.8vh] md:top-[2.5vh] left-[1.5vw] md:left-[calc(50%-2.125vw)] text-center whitespace-nowrap z-[21]">
@@ -447,18 +361,29 @@ const ClimatePledgeGame = () => {
                 onClick={() => dispatch({ type: "NEXT_QUESTION" })}
                 disabled={arrowDisabled}
                 className={`flex w-[12vw] md:w-[4.0625vw] h-[6.5vh] md:h-[8vh] gap-[23.43vw] justify-center items-center shrink-0 flex-nowrap bg-contain bg-no-repeat rounded-[1.11vh] relative z-[22] transition-all duration-300 text-2xl text-white
-                ${arrowDisabled ? 'bg-[#cccccc] shadow-[0_2px_10px_0_rgba(204,204,204,0.90)] cursor-not-allowed' : 'bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.90)] hover:bg-green-600'}`}
-                style={{ backgroundPosition: 'center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}}
-              >→</button>
+                ${
+                  arrowDisabled
+                    ? "bg-[#cccccc] shadow-[0_2px_10px_0_rgba(204,204,204,0.90)] cursor-not-allowed"
+                    : "bg-[#09be43] shadow-[0_2px_10px_0_rgba(9,190,67,0.90)] hover:bg-green-600"
+                }`}
+                style={{
+                  backgroundPosition: "center",
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
+                →
+              </button>
             </div>
           </div>
         );
-
       case "finish":
         return (
           <div className="flex flex-col items-center justify-center min-h-[90vh]">
             {state.score >= 3 && <Confetti width={width} height={height} />}
-            <h1 className="text-[4.44vh] font-bold mb-[2.22vh] mt-[17.77vh] text-center">Climate Pledge</h1>
+            <h1 className="text-[4.44vh] font-bold mb-[2.22vh] mt-[17.77vh] text-center">
+              Climate Pledge
+            </h1>
             <p className="text-[2vh] text-gray-600 mb-[6.66vh] text-center">
               You've completed your 5-point pledge.
             </p>
@@ -481,21 +406,21 @@ const ClimatePledgeGame = () => {
                 <button
                   onClick={handlePlayAgain}
                   className="w-[15vw] h-[6.66vh] rounded-[1.11vh] text-[2vh] font-semibold transition-all bg-[#C9FF9F] border-[0.22vh] border-[rgba(9,190,67,0.65)] shadow-[0_2px_0px_0px_rgba(9,190,67,0.65)] text-[#4B4B4B] hover:bg-[#b2f47a] "
-                  style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}
+                  style={{ fontFamily: "Comic Neue, Comic Sans MS, cursive" }}
                 >
                   Play Again
                 </button>
                 <button
                   onClick={() => alert("Continue to next level")}
                   className="w-[15vw] h-[6.66vh] rounded-[1.11vh] text-[2vh] font-semibold transition-all bg-[#09BE43] text-white shadow-[0_2px_5px_0_rgba(9,190,67,0.90)] hover:bg-green-600 "
-                  style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}
+                  style={{ fontFamily: "Comic Neue, Comic Sans MS, cursive" }}
                 >
                   Continue
                 </button>
                 <button
                   onClick={() => dispatch({ type: "REVIEW_ANSWERS" })}
                   className="w-[15vw] h-[6.66vh] rounded-[1.11vh] text-[2vh] font-semibold transition-all bg-[#C9FF9F] border-[0.22vh] border-[rgba(9,190,67,0.65)] shadow-[0_2px_0px_0px_rgba(9,190,67,0.65)] text-[#4B4B4B] hover:bg-[#b2f47a]"
-                  style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}
+                  style={{ fontFamily: "Comic Neue, Comic Sans MS, cursive" }}
                 >
                   Review Answers
                 </button>
@@ -503,7 +428,6 @@ const ClimatePledgeGame = () => {
             </div>
           </div>
         );
-
       case "review":
         return (
           <div className="min-h-[90vh] flex flex-col items-center justify-center bg-green-100 py-[3.55vh] px-[1vw] sm:px-[1.5vw] lg:px-[2vw]">
@@ -512,35 +436,67 @@ const ClimatePledgeGame = () => {
                 onClick={() => dispatch({ type: "BACK_TO_FINISH" })}
                 className="flex justify-center items-center absolute top-[1.77vh] right-[1vw] z-[139] w-[2.5vw] h-[4.44vh] sm:w-[2.75vw] sm:h-[4.88vh] rounded-full hover:bg-gray-200 transition"
               >
-                <span className="font-['Comfortaa'] text-[4vh] sm:text-[4.44vh] text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">+</span>
+                <span className="font-['Comfortaa'] text-[4vh] sm:text-[4.44vh] text-[#6f6f6f] rotate-[-45deg] font-semibold select-none">
+                  +
+                </span>
               </button>
-              <h2 className="text-[3.55vh] sm:text-[4.44vh] font-bold text-center w-full" style={{ fontFamily: 'Comic Neue, Comic Sans MS, cursive' }}>Check your answers</h2>
-              <p className="mb-[6.66vh] sm:mb-[8.88vh] text-[1.77vh] sm:text-[2.22vh] text-gray-700 text-center w-full" style={{ fontFamily: 'Commissioner, Arial, sans-serif' }}>
+              <h2
+                className="text-[3.55vh] sm:text-[4.44vh] font-bold text-center w-full"
+                style={{ fontFamily: "Comic Neue, Comic Sans MS, cursive" }}
+              >
+                Check your answers
+              </h2>
+              <p
+                className="mb-[6.66vh] sm:mb-[8.88vh] text-[1.77vh] sm:text-[2.22vh] text-gray-700 text-center w-full"
+                style={{ fontFamily: "Commissioner, Arial, sans-serif" }}
+              >
                 Review your pledge and the suggestions you received.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[0.5vw] sm:gap-[0.75vw] w-full justify-items-center">
                 {state.answers.map((ans, idx) => (
                   <div
                     key={idx}
-                    className={`main-container flex w-full max-w-[21.875vw] sm:max-w-[20vw] h-auto p-[1.77vh] flex-col gap-[1.11vh] justify-start items-start rounded-[1.66vh] relative ${ans.isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"}`}
+                    className={`main-container flex w-full max-w-[21.875vw] sm:max-w-[20vw] h-auto p-[1.77vh] flex-col gap-[1.11vh] justify-start items-start rounded-[1.66vh] relative ${
+                      ans.isCorrect ? "bg-[#c8ff9e]" : "bg-[#ffdfe0]"
+                    }`}
                   >
                     <div className="flex w-full justify-between items-start relative">
                       <div className="flex flex-col gap-[0.88vh] sm:gap-[1.11vh] items-start flex-1">
-                        <span className={`font-['Comic_Neue'] text-[2.22vh] sm:text-[2.77vh] font-bold leading-[2.66vh] relative text-left z-[2] ${ans.isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>
+                        <span
+                          className={`font-['Comic_Neue'] text-[2.22vh] sm:text-[2.77vh] font-bold leading-[2.66vh] relative text-left z-[2] ${
+                            ans.isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"
+                          }`}
+                        >
                           {ans.question}
                         </span>
                         <div className="flex flex-col gap-[0.22vh] sm:gap-[0.33vh] items-start w-full">
-                          <span className={`font-['Commissioner'] text-[1.55vh] sm:text-[2vh] font-light leading-[2.22vh] sm:leading-[2.66vh] relative text-left z-[4] ${ans.isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>
+                          <span
+                            className={`font-['Commissioner'] text-[1.55vh] sm:text-[2vh] font-light leading-[2.22vh] sm:leading-[2.66vh] relative text-left z-[4] ${
+                              ans.isCorrect
+                                ? "text-[#09be43]"
+                                : "text-[#ea2b2b]"
+                            }`}
+                          >
                             You: {ans.answer}
                           </span>
-                          <span className={`font-['Commissioner'] text-[1.55vh] sm:text-[2vh] font-light leading-[2.22vh] sm:leading-[2.66vh] relative text-left z-[5] ${ans.isCorrect ? "text-[#09be43]" : "text-[#ea2b2b]"}`}>
+                          <span
+                            className={`font-['Commissioner'] text-[1.55vh] sm:text-[2vh] font-light leading-[2.22vh] sm:leading-[2.66vh] relative text-left z-[5] ${
+                              ans.isCorrect
+                                ? "text-[#09be43]"
+                                : "text-[#ea2b2b]"
+                            }`}
+                          >
                             Suggestion: {ans.suggestion}
                           </span>
                         </div>
                       </div>
                       <div
                         className="w-[1.875vw] h-[3.33vh] sm:w-[2.1875vw] sm:h-[3.88vh] shrink-0 bg-contain bg-no-repeat ml-[0.5vw]"
-                        style={{ backgroundImage: ans.isCorrect ? "url(/check.png)" : "url(/cancel.png)" }}
+                        style={{
+                          backgroundImage: ans.isCorrect
+                            ? "url(/check.png)"
+                            : "url(/cancel.png)",
+                        }}
                       />
                     </div>
                   </div>
@@ -549,7 +505,6 @@ const ClimatePledgeGame = () => {
             </div>
           </div>
         );
-
       default:
         return null;
     }
