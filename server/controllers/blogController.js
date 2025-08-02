@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 // Get all blogs
 export const getAllBlogs = async (req, res) => {
   const blogs = await prisma.blog.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: "desc" },
     select: {
       id: true,
       title: true,
@@ -20,7 +20,6 @@ export const getAllBlogs = async (req, res) => {
   });
   res.json(blogs);
 };
-
 
 // Get single blog by ID + similar blogs
 export const getBlogById = async (req, res) => {
@@ -68,15 +67,23 @@ export const createBlog = async (req, res) => {
     if (typeof tableOfContents === "string") {
       try {
         tableOfContents = JSON.parse(tableOfContents);
-        const isValid = Array.isArray(tableOfContents) && tableOfContents.every(point =>
-          typeof point === 'object' &&
-          (point.heading === undefined || typeof point.heading === 'string') &&
-          (point.explanation === undefined || Array.isArray(point.explanation)) &&
-          (point.reflection === undefined || typeof point.reflection === 'string')
-        );
+        const isValid =
+          Array.isArray(tableOfContents) &&
+          tableOfContents.every(
+            (point) =>
+              typeof point === "object" &&
+              (point.heading === undefined ||
+                typeof point.heading === "string") &&
+              (point.explanation === undefined ||
+                Array.isArray(point.explanation)) &&
+              (point.reflection === undefined ||
+                typeof point.reflection === "string")
+          );
         if (!isValid) throw new Error();
       } catch (err) {
-        return res.status(400).json({ message: "Invalid tableOfContents format" });
+        return res
+          .status(400)
+          .json({ message: "Invalid tableOfContents format" });
       }
     }
 
@@ -110,7 +117,6 @@ export const createBlog = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 // Delete a blog
 export const deleteBlog = async (req, res) => {
@@ -153,4 +159,35 @@ export const postComment = async (req, res) => {
     data: { blogId, name, content },
   });
   res.json(comment);
+};
+
+export const getCommentsByUser = async (req, res) => {
+  try {
+    const name = req.params.name;
+
+    const comments = await prisma.comment.findMany({
+      where: { name },
+      include: {
+        blog: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
+      orderBy: { date: "desc" },
+    });
+
+    const formatted = comments.map((c) => ({
+      blogId: c.blog.id,
+      blogTitle: c.blog.title,
+      comment: c.content,
+      date: c.date,
+    }));
+
+    res.json(formatted);
+  } catch (err) {
+    console.error("Error fetching user comments:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 };

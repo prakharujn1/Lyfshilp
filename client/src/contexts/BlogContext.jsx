@@ -103,6 +103,16 @@ export const BlogProvider = ({ children }) => {
     }
   };
 
+  const getUserComments = async (name) => {
+    try {
+      const res = await axios.get(`${server}/blogs/user-comments/${name}`);
+      return res.data;
+    } catch (err) {
+      console.error("Failed to fetch user comments", err);
+      return [];
+    }
+  };
+
   return (
     <BlogContext.Provider
       value={{
@@ -115,6 +125,7 @@ export const BlogProvider = ({ children }) => {
         createBlog,
         deleteBlog,
         postComment,
+        getUserComments,
       }}
     >
       {children}
