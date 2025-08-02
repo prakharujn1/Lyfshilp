@@ -119,26 +119,28 @@ const Dashboard = () => {
               <span className="font-bold">My Profile</span>
             </button>
 
-            {/* My Modules Button */}
-            <button
-              className={`flex items-center gap-3 hover:text-green-700 ${
-                selectedSection === "modules"
-                  ? "text-green-600"
-                  : "text-gray-400"
-              }`}
-              onClick={() => setSelectedSection("modules")}
-            >
-              <img
-                src={
+            {/* My Modules Button - Only if NOT Admin */}
+            {role !== "admin" && (
+              <button
+                className={`flex items-center gap-3 hover:text-green-700 ${
                   selectedSection === "modules"
-                    ? "/dashboardDesign/moduleGreen.svg"
-                    : "/dashboardDesign/modules.svg"
-                }
-                alt="Modules"
-                className="w-5 h-5"
-              />
-              <span className="font-bold">My Modules</span>
-            </button>
+                    ? "text-green-600"
+                    : "text-gray-400"
+                }`}
+                onClick={() => setSelectedSection("modules")}
+              >
+                <img
+                  src={
+                    selectedSection === "modules"
+                      ? "/dashboardDesign/moduleGreen.svg"
+                      : "/dashboardDesign/modules.svg"
+                  }
+                  alt="Modules"
+                  className="w-5 h-5"
+                />
+                <span className="font-bold">My Modules</span>
+              </button>
+            )}
 
             <button
               onClick={handleLogout}
@@ -157,278 +159,310 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="flex-1 bg-gray-100 overflow-x-hidden">
-        {/* Conditional Rendering for Modules Section */}
-        {selectedSection === "modules" && (
-          <div className="flex flex-col items-center w-full px-4 py-6">
-            {/* Top Heading Box */}
-            <div className="bg-white w-full max-w-6xl rounded-lg shadow-sm px-6 py-4 mb-6">
-              <h2 className="text-3xl font-bold text-gray-900">My Modules</h2>
-            </div>
-
-            {/* Empty State Box */}
-            <div className="bg-white w-full max-w-6xl rounded-lg shadow-md flex flex-col items-center justify-center p-10">
-              <img
-                src="/blogDesign/notfound.svg"
-                alt="No Modules"
-                className="w-64 h-auto mb-6"
-              />
-              <h3 className="text-xl font-bold text-gray-800 -mt-18">
-                No Modules Available
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm mt-2">
-                Upgrade your plan to learn via modules
-              </p>
-              <Link
-                to="/pricing"
-                className="bg-[#068F36] hover:bg-green-700 text-white px-5 py-2 rounded-lg inline-block text-center"
-              >
-                Upgrade Now
-              </Link>
-            </div>
-          </div>
-        )}
-
-        {selectedSection === "profile" && (
+        {/* Admin View */}
+        {role === "admin" ? (
           <div className="max-w-6xl mx-auto px-6 pt-6">
-            {/* DASHBOARD HEADER */}
             <div className="bg-[#068F36] text-5xl font-bold text-center px-10 py-4 rounded-md shadow-sm mb-8">
               <span className="text-white" style={{ opacity: 0.72 }}>
                 DASHBOARD
               </span>
             </div>
 
-            {/* PROFILE + CHARACTER */}
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 mb-10">
-              {/* LEFT COLUMN (Profile + Comments) */}
-              <div className="flex flex-col gap-6 max-w-[480px]">
-                {/* Profile Card */}
-                <div className="bg-white rounded-xl shadow-md p-6 relative">
-                  {/* Avatar */}
-                  <div className="flex flex-col items-center relative -mt-12">
-                    <img
-                      src={avatar}
-                      alt="Profile Avatar"
-                      className="w-24 h-24 rounded-full"
-                    />
-
-                    {/* Hidden File Input */}
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleFileChange}
-                    />
-
-                    {/* Upload Button */}
-                    <button
-                      onClick={handleUploadClick}
-                      className="absolute mt-17 ml-30 transform translate-y-1/2 bg-[#068F36] text-white text-xs px-4 py-1 rounded shadow hover:bg-green-700"
-                    >
-                      Upload Photo
-                    </button>
-                  </div>
-
-                  {/* Profile Info */}
-                  <div className="grid grid-cols-2 gap-4 text-sm mt-6">
-                    {/* Left Section: Name, Class, Age */}
-                    <div className="border rounded-lg p-4 flex flex-col gap-4">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="text-gray-500 text-xs">Your Name</p>
-                          <p className="font-semibold">{user.name}</p>
-                        </div>
-                        <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
-                          Edit
-                        </button>
-                      </div>
-
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="text-gray-500 text-xs">Class</p>
-                          <p className="font-semibold">{user.userClass}</p>
-                        </div>
-                        <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
-                          Edit
-                        </button>
-                      </div>
-
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="text-gray-500 text-xs">Age</p>
-                          <p className="font-semibold">{user.age} Yrs.</p>
-                        </div>
-                        <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
-                          Edit
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Right Section: Phone, Email, Account Created On */}
-                    <div className="border rounded-lg p-4 flex flex-col gap-4">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="text-gray-500 text-xs">Phone Number</p>
-                          <p className="font-semibold">{user.phonenumber}</p>
-                        </div>
-                        <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
-                          Edit
-                        </button>
-                      </div>
-
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="text-gray-500 text-xs">Email ID</p>
-                        </div>
-                        <button className="bg-[#068F36] text-white text-xs px-3 py-1 rounded-lg">
-                          Add Now
-                        </button>
-                      </div>
-
-                      <div>
-                        <p className="text-gray-500 text-xs">
-                          Account Created On
-                        </p>
-                        <p className="font-semibold">
-                          {formatDateWithSuffix(user.createdAt)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Comments Section */}
-                <div className="bg-white rounded-xl shadow-md p-5">
-                  <h4 className="text-lg font-semibold mb-3 text-gray-800">
-                    Comments Written
-                  </h4>
-                  <div className="flex flex-wrap gap-3">
-                    {userComments.length === 0 ? (
-                      <p className="text-sm text-gray-500">
-                        No comments written yet.
-                      </p>
-                    ) : (
-                      userComments.map((item, index) => (
-                        <div
-                          key={index}
-                          onClick={() => navigate(`/blogs/${item.blogId}`)}
-                          className="bg-white border border-gray-200 px-4 py-3 rounded-lg shadow-sm flex-1 cursor-pointer hover:shadow-md transition"
-                        >
-                          <h5 className="text-sm font-semibold mb-1 text-blue-800">
-                            {item.blogTitle}
-                          </h5>
-                          <p className="text-sm text-gray-600 line-clamp-3">
-                            {item.comment}
-                          </p>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT COLUMN (Character Card) */}
-              <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-start w-full min-h-[430px]">
-                {/* Header */}
-                <div className="w-full -ml-3">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-1 text-left ml-4">
-                    Your Character
-                  </h3>
-                  <p className="text-2xl font-bold text-gray-900 mb-4 text-left ml-4">
-                    {user.characterName}
-                  </p>
-                </div>
-
-                {/* Character Traits + Info */}
-                <div className="w-full flex flex-col lg:flex-row gap-6">
-                  {/* Left Grid (Traits & Info) */}
-                  <div className="grid grid-cols-2 gap-4 flex-1">
-                    {/* Gender */}
-                    <div className="flex items-center gap-3 border rounded-lg p-3 bg-white shadow-sm">
-                      <img
-                        src={iconMap[user.characterGender]}
-                        alt={user.characterGender}
-                        className="w-[2.2rem] h-[1.8rem] flex-shrink-0"
-                      />
-                      <div className="overflow-hidden">
-                        <p className="text-xs text-gray-500">Gender</p>
-                        <p className="font-semibold">{user.characterGender}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 border rounded-lg p-3 bg-white shadow-sm">
-                      <img
-                        src={iconMap[user.characterStyle]}
-                        alt={user.characterStyle}
-                        className="w-[3.5rem] h-[3rem] flex-shrink-0"
-                      />
-                      <div className="overflow-hidden">
-                        <p className="text-xs text-gray-500">Style</p>
-                        <p className="font-semibold">{user.characterStyle}</p>
-                      </div>
-                    </div>
-
-                    {/* Traits */}
-                    {user.characterTraits.map((trait, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-3 border rounded-lg p-3 bg-white shadow-sm"
-                      >
-                        <img
-                          src={iconMap[trait]}
-                          alt={trait}
-                          className="w-[3rem] h-[2.5rem] flex-shrink-0"
-                        />
-                        <div className="overflow-hidden">
-                          <p className="text-xs text-gray-500">
-                            Trait {index + 1}
-                          </p>
-                          <p className="font-semibold">{trait}</p>
-                        </div>
-                      </div>
-                    ))}
-
-                    {/* Fact Section */}
-                    <div className="bg-gray-50 rounded-lg p-4 mt-6 text-left col-span-2">
-                      <p className="text-xs text-gray-400 mb-1">Fact</p>
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        Meet <strong>“{user.characterName}”</strong> who is{" "}
-                        {user.characterTraits.map((trait, index) => {
-                          const percentages = [40, 30, 20, 10];
-                          const isLast =
-                            index === user.characterTraits.length - 1;
-                          return (
-                            <span key={trait}>
-                              {percentages[index]}% {trait.toLowerCase()}
-                              {!isLast ? ", " : ""}
-                            </span>
-                          );
-                        })}
-                      </p>
-                    </div>
-
-                    {/* Button */}
-                    <Link
-                      to="/courses"
-                      className="bg-[#068F36] col-span-2 mt-4 text-white px-5 font-semibold py-2 rounded-lg hover:bg-green-700 flex justify-center items-center gap-2 w-full text-center"
-                    >
-                      Start Exploration Now
-                      <ChevronRight className="mt-1" size={18} />
-                    </Link>
-                  </div>
-
-                  {/* Right: Character Image */}
-                  <div className="w-full h-[250px] lg:w-44 flex items-center justify-center mt-6 lg:mt-0">
-                    <img
-                      src="/dashboardDesign/boy.svg"
-                      alt="Character"
-                      className="object-contain w-full h-72"
-                    />
-                  </div>
-                </div>
-              </div>
+            <div className="bg-white w-full max-w-6xl rounded-lg shadow-md flex flex-col items-center justify-center p-10">
+              <h2 className="text-2xl font-bold text-gray-800">
+                You are logged in as Admin
+              </h2>
+              <p className="text-gray-600 mt-2">
+                You have administrative privileges.
+              </p>
             </div>
           </div>
+        ) : (
+          <>
+            {/* Conditional Rendering for Modules Section */}
+            {selectedSection === "modules" && (
+              <div className="flex flex-col items-center w-full px-4 py-6">
+                {/* Top Heading Box */}
+                <div className="bg-white w-full max-w-6xl rounded-lg shadow-sm px-6 py-4 mb-6">
+                  <h2 className="text-3xl font-bold text-gray-900">
+                    My Modules
+                  </h2>
+                </div>
+
+                {/* Empty State Box */}
+                <div className="bg-white w-full max-w-6xl rounded-lg shadow-md flex flex-col items-center justify-center p-10">
+                  <img
+                    src="/blogDesign/notfound.svg"
+                    alt="No Modules"
+                    className="w-64 h-auto mb-6"
+                  />
+                  <h3 className="text-xl font-bold text-gray-800 -mt-18">
+                    No Modules Available
+                  </h3>
+                  <p className="text-gray-600 mb-4 text-sm mt-2">
+                    Upgrade your plan to learn via modules
+                  </p>
+                  <Link
+                    to="/pricing"
+                    className="bg-[#068F36] hover:bg-green-700 text-white px-5 py-2 rounded-lg inline-block text-center"
+                  >
+                    Upgrade Now
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {selectedSection === "profile" && (
+              <div className="max-w-6xl mx-auto px-6 pt-6">
+                {/* DASHBOARD HEADER */}
+                <div className="bg-[#068F36] text-5xl font-bold text-center px-10 py-4 rounded-md shadow-sm mb-8">
+                  <span className="text-white" style={{ opacity: 0.72 }}>
+                    DASHBOARD
+                  </span>
+                </div>
+
+                {/* PROFILE + CHARACTER */}
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 mb-10">
+                  {/* LEFT COLUMN (Profile + Comments) */}
+                  <div className="flex flex-col gap-6 max-w-[480px]">
+                    {/* Profile Card */}
+                    <div className="bg-white rounded-xl shadow-md p-6 relative">
+                      {/* Avatar */}
+                      <div className="flex flex-col items-center relative -mt-12">
+                        <img
+                          src={avatar}
+                          alt="Profile Avatar"
+                          className="w-24 h-24 rounded-full"
+                        />
+
+                        {/* Hidden File Input */}
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleFileChange}
+                        />
+
+                        {/* Upload Button */}
+                        <button
+                          onClick={handleUploadClick}
+                          className="absolute mt-17 ml-30 transform translate-y-1/2 bg-[#068F36] text-white text-xs px-4 py-1 rounded shadow hover:bg-green-700"
+                        >
+                          Upload Photo
+                        </button>
+                      </div>
+
+                      {/* Profile Info */}
+                      <div className="grid grid-cols-2 gap-4 text-sm mt-6">
+                        {/* Left Section: Name, Class, Age */}
+                        <div className="border rounded-lg p-4 flex flex-col gap-4">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="text-gray-500 text-xs">Your Name</p>
+                              <p className="font-semibold">{user.name}</p>
+                            </div>
+                            <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                              Edit
+                            </button>
+                          </div>
+
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="text-gray-500 text-xs">Class</p>
+                              <p className="font-semibold">{user.userClass}</p>
+                            </div>
+                            <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                              Edit
+                            </button>
+                          </div>
+
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="text-gray-500 text-xs">Age</p>
+                              <p className="font-semibold">{user.age} Yrs.</p>
+                            </div>
+                            <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                              Edit
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Right Section: Phone, Email, Account Created On */}
+                        <div className="border rounded-lg p-4 flex flex-col gap-4">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                Phone Number
+                              </p>
+                              <p className="font-semibold">
+                                {user.phonenumber}
+                              </p>
+                            </div>
+                            <button className="bg-[#F0EFFA] text-gray-600 text-xs px-3 py-1 rounded-lg">
+                              Edit
+                            </button>
+                          </div>
+
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="text-gray-500 text-xs">Email ID</p>
+                            </div>
+                            <button className="bg-[#068F36] text-white text-xs px-3 py-1 rounded-lg">
+                              Add Now
+                            </button>
+                          </div>
+
+                          <div>
+                            <p className="text-gray-500 text-xs">
+                              Account Created On
+                            </p>
+                            <p className="font-semibold">
+                              {formatDateWithSuffix(user.createdAt)}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Comments Section */}
+                    <div className="bg-white rounded-xl shadow-md p-5">
+                      <h4 className="text-lg font-semibold mb-3 text-gray-800">
+                        Comments Written
+                      </h4>
+                      <div className="flex flex-wrap gap-3">
+                        {userComments.length === 0 ? (
+                          <p className="text-sm text-gray-500">
+                            No comments written yet.
+                          </p>
+                        ) : (
+                          userComments.map((item, index) => (
+                            <div
+                              key={index}
+                              onClick={() => navigate(`/blogs/${item.blogId}`)}
+                              className="bg-white border border-gray-200 px-4 py-3 rounded-lg shadow-sm flex-1 cursor-pointer hover:shadow-md transition"
+                            >
+                              <h5 className="text-sm font-semibold mb-1 text-blue-800">
+                                {item.blogTitle}
+                              </h5>
+                              <p className="text-sm text-gray-600 line-clamp-3">
+                                {item.comment}
+                              </p>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* RIGHT COLUMN (Character Card) */}
+                  <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-start w-full min-h-[430px]">
+                    {/* Header */}
+                    <div className="w-full -ml-3">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-1 text-left ml-4">
+                        Your Character
+                      </h3>
+                      <p className="text-2xl font-bold text-gray-900 mb-4 text-left ml-4">
+                        {user.characterName}
+                      </p>
+                    </div>
+
+                    {/* Character Traits + Info */}
+                    <div className="w-full flex flex-col lg:flex-row gap-6">
+                      {/* Left Grid (Traits & Info) */}
+                      <div className="grid grid-cols-2 gap-4 flex-1">
+                        {/* Gender */}
+                        <div className="flex items-center gap-3 border rounded-lg p-3 bg-white shadow-sm">
+                          <img
+                            src={iconMap[user.characterGender]}
+                            alt={user.characterGender}
+                            className="w-[2.2rem] h-[1.8rem] flex-shrink-0"
+                          />
+                          <div className="overflow-hidden">
+                            <p className="text-xs text-gray-500">Gender</p>
+                            <p className="font-semibold">
+                              {user.characterGender}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3 border rounded-lg p-3 bg-white shadow-sm">
+                          <img
+                            src={iconMap[user.characterStyle]}
+                            alt={user.characterStyle}
+                            className="w-[3.5rem] h-[3rem] flex-shrink-0"
+                          />
+                          <div className="overflow-hidden">
+                            <p className="text-xs text-gray-500">Style</p>
+                            <p className="font-semibold">
+                              {user.characterStyle}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Traits */}
+                        {user.characterTraits.map((trait, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center gap-3 border rounded-lg p-3 bg-white shadow-sm"
+                          >
+                            <img
+                              src={iconMap[trait]}
+                              alt={trait}
+                              className="w-[3rem] h-[2.5rem] flex-shrink-0"
+                            />
+                            <div className="overflow-hidden">
+                              <p className="text-xs text-gray-500">
+                                Trait {index + 1}
+                              </p>
+                              <p className="font-semibold">{trait}</p>
+                            </div>
+                          </div>
+                        ))}
+
+                        {/* Fact Section */}
+                        <div className="bg-gray-50 rounded-lg p-4 mt-6 text-left col-span-2">
+                          <p className="text-xs text-gray-400 mb-1">Fact</p>
+                          <p className="text-sm text-gray-700 leading-relaxed">
+                            Meet <strong>“{user.characterName}”</strong> who is{" "}
+                            {user.characterTraits.map((trait, index) => {
+                              const percentages = [40, 30, 20, 10];
+                              const isLast =
+                                index === user.characterTraits.length - 1;
+                              return (
+                                <span key={trait}>
+                                  {percentages[index]}% {trait.toLowerCase()}
+                                  {!isLast ? ", " : ""}
+                                </span>
+                              );
+                            })}
+                          </p>
+                        </div>
+
+                        {/* Button */}
+                        <Link
+                          to="/courses"
+                          className="bg-[#068F36] col-span-2 mt-4 text-white px-5 font-semibold py-2 rounded-lg hover:bg-green-700 flex justify-center items-center gap-2 w-full text-center"
+                        >
+                          Start Exploration Now
+                          <ChevronRight className="mt-1" size={18} />
+                        </Link>
+                      </div>
+
+                      {/* Right: Character Image */}
+                      <div className="w-full h-[250px] lg:w-44 flex items-center justify-center mt-6 lg:mt-0">
+                        <img
+                          src="/dashboardDesign/boy.svg"
+                          alt="Character"
+                          className="object-contain w-full h-72"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </main>
     </div>
