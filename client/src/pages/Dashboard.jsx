@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, NavLink, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { ChevronRight } from "lucide-react";
+import { useBlog } from "@/contexts/BlogContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -9,6 +10,14 @@ const Dashboard = () => {
   const fileInputRef = useRef(null);
   const [avatar, setAvatar] = useState("/dashboardDesign/uploadPic.svg");
   const [selectedSection, setSelectedSection] = useState("profile");
+  const [userComments, setUserComments] = useState([]);
+  const { getUserComments } = useBlog();
+
+  useEffect(() => {
+    if (user?.name) {
+      getUserComments(user.name).then(setUserComments);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!user && role !== "admin") {
@@ -294,24 +303,26 @@ const Dashboard = () => {
                     Comments Written
                   </h4>
                   <div className="flex flex-wrap gap-3">
-                    <div className="bg-white border border-gray-200 px-4 py-3 rounded-lg shadow-sm flex-1">
-                      <h5 className="text-sm font-semibold mb-1 text-blue-800">
-                        AI Research Blog
-                      </h5>
-                      <p className="text-sm text-gray-600">
-                        Excellent conversation with him.. very knowledgeable
-                        person happy to talk with him
+                    {userComments.length === 0 ? (
+                      <p className="text-sm text-gray-500">
+                        No comments written yet.
                       </p>
-                    </div>
-                    <div className="bg-white border border-gray-200 px-4 py-3 rounded-lg shadow-sm flex-1">
-                      <h5 className="text-sm font-semibold mb-1 text-blue-800">
-                        Data Analytics and Research 2025
-                      </h5>
-                      <p className="text-sm text-gray-600">
-                        Excellent conversation with him.. very knowledgeable
-                        person happy to talk with him
-                      </p>
-                    </div>
+                    ) : (
+                      userComments.map((item, index) => (
+                        <div
+                          key={index}
+                          onClick={() => navigate(`/blogs/${item.blogId}`)}
+                          className="bg-white border border-gray-200 px-4 py-3 rounded-lg shadow-sm flex-1 cursor-pointer hover:shadow-md transition"
+                        >
+                          <h5 className="text-sm font-semibold mb-1 text-blue-800">
+                            {item.blogTitle}
+                          </h5>
+                          <p className="text-sm text-gray-600 line-clamp-3">
+                            {item.comment}
+                          </p>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
